@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7edacbb968c5441e832a00bd17daa8ca, type: 3}
+  m_Name: PrototypeAudio
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomAudioProfile
+  pistolShots:
+  - {fileID: 8300000, guid: 6001921e185f590690968bd2c5e01398, type: 3}
+  - {fileID: 8300000, guid: 6a22b74cb30450c7b4cb402ba5122270, type: 3}
+  - {fileID: 8300000, guid: b0266e1c122d50ee93787d3fb0e3736d, type: 3}
+  footsteps:
+  - {fileID: 8300000, guid: 948f544c34e758e7a75f38c3f809f3c9, type: 3}
+  - {fileID: 8300000, guid: 0a0d47ff81805e2fa08a437267e0eae8, type: 3}
+  - {fileID: 8300000, guid: 2af761e82f435e628160ed448facea01, type: 3}
+  - {fileID: 8300000, guid: 9d81a5979b555063861211aabdea36a9, type: 3}
+  ambience: {fileID: 8300000, guid: a06276eefc055f1fbf811da90649cacb, type: 3}
+  masterVolume: 0.8
+  shotsVolume: 0.55
+  stepsVolume: 0.35
+  ambienceVolume: 0.25
+  shotPitchVariation: 0.04
+  stepPitchVariation: 0.08
+  fadeSeconds: 0.6
+  minimumStepSpeed: 0.08
+  footstepPhaseOffset: 0

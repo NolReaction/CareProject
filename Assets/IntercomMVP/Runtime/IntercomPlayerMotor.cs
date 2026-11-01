@@ -18,7 +18,7 @@ namespace IntercomMvp
         public IntercomWeaponPose weaponPose;
 
         [Header("Movement (world metres)")]
-        [Min(0.1f)] public float moveSpeed = 0.8f;
+        [Min(0.1f)] public float moveSpeed = 1.8f;
         [Min(0.1f)] public float acceleration = 18f;
         [Min(0.1f)] public float deceleration = 24f;
         [Min(1f)] public float turnSpeed = 720f;
@@ -50,6 +50,10 @@ namespace IntercomMvp
         private Vector2 localRunDirection = Vector2.up;
         private bool hadMovement;
 
+        /// <summary>Horizontal speed after collision resolution, in world metres per second.</summary>
+        public float ActualPlanarSpeed { get; private set; }
+        public bool IsGrounded => isActiveAndEnabled && controller != null
+            && controller.enabled && controller.isGrounded;
         public bool IsAiming => aiming;
         public Vector3 FacingDirection => transform.TransformDirection(
             Quaternion.Euler(0f, modelForwardYaw, 0f) * Vector3.forward).normalized;
@@ -72,6 +76,9 @@ namespace IntercomMvp
 
         private void Update()
         {
+            // Consumers must never retain a walking speed while paused, after
+            // teleporting, or when the controller has been disabled.
+            ActualPlanarSpeed = 0f;
             // Cancellation is distinct from an ordinary stick release. Clear
             // inertia even while timeScale is zero or a device rotates.
             if (observedInput != inputSource || (inputSource != null
@@ -138,6 +145,7 @@ namespace IntercomMvp
             if ((collisions & CollisionFlags.Above) != 0 && verticalVelocity > 0f) verticalVelocity = 0f;
             Vector3 actualVelocity = Vector3.ProjectOnPlane(transform.position - before, Vector3.up) / dt;
             float actualSpeed = actualVelocity.magnitude;
+            ActualPlanarSpeed = actualSpeed;
             if (animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null)
             {
                 // Project actual collision-resolved movement onto the visual
@@ -162,8 +170,13 @@ namespace IntercomMvp
                 animator.SetFloat(MoveYId, localRunDirection.y);
                 // Speed is measured after collision resolution: a wall stops the running pose.
                 animator.SetFloat(SpeedId, Mathf.Clamp01(actualSpeed / Mathf.Max(0.1f, moveSpeed)), animationDamping, dt);
-                float runRate = Mathf.Max(0.1f, moveSpeed / Mathf.Max(0.1f, runReferenceSpeed));
-                animator.SetFloat(RunRateId, Mathf.Lerp(1f, runRate, animator.GetFloat(SpeedId)));
+                // RunRate belongs to the whole locomotion blend state, which
+                // also contains idle. Keep idle at its authored rate and blend
+                // toward the measured travel cadence as running gains weight.
+                float travelRate = Mathf.Max(0.1f, actualSpeed / Mathf.Max(0.1f, runReferenceSpeed));
+                float runRate = actualSpeed <= 0.01f ? 1f
+                    : Mathf.Lerp(1f, travelRate, Mathf.Clamp01(animator.GetFloat(SpeedId)));
+                animator.SetFloat(RunRateId, runRate);
             }
         }
 
@@ -175,6 +188,7 @@ namespace IntercomMvp
             transform.SetPositionAndRotation(spawnPosition, spawnRotation);
             controller.enabled = true;
             horizontalVelocity = Vector3.zero;
+            ActualPlanarSpeed = 0f;
             verticalVelocity = 0f;
             hasAim = aiming = false;
             if (inputSource != null) inputSource.CancelUntilRelease();
@@ -182,6 +196,7 @@ namespace IntercomMvp
             if (animator != null && animator.runtimeAnimatorController != null)
             {
                 animator.SetFloat(SpeedId, 0f);
+                animator.SetFloat(RunRateId, 1f);
                 animator.SetFloat(MoveXId, 0f);
                 animator.SetFloat(MoveYId, 1f);
             }
@@ -192,6 +207,7 @@ namespace IntercomMvp
         private void OnDisable()
         {
             horizontalVelocity = Vector3.zero;
+            ActualPlanarSpeed = 0f;
             verticalVelocity = 0f;
             aiming = hasAim = false;
             hadMovement = false;
@@ -199,12 +215,12 @@ namespace IntercomMvp
 
         private void OnApplicationFocus(bool focused)
         {
-            if (!focused) { horizontalVelocity = Vector3.zero; aiming = hasAim = false; hadMovement = false; }
+            if (!focused) { horizontalVelocity = Vector3.zero; ActualPlanarSpeed = 0f; aiming = hasAim = false; hadMovement = false; }
         }
 
         private void OnApplicationPause(bool paused)
         {
-            if (paused) { horizontalVelocity = Vector3.zero; aiming = hasAim = false; hadMovement = false; }
+            if (paused) { horizontalVelocity = Vector3.zero; ActualPlanarSpeed = 0f; aiming = hasAim = false; hadMovement = false; }
         }
 
         private static Vector2 ReadKeyboard()

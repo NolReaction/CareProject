@@ -34,7 +34,7 @@ namespace IntercomMvp.Editor
                 Setup(robot, FindCamera(scene));
                 EditorSceneManager.MarkSceneDirty(scene);
                 Selection.activeGameObject = robot;
-                Debug.Log("Intercom MVP: движение, два стика и положения оружия подключены. Сохрани сцену (Ctrl+S), нажми Play и кликни Game. WASD / стрелки — движение; ЛКМ / пробел — прицеливание и стрельба; R — старт. На телефоне левый стик — движение, правый — направление и огонь. Прототип пуль без противников, урона и звука.", robot);
+                Debug.Log("Intercom MVP: движение, два стика, положения оружия и звук подключены. Сохрани сцену (Ctrl+S), нажми Play и кликни Game. WASD / стрелки — движение; ЛКМ / пробел — прицеливание и стрельба; R — старт. На телефоне левый стик — движение, правый — направление и огонь. Противников и урона пока нет.", robot);
             }
             catch (Exception exception) { Debug.LogException(exception); }
         }
@@ -95,11 +95,18 @@ namespace IntercomMvp.Editor
                 PrefabUtility.RecordPrefabInstancePropertyModifications(animator);
 
             CharacterController capsule = robot.GetComponent<CharacterController>();
+            bool createdCapsule = capsule == null;
             if (capsule == null)
             {
                 capsule = Undo.AddComponent<CharacterController>(robot);
                 FitCapsule(capsule, animator.gameObject);
             }
+            // The older scene kept a capsule fitted to an earlier model. Its
+            // bottom sat 4 cm below the current soles. Migrate only that exact
+            // shipped fit; keep an intentionally edited capsule unchanged.
+            bool legacyGroundFit = Mathf.Abs(capsule.center.y - 0.7993455f) < 0.0001f
+                && Mathf.Abs(capsule.height - 1.6800449f) < 0.0001f;
+            if (createdCapsule || legacyGroundFit) AlignCapsuleToIdleFeet(capsule, animator, idle);
             IntercomPlayerMotor motor = robot.GetComponent<IntercomPlayerMotor>();
             if (motor == null) motor = Undo.AddComponent<IntercomPlayerMotor>(robot);
             Undo.RecordObject(motor, "Connect Intercom Movement");
@@ -107,6 +114,7 @@ namespace IntercomMvp.Editor
             motor.movementCamera = camera;
             motor.enabled = true;
             // Migrate only the old shipped reference value; keep a user's tuning.
+            if (Mathf.Approximately(motor.moveSpeed, 0.8f)) motor.moveSpeed = 1.8f;
             if (Mathf.Approximately(motor.runReferenceSpeed, 1.2f)) motor.runReferenceSpeed = 0.8f;
             EditorUtility.SetDirty(motor);
             if (PrefabUtility.IsPartOfPrefabInstance(motor))
@@ -143,6 +151,7 @@ namespace IntercomMvp.Editor
                 PrefabUtility.RecordPrefabInstancePropertyModifications(weaponPose);
             IntercomMuzzleSetup.Setup(robot, animator, weaponPose);
             IntercomMobileSetup.EnsureRuntimeSettings(robot);
+            IntercomAudioSetup.Setup(robot);
 
             if (camera != null)
             {
@@ -553,6 +562,66 @@ namespace IntercomMvp.Editor
             capsule.stepOffset = Mathf.Min(0.15f / scaleY, capsule.height * 0.2f);
             capsule.slopeLimit = 50f;
             capsule.minMoveDistance = 0f;
+        }
+
+        [MenuItem("Tools/Intercom MVP/Fit Capsule To Idle Feet", false, 23)]
+        private static void FitActiveCapsuleToIdleFeet()
+        {
+            try
+            {
+                Scene scene = SceneManager.GetActiveScene();
+                GameObject robot = scene.GetRootGameObjects().FirstOrDefault(root => root.name == "Robot");
+                CharacterController capsule = robot != null ? robot.GetComponent<CharacterController>() : null;
+                Animator animator = robot != null ? robot.GetComponentInChildren<Animator>(true) : null;
+                AnimationClip idle = FindClip(AssetDatabase.LoadAllAssetsAtPath(IntercomRobotAssets.ModelPath)
+                    .OfType<AnimationClip>().ToArray(), "Idle");
+                if (capsule == null || animator == null || idle == null)
+                    throw new InvalidOperationException("Открой сцену IntercomMVP с Robot, CharacterController и клипом Idle.");
+                AlignCapsuleToIdleFeet(capsule, animator, idle);
+                EditorSceneManager.MarkSceneDirty(scene);
+                Selection.activeGameObject = robot;
+                Debug.Log("Intercom MVP: нижняя точка капсулы совмещена с подошвами Idle. Размер капсулы и поза сохранены. Ctrl+S, затем проверь контакт стоп с землёй в Play Mode.", robot);
+            }
+            catch (Exception exception) { Debug.LogException(exception); }
+        }
+
+        [MenuItem("Tools/Intercom MVP/Fit Capsule To Idle Feet", true)]
+        private static bool CanFitActiveCapsule() { return CanSetup(); }
+
+        private static void AlignCapsuleToIdleFeet(CharacterController capsule, Animator animator, AnimationClip idle)
+        {
+            // Sample only to measure. Restore every local transform afterwards
+            // so an editor-selected pose or prefab bone override is not baked.
+            Transform[] transforms = animator.GetComponentsInChildren<Transform>(true);
+            Vector3[] positions = transforms.Select(item => item.localPosition).ToArray();
+            Quaternion[] rotations = transforms.Select(item => item.localRotation).ToArray();
+            Vector3[] scales = transforms.Select(item => item.localScale).ToArray();
+            Bounds bounds;
+            try
+            {
+                idle.SampleAnimation(animator.gameObject, 0f);
+                bounds = IntercomMvpSceneBuilder.GetPosedBounds(animator.gameObject);
+            }
+            finally
+            {
+                for (int i = 0; i < transforms.Length; i++)
+                {
+                    transforms[i].localPosition = positions[i];
+                    transforms[i].localRotation = rotations[i];
+                    transforms[i].localScale = scales[i];
+                }
+            }
+            if (bounds.size.y <= 0.0001f)
+                throw new InvalidOperationException("Не удалось измерить подошвы: у модели пустые границы.");
+            Vector3 bottom = new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+            float soleY = capsule.transform.InverseTransformPoint(bottom).y;
+            Vector3 center = capsule.center;
+            center.y = soleY + capsule.height * 0.5f;
+            Undo.RecordObject(capsule, "Align Intercom Capsule With Idle Feet");
+            capsule.center = center;
+            EditorUtility.SetDirty(capsule);
+            if (PrefabUtility.IsPartOfPrefabInstance(capsule))
+                PrefabUtility.RecordPrefabInstancePropertyModifications(capsule);
         }
 
         private static Camera FindCamera(Scene scene)

@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 
 namespace IntercomMvp
 {
-    /// <summary>Small visible twin-stick firing prototype. No damage, ammo, enemies or audio.</summary>
+    /// <summary>Small visible twin-stick firing prototype. No damage, ammo or enemies.</summary>
     [DisallowMultipleComponent]
     [DefaultExecutionOrder(200)]
     public sealed class IntercomSimpleShooter : MonoBehaviour
@@ -30,6 +30,9 @@ namespace IntercomMvp
         [Range(4, 128)] public int poolSize = 32;
         public LayerMask collisionMask = ~0;
         public bool fireBothPistols = true;
+
+        /// <summary>One event per volley that actually created bullets: sound position and successful barrel count.</summary>
+        public event System.Action<Vector3, int> VolleyFired;
 
         private struct Projectile
         {
@@ -148,21 +151,27 @@ namespace IntercomMvp
             pendingShots = 0;
             for (int i = 0; i < shots; i++)
             {
+                int fired = 0;
+                Vector3 soundPosition = Vector3.zero;
                 if (fireBothPistols)
                 {
-                    Spawn(muzzleRight);
-                    Spawn(muzzleLeft);
+                    if (Spawn(muzzleRight)) { fired++; soundPosition += muzzleRight.position; }
+                    if (Spawn(muzzleLeft)) { fired++; soundPosition += muzzleLeft.position; }
                 }
                 else
                 {
                     Transform muzzle = nextRight ? muzzleRight : muzzleLeft;
-                    Spawn(muzzle != null ? muzzle : (muzzleRight != null ? muzzleRight : muzzleLeft));
+                    if (muzzle == null) muzzle = muzzleRight != null ? muzzleRight : muzzleLeft;
+                    if (Spawn(muzzle)) { fired = 1; soundPosition = muzzle.position; }
                     nextRight = !nextRight;
                 }
+                // A blocked barrel / exhausted pool does not create a phantom report.
+                // Simultaneous pistols share one report rather than clipping two identical sounds.
+                if (fired > 0) VolleyFired?.Invoke(soundPosition / fired, fired);
             }
         }
 
-        private void Spawn(Transform muzzle)
+        private bool Spawn(Transform muzzle)
         {
             if (muzzle == null)
             {
@@ -171,7 +180,7 @@ namespace IntercomMvp
                     warnedMissingMuzzles = true;
                     Debug.LogWarning("Intercom MVP: подключи Muzzle Right и Muzzle Left через Setup Movement + Combat. Маркер +Z должен смотреть из ствола.", this);
                 }
-                return;
+                return false;
             }
             Vector3 position = muzzle.position;
             float radius = Mathf.Max(0.005f, projectileRadius);
@@ -180,10 +189,10 @@ namespace IntercomMvp
             // body-to-barrel path as well as the spawn point, so it cannot fire
             // from the far side of that wall. Owner colliders are filtered out.
             if (OverlapsObstacle(checkOrigin, radius) || OverlapsObstacle(position, radius)
-                || SegmentBlocked(checkOrigin, position, radius)) return;
+                || SegmentBlocked(checkOrigin, position, radius)) return false;
 
             int slot = FindAvailableSlot();
-            if (slot < 0) return; // Bounded pool: do not allocate or steal a live bullet.
+            if (slot < 0) return false; // Bounded pool: do not allocate or steal a live bullet.
             Vector3 direction = muzzle.forward.normalized;
             pool[slot].position = position;
             pool[slot].direction = direction;
@@ -196,6 +205,7 @@ namespace IntercomMvp
             visual.SetPositionAndRotation(position, Quaternion.LookRotation(direction));
             visual.localScale = new Vector3(radius * 2f, radius * 2f, Mathf.Max(radius * 2f, tracerLength));
             visual.gameObject.SetActive(true);
+            return true;
         }
 
         private void AdvanceProjectiles(float dt)

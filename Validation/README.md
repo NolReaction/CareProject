@@ -1,4 +1,17 @@
-# Проверки камеры, видимости и направленного бега
+# Проверки проекта
+
+Текущая правка скорости, посадки и звука: `PlayFeelMovement.json`,
+`AudioTiming.json`, `PrototypeAudioAssets.json` и `PlayFeelReview.json`.
+`AudioTimingTests` проверяет границы контактов стоп и сбросы часов.
+`PlayerAudioLifecycleTests` использует упрощённые замены Unity API и проверяет
+подписки, ограничение голосов, паузы и отсутствие звука шагов на месте/в воздухе.
+Это не тест реального AudioSource, физики или звукового устройства.
+
+Все каталоги `*Tests` содержат самостоятельные `.csproj` для .NET 8.
+Unity-generated `.csproj` в корне по-прежнему игнорируются Git; проекты
+проверок включены явно, чтобы запуск работал после клонирования.
+
+## Предыдущая проверка камеры и направленного бега
 
 Текущая правка: CameraCapture.json, CameraOcclusion.json,
 DirectionalLocomotion.json, DirectionIntegrationReview.json и отчёты Directional*.json.

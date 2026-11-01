@@ -1,0 +1,23 @@
+{
+  "scope": "Audio timing logic tests against production IntercomFootstepClock source",
+  "scenarios": 10,
+  "assertions": 72,
+  "passed": true,
+  "runtime": ".NET 8.0.33 / direct Roslyn compiler",
+  "checks": [
+    "No step on starting mid-stride",
+    "Two contact boundaries per cycle, loop-safe",
+    "Stopped, collision-blocked and airborne gates reset cadence",
+    "No accumulated steps after a stall",
+    "Animator state switch and rewinds reset cadence",
+    "Pause and respawn reset suppress delayed steps",
+    "Configurable contact phase",
+    "Frozen animation does not repeat steps",
+    "Non-finite inputs safe",
+    "30,60,120 FPS cadence for 2.25x run rate"
+  ],
+  "limitations": [
+    "Unity Editor was not available; actual audio playback and AudioSource lifecycle require a Play Mode/device check.",
+    "Forward authored foot contacts approximate phase0/.5; directional blends are not foot IK and the profile exposes phase offset."
+  ]
+}

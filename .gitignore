@@ -70,3 +70,11 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+# Hand-written validation projects are source, unlike Unity-generated IDE projects.
+!/Validation/**/*.csproj
+
+# .NET validation build outputs
+/Validation/**/bin/
+/Validation/**/obj/
