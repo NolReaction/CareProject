@@ -13,6 +13,14 @@ namespace IntercomMvp.Editor
             if (occlusion == null) occlusion = Undo.AddComponent<IntercomCameraOcclusion>(camera.gameObject);
             Undo.RecordObject(occlusion, "Connect player visibility");
             occlusion.target = robot.transform;
+            // Scenery explicitly opts in; tiny props and runtime effects never
+            // join simply because a renderer appeared somewhere in the scene.
+            occlusion.includeUnmarkedScenery = false;
+            if (Mathf.Approximately(occlusion.silhouettePadding, 0.08f)) occlusion.silhouettePadding = 0.015f;
+            if (Mathf.Approximately(occlusion.restoreDelay, 0.18f)) occlusion.restoreDelay = 0.24f;
+            if (occlusion.fadeVariantTemplate == null)
+                occlusion.fadeVariantTemplate = AssetDatabase.LoadAssetAtPath<Material>(
+                    "Assets/IntercomMVP/Art/Materials/MVP_OcclusionFade.mat");
             occlusion.enabled = true;
             EditorUtility.SetDirty(occlusion);
             if (PrefabUtility.IsPartOfPrefabInstance(occlusion)) PrefabUtility.RecordPrefabInstancePropertyModifications(occlusion);

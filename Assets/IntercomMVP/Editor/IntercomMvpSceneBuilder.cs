@@ -144,6 +144,7 @@ namespace IntercomMvp.Editor
             RenderSettings.ambientGroundColor = new Color(0.28f, 0.31f, 0.27f);
             RenderSettings.fog = false;
 
+            IntercomDistrictSetup.Setup(scene);
             IntercomMovementSetup.Setup(robot, camera);
             ConfigureMobilePresentation(robot, camera);
             focus = camera.transform.position + camera.transform.forward * camera.GetComponent<IntercomCameraFollow>().distance;

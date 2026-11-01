@@ -36,6 +36,17 @@ internal static class Program
         // from the camera origin happens to cross its position.
         Check(!IntercomOcclusionMath.Blocks(Box(1,0,6,.1f,.1f,.1f),player),"parallel ortho rays preserve offset");
         Check(IntercomOcclusionMath.Blocks(Box(.25f,0,6,.1f,.1f,.1f,false),Box(.5f,0,12,.2f,.8f,.5f,false)),"perspective aligned silhouettes cover");
+        // Soft occlusion uses only substantial central coverage of a torso core.
+        Check(!IntercomOcclusionMath.BlocksCore(Box(.52f,0,5,.05f,.7f,.05f),player,.45f),"grazing side stays solid");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,-.82f,5,.5f,.05f,1),player,.45f),"boots-only overlap stays solid");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,.82f,5,.5f,.05f,1),player,.45f),"head-edge overlap stays solid");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,0,5,.1f,.1f,1),player,.45f),"small central object stays solid");
+        Check(IntercomOcclusionMath.BlocksCore(Box(0,0,5,.5f,.6f,1),player,.45f),"large foreground cover fades");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,0,15,1,2,1),player,.45f),"background remains solid");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,0,12,.5f,.8f,.5f),player,.45f),"same depth is not foreground");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,0,5,.5f,.3f,1),player,.45f),"below acquisition threshold");
+        Check(IntercomOcclusionMath.BlocksCore(Box(0,0,5,.5f,.3f,1),player,.27f),"release threshold prevents edge flicker");
+        Check(!IntercomOcclusionMath.BlocksCore(Box(0,0,5,1,2,1),player,float.NaN),"invalid coverage rejected");
         // Independent ground truth: project dense points from random boxes.
         // Every projected point must lie inside the production projection.
         var random=new Random(14627);
@@ -59,6 +70,6 @@ internal static class Program
                 points++;
             }
         }
-        Console.WriteLine($"PASS: 14 geometry scenarios; {boxes} randomized boxes / {points} independently projected points; {assertions} assertions. Production pure math, not Unity rendering.");
+        Console.WriteLine($"PASS: 24 geometry scenarios; {boxes} randomized boxes / {points} independently projected points; {assertions} assertions. Production pure math, not Unity rendering.");
     }
 }

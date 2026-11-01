@@ -1,6 +1,10 @@
 # Проверки проекта
 
-Текущая правка скорости, посадки и звука: `PlayFeelMovement.json`,
+Текущий проход квартала: `DistrictLayout.json`, `CartoonCombat.json`,
+`GroundFeedback.json`, `CartoonAudio.json`, `SoftOcclusion.json` и `DistrictReview.json`.
+Чистая геометрия и тестовые замены API не заменяют Unity Play Mode.
+
+Предыдущая правка скорости, посадки и звука: `PlayFeelMovement.json`,
 `AudioTiming.json`, `PrototypeAudioAssets.json` и `PlayFeelReview.json`.
 `AudioTimingTests` проверяет границы контактов стоп и сбросы часов.
 `PlayerAudioLifecycleTests` использует упрощённые замены Unity API и проверяет

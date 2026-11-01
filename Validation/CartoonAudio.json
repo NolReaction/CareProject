@@ -1,0 +1,33 @@
+{
+  "revision": "cartoon-district-v2",
+  "originalSynthesis": true,
+  "newWavCount": 10,
+  "wavBytes": 936020,
+  "allGuidReferencesVerified": true,
+  "clippedSourceSamples": 0,
+  "pistolEnergyAbove6kHzBefore": 0.018667367106375933,
+  "pistolEnergyAbove6kHzAfter": 0.0003728415052153254,
+  "representativeMix": {
+    "description": "Deterministic 8s simulation: 2.5 volleys/s + 6.75 steps/s + 2.5 impact reports/s + ambient; no Unity audio engine",
+    "peakLinear": 0.3792471492151675,
+    "peakDbFS": -8.421553502045477,
+    "clippedSamples": 0
+  },
+  "runtime": {
+    "shotVoices": 6,
+    "stepVoices": 2,
+    "impactVoices": 4,
+    "ambientVoices": 1,
+    "minimumImpactInterval": 0.035,
+    "impactAudibleRange": 18,
+    "footContactEventWithoutClip": true
+  },
+  "tests": {
+    "fakeUnityLifecycleAssertions": 42,
+    "passed": true
+  },
+  "limitations": [
+    "No listening test or actual Unity audio playback was available.",
+    "Numeric headroom sample is illustrative; arbitrary replacement clips or higher profile volumes can clip."
+  ]
+}

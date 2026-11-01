@@ -21,10 +21,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0a0d47ff81805e2fa08a437267e0eae8, type: 3}
   - {fileID: 8300000, guid: 2af761e82f435e628160ed448facea01, type: 3}
   - {fileID: 8300000, guid: 9d81a5979b555063861211aabdea36a9, type: 3}
+  impactHits:
+  - {fileID: 8300000, guid: 41cd171fef615114a91c3097db556bc2, type: 3}
+  - {fileID: 8300000, guid: 5fb4f08a23d25985a0c3a9c7897fa671, type: 3}
   ambience: {fileID: 8300000, guid: a06276eefc055f1fbf811da90649cacb, type: 3}
   masterVolume: 0.8
-  shotsVolume: 0.55
-  stepsVolume: 0.35
+  shotsVolume: 0.58
+  stepsVolume: 0.42
+  impactsVolume: 0.24
+  minimumImpactInterval: 0.035
+  impactAudibleRange: 18
   ambienceVolume: 0.25
   shotPitchVariation: 0.04
   stepPitchVariation: 0.08

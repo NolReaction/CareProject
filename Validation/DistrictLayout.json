@@ -1,0 +1,48 @@
+{
+  "layoutVersion": 1,
+  "worldMetres": [
+    36,
+    32
+  ],
+  "staticBlocks": 133,
+  "anchors": 35,
+  "stationaryTargets": 5,
+  "sceneFileIds": 848,
+  "duplicateFileIds": 0,
+  "missingLocalReferences": 0,
+  "robotAndCameraCoreDocumentsUnchanged": [
+    413439358,
+    413439359,
+    413439360,
+    413439361,
+    413439362,
+    413439363,
+    413439364,
+    413439365,
+    413439366,
+    34441814,
+    34441815
+  ],
+  "navigation": {
+    "method": "2D cardinal flood-fill .25m grid; box collider AABB inflated .32m; target collision intentionally not part of fixed layout corridors",
+    "radiusMetres": 0.32,
+    "reachableCheckpoints": {
+      "training_approach": true,
+      "depot_apron": true,
+      "workshop_front": true,
+      "substation_front": true,
+      "west_loop": true,
+      "east_loop": true,
+      "north_loop": true,
+      "south_loop": true
+    },
+    "reachableCells": 14886,
+    "freeCells": 14886
+  },
+  "limitations": [
+    "Static layout checks, not Unity NavMesh or actual CharacterController movement.",
+    "Scene serialized offline and requires Unity import/Play Mode check."
+  ],
+  "separateStaticCollisionObjects": 25,
+  "visualReplacement": "Static colliders have independent Collision children; targets keep collider on anchor root."
+}

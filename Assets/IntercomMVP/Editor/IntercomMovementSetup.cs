@@ -152,6 +152,8 @@ namespace IntercomMvp.Editor
             IntercomMuzzleSetup.Setup(robot, animator, weaponPose);
             IntercomMobileSetup.EnsureRuntimeSettings(robot);
             IntercomAudioSetup.Setup(robot);
+            IntercomCombatSetup.Setup(robot);
+            IntercomGroundFeedbackSetup.Setup(robot);
 
             if (camera != null)
             {

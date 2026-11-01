@@ -49,6 +49,21 @@ namespace IntercomMvp
                 && obstacle.maxY >= player.minY && obstacle.minY <= player.maxY;
         }
 
+        /// <summary>Only sustained, central torso coverage should soften scenery.</summary>
+        public static bool BlocksCore(Projection obstacle, Projection core, float coverageThreshold)
+        {
+            if (!Finite(coverageThreshold) || obstacle.nearDepth >= core.nearDepth - 0.01f) return false;
+            float centerX = (core.minX + core.maxX) * 0.5f;
+            float centerY = (core.minY + core.maxY) * 0.5f;
+            if (centerX < obstacle.minX || centerX > obstacle.maxX
+                || centerY < obstacle.minY || centerY > obstacle.maxY) return false;
+            float area = (core.maxX - core.minX) * (core.maxY - core.minY);
+            if (area <= 0.000001f) return false;
+            float width = Math.Max(0f, Math.Min(core.maxX, obstacle.maxX) - Math.Max(core.minX, obstacle.minX));
+            float height = Math.Max(0f, Math.Min(core.maxY, obstacle.maxY) - Math.Max(core.minY, obstacle.minY));
+            return width * height / area >= Math.Max(0.1f, Math.Min(0.9f, coverageThreshold));
+        }
+
         private static void ProjectInterval(float low, float high, float near, float far, float scale,
             out float minimum, out float maximum)
         {

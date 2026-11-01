@@ -1,0 +1,38 @@
+{
+  "baseCommit": "bac6a607759e95bcd9d35f69162a6fec3c9ed904",
+  "behavior": {
+    "torsoCoreHeightFraction": 0.55,
+    "torsoCoreWidthFraction": 0.75,
+    "minimumCoverage": 0.45,
+    "releaseCoverage": 0.27,
+    "centreMustBeBlocked": true,
+    "obstructionDelaySeconds": 0.1,
+    "restoreDelaySeconds": 0.24,
+    "fadeSeconds": 0.2,
+    "ghostOpacity": 0.25,
+    "minimumObstacleHeightFraction": 0.75,
+    "markedSceneryOnlyByDefault": true,
+    "forceRenderingOffWrites": 0
+  },
+  "materialHandling": {
+    "sourceAssetsUnmodified": true,
+    "preserveOriginalColourAndTextures": true,
+    "multiCameraMinOpacityLeases": true,
+    "externalSlotReplacementPreserved": true,
+    "serializedTransparentVariantTemplate": "Assets/IntercomMVP/Art/Materials/MVP_OcclusionFade.mat",
+    "templateGuid": "e85ca3b4a59859ddac3704711f0f1cec"
+  },
+  "checks": {
+    "leaseScenarios": 10,
+    "leaseAssertions": 28,
+    "geometryScenarios": 24,
+    "geometryAssertions": 292211,
+    "passed": true,
+    "environment": "Pure .NET plus focused fake Unity API, not Unity Editor"
+  },
+  "limitations": [
+    "Current fade adapter supports matching URP Lit materials. Custom shaders and renderers with MaterialPropertyBlocks remain solid.",
+    "Material variant reference preserves the current plain district transparent shader variant; additional custom keyword combinations need build verification when new models are added.",
+    "Actual transparency sorting, shadows, rendering callbacks and mobile build require Unity Play Mode/device testing."
+  ]
+}

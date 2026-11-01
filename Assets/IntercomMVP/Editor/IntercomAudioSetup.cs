@@ -56,6 +56,7 @@ namespace IntercomMvp.Editor
             profile = ScriptableObject.CreateInstance<IntercomAudioProfile>();
             profile.pistolShots = Enumerable.Range(1, 3).Select(index => Clip("Pistol_" + index.ToString("00"))).ToArray();
             profile.footsteps = Enumerable.Range(1, 4).Select(index => Clip("BootStep_" + index.ToString("00"))).ToArray();
+            profile.impactHits = Enumerable.Range(1, 2).Select(index => Clip("Impact_" + index.ToString("00"))).ToArray();
             profile.ambience = Clip("Ambience_IndustrialYard");
             AssetDatabase.CreateAsset(profile, ProfilePath);
             return profile;

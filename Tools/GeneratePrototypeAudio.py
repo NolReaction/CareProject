@@ -53,42 +53,52 @@ def finish_hit(x, rate, peak):
 
 
 def pistol(index):
+    """A compact comic pop with a falling electronic chirp and a small action tick."""
     rng = np.random.default_rng(51000 + index)
-    t = np.arange(round(FX_RATE * .38)) / FX_RATE
-    pitch = (1.0, .94, 1.055)[index]
-    crack = noise(rng, len(t), FX_RATE, 700, 10500) * envelope(t, .00018, .0046)
-    body_noise = noise(rng, len(t), FX_RATE, 180, 4600, -.20) * envelope(t, .0005, .027)
-    # Short falling body resonance, with no sustained laser-like whistle.
-    phase = 2 * math.pi * pitch * (78 * t + 132 * .014 * (1 - np.exp(-t / .014)))
-    body = np.sin(phase) * envelope(t, .0008, .044)
-    ring = np.zeros_like(t)
-    for frequency, amplitude, decay in [(720, .11, .024), (1830, .065, .018), (2870, .035, .010)]:
-        ring += amplitude * np.sin(2 * math.pi * frequency * pitch * t) * envelope(t, .0003, decay)
-    # A quiet action/chamber tick belongs to the shot instead of a giant echo.
-    delay = .053 + .003 * index
-    tick_t = np.maximum(t - delay, 0)
-    tick = noise(rng, len(t), FX_RATE, 1100, 6500) * envelope(tick_t, .0006, .009) * (t > delay)
-    tail = noise(rng, len(t), FX_RATE, 240, 2400, -.25) * envelope(t, .003, .062)
-    x = .50 * crack + .31 * body_noise + .63 * body + ring + .07 * tick + .055 * tail
-    return finish_hit(x, FX_RATE, 10 ** (-2.5 / 20))
+    t = np.arange(round(FX_RATE * .30)) / FX_RATE
+    pitch = (1.0, .965, 1.045)[index]
+    crack = noise(rng, len(t), FX_RATE, 600, 6200, -.20) * envelope(t, .00045, .0045)
+    body_phase = 2 * math.pi * pitch * (102 * t + 136 * .013 * (1 - np.exp(-t / .013)))
+    body = (np.sin(body_phase) + .17 * np.sin(2 * body_phase)) * envelope(t, .0010, .031)
+    # The short falling tone reads as a toy/mechanical blaster without a long whistle.
+    chirp_phase = 2 * math.pi * pitch * (245 * t + 730 * .009 * (1 - np.exp(-t / .009)))
+    chirp = np.sin(chirp_phase) * envelope(t, .0008, .025)
+    pressure = noise(rng, len(t), FX_RATE, 160, 2600, -.35) * envelope(t, .001, .021)
+    delay = .045 + .002 * index
+    late = np.maximum(t - delay, 0)
+    tick = noise(rng, len(t), FX_RATE, 900, 3400) * envelope(late, .001, .006) * (late > 0)
+    x = .28 * crack + .58 * body + .22 * chirp + .20 * pressure + .045 * tick
+    return finish_hit(x, FX_RATE, 10 ** (-3.5 / 20))
 
 
 def boot(index):
+    """A short rubber-sole thock, with a quiet spring/servo return."""
     rng = np.random.default_rng(62000 + index)
-    t = np.arange(round(FX_RATE * .23)) / FX_RATE
-    pitch = (1.0, .93, 1.06, .98)[index]
-    phase = 2 * math.pi * pitch * (84 * t + 90 * .012 * (1 - np.exp(-t / .012)))
-    thud = np.sin(phase) * envelope(t, .0015, .024)
-    sole = noise(rng, len(t), FX_RATE, 90, 1150, -.15) * envelope(t, .001, .023)
-    scuff = noise(rng, len(t), FX_RATE, 650, 3300) * envelope(t, .003, .032)
-    clack = np.zeros_like(t)
-    for frequency, amplitude in [(830, .055), (1390, .038), (2310, .016)]:
-        clack += amplitude * np.sin(2 * math.pi * frequency * pitch * t) * envelope(t, .0004, .013)
-    # Small heel/ankle return: short, below the main sole impact.
-    late = np.maximum(t - .038 - .002 * index, 0)
-    return_tick = noise(rng, len(t), FX_RATE, 850, 2400) * envelope(late, .002, .013) * (late > 0)
-    x = .46 * thud + .24 * sole + .070 * scuff + clack + .022 * return_tick
-    return finish_hit(x, FX_RATE, 10 ** (-6.0 / 20))
+    t = np.arange(round(FX_RATE * .17)) / FX_RATE
+    pitch = (1.0, .94, 1.055, .98)[index]
+    phase = 2 * math.pi * pitch * (95 * t + 92 * .010 * (1 - np.exp(-t / .010)))
+    thud = np.sin(phase) * envelope(t, .0015, .020)
+    knock = np.sin(2 * math.pi * 265 * pitch * t) * envelope(t, .001, .012)
+    sole = noise(rng, len(t), FX_RATE, 110, 1500, -.35) * envelope(t, .001, .016)
+    scuff = noise(rng, len(t), FX_RATE, 650, 2200) * envelope(t, .003, .018)
+    late = np.maximum(t - .027, 0)
+    servo_phase = 2 * math.pi * pitch * (420 * late + 190 * .012 * (1 - np.exp(-late / .012)))
+    servo = np.sin(servo_phase) * envelope(late, .003, .016) * (late > 0)
+    x = .52 * thud + .13 * knock + .24 * sole + .04 * scuff + .028 * servo
+    return finish_hit(x, FX_RATE, 10 ** (-7.0 / 20))
+
+
+def impact(index):
+    """Bright but soft pock/plink feedback, separate from the gun report."""
+    rng = np.random.default_rng(82000 + index)
+    t = np.arange(round(FX_RATE * .16)) / FX_RATE
+    pitch = (1.0, 1.10)[index]
+    pop_phase = 2 * math.pi * pitch * (210 * t + 200 * .008 * (1 - np.exp(-t / .008)))
+    pop = np.sin(pop_phase) * envelope(t, .0007, .018)
+    tap = noise(rng, len(t), FX_RATE, 400, 3600, -.15) * envelope(t, .0004, .008)
+    ring = (.12 * np.sin(2 * math.pi * 1160 * pitch * t)
+            + .045 * np.sin(2 * math.pi * 1810 * pitch * t)) * envelope(t, .001, .025)
+    return finish_hit(.48 * pop + .18 * tap + ring, FX_RATE, 10 ** (-8 / 20))
 
 
 def ambience():
@@ -97,20 +107,19 @@ def ambience():
     count = rate * duration
     t = np.arange(count) / rate
     rng = np.random.default_rng(73000)
-    # FFT noise and every modulation/oscillator have integer periods in 8 s.
-    # Thus looping has ordinary adjacent samples, with no splice or fade hole.
-    common = noise(rng, count, rate, 45, 1900, -.65)
-    left = noise(rng, count, rate, 70, 3200, -.55)
-    right = noise(rng, count, rate, 70, 3200, -.55)
-    wind_gain = .70 + .13 * np.sin(2 * math.pi * t / duration + .4) + .06 * np.sin(4 * math.pi * t / duration - .7)
-    fan_mod = 1.0 + .09 * np.sin(6 * math.pi * t / duration)
-    hum = (.13 * np.sin(2 * math.pi * 52 * t + .10 * np.sin(2 * math.pi * t / duration))
-           + .045 * np.sin(2 * math.pi * 104 * t)
-           + .025 * np.sin(2 * math.pi * 208 * t)) * fan_mod
-    out = np.column_stack((.065 * wind_gain * (.78 * common + .30 * left) + .085 * hum,
-                           .065 * wind_gain * (.78 * common + .30 * right) + .085 * hum))
+    # All FFT noise and modulation have integer periods, giving a seamless loop.
+    common = noise(rng, count, rate, 90, 1400, -.65)
+    left = noise(rng, count, rate, 130, 1800, -.55)
+    right = noise(rng, count, rate, 130, 1800, -.55)
+    wind_gain = .76 + .10 * np.sin(2 * math.pi * t / duration + .4) + .04 * np.sin(4 * math.pi * t / duration - .7)
+    fan_mod = 1.0 + .07 * np.sin(6 * math.pi * t / duration)
+    hum = (.12 * np.sin(2 * math.pi * 70 * t + .08 * np.sin(2 * math.pi * t / duration))
+           + .04 * np.sin(2 * math.pi * 140 * t)
+           + .014 * np.sin(2 * math.pi * 280 * t)) * fan_mod
+    out = np.column_stack((.060 * wind_gain * (.82 * common + .26 * left) + .12 * hum,
+                           .060 * wind_gain * (.82 * common + .26 * right) + .12 * hum))
     out -= np.mean(out, axis=0)
-    out *= 10 ** (-24.0 / 20) / np.sqrt(np.mean(out ** 2))
+    out *= 10 ** (-26.0 / 20) / np.sqrt(np.mean(out ** 2))
     assert np.max(np.abs(out)) < .8
     return out
 
@@ -182,8 +191,9 @@ def main():
     AUDIO.mkdir(parents=True, exist_ok=True)
     metrics = [save(f"Pistol_{i + 1:02d}.wav", pistol(i), FX_RATE) for i in range(3)]
     metrics += [save(f"BootStep_{i + 1:02d}.wav", boot(i), FX_RATE) for i in range(4)]
+    metrics += [save(f"Impact_{i + 1:02d}.wav", impact(i), FX_RATE) for i in range(2)]
     metrics.append(save("Ambience_IndustrialYard.wav", ambience(), AMBIENT_RATE, True))
-    report = {"generator": "Tools/GeneratePrototypeAudio.py", "source": "Original deterministic synthesis; no sampled material",
+    report = {"generator": "Tools/GeneratePrototypeAudio.py", "source": "Original deterministic synthesis; no sampled material", "revision": "cartoon-district-v2",
               "verification": "Decoded PCM numeric checks only; Unity mix/listening on device still required",
               "assets": metrics, "totalWavBytes": sum(m["bytes"] for m in metrics)}
     validation = ROOT / "Validation/PrototypeAudioAssets.json"

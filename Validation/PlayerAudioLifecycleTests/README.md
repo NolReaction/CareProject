@@ -7,7 +7,8 @@ dotnet run --project Validation/PlayerAudioLifecycleTests/PlayerAudioLifecycleTe
 ```
 
 The harness compiles the actual audio runtime scripts against small Unity API
-fakes. Its 30 assertions cover bounded voices, clip replacement, pause/focus,
-footstep gating and component subscription lifecycle. It does **not** run Unity,
+fakes. Its 42 assertions cover bounded voices, clip replacement, pause/focus,
+footstep gating, component subscription lifecycle, impact deduplication/range,
+and contact feedback when no step clip is assigned. It does **not** run Unity,
 PhysX, Animator evaluation, clip import or real audio output. Unity Editor and
 device checks are still required.

@@ -13,7 +13,7 @@ namespace UnityEngine {
   public T GetComponent<T>() where T:class { return components.TryGetValue(typeof(T),out var c)?c as T:null; }
  }
  public class Transform {public Vector3 position; public void SetParent(Transform t,bool world){} }
- public struct Vector3 {public float x,y,z;}
+ public struct Vector3 {public float x,y,z; public static float Distance(Vector3 a,Vector3 b)=>(float)Math.Sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y)+(a.z-b.z)*(a.z-b.z));}
  public class AudioClip : Object {}
  public class AudioSource : Behaviour {
   public AudioClip clip;public bool loop,playOnAwake,ignoreListenerPause;public float volume,pitch,spatialBlend,dopplerLevel;public int priority;
@@ -24,7 +24,7 @@ namespace UnityEngine {
   public void UnPause(){if(paused){isPlaying=true;paused=false;unpauseCalls++;}}
  }
  public static class AudioListener {public static bool pause;}
- public static class Time {public static float timeScale=1f,unscaledDeltaTime=1f/60;}
+ public static class Time {public static float timeScale=1f,unscaledDeltaTime=1f/60,unscaledTime;}
  public class RuntimeAnimatorController : Object {}
  public class Animator : Behaviour {public float speed=1;public RuntimeAnimatorController runtimeAnimatorController=new RuntimeAnimatorController();public bool transition;public AnimatorStateInfo state;public bool IsInTransition(int layer)=>transition;public AnimatorStateInfo GetCurrentAnimatorStateInfo(int layer)=>state;}
  public struct AnimatorStateInfo {public float normalizedTime;public int fullPathHash;}
@@ -40,5 +40,5 @@ namespace UnityEngine {
 }
 namespace IntercomMvp {
  public class IntercomPlayerMotor : UnityEngine.Behaviour {public float ActualPlanarSpeed;public bool IsGrounded=true;}
- public class IntercomSimpleShooter : UnityEngine.Behaviour {public event Action<UnityEngine.Vector3,int> VolleyFired;public void Emit(int count=2){VolleyFired?.Invoke(new UnityEngine.Vector3(),count);}}
+ public class IntercomSimpleShooter : UnityEngine.Behaviour {public event Action<UnityEngine.Vector3,int> VolleyFired; public event Action<UnityEngine.Vector3,UnityEngine.Vector3,bool> ProjectileHit; public void Hit(bool target=false,float distance=0){ProjectileHit?.Invoke(new UnityEngine.Vector3{x=distance},new UnityEngine.Vector3{y=1},target);}public void Emit(int count=2){VolleyFired?.Invoke(new UnityEngine.Vector3(),count);}}
 }

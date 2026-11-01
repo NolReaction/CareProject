@@ -1,0 +1,18 @@
+{
+  "pureContactOpacityAssertions": 117,
+  "result": "Ground contact opacity: 117 assertions passed. Pure math; not Unity physics/rendering.",
+  "executionOrder": 150,
+  "maximumVisualObjects": 14,
+  "calibration": "Foot-local sole midpoint from baked current boot meshes once on startup; editor setup samples Idle and restores all local transforms. No per-frame BakeMesh.",
+  "reviewFixes": [
+    "Reject support more than4cm above the sampled sole (small character skin penetration tolerated)",
+    "Dust birth frame is not aged by the preceding frame delta",
+    "Native MaterialPropertyBlock allocated in Awake",
+    "Fallback cadence reset when Animator inactive"
+  ],
+  "limitations": [
+    "Unity Editor, PhysX raycasts and actual URP shader rendering were not available.",
+    "Sole centre follows foot bone; toe-tip-only contacts are approximate, not foot IK.",
+    "Procedural torso offsets are mild additive rotations/translation, never bone scaling."
+  ]
+}

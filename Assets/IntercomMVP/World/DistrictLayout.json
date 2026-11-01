@@ -1,0 +1,2958 @@
+{
+  "version": 1,
+  "width": 36,
+  "depth": 32,
+  "groups": [
+    {
+      "key": "surface",
+      "name": "01 - Streets and crossings",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "role": "Route",
+      "footprint": [
+        36,
+        32
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Road - main north south",
+          "position": [
+            0,
+            0.001,
+            0
+          ],
+          "size": [
+            5,
+            0.002,
+            29
+          ],
+          "material": "Asphalt",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Road - main east west",
+          "position": [
+            0,
+            0.002,
+            0
+          ],
+          "size": [
+            33,
+            0.002,
+            5
+          ],
+          "material": "Asphalt",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Service loop side",
+          "position": [
+            -14,
+            0.001,
+            0
+          ],
+          "size": [
+            3,
+            0.002,
+            27
+          ],
+          "material": "Asphalt",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Service loop side",
+          "position": [
+            14,
+            0.001,
+            0
+          ],
+          "size": [
+            3,
+            0.002,
+            27
+          ],
+          "material": "Asphalt",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Service loop end",
+          "position": [
+            0,
+            0.001,
+            -12
+          ],
+          "size": [
+            30,
+            0.002,
+            3
+          ],
+          "material": "Asphalt",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Service loop end",
+          "position": [
+            0,
+            0.001,
+            12
+          ],
+          "size": [
+            30,
+            0.002,
+            3
+          ],
+          "material": "Asphalt",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            0,
+            0.006,
+            -9
+          ],
+          "size": [
+            0.13,
+            0.002,
+            1.35
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            0,
+            0.006,
+            -6
+          ],
+          "size": [
+            0.13,
+            0.002,
+            1.35
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            0,
+            0.006,
+            6
+          ],
+          "size": [
+            0.13,
+            0.002,
+            1.35
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            0,
+            0.006,
+            9
+          ],
+          "size": [
+            0.13,
+            0.002,
+            1.35
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            -10,
+            0.006,
+            0
+          ],
+          "size": [
+            1.35,
+            0.002,
+            0.13
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            -6,
+            0.006,
+            0
+          ],
+          "size": [
+            1.35,
+            0.002,
+            0.13
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            6,
+            0.006,
+            0
+          ],
+          "size": [
+            1.35,
+            0.002,
+            0.13
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Centre dash",
+          "position": [
+            10,
+            0.006,
+            0
+          ],
+          "size": [
+            1.35,
+            0.002,
+            0.13
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -1.7,
+            0.007,
+            -3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -0.85,
+            0.007,
+            -3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            0,
+            0.007,
+            -3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            0.85,
+            0.007,
+            -3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            1.7,
+            0.007,
+            -3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -3.25,
+            0.008,
+            -1.7
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -3.25,
+            0.008,
+            -0.85
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -3.25,
+            0.008,
+            0
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -3.25,
+            0.008,
+            0.85
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -3.25,
+            0.008,
+            1.7
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -1.7,
+            0.007,
+            3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            -0.85,
+            0.007,
+            3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            0,
+            0.007,
+            3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            0.85,
+            0.007,
+            3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            1.7,
+            0.007,
+            3.25
+          ],
+          "size": [
+            0.42,
+            0.002,
+            1.2
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            3.25,
+            0.008,
+            -1.7
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            3.25,
+            0.008,
+            -0.85
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            3.25,
+            0.008,
+            0
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            3.25,
+            0.008,
+            0.85
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Crossing",
+          "position": [
+            3.25,
+            0.008,
+            1.7
+          ],
+          "size": [
+            1.2,
+            0.002,
+            0.42
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "depot",
+      "name": "02 - Depot - replace model",
+      "position": [
+        -8,
+        0,
+        7
+      ],
+      "role": "Building",
+      "footprint": [
+        6,
+        5
+      ],
+      "hide": true,
+      "blocks": [
+        {
+          "name": "Visual - main volume",
+          "position": [
+            0,
+            1.4,
+            0
+          ],
+          "size": [
+            6,
+            2.8,
+            5
+          ],
+          "material": "BlueGrey",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - plinth",
+          "position": [
+            0,
+            0.12,
+            0
+          ],
+          "size": [
+            6.12,
+            0.24,
+            5.12
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - roof cap",
+          "position": [
+            0,
+            2.8899999999999997,
+            0
+          ],
+          "size": [
+            6.36,
+            0.18,
+            5.36
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - front fascia",
+          "position": [
+            0,
+            2.5199999999999996,
+            -2.525
+          ],
+          "size": [
+            5.75,
+            0.28,
+            0.07
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - door",
+          "position": [
+            0,
+            0.65,
+            -2.525
+          ],
+          "size": [
+            1.8,
+            1.3,
+            0.07
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - window",
+          "position": [
+            -1.8599999999999999,
+            1.25,
+            -2.54
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.055
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - sill",
+          "position": [
+            -1.8599999999999999,
+            0.96,
+            -2.57
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.16
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - window",
+          "position": [
+            1.8599999999999999,
+            1.25,
+            -2.54
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.055
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - sill",
+          "position": [
+            1.8599999999999999,
+            0.96,
+            -2.57
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.16
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent",
+          "position": [
+            1.32,
+            3.15,
+            0.1
+          ],
+          "size": [
+            0.9,
+            0.5,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.32,
+            3.4099999999999997,
+            -0.22
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.32,
+            3.4099999999999997,
+            0.0
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.32,
+            3.4099999999999997,
+            0.22
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "workshop",
+      "name": "03 - Workshop - replace model",
+      "position": [
+        -8,
+        0,
+        -7
+      ],
+      "role": "Building",
+      "footprint": [
+        5,
+        5
+      ],
+      "hide": true,
+      "blocks": [
+        {
+          "name": "Visual - main volume",
+          "position": [
+            0,
+            1.2,
+            0
+          ],
+          "size": [
+            5,
+            2.4,
+            5
+          ],
+          "material": "Orange",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - plinth",
+          "position": [
+            0,
+            0.12,
+            0
+          ],
+          "size": [
+            5.12,
+            0.24,
+            5.12
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - roof cap",
+          "position": [
+            0,
+            2.4899999999999998,
+            0
+          ],
+          "size": [
+            5.36,
+            0.18,
+            5.36
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - front fascia",
+          "position": [
+            0,
+            2.12,
+            -2.525
+          ],
+          "size": [
+            4.75,
+            0.28,
+            0.07
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - door",
+          "position": [
+            0,
+            0.65,
+            -2.525
+          ],
+          "size": [
+            1.1,
+            1.3,
+            0.07
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - window",
+          "position": [
+            -1.55,
+            1.25,
+            -2.54
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.055
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - sill",
+          "position": [
+            -1.55,
+            0.96,
+            -2.57
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.16
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - window",
+          "position": [
+            1.55,
+            1.25,
+            -2.54
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.055
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - sill",
+          "position": [
+            1.55,
+            0.96,
+            -2.57
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.16
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent",
+          "position": [
+            1.1,
+            2.75,
+            0.1
+          ],
+          "size": [
+            0.9,
+            0.5,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.1,
+            3.01,
+            -0.22
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.1,
+            3.01,
+            0.0
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.1,
+            3.01,
+            0.22
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "substation",
+      "name": "04 - Substation - replace model",
+      "position": [
+        8,
+        0,
+        8
+      ],
+      "role": "Building",
+      "footprint": [
+        5.5,
+        4.5
+      ],
+      "hide": true,
+      "blocks": [
+        {
+          "name": "Visual - main volume",
+          "position": [
+            0,
+            1.3,
+            0
+          ],
+          "size": [
+            5.5,
+            2.6,
+            4.5
+          ],
+          "material": "Crate",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - plinth",
+          "position": [
+            0,
+            0.12,
+            0
+          ],
+          "size": [
+            5.62,
+            0.24,
+            4.62
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - roof cap",
+          "position": [
+            0,
+            2.69,
+            0
+          ],
+          "size": [
+            5.86,
+            0.18,
+            4.86
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - front fascia",
+          "position": [
+            0,
+            2.3200000000000003,
+            -2.275
+          ],
+          "size": [
+            5.25,
+            0.28,
+            0.07
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - door",
+          "position": [
+            0,
+            0.65,
+            -2.275
+          ],
+          "size": [
+            1.1,
+            1.3,
+            0.07
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - window",
+          "position": [
+            -1.705,
+            1.25,
+            -2.29
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.055
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - sill",
+          "position": [
+            -1.705,
+            0.96,
+            -2.32
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.16
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - window",
+          "position": [
+            1.705,
+            1.25,
+            -2.29
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.055
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - sill",
+          "position": [
+            1.705,
+            0.96,
+            -2.32
+          ],
+          "size": [
+            0.9,
+            0.08,
+            0.16
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent",
+          "position": [
+            1.21,
+            2.95,
+            0.1
+          ],
+          "size": [
+            0.9,
+            0.5,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.21,
+            3.21,
+            -0.22
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.21,
+            3.21,
+            0.0
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Visual - vent slat",
+          "position": [
+            1.21,
+            3.21,
+            0.22
+          ],
+          "size": [
+            0.72,
+            0.025,
+            0.08
+          ],
+          "material": "Door",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "loading",
+      "name": "05 - Loading apron",
+      "position": [
+        -7,
+        0,
+        3.4
+      ],
+      "role": "Zone",
+      "footprint": [
+        9,
+        2
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Concrete apron",
+          "position": [
+            0,
+            0.003,
+            0
+          ],
+          "size": [
+            9,
+            0.002,
+            1.55
+          ],
+          "material": "Concrete",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Loading chevron",
+          "position": [
+            -3,
+            0.008,
+            0
+          ],
+          "size": [
+            0.14,
+            0.002,
+            1.1
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": -25,
+          "shape": "Cube"
+        },
+        {
+          "name": "Loading chevron",
+          "position": [
+            -1.5,
+            0.008,
+            0
+          ],
+          "size": [
+            0.14,
+            0.002,
+            1.1
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": -25,
+          "shape": "Cube"
+        },
+        {
+          "name": "Loading chevron",
+          "position": [
+            0,
+            0.008,
+            0
+          ],
+          "size": [
+            0.14,
+            0.002,
+            1.1
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": -25,
+          "shape": "Cube"
+        },
+        {
+          "name": "Loading chevron",
+          "position": [
+            1.5,
+            0.008,
+            0
+          ],
+          "size": [
+            0.14,
+            0.002,
+            1.1
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": -25,
+          "shape": "Cube"
+        },
+        {
+          "name": "Loading chevron",
+          "position": [
+            3,
+            0.008,
+            0
+          ],
+          "size": [
+            0.14,
+            0.002,
+            1.1
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": -25,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "training",
+      "name": "06 - Training yard",
+      "position": [
+        9,
+        0,
+        -7
+      ],
+      "role": "Zone",
+      "footprint": [
+        10,
+        8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Training pad",
+          "position": [
+            0,
+            0.003,
+            0
+          ],
+          "size": [
+            9.4,
+            0.002,
+            7.6
+          ],
+          "material": "Concrete",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yard edge",
+          "position": [
+            -4.7,
+            0.007,
+            0
+          ],
+          "size": [
+            0.09,
+            0.002,
+            7.6
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yard edge",
+          "position": [
+            4.7,
+            0.007,
+            0
+          ],
+          "size": [
+            0.09,
+            0.002,
+            7.6
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yard edge",
+          "position": [
+            0,
+            0.007,
+            -3.8
+          ],
+          "size": [
+            9.4,
+            0.002,
+            0.09
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yard edge",
+          "position": [
+            0,
+            0.007,
+            3.8
+          ],
+          "size": [
+            9.4,
+            0.002,
+            0.09
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Firing line",
+          "position": [
+            0,
+            0.008,
+            2.35
+          ],
+          "size": [
+            8.3,
+            0.002,
+            0.12
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cover_0",
+      "name": "07 - Low cover 1",
+      "position": [
+        -4,
+        0,
+        3
+      ],
+      "role": "Cover",
+      "footprint": [
+        1.6,
+        0.55
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Collision and visual",
+          "position": [
+            0,
+            0.35,
+            0
+          ],
+          "size": [
+            1.6,
+            0.7,
+            0.55
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yellow cap",
+          "position": [
+            0,
+            0.72,
+            0
+          ],
+          "size": [
+            1.6,
+            0.05,
+            0.5800000000000001
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cover_1",
+      "name": "07 - Low cover 2",
+      "position": [
+        4,
+        0,
+        3.3
+      ],
+      "role": "Cover",
+      "footprint": [
+        1.6,
+        0.55
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Collision and visual",
+          "position": [
+            0,
+            0.35,
+            0
+          ],
+          "size": [
+            1.6,
+            0.7,
+            0.55
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": -10,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yellow cap",
+          "position": [
+            0,
+            0.72,
+            0
+          ],
+          "size": [
+            1.6,
+            0.05,
+            0.5800000000000001
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": -10,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cover_2",
+      "name": "07 - Low cover 3",
+      "position": [
+        4,
+        0,
+        -4
+      ],
+      "role": "Cover",
+      "footprint": [
+        1.5,
+        0.5
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Collision and visual",
+          "position": [
+            0,
+            0.35,
+            0
+          ],
+          "size": [
+            1.5,
+            0.7,
+            0.5
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 90,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yellow cap",
+          "position": [
+            0,
+            0.72,
+            0
+          ],
+          "size": [
+            1.5,
+            0.05,
+            0.53
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 90,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cover_3",
+      "name": "07 - Low cover 4",
+      "position": [
+        -5,
+        0,
+        -2
+      ],
+      "role": "Cover",
+      "footprint": [
+        1.1,
+        0.75
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Collision and visual",
+          "position": [
+            0,
+            0.35,
+            0
+          ],
+          "size": [
+            1.1,
+            0.7,
+            0.75
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Yellow cap",
+          "position": [
+            0,
+            0.72,
+            0
+          ],
+          "size": [
+            1.1,
+            0.05,
+            0.78
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cargo_0",
+      "name": "08 - Cargo 1",
+      "position": [
+        -11.6,
+        0,
+        4
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.9,
+        0.9
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Crate",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "material": "Orange",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Lid brace",
+          "position": [
+            0,
+            0.915,
+            0
+          ],
+          "size": [
+            0.97,
+            0.05,
+            0.18
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Side label",
+          "position": [
+            0,
+            0.55,
+            -0.459
+          ],
+          "size": [
+            0.42,
+            0.25,
+            0.025
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cargo_1",
+      "name": "08 - Cargo 2",
+      "position": [
+        -11.6,
+        0,
+        5.4
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.9,
+        0.9
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Crate",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "material": "Crate",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Lid brace",
+          "position": [
+            0,
+            0.915,
+            0
+          ],
+          "size": [
+            0.97,
+            0.05,
+            0.18
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Side label",
+          "position": [
+            0,
+            0.55,
+            -0.459
+          ],
+          "size": [
+            0.42,
+            0.25,
+            0.025
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cargo_2",
+      "name": "08 - Cargo 3",
+      "position": [
+        -4.3,
+        0,
+        -8.8
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.9,
+        0.9
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Crate",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "material": "Orange",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Lid brace",
+          "position": [
+            0,
+            0.915,
+            0
+          ],
+          "size": [
+            0.97,
+            0.05,
+            0.18
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Side label",
+          "position": [
+            0,
+            0.55,
+            -0.459
+          ],
+          "size": [
+            0.42,
+            0.25,
+            0.025
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "cargo_3",
+      "name": "08 - Cargo 4",
+      "position": [
+        11.4,
+        0,
+        5.5
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.9,
+        0.9
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Crate",
+          "position": [
+            0,
+            0.45,
+            0
+          ],
+          "size": [
+            0.9,
+            0.9,
+            0.9
+          ],
+          "material": "Crate",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Lid brace",
+          "position": [
+            0,
+            0.915,
+            0
+          ],
+          "size": [
+            0.97,
+            0.05,
+            0.18
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Side label",
+          "position": [
+            0,
+            0.55,
+            -0.459
+          ],
+          "size": [
+            0.42,
+            0.25,
+            0.025
+          ],
+          "material": "Trim",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "planter_0",
+      "name": "09 - Planter 1",
+      "position": [
+        -16,
+        0,
+        9
+      ],
+      "role": "Prop",
+      "footprint": [
+        1.3,
+        0.8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter",
+          "position": [
+            0,
+            0.22,
+            0
+          ],
+          "size": [
+            1.3,
+            0.44,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Shrub",
+          "position": [
+            0,
+            0.57,
+            0
+          ],
+          "size": [
+            1.13,
+            0.48,
+            0.66
+          ],
+          "material": "Moss",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "planter_1",
+      "name": "09 - Planter 2",
+      "position": [
+        -16,
+        0,
+        -8
+      ],
+      "role": "Prop",
+      "footprint": [
+        1.3,
+        0.8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter",
+          "position": [
+            0,
+            0.22,
+            0
+          ],
+          "size": [
+            1.3,
+            0.44,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Shrub",
+          "position": [
+            0,
+            0.57,
+            0
+          ],
+          "size": [
+            1.13,
+            0.48,
+            0.66
+          ],
+          "material": "Moss",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "planter_2",
+      "name": "09 - Planter 3",
+      "position": [
+        16,
+        0,
+        9
+      ],
+      "role": "Prop",
+      "footprint": [
+        1.3,
+        0.8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter",
+          "position": [
+            0,
+            0.22,
+            0
+          ],
+          "size": [
+            1.3,
+            0.44,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Shrub",
+          "position": [
+            0,
+            0.57,
+            0
+          ],
+          "size": [
+            1.13,
+            0.48,
+            0.66
+          ],
+          "material": "Moss",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "planter_3",
+      "name": "09 - Planter 4",
+      "position": [
+        16,
+        0,
+        -8
+      ],
+      "role": "Prop",
+      "footprint": [
+        1.3,
+        0.8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter",
+          "position": [
+            0,
+            0.22,
+            0
+          ],
+          "size": [
+            1.3,
+            0.44,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Shrub",
+          "position": [
+            0,
+            0.57,
+            0
+          ],
+          "size": [
+            1.13,
+            0.48,
+            0.66
+          ],
+          "material": "Moss",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "planter_4",
+      "name": "09 - Planter 5",
+      "position": [
+        -4.5,
+        0,
+        10
+      ],
+      "role": "Prop",
+      "footprint": [
+        1.3,
+        0.8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter",
+          "position": [
+            0,
+            0.22,
+            0
+          ],
+          "size": [
+            1.3,
+            0.44,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Shrub",
+          "position": [
+            0,
+            0.57,
+            0
+          ],
+          "size": [
+            1.13,
+            0.48,
+            0.66
+          ],
+          "material": "Moss",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "planter_5",
+      "name": "09 - Planter 6",
+      "position": [
+        4.5,
+        0,
+        -11
+      ],
+      "role": "Prop",
+      "footprint": [
+        1.3,
+        0.8
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter",
+          "position": [
+            0,
+            0.22,
+            0
+          ],
+          "size": [
+            1.3,
+            0.44,
+            0.8
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Shrub",
+          "position": [
+            0,
+            0.57,
+            0
+          ],
+          "size": [
+            1.13,
+            0.48,
+            0.66
+          ],
+          "material": "Moss",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "post_0",
+      "name": "10 - Utility bollard 1",
+      "position": [
+        -3.2,
+        0,
+        -3.2
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.25,
+        0.25
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Post",
+          "position": [
+            0,
+            0.38,
+            0
+          ],
+          "size": [
+            0.25,
+            0.76,
+            0.25
+          ],
+          "material": "Roof",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Reflector",
+          "position": [
+            0,
+            0.68,
+            0
+          ],
+          "size": [
+            0.27,
+            0.1,
+            0.27
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "post_1",
+      "name": "10 - Utility bollard 2",
+      "position": [
+        3.2,
+        0,
+        3.2
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.25,
+        0.25
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Post",
+          "position": [
+            0,
+            0.38,
+            0
+          ],
+          "size": [
+            0.25,
+            0.76,
+            0.25
+          ],
+          "material": "Roof",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Reflector",
+          "position": [
+            0,
+            0.68,
+            0
+          ],
+          "size": [
+            0.27,
+            0.1,
+            0.27
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "post_2",
+      "name": "10 - Utility bollard 3",
+      "position": [
+        -12.3,
+        0,
+        -11
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.25,
+        0.25
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Post",
+          "position": [
+            0,
+            0.38,
+            0
+          ],
+          "size": [
+            0.25,
+            0.76,
+            0.25
+          ],
+          "material": "Roof",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Reflector",
+          "position": [
+            0,
+            0.68,
+            0
+          ],
+          "size": [
+            0.27,
+            0.1,
+            0.27
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "post_3",
+      "name": "10 - Utility bollard 4",
+      "position": [
+        12.3,
+        0,
+        11
+      ],
+      "role": "Prop",
+      "footprint": [
+        0.25,
+        0.25
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Post",
+          "position": [
+            0,
+            0.38,
+            0
+          ],
+          "size": [
+            0.25,
+            0.76,
+            0.25
+          ],
+          "material": "Roof",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "Reflector",
+          "position": [
+            0,
+            0.68,
+            0
+          ],
+          "size": [
+            0.27,
+            0.1,
+            0.27
+          ],
+          "material": "Paint",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "boundary",
+      "name": "11 - Arena border",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "role": "Boundary",
+      "footprint": [
+        36,
+        32
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "North wall",
+          "position": [
+            0,
+            0.3,
+            15.8
+          ],
+          "size": [
+            35.8,
+            0.6,
+            0.35
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "North cap",
+          "position": [
+            0,
+            0.62,
+            15.8
+          ],
+          "size": [
+            35.8,
+            0.05,
+            0.35
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "South wall",
+          "position": [
+            0,
+            0.3,
+            -15.8
+          ],
+          "size": [
+            35.8,
+            0.6,
+            0.35
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "South cap",
+          "position": [
+            0,
+            0.62,
+            -15.8
+          ],
+          "size": [
+            35.8,
+            0.05,
+            0.35
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "West wall",
+          "position": [
+            -17.8,
+            0.3,
+            0
+          ],
+          "size": [
+            0.35,
+            0.6,
+            31.6
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "West cap",
+          "position": [
+            -17.8,
+            0.62,
+            0
+          ],
+          "size": [
+            0.35,
+            0.05,
+            31.6
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "East wall",
+          "position": [
+            17.8,
+            0.3,
+            0
+          ],
+          "size": [
+            0.35,
+            0.6,
+            31.6
+          ],
+          "material": "Concrete",
+          "collider": true,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        },
+        {
+          "name": "East cap",
+          "position": [
+            17.8,
+            0.62,
+            0
+          ],
+          "size": [
+            0.35,
+            0.05,
+            31.6
+          ],
+          "material": "Roof",
+          "collider": false,
+          "shadow": true,
+          "yaw": 0,
+          "shape": "Cube"
+        }
+      ]
+    },
+    {
+      "key": "spawn",
+      "name": "12 - Player start",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "role": "PlayerSpawn",
+      "footprint": [
+        1,
+        1
+      ],
+      "hide": false,
+      "blocks": []
+    },
+    {
+      "key": "exit",
+      "name": "13 - Future exit",
+      "position": [
+        0,
+        0,
+        14
+      ],
+      "role": "Exit",
+      "footprint": [
+        1,
+        1
+      ],
+      "hide": false,
+      "blocks": []
+    },
+    {
+      "key": "wave_w",
+      "name": "14 - Future wave west",
+      "position": [
+        -14,
+        0,
+        0
+      ],
+      "role": "EnemySpawn",
+      "footprint": [
+        1,
+        1
+      ],
+      "hide": false,
+      "blocks": []
+    },
+    {
+      "key": "wave_n",
+      "name": "15 - Future wave north",
+      "position": [
+        0,
+        0,
+        12
+      ],
+      "role": "EnemySpawn",
+      "footprint": [
+        1,
+        1
+      ],
+      "hide": false,
+      "blocks": []
+    },
+    {
+      "key": "loot",
+      "name": "16 - Future pickup",
+      "position": [
+        3,
+        0,
+        -8
+      ],
+      "role": "Loot",
+      "footprint": [
+        1,
+        1
+      ],
+      "hide": false,
+      "blocks": []
+    }
+  ],
+  "targets": [
+    {
+      "key": "target_1",
+      "name": "AFK Target 1",
+      "position": [
+        6,
+        0,
+        -8.3
+      ],
+      "material": "TargetCoral"
+    },
+    {
+      "key": "target_2",
+      "name": "AFK Target 2",
+      "position": [
+        9,
+        0,
+        -8.3
+      ],
+      "material": "TargetMint"
+    },
+    {
+      "key": "target_3",
+      "name": "AFK Target 3",
+      "position": [
+        12,
+        0,
+        -8.3
+      ],
+      "material": "TargetCoral"
+    },
+    {
+      "key": "target_4",
+      "name": "AFK Target 4",
+      "position": [
+        7,
+        0,
+        -5.5
+      ],
+      "material": "TargetMint"
+    },
+    {
+      "key": "target_5",
+      "name": "AFK Target 5",
+      "position": [
+        11,
+        0,
+        -5.5
+      ],
+      "material": "TargetCoral"
+    }
+  ]
+}

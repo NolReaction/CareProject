@@ -3,7 +3,7 @@ using UnityEngine.Rendering;
 
 namespace IntercomMvp
 {
-    /// <summary>Small visible twin-stick firing prototype. No damage, ammo or enemies.</summary>
+    /// <summary>Swept twin-stick bullets with bounded visuals and test-target hit feedback.</summary>
     [DisallowMultipleComponent]
     [DefaultExecutionOrder(200)]
     public sealed class IntercomSimpleShooter : MonoBehaviour
@@ -22,17 +22,22 @@ namespace IntercomMvp
         public Material projectileMaterial;
 
         [Header("Prototype projectiles")]
-        [Min(0.1f)] public float projectileSpeed = 16f;
+        [Min(0.1f)] public float projectileSpeed = 36f;
         [Min(0.05f)] public float projectileLifetime = 1.4f;
         [Min(0.1f)] public float projectileRange = 20f;
-        [Min(0.005f)] public float projectileRadius = 0.025f;
-        [Min(0.01f)] public float tracerLength = 0.18f;
+        [Min(0.005f)] public float projectileRadius = 0.035f;
+        [Min(0.01f)] public float tracerLength = 0.42f;
         [Range(4, 128)] public int poolSize = 32;
         public LayerMask collisionMask = ~0;
         public bool fireBothPistols = true;
+        [Min(0.1f)] public float damage = 1f;
+        public Material projectileCoreMaterial;
 
         /// <summary>One event per volley that actually created bullets: sound position and successful barrel count.</summary>
         public event System.Action<Vector3, int> VolleyFired;
+        public event System.Action<Transform, bool> BarrelFired;
+        /// <summary>Point, outward surface normal, and whether a live test target accepted damage.</summary>
+        public event System.Action<Vector3, Vector3, bool> ProjectileHit;
 
         private struct Projectile
         {
@@ -205,6 +210,7 @@ namespace IntercomMvp
             visual.SetPositionAndRotation(position, Quaternion.LookRotation(direction));
             visual.localScale = new Vector3(radius * 2f, radius * 2f, Mathf.Max(radius * 2f, tracerLength));
             visual.gameObject.SetActive(true);
+            BarrelFired?.Invoke(muzzle, muzzle == muzzleRight);
             return true;
         }
 
@@ -216,11 +222,22 @@ namespace IntercomMvp
                 float travel = Mathf.Min(pool[i].speed * Mathf.Min(dt, pool[i].life), pool[i].range);
                 Vector3 start = pool[i].position;
                 Vector3 end = start + pool[i].direction * travel;
-                if (OverlapsObstacle(start, pool[i].radius) || SegmentBlocked(start, end, pool[i].radius))
+                // Overlap handles a door/target that moved into a bullet since its last step.
+                Collider overlap = FirstObstacle(start, pool[i].radius, out bool overlapSaturated);
+                if (overlap != null || overlapSaturated)
                 {
+                    Hit(overlap, start, -pool[i].direction, pool[i].direction);
                     Release(i);
                     continue;
                 }
+                if (FirstHit(start, end, pool[i].radius, out RaycastHit hit, out bool sweepSaturated))
+                {
+                    // NonAlloc hit order is undefined: damage only the nearest blocking surface.
+                    Hit(hit.collider, hit.point, hit.normal, pool[i].direction);
+                    Release(i);
+                    continue;
+                }
+                if (sweepSaturated) { Release(i); continue; } // Ambiguous query: never shoot through scenery.
                 pool[i].position = end;
                 pool[i].life -= dt;
                 pool[i].range -= travel;
@@ -238,28 +255,63 @@ namespace IntercomMvp
             return new Vector3(ownerRoot.position.x, muzzlePosition.y, ownerRoot.position.z);
         }
 
+        private void Hit(Collider collider, Vector3 point, Vector3 normal, Vector3 direction)
+        {
+            bool targetHit = false;
+            if (collider != null)
+            {
+                IntercomTargetDummy target = collider.GetComponentInParent<IntercomTargetDummy>();
+                if (target != null) targetHit = target.ApplyHit(Mathf.Max(0.1f, damage), direction);
+            }
+            if (normal.sqrMagnitude < 0.001f) normal = -direction;
+            ProjectileHit?.Invoke(point, normal.normalized, targetHit);
+        }
+
         private bool OverlapsObstacle(Vector3 position, float radius)
         {
+            return FirstObstacle(position, radius, out bool saturated) != null || saturated;
+        }
+
+        private Collider FirstObstacle(Vector3 position, float radius, out bool saturated)
+        {
             int count = Physics.OverlapSphereNonAlloc(position, radius, overlaps, collisionMask, QueryTriggerInteraction.Ignore);
-            // NonAlloc queries may truncate arbitrary hits. A saturated buffer
-            // fails closed instead of missing an unreturned wall behind self.
-            if (count == overlaps.Length) return true;
+            saturated = !IntercomProjectileHitChoice.IsComplete(count, overlaps.Length);
+            // A saturated result cannot prove which obstacle is closest. Do not invent target damage.
+            if (saturated) return null;
+            Collider result = null;
+            float nearest = float.PositiveInfinity;
             for (int i = 0; i < count; i++)
-                if (!IsOwner(overlaps[i])) return true;
-            return false;
+            {
+                Collider item = overlaps[i];
+                if (IsOwner(item)) continue;
+                float distance = (item.ClosestPoint(position) - position).sqrMagnitude;
+                if (distance < nearest) { nearest = distance; result = item; }
+            }
+            return result;
         }
 
         private bool SegmentBlocked(Vector3 start, Vector3 end, float radius)
         {
+            return FirstHit(start, end, radius, out _, out bool saturated) || saturated;
+        }
+
+        private bool FirstHit(Vector3 start, Vector3 end, float radius, out RaycastHit nearest, out bool saturated)
+        {
+            nearest = default;
+            saturated = false;
             Vector3 delta = end - start;
             float distance = delta.magnitude;
             if (distance <= 0.000001f) return false;
             int count = Physics.SphereCastNonAlloc(start, radius, delta / distance, sweepHits,
                 distance, collisionMask, QueryTriggerInteraction.Ignore);
-            if (count == sweepHits.Length) return true;
+            saturated = !IntercomProjectileHitChoice.IsComplete(count, sweepHits.Length);
+            if (saturated) return false;
+            IntercomProjectileHitChoice choice = new IntercomProjectileHitChoice(distance);
             for (int i = 0; i < count; i++)
-                if (!IsOwner(sweepHits[i].collider)) return true;
-            return false;
+                choice.Consider(i, sweepHits[i].distance, IsOwner(sweepHits[i].collider));
+            if (choice.Index < 0) return false;
+            nearest = sweepHits[choice.Index];
+            return true;
         }
 
         private bool IsOwner(Collider collider)
@@ -322,6 +374,18 @@ namespace IntercomMvp
                 renderer.receiveShadows = false;
                 renderer.lightProbeUsage = LightProbeUsage.Off;
                 renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
+                if (projectileCoreMaterial != null)
+                {
+                    GameObject core = new GameObject("Cream core");
+                    core.transform.SetParent(bullet.transform, false);
+                    core.transform.localScale = new Vector3(0.68f, 0.68f, 0.32f);
+                    core.transform.localPosition = new Vector3(0f, 0f, 0.09f);
+                    core.AddComponent<MeshFilter>().sharedMesh = projectileMesh;
+                    MeshRenderer coreRenderer = core.AddComponent<MeshRenderer>();
+                    coreRenderer.sharedMaterial = projectileCoreMaterial;
+                    coreRenderer.shadowCastingMode = ShadowCastingMode.Off;
+                    coreRenderer.receiveShadows = false;
+                }
                 bullet.SetActive(false);
                 pool[i].visual = bullet.transform;
             }
@@ -329,23 +393,35 @@ namespace IntercomMvp
 
         private static Mesh MakeTracerMesh()
         {
-            // Unit box extends behind its leading point. All visual instances
-            // share this one mesh and one material, and have no Collider.
-            Mesh mesh = new Mesh { name = "Intercom Tracer Mesh" };
-            mesh.vertices = new[] {
-                new Vector3(-.5f,-.5f,-1f), new Vector3(.5f,-.5f,-1f),
-                new Vector3(.5f,.5f,-1f), new Vector3(-.5f,.5f,-1f),
-                new Vector3(-.5f,-.5f,0f), new Vector3(.5f,-.5f,0f),
-                new Vector3(.5f,.5f,0f), new Vector3(-.5f,.5f,0f)
-            };
-            mesh.triangles = new[] {
-                0,2,1, 0,3,2, 4,5,6, 4,6,7,
-                0,1,5, 0,5,4, 3,7,6, 3,6,2,
-                0,4,7, 0,7,3, 1,2,6, 1,6,5
-            };
-            mesh.RecalculateNormals();
-            mesh.RecalculateBounds();
-            mesh.UploadMeshData(true);
+            // Low-poly capsule/teardrop: pointed cream tip, fat middle, tapered tail.
+            const int sides = 8;
+            float[] depths = { -1f, -0.65f, -0.18f, 0f };
+            float[] radii = { 0.04f, 0.32f, 0.5f, 0.08f };
+            Vector3[] vertices = new Vector3[sides * 4];
+            int[] triangles = new int[sides * 3 * 6 + (sides - 2) * 6];
+            for (int ring = 0; ring < 4; ring++)
+                for (int i = 0; i < sides; i++)
+                {
+                    float angle = i * Mathf.PI * 2f / sides;
+                    vertices[ring * sides + i] = new Vector3(Mathf.Cos(angle) * radii[ring],
+                        Mathf.Sin(angle) * radii[ring], depths[ring]);
+                }
+            int n = 0;
+            for (int ring = 0; ring < 3; ring++)
+                for (int i = 0; i < sides; i++)
+                {
+                    int a = ring * sides + i, b = ring * sides + (i + 1) % sides;
+                    int c = a + sides, d = b + sides;
+                    triangles[n++] = a; triangles[n++] = b; triangles[n++] = c;
+                    triangles[n++] = b; triangles[n++] = d; triangles[n++] = c;
+                }
+            for (int i = 1; i < sides - 1; i++)
+            {
+                triangles[n++] = 0; triangles[n++] = i + 1; triangles[n++] = i;
+                triangles[n++] = 24; triangles[n++] = 24 + i; triangles[n++] = 24 + i + 1;
+            }
+            Mesh mesh = new Mesh { name = "Intercom Cartoon Bullet", vertices = vertices, triangles = triangles };
+            mesh.RecalculateNormals(); mesh.RecalculateBounds(); mesh.UploadMeshData(true);
             return mesh;
         }
 
