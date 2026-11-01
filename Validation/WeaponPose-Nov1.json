@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-01",
+  "production_clock": "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs",
+  "executed_runtime": ".NET 8.0.33 via official .NET SDK 8.0.427 Roslyn compiler",
+  "cases": 12,
+  "assertions": 41,
+  "result": "PASS",
+  "csharp_syntax": {
+    "files": 11,
+    "language": "C# 9",
+    "symbol_configurations": [
+      "UNITY_EDITOR;ENABLE_LEGACY_INPUT_MANAGER",
+      "UNITY_EDITOR;ENABLE_INPUT_SYSTEM",
+      "UNITY_EDITOR"
+    ],
+    "errors": 0
+  },
+  "unity_editor_compile": false,
+  "unity_import": false,
+  "unity_play_mode": false,
+  "limits": "Unity Editor unavailable. Syntax/API review and pure C# execution do not prove Animator import or visual playback.",
+  "official_api_references": [
+    "https://docs.unity.com/ja-jp/engine/6000.3/script-reference/unityengine/animator/crossfadeinfixedtime",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Animator.CrossFade.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AvatarMask-transformCount.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AvatarMask.SetTransformPath.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AvatarMask.SetTransformActive.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Animations.AnimatorController.AddLayer.html",
+    "https://docs.unity3d.com/6000.0/Documentation/Manual/AnimationLayers.html"
+  ]
+}

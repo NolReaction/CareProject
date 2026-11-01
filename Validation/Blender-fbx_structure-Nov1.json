@@ -1,0 +1,43 @@
+{
+  "modelNamesExpected": true,
+  "hierarchyExpected": true,
+  "materialNamesUnchanged": true,
+  "globalSettingsUnchanged": true,
+  "maxDefaultTransformDeltas": {
+    "Lcl Translation": 0,
+    "Lcl Rotation": 0,
+    "Lcl Scaling": 0
+  },
+  "differencesOverTolerance": [],
+  "allModelsVisible": true,
+  "stacks": [
+    "Intercom_Armature_Fixed|Idle",
+    "Intercom_Armature_Fixed|IdleRelaxed",
+    "Intercom_Armature_Fixed|LowerWeapons",
+    "Intercom_Armature_Fixed|RaiseWeapons",
+    "Intercom_Armature_Fixed|Run",
+    "Intercom_Armature_Fixed|RunRelaxed",
+    "Intercom_Armature_Fixed|Shoot"
+  ],
+  "embeddedTexturesUnchanged": true,
+  "embeddedTextureCount": 6,
+  "embeddedTexturesMatchPackedSource": true,
+  "hierarchyChanges": [
+    {
+      "model": "R_Upperarm",
+      "old": "Body",
+      "new": "Torso"
+    },
+    {
+      "model": "L_Upperarm",
+      "old": "Body",
+      "new": "Torso"
+    }
+  ],
+  "newParents": {
+    "L_Toe": "L_Foot",
+    "R_Toe": "R_Foot",
+    "Torso": "Body"
+  },
+  "status": "ok"
+}

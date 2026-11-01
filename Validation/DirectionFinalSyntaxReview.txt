@@ -1,0 +1,1 @@
+Roslyn C# 9 syntax: 25 asset files x 4 input configurations (Legacy, Input System, Both, None); errors=0. No Unity assembly/type compilation claimed.

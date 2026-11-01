@@ -1,0 +1,62 @@
+{
+  "Preview_Run.mp4": {
+    "path": "/workspace/scratch/cdc6b0ce73c8/work_nov1/IntercomMVP/Preview_Run.mp4",
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 768,
+          "height": 768,
+          "r_frame_rate": "24/1",
+          "nb_frames": "144"
+        }
+      ],
+      "format": {
+        "duration": "6.000000",
+        "size": "785852"
+      }
+    },
+    "decode": "ok"
+  },
+  "Preview_WeaponStates.mp4": {
+    "path": "/workspace/scratch/cdc6b0ce73c8/work_nov1/IntercomMVP/Preview_WeaponStates.mp4",
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 768,
+          "height": 768,
+          "r_frame_rate": "24/1",
+          "nb_frames": "179"
+        }
+      ],
+      "format": {
+        "duration": "7.458333",
+        "size": "644845"
+      }
+    },
+    "decode": "ok"
+  },
+  "Intercom_Animation_Preview.mp4": {
+    "path": "/workspace/scratch/cdc6b0ce73c8/rev2/output/Intercom_Animation_Preview.mp4",
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 768,
+          "height": 768,
+          "r_frame_rate": "24/1",
+          "nb_frames": "323"
+        }
+      ],
+      "format": {
+        "duration": "13.458333",
+        "size": "1430011"
+      }
+    },
+    "decode": "ok"
+  }
+}

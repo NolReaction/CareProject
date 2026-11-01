@@ -1,0 +1,34 @@
+{
+  "video": "/workspace/scratch/cdc6b0ce73c8/direction_rev/output/Intercom_Animation_Preview.mp4",
+  "frames": 128,
+  "fps": 24,
+  "duration": 5.333333333333333,
+  "resolution": [
+    1280,
+    720
+  ],
+  "source": "Blender Workbench actual new source actions, simplified material colors; no Unity gameplay claim",
+  "actionsShown": [
+    "Run",
+    "RunBackward",
+    "RunLeft",
+    "RunRight",
+    "RunRelaxed",
+    "RunBackwardRelaxed",
+    "RunLeftRelaxed",
+    "RunRightRelaxed"
+  ],
+  "sourceFrames": 128,
+  "phaseFrameSequence": "1..16 repeated4; frame17 duplicate closure omitted",
+  "camera": "Side-front at approximately34degrees down, all characters keep same facing",
+  "limits": "In-place animation review; Unity movement speed, camera and collision must be tested in Play Mode",
+  "validation": {
+    "sourcePngCount": 128,
+    "allSourcePngChecksumsVerified": true,
+    "encodedFrames": 128,
+    "durationSeconds": 5.333333,
+    "fullDecode": "PASS: ffmpeg decode to null with no errors",
+    "visuallyInspected": "All sixteen cardinal contact samples plus armed and relaxed final video composites",
+    "sha256": "9540b0ca722fbd381370eee2027aa8d07b2860d93142ac16e9244709b0b52e2d"
+  }
+}

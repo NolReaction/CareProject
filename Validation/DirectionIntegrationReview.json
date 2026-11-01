@@ -1,0 +1,137 @@
+{
+  "date": "2026-11-02",
+  "status": "pass_static_review_and_executable_pure_tests",
+  "blocking_findings": [],
+  "scope": [
+    "Camera capture, manual framing preservation, editor Undo/dirty state and explicit Keep After Play targeting",
+    "Whole-building occluder grouping, orthographic/perspective projection, foreground depth, render-boundary timing, restoration and multi-camera visibility leases",
+    "Actual collision-resolved locomotion direction, visual−Z basis, synchronized cardinal blending and controller/profile migration",
+    "Included Blender direction clips and FBX reports reviewed; source contact sheet visually inspected"
+  ],
+  "files_sha256": {
+    "Assets/IntercomMVP/Editor/IntercomCameraFollowEditor.cs": "34eb8e3707f93219044b031e98342f968e8a2bad1656bbff4c595c6948303e9f",
+    "Assets/IntercomMVP/Editor/IntercomMobileSetup.cs": "a72a1b504fd9e129864174c94957b07f7aa2a3b9ca7206c42bf5d88cce85d414",
+    "Assets/IntercomMVP/Editor/IntercomMovementSetup.cs": "dee8409efbca5cf4ac519b065295010510e4ed074c9d27ed08ebc9689b2f0bc0",
+    "Assets/IntercomMVP/Editor/IntercomMuzzleSetup.cs": "c1fa6cf5367e0b65a260ac8876895ca9cefe2c22f8f67f22cd892a8894cd2771",
+    "Assets/IntercomMVP/Editor/IntercomMvpSceneBuilder.cs": "9dfbf62c88bcb0035fb451f34bd073e9078d0eec8baf10f875818fad15d1b40f",
+    "Assets/IntercomMVP/Editor/IntercomMvpSetupWindow.cs": "0bdf2a66d65aa4153c97d5cd6f9bbdb98dcfd536b718e722f7746371b69e1463",
+    "Assets/IntercomMVP/Editor/IntercomOcclusionSetup.cs": "6259fd4b5fc5563ddb806870aa1b65b3afb112e89ddf9d7f8be8fea0013e0390",
+    "Assets/IntercomMVP/Editor/IntercomPrototypeEnvironment.cs": "a85f145c907d910f8f3cc974bdee05c44b2781ac97bf23728bd58ba836dba3b1",
+    "Assets/IntercomMVP/Editor/IntercomRenderPipelineSetup.cs": "fdc6ad50f4188c2a1de3a790922c26390240ef2e9c519cacfe67ddffa06aaca5",
+    "Assets/IntercomMVP/Editor/IntercomRobotAssets.cs": "e98886a5cedb16f81f353d8d940f62ca4ddd8afde0a1b8c531f7adfc3b1ae884",
+    "Assets/IntercomMVP/Editor/IntercomWeaponVisibilityFix.cs": "8bcd184deeb460a862763216c703d7e3b5f28c541e7f1e14a64dc87755cb499d",
+    "Assets/IntercomMVP/Runtime/IntercomCameraFollow.cs": "cae7da0da383ecc97fb7914cba8d7fdf22ca9890dd520d7d10f32db780f08996",
+    "Assets/IntercomMVP/Runtime/IntercomCameraOcclusion.cs": "d913a66516cbf5655923282b9a377cd531f07ddcdc68f056ffb07a4b3ce7b739",
+    "Assets/IntercomMVP/Runtime/IntercomInputCancellation.cs": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+    "Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs": "0c0e14b3f283cc7f0173d9c5d1691cd26ddf405c1944c0f3d432a27b650405ab",
+    "Assets/IntercomMVP/Runtime/IntercomMobileRuntimeSettings.cs": "5a933eb229cc89515640903caf8d1f636ba0252c8df0690741bbf1860d55b459",
+    "Assets/IntercomMVP/Runtime/IntercomOccluder.cs": "4c73fef62bbd590336839a7a72a0c63f8ecd784381e4cb8066925ac18cebd2be",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs": "6df2efab0e43f3e9e34e4e75cae5bff27fb284ee7af716e48aed849fb6b02f04",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "191e8d0c76e7ffe5b7c62b817685e3ea9bbfb8d07065fb26173c46782e9eb9e4",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs": "bed5a6e742aa614eff472906e94c3dc50f0e2fab0ba5bf5b71f8e3c84e85c4bf",
+    "Assets/IntercomMVP/Runtime/IntercomSimpleShooter.cs": "d6b73366d095db59bc0651d128d6ce71035561a2c0b63165d0f8f2c12d8f7127",
+    "Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs": "2df754eed8a13cd5b408569e9aff57666d231b31f4ec926d3262923242b614f4",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs": "cf8993d40971bc055bf9daa539fd08cb72fbc2e138c2e0d6dce1fcf164b001eb",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseProfile.cs": "20b9ad5f1c0ec2bc3b86b811790a6bed2717c1dd0a3f54d7f32e1177e660cd0d"
+  },
+  "checks": {
+    "syntax": {
+      "tool": "Roslyn C#9",
+      "asset_files": 25,
+      "configurations": [
+        "UNITY_EDITOR + ENABLE_LEGACY_INPUT_MANAGER",
+        "UNITY_EDITOR + ENABLE_INPUT_SYSTEM",
+        "UNITY_EDITOR + both input backends",
+        "UNITY_EDITOR without input backend"
+      ],
+      "errors": 0,
+      "limit": "Syntax parsing only; no Unity assembly/type compilation"
+    },
+    "production_core_regression": {
+      "pose_clock": {
+        "cases": 12,
+        "assertions": 41,
+        "result": "PASS"
+      },
+      "twin_stick_state": {
+        "cases": 14,
+        "assertions": 45,
+        "result": "PASS"
+      },
+      "input_cancellation": {
+        "cases": 11,
+        "assertions": 25,
+        "result": "PASS",
+        "limit": "Actual WeaponPose.Update with narrow Unity API doubles, not Unity playback"
+      }
+    },
+    "direction_math": {
+      "cases": 12,
+      "assertions": 221,
+      "result": "PASS",
+      "source": "Production IntercomLocomotionDirection.cs, independently compiled/executed by reviewer"
+    },
+    "occlusion_projection": {
+      "geometry_scenarios": 14,
+      "randomized_boxes": 2400,
+      "independent_projected_points": 146080,
+      "assertions": 292191,
+      "result": "PASS",
+      "source": "Production IntercomOcclusionMath.cs, independently compiled/executed by reviewer"
+    },
+    "occlusion_visibility_lifecycle": {
+      "cases": 7,
+      "assertions": 21,
+      "result": "PASS",
+      "source": "Actual IntercomOcclusionVisibility production lease registry with minimal Unity object/attribute doubles",
+      "path": "Validation/OcclusionLeaseTests",
+      "scope": [
+        "Single and multiple camera owners",
+        "Already-hidden original state",
+        "Independent renderer state",
+        "Subsystem reset",
+        "Destroyed renderer release",
+        "Null/missing renderer safety"
+      ],
+      "limit": "Does not execute Renderer rendering, camera callbacks or Unity lifecycle"
+    },
+    "camera_geometry": {
+      "result": "PASS",
+      "assertions": 6000,
+      "source": "CameraCapture.json reports independent double-precision reconstruction algebra; reviewed, not Unity float/Editor execution"
+    },
+    "camera_static_review": "Capture stores full position decomposition, Euler rotation, vertical lens and offset; explicit authored framing is marked before Setup. Keep After Play records edit-time GlobalObjectIds, accepts only preexisting saved-scene components, consumes one pending request and resolves after Play. Repeated setup adopts manually edited scene pose before snapping.",
+    "occlusion_static_review": "All candidate groups tested, not only nearest; player full renderer bounds plus capsule/padding; includes colliderless meshes and loaded scenes; renderer-bounds projection is conservative. LateUpdate plus own-camera URP beginCameraRendering/Built-in onPreCull checks occur before rendering. Callback subscriptions are paired. Original rendering flags preserved with owner leases; epoch protects stale caches after subsystem reset. Materials, activation and colliders remain intact.",
+    "direction_static_review": "SimpleDirectional2D cardinal subtrees inside existing Speed Idle/Run blend in Base/Arms states. Runtime projects actual post-CharacterController velocity after turn-pivot correction onto visual forward/right. ModelForwardYaw=180 is included. Legacy controller and optional profile/override migrate as copies; repeated Setup reuses directional edits.",
+    "blender_review": "13 clips,42 bones,24 meshes and6 embedded textures according to current reports. Seven old action curve hashes unchanged; new leg local translation0/scale1 and loop seams exact. Contact sheet inspected: distinct backward/sideward poses without visible hinge stretching. Adjacent half-blend and FBX roundtrip checks reviewed. Source authored left+X maps project Unity+X visual-left at model−Z forward; Unity playback still needs manual confirmation."
+  },
+  "limits": {
+    "unity_compile": false,
+    "unity_play_mode": false,
+    "editor_undo_domain_reload_execution": false,
+    "unity_renderer_or_animator_playback": false,
+    "phone_build": false,
+    "physical_device": false,
+    "notes": [
+      "Scene/Game aspect differences change horizontal extent while captured vertical framing remains. Physical camera lens shifts/custom projection matrices are unsupported.",
+      "Runtime spawned scenery must carry IntercomOccluder or call RefreshScenery; conventional mesh bounds must enclose the rendered geometry.",
+      "Occluder bounds are deliberately conservative and may hide a building slightly before geometric contact with the player silhouette.",
+      "Four cardinal cycles are blended for diagonals; Unity interpolation and subjective gait appearance still need in-editor review."
+    ]
+  },
+  "required_manual_checks": [
+    "Capture Scene View outside Play, save, Play/stop/reopen and confirm framing; move robot with independent aim",
+    "Use Keep Follow Settings After Play, stop and confirm only original camera changed; Undo restores prior view",
+    "Run Setup Mobile Prototype twice after camera/house/controller edits: no duplicate components or authored-value resets",
+    "Place a multi-part building between camera and robot, including noCollider mesh; all relevant parts hide immediately and restore after clearing; physics remains solid",
+    "Hold aim fixed while moving backward/left/right/diagonally; verify clip direction and support phase; release movement against wall",
+    "Inspect new clips and directional blends in Unity Animator; compare left/right at ModelForwardYaw180",
+    "Test landscape phone build, two fingers, app focus changes and 16:9/20:9 screens"
+  ],
+  "primary_api_references": [
+    "https://docs.unity.com/en-us/engine/6000.0/script-reference/unityengine/rendering/renderpipelinemanager/begincamerarendering",
+    "https://docs.unity.com/en-us/engine/6000.0/script-reference/unityengine/camera/onprecull-1",
+    "https://docs.unity.com/en-us/engine/6000.0/manual/animation-section/animation-mecanim/animation-animator-controller/animation-state-machines/animation-blend-trees/blend-tree-2dblending"
+  ]
+}

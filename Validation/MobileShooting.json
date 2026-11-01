@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-01",
+  "feature": "Mobile input-to-pose gate and visible pooled projectiles",
+  "files": {
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs": "2df754eed8a13cd5b408569e9aff57666d231b31f4ec926d3262923242b614f4",
+    "Assets/IntercomMVP/Runtime/IntercomSimpleShooter.cs": "d6b73366d095db59bc0651d128d6ce71035561a2c0b63165d0f8f2c12d8f7127",
+    "Assets/IntercomMVP/Runtime/IntercomInputCancellation.cs": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706"
+  },
+  "implementation": {
+    "input": "Assigned IntercomPlayerInput FireHeld/FirePressed replaces mouse/space fallback; external request API remains available",
+    "cancel": "Focus/pause, ResetPosture, disable and profile replacement cancel queued pose fire and already queued LateUpdate spawns via FireCancelled; Initialize clears shooter queue; consumption requires active Combat posture.",
+    "spawn": "ShotReady queues; LateUpdate after Animator samples actual muzzle positions and +Z directions; two pistols by default",
+    "collision": "Body-to-muzzle obstruction check, spawn/start overlaps, swept sphere casts every move; ignores owner hierarchy and triggers; saturated query buffer stops bullet",
+    "pool": "Fixed 32 slots by default, shared mesh/material, no Collider/Rigidbody on bullets, bounded life/range; no per-frame managed allocations in shooter",
+    "out_of_scope": [
+      "damage",
+      "enemies",
+      "ammo",
+      "audio"
+    ],
+    "input_cancel_bridge": "WeaponPose observes source identity plus uint CancellationVersion before any dt/focus/Animator early exit. Changed epoch/source cancels pose and queued LateUpdate shots, including timeScale=0, OS cancellation, and layout changes. Normal pointer release preserves a queued short tap. Awake snapshot and Initialize recheck cover pre-Start cancellation."
+  },
+  "validation": {
+    "roslyn_csharp9_syntax": "Current project C# syntax parsed under legacy/new/no-input symbol configurations with zero errors; this is not Unity assembly/type compilation.",
+    "unity_editor_compile": false,
+    "unity_play_mode": false,
+    "device_build": false,
+    "independent_read_only_review": "Collision/allocation/owner filtering reviewed. Reviewer identified same-frame cancellation and Initialize queue gaps; both corrected with FireCancelled, queue clearing and active/Combat guards. Final syntax check passed. Additive-scene persistence remains outside this prototype.",
+    "cancellation_regression_harness": {
+      "cases": 11,
+      "assertions": 25,
+      "result": "PASS",
+      "production_sources": [
+        "IntercomWeaponPose.cs (actual private Update invoked via reflection)",
+        "IntercomWeaponPoseClock.cs",
+        "IntercomInputCancellation.cs",
+        "IntercomTwinStickState.cs"
+      ],
+      "runtime": ".NET8 with narrow Unity API test doubles; not Unity engine compilation or playback",
+      "path": "Validation/InputCancellationTests"
+    }
+  },
+  "primary_api_references": [
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics.SphereCastNonAlloc.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Physics.OverlapSphereNonAlloc.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/MonoBehaviour.LateUpdate.html"
+  ],
+  "manual_checks_required": [
+    "Hold right stick: raise then both muzzle tracers, left stick movement independent",
+    "Rapid aim reverse: traces follow visible barrel direction during body turn",
+    "Cube wall: bullets stop; muzzle inside/beyond wall cannot shoot through it",
+    "Release right stick: stop firing, hold pose then lower",
+    "App switch during raise: no queued ghost shot after resume",
+    "R respawn: input and posture clear",
+    "Physical mobile build: assigned projectile material shader renders correctly"
+  ]
+}

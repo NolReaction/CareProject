@@ -1,0 +1,1 @@
+Roslyn C# 9 syntax: 25 files x 3 input configurations; errors=0. No Unity assembly/type compilation claimed.

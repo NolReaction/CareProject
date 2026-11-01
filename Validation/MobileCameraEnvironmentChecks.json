@@ -1,0 +1,121 @@
+{
+  "status": "ok",
+  "generatedStaticCubes": 33,
+  "solidColliders": 11,
+  "sharedMaterials": 9,
+  "embeddedLayoutMatchesPreviewJSON": true,
+  "maximumMarkingTopMetres": 0.003,
+  "spawnClearRadiusMetres": 2.5,
+  "minimumSolidDistanceFromSpawn": 4.076508891386508,
+  "optionalClampFootprints": [
+    {
+      "aspect": 1.3333333333333333,
+      "groundFootprintRelativeToFocus": [
+        -6.936253172856087,
+        7.094319864754479,
+        -6.147071864917769,
+        7.043512620968237
+      ]
+    },
+    {
+      "aspect": 1.7777777777777777,
+      "groundFootprintRelativeToFocus": [
+        -8.949637912347711,
+        9.107704604246104,
+        -6.502085917036827,
+        7.398526673087295
+      ]
+    },
+    {
+      "aspect": 2.1666666666666665,
+      "groundFootprintRelativeToFocus": [
+        -10.711349559402882,
+        10.869416251301274,
+        -6.812723212641002,
+        7.70916396869147
+      ]
+    },
+    {
+      "aspect": 2.2222222222222223,
+      "groundFootprintRelativeToFocus": [
+        -10.963022651839337,
+        11.12108934373773,
+        -6.857099969155884,
+        7.753540725206353
+      ]
+    },
+    {
+      "aspect": 2.3333333333333335,
+      "groundFootprintRelativeToFocus": [
+        -11.466368836712244,
+        11.624435528610636,
+        -6.945853482185648,
+        7.842294238236116
+      ]
+    }
+  ],
+  "defaultUnclampedFollowActorEnvelopes": [
+    {
+      "aspect": 1.3333333333333333,
+      "actorViewportEnvelope": [
+        0.37836657775050564,
+        0.6216334222494944,
+        0.3194047983689784,
+        0.6992987810772511
+      ]
+    },
+    {
+      "aspect": 1.7777777777777777,
+      "actorViewportEnvelope": [
+        0.40877493331287923,
+        0.5912250666871208,
+        0.3194047983689784,
+        0.6992987810772511
+      ]
+    },
+    {
+      "aspect": 2.1666666666666665,
+      "actorViewportEnvelope": [
+        0.42514866323108036,
+        0.5748513367689196,
+        0.3194047983689784,
+        0.6992987810772511
+      ]
+    },
+    {
+      "aspect": 2.2222222222222223,
+      "actorViewportEnvelope": [
+        0.4270199466503034,
+        0.5729800533496966,
+        0.3194047983689784,
+        0.6992987810772511
+      ]
+    },
+    {
+      "aspect": 2.3333333333333335,
+      "actorViewportEnvelope": [
+        0.4304951872860032,
+        0.5695048127139968,
+        0.3194047983689784,
+        0.6992987810772511
+      ]
+    }
+  ],
+  "preservationReview": [
+    "Existing GroundMap material reused unchanged",
+    "Existing MVP_TestEnvironment root including inactive roots is preserved",
+    "New solid clusters intersecting pre-existing scene colliders omitted",
+    "Camera preset applied once; repeated setup preserves component tuning",
+    "No additional UI or runtime environment creation"
+  ],
+  "notes": [
+    "Mathematical camera/frustum and layout validation plus code review, not Unity execution.",
+    "The default camera follows without edge clamping; flat backdrop covers beyond the 24m arena.",
+    "Boundary walls are 0.45m tall, above the shipped 0.15m CharacterController step height."
+  ],
+  "unityEditorCompileAndPlayMode": false,
+  "officialApiReferences": [
+    "https://docs.unity.com/en-us/engine/6000.0/script-reference/unityengine/camera/orthographicsize",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Vector3.SmoothDamp.html"
+  ]
+}

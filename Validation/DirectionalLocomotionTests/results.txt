@@ -1,0 +1,13 @@
+PASS four visual headings, four world movement axes
+PASS authored model -Z forward is not wrapper +Z
+PASS all diagonal signs
+PASS diagonal heading with wall-slide movement
+PASS analog speed remains independent of direction
+PASS zero and numerical jitter are not movement
+PASS nonfinite movement cannot poison animator parameters
+PASS zero smoothing applies requested direction immediately
+PASS paused time preserves direction
+PASS 180-degree reversal never blends through undefined origin
+PASS angle wrap takes short route across zero
+PASS smoothing stable across frame rates
+PASS: 12 cases / 221 assertions. Production IntercomLocomotionDirection; .NET 8, no Unity engine playback.

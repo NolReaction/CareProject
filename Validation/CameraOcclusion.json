@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-02",
+  "feature": "Foreground scenery does not obscure the full robot silhouette",
+  "implementation": {
+    "projection": "Conservative camera-axis AABBs project every child mesh and full player renderer/capsule bounds, including feet, head and weapons. Works with orthographic parallel viewing and standard perspective. No sparse ray holes; Collider not required.",
+    "grouping": "IntercomOccluder on a house root groups roof/walls/trim; closest nested marker wins. Setup marks existing prototype houses, crates and barriers together; boundary walls individually; ground excluded.",
+    "visibility": "Immediate forceRenderingOff; restores original value after 0.18 seconds clear. No material mutation; Renderer.enabled, GameObject.activeSelf and physical colliders unchanged. Shared leases prevent two cameras from restoring each other prematurely.",
+    "caching": "Scene renderer discovery on enable, loaded/unloaded scene, target change, marker revision or explicit RefreshScenery only. Bounds and overlap tested every LateUpdate after camera follow. No per-frame global Find. Visibility is rechecked before this camera renders (URP beginCameraRendering / Built-in onPreCull), covering scene changes after LateUpdate.",
+    "dynamic_objects": "Spawn buildings with an enabled IntercomOccluder on their root for automatic same-frame registration. After adding unmarked runtime scenery, call RefreshScenery().",
+    "exclusions": "Player hierarchy; known projectile pool; non-mesh renderers; explicit disabled/false marker; thin floor markings close to capsule bottom. Elevated thin roofs are included. Camera cullingMask and sceneryLayers respected.",
+    "ownership": "Hide state releases when camera component disables/destroys, target disappears/inactivates/changes, scene topology refreshes or renderer clears the silhouette."
+  },
+  "files_sha256": {
+    "Assets/IntercomMVP/Runtime/IntercomCameraOcclusion.cs": "d913a66516cbf5655923282b9a377cd531f07ddcdc68f056ffb07a4b3ce7b739",
+    "Assets/IntercomMVP/Runtime/IntercomOccluder.cs": "4c73fef62bbd590336839a7a72a0c63f8ecd784381e4cb8066925ac18cebd2be",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs": "6df2efab0e43f3e9e34e4e75cae5bff27fb284ee7af716e48aed849fb6b02f04",
+    "Assets/IntercomMVP/Editor/IntercomOcclusionSetup.cs": "6259fd4b5fc5563ddb806870aa1b65b3afb112e89ddf9d7f8be8fea0013e0390"
+  },
+  "validation": {
+    "production_math_tests": {
+      "result": "PASS",
+      "geometry_scenarios": 14,
+      "random_boxes": 2400,
+      "independently_projected_points": 146080,
+      "assertions": 292191,
+      "path": "Validation/OcclusionMathTests"
+    },
+    "unity_compile": false,
+    "unity_rendering": false,
+    "physics_runtime": false,
+    "device_test": false
+  },
+  "limits": [
+    "Conservative AABB projection can hide a building slightly before its visible pixels touch the robot, especially with rotated/irregular buildings. This deliberately favours character visibility.",
+    "Visibility removes the whole grouped building immediately rather than using alpha transparency; arbitrary imported materials/shaders are supported without conversion.",
+    "Runtime-spawned unmarked objects require RefreshScenery; adding IntercomOccluder to spawned building prefabs avoids that requirement.",
+    "Custom oblique camera projection matrices and incorrect authored renderer bounds are outside this prototype."
+  ],
+  "manual_checks": [
+    "At a low side-on camera, run behind every test building and crate: entire foreground group disappears before head, hands or boots are obscured.",
+    "Two foreground buildings overlapping the silhouette both hide; buildings behind or beside the robot remain.",
+    "Object with Renderer but no Collider still hides.",
+    "Stop/reset/disable camera occlusion: original renderer state returns; colliders continue blocking movement and bullets.",
+    "Repeat Setup: no duplicate components and existing hideWhenBlocking exclusions retained.",
+    "Spawn a prefab with IntercomOccluder and child roof/wall meshes: it is registered before the next rendered frame."
+  ],
+  "primary_api_references": [
+    "https://docs.unity3d.com/ja/6000.0/ScriptReference/Renderer-forceRenderingOff.html",
+    "https://docs.unity3d.com/cn/6000.0/ScriptReference/Bounds.html",
+    "https://docs.unity3d.com/cn/current/ScriptReference/Rendering.RenderPipelineManager-beginCameraRendering.html",
+    "https://docs.unity3d.com/cn/6000.0/ScriptReference/Camera-onPreCull.html"
+  ]
+}

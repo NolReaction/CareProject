@@ -1,0 +1,1137 @@
+{
+  "source": "direction_rev/output/intercom-armed.blend",
+  "fbx": "direction_rev/IntercomMVP/Assets/IntercomMVP/Art/Robot/IntercomRobot.fbx",
+  "samples": [
+    {
+      "clip": "Idle",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.982297394856139e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Idle",
+      "frame": 7.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 7.131973687571594e-07,
+      "maxBoneHeadErrorMeters": 1.189581553262542e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Idle",
+      "frame": 7.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.358822600655407e-07,
+      "maxBoneHeadErrorMeters": 1.169248662336031e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "Idle",
+      "frame": 7.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.141178816058422e-07,
+      "maxBoneHeadErrorMeters": 1.15966679459234e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "Idle",
+      "frame": 25,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.954320530295519e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "Idle",
+      "frame": 49,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.982297394856139e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.1025206637249627e-06,
+      "maxBoneHeadErrorMeters": 1.8419215166431968e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 1.2536624714848324e-06,
+      "maxBoneHeadErrorMeters": 1.516280121904856e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.4109122720946817e-06,
+      "maxBoneHeadErrorMeters": 1.5107234503375366e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 2.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.1018352455126112e-06,
+      "maxBoneHeadErrorMeters": 1.3816559203405632e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.413263307355662e-07,
+      "maxBoneHeadErrorMeters": 1.730604822114401e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "Run",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.0043910888166957e-06,
+      "maxBoneHeadErrorMeters": 2.6452814836375182e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.8351752430565796e-06,
+      "maxBoneHeadErrorMeters": 2.510359308871557e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.3041409965807395e-06,
+      "maxBoneHeadErrorMeters": 1.0724954790930497e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2.001"
+    },
+    {
+      "clip": "Run",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.1127922061606985e-06,
+      "maxBoneHeadErrorMeters": 1.8818579974322347e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "Run",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.1025206637249627e-06,
+      "maxBoneHeadErrorMeters": 1.8419215166431968e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0244677613640801e-06,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 7.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 8.365131048686959e-07,
+      "maxBoneHeadErrorMeters": 1.189581553262542e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 7.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.046402122774089e-07,
+      "maxBoneHeadErrorMeters": 1.169248662336031e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 7.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.274148948686179e-07,
+      "maxBoneHeadErrorMeters": 1.15966679459234e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 25,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0244677613640801e-06,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 49,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0244677613640801e-06,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.1025206637249627e-06,
+      "maxBoneHeadErrorMeters": 1.8419215166431968e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 1.2536624714848324e-06,
+      "maxBoneHeadErrorMeters": 1.516280121904856e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.4109122720946817e-06,
+      "maxBoneHeadErrorMeters": 1.5107234503375366e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 2.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.1018352455126112e-06,
+      "maxBoneHeadErrorMeters": 1.3816559203405632e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.991293249055362e-07,
+      "maxBoneHeadErrorMeters": 1.730604822114401e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Hand_L_Symmetric"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.0043910888166957e-06,
+      "maxBoneHeadErrorMeters": 2.6452814836375182e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.8351752430565796e-06,
+      "maxBoneHeadErrorMeters": 2.510359308871557e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.042031623129127e-07,
+      "maxBoneHeadErrorMeters": 1.0724954790930497e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.1127922061606985e-06,
+      "maxBoneHeadErrorMeters": 1.8818579974322347e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRelaxed",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.1025206637249627e-06,
+      "maxBoneHeadErrorMeters": 1.8419215166431968e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0244677613640801e-06,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 8.279408959844707e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.422630057418286e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 2.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 6.960395632836488e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.966171272442248e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 8.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0818807978454146e-06,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.982297394856139e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.982297394856139e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 3.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 8.746713449744995e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 3.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.568942091362922e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 3.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.253520004139548e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 7,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.966171272442248e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 6.713468500887517e-07,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 13,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0244677613640801e-06,
+      "maxBoneHeadErrorMeters": 1.185140035886434e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.130212100140362e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 0.0004463989410887168,
+      "maxBoneHeadErrorMeters": 0.00034605030668899417,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_1.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.284833343593661e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.09375,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 0.0003776249496849881,
+      "maxBoneHeadErrorMeters": 0.0002903783170040697,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_1.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.66201730663844e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.15625,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 0.00030915014145604887,
+      "maxBoneHeadErrorMeters": 0.00023490712919738144,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_1.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.1875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.292012362001404e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.21875,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 0.00024127503220466162,
+      "maxBoneHeadErrorMeters": 0.0001799497549654916,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_1.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.40625,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 6.672063288988561e-05,
+      "maxBoneHeadErrorMeters": 5.2471055823843926e-05,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_1.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.71875,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 0.0003207331758543456,
+      "maxBoneHeadErrorMeters": 0.00027626362862065434,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2.001"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 3,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.669904342727654e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 6.3125,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.820859244419119e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 6.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.31154308751738e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "Shoot",
+      "frame": 10,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.130212100140362e-07,
+      "maxBoneHeadErrorMeters": 1.0858757377718575e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.6033208073508238e-06,
+      "maxBoneHeadErrorMeters": 2.199070195274544e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 1.0671734518478066e-06,
+      "maxBoneHeadErrorMeters": 1.8962568901770283e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.1103088848817194e-06,
+      "maxBoneHeadErrorMeters": 1.9411729681451106e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0790994503486835e-06,
+      "maxBoneHeadErrorMeters": 1.101678662962513e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.252550339126716e-06,
+      "maxBoneHeadErrorMeters": 1.882211904558062e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.7553571144346203e-06,
+      "maxBoneHeadErrorMeters": 1.7830408296504174e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.1510232187053574e-06,
+      "maxBoneHeadErrorMeters": 1.5621542388544185e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Hand_L_Symmetric"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.6189157766883603e-06,
+      "maxBoneHeadErrorMeters": 2.1139701402717037e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackward",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.6033208073508238e-06,
+      "maxBoneHeadErrorMeters": 2.199070195274544e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.121921117158038e-07,
+      "maxBoneHeadErrorMeters": 1.302339342146297e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 7.534748548442998e-07,
+      "maxBoneHeadErrorMeters": 1.292068986913364e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.475335368139843e-07,
+      "maxBoneHeadErrorMeters": 1.2906074289276148e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0456484543295492e-06,
+      "maxBoneHeadErrorMeters": 1.191557316815306e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0281707723152902e-06,
+      "maxBoneHeadErrorMeters": 1.0511657819733955e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.307166658281053e-07,
+      "maxBoneHeadErrorMeters": 9.846612556430046e-07,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.482604174606791e-07,
+      "maxBoneHeadErrorMeters": 1.0910777064054855e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Hand_L_Symmetric"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.733613203620979e-07,
+      "maxBoneHeadErrorMeters": 1.3402971035247901e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeft",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.121921117158038e-07,
+      "maxBoneHeadErrorMeters": 1.302339342146297e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.125112476341702e-07,
+      "maxBoneHeadErrorMeters": 1.1597326192713808e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 8.341801238691988e-07,
+      "maxBoneHeadErrorMeters": 1.1664145631584688e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.751314915341485e-07,
+      "maxBoneHeadErrorMeters": 1.1484775086501031e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.155275978158138e-07,
+      "maxBoneHeadErrorMeters": 1.3331178934095078e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.064423103601945e-06,
+      "maxBoneHeadErrorMeters": 1.3782768064629636e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.68017442944025e-07,
+      "maxBoneHeadErrorMeters": 1.3753739267485798e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.881952823004584e-07,
+      "maxBoneHeadErrorMeters": 1.1481148476377712e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.871421288588755e-07,
+      "maxBoneHeadErrorMeters": 1.228442329193058e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunRight",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.125112476341702e-07,
+      "maxBoneHeadErrorMeters": 1.1597326192713808e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.6033208073508238e-06,
+      "maxBoneHeadErrorMeters": 2.199070195274544e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 1.0671734518478066e-06,
+      "maxBoneHeadErrorMeters": 1.8962568901770283e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.1103088848817194e-06,
+      "maxBoneHeadErrorMeters": 1.9411729681451106e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2_fixed"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.226686004714218e-07,
+      "maxBoneHeadErrorMeters": 1.101678662962513e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 2.252550339126716e-06,
+      "maxBoneHeadErrorMeters": 1.882211904558062e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.7553571144346203e-06,
+      "maxBoneHeadErrorMeters": 1.7830408296504174e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.309837748120956e-07,
+      "maxBoneHeadErrorMeters": 1.5621542388544185e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_2.001"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.6189157766883603e-06,
+      "maxBoneHeadErrorMeters": 2.1139701402717037e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.6033208073508238e-06,
+      "maxBoneHeadErrorMeters": 2.199070195274544e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.121921117158038e-07,
+      "maxBoneHeadErrorMeters": 1.302339342146297e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 7.534748548442998e-07,
+      "maxBoneHeadErrorMeters": 1.292068986913364e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.475335368139843e-07,
+      "maxBoneHeadErrorMeters": 1.2906074289276148e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.174347843350944e-07,
+      "maxBoneHeadErrorMeters": 1.191557316815306e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.530997242684346e-07,
+      "maxBoneHeadErrorMeters": 1.0511657819733955e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 6.693370220659916e-07,
+      "maxBoneHeadErrorMeters": 9.846612556430046e-07,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.1700656551887e-07,
+      "maxBoneHeadErrorMeters": 1.0910777064054855e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.962620171635983e-07,
+      "maxBoneHeadErrorMeters": 1.3402971035247901e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.121921117158038e-07,
+      "maxBoneHeadErrorMeters": 1.302339342146297e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 1,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.078888606057531e-07,
+      "maxBoneHeadErrorMeters": 1.1597326192713808e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 2.03125,
+      "onBakeGrid": false,
+      "maxVertexErrorMeters": 7.265489302300285e-07,
+      "maxBoneHeadErrorMeters": 1.1664145631584688e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 2.0625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 9.066877082799836e-07,
+      "maxBoneHeadErrorMeters": 1.1484775086501031e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 4.5,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 1.0928941368770931e-06,
+      "maxBoneHeadErrorMeters": 1.3331178934095078e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Pistol_L_tripo_part_2.001"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 7.375,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.587031445863697e-07,
+      "maxBoneHeadErrorMeters": 1.3782768064629636e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "Spring_L_Symmetric"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 9,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.658503883831866e-07,
+      "maxBoneHeadErrorMeters": 1.3753739267485798e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 12.625,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 8.868203008412538e-07,
+      "maxBoneHeadErrorMeters": 1.1481148476377712e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_6_fixed"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 16.875,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 6.942990256272102e-07,
+      "maxBoneHeadErrorMeters": 1.228442329193058e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "tripo_part_3_fixed"
+    },
+    {
+      "clip": "RunRightRelaxed",
+      "frame": 17,
+      "onBakeGrid": true,
+      "maxVertexErrorMeters": 7.078888606057531e-07,
+      "maxBoneHeadErrorMeters": 1.1597326192713808e-06,
+      "vertexCountMismatches": [],
+      "worstMesh": "B\u00e9zierCurve"
+    }
+  ],
+  "missingMeshes": [],
+  "boneCount": 42,
+  "meshCount": 24,
+  "materialMismatches": [],
+  "rigActions": [
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|Idle",
+      "range": [
+        1.0,
+        49.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|IdleRelaxed",
+      "range": [
+        1.0,
+        49.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|LowerWeapons",
+      "range": [
+        1.0,
+        13.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RaiseWeapons",
+      "range": [
+        1.0,
+        9.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|Run",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunBackward",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunBackwardRelaxed",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunLeft",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunLeftRelaxed",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunRelaxed",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunRight",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|RunRightRelaxed",
+      "range": [
+        1.0,
+        17.0
+      ]
+    },
+    {
+      "name": "Intercom_Armature_Fixed|Intercom_Armature_Fixed|Shoot",
+      "range": [
+        1.0,
+        10.0
+      ]
+    }
+  ],
+  "maxVertexErrorMeters": 0.0004463989410887168,
+  "maxBoneHeadErrorMeters": 0.00034605030668899417,
+  "maxBakePointVertexErrorMeters": 2.252550339126716e-06,
+  "maxBetweenBakePointsVertexErrorMeters": 0.0004463989410887168,
+  "exportBakeStepFrames": 0.0625,
+  "acceptedSamplingToleranceMeters": 0.001,
+  "validationNote": "Blender FBX roundtrip at normalized1.5m height, thirteen clips with42bones. This does not test Unity import, compilation or Play Mode.",
+  "status": "ok"
+}

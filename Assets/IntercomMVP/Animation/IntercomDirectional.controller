@@ -1,0 +1,657 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!206 &-9051710374688141937
+BlendTree:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Combat Idle Run
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -7158561543368603850, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -8543701447361081327}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: Speed
+  m_BlendParameterY: Blend
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
+--- !u!206 &-8543701447361081327
+BlendTree:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Intercom Combat Directional Run
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -8231674933362713453, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7425894776642819825, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 8437193044197405754, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: -1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 6493807199931041076, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: MoveX
+  m_BlendParameterY: MoveY
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 1
+--- !u!206 &-7232907315108314925
+BlendTree:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Relaxed Idle Run
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: 4937855026272069451, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7032227239370169236}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: Speed
+  m_BlendParameterY: Blend
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
+--- !u!1102 &-5387592768502990597
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Relaxed
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -7232907315108314925}
+  m_Tag: 
+  m_SpeedParameter: RunRate
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1107 &-1815564857951612610
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Arms
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: -5387592768502990597}
+    m_Position: {x: 200, y: 0, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -372324311662665624}
+    m_Position: {x: 235, y: 65, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5200589482087803218}
+    m_Position: {x: 270, y: 130, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1698571575394702953}
+    m_Position: {x: 305, y: 195, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3673954916717491066}
+    m_Position: {x: 340, y: 260, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: -5387592768502990597}
+--- !u!1102 &-620128179550246697
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Locomotion
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7829895325246403738}
+  m_Tag: 
+  m_SpeedParameter: RunRate
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-372324311662665624
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Combat
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -9051710374688141937}
+  m_Tag: 
+  m_SpeedParameter: RunRate
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!91 &9100000
+AnimatorController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: IntercomDirectional
+  serializedVersion: 5
+  m_AnimatorParameters:
+  - m_Name: Speed
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: MoveX
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: MoveY
+    m_Type: 1
+    m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: RunRate
+    m_Type: 1
+    m_DefaultFloat: 1
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  m_AnimatorLayers:
+  - serializedVersion: 5
+    m_Name: Base Layer
+    m_StateMachine: {fileID: 7136128593719247721}
+    m_Mask: {fileID: 0}
+    m_Motions: []
+    m_Behaviours: []
+    m_BlendingMode: 0
+    m_SyncedLayerIndex: -1
+    m_DefaultWeight: 0
+    m_IKPass: 0
+    m_SyncedLayerAffectsTiming: 0
+    m_Controller: {fileID: 9100000}
+  - serializedVersion: 5
+    m_Name: Arms
+    m_StateMachine: {fileID: -1815564857951612610}
+    m_Mask: {fileID: 6476665282875823179}
+    m_Motions: []
+    m_Behaviours: []
+    m_BlendingMode: 0
+    m_SyncedLayerIndex: -1
+    m_DefaultWeight: 1
+    m_IKPass: 0
+    m_SyncedLayerAffectsTiming: 0
+    m_Controller: {fileID: 9100000}
+--- !u!1102 &1698571575394702953
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LowerWeapons
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -706716206623838979, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!206 &3471523799134323040
+BlendTree:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Intercom Combat Directional Run
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -8231674933362713453, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7425894776642819825, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 8437193044197405754, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: -1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 6493807199931041076, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: MoveX
+  m_BlendParameterY: MoveY
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 1
+--- !u!1102 &3673954916717491066
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shoot
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -4200418239737971428, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &5200589482087803218
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RaiseWeapons
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -7747910883902908913, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!319 &6476665282875823179
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Intercom Upper Body
+  m_Mask: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 0
+  - m_Path: "B\xE9zierCurve"
+    m_Weight: 0
+  - m_Path: Hand_L_Symmetric
+    m_Weight: 0
+  - m_Path: IntercomRobot
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/L_Calf
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/L_Calf/L_Foot
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/L_Calf/L_Foot/L_Toe
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/R_Calf
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/R_Calf/R_Foot
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/R_Calf/R_Foot/R_Toe
+    m_Weight: 0
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Index1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Index1/L_Index2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Index1/L_Index2/L_Index3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Mid1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Mid1/L_Mid2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Mid1/L_Mid2/L_Mid3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Pinky1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Pinky1/L_Pinky2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Pinky1/L_Pinky2/L_Pinky3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Thumb1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Thumb1/L_Thumb2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/L_Thumb1/L_Thumb2/L_Thumb3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L/Pistol_L_tripo_part_0.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L/Pistol_L_tripo_part_1.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L/Pistol_L_tripo_part_2.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L/Pistol_L_tripo_part_4.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/tripo_part_0.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/tripo_part_1.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/tripo_part_2.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/tripo_part_4.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Index1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Index1/R_Index2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Index1/R_Index2/R_Index3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Mid1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Mid1/R_Mid2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Mid1/R_Mid2/R_Mid3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Pinky1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Pinky1/R_Pinky2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Pinky1/R_Pinky2/R_Pinky3
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Thumb1
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Thumb1/R_Thumb2
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Thumb1/R_Thumb2/R_Thumb3
+    m_Weight: 1
+  - m_Path: Shoulder_L_Symmetric
+    m_Weight: 0
+  - m_Path: Spring_L_Symmetric
+    m_Weight: 0
+  - m_Path: tripo_part_0_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_2_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_3_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_4_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_6_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_7_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_8_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_9_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_10_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_11_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_12_fixed
+    m_Weight: 0
+  - m_Path: tripo_part_24_fixed
+    m_Weight: 0
+--- !u!206 &7032227239370169236
+BlendTree:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Intercom Relaxed Directional Run
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -1539162718609874848, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -4254337378010197162, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -1790878710134960776, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: -1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 8825302792707913495, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: MoveX
+  m_BlendParameterY: MoveY
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 1
+--- !u!1107 &7136128593719247721
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Base Layer
+  m_ChildStates:
+  - serializedVersion: 1
+    m_State: {fileID: -620128179550246697}
+    m_Position: {x: 200, y: 0, z: 0}
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: -620128179550246697}
+--- !u!206 &7829895325246403738
+BlendTree:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Locomotion Idle Run
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -7158561543368603850, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 3471523799134323040}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: Speed
+  m_BlendParameterY: Blend
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0

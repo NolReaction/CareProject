@@ -1,0 +1,52 @@
+{
+  "status": "ok",
+  "editorFile": "Assets/IntercomMVP/Editor/IntercomMuzzleSetup.cs",
+  "method": "Area-weighted centroid and normals of projecting barrel rim within first 2 percent of gun depth; offset 0.6 percent of gun depth beyond forward surface. Neutral imported Idle pose sampled on isolated preview-scene clone, then local point/rotation transferred. Existing markers retained.",
+  "realMeshValidation": "Algorithm evaluated on actual exported FBX pistol geometry. Render visually verified marker centred in barrel opening and ray pointing out. Wider 5 percent front-cap slab was rejected because it included lower receiver. Reflection/rotation/uniform-scale/translation invariance checked.",
+  "sides": [
+    {
+      "side": "R",
+      "frontRimTriangles": 20,
+      "originNormalizedBlenderWorld": [
+        -0.19554189354511042,
+        -0.895155381001039,
+        1.033663517973628
+      ],
+      "axisNormalizedBlenderWorld": [
+        0.039167309341558175,
+        -0.9985149759213239,
+        0.03786508602631943
+      ],
+      "forwardProjection": 0.9985149759213239,
+      "clearanceBeyondMostForwardVertex": 0.003037505865097046,
+      "coordinateReflectionRotationScaleTestError": 1.88411095042053e-15,
+      "directionTestError": 2.2609110993043344e-15
+    },
+    {
+      "side": "L",
+      "frontRimTriangles": 20,
+      "originNormalizedBlenderWorld": [
+        0.17686262756111693,
+        -0.8951550520770554,
+        1.0336634333952694
+      ],
+      "axisNormalizedBlenderWorld": [
+        -0.03916909335589532,
+        -0.9985149057318073,
+        0.037865091536625706
+      ],
+      "forwardProjection": 0.9985149057318073,
+      "clearanceBeyondMostForwardVertex": 0.0030375067591667175,
+      "coordinateReflectionRotationScaleTestError": 1.3322676295501878e-15,
+      "directionTestError": 4.174403286310408e-15
+    }
+  ],
+  "unityExecution": false,
+  "limits": "Unity Editor unavailable. Geometry and C# syntax/API review do not replace Editor-side execution or device testing. Geometric extraction is specific to these pistols sampled in forward-facing Idle pose; new weapon models need suitable markers.",
+  "officialReferences": [
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/SceneManagement.EditorSceneManager.NewPreviewScene.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/PrefabUtility.InstantiatePrefab.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AnimationClip.SampleAnimation.html",
+    "https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Mesh-isReadable.html"
+  ]
+}

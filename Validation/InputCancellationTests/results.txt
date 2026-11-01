@@ -1,0 +1,12 @@
+PASS normal short release survives raise and fires exactly once
+PASS timeScale-zero frame cancels before deltaTime early exit
+PASS layout cancellation stops queued tap
+PASS lost OS contact cancels queued tap
+PASS source replacement with equal epoch cancels old tap
+PASS removing source cancels old tap before fallback
+PASS initial snapshot preserves legitimate pre-Start request
+PASS cancellation before Start invalidates pending request
+PASS uint epoch wrap cancels correctly
+PASS cancelled frame cannot consume stale fire flags
+PASS fresh tap works after cancellation
+PASS 11 cases / 25 assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback.

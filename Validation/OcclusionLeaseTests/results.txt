@@ -1,0 +1,8 @@
+PASS one camera releases exactly its own visibility change
+PASS second camera prevents premature restoration
+PASS a renderer already hidden remains hidden after every owner releases
+PASS independent objects retain independent original state
+PASS subsystem reset restores live flags without relying on owner callbacks
+PASS destroyed renderer reference can still release the registry lease
+PASS missing and unregistered renderer operations are harmless
+PASS 7 cases / 21 assertions. Production visibility lease registry with narrow Unity API doubles; NOT Unity compilation/rendering.

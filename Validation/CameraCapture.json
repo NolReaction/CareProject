@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-02",
+  "cause": "The old follow component overwrote Transform rotation/position and camera size every LateUpdate; ordinary Play edits are temporary.",
+  "features": [
+    "Capture Current Camera",
+    "Capture Scene View",
+    "Apply Follow Settings",
+    "Keep Follow Settings After Play"
+  ],
+  "saved_framing": [
+    "pitch",
+    "yaw",
+    "roll",
+    "orthographic/perspective projection",
+    "orthographic size",
+    "vertical field of view",
+    "distance",
+    "world framing offset"
+  ],
+  "setup": "New scenes use pitch35. Existing settings remain; manually edited scene camera transforms/lenses are adopted before SnapToTarget.",
+  "persistence": "Capture buttons record Undo, prefab overrides and scene dirty state. Keep After Play is explicit, caches exact component GlobalObjectIds before Play, stores framing in SessionState, resolves only on exit and consumes once. Scene saving remains Ctrl+S.",
+  "geometry_checks": {
+    "seed": 20261102,
+    "random_camera_poses": 1500,
+    "assertions": 6000,
+    "max_position_roundtrip_error_metres": 8.62265274246159e-15,
+    "result": "PASS",
+    "scope": "Independent double precision camera algebra, including roll, horizontal/negative pitch and off-centre composition; not Unity float/engine execution."
+  },
+  "files_sha256": {
+    "Assets/IntercomMVP/Runtime/IntercomCameraFollow.cs": "cae7da0da383ecc97fb7914cba8d7fdf22ca9890dd520d7d10f32db780f08996",
+    "Assets/IntercomMVP/Editor/IntercomCameraFollowEditor.cs": "34eb8e3707f93219044b031e98342f968e8a2bad1656bbff4c595c6948303e9f",
+    "Assets/IntercomMVP/Editor/IntercomMvpSceneBuilder.cs": "9dfbf62c88bcb0035fb451f34bd073e9078d0eec8baf10f875818fad15d1b40f"
+  },
+  "limitations": [
+    "Scene and Game windows with different aspect ratios naturally show different horizontal extents. Captured transform and vertical lens framing are preserved; use the target landscape Game aspect for final judgement.",
+    "Physical camera lens shift/custom projection matrices are not part of this simple capture workflow.",
+    "A camera must exist in the saved scene before Play to use Keep After Play; renamed or reparented Play objects are not guessed.",
+    "Unity Editor compilation and actual editor undo/domain-reload/Play transitions were not executed."
+  ],
+  "manual_checks": [
+    "Capture Scene View outside Play, Ctrl+S, run/stop/reopen: framing stays; robot translation follows without recentering the captured composition.",
+    "Move Main Camera transform and run Setup Mobile Prototype: actual pose is adopted.",
+    "Adjust fields during Play then Keep Follow Settings After Play and stop: exact original component gets framing, Undo restores prior settings.",
+    "Remove/close original camera scene after remembering: warning rather than applying to another camera.",
+    "Repeat Setup and capture with orthographic and perspective projections; no duplicate components."
+  ],
+  "primary_references": [
+    "https://docs.unity3d.com/cn/current/ScriptReference/GlobalObjectId.html",
+    "https://docs.unity3d.com/cn/6000.0/ScriptReference/GlobalObjectId.GlobalObjectIdentifierToObjectSlow.html",
+    "https://docs.unity3d.com/ja/current/ScriptReference/SceneView.html"
+  ]
+}
