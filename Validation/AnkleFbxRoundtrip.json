@@ -27,7 +27,7 @@
       "maxVertexErrorMeters": 8.358822600655407e-07,
       "maxBoneHeadErrorMeters": 1.198316454065207e-06,
       "vertexCountMismatches": [],
-      "worstMesh": "B\u00e9zierCurve"
+      "worstMesh": "BézierCurve"
     },
     {
       "clip": "Idle",
@@ -171,7 +171,7 @@
       "maxVertexErrorMeters": 9.046402122774089e-07,
       "maxBoneHeadErrorMeters": 1.198316454065207e-06,
       "vertexCountMismatches": [],
-      "worstMesh": "B\u00e9zierCurve"
+      "worstMesh": "BézierCurve"
     },
     {
       "clip": "IdleRelaxed",
@@ -180,7 +180,7 @@
       "maxVertexErrorMeters": 7.274148948686179e-07,
       "maxBoneHeadErrorMeters": 1.1542870197445154e-06,
       "vertexCountMismatches": [],
-      "worstMesh": "B\u00e9zierCurve"
+      "worstMesh": "BézierCurve"
     },
     {
       "clip": "IdleRelaxed",
@@ -306,7 +306,7 @@
       "maxVertexErrorMeters": 8.279408959844707e-07,
       "maxBoneHeadErrorMeters": 1.1654860827547964e-06,
       "vertexCountMismatches": [],
-      "worstMesh": "B\u00e9zierCurve"
+      "worstMesh": "BézierCurve"
     },
     {
       "clip": "RaiseWeapons",
@@ -315,7 +315,7 @@
       "maxVertexErrorMeters": 7.422630057418286e-07,
       "maxBoneHeadErrorMeters": 1.1654860827547964e-06,
       "vertexCountMismatches": [],
-      "worstMesh": "B\u00e9zierCurve"
+      "worstMesh": "BézierCurve"
     },
     {
       "clip": "RaiseWeapons",
@@ -1133,5 +1133,7 @@
   "exportBakeStepFrames": 0.0625,
   "acceptedSamplingToleranceMeters": 0.001,
   "validationNote": "Blender FBX roundtrip at normalized1.5m height, thirteen clips with42bones. This does not test Unity import, compilation or Play Mode.",
-  "status": "ok"
+  "status": "ok",
+  "historicalReport": true,
+  "supersededForCurrentAnimationBy": "MotionPolish*.json and TutorialReview.json"
 }

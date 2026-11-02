@@ -344,5 +344,7 @@
     "Intercom_Armature_Fixed|RunRight",
     "Intercom_Armature_Fixed|RunRightRelaxed",
     "Intercom_Armature_Fixed|Shoot"
-  ]
+  ],
+  "historicalReport": true,
+  "supersededForCurrentAnimationBy": "MotionPolish*.json and TutorialReview.json"
 }

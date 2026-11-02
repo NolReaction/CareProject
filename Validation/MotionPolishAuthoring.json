@@ -1,0 +1,229 @@
+{
+  "sourceInputSha256": "a13b8de26feef9f8081c0ae3ee20a19d9044da0804ce1013040d754ebcb0afe9",
+  "sourceOutputSha256": "5e70fb918742174e301c4c6a7ee95e3dc83c39d308baca3036c9953e9f44120a",
+  "restRigUnchanged": true,
+  "geometryTopologyWeightsUnchanged": true,
+  "allPackedImagesUnchanged": true,
+  "packedImageCount": 6,
+  "nonRunActionsExactlyPreserved": [
+    "Idle",
+    "IdleRelaxed",
+    "LowerWeapons",
+    "RaiseWeapons",
+    "Shoot"
+  ],
+  "rigBoneCount": 42,
+  "supportWindows": {
+    "left": [
+      0,
+      0.28
+    ],
+    "right": [
+      0.5,
+      0.78
+    ]
+  },
+  "actions": {
+    "Run": {
+      "kind": "Forward",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 1,
+      "maximumToeFlexDegrees": 12,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.009644792531616986,
+        -1.2814998626708984e-06
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion"
+      ]
+    },
+    "RunRelaxed": {
+      "kind": "Forward",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 2.4,
+      "maximumToeFlexDegrees": 12,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.009644792531616986,
+        -1.2814998626708984e-06
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"L_Upperarm\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Upperarm\"].rotation_quaternion"
+      ]
+    },
+    "RunBackward": {
+      "kind": "Backward",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 1,
+      "maximumToeFlexDegrees": 8,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.014265708858147264,
+        0.00042140099685639143
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion"
+      ]
+    },
+    "RunBackwardRelaxed": {
+      "kind": "Backward",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 2.4,
+      "maximumToeFlexDegrees": 8,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.014265708858147264,
+        0.00042140099685639143
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"L_Upperarm\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Upperarm\"].rotation_quaternion"
+      ]
+    },
+    "RunLeft": {
+      "kind": "Left",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 1,
+      "maximumToeFlexDegrees": 6,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.0194069838616997,
+        0.0074266353622078896
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion"
+      ]
+    },
+    "RunLeftRelaxed": {
+      "kind": "Left",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 2.4,
+      "maximumToeFlexDegrees": 6,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.0194069838616997,
+        0.0074266353622078896
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"L_Upperarm\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Upperarm\"].rotation_quaternion"
+      ]
+    },
+    "RunRight": {
+      "kind": "Right",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 1,
+      "maximumToeFlexDegrees": 6,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.01593022095039487,
+        0.009499193052761257
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion"
+      ]
+    },
+    "RunRightRelaxed": {
+      "kind": "Right",
+      "flatStanceAnkleAmplitudeGain": 1.5,
+      "swingGain": 1.0,
+      "maximumHorizontalReachFraction": 0.92,
+      "relaxedArmGain": 2.4,
+      "maximumToeFlexDegrees": 6,
+      "bodyFloorCorrectionSourceUnits": [
+        -0.01593022095039487,
+        0.009499193052761257
+      ],
+      "editedChannels": [
+        "pose.bones[\"Body\"].location",
+        "pose.bones[\"L_Calf\"].rotation_quaternion",
+        "pose.bones[\"L_Foot\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"L_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"L_Toe\"].rotation_quaternion",
+        "pose.bones[\"L_Upperarm\"].rotation_quaternion",
+        "pose.bones[\"R_Calf\"].rotation_quaternion",
+        "pose.bones[\"R_Foot\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_A\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_B\"].rotation_quaternion",
+        "pose.bones[\"R_Forearm_C\"].rotation_quaternion",
+        "pose.bones[\"R_Toe\"].rotation_quaternion",
+        "pose.bones[\"R_Upperarm\"].rotation_quaternion"
+      ]
+    }
+  },
+  "scope": "Authoring invariants only. Visual, deformed-geometry and FBX roundtrip validation required separately."
+}

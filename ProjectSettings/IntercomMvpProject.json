@@ -1,5 +1,5 @@
 {
   "name": "Intercom MVP",
   "bootstrapScene": "Assets/IntercomMVP/Scenes/IntercomMVP.unity",
-  "scope": "Landscape twin-stick robot prototype: saved side-angled camera framing, foreground building visibility, four-direction locomotion, sparse arena and dual-pistol projectiles."
+  "scope": "Daylit industrial tutorial yard with four-direction robot locomotion, alternating turn steps, contact-aware audio and twin-stick dual-pistol shooting."
 }

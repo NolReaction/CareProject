@@ -1,0 +1,4208 @@
+{
+  "scope": "Math reproduction of exact C# turn algorithm using measured actual Idle TRS/bakedboot vertices. No Unity execution. Local scales and locations retained.",
+  "worldScale": 1.3790181109932065,
+  "scenarios": {
+    "0": {
+      "minimumSwingSoleMetres": 0.0005002123475417483,
+      "maximumSwingSoleMetres": 0.02713288525379315,
+      "maximumStanceVertexDriftMetres": 2.062263640781725e-06,
+      "maximumBodyOffsetMetres": 0.03075405921649557,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": 7.38366687536211,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.025014315213890203,
+          "maximumStanceVertexDriftMetres": 1.6394162833396206e-06,
+          "maximumBodyOffsetMetres": 0.008767881117660881,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.94707654497561,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0005002123475417483,
+          "maximumSwingSoleMetres": 0.025851929665929658,
+          "maximumStanceVertexDriftMetres": 8.179937607399424e-07,
+          "maximumBodyOffsetMetres": 0.017196856128690974,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.360955565721454,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000765019947057,
+          "maximumSwingSoleMetres": 0.024666697411885558,
+          "maximumStanceVertexDriftMetres": 1.5535090023249206e-06,
+          "maximumBodyOffsetMetres": 0.03075405921649557,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.442140511533005,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001240978866227,
+          "maximumSwingSoleMetres": 0.02690953482871397,
+          "maximumStanceVertexDriftMetres": 6.02368768974276e-07,
+          "maximumBodyOffsetMetres": 0.029114224856998525,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.302744163447663,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998224294921524,
+          "maximumSwingSoleMetres": 0.02572258584682561,
+          "maximumStanceVertexDriftMetres": 2.062263640781725e-06,
+          "maximumBodyOffsetMetres": 0.020827453701476272,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.888289787023503,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000153004392593,
+          "maximumSwingSoleMetres": 0.02713288525379315,
+          "maximumStanceVertexDriftMetres": 3.869372800716191e-07,
+          "maximumBodyOffsetMetres": 0.020827464829258503,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.000563692762697,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996627916641107,
+          "maximumSwingSoleMetres": 0.025272072418285198,
+          "maximumStanceVertexDriftMetres": 1.8477855851774746e-06,
+          "maximumBodyOffsetMetres": 0.024166670546944897,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.736880903586766,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029997086674924426,
+          "maximumSwingSoleMetres": 0.026059300867308646,
+          "maximumStanceVertexDriftMetres": 7.807140818623696e-07,
+          "maximumBodyOffsetMetres": 0.02116979254673633,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.474955336194668,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029992474182558813,
+          "maximumSwingSoleMetres": 0.024793410414844588,
+          "maximumStanceVertexDriftMetres": 1.7456364695124468e-06,
+          "maximumBodyOffsetMetres": 0.026625458031250857,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -11.408803473014677,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999473360162584,
+          "maximumSwingSoleMetres": 0.025046004129649403,
+          "maximumStanceVertexDriftMetres": 5.319062435639489e-07,
+          "maximumBodyOffsetMetres": 0.026625428024551513,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.367550411453696,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999520602341055,
+          "maximumSwingSoleMetres": 0.02557166864654796,
+          "maximumStanceVertexDriftMetres": 9.461705704675459e-07,
+          "maximumBodyOffsetMetres": 0.02026638251715432,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.428607080024463,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999775799239076,
+          "maximumSwingSoleMetres": 0.0257356823944669,
+          "maximumStanceVertexDriftMetres": 6.1156237966066e-07,
+          "maximumBodyOffsetMetres": 0.023591040695473773,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.8493378704143097,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000221421394887,
+          "maximumSwingSoleMetres": 0.025551816053176222,
+          "maximumStanceVertexDriftMetres": 9.070522044748909e-07,
+          "maximumBodyOffsetMetres": 0.019621819475927366,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.295732372795573,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030002501274424115,
+          "maximumSwingSoleMetres": 0.026417008594987013,
+          "maximumStanceVertexDriftMetres": 7.557494792916483e-07,
+          "maximumBodyOffsetMetres": 0.009371785964166556,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.352486417981115,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030001384660820938,
+          "maximumSwingSoleMetres": 0.025344627197933314,
+          "maximumStanceVertexDriftMetres": 1.0201396661820446e-06,
+          "maximumBodyOffsetMetres": 0.007954206269491873,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.292891474580795,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999903152996646,
+          "maximumSwingSoleMetres": 0.025961621599157863,
+          "maximumStanceVertexDriftMetres": 5.092655583376761e-07,
+          "maximumBodyOffsetMetres": 0.004724141362018869,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.41119303095085,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998527066449725,
+          "maximumSwingSoleMetres": 0.0257273998995587,
+          "maximumStanceVertexDriftMetres": 1.4391124236107018e-06,
+          "maximumBodyOffsetMetres": 0.007899873626607034,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.2082366299676366,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299977146046182,
+          "maximumSwingSoleMetres": 0.025348911698136387,
+          "maximumStanceVertexDriftMetres": 3.9461421311871156e-07,
+          "maximumBodyOffsetMetres": 0.007899873626607034,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.56289158137243,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999868133511051,
+          "maximumSwingSoleMetres": 0.025849039936001544,
+          "maximumStanceVertexDriftMetres": 1.1072825188888201e-06,
+          "maximumBodyOffsetMetres": 0.002544877475418875,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -2.465651729054933,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998950276807776,
+          "maximumSwingSoleMetres": 0.025948739465027865,
+          "maximumStanceVertexDriftMetres": 6.059638230159358e-07,
+          "maximumBodyOffsetMetres": 0.0022902282688746643,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "1": {
+      "minimumSwingSoleMetres": 0.0004989686673714297,
+      "maximumSwingSoleMetres": 0.027169357834071525,
+      "maximumStanceVertexDriftMetres": 2.0081774530238596e-06,
+      "maximumBodyOffsetMetres": 0.031580314689827485,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -6.427795488993393,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02532553726995735,
+          "maximumStanceVertexDriftMetres": 8.217675462028861e-07,
+          "maximumBodyOffsetMetres": 0.0011055965631158733,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.197973221551237,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004989686673714297,
+          "maximumSwingSoleMetres": 0.024783582641762184,
+          "maximumStanceVertexDriftMetres": 6.913344447481307e-07,
+          "maximumBodyOffsetMetres": 0.017927960405137406,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -11.94932753389089,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999889858485582,
+          "maximumSwingSoleMetres": 0.025415063669414685,
+          "maximumStanceVertexDriftMetres": 1.4051815054957214e-06,
+          "maximumBodyOffsetMetres": 0.025718547203935623,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.8077473132710296,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999355022391289,
+          "maximumSwingSoleMetres": 0.025587374975920736,
+          "maximumStanceVertexDriftMetres": 4.8628522404491e-07,
+          "maximumBodyOffsetMetres": 0.031580314689827485,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.58111290785995,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999836585147724,
+          "maximumSwingSoleMetres": 0.02579322759583149,
+          "maximumStanceVertexDriftMetres": 8.078231709318712e-07,
+          "maximumBodyOffsetMetres": 0.02853222205018234,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.0408314045253,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999729564232045,
+          "maximumSwingSoleMetres": 0.026061751777422145,
+          "maximumStanceVertexDriftMetres": 7.584960194295391e-07,
+          "maximumBodyOffsetMetres": 0.029951282856790405,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.358162731781313,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997753834658304,
+          "maximumSwingSoleMetres": 0.02513247405423167,
+          "maximumStanceVertexDriftMetres": 8.653098915534774e-07,
+          "maximumBodyOffsetMetres": 0.0259769579701315,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.048400707532593,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029997866347874066,
+          "maximumSwingSoleMetres": 0.02584216643430632,
+          "maximumStanceVertexDriftMetres": 5.80283560571364e-07,
+          "maximumBodyOffsetMetres": 0.005586103925712964,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.227398423304674,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999604937047225,
+          "maximumSwingSoleMetres": 0.026171243676486454,
+          "maximumStanceVertexDriftMetres": 1.3670929998401994e-06,
+          "maximumBodyOffsetMetres": 0.0018446062623425795,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.166618368912204,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000968617779145,
+          "maximumSwingSoleMetres": 0.02583427751479669,
+          "maximumStanceVertexDriftMetres": 5.130584731765655e-07,
+          "maximumBodyOffsetMetres": 0.003165320352789816,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.1399963137999904,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996869305224743,
+          "maximumSwingSoleMetres": 0.02613311212845265,
+          "maximumStanceVertexDriftMetres": 1.2886405623012848e-06,
+          "maximumBodyOffsetMetres": 0.00195367891891541,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.418504163706302,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000178297078315,
+          "maximumSwingSoleMetres": 0.026751102485720702,
+          "maximumStanceVertexDriftMetres": 7.542871934831292e-07,
+          "maximumBodyOffsetMetres": 0.010284351945716778,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.372991984056501,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998604962661584,
+          "maximumSwingSoleMetres": 0.02502217142961748,
+          "maximumStanceVertexDriftMetres": 9.447719959572207e-07,
+          "maximumBodyOffsetMetres": 0.010284312382312828,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.90101526926763,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000579062885767,
+          "maximumSwingSoleMetres": 0.02573874713453689,
+          "maximumStanceVertexDriftMetres": 7.133915055769863e-07,
+          "maximumBodyOffsetMetres": 0.016608388863670047,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.040127776090564,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998691722186517,
+          "maximumSwingSoleMetres": 0.02609594403086054,
+          "maximumStanceVertexDriftMetres": 2.0081774530238596e-06,
+          "maximumBodyOffsetMetres": 0.026373601567471806,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.082830095183738,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030004318570634736,
+          "maximumSwingSoleMetres": 0.027169357834071525,
+          "maximumStanceVertexDriftMetres": 6.452100228635307e-07,
+          "maximumBodyOffsetMetres": 0.02637359369788404,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.402789582346408,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999737700932723,
+          "maximumSwingSoleMetres": 0.0253357332123079,
+          "maximumStanceVertexDriftMetres": 1.1950495660335184e-06,
+          "maximumBodyOffsetMetres": 0.029102201265419795,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.648098930283528,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998735817422482,
+          "maximumSwingSoleMetres": 0.02583952602227794,
+          "maximumStanceVertexDriftMetres": 6.407467211695744e-07,
+          "maximumBodyOffsetMetres": 0.02940643426240228,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.7562988295657185,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997837218001277,
+          "maximumSwingSoleMetres": 0.025628918718265465,
+          "maximumStanceVertexDriftMetres": 1.2854757020210663e-06,
+          "maximumBodyOffsetMetres": 0.028490944138529203,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.905818363168628,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000140728635419,
+          "maximumSwingSoleMetres": 0.02604256921907252,
+          "maximumStanceVertexDriftMetres": 7.890784518394111e-07,
+          "maximumBodyOffsetMetres": 0.029596348056930812,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "2": {
+      "minimumSwingSoleMetres": 0.0015089058857665097,
+      "maximumSwingSoleMetres": 0.027157375764883057,
+      "maximumStanceVertexDriftMetres": 1.9647151382064957e-06,
+      "maximumBodyOffsetMetres": 0.030747900545996996,
+      "unreachableSamples": 1,
+      "steps": [
+        {
+          "deltaDegrees": 3.0093290391961176,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.025110796890639633,
+          "maximumStanceVertexDriftMetres": 1.198813724528995e-06,
+          "maximumBodyOffsetMetres": 0.004278547290394618,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.3852570340800785,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002035960715439461,
+          "maximumSwingSoleMetres": 0.02469038247337429,
+          "maximumStanceVertexDriftMetres": 5.290935754806545e-07,
+          "maximumBodyOffsetMetres": 0.002329575715989249,
+          "unreachableSamples": 1,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.87391278832858,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999989446027321,
+          "maximumSwingSoleMetres": 0.025794662076734726,
+          "maximumStanceVertexDriftMetres": 1.914683632193539e-06,
+          "maximumBodyOffsetMetres": 0.020742899704719066,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.787267119723488,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030003703104438087,
+          "maximumSwingSoleMetres": 0.027157375764883057,
+          "maximumStanceVertexDriftMetres": 7.032794946515077e-07,
+          "maximumBodyOffsetMetres": 0.026623165828041268,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 9.336700883112972,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998484957250876,
+          "maximumSwingSoleMetres": 0.024841856737148338,
+          "maximumStanceVertexDriftMetres": 1.0885270006316339e-06,
+          "maximumBodyOffsetMetres": 0.026623160046142683,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.688056436393044,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999817269492283,
+          "maximumSwingSoleMetres": 0.02622726953495246,
+          "maximumStanceVertexDriftMetres": 5.772677576789523e-07,
+          "maximumBodyOffsetMetres": 0.014401961674083651,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.24836542257944,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996294239116243,
+          "maximumSwingSoleMetres": 0.02593425687958469,
+          "maximumStanceVertexDriftMetres": 1.7045194017970844e-06,
+          "maximumBodyOffsetMetres": 0.012478224748935968,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.565965001678414,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001510315292978,
+          "maximumSwingSoleMetres": 0.026997707636388035,
+          "maximumStanceVertexDriftMetres": 5.17484855814995e-07,
+          "maximumBodyOffsetMetres": 0.012478227590393184,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.121152796139981,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998755573353735,
+          "maximumSwingSoleMetres": 0.025753150628811915,
+          "maximumStanceVertexDriftMetres": 1.4428521303383918e-06,
+          "maximumBodyOffsetMetres": 0.02049952605034733,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.056532405231607,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001548458908718,
+          "maximumSwingSoleMetres": 0.02570307156946749,
+          "maximumStanceVertexDriftMetres": 5.131233249518211e-07,
+          "maximumBodyOffsetMetres": 0.029075748659764467,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.39962020061411,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999906727210811,
+          "maximumSwingSoleMetres": 0.02531987813626929,
+          "maximumStanceVertexDriftMetres": 1.9647151382064957e-06,
+          "maximumBodyOffsetMetres": 0.030747900545996996,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.343532274010617,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999076943009175,
+          "maximumSwingSoleMetres": 0.02643094618563053,
+          "maximumStanceVertexDriftMetres": 9.744858143380165e-07,
+          "maximumBodyOffsetMetres": 0.02914377237483744,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.9634604061697765,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997558078632015,
+          "maximumSwingSoleMetres": 0.02556864791014284,
+          "maximumStanceVertexDriftMetres": 1.3443847537034533e-06,
+          "maximumBodyOffsetMetres": 0.009076346260215034,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.851485427653458,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299989782137095,
+          "maximumSwingSoleMetres": 0.025709861693653645,
+          "maximumStanceVertexDriftMetres": 6.296122165202706e-07,
+          "maximumBodyOffsetMetres": 0.012910746276258152,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -7.561576577706543,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996463294430157,
+          "maximumSwingSoleMetres": 0.025148846307316442,
+          "maximumStanceVertexDriftMetres": 8.639272758659169e-07,
+          "maximumBodyOffsetMetres": 0.012910747214007546,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.747546700814077,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999754410552124,
+          "maximumSwingSoleMetres": 0.02553286745227174,
+          "maximumStanceVertexDriftMetres": 4.809068984676526e-07,
+          "maximumBodyOffsetMetres": 0.0110387761607918,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.6605955756560462,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999084802638846,
+          "maximumSwingSoleMetres": 0.02617278087612986,
+          "maximumStanceVertexDriftMetres": 1.0143575629547416e-06,
+          "maximumBodyOffsetMetres": 0.006039289601948891,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.630848118275512,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000065528845107,
+          "maximumSwingSoleMetres": 0.02568894917903812,
+          "maximumStanceVertexDriftMetres": 6.176185421336035e-07,
+          "maximumBodyOffsetMetres": 0.006885820118040377,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -15.813844185973673,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995540904046024,
+          "maximumSwingSoleMetres": 0.02505489507838738,
+          "maximumStanceVertexDriftMetres": 1.2618047038128043e-06,
+          "maximumBodyOffsetMetres": 0.012068969152166471,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.021199177649448,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029995680966527606,
+          "maximumSwingSoleMetres": 0.02521300719392974,
+          "maximumStanceVertexDriftMetres": 3.7794235865846614e-07,
+          "maximumBodyOffsetMetres": 0.014403274687145739,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "3": {
+      "minimumSwingSoleMetres": 0.0004991147270182547,
+      "maximumSwingSoleMetres": 0.027133061794375104,
+      "maximumStanceVertexDriftMetres": 2.0084717576655035e-06,
+      "maximumBodyOffsetMetres": 0.03407627294332992,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -5.8606512900038865,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.025312995339274565,
+          "maximumStanceVertexDriftMetres": 8.527497198548081e-07,
+          "maximumBodyOffsetMetres": 0.0010917173218864221,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.09970109532037,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004991147270182547,
+          "maximumSwingSoleMetres": 0.024757762403995114,
+          "maximumStanceVertexDriftMetres": 5.611787283469007e-07,
+          "maximumBodyOffsetMetres": 0.014818445091029992,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.4907415551175802,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998574072103708,
+          "maximumSwingSoleMetres": 0.0252867888433314,
+          "maximumStanceVertexDriftMetres": 7.132512471116369e-07,
+          "maximumBodyOffsetMetres": 0.023585229351216833,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.959981053975852,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999832487549546,
+          "maximumSwingSoleMetres": 0.026012376296219445,
+          "maximumStanceVertexDriftMetres": 5.084394994084419e-07,
+          "maximumBodyOffsetMetres": 0.028804185594896926,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.952056457536557,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998435535422527,
+          "maximumSwingSoleMetres": 0.025223080544512645,
+          "maximumStanceVertexDriftMetres": 1.6971790159242093e-06,
+          "maximumBodyOffsetMetres": 0.028031029379560066,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.8940017057069767,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000235969284243,
+          "maximumSwingSoleMetres": 0.02704529551193972,
+          "maximumStanceVertexDriftMetres": 3.828325835680373e-07,
+          "maximumBodyOffsetMetres": 0.028031018026342055,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.547854830114488,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999088980648433,
+          "maximumSwingSoleMetres": 0.02611989634242354,
+          "maximumStanceVertexDriftMetres": 1.5542897918586108e-06,
+          "maximumBodyOffsetMetres": 0.02623321117465093,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.266535060722752,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999827632603523,
+          "maximumSwingSoleMetres": 0.025576808924430712,
+          "maximumStanceVertexDriftMetres": 6.035297068998964e-07,
+          "maximumBodyOffsetMetres": 0.03275795697498972,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.94011456076217,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998702567855897,
+          "maximumSwingSoleMetres": 0.025138958257268917,
+          "maximumStanceVertexDriftMetres": 1.9991071219455195e-06,
+          "maximumBodyOffsetMetres": 0.03407626888284373,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.8454286238358861,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030003020954702795,
+          "maximumSwingSoleMetres": 0.027133061794375104,
+          "maximumStanceVertexDriftMetres": 4.867864283462102e-07,
+          "maximumBodyOffsetMetres": 0.03407627294332992,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.801221300029827,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000034061900547,
+          "maximumSwingSoleMetres": 0.0256405598980955,
+          "maximumStanceVertexDriftMetres": 1.287804663821114e-06,
+          "maximumBodyOffsetMetres": 0.01370244670908402,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.67243655948658,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999826974941032,
+          "maximumSwingSoleMetres": 0.025876294486496604,
+          "maximumStanceVertexDriftMetres": 6.636292671228888e-07,
+          "maximumBodyOffsetMetres": 0.015309723254846688,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.113179456101662,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999582191123941,
+          "maximumSwingSoleMetres": 0.02603505469129328,
+          "maximumStanceVertexDriftMetres": 2.0084717576655035e-06,
+          "maximumBodyOffsetMetres": 0.01879776996285464,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.3964444390638917,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000082012688146,
+          "maximumSwingSoleMetres": 0.026891549305889852,
+          "maximumStanceVertexDriftMetres": 3.909984057207266e-07,
+          "maximumBodyOffsetMetres": 0.0187977200935118,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.838515135581773,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999256576337,
+          "maximumSwingSoleMetres": 0.026125480553152263,
+          "maximumStanceVertexDriftMetres": 1.7011355259547854e-06,
+          "maximumBodyOffsetMetres": 0.025484779960475663,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.320681845227057,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999792052056441,
+          "maximumSwingSoleMetres": 0.025220868868098816,
+          "maximumStanceVertexDriftMetres": 6.64556220425336e-07,
+          "maximumBodyOffsetMetres": 0.02548479054773944,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.38754922020703475,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999376358610759,
+          "maximumSwingSoleMetres": 0.025672019800236433,
+          "maximumStanceVertexDriftMetres": 1.0620773769263132e-06,
+          "maximumBodyOffsetMetres": 0.023942868138298417,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.396506656085762,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000823160826313,
+          "maximumSwingSoleMetres": 0.02571015741086052,
+          "maximumStanceVertexDriftMetres": 4.812577911933119e-07,
+          "maximumBodyOffsetMetres": 0.015747493328671817,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.3133582262032846,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999873430299048,
+          "maximumSwingSoleMetres": 0.026122996108569017,
+          "maximumStanceVertexDriftMetres": 1.2574639192467374e-06,
+          "maximumBodyOffsetMetres": 0.010169271276572496,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.39568894186171,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000181145751164,
+          "maximumSwingSoleMetres": 0.026289979879509335,
+          "maximumStanceVertexDriftMetres": 6.22695353741207e-07,
+          "maximumBodyOffsetMetres": 0.004130124960598682,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "4": {
+      "minimumSwingSoleMetres": 0.0004993556010067184,
+      "maximumSwingSoleMetres": 0.027189096129010493,
+      "maximumStanceVertexDriftMetres": 2.017075521073202e-06,
+      "maximumBodyOffsetMetres": 0.03674026346735765,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -5.805739628574349,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02531175070953093,
+          "maximumStanceVertexDriftMetres": 8.217675462028861e-07,
+          "maximumBodyOffsetMetres": 0.0010917173218864221,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.18974229529319,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004993556010067184,
+          "maximumSwingSoleMetres": 0.024189237443156257,
+          "maximumStanceVertexDriftMetres": 7.757802414354485e-07,
+          "maximumBodyOffsetMetres": 0.02151127609296483,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.60326819146227,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996429153733265,
+          "maximumSwingSoleMetres": 0.024922032094152405,
+          "maximumStanceVertexDriftMetres": 1.2435939150190827e-06,
+          "maximumBodyOffsetMetres": 0.021511297319428732,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.96741276358329,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029991911290320767,
+          "maximumSwingSoleMetres": 0.02577709392692244,
+          "maximumStanceVertexDriftMetres": 7.447504296618186e-07,
+          "maximumBodyOffsetMetres": 0.028265388318806293,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.85957753496998,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299982416180851,
+          "maximumSwingSoleMetres": 0.025585351909275217,
+          "maximumStanceVertexDriftMetres": 1.6934161317651256e-06,
+          "maximumBodyOffsetMetres": 0.032336927136132516,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.873123538380966,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029996577825669624,
+          "maximumSwingSoleMetres": 0.02533745777560566,
+          "maximumStanceVertexDriftMetres": 3.30048681291444e-07,
+          "maximumBodyOffsetMetres": 0.03674026346735765,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.99148278864589,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998639346431838,
+          "maximumSwingSoleMetres": 0.02526756738974456,
+          "maximumStanceVertexDriftMetres": 2.017075521073202e-06,
+          "maximumBodyOffsetMetres": 0.0361302932518561,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.1953299824535684,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030002433918654586,
+          "maximumSwingSoleMetres": 0.027189096129010493,
+          "maximumStanceVertexDriftMetres": 5.855119456273917e-07,
+          "maximumBodyOffsetMetres": 0.03613024909122544,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.16936974413333,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998125338671876,
+          "maximumSwingSoleMetres": 0.026033553646934177,
+          "maximumStanceVertexDriftMetres": 1.3536548120500258e-06,
+          "maximumBodyOffsetMetres": 0.024779102157789817,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.179062430910069,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999480126007468,
+          "maximumSwingSoleMetres": 0.025569007245981382,
+          "maximumStanceVertexDriftMetres": 3.337570802991637e-07,
+          "maximumBodyOffsetMetres": 0.031805204143200934,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.462322859508717,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997647435879393,
+          "maximumSwingSoleMetres": 0.025930362879249557,
+          "maximumStanceVertexDriftMetres": 8.50359664934467e-07,
+          "maximumBodyOffsetMetres": 0.028676929362673468,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.0351403311617382,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029993083388904136,
+          "maximumSwingSoleMetres": 0.025568948085894907,
+          "maximumStanceVertexDriftMetres": 3.4418930233831287e-07,
+          "maximumBodyOffsetMetres": 0.024688378351783134,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.537236103680248,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996569674474965,
+          "maximumSwingSoleMetres": 0.02608926278392757,
+          "maximumStanceVertexDriftMetres": 9.092735622273443e-07,
+          "maximumBodyOffsetMetres": 0.00797608043366446,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.098602458199164,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999605143307192,
+          "maximumSwingSoleMetres": 0.025403379618947335,
+          "maximumStanceVertexDriftMetres": 6.461050935665408e-07,
+          "maximumBodyOffsetMetres": 0.021755307337499336,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.617991764364646,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999248069463525,
+          "maximumSwingSoleMetres": 0.024883186930560575,
+          "maximumStanceVertexDriftMetres": 1.1779710931572155e-06,
+          "maximumBodyOffsetMetres": 0.02645025412349694,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.69867507561068,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999420959600981,
+          "maximumSwingSoleMetres": 0.025520050982686157,
+          "maximumStanceVertexDriftMetres": 8.294953721974282e-07,
+          "maximumBodyOffsetMetres": 0.03347284378982419,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.49912661597515,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999943461841423,
+          "maximumSwingSoleMetres": 0.024860264916367458,
+          "maximumStanceVertexDriftMetres": 1.502310775305011e-06,
+          "maximumBodyOffsetMetres": 0.025865735177676052,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.597109274921054,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000627266222614,
+          "maximumSwingSoleMetres": 0.02639562872046959,
+          "maximumStanceVertexDriftMetres": 7.170797748351673e-07,
+          "maximumBodyOffsetMetres": 0.02320352546407983,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.320942200899552,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999937490384709,
+          "maximumSwingSoleMetres": 0.02607586464432252,
+          "maximumStanceVertexDriftMetres": 1.3610063366129093e-06,
+          "maximumBodyOffsetMetres": 0.007222815194362339,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.686595539107602,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998688989128714,
+          "maximumSwingSoleMetres": 0.025929209718717525,
+          "maximumStanceVertexDriftMetres": 5.503453737574814e-07,
+          "maximumBodyOffsetMetres": 0.005576437223917696,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "5": {
+      "minimumSwingSoleMetres": 0.000499980921002094,
+      "maximumSwingSoleMetres": 0.027155691145952433,
+      "maximumStanceVertexDriftMetres": 2.1256915576676373e-06,
+      "maximumBodyOffsetMetres": 0.028754922643522675,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": 3.6181328472568417,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.025099998542695876,
+          "maximumStanceVertexDriftMetres": 1.3073425938513162e-06,
+          "maximumBodyOffsetMetres": 0.004811792804300598,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.815953893852452,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.000499980921002094,
+          "maximumSwingSoleMetres": 0.02565224784264916,
+          "maximumStanceVertexDriftMetres": 8.39786063404937e-07,
+          "maximumBodyOffsetMetres": 0.013996935116067543,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.565906269062424,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998701686973404,
+          "maximumSwingSoleMetres": 0.02502490693944762,
+          "maximumStanceVertexDriftMetres": 7.372196087996925e-07,
+          "maximumBodyOffsetMetres": 0.013996880066269979,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.3575329158789451,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999860039133497,
+          "maximumSwingSoleMetres": 0.025960238316774464,
+          "maximumStanceVertexDriftMetres": 4.4112241694300776e-07,
+          "maximumBodyOffsetMetres": 0.008379699904095273,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.6046173402353148,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999870681794484,
+          "maximumSwingSoleMetres": 0.025962365346797894,
+          "maximumStanceVertexDriftMetres": 8.756108342824573e-07,
+          "maximumBodyOffsetMetres": 0.01641295895742755,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.7436448372692226,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998629294798783,
+          "maximumSwingSoleMetres": 0.02584777112130231,
+          "maximumStanceVertexDriftMetres": 3.2517840299513367e-07,
+          "maximumBodyOffsetMetres": 0.026328657205470455,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.259279926689235,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999879340704531,
+          "maximumSwingSoleMetres": 0.025592206487268985,
+          "maximumStanceVertexDriftMetres": 1.1946998466199875e-06,
+          "maximumBodyOffsetMetres": 0.020827872982237164,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.05214616257176,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030004014598581452,
+          "maximumSwingSoleMetres": 0.02695837396170841,
+          "maximumStanceVertexDriftMetres": 6.894072297350814e-07,
+          "maximumBodyOffsetMetres": 0.013964133953459221,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.956486524153663,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997513310390782,
+          "maximumSwingSoleMetres": 0.02530350377760506,
+          "maximumStanceVertexDriftMetres": 1.213856642138945e-06,
+          "maximumBodyOffsetMetres": 0.022975558915099614,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.653495102752114,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000937886548364,
+          "maximumSwingSoleMetres": 0.025922760521237983,
+          "maximumStanceVertexDriftMetres": 6.664871071563915e-07,
+          "maximumBodyOffsetMetres": 0.028754922643522675,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.280816432219119,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998731556514745,
+          "maximumSwingSoleMetres": 0.025259935581235394,
+          "maximumStanceVertexDriftMetres": 1.34847106781995e-06,
+          "maximumBodyOffsetMetres": 0.02230945203250572,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.8075203883645976,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000407999327093,
+          "maximumSwingSoleMetres": 0.026307568115041133,
+          "maximumStanceVertexDriftMetres": 7.685047566229035e-07,
+          "maximumBodyOffsetMetres": 0.010070921615573299,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.57845134420235,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997487552628167,
+          "maximumSwingSoleMetres": 0.025948444570278468,
+          "maximumStanceVertexDriftMetres": 1.8540282885494987e-06,
+          "maximumBodyOffsetMetres": 0.011199742531618777,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.51260647018926,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029996671304292908,
+          "maximumSwingSoleMetres": 0.02498732949581865,
+          "maximumStanceVertexDriftMetres": 6.300986696489986e-07,
+          "maximumBodyOffsetMetres": 0.023611358691369645,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.752520216621804,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997727651114893,
+          "maximumSwingSoleMetres": 0.02619112125586191,
+          "maximumStanceVertexDriftMetres": 2.1256915576676373e-06,
+          "maximumBodyOffsetMetres": 0.019531130782155955,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.276283173251315,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030003704573322004,
+          "maximumSwingSoleMetres": 0.027155691145952433,
+          "maximumStanceVertexDriftMetres": 6.374783145621565e-07,
+          "maximumBodyOffsetMetres": 0.01953110634098105,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.344851494351328,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999878295264127,
+          "maximumSwingSoleMetres": 0.025136407465736598,
+          "maximumStanceVertexDriftMetres": 1.4313871500935702e-06,
+          "maximumBodyOffsetMetres": 0.019771203435267167,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.071431304065676,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000258525655812,
+          "maximumSwingSoleMetres": 0.02705017815298611,
+          "maximumStanceVertexDriftMetres": 9.288097934642087e-07,
+          "maximumBodyOffsetMetres": 0.019771140388826203,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.662001028006323,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998719943102013,
+          "maximumSwingSoleMetres": 0.025161888450947564,
+          "maximumStanceVertexDriftMetres": 1.6561924633261824e-06,
+          "maximumBodyOffsetMetres": 0.0182616356350421,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.719305026266483,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030003911941262466,
+          "maximumSwingSoleMetres": 0.027132490207333028,
+          "maximumStanceVertexDriftMetres": 7.538219289622436e-07,
+          "maximumBodyOffsetMetres": 0.019024176740926057,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "6": {
+      "minimumSwingSoleMetres": 0.0004992249456689336,
+      "maximumSwingSoleMetres": 0.026940652969579006,
+      "maximumStanceVertexDriftMetres": 1.8498642890616138e-06,
+      "maximumBodyOffsetMetres": 0.028209995684238882,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -5.628804204064517,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02530783910062596,
+          "maximumStanceVertexDriftMetres": 8.217675462028861e-07,
+          "maximumBodyOffsetMetres": 0.0010917173218864221,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -15.632397786760194,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004992249456689336,
+          "maximumSwingSoleMetres": 0.0242402324095891,
+          "maximumStanceVertexDriftMetres": 7.492381440338719e-07,
+          "maximumBodyOffsetMetres": 0.016869736484526162,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.426120177994342,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029993249761476283,
+          "maximumSwingSoleMetres": 0.024910220430271007,
+          "maximumStanceVertexDriftMetres": 1.2734000830797682e-06,
+          "maximumBodyOffsetMetres": 0.022331337430583745,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.8731068030263245,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029993580270902096,
+          "maximumSwingSoleMetres": 0.025250719608176802,
+          "maximumStanceVertexDriftMetres": 4.112777534084927e-07,
+          "maximumBodyOffsetMetres": 0.022331327971914304,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.146640519665347,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999010810921995,
+          "maximumSwingSoleMetres": 0.02579573923666436,
+          "maximumStanceVertexDriftMetres": 1.5306708256558942e-06,
+          "maximumBodyOffsetMetres": 0.009483771263467906,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.20182027639854994,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999981155334216,
+          "maximumSwingSoleMetres": 0.026421070693537902,
+          "maximumStanceVertexDriftMetres": 4.4038194197008834e-07,
+          "maximumBodyOffsetMetres": 0.009483793604056944,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.688800021981745,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999170439491112,
+          "maximumSwingSoleMetres": 0.02601752677541884,
+          "maximumStanceVertexDriftMetres": 8.122115566347802e-07,
+          "maximumBodyOffsetMetres": 0.018403372961216295,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.897172628337064,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029994564192335513,
+          "maximumSwingSoleMetres": 0.025470734396591505,
+          "maximumStanceVertexDriftMetres": 6.107405199475145e-07,
+          "maximumBodyOffsetMetres": 0.022538747592444952,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.70685073896777,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997725753503858,
+          "maximumSwingSoleMetres": 0.026071408009955468,
+          "maximumStanceVertexDriftMetres": 1.8498642890616138e-06,
+          "maximumBodyOffsetMetres": 0.01738063100215622,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.858643868390061,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999019238182412,
+          "maximumSwingSoleMetres": 0.026211252013515443,
+          "maximumStanceVertexDriftMetres": 4.960581950673132e-07,
+          "maximumBodyOffsetMetres": 0.006025707011611415,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.5520771349569316,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000088916501364,
+          "maximumSwingSoleMetres": 0.026071089377626956,
+          "maximumStanceVertexDriftMetres": 1.2821734242123195e-06,
+          "maximumBodyOffsetMetres": 0.001726717443353863,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.74199073526964,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000098302204143,
+          "maximumSwingSoleMetres": 0.026845353557601266,
+          "maximumStanceVertexDriftMetres": 7.121154169933833e-07,
+          "maximumBodyOffsetMetres": 0.011742608841348926,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.728039803663002,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999993069140994,
+          "maximumSwingSoleMetres": 0.024691326838582755,
+          "maximumStanceVertexDriftMetres": 1.5337172295235478e-06,
+          "maximumBodyOffsetMetres": 0.028209995684238882,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.954712216008517,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000070124083106,
+          "maximumSwingSoleMetres": 0.026831840468679074,
+          "maximumStanceVertexDriftMetres": 7.322349740868887e-07,
+          "maximumBodyOffsetMetres": 0.025999084375972748,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.551054521276122,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999779506791813,
+          "maximumSwingSoleMetres": 0.025875317212424517,
+          "maximumStanceVertexDriftMetres": 1.7253681570422598e-06,
+          "maximumBodyOffsetMetres": 0.011054439224906173,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.034739039894102,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299999575698694,
+          "maximumSwingSoleMetres": 0.026352280038691212,
+          "maximumStanceVertexDriftMetres": 5.248412761035365e-07,
+          "maximumBodyOffsetMetres": 0.005944657802138803,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.574859255358703,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999729881822434,
+          "maximumSwingSoleMetres": 0.02589923418894126,
+          "maximumStanceVertexDriftMetres": 1.8347380858692275e-06,
+          "maximumBodyOffsetMetres": 0.012673267456965159,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.472198543479923,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000501158449428,
+          "maximumSwingSoleMetres": 0.02629044777309069,
+          "maximumStanceVertexDriftMetres": 5.331160183982718e-07,
+          "maximumBodyOffsetMetres": 0.007261071923822701,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 5.089632873695614,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995780026681423,
+          "maximumSwingSoleMetres": 0.02619064329801893,
+          "maximumStanceVertexDriftMetres": 1.2933208674574073e-06,
+          "maximumBodyOffsetMetres": 0.004903393188499541,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.907526335410225,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030002716751518356,
+          "maximumSwingSoleMetres": 0.026940652969579006,
+          "maximumStanceVertexDriftMetres": 7.585451242737306e-07,
+          "maximumBodyOffsetMetres": 0.012663303575623664,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "7": {
+      "minimumSwingSoleMetres": 0.0005005036985615513,
+      "maximumSwingSoleMetres": 0.02689066497123454,
+      "maximumStanceVertexDriftMetres": 2.010751724913342e-06,
+      "maximumBodyOffsetMetres": 0.030754207912078543,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": 18.801204069377924,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.024751895625279,
+          "maximumStanceVertexDriftMetres": 2.010751724913342e-06,
+          "maximumBodyOffsetMetres": 0.02639058541331122,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.971885001722246,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0005005036985615513,
+          "maximumSwingSoleMetres": 0.02562466067706853,
+          "maximumStanceVertexDriftMetres": 7.548922953729925e-07,
+          "maximumBodyOffsetMetres": 0.021139241438076797,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.821585100515819,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998897529011884,
+          "maximumSwingSoleMetres": 0.025755399111473606,
+          "maximumStanceVertexDriftMetres": 7.993747692952158e-07,
+          "maximumBodyOffsetMetres": 0.010262714573530961,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 5.3679200575612285,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998149635128133,
+          "maximumSwingSoleMetres": 0.025835361827319766,
+          "maximumStanceVertexDriftMetres": 4.1328551853237107e-07,
+          "maximumBodyOffsetMetres": 0.01850304415908334,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.712253041084725,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999768564536078,
+          "maximumSwingSoleMetres": 0.025974997059196196,
+          "maximumStanceVertexDriftMetres": 1.452686122621642e-06,
+          "maximumBodyOffsetMetres": 0.027567855443372133,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.813276806958715,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999253628612086,
+          "maximumSwingSoleMetres": 0.02519969013200854,
+          "maximumStanceVertexDriftMetres": 5.234280473061597e-07,
+          "maximumBodyOffsetMetres": 0.027567848542088606,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.333217393818693,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995102881813143,
+          "maximumSwingSoleMetres": 0.026023611318563882,
+          "maximumStanceVertexDriftMetres": 1.68108534819053e-06,
+          "maximumBodyOffsetMetres": 0.017886844133721266,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.489346066587117,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030004067231050235,
+          "maximumSwingSoleMetres": 0.02689066497123454,
+          "maximumStanceVertexDriftMetres": 6.480787623570705e-07,
+          "maximumBodyOffsetMetres": 0.009141928164609837,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.7385327637291326,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000112589995179,
+          "maximumSwingSoleMetres": 0.025260356853648993,
+          "maximumStanceVertexDriftMetres": 8.239923842523554e-07,
+          "maximumBodyOffsetMetres": 0.009141896735068055,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.049891605400145,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999701073689464,
+          "maximumSwingSoleMetres": 0.025749718176251827,
+          "maximumStanceVertexDriftMetres": 6.593464074676053e-07,
+          "maximumBodyOffsetMetres": 0.0130372113477101,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.964587914228225,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299992709638678,
+          "maximumSwingSoleMetres": 0.026114515865804825,
+          "maximumStanceVertexDriftMetres": 1.941080384185581e-06,
+          "maximumBodyOffsetMetres": 0.020685116048265204,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.469937717762512,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999981181849376,
+          "maximumSwingSoleMetres": 0.026528677261728008,
+          "maximumStanceVertexDriftMetres": 6.78144464206799e-07,
+          "maximumBodyOffsetMetres": 0.016502277847489956,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.0723442523967037,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995375099181156,
+          "maximumSwingSoleMetres": 0.02609624248257634,
+          "maximumStanceVertexDriftMetres": 1.0389010308903833e-06,
+          "maximumBodyOffsetMetres": 0.005471718341052396,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.421140818935065,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000414906704827,
+          "maximumSwingSoleMetres": 0.026399599307298186,
+          "maximumStanceVertexDriftMetres": 7.359936556522966e-07,
+          "maximumBodyOffsetMetres": 0.021261654089242493,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.67298737627725,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999816126103947,
+          "maximumSwingSoleMetres": 0.025537805098964996,
+          "maximumStanceVertexDriftMetres": 1.6434460502108743e-06,
+          "maximumBodyOffsetMetres": 0.030754207912078543,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.547060690501702,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029995293184113445,
+          "maximumSwingSoleMetres": 0.025087040829556595,
+          "maximumStanceVertexDriftMetres": 6.051846241487634e-07,
+          "maximumBodyOffsetMetres": 0.030754207912078543,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.304483573100391,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995611417201378,
+          "maximumSwingSoleMetres": 0.02615559331830372,
+          "maximumStanceVertexDriftMetres": 1.7445995385999295e-06,
+          "maximumBodyOffsetMetres": 0.01556760084541756,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.972291372570332,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999883035069115,
+          "maximumSwingSoleMetres": 0.026257420968092096,
+          "maximumStanceVertexDriftMetres": 4.924490753313188e-07,
+          "maximumBodyOffsetMetres": 0.0057933468338513365,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -7.082201277154688,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996243631724086,
+          "maximumSwingSoleMetres": 0.02619727241904663,
+          "maximumStanceVertexDriftMetres": 8.212442403711506e-07,
+          "maximumBodyOffsetMetres": 0.0007541906392885232,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.586826644612746,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029996416264440797,
+          "maximumSwingSoleMetres": 0.025499288948189258,
+          "maximumStanceVertexDriftMetres": 6.626508863258438e-07,
+          "maximumBodyOffsetMetres": 0.007666718230108735,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "8": {
+      "minimumSwingSoleMetres": 0.0004989128495232168,
+      "maximumSwingSoleMetres": 0.02716166583197504,
+      "maximumStanceVertexDriftMetres": 1.9010555026038907e-06,
+      "maximumBodyOffsetMetres": 0.03547174136178414,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -18.120520938976913,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02534971413504304,
+          "maximumStanceVertexDriftMetres": 1.5135263526280255e-06,
+          "maximumBodyOffsetMetres": 0.009361397199074655,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.9459972352127366,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004989128495232168,
+          "maximumSwingSoleMetres": 0.024022493257882714,
+          "maximumStanceVertexDriftMetres": 5.009724141989269e-07,
+          "maximumBodyOffsetMetres": 0.009361394450823122,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.311327532225619,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999625291531862,
+          "maximumSwingSoleMetres": 0.02572345493600997,
+          "maximumStanceVertexDriftMetres": 1.9010555026038907e-06,
+          "maximumBodyOffsetMetres": 0.021854248838055826,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.553256993524975,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001995018252604,
+          "maximumSwingSoleMetres": 0.02716166583197504,
+          "maximumStanceVertexDriftMetres": 4.457166167105014e-07,
+          "maximumBodyOffsetMetres": 0.021854208975439583,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.8326948022547285,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000268886217333,
+          "maximumSwingSoleMetres": 0.02532186083502969,
+          "maximumStanceVertexDriftMetres": 8.710049415919082e-07,
+          "maximumBodyOffsetMetres": 0.01704891755914743,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.93896350939853,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998144685963084,
+          "maximumSwingSoleMetres": 0.02590862653914797,
+          "maximumStanceVertexDriftMetres": 5.351147676208167e-07,
+          "maximumBodyOffsetMetres": 0.007342542475306799,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.300541300811595,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999824742284784,
+          "maximumSwingSoleMetres": 0.025391577533868996,
+          "maximumStanceVertexDriftMetres": 1.481106588292062e-06,
+          "maximumBodyOffsetMetres": 0.01127274883127374,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.5910686367188305,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029994598679633205,
+          "maximumSwingSoleMetres": 0.025367865964570566,
+          "maximumStanceVertexDriftMetres": 5.569466325853802e-07,
+          "maximumBodyOffsetMetres": 0.023132592834394547,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.08874248793854,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999533286847605,
+          "maximumSwingSoleMetres": 0.025991026744111266,
+          "maximumStanceVertexDriftMetres": 1.1877501739019724e-06,
+          "maximumBodyOffsetMetres": 0.028090757000290272,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.643919922385615,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029992965085235152,
+          "maximumSwingSoleMetres": 0.025342322047137655,
+          "maximumStanceVertexDriftMetres": 6.635446292928083e-07,
+          "maximumBodyOffsetMetres": 0.024645211392054816,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.24350523326256,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999507717270837,
+          "maximumSwingSoleMetres": 0.025482167585841955,
+          "maximumStanceVertexDriftMetres": 1.0451790853099912e-06,
+          "maximumBodyOffsetMetres": 0.02414661174253191,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.153130089088833,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999284353151226,
+          "maximumSwingSoleMetres": 0.026011487329367016,
+          "maximumStanceVertexDriftMetres": 6.469419996155191e-07,
+          "maximumBodyOffsetMetres": 0.02340698773621991,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.097305960269416,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997987255032405,
+          "maximumSwingSoleMetres": 0.025368520450448812,
+          "maximumStanceVertexDriftMetres": 8.667355340159887e-07,
+          "maximumBodyOffsetMetres": 0.029064811503802575,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.5697929818227,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299943031297371,
+          "maximumSwingSoleMetres": 0.02547745117805636,
+          "maximumStanceVertexDriftMetres": 6.879366358241442e-07,
+          "maximumBodyOffsetMetres": 0.027440760501314623,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.621605682254355,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029993528588044094,
+          "maximumSwingSoleMetres": 0.025478726695231185,
+          "maximumStanceVertexDriftMetres": 1.1743492065860093e-06,
+          "maximumBodyOffsetMetres": 0.02744076100555074,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.967891105869903,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999365666223507,
+          "maximumSwingSoleMetres": 0.0265459062814346,
+          "maximumStanceVertexDriftMetres": 8.268835346868721e-07,
+          "maximumBodyOffsetMetres": 0.028691132970559495,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.353414337243976,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999895858282746,
+          "maximumSwingSoleMetres": 0.02481124763223252,
+          "maximumStanceVertexDriftMetres": 8.867136847367272e-07,
+          "maximumBodyOffsetMetres": 0.02869111548858247,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.054664926902653,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000472089339526,
+          "maximumSwingSoleMetres": 0.02656053035562319,
+          "maximumStanceVertexDriftMetres": 3.838047814181548e-07,
+          "maximumBodyOffsetMetres": 0.016080285279865082,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.898716623166287,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996069999345424,
+          "maximumSwingSoleMetres": 0.02616679015966479,
+          "maximumStanceVertexDriftMetres": 1.6297288085966171e-06,
+          "maximumBodyOffsetMetres": 0.030185293521143537,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.040826964182620884,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029992797603316675,
+          "maximumSwingSoleMetres": 0.02530244607713125,
+          "maximumStanceVertexDriftMetres": 5.232583083006338e-07,
+          "maximumBodyOffsetMetres": 0.03547174136178414,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "9": {
+      "minimumSwingSoleMetres": 0.0014969789350680494,
+      "maximumSwingSoleMetres": 0.027189643018931144,
+      "maximumStanceVertexDriftMetres": 2.8059936839992536e-06,
+      "maximumBodyOffsetMetres": 0.03602731858143717,
+      "unreachableSamples": 1,
+      "steps": [
+        {
+          "deltaDegrees": 5.53286453962507,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.02505664533382666,
+          "maximumStanceVertexDriftMetres": 1.2903845228455175e-06,
+          "maximumBodyOffsetMetres": 0.006685621214572386,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.902403498283702,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0014969789350680494,
+          "maximumSwingSoleMetres": 0.024732362605055045,
+          "maximumStanceVertexDriftMetres": 5.201118732551484e-07,
+          "maximumBodyOffsetMetres": 0.0038568487379845623,
+          "unreachableSamples": 1,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.47542819070679,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998896249408377,
+          "maximumSwingSoleMetres": 0.026025073362545628,
+          "maximumStanceVertexDriftMetres": 1.831899796408479e-06,
+          "maximumBodyOffsetMetres": 0.013367703689186336,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.785945065942364,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030002229835040094,
+          "maximumSwingSoleMetres": 0.027126668176788344,
+          "maximumStanceVertexDriftMetres": 1.051796436021174e-06,
+          "maximumBodyOffsetMetres": 0.01660720301874619,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.293096776794442,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999748445667698,
+          "maximumSwingSoleMetres": 0.024741902712368025,
+          "maximumStanceVertexDriftMetres": 1.811784033810859e-06,
+          "maximumBodyOffsetMetres": 0.03602731858143717,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.601729750019576,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000049239494392,
+          "maximumSwingSoleMetres": 0.027015752515776727,
+          "maximumStanceVertexDriftMetres": 8.346589939105817e-07,
+          "maximumBodyOffsetMetres": 0.035476725091436935,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.024008994644213,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999891962619051,
+          "maximumSwingSoleMetres": 0.02593575908975778,
+          "maximumStanceVertexDriftMetres": 1.7734918039825426e-06,
+          "maximumBodyOffsetMetres": 0.011999993316359245,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.123954898431041,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000683689754884,
+          "maximumSwingSoleMetres": 0.02642966143397966,
+          "maximumStanceVertexDriftMetres": 4.3658237156928114e-07,
+          "maximumBodyOffsetMetres": 0.0067374664191306366,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.540231306280887,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999575202375017,
+          "maximumSwingSoleMetres": 0.025746935531448155,
+          "maximumStanceVertexDriftMetres": 2.0317777293952423e-06,
+          "maximumBodyOffsetMetres": 0.021136267090914564,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.589216224595198,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030004399933472896,
+          "maximumSwingSoleMetres": 0.027189643018931144,
+          "maximumStanceVertexDriftMetres": 7.862578911085539e-07,
+          "maximumBodyOffsetMetres": 0.021136244669520167,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.805668690297637,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999907808782084,
+          "maximumSwingSoleMetres": 0.024996602808211532,
+          "maximumStanceVertexDriftMetres": 1.660493226555841e-06,
+          "maximumBodyOffsetMetres": 0.023296720687790085,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.620665369723106,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030003657621155344,
+          "maximumSwingSoleMetres": 0.02711681241056308,
+          "maximumStanceVertexDriftMetres": 6.032290442659925e-07,
+          "maximumBodyOffsetMetres": 0.023296706284981646,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.394242632457718,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000055499454358,
+          "maximumSwingSoleMetres": 0.025097765608614216,
+          "maximumStanceVertexDriftMetres": 1.2691288969064663e-06,
+          "maximumBodyOffsetMetres": 0.018601923867015743,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -7.541144969779703,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000009520813062,
+          "maximumSwingSoleMetres": 0.026276206596254525,
+          "maximumStanceVertexDriftMetres": 6.542301858681496e-07,
+          "maximumBodyOffsetMetres": 0.014776505344116203,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -7.762590826343935,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299980604016277,
+          "maximumSwingSoleMetres": 0.0259034102723911,
+          "maximumStanceVertexDriftMetres": 1.082161860728403e-06,
+          "maximumBodyOffsetMetres": 0.003800914476334408,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.849296982924297,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029989463278222517,
+          "maximumSwingSoleMetres": 0.025313072615401534,
+          "maximumStanceVertexDriftMetres": 7.470146370638015e-07,
+          "maximumBodyOffsetMetres": 0.025617596055378684,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.90327052178239,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999658952218274,
+          "maximumSwingSoleMetres": 0.026135599331891822,
+          "maximumStanceVertexDriftMetres": 2.8059936839992536e-06,
+          "maximumBodyOffsetMetres": 0.02836609138061625,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.114894737041134,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030005061326559414,
+          "maximumSwingSoleMetres": 0.027133170740629493,
+          "maximumStanceVertexDriftMetres": 6.361242853705968e-07,
+          "maximumBodyOffsetMetres": 0.02836609513048185,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.844798241269274,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299973935942184,
+          "maximumSwingSoleMetres": 0.02546637794918498,
+          "maximumStanceVertexDriftMetres": 1.919734576356043e-06,
+          "maximumBodyOffsetMetres": 0.03213600970537736,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.057952398354626,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029989727745094005,
+          "maximumSwingSoleMetres": 0.025196126842981923,
+          "maximumStanceVertexDriftMetres": 3.593289147285395e-07,
+          "maximumBodyOffsetMetres": 0.029897327442989945,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "10": {
+      "minimumSwingSoleMetres": 0.0004993597584457959,
+      "maximumSwingSoleMetres": 0.026471372598217534,
+      "maximumStanceVertexDriftMetres": 2.027309020824958e-06,
+      "maximumBodyOffsetMetres": 0.03875161880153457,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -9.014532073904205,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.025383243213271824,
+          "maximumStanceVertexDriftMetres": 9.229522412599063e-07,
+          "maximumBodyOffsetMetres": 0.0020567617468237624,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.78454494054531,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004993597584457959,
+          "maximumSwingSoleMetres": 0.02460553380676447,
+          "maximumStanceVertexDriftMetres": 5.200555229490652e-07,
+          "maximumBodyOffsetMetres": 0.014605997090505111,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.678681993603654,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996433807187566,
+          "maximumSwingSoleMetres": 0.02578630231974182,
+          "maximumStanceVertexDriftMetres": 1.7401641328293568e-06,
+          "maximumBodyOffsetMetres": 0.035458118025814285,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.931334598180598,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999420723850995,
+          "maximumSwingSoleMetres": 0.025607098164428504,
+          "maximumStanceVertexDriftMetres": 8.75220023799162e-07,
+          "maximumBodyOffsetMetres": 0.03875161880153457,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.261042991481993,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299992261945183,
+          "maximumSwingSoleMetres": 0.025271069545456475,
+          "maximumStanceVertexDriftMetres": 1.0238412793885717e-06,
+          "maximumBodyOffsetMetres": 0.030562269585968714,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.184328037422098,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029996667129148476,
+          "maximumSwingSoleMetres": 0.025497456772436727,
+          "maximumStanceVertexDriftMetres": 5.555190376157622e-07,
+          "maximumBodyOffsetMetres": 0.02142048717809796,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.677213349518045,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995219579241074,
+          "maximumSwingSoleMetres": 0.025190814189915388,
+          "maximumStanceVertexDriftMetres": 9.47181121841267e-07,
+          "maximumBodyOffsetMetres": 0.021420480234104693,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.728092344372715,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029993012718977927,
+          "maximumSwingSoleMetres": 0.02529095572989945,
+          "maximumStanceVertexDriftMetres": 3.9748525247159785e-07,
+          "maximumBodyOffsetMetres": 0.017357668873732135,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.37820111832215986,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029994674962115107,
+          "maximumSwingSoleMetres": 0.026104133782062718,
+          "maximumStanceVertexDriftMetres": 9.85073690718498e-07,
+          "maximumBodyOffsetMetres": 0.01511833946337797,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.540869818360193,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299969408478403,
+          "maximumSwingSoleMetres": 0.025742602676065787,
+          "maximumStanceVertexDriftMetres": 4.985180746586181e-07,
+          "maximumBodyOffsetMetres": 0.012363449744818861,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.67783123141308,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999812473284321,
+          "maximumSwingSoleMetres": 0.025915257120471144,
+          "maximumStanceVertexDriftMetres": 1.9685966994636642e-06,
+          "maximumBodyOffsetMetres": 0.023065812539666598,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.032217559803492,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001668437887076,
+          "maximumSwingSoleMetres": 0.026431254803538817,
+          "maximumStanceVertexDriftMetres": 8.021735918667789e-07,
+          "maximumBodyOffsetMetres": 0.019113126050415614,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.21300182131052,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999876654136894,
+          "maximumSwingSoleMetres": 0.02609438585792183,
+          "maximumStanceVertexDriftMetres": 2.027309020824958e-06,
+          "maximumBodyOffsetMetres": 0.028372053071323004,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.96917917531523,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999805000010343,
+          "maximumSwingSoleMetres": 0.026471372598217534,
+          "maximumStanceVertexDriftMetres": 8.314835524127494e-07,
+          "maximumBodyOffsetMetres": 0.025666816388089573,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.633030109218709,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999760301273815,
+          "maximumSwingSoleMetres": 0.02583702087550985,
+          "maximumStanceVertexDriftMetres": 1.968153111557161e-06,
+          "maximumBodyOffsetMetres": 0.013942512027346343,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.446253696072414,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999931703933578,
+          "maximumSwingSoleMetres": 0.02594043271176769,
+          "maximumStanceVertexDriftMetres": 7.379947607336356e-07,
+          "maximumBodyOffsetMetres": 0.018940303481521745,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.43277548161548,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999255748970859,
+          "maximumSwingSoleMetres": 0.02482666304245749,
+          "maximumStanceVertexDriftMetres": 1.4657888222777456e-06,
+          "maximumBodyOffsetMetres": 0.025750288321775998,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.1272513752190356,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999256638278441,
+          "maximumSwingSoleMetres": 0.02528712294618016,
+          "maximumStanceVertexDriftMetres": 6.28945785143317e-07,
+          "maximumBodyOffsetMetres": 0.032977971439791066,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.1168899584701606,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997769540930207,
+          "maximumSwingSoleMetres": 0.025831185645539247,
+          "maximumStanceVertexDriftMetres": 1.0363238988889778e-06,
+          "maximumBodyOffsetMetres": 0.02982702428530156,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.3858690851153526,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999246946450614,
+          "maximumSwingSoleMetres": 0.025841537245968393,
+          "maximumStanceVertexDriftMetres": 4.866643996959954e-07,
+          "maximumBodyOffsetMetres": 0.021863768242987507,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "11": {
+      "minimumSwingSoleMetres": 0.0010021337280308668,
+      "maximumSwingSoleMetres": 0.02706665177350972,
+      "maximumStanceVertexDriftMetres": 1.885254926439377e-06,
+      "maximumBodyOffsetMetres": 0.034703569481677916,
+      "unreachableSamples": 1,
+      "steps": [
+        {
+          "deltaDegrees": 6.9934162687411785,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.02502338227651812,
+          "maximumStanceVertexDriftMetres": 1.3018247418106413e-06,
+          "maximumBodyOffsetMetres": 0.008307582742873475,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.2365317874068609,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0010021337280308668,
+          "maximumSwingSoleMetres": 0.025064469528305683,
+          "maximumStanceVertexDriftMetres": 6.442684741635957e-07,
+          "maximumBodyOffsetMetres": 0.0031711325651127146,
+          "unreachableSamples": 1,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.7884884828349783,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999832636095185,
+          "maximumSwingSoleMetres": 0.026036765094634345,
+          "maximumStanceVertexDriftMetres": 9.449578125676157e-07,
+          "maximumBodyOffsetMetres": 0.0008583935324720369,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.595059839977182,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029994714171625602,
+          "maximumSwingSoleMetres": 0.026065212593212865,
+          "maximumStanceVertexDriftMetres": 7.981916057406374e-07,
+          "maximumBodyOffsetMetres": 0.012452980064202228,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.0783194464973178,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999651312930889,
+          "maximumSwingSoleMetres": 0.02527836178561043,
+          "maximumStanceVertexDriftMetres": 8.857991344972535e-07,
+          "maximumBodyOffsetMetres": 0.02186748245758416,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.96493490000563,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999885015390784,
+          "maximumSwingSoleMetres": 0.02642216425877408,
+          "maximumStanceVertexDriftMetres": 1.089359273797498e-06,
+          "maximumBodyOffsetMetres": 0.028358020204734814,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.557647073282846,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998968714326094,
+          "maximumSwingSoleMetres": 0.02530170168084535,
+          "maximumStanceVertexDriftMetres": 1.4791711911660487e-06,
+          "maximumBodyOffsetMetres": 0.032554991302480026,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.0278181403623776,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299994384977111,
+          "maximumSwingSoleMetres": 0.0256528249858448,
+          "maximumStanceVertexDriftMetres": 3.6496669576412806e-07,
+          "maximumBodyOffsetMetres": 0.029833181773423773,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.139705228884594,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299953471297422,
+          "maximumSwingSoleMetres": 0.026215157629955944,
+          "maximumStanceVertexDriftMetres": 1.771883007014475e-06,
+          "maximumBodyOffsetMetres": 0.034703569481677916,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.8495603724607008,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998923234368985,
+          "maximumSwingSoleMetres": 0.025260962810322377,
+          "maximumStanceVertexDriftMetres": 4.625156360894549e-07,
+          "maximumBodyOffsetMetres": 0.03470350170109512,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.652929060562187,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996974863764326,
+          "maximumSwingSoleMetres": 0.02562332775234006,
+          "maximumStanceVertexDriftMetres": 1.885254926439377e-06,
+          "maximumBodyOffsetMetres": 0.0222006215088623,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.8797348113250223,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001134170655874,
+          "maximumSwingSoleMetres": 0.02706665177350972,
+          "maximumStanceVertexDriftMetres": 5.358921978458231e-07,
+          "maximumBodyOffsetMetres": 0.02220061371818785,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.779175421941158,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996959247044134,
+          "maximumSwingSoleMetres": 0.026040149358378582,
+          "maximumStanceVertexDriftMetres": 1.5455240335131666e-06,
+          "maximumBodyOffsetMetres": 0.026859432727548968,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.698604346123254,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998516415617343,
+          "maximumSwingSoleMetres": 0.025559105487162437,
+          "maximumStanceVertexDriftMetres": 7.00677252732294e-07,
+          "maximumBodyOffsetMetres": 0.03313702953025638,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.116832117384767,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000241440568415,
+          "maximumSwingSoleMetres": 0.025301331334387344,
+          "maximumStanceVertexDriftMetres": 1.6788306980769035e-06,
+          "maximumBodyOffsetMetres": 0.022770086984206215,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.079304820894258,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000594039327412,
+          "maximumSwingSoleMetres": 0.026877566022052577,
+          "maximumStanceVertexDriftMetres": 4.5941083013543485e-07,
+          "maximumBodyOffsetMetres": 0.022770080603705375,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.476125108960527,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997987716800347,
+          "maximumSwingSoleMetres": 0.025658839176316905,
+          "maximumStanceVertexDriftMetres": 1.4056938015861273e-06,
+          "maximumBodyOffsetMetres": 0.014147294958594786,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.71885924658127,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00300012443086761,
+          "maximumSwingSoleMetres": 0.02589555831020575,
+          "maximumStanceVertexDriftMetres": 6.870322425389562e-07,
+          "maximumBodyOffsetMetres": 0.015471220975192851,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.638781442882383,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029992474082014206,
+          "maximumSwingSoleMetres": 0.0248803953430229,
+          "maximumStanceVertexDriftMetres": 1.671194030010352e-06,
+          "maximumBodyOffsetMetres": 0.02195971551767583,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.480847284138676,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999790796547578,
+          "maximumSwingSoleMetres": 0.025619281964291966,
+          "maximumStanceVertexDriftMetres": 1.0224344288395538e-06,
+          "maximumBodyOffsetMetres": 0.030529930794795167,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "12": {
+      "minimumSwingSoleMetres": 0.000498745274357602,
+      "maximumSwingSoleMetres": 0.027067319003288133,
+      "maximumStanceVertexDriftMetres": 1.670455401235312e-06,
+      "maximumBodyOffsetMetres": 0.030105012260349007,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -12.358052204165869,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02545683803641497,
+          "maximumStanceVertexDriftMetres": 1.1720538047774184e-06,
+          "maximumBodyOffsetMetres": 0.004054918465380863,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.373495227908471,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.000498745274357602,
+          "maximumSwingSoleMetres": 0.02406936291843592,
+          "maximumStanceVertexDriftMetres": 6.797030227195872e-07,
+          "maximumBodyOffsetMetres": 0.015471037409611808,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 5.5515030402200765,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997445653584262,
+          "maximumSwingSoleMetres": 0.026062512316115054,
+          "maximumStanceVertexDriftMetres": 1.5418520212249412e-06,
+          "maximumBodyOffsetMetres": 0.009347082485069113,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 5.509442293162419,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001771726730275,
+          "maximumSwingSoleMetres": 0.026434704100373015,
+          "maximumStanceVertexDriftMetres": 4.774385549877067e-07,
+          "maximumBodyOffsetMetres": 0.006808239134755156,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.970316022212867,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998496687850757,
+          "maximumSwingSoleMetres": 0.025951185309141724,
+          "maximumStanceVertexDriftMetres": 1.5395048272693557e-06,
+          "maximumBodyOffsetMetres": 0.021835449480707605,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.689778865373512,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029994297749450535,
+          "maximumSwingSoleMetres": 0.025480805678723774,
+          "maximumStanceVertexDriftMetres": 3.086004222063077e-07,
+          "maximumBodyOffsetMetres": 0.030105012260349007,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 9.902269151743951,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996803930724424,
+          "maximumSwingSoleMetres": 0.025643188133081928,
+          "maximumStanceVertexDriftMetres": 1.670455401235312e-06,
+          "maximumBodyOffsetMetres": 0.02248797847736281,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -2.7999467213725104,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000145253897494,
+          "maximumSwingSoleMetres": 0.02643667920049374,
+          "maximumStanceVertexDriftMetres": 4.3757647425833457e-07,
+          "maximumBodyOffsetMetres": 0.013787379875632284,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.730872650745141,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299983437178003,
+          "maximumSwingSoleMetres": 0.025935220982140926,
+          "maximumStanceVertexDriftMetres": 1.0638424975201218e-06,
+          "maximumBodyOffsetMetres": 0.00162274552296926,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.555298548053777,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00300010513558931,
+          "maximumSwingSoleMetres": 0.026807684799899326,
+          "maximumStanceVertexDriftMetres": 8.213114652632691e-07,
+          "maximumBodyOffsetMetres": 0.010273309383513767,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.465221738623011,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999861977688509,
+          "maximumSwingSoleMetres": 0.02496642719984055,
+          "maximumStanceVertexDriftMetres": 1.1901956792640618e-06,
+          "maximumBodyOffsetMetres": 0.012202037579770479,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.755998945857126,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999989668340228,
+          "maximumSwingSoleMetres": 0.026563555381320797,
+          "maximumStanceVertexDriftMetres": 7.442140384145553e-07,
+          "maximumBodyOffsetMetres": 0.012201990874702863,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.602689697131261,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999444557961834,
+          "maximumSwingSoleMetres": 0.025616584991983344,
+          "maximumStanceVertexDriftMetres": 7.720242415213304e-07,
+          "maximumBodyOffsetMetres": 0.01818089938788794,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.432944848826569,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000750263977313,
+          "maximumSwingSoleMetres": 0.026063625047043883,
+          "maximumStanceVertexDriftMetres": 5.050749512122945e-07,
+          "maximumBodyOffsetMetres": 0.0270134855733117,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.046715034296255,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999284441442078,
+          "maximumSwingSoleMetres": 0.025248417998673136,
+          "maximumStanceVertexDriftMetres": 1.5050705248366818e-06,
+          "maximumBodyOffsetMetres": 0.021496337317199923,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.544789709376914,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999657864225584,
+          "maximumSwingSoleMetres": 0.025998802053520273,
+          "maximumStanceVertexDriftMetres": 6.378628853354596e-07,
+          "maximumBodyOffsetMetres": 0.017560324744923413,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.339071450012085,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999320640708278,
+          "maximumSwingSoleMetres": 0.025006769519205396,
+          "maximumStanceVertexDriftMetres": 1.1025934643408035e-06,
+          "maximumBodyOffsetMetres": 0.017130406468636557,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.397264373133545,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999686620685553,
+          "maximumSwingSoleMetres": 0.02582398374860911,
+          "maximumStanceVertexDriftMetres": 6.773301222589067e-07,
+          "maximumBodyOffsetMetres": 0.02444920616113186,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.50702067865614,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999962124859133,
+          "maximumSwingSoleMetres": 0.02494163542169271,
+          "maximumStanceVertexDriftMetres": 1.551660520761925e-06,
+          "maximumBodyOffsetMetres": 0.0277506839022912,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.215385403538377,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030002281158820316,
+          "maximumSwingSoleMetres": 0.027067319003288133,
+          "maximumStanceVertexDriftMetres": 4.055483695777946e-07,
+          "maximumBodyOffsetMetres": 0.027750669692052247,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "13": {
+      "minimumSwingSoleMetres": 0.0004990199538492428,
+      "maximumSwingSoleMetres": 0.026928313331763192,
+      "maximumStanceVertexDriftMetres": 1.9185707809307334e-06,
+      "maximumBodyOffsetMetres": 0.03327558954563142,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -18.800825881396616,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.025323097481899468,
+          "maximumStanceVertexDriftMetres": 1.5573717175093782e-06,
+          "maximumBodyOffsetMetres": 0.01012866496773204,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.852908773845293,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004990199538492428,
+          "maximumSwingSoleMetres": 0.02415540798729236,
+          "maximumStanceVertexDriftMetres": 5.14580776868876e-07,
+          "maximumBodyOffsetMetres": 0.022877639385648522,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.895680178095517,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998927094612533,
+          "maximumSwingSoleMetres": 0.02591130410006424,
+          "maximumStanceVertexDriftMetres": 1.328936186508906e-06,
+          "maximumBodyOffsetMetres": 0.028131534498673217,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.472875326872519,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029992749170389015,
+          "maximumSwingSoleMetres": 0.02578927198140307,
+          "maximumStanceVertexDriftMetres": 6.252497533425144e-07,
+          "maximumBodyOffsetMetres": 0.03327558954563142,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.6558495830132038,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998299113014725,
+          "maximumSwingSoleMetres": 0.025333247136546444,
+          "maximumStanceVertexDriftMetres": 7.666434451397854e-07,
+          "maximumBodyOffsetMetres": 0.02278222652322872,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.864425102180974,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029997993066003853,
+          "maximumSwingSoleMetres": 0.025754076655451978,
+          "maximumStanceVertexDriftMetres": 6.103006568355086e-07,
+          "maximumBodyOffsetMetres": 0.004751004464147112,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.070659245529757,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999364531380435,
+          "maximumSwingSoleMetres": 0.02562519032193644,
+          "maximumStanceVertexDriftMetres": 9.036108590128456e-07,
+          "maximumBodyOffsetMetres": 0.00528410690083064,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.37502101381515,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029994872560631628,
+          "maximumSwingSoleMetres": 0.025472298517945507,
+          "maximumStanceVertexDriftMetres": 4.643583724812446e-07,
+          "maximumBodyOffsetMetres": 0.0069524721393813965,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.7355125716448896,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999843198316014,
+          "maximumSwingSoleMetres": 0.02611300845215057,
+          "maximumStanceVertexDriftMetres": 1.1232635906941337e-06,
+          "maximumBodyOffsetMetres": 0.0029888149189289935,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.505996270698905,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998311651794093,
+          "maximumSwingSoleMetres": 0.025623711962648062,
+          "maximumStanceVertexDriftMetres": 6.164082004472742e-07,
+          "maximumBodyOffsetMetres": 0.011976421517254053,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.511981008371883,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998426148292808,
+          "maximumSwingSoleMetres": 0.026181460229319095,
+          "maximumStanceVertexDriftMetres": 1.9185707809307334e-06,
+          "maximumBodyOffsetMetres": 0.030635470856148282,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -15.325899206822529,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000021158056725,
+          "maximumSwingSoleMetres": 0.026610413534459445,
+          "maximumStanceVertexDriftMetres": 8.742603650306489e-07,
+          "maximumBodyOffsetMetres": 0.028586169828562994,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.3893310569007866,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999413209849141,
+          "maximumSwingSoleMetres": 0.025462429904027178,
+          "maximumStanceVertexDriftMetres": 8.930366901480313e-07,
+          "maximumBodyOffsetMetres": 0.012464517123668433,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.812204205420088,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029996669714772,
+          "maximumSwingSoleMetres": 0.02614602580829548,
+          "maximumStanceVertexDriftMetres": 7.129791005777906e-07,
+          "maximumBodyOffsetMetres": 0.022529776883756413,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.69838195562881,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999946331211288,
+          "maximumSwingSoleMetres": 0.024778892411199998,
+          "maximumStanceVertexDriftMetres": 1.722379257369154e-06,
+          "maximumBodyOffsetMetres": 0.03261154114651618,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.598050418936822,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000964216490727,
+          "maximumSwingSoleMetres": 0.026928313331763192,
+          "maximumStanceVertexDriftMetres": 7.371310079644657e-07,
+          "maximumBodyOffsetMetres": 0.03137248637734147,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.4229187666839529,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999861460510859,
+          "maximumSwingSoleMetres": 0.026190374821837895,
+          "maximumStanceVertexDriftMetres": 1.13488969527457e-06,
+          "maximumBodyOffsetMetres": 0.0031582995125458858,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.035915829571096,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299981652245398,
+          "maximumSwingSoleMetres": 0.026143293034094274,
+          "maximumStanceVertexDriftMetres": 6.917437701335953e-07,
+          "maximumBodyOffsetMetres": 0.014018777680740316,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.4977072336529318,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998608679803283,
+          "maximumSwingSoleMetres": 0.02544576248763969,
+          "maximumStanceVertexDriftMetres": 7.328000833712552e-07,
+          "maximumBodyOffsetMetres": 0.014018736103035685,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.64420288416592,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029996564011415517,
+          "maximumSwingSoleMetres": 0.025613432763323094,
+          "maximumStanceVertexDriftMetres": 7.450285877803646e-07,
+          "maximumBodyOffsetMetres": 0.01520184566144529,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "14": {
+      "minimumSwingSoleMetres": 0.0004993763692014131,
+      "maximumSwingSoleMetres": 0.027156210603764597,
+      "maximumStanceVertexDriftMetres": 1.7222551648606016e-06,
+      "maximumBodyOffsetMetres": 0.030505374591722877,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -3.3120174913505593,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02525599321827609,
+          "maximumStanceVertexDriftMetres": 8.217675462028861e-07,
+          "maximumBodyOffsetMetres": 0.0010917173218864221,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 3.509849804391475,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004993763692014131,
+          "maximumSwingSoleMetres": 0.024653824948108846,
+          "maximumStanceVertexDriftMetres": 5.024647572740082e-07,
+          "maximumBodyOffsetMetres": 0.011177137137971223,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.569069679085992,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999244055138926,
+          "maximumSwingSoleMetres": 0.025549309344347865,
+          "maximumStanceVertexDriftMetres": 1.2535940178173982e-06,
+          "maximumBodyOffsetMetres": 0.013983326964617342,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -2.4283781778269287,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000044023679163,
+          "maximumSwingSoleMetres": 0.026343484853802255,
+          "maximumStanceVertexDriftMetres": 5.282180520811711e-07,
+          "maximumBodyOffsetMetres": 0.009900951762567093,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 5.327778838514185,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998657151603402,
+          "maximumSwingSoleMetres": 0.025883860363392013,
+          "maximumStanceVertexDriftMetres": 1.3497781680203978e-06,
+          "maximumBodyOffsetMetres": 0.003073998736315107,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.201001369282515,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999948631704403,
+          "maximumSwingSoleMetres": 0.02594078244808525,
+          "maximumStanceVertexDriftMetres": 4.988371559542109e-07,
+          "maximumBodyOffsetMetres": 0.0024313733448056325,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.069966928528906,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996906605460577,
+          "maximumSwingSoleMetres": 0.025463415354904026,
+          "maximumStanceVertexDriftMetres": 1.3651459551165075e-06,
+          "maximumBodyOffsetMetres": 0.009446906879035787,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.9849121092089526,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999278108229315,
+          "maximumSwingSoleMetres": 0.025259324654798087,
+          "maximumStanceVertexDriftMetres": 4.367536371678245e-07,
+          "maximumBodyOffsetMetres": 0.009446904453171992,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.376855667221111,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999874199259327,
+          "maximumSwingSoleMetres": 0.026188926100017135,
+          "maximumStanceVertexDriftMetres": 9.362074288650588e-07,
+          "maximumBodyOffsetMetres": 0.008306341925984532,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.7296284766749181,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029995561378843606,
+          "maximumSwingSoleMetres": 0.025753907303113215,
+          "maximumStanceVertexDriftMetres": 4.25402236035322e-07,
+          "maximumBodyOffsetMetres": 0.01734757655718564,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.511894625106578,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997985119142203,
+          "maximumSwingSoleMetres": 0.025467816583138812,
+          "maximumStanceVertexDriftMetres": 1.7222551648606016e-06,
+          "maximumBodyOffsetMetres": 0.026807084544982998,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 9.846877328257388,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001887111391397,
+          "maximumSwingSoleMetres": 0.027156210603764597,
+          "maximumStanceVertexDriftMetres": 5.820396652513314e-07,
+          "maximumBodyOffsetMetres": 0.026807087706434935,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.927865056117803,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998401211027816,
+          "maximumSwingSoleMetres": 0.025694443223699757,
+          "maximumStanceVertexDriftMetres": 1.354064436238751e-06,
+          "maximumBodyOffsetMetres": 0.023600439193926546,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.060000990212515,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999450092545874,
+          "maximumSwingSoleMetres": 0.025763907007596093,
+          "maximumStanceVertexDriftMetres": 5.913544717905049e-07,
+          "maximumBodyOffsetMetres": 0.030505374591722877,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.184701867097424,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997903613244847,
+          "maximumSwingSoleMetres": 0.02573830967689617,
+          "maximumStanceVertexDriftMetres": 1.559100011195155e-06,
+          "maximumBodyOffsetMetres": 0.02884781630921362,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.636611971516775,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029993257775213426,
+          "maximumSwingSoleMetres": 0.02532831659165512,
+          "maximumStanceVertexDriftMetres": 2.839736725625361e-07,
+          "maximumBodyOffsetMetres": 0.027695259494693994,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.925002686406124,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997524235479984,
+          "maximumSwingSoleMetres": 0.026030915717536435,
+          "maximumStanceVertexDriftMetres": 1.4405172382329807e-06,
+          "maximumBodyOffsetMetres": 0.006740865317294096,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.655954335753925,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00300017774581382,
+          "maximumSwingSoleMetres": 0.026780482859529425,
+          "maximumStanceVertexDriftMetres": 9.188964827325516e-07,
+          "maximumBodyOffsetMetres": 0.009551138231907742,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.0547659804256,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999388361001806,
+          "maximumSwingSoleMetres": 0.025274961096909878,
+          "maximumStanceVertexDriftMetres": 6.516915484303894e-07,
+          "maximumBodyOffsetMetres": 0.019655107702150305,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.106763116497625,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998175399168305,
+          "maximumSwingSoleMetres": 0.02626110435181592,
+          "maximumStanceVertexDriftMetres": 5.894478077113024e-07,
+          "maximumBodyOffsetMetres": 0.027665758276927906,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "15": {
+      "minimumSwingSoleMetres": 0.000500960479369846,
+      "maximumSwingSoleMetres": 0.027151867832806154,
+      "maximumStanceVertexDriftMetres": 1.995920130800631e-06,
+      "maximumBodyOffsetMetres": 0.0368397246461484,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": 18.736155752939176,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.024753363640206687,
+          "maximumStanceVertexDriftMetres": 1.995920130800631e-06,
+          "maximumBodyOffsetMetres": 0.026271458458468355,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.563959349743381,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.000500960479369846,
+          "maximumSwingSoleMetres": 0.02597425700011185,
+          "maximumStanceVertexDriftMetres": 5.2326962250953e-07,
+          "maximumBodyOffsetMetres": 0.026271458458468355,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.726565812248435,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299989031644412,
+          "maximumSwingSoleMetres": 0.02559125517354224,
+          "maximumStanceVertexDriftMetres": 1.212379076260254e-06,
+          "maximumBodyOffsetMetres": 0.029712934422176117,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.833488552163377,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029997201115592284,
+          "maximumSwingSoleMetres": 0.02581723930114511,
+          "maximumStanceVertexDriftMetres": 5.520915256803236e-07,
+          "maximumBodyOffsetMetres": 0.030194260958469346,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.251469214576723,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000383267263582,
+          "maximumSwingSoleMetres": 0.025089805214465202,
+          "maximumStanceVertexDriftMetres": 1.5723208875276615e-06,
+          "maximumBodyOffsetMetres": 0.022748540988903027,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.249518210347212,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000275725606597,
+          "maximumSwingSoleMetres": 0.027094185961838865,
+          "maximumStanceVertexDriftMetres": 5.935839227274774e-07,
+          "maximumBodyOffsetMetres": 0.021602175783044953,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.01886535707256,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998221999207432,
+          "maximumSwingSoleMetres": 0.025796359622721855,
+          "maximumStanceVertexDriftMetres": 1.9070508265563925e-06,
+          "maximumBodyOffsetMetres": 0.03244266336202008,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.811411606413515,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000074156633571,
+          "maximumSwingSoleMetres": 0.0255247528936937,
+          "maximumStanceVertexDriftMetres": 9.660357199351422e-07,
+          "maximumBodyOffsetMetres": 0.0368397246461484,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.47609150640738,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998436806101154,
+          "maximumSwingSoleMetres": 0.025348161993846714,
+          "maximumStanceVertexDriftMetres": 1.2958619328079525e-06,
+          "maximumBodyOffsetMetres": 0.029746637177123277,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.358942963604399,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000140182895778,
+          "maximumSwingSoleMetres": 0.02567850547931724,
+          "maximumStanceVertexDriftMetres": 3.742382727054791e-07,
+          "maximumBodyOffsetMetres": 0.020602728465319638,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -11.107969111227334,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998215123632765,
+          "maximumSwingSoleMetres": 0.02601362637545022,
+          "maximumStanceVertexDriftMetres": 1.3895823704277031e-06,
+          "maximumBodyOffsetMetres": 0.010179545553042218,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.210043813454849,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299959691513926,
+          "maximumSwingSoleMetres": 0.02544025971877814,
+          "maximumStanceVertexDriftMetres": 5.235899423020633e-07,
+          "maximumBodyOffsetMetres": 0.008630348545566921,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.717406888892976,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997485647239564,
+          "maximumSwingSoleMetres": 0.026043181890848026,
+          "maximumStanceVertexDriftMetres": 1.1040081324114418e-06,
+          "maximumBodyOffsetMetres": 0.008559167331808455,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.7279168124789734,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999844469374419,
+          "maximumSwingSoleMetres": 0.02565968896905856,
+          "maximumStanceVertexDriftMetres": 4.399133324446828e-07,
+          "maximumBodyOffsetMetres": 0.018666165477437106,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.081069822470013,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999575298285427,
+          "maximumSwingSoleMetres": 0.02564102491437191,
+          "maximumStanceVertexDriftMetres": 1.1915525606731754e-06,
+          "maximumBodyOffsetMetres": 0.016912528071977777,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.095028763609294,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001914474189345,
+          "maximumSwingSoleMetres": 0.02607633541299558,
+          "maximumStanceVertexDriftMetres": 4.548125927047503e-07,
+          "maximumBodyOffsetMetres": 0.008496955038165605,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.838497307339026,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000007132559938,
+          "maximumSwingSoleMetres": 0.025786157812271667,
+          "maximumStanceVertexDriftMetres": 1.7647403199473223e-06,
+          "maximumBodyOffsetMetres": 0.013481450896274703,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.715245453075994,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000356687417169,
+          "maximumSwingSoleMetres": 0.027151867832806154,
+          "maximumStanceVertexDriftMetres": 6.382007669972385e-07,
+          "maximumBodyOffsetMetres": 0.016142647940710977,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.199922485320997,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299989260906766,
+          "maximumSwingSoleMetres": 0.025054574226735595,
+          "maximumStanceVertexDriftMetres": 1.2470996620144308e-06,
+          "maximumBodyOffsetMetres": 0.016142648161694192,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.772408336380755,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999977451749146,
+          "maximumSwingSoleMetres": 0.025939964381755512,
+          "maximumStanceVertexDriftMetres": 8.412423367981073e-07,
+          "maximumBodyOffsetMetres": 0.011466264907215142,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "16": {
+      "minimumSwingSoleMetres": 0.0004992105562540431,
+      "maximumSwingSoleMetres": 0.027047859240226388,
+      "maximumStanceVertexDriftMetres": 1.8961202109573632e-06,
+      "maximumBodyOffsetMetres": 0.022165951905171444,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -17.633037271878255,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.025368406383928167,
+          "maximumStanceVertexDriftMetres": 1.469149833348699e-06,
+          "maximumBodyOffsetMetres": 0.00882869966328718,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.77463585788922,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004992105562540431,
+          "maximumSwingSoleMetres": 0.024263817193877248,
+          "maximumStanceVertexDriftMetres": 5.040693482577098e-07,
+          "maximumBodyOffsetMetres": 0.021610735015697415,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.463559718724547,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000059978776509,
+          "maximumSwingSoleMetres": 0.025340233592870763,
+          "maximumStanceVertexDriftMetres": 1.1153957928107936e-06,
+          "maximumBodyOffsetMetres": 0.01892049628199772,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.2229063318891455,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999960926044926,
+          "maximumSwingSoleMetres": 0.026623847156952787,
+          "maximumStanceVertexDriftMetres": 3.603158130542309e-07,
+          "maximumBodyOffsetMetres": 0.012289242446999383,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.154438388379681,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000938006184597,
+          "maximumSwingSoleMetres": 0.025834105409243874,
+          "maximumStanceVertexDriftMetres": 1.0570802700967744e-06,
+          "maximumBodyOffsetMetres": 0.01982204017819512,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.783599154028845,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029994005375888373,
+          "maximumSwingSoleMetres": 0.025478467829883097,
+          "maximumStanceVertexDriftMetres": 5.032786477870651e-07,
+          "maximumBodyOffsetMetres": 0.01982201644474231,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.110369083848965,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999949219138817,
+          "maximumSwingSoleMetres": 0.02591956601490692,
+          "maximumStanceVertexDriftMetres": 1.8961202109573632e-06,
+          "maximumBodyOffsetMetres": 0.01637475959622411,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 9.423093083680026,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000164048000204,
+          "maximumSwingSoleMetres": 0.027047859240226388,
+          "maximumStanceVertexDriftMetres": 6.352607459319958e-07,
+          "maximumBodyOffsetMetres": 0.01637477107629653,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.853499721843807,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000225336457935,
+          "maximumSwingSoleMetres": 0.025573733079004107,
+          "maximumStanceVertexDriftMetres": 8.406325163752739e-07,
+          "maximumBodyOffsetMetres": 0.022165951905171444,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -11.169070444021045,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998081944830122,
+          "maximumSwingSoleMetres": 0.0255802611579539,
+          "maximumStanceVertexDriftMetres": 6.591430636946227e-07,
+          "maximumBodyOffsetMetres": 0.019407725353484388,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 9.189052565376823,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998698763931144,
+          "maximumSwingSoleMetres": 0.02617213844767355,
+          "maximumStanceVertexDriftMetres": 1.6511301152010166e-06,
+          "maximumBodyOffsetMetres": 0.012699717967372888,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.338233941897897,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999866545454794,
+          "maximumSwingSoleMetres": 0.02589150268819523,
+          "maximumStanceVertexDriftMetres": 7.33134667993161e-07,
+          "maximumBodyOffsetMetres": 0.01827122166109482,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.583825281133016,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999653326599204,
+          "maximumSwingSoleMetres": 0.025927053525811903,
+          "maximumStanceVertexDriftMetres": 1.8924956496246782e-06,
+          "maximumBodyOffsetMetres": 0.01921576675808147,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.416989308920765,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000122267741775,
+          "maximumSwingSoleMetres": 0.02624506185188583,
+          "maximumStanceVertexDriftMetres": 5.713929237733219e-07,
+          "maximumBodyOffsetMetres": 0.015021460468319113,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.15029640047229975,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997625732500516,
+          "maximumSwingSoleMetres": 0.025674304045452585,
+          "maximumStanceVertexDriftMetres": 8.66982676004221e-07,
+          "maximumBodyOffsetMetres": 0.012522248693435748,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.671321546835525,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001324427246807,
+          "maximumSwingSoleMetres": 0.026190819211419195,
+          "maximumStanceVertexDriftMetres": 5.101982911652078e-07,
+          "maximumBodyOffsetMetres": 0.021073304881381205,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.209714965471655,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030001056793116532,
+          "maximumSwingSoleMetres": 0.025143381578979718,
+          "maximumStanceVertexDriftMetres": 1.460686799525744e-06,
+          "maximumBodyOffsetMetres": 0.02145533833768187,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.126758682144754,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999530465830587,
+          "maximumSwingSoleMetres": 0.025994087083867867,
+          "maximumStanceVertexDriftMetres": 9.571311103121527e-07,
+          "maximumBodyOffsetMetres": 0.0181325059286903,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 6.468559834451568,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999627964134074,
+          "maximumSwingSoleMetres": 0.02565274792543416,
+          "maximumStanceVertexDriftMetres": 1.7314953201165158e-06,
+          "maximumBodyOffsetMetres": 0.01146210998649028,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.119618911423489,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999784241305926,
+          "maximumSwingSoleMetres": 0.02590811768360132,
+          "maximumStanceVertexDriftMetres": 7.295400566508809e-07,
+          "maximumBodyOffsetMetres": 0.00746563314335588,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "17": {
+      "minimumSwingSoleMetres": 0.0005006043534132505,
+      "maximumSwingSoleMetres": 0.02714774892167801,
+      "maximumStanceVertexDriftMetres": 2.2228907361740443e-06,
+      "maximumBodyOffsetMetres": 0.03725147661704868,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": 15.628538523086803,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.024824999888411352,
+          "maximumStanceVertexDriftMetres": 1.8160583636311284e-06,
+          "maximumBodyOffsetMetres": 0.020794905988871768,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.299087562501597,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0005006043534132505,
+          "maximumSwingSoleMetres": 0.02598785116335172,
+          "maximumStanceVertexDriftMetres": 6.063826080041192e-07,
+          "maximumBodyOffsetMetres": 0.023450774615275494,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 4.9999730370438265,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999860254543885,
+          "maximumSwingSoleMetres": 0.025103609764618562,
+          "maximumStanceVertexDriftMetres": 8.216209157335222e-07,
+          "maximumBodyOffsetMetres": 0.02345073652153673,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -14.723791660011475,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000826778594793,
+          "maximumSwingSoleMetres": 0.025814631429825114,
+          "maximumStanceVertexDriftMetres": 7.238653248763888e-07,
+          "maximumBodyOffsetMetres": 0.011828173283996152,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.9429409391415966,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996870812014046,
+          "maximumSwingSoleMetres": 0.025616421767780905,
+          "maximumStanceVertexDriftMetres": 7.872063252349572e-07,
+          "maximumBodyOffsetMetres": 0.011828170642801901,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.370483733172506,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029997441788975517,
+          "maximumSwingSoleMetres": 0.025569711362090252,
+          "maximumStanceVertexDriftMetres": 6.586318152696478e-07,
+          "maximumBodyOffsetMetres": 0.026557597067602887,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 11.239223022412634,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999828661204618,
+          "maximumSwingSoleMetres": 0.02590783532528542,
+          "maximumStanceVertexDriftMetres": 1.8971671271557858e-06,
+          "maximumBodyOffsetMetres": 0.02199838945951193,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.6304544140442303,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000003647474138,
+          "maximumSwingSoleMetres": 0.0267853822231008,
+          "maximumStanceVertexDriftMetres": 5.382364539848983e-07,
+          "maximumBodyOffsetMetres": 0.012583757573788166,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -5.087917657411861,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999999354766524,
+          "maximumSwingSoleMetres": 0.025899464230662913,
+          "maximumStanceVertexDriftMetres": 7.596626035896411e-07,
+          "maximumBodyOffsetMetres": 0.018804368572456008,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.707494798456736,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029995704723106446,
+          "maximumSwingSoleMetres": 0.0259867455618848,
+          "maximumStanceVertexDriftMetres": 6.769107291789263e-07,
+          "maximumBodyOffsetMetres": 0.02770102386347913,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 18.872445916914153,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000125080443835,
+          "maximumSwingSoleMetres": 0.02480155658787176,
+          "maximumStanceVertexDriftMetres": 1.6766013631990952e-06,
+          "maximumBodyOffsetMetres": 0.03472250637775955,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 17.11681117088515,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030004006494109958,
+          "maximumSwingSoleMetres": 0.02714774892167801,
+          "maximumStanceVertexDriftMetres": 5.468657338675832e-07,
+          "maximumBodyOffsetMetres": 0.03472249601697969,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.194557716853126,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029999856460060505,
+          "maximumSwingSoleMetres": 0.02468325275412769,
+          "maximumStanceVertexDriftMetres": 1.732020650467582e-06,
+          "maximumBodyOffsetMetres": 0.03725147661704868,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.549498348942663,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000482586663014,
+          "maximumSwingSoleMetres": 0.02704206516828228,
+          "maximumStanceVertexDriftMetres": 7.866531432800849e-07,
+          "maximumBodyOffsetMetres": 0.03693980993202194,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -17.825265787290846,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997375517912023,
+          "maximumSwingSoleMetres": 0.02572805547023641,
+          "maximumStanceVertexDriftMetres": 2.2228907361740443e-06,
+          "maximumBodyOffsetMetres": 0.010392221376278639,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -11.769748349483375,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998600755497783,
+          "maximumSwingSoleMetres": 0.02509620862780271,
+          "maximumStanceVertexDriftMetres": 6.496662285985287e-07,
+          "maximumBodyOffsetMetres": 0.018131512914770546,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.286248186628736,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029994179155415344,
+          "maximumSwingSoleMetres": 0.025459807666976926,
+          "maximumStanceVertexDriftMetres": 1.183998241906468e-06,
+          "maximumBodyOffsetMetres": 0.01813147685704728,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 1.9705695049754368,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999744557689667,
+          "maximumSwingSoleMetres": 0.025593962143731157,
+          "maximumStanceVertexDriftMetres": 4.609290697326805e-07,
+          "maximumBodyOffsetMetres": 0.024096659855984866,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.677838411614623,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999957315955261,
+          "maximumSwingSoleMetres": 0.025568925468479695,
+          "maximumStanceVertexDriftMetres": 1.6139815235061447e-06,
+          "maximumBodyOffsetMetres": 0.020413176143321842,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 13.684456161844778,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00300024147882182,
+          "maximumSwingSoleMetres": 0.027069922916720033,
+          "maximumStanceVertexDriftMetres": 6.891559412819455e-07,
+          "maximumBodyOffsetMetres": 0.018738288602553263,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "18": {
+      "minimumSwingSoleMetres": 0.0004993427033842515,
+      "maximumSwingSoleMetres": 0.026996644730112842,
+      "maximumStanceVertexDriftMetres": 2.3574965159528884e-06,
+      "maximumBodyOffsetMetres": 0.03343622599827073,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": -7.700059158792488,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.001508936339212358,
+          "maximumSwingSoleMetres": 0.02535405592788621,
+          "maximumStanceVertexDriftMetres": 9.784654061867425e-07,
+          "maximumBodyOffsetMetres": 0.0015069492577673448,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.700280932543734,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0004993427033842515,
+          "maximumSwingSoleMetres": 0.024221549949384642,
+          "maximumStanceVertexDriftMetres": 4.936146703826282e-07,
+          "maximumBodyOffsetMetres": 0.012871276421524368,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -19.776324946037054,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029994048376199116,
+          "maximumSwingSoleMetres": 0.024965287974423482,
+          "maximumStanceVertexDriftMetres": 1.5849353373529697e-06,
+          "maximumBodyOffsetMetres": 0.02067924839715826,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.73956289582233,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299955904409031,
+          "maximumSwingSoleMetres": 0.02558552882271945,
+          "maximumStanceVertexDriftMetres": 1.1564851386162418e-06,
+          "maximumBodyOffsetMetres": 0.029828941967707676,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.785505321093655,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998048220342913,
+          "maximumSwingSoleMetres": 0.02534420400860002,
+          "maximumStanceVertexDriftMetres": 1.5391931649822681e-06,
+          "maximumBodyOffsetMetres": 0.03343622599827073,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.870598233486678,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.00299951604864814,
+          "maximumSwingSoleMetres": 0.025107492870909513,
+          "maximumStanceVertexDriftMetres": 6.177314304922348e-07,
+          "maximumBodyOffsetMetres": 0.032659047782021604,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.179511364104753,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999322575024043,
+          "maximumSwingSoleMetres": 0.024949361906422232,
+          "maximumStanceVertexDriftMetres": 1.1232628956747391e-06,
+          "maximumBodyOffsetMetres": 0.03265905191279309,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 15.689461622079612,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999067965138502,
+          "maximumSwingSoleMetres": 0.025871642717662444,
+          "maximumStanceVertexDriftMetres": 6.432856634371403e-07,
+          "maximumBodyOffsetMetres": 0.02699838224327744,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.840730668931364,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998411081725252,
+          "maximumSwingSoleMetres": 0.025456692629583246,
+          "maximumStanceVertexDriftMetres": 1.3426019551314736e-06,
+          "maximumBodyOffsetMetres": 0.03049534268060623,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.725442309297325,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002998971514424287,
+          "maximumSwingSoleMetres": 0.025422420658024126,
+          "maximumStanceVertexDriftMetres": 4.259624869937638e-07,
+          "maximumBodyOffsetMetres": 0.023827381683969567,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.650430372636563,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999570275120766,
+          "maximumSwingSoleMetres": 0.025890628653534625,
+          "maximumStanceVertexDriftMetres": 9.497785509328785e-07,
+          "maximumBodyOffsetMetres": 0.01262905211438457,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -7.347929257700168,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999051430204226,
+          "maximumSwingSoleMetres": 0.025451726805895487,
+          "maximumStanceVertexDriftMetres": 5.116280551555524e-07,
+          "maximumBodyOffsetMetres": 0.010963245597773537,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.03966905636306,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.00299972063720143,
+          "maximumSwingSoleMetres": 0.02549204465676267,
+          "maximumStanceVertexDriftMetres": 1.5030411331751305e-06,
+          "maximumBodyOffsetMetres": 0.016079585714988038,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -16.29599193122433,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029989354808920778,
+          "maximumSwingSoleMetres": 0.025007823915039522,
+          "maximumStanceVertexDriftMetres": 6.70926243218992e-07,
+          "maximumBodyOffsetMetres": 0.027704806503260127,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.746121403052982,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029996788762709147,
+          "maximumSwingSoleMetres": 0.026048754818618486,
+          "maximumStanceVertexDriftMetres": 2.3574965159528884e-06,
+          "maximumBodyOffsetMetres": 0.02359624987717904,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -15.49772979553297,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029999685851316315,
+          "maximumSwingSoleMetres": 0.026134056748098985,
+          "maximumStanceVertexDriftMetres": 8.022959293747305e-07,
+          "maximumBodyOffsetMetres": 0.013893651538427237,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -11.682639290871567,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999550456152699,
+          "maximumSwingSoleMetres": 0.025079775379909543,
+          "maximumStanceVertexDriftMetres": 1.5034264409096628e-06,
+          "maximumBodyOffsetMetres": 0.013893636288771553,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -6.268226799204456,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998609576935395,
+          "maximumSwingSoleMetres": 0.025402306961183035,
+          "maximumStanceVertexDriftMetres": 4.887263086351793e-07,
+          "maximumBodyOffsetMetres": 0.01320726226197035,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 14.81043086334352,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.003000000593108684,
+          "maximumSwingSoleMetres": 0.02583592203646089,
+          "maximumStanceVertexDriftMetres": 1.957530960579078e-06,
+          "maximumBodyOffsetMetres": 0.021225486911597504,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.6255063710393358,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000277560712641,
+          "maximumSwingSoleMetres": 0.026996644730112842,
+          "maximumStanceVertexDriftMetres": 6.78999583712734e-07,
+          "maximumBodyOffsetMetres": 0.0212254898450896,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    },
+    "19": {
+      "minimumSwingSoleMetres": 0.0005007063260850978,
+      "maximumSwingSoleMetres": 0.027058165902663182,
+      "maximumStanceVertexDriftMetres": 2.1060051218235397e-06,
+      "maximumBodyOffsetMetres": 0.03575183294666104,
+      "unreachableSamples": 0,
+      "steps": [
+        {
+          "deltaDegrees": 19.433508807935922,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0015089058857665097,
+          "maximumSwingSoleMetres": 0.024737201983329234,
+          "maximumStanceVertexDriftMetres": 2.1060051218235397e-06,
+          "maximumBodyOffsetMetres": 0.0275571078100715,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -4.850732499401168,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0005007063260850978,
+          "maximumSwingSoleMetres": 0.025842710232842656,
+          "maximumStanceVertexDriftMetres": 4.6141541737836476e-07,
+          "maximumBodyOffsetMetres": 0.022702476359996917,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 7.4008615442420265,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998163067889863,
+          "maximumSwingSoleMetres": 0.02594167414825424,
+          "maximumStanceVertexDriftMetres": 1.5999954556754487e-06,
+          "maximumBodyOffsetMetres": 0.007707524566825572,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 0.15082654813581087,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000076508389341,
+          "maximumSwingSoleMetres": 0.026358132885029206,
+          "maximumStanceVertexDriftMetres": 4.58916110482373e-07,
+          "maximumBodyOffsetMetres": 0.007707516193850852,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -9.060720274099223,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999809903629604,
+          "maximumSwingSoleMetres": 0.026094804514451675,
+          "maximumStanceVertexDriftMetres": 1.2205667600912722e-06,
+          "maximumBodyOffsetMetres": 0.01965302351896533,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 2.7239595100077807,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029995796753565576,
+          "maximumSwingSoleMetres": 0.025648090450995614,
+          "maximumStanceVertexDriftMetres": 4.314462947170699e-07,
+          "maximumBodyOffsetMetres": 0.02856514453920716,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 10.802310044053598,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029997334518422902,
+          "maximumSwingSoleMetres": 0.025532648682560652,
+          "maximumStanceVertexDriftMetres": 1.6491814290620955e-06,
+          "maximumBodyOffsetMetres": 0.021413752869458992,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 12.65644301374219,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.003000211039297393,
+          "maximumSwingSoleMetres": 0.027058165902663182,
+          "maximumStanceVertexDriftMetres": 6.792219577299733e-07,
+          "maximumBodyOffsetMetres": 0.018915181222404327,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -18.464637031496686,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999663547210053,
+          "maximumSwingSoleMetres": 0.025765864635431054,
+          "maximumStanceVertexDriftMetres": 1.7813104939690384e-06,
+          "maximumBodyOffsetMetres": 0.03150209401422388,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -10.649685771002,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998091472674955,
+          "maximumSwingSoleMetres": 0.025093878905578883,
+          "maximumStanceVertexDriftMetres": 3.7774803011330384e-07,
+          "maximumBodyOffsetMetres": 0.03150211158336565,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -1.1516191203130148,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995676817352558,
+          "maximumSwingSoleMetres": 0.02592892475979635,
+          "maximumStanceVertexDriftMetres": 9.220580900691306e-07,
+          "maximumBodyOffsetMetres": 0.018064185803567778,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -3.1745526255068484,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0029998482757426477,
+          "maximumSwingSoleMetres": 0.025809700747427198,
+          "maximumStanceVertexDriftMetres": 5.911822845644062e-07,
+          "maximumBodyOffsetMetres": 0.009980206273860679,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.6557731815072785,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029995303343960545,
+          "maximumSwingSoleMetres": 0.0260498931569511,
+          "maximumStanceVertexDriftMetres": 7.940711258440432e-07,
+          "maximumBodyOffsetMetres": 0.007524924032365012,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 16.582829139567878,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030001854422796333,
+          "maximumSwingSoleMetres": 0.02639817335679076,
+          "maximumStanceVertexDriftMetres": 8.633619118186596e-07,
+          "maximumBodyOffsetMetres": 0.021317684406487118,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 19.080327372406018,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0030000496536197554,
+          "maximumSwingSoleMetres": 0.02471061298590681,
+          "maximumStanceVertexDriftMetres": 1.635057842077291e-06,
+          "maximumBodyOffsetMetres": 0.03575183294666104,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -13.644374303156281,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.0030000901547581585,
+          "maximumSwingSoleMetres": 0.026731838382154465,
+          "maximumStanceVertexDriftMetres": 8.17851124143791e-07,
+          "maximumBodyOffsetMetres": 0.035154292544696375,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": 8.689976830051151,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.002999737859339331,
+          "maximumSwingSoleMetres": 0.026089517373667485,
+          "maximumStanceVertexDriftMetres": 1.7364056496889938e-06,
+          "maximumBodyOffsetMetres": 0.010513859264272372,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -8.358581152588759,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999912845324331,
+          "maximumSwingSoleMetres": 0.026106970206848646,
+          "maximumStanceVertexDriftMetres": 5.079869454352982e-07,
+          "maximumBodyOffsetMetres": 0.006012468146695038,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -0.41325900661103177,
+          "swing": "L",
+          "minimumSwingSoleMetres": 0.0029998819431675786,
+          "maximumSwingSoleMetres": 0.026130488131232962,
+          "maximumStanceVertexDriftMetres": 9.461190617098365e-07,
+          "maximumBodyOffsetMetres": 0.0039935642760817736,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        },
+        {
+          "deltaDegrees": -12.08255176332262,
+          "swing": "R",
+          "minimumSwingSoleMetres": 0.002999632658525605,
+          "maximumSwingSoleMetres": 0.02567986034910005,
+          "maximumStanceVertexDriftMetres": 5.10710902586654e-07,
+          "maximumBodyOffsetMetres": 0.013725515747967631,
+          "unreachableSamples": 0,
+          "penetrationSamples": []
+        }
+      ]
+    }
+  },
+  "testParameters": {
+    "maximumStepDegrees": 20,
+    "liftMetres": 0.02,
+    "outwardLandingBiasMetres": 0.025,
+    "azimuthRateDegPerSecond": 720,
+    "stepSeconds": 0.18,
+    "dt": 0.0225,
+    "torsoLeadDegrees": 35
+  },
+  "randomSeed": 271828,
+  "randomStepCount": 400,
+  "phaseSamplesPerStep": 9,
+  "sampleCount": 3600,
+  "collisionCounts": {
+    "bootBoot": 0,
+    "bootBody": 0
+  },
+  "collisionDetails": [],
+  "aabbChecks": 10800,
+  "bvhChecks": 426,
+  "torsoPolicy": "Child of Body, world yaw set to wrapper heading plus baseline Torso rotation; preserved local position and scale",
+  "passed": true
+}

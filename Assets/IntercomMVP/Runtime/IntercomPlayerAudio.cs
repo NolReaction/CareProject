@@ -259,7 +259,9 @@ namespace IntercomMvp
 
         private void OnFootstep(Collider surface, Vector3 point, float strength, bool leftFoot)
         {
-            if (!CanPlay || steps == null || !MovingOnGround() || surface == null
+            bool turnLanding = groundFeedback != null && groundFeedback.ProvidesFootContacts
+                && groundFeedback.IsTurnFootstep && motor != null && motor.isActiveAndEnabled && motor.IsGrounded;
+            if (!CanPlay || steps == null || (!MovingOnGround() && !turnLanding) || surface == null
                 || surface.isTrigger || surface.transform.IsChildOf(transform)) return;
             ObserveProfile();
             IntercomFootstepSurface tag = IntercomFootstepSurface.Find(surface);

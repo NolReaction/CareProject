@@ -17,7 +17,7 @@ namespace IntercomMvp
         public static float PlaybackRate(float speed, float referenceSpeed, float blendWeight)
         {
             if (!Finite(speed) || speed <= 0.01f) return 1f;
-            float reference = Finite(referenceSpeed) ? Math.Max(0.1f, referenceSpeed) : 1.2f;
+            float reference = Finite(referenceSpeed) ? Math.Max(0.1f, referenceSpeed) : 1.0f;
             float travelRate = Math.Max(0.1f, speed / reference);
             float weight = Finite(blendWeight) ? Math.Max(0f, Math.Min(1f, blendWeight)) : 0f;
             return 1f + (travelRate - 1f) * weight;

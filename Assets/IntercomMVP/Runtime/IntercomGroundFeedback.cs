@@ -7,7 +7,7 @@ namespace IntercomMvp
     /// <summary>Measured boot support, rigid single-link leg correction and independent torso suspension.</summary>
     [DefaultExecutionOrder(150)]
     [DisallowMultipleComponent]
-    public sealed class IntercomGroundFeedback : MonoBehaviour
+    public sealed partial class IntercomGroundFeedback : MonoBehaviour
     {
         public IntercomPlayerMotor motor;
         [HideInInspector] public IntercomPlayerAudio audioSource; // Kept only for old scene serialization.
@@ -188,12 +188,13 @@ namespace IntercomMvp
             Vector3 facing = motor.FacingDirection;
             AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
             float phase = state.normalizedTime;
-            bool discontinuity = !motionObserved || resetVersion != motor.MotionResetVersion
-                || state.fullPathHash != previousAnimatorState || phase < previousPhase - 0.001f
-                || phase - previousPhase > 1f || (transform.position - previousPosition).sqrMagnitude > Mathf.Pow(Mathf.Max(0.5f, motor.moveSpeed * dt * 3f), 2f);
+            bool spatialDiscontinuity = !motionObserved || resetVersion != motor.MotionResetVersion
+                || (transform.position - previousPosition).sqrMagnitude > Mathf.Pow(Mathf.Max(0.5f, motor.moveSpeed * dt * 3f), 2f);
+            bool discontinuity = spatialDiscontinuity || state.fullPathHash != previousAnimatorState
+                || phase < previousPhase - 0.001f || phase - previousPhase > 1f;
             if (discontinuity)
             {
-                ClearTransientState();
+                ClearTransientState(spatialDiscontinuity);
                 previousVelocity = motor.ActualPlanarVelocity;
                 previousFacing = facing;
                 motionObserved = true;
@@ -204,9 +205,10 @@ namespace IntercomMvp
             bool moving = grounded && motor.ActualPlanarSpeed > 0.08f;
             float blend = Mathf.Clamp01(animator.GetFloat("Speed"));
             SavePose();
+            bool turnOwnsLegs = ApplyTurnFootwork(dt, blend);
             PrepareFoot(leftRig, phase, blend, moving, grounded);
             PrepareFoot(rightRig, phase, blend, moving, grounded);
-            if (plantFeet && body != null && grounded)
+            if (!turnOwnsLegs && plantFeet && body != null && grounded)
             {
                 float weightedHeight = 0f, weight = 0f;
                 AccumulateSupport(leftRig, ref weightedHeight, ref weight);
@@ -218,14 +220,23 @@ namespace IntercomMvp
             }
             leftContact = ProbeFoot(leftRig);
             rightContact = ProbeFoot(rightRig);
-            PublishContact(leftRig, leftContact, moving, discontinuity);
-            PublishContact(rightRig, rightContact, moving, discontinuity);
+            if (turnOwnsLegs)
+            {
+                leftRig.gate.Reset(); rightRig.gate.Reset();
+                PublishTurnLanding();
+            }
+            else
+            {
+                PublishContact(leftRig, leftContact, moving, discontinuity);
+                PublishContact(rightRig, rightContact, moving, discontinuity);
+            }
             if (shadows != null)
             {
                 UpdateShadow(0, leftContact, grounded);
                 UpdateShadow(1, rightContact, grounded);
             }
             ApplyTorso(phase, moving, dt, discontinuity);
+            CacheTurnPose();
             UpdateDust(dt);
             compression = Mathf.MoveTowards(compression, 0f, dt * 10f);
             recoil = Mathf.MoveTowards(recoil, 0f, dt * 12f);
@@ -360,6 +371,9 @@ namespace IntercomMvp
         private void ApplyTorso(float phase, bool moving, float dt, bool discontinuity)
         {
             if (torso == null) return;
+            // Body owns the slower lower-body heading. The torso and authored
+            // weapon pose keep the responsive wrapper heading before feedback.
+            torso.rotation = Quaternion.AngleAxis(-turnAppliedYaw, Vector3.up) * torso.rotation;
             Vector3 forward = motor.FacingDirection;
             Vector3 right = Vector3.Cross(Vector3.up, forward).normalized;
             Vector3 velocity = motor.ActualPlanarVelocity;
@@ -389,8 +403,15 @@ namespace IntercomMvp
                 dt / Mathf.Max(0.01f, aimStabilizationSeconds));
             Quaternion leftAuthored = leftUpperArm != null ? leftUpperArm.rotation : Quaternion.identity;
             Quaternion rightAuthored = rightUpperArm != null ? rightUpperArm.rotation : Quaternion.identity;
+            float visibleYaw = yaw;
+            if (turnHasPose && !turnExiting)
+            {
+                float limit = Mathf.Clamp(maximumTurnTorsoYaw, 15f, 50f);
+                if (turnSteps.Active) limit = Mathf.Max(limit, turnCommittedTwistLimit);
+                visibleYaw = Mathf.Clamp(yaw, turnAppliedYaw - limit, turnAppliedYaw + limit);
+            }
             torso.rotation = Quaternion.AngleAxis(pitch - recoil * recoilDegrees, right)
-                * Quaternion.AngleAxis(roll, forward) * Quaternion.AngleAxis(yaw, Vector3.up) * torso.rotation;
+                * Quaternion.AngleAxis(roll, forward) * Quaternion.AngleAxis(visibleYaw, Vector3.up) * torso.rotation;
             torso.position += new Vector3(lagX, settle, lagZ) - forward * (recoil * 0.006f);
             // Stabilize only our added torso motion. Source raise/recoil keys
             // remain in the captured arm rotations; muzzle.forward stays valid.
@@ -676,8 +697,9 @@ namespace IntercomMvp
             }
         }
         private void OnVolley(Vector3 position, int barrels) { if (Active && barrels > 0) recoil = 1f; }
-        private void ClearTransientState()
+        private void ClearTransientState(bool resetTurning = true)
         {
+            if (resetTurning) ResetTurnFootwork();
             compression = recoil = aimStabilization = 0f;
             leftRig.anchored = leftRig.inWindow = false;
             leftRig.gate.Reset();

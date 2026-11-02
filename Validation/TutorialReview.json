@@ -1,0 +1,247 @@
+{
+  "preparedUtc": "2026-11-02T03:17:09.624147+00:00",
+  "baseCommit": "3dd9354b44b343cd489a5dcf4223e38859a86ed9",
+  "delivery": "Overwrite ZIP with Assets/Packages/ProjectSettings at root; no GitHub write.",
+  "status": "OFFLINE CHECKS PASS — UNITY VERIFICATION PENDING",
+  "changes": [
+    "Stationary turn steps: torso lead, alternating planted support, reachable swing arc and reset-safe transition to run.",
+    "Eight run actions: increased relaxed arm swing, spring follow-through, heel-to-toe roll, 12-degree toe limit and measured 1.0m/s reference.",
+    "17 replacement audio assets: recorded CC0 effects and original sampled instrumental music; provenance and generator included.",
+    "Industrial tutorial courtyard: 17 shared native meshes, 130 environment renderers, 9 connected route probes; replaceable hero props.",
+    "Daylight URP profile, warm sun/sky fill, filtered HDR reflections, soft shadows, ACES and restrained SSAO.",
+    "71 exact-hash legacy paths retired; harmless script replacements and guarded Editor cleanup support overwrite installation."
+  ],
+  "scene": {
+    "spawn": [
+      -7,
+      0,
+      -12
+    ],
+    "facingYawDegrees": 180,
+    "runReferenceSpeed": 1.0,
+    "moveSpeed": 1.8,
+    "turnStepDegrees": 20,
+    "turnStepSeconds": 0.18,
+    "maximumTurnTorsoYaw": 35,
+    "turnLiftDegrees": 75,
+    "turnExitSeconds": 0.14,
+    "camera": "Original framing retained; translated with character center."
+  },
+  "offlineSuites": [
+    {
+      "project": "AudioTimingTests",
+      "passed": true,
+      "output": "PASS starting mid-stride does not invent a contact\nPASS left and right contacts alternate through loop boundaries\nPASS standing, wall collision and airborne movement suppress footsteps\nPASS long frame does not replay missed steps\nPASS rebind and controller-state changes resynchronize silently\nPASS explicit pause and respawn reset cannot produce a delayed step\nPASS phase offset follows replacement run clips\nPASS zero elapsed animation never repeats a contact\nPASS non-finite phases reset safely\nPASS faster run contacts remain consistent at mobile frame rates\n10 scenarios / 72 assertions passed"
+    },
+    {
+      "project": "DirectionalLocomotionTests",
+      "passed": true,
+      "output": "PASS four visual headings, four world movement axes\nPASS authored model -Z forward is not wrapper +Z\nPASS all diagonal signs\nPASS diagonal heading with wall-slide movement\nPASS analog speed remains independent of direction\nPASS zero and numerical jitter are not movement\nPASS nonfinite movement cannot poison animator parameters\nPASS zero smoothing applies requested direction immediately\nPASS paused time preserves direction\nPASS 180-degree reversal never blends through undefined origin\nPASS angle wrap takes short route across zero\nPASS smoothing stable across frame rates\nPASS normal analogue movement retains full measured stride\nPASS idle cadence and low-speed transition remain separate\nPASS blend threshold remains reachable after designer speed changes\nPASS current measured gait reference and fallback agree\nPASS: 16 cases / 242 assertions. Production direction and cadence; .NET 8, no Unity engine playback."
+    },
+    {
+      "project": "GroundContactTests",
+      "passed": true,
+      "output": "Ground contact / rigid support / torso spring / impact gate: 7730 assertions passed. Production pure math; not Unity physics/rendering."
+    },
+    {
+      "project": "GroundFeedbackLifecycleTests",
+      "passed": true,
+      "output": "GroundFeedback lifecycle: 144 assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim."
+    },
+    {
+      "project": "InputCancellationTests",
+      "passed": true,
+      "output": "PASS normal short release survives raise and fires exactly once\nPASS timeScale-zero frame cancels before deltaTime early exit\nPASS layout cancellation stops queued tap\nPASS lost OS contact cancels queued tap\nPASS source replacement with equal epoch cancels old tap\nPASS removing source cancels old tap before fallback\nPASS initial snapshot preserves legitimate pre-Start request\nPASS cancellation before Start invalidates pending request\nPASS uint epoch wrap cancels correctly\nPASS cancelled frame cannot consume stale fire flags\nPASS fresh tap works after cancellation\nPASS disable cancels without touching a controllerless Animator\nPASS focus and pause callbacks tolerate controller teardown\nPASS runtime controller removal cancels pending fire and recovers\nPASS assigning controller after failed Start permits re-enable\nPASS external recoil notification rejects missing controller\nPASS 16 cases / 43 assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback."
+    },
+    {
+      "project": "MobileInputTests",
+      "passed": true,
+      "output": "PASS Two thumbs move and aim independently\nPASS Crossing thumbs cannot swap sticks\nPASS A third finger cannot steal an occupied stick\nPASS Normal fire release leaves movement running and preserves tap semantics\nPASS A missing OS contact is released at the next poll\nPASS Pointer IDs may be reused after release\nPASS A touch starting outside controls cannot drift into firing\nPASS Dead zone prevents accidental fire but knob still follows finger\nPASS Diagonal movement is capped to the same speed\nPASS Safe-area or orientation change clears old screen coordinates\nPASS An unchanged layout preserves two active fingers\nPASS Pause or focus reset clears all state\nPASS Invalid device coordinates cannot poison output\nPASS Mouse ID stays distinct from normal touch IDs\nPASS: 14 cases / 45 assertions. Production pointer state compiled and executed; Unity UI/device runtime not executed."
+    },
+    {
+      "project": "OcclusionLeaseTests",
+      "passed": true,
+      "output": "PASS material fade preserves source and never toggles visibility\nPASS most transparent camera wins until last lease ends\nPASS updates reuse same clone rather than allocate each frame\nPASS external hidden flags and preexisting alpha survive\nPASS unsupported shaders and MPB owners remain solid\nPASS external slot replacement is preserved during restore\nPASS cutout cannot suddenly disappear below its cutoff\nPASS subsystem reset disposes and restores\nPASS destroyed renderer removes lease and disposes clone\nPASS missing renderer or template has no effect\nPASS 10 cases / 28 assertions; material leases against Unity fakes, not a Unity renderer test."
+    },
+    {
+      "project": "OcclusionMathTests",
+      "passed": true,
+      "output": "PASS: 24 geometry scenarios; 2400 randomized boxes / 146080 independently projected points; 292211 assertions. Production pure math, not Unity rendering."
+    },
+    {
+      "project": "PlayerAudioLifecycleTests",
+      "passed": true,
+      "output": "PlayerAudio fake-Unity lifecycle: 69 assertions passed. Not a Unity Editor test."
+    },
+    {
+      "project": "PoseClockTests",
+      "passed": true,
+      "output": "PASS tap waits for full raise, survives early release\nPASS held fire repeats only after interval\nPASS release does not invent another queued automatic shot\nPASS new tap during cooldown is queued\nPASS combat hold is counted from the latest shot\nPASS tap halfway down reverses and is not discarded\nPASS held trigger immediately interrupts lowering\nPASS large frame never creates a catch-up shot burst\nPASS paused time consumes neither queued request nor timers\nPASS reset clears queued shots and posture\nPASS external shot renews hold and requires raised weapons\nPASS rates 30/60/144 FPS all return to relaxed after one tap\nPASS: 12 cases, 41 assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8."
+    },
+    {
+      "project": "ProjectileCollisionTests",
+      "passed": true,
+      "output": "Projectile hit selection: 411 assertions passed. Pure selection logic; no Unity PhysX simulation."
+    },
+    {
+      "project": "TurnStepTests",
+      "passed": true,
+      "output": "Turn step scheduler and pivot geometry: 51687 assertions passed. Production pure math; no Unity renderer, skinned rig or physics execution."
+    },
+    {
+      "project": "TurningRigTests",
+      "passed": true,
+      "output": "Turn rig: 457403 assertions; random verified landings 1654; max Body offset 0.04943m; stance drift 5.63E-008m; wrapper/lower twist 35.000deg; final torso twist 34.442deg; max swing speed 2.309m/s; swing sole min 0.00080m; landing gap max 0.00300m. Real production transform math + measured Idle geometry, not Unity skinning/physics."
+    }
+  ],
+  "csharpSyntax": {
+    "languageVersion": 9,
+    "files": 46,
+    "inputConfigurations": 3,
+    "errors": 0,
+    "scope": "Roslyn syntax only; full Unity assembly compile not available."
+  },
+  "assetReferences": {
+    "status": "PASS",
+    "sceneObjects": 959,
+    "serializedFiles": 65,
+    "assetGuids": 187,
+    "issues": [],
+    "newPackageGuidsToVerify": {},
+    "newPackageGuidsVerifiedFromOfficialMetadata": [
+      "172515602e62fb746b5d573b38a5fe58",
+      "66f335fb1ffd8684294ad653bf1c7564",
+      "97c23e3b12dc18c42a140437e53d3951",
+      "a79441f348de89743a2939f4d699eac1",
+      "f62c9c65cf3354c93be831c8bc075510"
+    ],
+    "scope": "Serialized refs/meta/hierarchy/source existence, not Unity import or external package fileID resolution."
+  },
+  "fbxStructuralCheck": {
+    "modelNamesUnchanged": true,
+    "hierarchyUnchanged": true,
+    "materialNamesUnchanged": true,
+    "globalSettingsUnchanged": true,
+    "defaultTransformMaxDeltas": {
+      "Lcl Translation": 0,
+      "Lcl Rotation": 0,
+      "Lcl Scaling": 0
+    },
+    "defaultTransformIssues": [],
+    "boneCount": 42,
+    "meshCount": 24,
+    "embeddedTextureCount": 28,
+    "embeddedTextureBytesUnchanged": true,
+    "clipCount": 13,
+    "stacks": [
+      "Intercom_Armature_Fixed|Idle",
+      "Intercom_Armature_Fixed|IdleRelaxed",
+      "Intercom_Armature_Fixed|LowerWeapons",
+      "Intercom_Armature_Fixed|RaiseWeapons",
+      "Intercom_Armature_Fixed|Run",
+      "Intercom_Armature_Fixed|RunBackward",
+      "Intercom_Armature_Fixed|RunBackwardRelaxed",
+      "Intercom_Armature_Fixed|RunLeft",
+      "Intercom_Armature_Fixed|RunLeftRelaxed",
+      "Intercom_Armature_Fixed|RunRelaxed",
+      "Intercom_Armature_Fixed|RunRight",
+      "Intercom_Armature_Fixed|RunRightRelaxed",
+      "Intercom_Armature_Fixed|Shoot"
+    ],
+    "allModelsVisible": true,
+    "geometryVertexTopologyUnchanged": true,
+    "skinWeightsBindMatricesUnchanged": true,
+    "clipNamesUnchanged": true,
+    "fbxTakeNamesMatchMeta": true,
+    "baselineFbxSha256": "cc392b120b63c2441ed9af1b6832403bdf44839e9e0344143452d8a3c5e9c0da",
+    "candidateFbxSha256": "6613e68cc612d20d31a3662e655ee0a06f5301bf92f1fc918d18b718f7d384f4",
+    "status": "PASS"
+  },
+  "turnMeshCheck": {
+    "status": "ok",
+    "scope": "Independent reproduction of the finalized turn TRS math with actual Idle geometry. Unity C# and Play Mode were NOT executed by this check.",
+    "assetHashes": {
+      "Source/Robot/intercom-armed.blend": "5e70fb918742174e301c4c6a7ee95e3dc83c39d308baca3036c9953e9f44120a",
+      "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackTurning.cs": "cdf952ba575fd42c4d8c6baed41a0f19b73a89941cb2e81025c9728708cd731f",
+      "Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs": "08f5dd587e4281fd514f8bf8db3177fce08249960a974e80a2b539a8b72d36c5"
+    },
+    "parameters": {
+      "maximumStepDegrees": 20,
+      "liftMetres": 0.02,
+      "outwardLandingBiasMetres": 0.025,
+      "azimuthRateDegPerSecond": 720,
+      "stepSeconds": 0.18,
+      "dt": 0.00818181818181818,
+      "torsoLeadDegrees": 35
+    },
+    "samples": 12800,
+    "randomSteps": 400,
+    "phaseSamples": [
+      9,
+      23
+    ],
+    "randomSeed": 271828,
+    "bootBootIntersections": 0,
+    "bootBodyIntersections": 0,
+    "minimumActualSoleMetres": 0.000498745274357602,
+    "maximumBodyOffsetMetres": 0.03875161880153457,
+    "maximumStanceVertexDriftMetres": 2.8059936839992536e-06,
+    "notes": [
+      "Height is a desired profile constrained by fixed leg reach, not a guarantee of exactly 20mm lift.",
+      "Foot and Calf translation/scale are retained. Movement comes from rotation and bounded Body correction.",
+      "Full boots and body triangle intersections tested; environment contacts/PhysX are outside this math check."
+    ],
+    "detailedReports": [
+      "TurnActualMesh9.json",
+      "TurnActualMesh23.json"
+    ],
+    "previewScope": "Two actual source-mesh poses were rendered and visually reviewed separately: midstep lift and landing. Technical clay views, not Unity captures."
+  },
+  "independentReview": {
+    "focusedSuites": 5,
+    "assertions": 509346,
+    "sourceHashesStable": true,
+    "blockingFindings": 0
+  },
+  "fileHashes": {
+    "Assets/IntercomMVP/Runtime/IntercomAudioProfile.cs": "0c838aef1686e2b618a1c793cc74ca435a9c602c48553374e9a11e87dd941eee",
+    "Assets/IntercomMVP/Runtime/IntercomCameraFollow.cs": "cae7da0da383ecc97fb7914cba8d7fdf22ca9890dd520d7d10f32db780f08996",
+    "Assets/IntercomMVP/Runtime/IntercomCameraOcclusion.cs": "34ea2be59efc9229cfedffa129eeec26f71b4f33d5f19d93a855091b42b67241",
+    "Assets/IntercomMVP/Runtime/IntercomCombatEffects.cs": "46f8506a12978e5a7e4aa646399a683b457a6bb521997c89871c258f27dad61b",
+    "Assets/IntercomMVP/Runtime/IntercomDistrictMarker.cs": "1cfe9857f24435b0a8b819983fd3bbacce8e4ed08419da18d060072c4bc73580",
+    "Assets/IntercomMVP/Runtime/IntercomFootstepClock.cs": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
+    "Assets/IntercomMVP/Runtime/IntercomFootstepSurface.cs": "90ba318b0d525716df2559d5000c9f65eadafe1c14a8870cf6c9929b6e08b151",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedback.cs": "19f00099e6537d61f5e5a52897fb3efa78e794f90770daebc4632dfc8ff0f64c",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackTurning.cs": "cdf952ba575fd42c4d8c6baed41a0f19b73a89941cb2e81025c9728708cd731f",
+    "Assets/IntercomMVP/Runtime/IntercomGroundMath.cs": "06b374e07cb18f79ce9fd171e2dcd5d8063b3f541790afaa4c845e2fd1b2035f",
+    "Assets/IntercomMVP/Runtime/IntercomInputCancellation.cs": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+    "Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs": "16260f9f4d5d6c8c813c2cda9a611defb5c182d8f893474d6fa8699b7cd175f3",
+    "Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs": "0c0e14b3f283cc7f0173d9c5d1691cd26ddf405c1944c0f3d432a27b650405ab",
+    "Assets/IntercomMVP/Runtime/IntercomMobileRuntimeSettings.cs": "5a933eb229cc89515640903caf8d1f636ba0252c8df0690741bbf1860d55b459",
+    "Assets/IntercomMVP/Runtime/IntercomOccluder.cs": "0fe1599ae3e68457d2411dd39c24b6eed097a8d23704e63271528f2a24d2baef",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionFade.cs": "274f4cb1c808fb2f46a7a9ad0a3347c5f7dc7caf36a6a6c6d03fc57636b5ca0d",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs": "2583f6afdf5dd4efd14c35495a7f3e164dbc85501ce2cd56ac23cfbc8715a9f2",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerAudio.cs": "970dd6d810fef06430ca92cddb39930aa31ad7c202b6b069fbdbddf291dadf46",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "191e8d0c76e7ffe5b7c62b817685e3ea9bbfb8d07065fb26173c46782e9eb9e4",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs": "f40c716034de5c172b817b1f159b7de32ba628283acf52cb836987f0e3ec11b6",
+    "Assets/IntercomMVP/Runtime/IntercomProjectileHitChoice.cs": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
+    "Assets/IntercomMVP/Runtime/IntercomSimpleShooter.cs": "75e8ba3c28773d15d8ee96f29760eb61555d14657cc54e7582030fd0bc8845e2",
+    "Assets/IntercomMVP/Runtime/IntercomTargetDummy.cs": "025cc6119e0806837b3afe2681024a961be18130096c1bbd956ba499e65ee92e",
+    "Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs": "08f5dd587e4281fd514f8bf8db3177fce08249960a974e80a2b539a8b72d36c5",
+    "Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs": "490620d3b259c49489f24be2c175451eed67b1e697388db617b2b551bcd0e0ea",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs": "cf8993d40971bc055bf9daa539fd08cb72fbc2e138c2e0d6dce1fcf164b001eb",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseProfile.cs": "20b9ad5f1c0ec2bc3b86b811790a6bed2717c1dd0a3f54d7f32e1177e660cd0d",
+    "Assets/IntercomMVP/Runtime/IntercomWorldAnchor.cs": "09e5dbc2243b20bb8179a050f43a76c7744abd5cd213eb2ad05100890ac5cc6f",
+    "Source/Robot/intercom-armed.blend": "5e70fb918742174e301c4c6a7ee95e3dc83c39d308baca3036c9953e9f44120a",
+    "Assets/IntercomMVP/Art/Robot/IntercomRobot.fbx": "6613e68cc612d20d31a3662e655ee0a06f5301bf92f1fc918d18b718f7d384f4",
+    "Assets/IntercomMVP/Scenes/IntercomMVP.unity": "d1e50218e9442d1caee6ea375c0ac64bc1c8b57776eb7cd15f71a23054184e63"
+  },
+  "notExecuted": [
+    "Unity 6000.3.26f1 asset import and real-engine compilation",
+    "Animator, physics, skinning and Editor cleanup execution in Play Mode",
+    "URP rendering and sound playback in the Unity scene",
+    "Android/iOS builds and target-device performance tests"
+  ],
+  "visualScope": "Blender previews use actual project meshes; motion comparison uses diagnostic materials. They are not Unity screenshots. Map is an authored modular foundation, not a pixel-identical recreation of the reference image."
+}

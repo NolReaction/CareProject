@@ -43,7 +43,7 @@ namespace UnityEngine {
  public class MinAttribute:Attribute{public MinAttribute(float a){}}
 }
 namespace IntercomMvp {
- public class IntercomGroundFeedback:UnityEngine.Behaviour {public bool ContactsAvailable=true;public bool ProvidesFootContacts=>isActiveAndEnabled&&ContactsAvailable;public event Action<UnityEngine.Collider,UnityEngine.Vector3,float,bool> Footstep;public void Emit(UnityEngine.Collider c,float strength=1f){Footstep?.Invoke(c,new UnityEngine.Vector3{x=2,y=.01f,z=3},strength,true);}}
+ public class IntercomGroundFeedback:UnityEngine.Behaviour {public bool ContactsAvailable=true;public bool IsTurnFootstep;public bool ProvidesFootContacts=>isActiveAndEnabled&&ContactsAvailable;public event Action<UnityEngine.Collider,UnityEngine.Vector3,float,bool> Footstep;public void Emit(UnityEngine.Collider c,float strength=1f){Footstep?.Invoke(c,new UnityEngine.Vector3{x=2,y=.01f,z=3},strength,true);}public void EmitTurn(UnityEngine.Collider c){IsTurnFootstep=true;try{Emit(c,.42f);}finally{IsTurnFootstep=false;}}}
  public class IntercomPlayerMotor : UnityEngine.Behaviour {public float ActualPlanarSpeed;public bool IsGrounded=true;}
  public class IntercomSimpleShooter : UnityEngine.Behaviour {public event Action<UnityEngine.Vector3,int> VolleyFired; public event Action<UnityEngine.Vector3,UnityEngine.Vector3,bool> ProjectileHit; public void Hit(bool target=false,float distance=0){ProjectileHit?.Invoke(new UnityEngine.Vector3{x=distance},new UnityEngine.Vector3{y=1},target);}public void Emit(int count=2){VolleyFired?.Invoke(new UnityEngine.Vector3(),count);}}
 }

@@ -483,5 +483,7 @@
     "Rendered gameplay and device audio",
     "Android/iOS build and device test"
   ],
-  "distribution": "Complete clean project ZIP. Open as a separate project; old overlays are not prerequisites. No GitHub push."
+  "distribution": "Complete clean project ZIP. Open as a separate project; old overlays are not prerequisites. No GitHub push.",
+  "historicalReport": true,
+  "supersededForCurrentAnimationBy": "MotionPolish*.json and TutorialReview.json"
 }

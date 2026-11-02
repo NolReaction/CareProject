@@ -1,11 +1,12 @@
 {
-  "version": 1,
+  "version": 2,
   "width": 36,
   "depth": 32,
+  "title": "Industrial courtyard - first tutorial location",
   "groups": [
     {
       "key": "surface",
-      "name": "01 - Streets and crossings",
+      "name": "01 - Pavement and lane markings",
       "position": [
         0,
         0,
@@ -19,2653 +20,1507 @@
       "hide": false,
       "blocks": [
         {
-          "name": "Road - main north south",
+          "name": "Warehouse concrete apron",
+          "position": [
+            -9,
+            0.025,
+            6.7
+          ],
+          "size": [
+            11.7,
+            0.05,
+            3.0
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "footstepSurface": "Concrete"
+        },
+        {
+          "name": "Workshop concrete apron",
+          "position": [
+            -12,
+            0.025,
+            -5.0
+          ],
+          "size": [
+            8.4,
+            0.05,
+            7.0
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "footstepSurface": "Concrete"
+        },
+        {
+          "name": "Training concrete pad",
+          "position": [
+            10.9,
+            0.025,
+            -8.2
+          ],
+          "size": [
+            9.8,
+            0.05,
+            7.2
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "footstepSurface": "Concrete"
+        },
+        {
+          "name": "Substation slab",
+          "position": [
+            11,
+            0.04,
+            9.2
+          ],
+          "size": [
+            8.5,
+            0.08,
+            8.0
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "footstepSurface": "Concrete"
+        },
+        {
+          "name": "Gravel service strip",
+          "position": [
+            -16.3,
+            0.022,
+            3.2
+          ],
+          "size": [
+            2,
+            0.044,
+            5.4
+          ],
+          "material": "Gravel",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "footstepSurface": "Gravel"
+        },
+        {
+          "name": "Metal service plate",
+          "position": [
+            -6.0,
+            0.03,
+            -9.9
+          ],
+          "size": [
+            2,
+            0.06,
+            1.2
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "footstepSurface": "Metal"
+        },
+        {
+          "name": "Faded yard markings",
           "position": [
             0,
-            0.001,
+            0,
             0
           ],
           "size": [
-            5,
-            0.002,
-            29
+            1,
+            1,
+            1
           ],
-          "material": "Asphalt",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Road - main east west",
-          "position": [
-            0,
-            0.002,
-            0
-          ],
-          "size": [
-            33,
-            0.002,
-            5
-          ],
-          "material": "Asphalt",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Service loop side",
-          "position": [
-            -14,
-            0.001,
-            0
-          ],
-          "size": [
-            3,
-            0.002,
-            27
-          ],
-          "material": "Asphalt",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Service loop side",
-          "position": [
-            14,
-            0.001,
-            0
-          ],
-          "size": [
-            3,
-            0.002,
-            27
-          ],
-          "material": "Asphalt",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Service loop end",
-          "position": [
-            0,
-            0.001,
-            -12
-          ],
-          "size": [
-            30,
-            0.002,
-            3
-          ],
-          "material": "Asphalt",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Service loop end",
-          "position": [
-            0,
-            0.001,
-            12
-          ],
-          "size": [
-            30,
-            0.002,
-            3
-          ],
-          "material": "Asphalt",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            0,
-            0.006,
-            -9
-          ],
-          "size": [
-            0.13,
-            0.002,
-            1.35
+          "mesh": "YardMarkings",
+          "materials": [
+            "Paint",
+            "Trim",
+            "Door"
           ],
           "material": "Paint",
-          "collider": false,
-          "shadow": false,
           "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            0,
-            0.006,
-            -6
-          ],
-          "size": [
-            0.13,
-            0.002,
-            1.35
-          ],
-          "material": "Paint",
+          "shape": "Mesh",
           "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            0,
-            0.006,
-            6
-          ],
-          "size": [
-            0.13,
-            0.002,
-            1.35
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            0,
-            0.006,
-            9
-          ],
-          "size": [
-            0.13,
-            0.002,
-            1.35
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            -10,
-            0.006,
-            0
-          ],
-          "size": [
-            1.35,
-            0.002,
-            0.13
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            -6,
-            0.006,
-            0
-          ],
-          "size": [
-            1.35,
-            0.002,
-            0.13
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            6,
-            0.006,
-            0
-          ],
-          "size": [
-            1.35,
-            0.002,
-            0.13
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Centre dash",
-          "position": [
-            10,
-            0.006,
-            0
-          ],
-          "size": [
-            1.35,
-            0.002,
-            0.13
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -1.7,
-            0.007,
-            -3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -0.85,
-            0.007,
-            -3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            0,
-            0.007,
-            -3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            0.85,
-            0.007,
-            -3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            1.7,
-            0.007,
-            -3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -3.25,
-            0.008,
-            -1.7
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -3.25,
-            0.008,
-            -0.85
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -3.25,
-            0.008,
-            0
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -3.25,
-            0.008,
-            0.85
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -3.25,
-            0.008,
-            1.7
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -1.7,
-            0.007,
-            3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            -0.85,
-            0.007,
-            3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            0,
-            0.007,
-            3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            0.85,
-            0.007,
-            3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            1.7,
-            0.007,
-            3.25
-          ],
-          "size": [
-            0.42,
-            0.002,
-            1.2
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            3.25,
-            0.008,
-            -1.7
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            3.25,
-            0.008,
-            -0.85
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            3.25,
-            0.008,
-            0
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            3.25,
-            0.008,
-            0.85
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Crossing",
-          "position": [
-            3.25,
-            0.008,
-            1.7
-          ],
-          "size": [
-            1.2,
-            0.002,
-            0.42
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
+          "shadow": true
         }
       ]
     },
     {
       "key": "depot",
-      "name": "02 - Depot - replace model",
+      "name": "02 - Warehouse - replace shell",
       "position": [
-        -8,
+        -9,
         0,
-        7
+        10.8
       ],
       "role": "Building",
       "footprint": [
-        6,
-        5
+        10.5,
+        5.1
       ],
       "hide": true,
       "blocks": [
         {
-          "name": "Visual - main volume",
+          "name": "Warehouse shell",
           "position": [
             0,
-            1.4,
+            0,
             0
           ],
           "size": [
-            6,
-            2.8,
-            5
+            1,
+            1,
+            1
+          ],
+          "mesh": "Warehouse",
+          "materials": [
+            "BlueGrey",
+            "Concrete",
+            "Roof",
+            "Trim",
+            "Door",
+            "Lamp",
+            "Orange"
           ],
           "material": "BlueGrey",
+          "yaw": 0,
+          "shape": "Mesh",
           "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - plinth",
-          "position": [
+          "collisionCenter": [
             0,
-            0.12,
+            2.05,
             0
           ],
-          "size": [
-            6.12,
-            0.24,
-            5.12
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionSize": [
+            10.5,
+            4.1,
+            5.1
+          ]
         },
         {
-          "name": "Visual - roof cap",
+          "name": "Loading cargo A",
           "position": [
-            0,
-            2.8899999999999997,
-            0
+            -4,
+            0.05,
+            -3.35
           ],
           "size": [
-            6.36,
-            0.18,
-            5.36
+            1,
+            1,
+            1
           ],
-          "material": "Roof",
-          "collider": false,
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
+          ],
+          "material": "Crate",
+          "yaw": 8,
+          "shape": "Mesh",
+          "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - front fascia",
-          "position": [
-            0,
-            2.5199999999999996,
-            -2.525
-          ],
-          "size": [
-            5.75,
-            0.28,
-            0.07
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - door",
-          "position": [
-            0,
-            0.65,
-            -2.525
-          ],
-          "size": [
-            1.8,
-            1.3,
-            0.07
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - window",
-          "position": [
-            -1.8599999999999999,
-            1.25,
-            -2.54
-          ],
-          "size": [
-            0.8,
+          "collisionCenter": [
+            0.0,
             0.55,
-            0.055
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - sill",
-          "position": [
-            -1.8599999999999999,
-            0.96,
-            -2.57
-          ],
-          "size": [
-            0.9,
-            0.08,
-            0.16
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - window",
-          "position": [
-            1.8599999999999999,
-            1.25,
-            -2.54
-          ],
-          "size": [
-            0.8,
-            0.55,
-            0.055
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - sill",
-          "position": [
-            1.8599999999999999,
-            0.96,
-            -2.57
-          ],
-          "size": [
-            0.9,
-            0.08,
-            0.16
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent",
-          "position": [
-            1.32,
-            3.15,
-            0.1
-          ],
-          "size": [
-            0.9,
-            0.5,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent slat",
-          "position": [
-            1.32,
-            3.4099999999999997,
-            -0.22
-          ],
-          "size": [
-            0.72,
-            0.025,
-            0.08
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent slat",
-          "position": [
-            1.32,
-            3.4099999999999997,
             0.0
           ],
-          "size": [
-            0.72,
-            0.025,
-            0.08
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
         },
         {
-          "name": "Visual - vent slat",
+          "name": "Loading cargo B",
           "position": [
-            1.32,
-            3.4099999999999997,
-            0.22
+            4,
+            0.05,
+            -3.3
           ],
           "size": [
-            0.72,
-            0.025,
-            0.08
+            1,
+            1,
+            1
           ],
-          "material": "Door",
-          "collider": false,
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
+          ],
+          "material": "Crate",
+          "yaw": -8,
+          "shape": "Mesh",
+          "collider": true,
           "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.55,
+            0.0
+          ],
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
+        },
+        {
+          "name": "Loading drum",
+          "position": [
+            3,
+            0.05,
+            -3.25
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "SteelDrum",
+          "materials": [
+            "BlueGrey",
+            "Trim",
+            "Roof"
+          ],
+          "material": "BlueGrey",
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45475,
+            0.0
+          ],
+          "collisionSize": [
+            0.632,
+            0.8895,
+            0.632
+          ]
         }
       ]
     },
     {
       "key": "workshop",
-      "name": "03 - Workshop - replace model",
+      "name": "03 - Workshop - replace shell",
       "position": [
-        -8,
+        -12,
         0,
-        -7
+        -4.8
       ],
       "role": "Building",
       "footprint": [
-        5,
-        5
+        6.7,
+        5.2
       ],
       "hide": true,
       "blocks": [
         {
-          "name": "Visual - main volume",
+          "name": "Workshop shell",
           "position": [
             0,
-            1.2,
+            0,
             0
           ],
           "size": [
-            5,
-            2.4,
-            5
+            1,
+            1,
+            1
           ],
-          "material": "Orange",
+          "mesh": "Workshop",
+          "materials": [
+            "BlueGrey",
+            "Concrete",
+            "Roof",
+            "Trim",
+            "Door",
+            "Lamp",
+            "Orange"
+          ],
+          "material": "BlueGrey",
+          "yaw": 0,
+          "shape": "Mesh",
           "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - plinth",
-          "position": [
+          "collisionCenter": [
             0,
-            0.12,
+            1.575,
             0
           ],
-          "size": [
-            5.12,
-            0.24,
-            5.12
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionSize": [
+            6.7,
+            3.15,
+            5.2
+          ]
         },
         {
-          "name": "Visual - roof cap",
+          "name": "Workshop spool",
           "position": [
-            0,
-            2.4899999999999998,
-            0
+            2.6,
+            0.05,
+            -3.55
           ],
           "size": [
-            5.36,
-            0.18,
-            5.36
+            1,
+            1,
+            1
           ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
+          "mesh": "CableSpool",
+          "materials": [
+            "Rubber",
+            "Crate",
+            "Door"
+          ],
+          "material": "Rubber",
           "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - front fascia",
-          "position": [
-            0,
-            2.12,
-            -2.525
-          ],
-          "size": [
-            4.75,
-            0.28,
-            0.07
-          ],
-          "material": "Trim",
-          "collider": false,
+          "shape": "Mesh",
+          "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - door",
-          "position": [
-            0,
-            0.65,
-            -2.525
-          ],
-          "size": [
-            1.1,
-            1.3,
-            0.07
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - window",
-          "position": [
-            -1.55,
-            1.25,
-            -2.54
-          ],
-          "size": [
-            0.8,
-            0.55,
-            0.055
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - sill",
-          "position": [
-            -1.55,
-            0.96,
-            -2.57
-          ],
-          "size": [
-            0.9,
-            0.08,
-            0.16
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - window",
-          "position": [
-            1.55,
-            1.25,
-            -2.54
-          ],
-          "size": [
-            0.8,
-            0.55,
-            0.055
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - sill",
-          "position": [
-            1.55,
-            0.96,
-            -2.57
-          ],
-          "size": [
-            0.9,
-            0.08,
-            0.16
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent",
-          "position": [
-            1.1,
-            2.75,
-            0.1
-          ],
-          "size": [
-            0.9,
-            0.5,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent slat",
-          "position": [
-            1.1,
-            3.01,
-            -0.22
-          ],
-          "size": [
-            0.72,
-            0.025,
-            0.08
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent slat",
-          "position": [
-            1.1,
-            3.01,
+          "collisionCenter": [
+            0.0,
+            0.41500000000000004,
             0.0
           ],
-          "size": [
-            0.72,
-            0.025,
-            0.08
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionSize": [
+            0.98,
+            0.74,
+            0.98
+          ]
         },
         {
-          "name": "Visual - vent slat",
+          "name": "Workshop drum",
           "position": [
-            1.1,
-            3.01,
-            0.22
+            3.55,
+            0.05,
+            -2.9
           ],
           "size": [
-            0.72,
-            0.025,
-            0.08
+            1,
+            1,
+            1
           ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
+          "mesh": "SteelDrum",
+          "materials": [
+            "BlueGrey",
+            "Trim",
+            "Roof"
+          ],
+          "material": "BlueGrey",
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45475,
+            0.0
+          ],
+          "collisionSize": [
+            0.632,
+            0.8895,
+            0.632
+          ]
+        },
+        {
+          "name": "Workshop crates",
+          "position": [
+            -2.6,
+            0.05,
+            -3.55
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
+          ],
+          "material": "Crate",
+          "yaw": 5,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.55,
+            0.0
+          ],
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
+        },
+        {
+          "name": "Service pipes",
+          "position": [
+            -3.65,
+            0.05,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "UtilityPipes",
+          "materials": [
+            "Trim",
+            "Orange",
+            "Door",
+            "Roof"
+          ],
+          "material": "Trim",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
         }
       ]
     },
     {
       "key": "substation",
-      "name": "04 - Substation - replace model",
+      "name": "04 - Electrical substation",
       "position": [
-        8,
+        11,
         0,
-        8
+        9.2
       ],
       "role": "Building",
       "footprint": [
-        5.5,
-        4.5
+        8.5,
+        8.0
       ],
       "hide": true,
       "blocks": [
         {
-          "name": "Visual - main volume",
+          "name": "Transformer -1.8",
           "position": [
-            0,
-            1.3,
-            0
-          ],
-          "size": [
-            5.5,
-            2.6,
-            4.5
-          ],
-          "material": "Crate",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - plinth",
-          "position": [
-            0,
-            0.12,
-            0
-          ],
-          "size": [
-            5.62,
-            0.24,
-            4.62
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - roof cap",
-          "position": [
-            0,
-            2.69,
-            0
-          ],
-          "size": [
-            5.86,
-            0.18,
-            4.86
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - front fascia",
-          "position": [
-            0,
-            2.3200000000000003,
-            -2.275
-          ],
-          "size": [
-            5.25,
-            0.28,
-            0.07
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - door",
-          "position": [
-            0,
-            0.65,
-            -2.275
-          ],
-          "size": [
-            1.1,
-            1.3,
-            0.07
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - window",
-          "position": [
-            -1.705,
-            1.25,
-            -2.29
-          ],
-          "size": [
-            0.8,
-            0.55,
-            0.055
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - sill",
-          "position": [
-            -1.705,
-            0.96,
-            -2.32
-          ],
-          "size": [
-            0.9,
+            -1.8,
             0.08,
-            0.16
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - window",
-          "position": [
-            1.705,
-            1.25,
-            -2.29
+            0
           ],
           "size": [
-            0.8,
-            0.55,
-            0.055
+            1,
+            1,
+            1
           ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - sill",
-          "position": [
-            1.705,
-            0.96,
-            -2.32
-          ],
-          "size": [
-            0.9,
-            0.08,
-            0.16
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent",
-          "position": [
-            1.21,
-            2.95,
-            0.1
-          ],
-          "size": [
-            0.9,
-            0.5,
-            0.8
+          "mesh": "Transformer",
+          "materials": [
+            "Concrete",
+            "BlueGrey",
+            "Trim",
+            "Door",
+            "Roof",
+            "Paint"
           ],
           "material": "Concrete",
-          "collider": false,
-          "shadow": true,
           "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent slat",
-          "position": [
-            1.21,
-            3.21,
-            -0.22
-          ],
-          "size": [
-            0.72,
-            0.025,
-            0.08
-          ],
-          "material": "Door",
-          "collider": false,
+          "shape": "Mesh",
+          "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Visual - vent slat",
-          "position": [
-            1.21,
-            3.21,
+          "collisionCenter": [
+            0.0,
+            0.99,
             0.0
           ],
-          "size": [
-            0.72,
-            0.025,
-            0.08
-          ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionSize": [
+            1.75,
+            1.98,
+            1.6
+          ]
         },
         {
-          "name": "Visual - vent slat",
+          "name": "Transformer 1.8",
           "position": [
-            1.21,
-            3.21,
-            0.22
+            1.8,
+            0.08,
+            0
           ],
           "size": [
-            0.72,
-            0.025,
-            0.08
+            1,
+            1,
+            1
           ],
-          "material": "Door",
-          "collider": false,
-          "shadow": true,
+          "mesh": "Transformer",
+          "materials": [
+            "Concrete",
+            "BlueGrey",
+            "Trim",
+            "Door",
+            "Roof",
+            "Paint"
+          ],
+          "material": "Concrete",
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.99,
+            0.0
+          ],
+          "collisionSize": [
+            1.75,
+            1.98,
+            1.6
+          ]
+        },
+        {
+          "name": "Rear fence -2.9",
+          "position": [
+            -2.9,
+            0.08,
+            3.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Front fence -2.9",
+          "position": [
+            -2.9,
+            0.08,
+            -3.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear fence 0.1",
+          "position": [
+            0.1,
+            0.08,
+            3.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Front fence 0.1",
+          "position": [
+            0.1,
+            0.08,
+            -3.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear fence 3.1",
+          "position": [
+            3.1,
+            0.08,
+            3.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Front fence 3.1",
+          "position": [
+            3.1,
+            0.08,
+            -3.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Side fence -4.3-2.3",
+          "position": [
+            -4.3,
+            0.08,
+            -2.3
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Side fence 4.3-2.3",
+          "position": [
+            4.3,
+            0.08,
+            -2.3
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Side fence -4.30.7",
+          "position": [
+            -4.3,
+            0.08,
+            0.7
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Side fence 4.30.7",
+          "position": [
+            4.3,
+            0.08,
+            0.7
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Substation collision",
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "size": [
+            8.6,
+            2,
+            7.7
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "visual": false
+        },
+        {
+          "name": "Substation pipes",
+          "position": [
+            0,
+            0.08,
+            2.4
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "UtilityPipes",
+          "materials": [
+            "Trim",
+            "Orange",
+            "Door",
+            "Roof"
+          ],
+          "material": "Trim",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
         }
       ]
     },
     {
-      "key": "loading",
-      "name": "05 - Loading apron",
+      "key": "container",
+      "name": "05 - Container cover",
       "position": [
-        -7,
+        -3,
         0,
-        3.4
-      ],
-      "role": "Zone",
-      "footprint": [
-        9,
         2
+      ],
+      "role": "Cover",
+      "footprint": [
+        4.6,
+        2.3
+      ],
+      "hide": true,
+      "blocks": [
+        {
+          "name": "Rust cargo container",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "CargoContainer",
+          "materials": [
+            "Orange",
+            "Trim"
+          ],
+          "material": "Orange",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.030000000000000027,
+            1.19875,
+            -0.007750000000000035
+          ],
+          "collisionSize": [
+            4.66,
+            2.3875,
+            2.3445
+          ]
+        },
+        {
+          "name": "Container barrier",
+          "position": [
+            -0.5,
+            0,
+            -1.7
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
+        },
+        {
+          "name": "Container drum",
+          "position": [
+            2.8,
+            0,
+            -0.8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "SteelDrum",
+          "materials": [
+            "BlueGrey",
+            "Trim",
+            "Roof"
+          ],
+          "material": "BlueGrey",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45475,
+            0.0
+          ],
+          "collisionSize": [
+            0.632,
+            0.8895,
+            0.632
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cover_e",
+      "name": "06 - East cover cluster",
+      "position": [
+        6,
+        0,
+        -0.4
+      ],
+      "role": "Cover",
+      "footprint": [
+        3.6,
+        2.4
       ],
       "hide": false,
       "blocks": [
         {
-          "name": "Concrete apron",
+          "name": "Low barrier",
           "position": [
             0,
-            0.003,
-            0
+            0,
+            -0.65
           ],
           "size": [
-            9,
-            0.002,
-            1.55
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
           ],
           "material": "Concrete",
-          "collider": true,
-          "shadow": false,
           "yaw": 0,
-          "shape": "Cube",
-          "footstepSurface": "Concrete"
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
         },
         {
-          "name": "Loading chevron",
+          "name": "Supply crate",
           "position": [
-            -3,
-            0.008,
-            0
+            -0.35,
+            0,
+            0.35
           ],
           "size": [
-            0.14,
-            0.002,
-            1.1
+            1,
+            1,
+            1
           ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": -25,
-          "shape": "Cube"
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
+          ],
+          "material": "Crate",
+          "yaw": 10,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.55,
+            0.0
+          ],
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
         },
         {
-          "name": "Loading chevron",
+          "name": "Supply drum",
           "position": [
-            -1.5,
-            0.008,
-            0
+            1.3,
+            0,
+            0.28
           ],
           "size": [
-            0.14,
-            0.002,
-            1.1
+            1,
+            1,
+            1
           ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": -25,
-          "shape": "Cube"
-        },
+          "mesh": "SteelDrum",
+          "materials": [
+            "BlueGrey",
+            "Trim",
+            "Roof"
+          ],
+          "material": "BlueGrey",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45475,
+            0.0
+          ],
+          "collisionSize": [
+            0.632,
+            0.8895,
+            0.632
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cover_s",
+      "name": "07 - Entry cover cluster",
+      "position": [
+        -3,
+        0,
+        -6.3
+      ],
+      "role": "Cover",
+      "footprint": [
+        3.6,
+        2.4
+      ],
+      "hide": false,
+      "blocks": [
         {
-          "name": "Loading chevron",
+          "name": "Low barrier",
           "position": [
             0,
-            0.008,
-            0
+            0,
+            -0.65
           ],
           "size": [
-            0.14,
-            0.002,
-            1.1
+            1,
+            1,
+            1
           ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": -25,
-          "shape": "Cube"
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
         },
         {
-          "name": "Loading chevron",
+          "name": "Supply crate",
           "position": [
-            1.5,
-            0.008,
-            0
+            -0.35,
+            0,
+            0.35
           ],
           "size": [
-            0.14,
-            0.002,
-            1.1
+            1,
+            1,
+            1
           ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": -25,
-          "shape": "Cube"
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
+          ],
+          "material": "Crate",
+          "yaw": 10,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.55,
+            0.0
+          ],
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
         },
         {
-          "name": "Loading chevron",
+          "name": "Supply drum",
           "position": [
-            3,
-            0.008,
-            0
+            1.3,
+            0,
+            0.28
           ],
           "size": [
-            0.14,
-            0.002,
-            1.1
+            1,
+            1,
+            1
           ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": -25,
-          "shape": "Cube"
+          "mesh": "SteelDrum",
+          "materials": [
+            "BlueGrey",
+            "Trim",
+            "Roof"
+          ],
+          "material": "BlueGrey",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45475,
+            0.0
+          ],
+          "collisionSize": [
+            0.632,
+            0.8895,
+            0.632
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cover_n",
+      "name": "08 - North cover cluster",
+      "position": [
+        1,
+        0,
+        7.5
+      ],
+      "role": "Cover",
+      "footprint": [
+        3.6,
+        2.4
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Low barrier",
+          "position": [
+            0,
+            0,
+            -0.65
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
+        },
+        {
+          "name": "Supply crate",
+          "position": [
+            -0.35,
+            0,
+            0.35
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
+          ],
+          "material": "Crate",
+          "yaw": 10,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.55,
+            0.0
+          ],
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
+        },
+        {
+          "name": "Supply drum",
+          "position": [
+            1.3,
+            0,
+            0.28
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "SteelDrum",
+          "materials": [
+            "BlueGrey",
+            "Trim",
+            "Roof"
+          ],
+          "material": "BlueGrey",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45475,
+            0.0
+          ],
+          "collisionSize": [
+            0.632,
+            0.8895,
+            0.632
+          ]
         }
       ]
     },
     {
       "key": "training",
-      "name": "06 - Training yard",
+      "name": "09 - Training range",
       "position": [
-        9,
+        10.9,
         0,
-        -7
+        -8.2
       ],
       "role": "Zone",
       "footprint": [
-        10,
-        8
+        9.8,
+        7.2
       ],
       "hide": false,
       "blocks": [
         {
-          "name": "Training pad",
+          "name": "Range backstop -3.4",
           "position": [
-            0,
-            0.003,
-            0
+            -3.4,
+            0.05,
+            -3.4
           ],
           "size": [
-            9.4,
-            0.002,
-            7.6
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
           ],
           "material": "Concrete",
-          "collider": true,
-          "shadow": false,
           "yaw": 0,
-          "shape": "Cube",
-          "footstepSurface": "Concrete"
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
         },
         {
-          "name": "Yard edge",
+          "name": "Range backstop 0",
+          "position": [
+            0,
+            0.05,
+            -3.4
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
+        },
+        {
+          "name": "Range backstop 3.4",
+          "position": [
+            3.4,
+            0.05,
+            -3.4
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
+        },
+        {
+          "name": "Range side cover",
           "position": [
             -4.7,
-            0.007,
-            0
-          ],
-          "size": [
-            0.09,
-            0.002,
-            7.6
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Yard edge",
-          "position": [
-            4.7,
-            0.007,
-            0
-          ],
-          "size": [
-            0.09,
-            0.002,
-            7.6
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Yard edge",
-          "position": [
-            0,
-            0.007,
-            -3.8
-          ],
-          "size": [
-            9.4,
-            0.002,
-            0.09
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Yard edge",
-          "position": [
-            0,
-            0.007,
-            3.8
-          ],
-          "size": [
-            9.4,
-            0.002,
-            0.09
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Firing line",
-          "position": [
-            0,
-            0.008,
-            2.35
-          ],
-          "size": [
-            8.3,
-            0.002,
-            0.12
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cover_0",
-      "name": "07 - Low cover 1",
-      "position": [
-        -4,
-        0,
-        3
-      ],
-      "role": "Cover",
-      "footprint": [
-        1.6,
-        0.55
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Collision and visual",
-          "position": [
-            0,
-            0.35,
-            0
-          ],
-          "size": [
-            1.6,
-            0.7,
-            0.55
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Yellow cap",
-          "position": [
-            0,
-            0.72,
-            0
-          ],
-          "size": [
-            1.6,
             0.05,
-            0.5800000000000001
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cover_1",
-      "name": "07 - Low cover 2",
-      "position": [
-        4,
-        0,
-        3.3
-      ],
-      "role": "Cover",
-      "footprint": [
-        1.6,
-        0.55
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Collision and visual",
-          "position": [
-            0,
-            0.35,
-            0
+            -1.4
           ],
           "size": [
-            1.6,
-            0.7,
-            0.55
+            1,
+            1,
+            1
+          ],
+          "mesh": "JerseyBarrier",
+          "materials": [
+            "Concrete",
+            "Paint",
+            "Trim"
           ],
           "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": -10,
-          "shape": "Cube"
-        },
-        {
-          "name": "Yellow cap",
-          "position": [
-            0,
-            0.72,
-            0
-          ],
-          "size": [
-            1.6,
-            0.05,
-            0.5800000000000001
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": -10,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cover_2",
-      "name": "07 - Low cover 3",
-      "position": [
-        4,
-        0,
-        -4
-      ],
-      "role": "Cover",
-      "footprint": [
-        1.5,
-        0.5
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Collision and visual",
-          "position": [
-            0,
-            0.35,
-            0
-          ],
-          "size": [
-            1.5,
-            0.7,
-            0.5
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
           "yaw": 90,
-          "shape": "Cube"
-        },
-        {
-          "name": "Yellow cap",
-          "position": [
-            0,
-            0.72,
-            0
-          ],
-          "size": [
-            1.5,
-            0.05,
-            0.53
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 90,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cover_3",
-      "name": "07 - Low cover 4",
-      "position": [
-        -5,
-        0,
-        -2
-      ],
-      "role": "Cover",
-      "footprint": [
-        1.1,
-        0.75
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Collision and visual",
-          "position": [
-            0,
-            0.35,
-            0
-          ],
-          "size": [
-            1.1,
-            0.7,
-            0.75
-          ],
-          "material": "Concrete",
+          "shape": "Mesh",
           "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionCenter": [
+            0.0,
+            0.49,
+            0.0
+          ],
+          "collisionSize": [
+            2.1,
+            0.98,
+            0.6
+          ]
         },
         {
-          "name": "Yellow cap",
+          "name": "Range supplies",
           "position": [
-            0,
-            0.72,
-            0
-          ],
-          "size": [
-            1.1,
+            4.2,
             0.05,
-            0.78
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cargo_0",
-      "name": "08 - Cargo 1",
-      "position": [
-        -11.6,
-        0,
-        4
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.9,
-        0.9
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Crate",
-          "position": [
-            0,
-            0.45,
-            0
+            -2.5
           ],
           "size": [
-            0.9,
-            0.9,
-            0.9
+            1,
+            1,
+            1
           ],
-          "material": "Orange",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Lid brace",
-          "position": [
-            0,
-            0.915,
-            0
-          ],
-          "size": [
-            0.97,
-            0.05,
-            0.18
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Side label",
-          "position": [
-            0,
-            0.55,
-            -0.459
-          ],
-          "size": [
-            0.42,
-            0.25,
-            0.025
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cargo_1",
-      "name": "08 - Cargo 2",
-      "position": [
-        -11.6,
-        0,
-        5.4
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.9,
-        0.9
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Crate",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
+          "mesh": "CargoCrate",
+          "materials": [
+            "Crate",
+            "Trim"
           ],
           "material": "Crate",
+          "yaw": 0,
+          "shape": "Mesh",
           "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Lid brace",
-          "position": [
-            0,
-            0.915,
-            0
-          ],
-          "size": [
-            0.97,
-            0.05,
-            0.18
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Side label",
-          "position": [
-            0,
+          "collisionCenter": [
+            0.0,
             0.55,
-            -0.459
+            0.0
           ],
-          "size": [
-            0.42,
-            0.25,
-            0.025
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionSize": [
+            1.1500000000000001,
+            1.1,
+            1.1600000000000001
+          ]
         }
       ]
     },
     {
-      "key": "cargo_2",
-      "name": "08 - Cargo 3",
-      "position": [
-        -4.3,
-        0,
-        -8.8
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.9,
-        0.9
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Crate",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "material": "Orange",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Lid brace",
-          "position": [
-            0,
-            0.915,
-            0
-          ],
-          "size": [
-            0.97,
-            0.05,
-            0.18
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Side label",
-          "position": [
-            0,
-            0.55,
-            -0.459
-          ],
-          "size": [
-            0.42,
-            0.25,
-            0.025
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "cargo_3",
-      "name": "08 - Cargo 4",
-      "position": [
-        11.4,
-        0,
-        5.5
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.9,
-        0.9
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Crate",
-          "position": [
-            0,
-            0.45,
-            0
-          ],
-          "size": [
-            0.9,
-            0.9,
-            0.9
-          ],
-          "material": "Crate",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Lid brace",
-          "position": [
-            0,
-            0.915,
-            0
-          ],
-          "size": [
-            0.97,
-            0.05,
-            0.18
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Side label",
-          "position": [
-            0,
-            0.55,
-            -0.459
-          ],
-          "size": [
-            0.42,
-            0.25,
-            0.025
-          ],
-          "material": "Trim",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "planter_0",
-      "name": "09 - Planter 1",
-      "position": [
-        -16,
-        0,
-        9
-      ],
-      "role": "Prop",
-      "footprint": [
-        1.3,
-        0.8
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Planter",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "size": [
-            1.3,
-            0.44,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Shrub",
-          "position": [
-            0,
-            0.57,
-            0
-          ],
-          "size": [
-            1.13,
-            0.48,
-            0.66
-          ],
-          "material": "Moss",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "planter_1",
-      "name": "09 - Planter 2",
-      "position": [
-        -16,
-        0,
-        -8
-      ],
-      "role": "Prop",
-      "footprint": [
-        1.3,
-        0.8
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Planter",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "size": [
-            1.3,
-            0.44,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Shrub",
-          "position": [
-            0,
-            0.57,
-            0
-          ],
-          "size": [
-            1.13,
-            0.48,
-            0.66
-          ],
-          "material": "Moss",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "planter_2",
-      "name": "09 - Planter 3",
-      "position": [
-        16,
-        0,
-        9
-      ],
-      "role": "Prop",
-      "footprint": [
-        1.3,
-        0.8
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Planter",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "size": [
-            1.3,
-            0.44,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Shrub",
-          "position": [
-            0,
-            0.57,
-            0
-          ],
-          "size": [
-            1.13,
-            0.48,
-            0.66
-          ],
-          "material": "Moss",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "planter_3",
-      "name": "09 - Planter 4",
-      "position": [
-        16,
-        0,
-        -8
-      ],
-      "role": "Prop",
-      "footprint": [
-        1.3,
-        0.8
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Planter",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "size": [
-            1.3,
-            0.44,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Shrub",
-          "position": [
-            0,
-            0.57,
-            0
-          ],
-          "size": [
-            1.13,
-            0.48,
-            0.66
-          ],
-          "material": "Moss",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "planter_4",
-      "name": "09 - Planter 5",
-      "position": [
-        -4.5,
-        0,
-        10
-      ],
-      "role": "Prop",
-      "footprint": [
-        1.3,
-        0.8
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Planter",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "size": [
-            1.3,
-            0.44,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Shrub",
-          "position": [
-            0,
-            0.57,
-            0
-          ],
-          "size": [
-            1.13,
-            0.48,
-            0.66
-          ],
-          "material": "Moss",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "planter_5",
-      "name": "09 - Planter 6",
-      "position": [
-        4.5,
-        0,
-        -11
-      ],
-      "role": "Prop",
-      "footprint": [
-        1.3,
-        0.8
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Planter",
-          "position": [
-            0,
-            0.22,
-            0
-          ],
-          "size": [
-            1.3,
-            0.44,
-            0.8
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Shrub",
-          "position": [
-            0,
-            0.57,
-            0
-          ],
-          "size": [
-            1.13,
-            0.48,
-            0.66
-          ],
-          "material": "Moss",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "post_0",
-      "name": "10 - Utility bollard 1",
-      "position": [
-        -3.2,
-        0,
-        -3.2
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.25,
-        0.25
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Post",
-          "position": [
-            0,
-            0.38,
-            0
-          ],
-          "size": [
-            0.25,
-            0.76,
-            0.25
-          ],
-          "material": "Roof",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Reflector",
-          "position": [
-            0,
-            0.68,
-            0
-          ],
-          "size": [
-            0.27,
-            0.1,
-            0.27
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "post_1",
-      "name": "10 - Utility bollard 2",
-      "position": [
-        3.2,
-        0,
-        3.2
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.25,
-        0.25
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Post",
-          "position": [
-            0,
-            0.38,
-            0
-          ],
-          "size": [
-            0.25,
-            0.76,
-            0.25
-          ],
-          "material": "Roof",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Reflector",
-          "position": [
-            0,
-            0.68,
-            0
-          ],
-          "size": [
-            0.27,
-            0.1,
-            0.27
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "post_2",
-      "name": "10 - Utility bollard 3",
-      "position": [
-        -12.3,
-        0,
-        -11
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.25,
-        0.25
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Post",
-          "position": [
-            0,
-            0.38,
-            0
-          ],
-          "size": [
-            0.25,
-            0.76,
-            0.25
-          ],
-          "material": "Roof",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Reflector",
-          "position": [
-            0,
-            0.68,
-            0
-          ],
-          "size": [
-            0.27,
-            0.1,
-            0.27
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "post_3",
-      "name": "10 - Utility bollard 4",
-      "position": [
-        12.3,
-        0,
-        11
-      ],
-      "role": "Prop",
-      "footprint": [
-        0.25,
-        0.25
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Post",
-          "position": [
-            0,
-            0.38,
-            0
-          ],
-          "size": [
-            0.25,
-            0.76,
-            0.25
-          ],
-          "material": "Roof",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "Reflector",
-          "position": [
-            0,
-            0.68,
-            0
-          ],
-          "size": [
-            0.27,
-            0.1,
-            0.27
-          ],
-          "material": "Paint",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        }
-      ]
-    },
-    {
-      "key": "boundary",
-      "name": "11 - Arena border",
+      "key": "perimeter",
+      "name": "10 - Perimeter and gates",
       "position": [
         0,
         0,
@@ -2679,158 +1534,2503 @@
       "hide": false,
       "blocks": [
         {
-          "name": "North wall",
+          "name": "West wall 0",
           "position": [
+            -17.65,
             0,
-            0.3,
-            15.8
+            -14.136363636363637
           ],
           "size": [
-            35.8,
-            0.6,
-            0.35
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
           ],
           "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
           "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
         },
         {
-          "name": "North cap",
+          "name": "West wall 1",
           "position": [
+            -17.65,
             0,
-            0.62,
-            15.8
+            -11.309090909090909
           ],
           "size": [
-            35.8,
-            0.05,
-            0.35
+            0.9424242424242425,
+            1,
+            1
           ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "South wall",
-          "position": [
-            0,
-            0.3,
-            -15.8
-          ],
-          "size": [
-            35.8,
-            0.6,
-            0.35
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
           ],
           "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
           "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
         },
         {
-          "name": "South cap",
+          "name": "West wall 2",
           "position": [
+            -17.65,
             0,
-            0.62,
-            -15.8
+            -8.48181818181818
           ],
           "size": [
-            35.8,
-            0.05,
-            0.35
+            0.9424242424242425,
+            1,
+            1
           ],
-          "material": "Roof",
-          "collider": false,
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
           "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
         },
         {
-          "name": "West wall",
+          "name": "West wall 3",
           "position": [
-            -17.8,
-            0.3,
+            -17.65,
+            0,
+            -5.654545454545454
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall 4",
+          "position": [
+            -17.65,
+            0,
+            -2.8272727272727263
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall 5",
+          "position": [
+            -17.65,
+            0,
+            1.7763568394002505e-15
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall 6",
+          "position": [
+            -17.65,
+            0,
+            2.827272727272728
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall 7",
+          "position": [
+            -17.65,
+            0,
+            5.654545454545456
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall fence 7",
+          "position": [
+            -17.65,
+            0.92,
+            5.654545454545456
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "West wall 8",
+          "position": [
+            -17.65,
+            0,
+            8.481818181818184
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall fence 8",
+          "position": [
+            -17.65,
+            0.92,
+            8.481818181818184
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "West wall 9",
+          "position": [
+            -17.65,
+            0,
+            11.309090909090912
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall fence 9",
+          "position": [
+            -17.65,
+            0.92,
+            11.309090909090912
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "West wall 10",
+          "position": [
+            -17.65,
+            0,
+            14.13636363636364
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "West wall fence 10",
+          "position": [
+            -17.65,
+            0.92,
+            14.13636363636364
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "East wall 0",
+          "position": [
+            17.65,
+            0,
+            -14.136363636363637
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 1",
+          "position": [
+            17.65,
+            0,
+            -11.309090909090909
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 2",
+          "position": [
+            17.65,
+            0,
+            -8.48181818181818
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 3",
+          "position": [
+            17.65,
+            0,
+            -5.654545454545454
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 4",
+          "position": [
+            17.65,
+            0,
+            -2.8272727272727263
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 5",
+          "position": [
+            17.65,
+            0,
+            1.7763568394002505e-15
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 6",
+          "position": [
+            17.65,
+            0,
+            2.827272727272728
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall 7",
+          "position": [
+            17.65,
+            0,
+            5.654545454545456
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall fence 7",
+          "position": [
+            17.65,
+            0.92,
+            5.654545454545456
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "East wall 8",
+          "position": [
+            17.65,
+            0,
+            8.481818181818184
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall fence 8",
+          "position": [
+            17.65,
+            0.92,
+            8.481818181818184
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "East wall 9",
+          "position": [
+            17.65,
+            0,
+            11.309090909090912
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall fence 9",
+          "position": [
+            17.65,
+            0.92,
+            11.309090909090912
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "East wall 10",
+          "position": [
+            17.65,
+            0,
+            14.13636363636364
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "East wall fence 10",
+          "position": [
+            17.65,
+            0.92,
+            14.13636363636364
+          ],
+          "size": [
+            0.9424242424242425,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 90,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Front west wall 0",
+          "position": [
+            -16.518749999999997,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.7541666666666665,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front west wall 1",
+          "position": [
+            -14.256249999999998,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.7541666666666665,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front west wall 2",
+          "position": [
+            -11.993749999999999,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.7541666666666665,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front west wall 3",
+          "position": [
+            -9.73125,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.7541666666666665,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 0",
+          "position": [
+            -3.115625,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 1",
+          "position": [
+            -0.3468750000000007,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 2",
+          "position": [
+            2.421875,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 3",
+          "position": [
+            5.190624999999999,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 4",
+          "position": [
+            7.959375,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 5",
+          "position": [
+            10.728124999999999,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 6",
+          "position": [
+            13.496875,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Front east wall 7",
+          "position": [
+            16.265625,
+            0,
+            -15.55
+          ],
+          "size": [
+            0.9229166666666666,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall 0",
+          "position": [
+            -16.3875,
+            0,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall fence 0",
+          "position": [
+            -16.3875,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear west wall 1",
+          "position": [
+            -13.862499999999999,
+            0,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall fence 1",
+          "position": [
+            -13.862499999999999,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear west wall 2",
+          "position": [
+            -11.337499999999999,
+            0,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall fence 2",
+          "position": [
+            -11.337499999999999,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear west wall 3",
+          "position": [
+            -8.812499999999998,
+            0,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall fence 3",
+          "position": [
+            -8.812499999999998,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear west wall 4",
+          "position": [
+            -6.2875,
+            0,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall fence 4",
+          "position": [
+            -6.2875,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear west wall 5",
+          "position": [
+            -3.7624999999999993,
+            0,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear west wall fence 5",
+          "position": [
+            -3.7624999999999993,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.8416666666666667,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear east wall 0",
+          "position": [
+            4.915,
+            0,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear east wall fence 0",
+          "position": [
+            4.915,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear east wall 1",
+          "position": [
+            7.744999999999999,
+            0,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear east wall fence 1",
+          "position": [
+            7.744999999999999,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear east wall 2",
+          "position": [
+            10.575,
+            0,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear east wall fence 2",
+          "position": [
+            10.575,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear east wall 3",
+          "position": [
+            13.405,
+            0,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear east wall fence 3",
+          "position": [
+            13.405,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Rear east wall 4",
+          "position": [
+            16.235,
+            0,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "WallPanel",
+          "materials": [
+            "Concrete",
+            "Trim"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.47,
+            0.0
+          ],
+          "collisionSize": [
+            3.07,
+            0.94,
+            0.4
+          ]
+        },
+        {
+          "name": "Rear east wall fence 4",
+          "position": [
+            16.235,
+            0.92,
+            15.55
+          ],
+          "size": [
+            0.9433333333333332,
+            1,
+            1
+          ],
+          "mesh": "FencePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": false,
+          "shadow": true
+        },
+        {
+          "name": "Entry closed gate",
+          "position": [
+            -6.55,
+            0,
+            -15.55
+          ],
+          "size": [
+            1.3666666666666665,
+            1,
+            1
+          ],
+          "mesh": "GatePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            1.06,
+            0.0
+          ],
+          "collisionSize": [
+            3.02,
+            2.12,
+            0.12
+          ]
+        },
+        {
+          "name": "Exit closed gate",
+          "position": [
+            0.5,
+            0,
+            15.55
+          ],
+          "size": [
+            2,
+            1,
+            1
+          ],
+          "mesh": "GatePanel",
+          "materials": [
+            "Roof",
+            "Trim"
+          ],
+          "material": "Roof",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            1.06,
+            0.0
+          ],
+          "collisionSize": [
+            3.02,
+            2.12,
+            0.12
+          ]
+        },
+        {
+          "name": "West stop",
+          "position": [
+            -18.1,
+            1,
             0
           ],
           "size": [
-            0.35,
-            0.6,
-            31.6
-          ],
-          "material": "Concrete",
-          "collider": true,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "West cap",
-          "position": [
-            -17.8,
-            0.62,
-            0
-          ],
-          "size": [
-            0.35,
-            0.05,
-            31.6
-          ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
-          "yaw": 0,
-          "shape": "Cube"
-        },
-        {
-          "name": "East wall",
-          "position": [
-            17.8,
             0.3,
-            0
-          ],
-          "size": [
-            0.35,
-            0.6,
-            31.6
+            2,
+            33
           ],
           "material": "Concrete",
-          "collider": true,
-          "shadow": true,
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "visual": false
         },
         {
-          "name": "East cap",
+          "name": "East stop",
           "position": [
-            17.8,
-            0.62,
+            18.1,
+            1,
             0
           ],
           "size": [
-            0.35,
-            0.05,
-            31.6
+            0.3,
+            2,
+            33
           ],
-          "material": "Roof",
-          "collider": false,
-          "shadow": true,
+          "material": "Concrete",
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "visual": false
+        },
+        {
+          "name": "South stop",
+          "position": [
+            0,
+            1,
+            -16.1
+          ],
+          "size": [
+            36.5,
+            2,
+            0.3
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "visual": false
+        },
+        {
+          "name": "North stop",
+          "position": [
+            0,
+            1,
+            16.1
+          ],
+          "size": [
+            36.5,
+            2,
+            0.3
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Cube",
+          "collider": true,
+          "shadow": false,
+          "visual": false
+        }
+      ]
+    },
+    {
+      "key": "details",
+      "name": "11 - Street furniture",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "role": "Prop",
+      "footprint": [
+        36,
+        32
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Planter -168",
+          "position": [
+            -16,
+            0,
+            8
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Planter",
+          "materials": [
+            "Concrete",
+            "Door",
+            "Moss"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45,
+            0.0
+          ],
+          "collisionSize": [
+            1.6,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "name": "Planter -16-10",
+          "position": [
+            -16,
+            0,
+            -10
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Planter",
+          "materials": [
+            "Concrete",
+            "Door",
+            "Moss"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45,
+            0.0
+          ],
+          "collisionSize": [
+            1.6,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "name": "Planter 16-10",
+          "position": [
+            16,
+            0,
+            -10
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Planter",
+          "materials": [
+            "Concrete",
+            "Door",
+            "Moss"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45,
+            0.0
+          ],
+          "collisionSize": [
+            1.6,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "name": "Planter 164",
+          "position": [
+            16,
+            0,
+            4
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Planter",
+          "materials": [
+            "Concrete",
+            "Door",
+            "Moss"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45,
+            0.0
+          ],
+          "collisionSize": [
+            1.6,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "name": "Planter -513",
+          "position": [
+            -5,
+            0,
+            13
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Planter",
+          "materials": [
+            "Concrete",
+            "Door",
+            "Moss"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45,
+            0.0
+          ],
+          "collisionSize": [
+            1.6,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "name": "Planter 613",
+          "position": [
+            6,
+            0,
+            13
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Planter",
+          "materials": [
+            "Concrete",
+            "Door",
+            "Moss"
+          ],
+          "material": "Concrete",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.45,
+            0.0
+          ],
+          "collisionSize": [
+            1.6,
+            0.9,
+            0.75
+          ]
+        },
+        {
+          "name": "Safety bollard -8.6-12.5",
+          "position": [
+            -8.6,
+            0,
+            -12.5
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Bollard",
+          "materials": [
+            "Paint",
+            "Door",
+            "Roof"
+          ],
+          "material": "Paint",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.43,
+            0.0
+          ],
+          "collisionSize": [
+            0.32,
+            0.86,
+            0.30433808521444916
+          ]
+        },
+        {
+          "name": "Safety bollard -5.3-12.5",
+          "position": [
+            -5.3,
+            0,
+            -12.5
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Bollard",
+          "materials": [
+            "Paint",
+            "Door",
+            "Roof"
+          ],
+          "material": "Paint",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.43,
+            0.0
+          ],
+          "collisionSize": [
+            0.32,
+            0.86,
+            0.30433808521444916
+          ]
+        },
+        {
+          "name": "Safety bollard 5.6-4.3",
+          "position": [
+            5.6,
+            0,
+            -4.3
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Bollard",
+          "materials": [
+            "Paint",
+            "Door",
+            "Roof"
+          ],
+          "material": "Paint",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.43,
+            0.0
+          ],
+          "collisionSize": [
+            0.32,
+            0.86,
+            0.30433808521444916
+          ]
+        },
+        {
+          "name": "Safety bollard 15.3-4.3",
+          "position": [
+            15.3,
+            0,
+            -4.3
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Bollard",
+          "materials": [
+            "Paint",
+            "Door",
+            "Roof"
+          ],
+          "material": "Paint",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.43,
+            0.0
+          ],
+          "collisionSize": [
+            0.32,
+            0.86,
+            0.30433808521444916
+          ]
+        },
+        {
+          "name": "Safety bollard -3.46",
+          "position": [
+            -3.4,
+            0,
+            6
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Bollard",
+          "materials": [
+            "Paint",
+            "Door",
+            "Roof"
+          ],
+          "material": "Paint",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.43,
+            0.0
+          ],
+          "collisionSize": [
+            0.32,
+            0.86,
+            0.30433808521444916
+          ]
+        },
+        {
+          "name": "Safety bollard 4.36",
+          "position": [
+            4.3,
+            0,
+            6
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "mesh": "Bollard",
+          "materials": [
+            "Paint",
+            "Door",
+            "Roof"
+          ],
+          "material": "Paint",
+          "yaw": 0,
+          "shape": "Mesh",
+          "collider": true,
+          "shadow": true,
+          "collisionCenter": [
+            0.0,
+            0.43,
+            0.0
+          ],
+          "collisionSize": [
+            0.32,
+            0.86,
+            0.30433808521444916
+          ]
         }
       ]
     },
     {
       "key": "spawn",
-      "name": "12 - Player start",
+      "name": "Spawn marker",
       "position": [
+        -7,
         0,
-        0,
-        0
+        -12
       ],
       "role": "PlayerSpawn",
       "footprint": [
@@ -2842,11 +4042,11 @@
     },
     {
       "key": "exit",
-      "name": "13 - Future exit",
+      "name": "Exit marker",
       "position": [
+        0.5,
         0,
-        0,
-        14
+        13.5
       ],
       "role": "Exit",
       "footprint": [
@@ -2858,11 +4058,11 @@
     },
     {
       "key": "wave_w",
-      "name": "14 - Future wave west",
+      "name": "Wave_W marker",
       "position": [
-        -14,
+        -14.5,
         0,
-        0
+        1
       ],
       "role": "EnemySpawn",
       "footprint": [
@@ -2874,11 +4074,11 @@
     },
     {
       "key": "wave_n",
-      "name": "15 - Future wave north",
+      "name": "Wave_N marker",
       "position": [
+        3,
         0,
-        0,
-        12
+        11.5
       ],
       "role": "EnemySpawn",
       "footprint": [
@@ -2890,11 +4090,11 @@
     },
     {
       "key": "loot",
-      "name": "16 - Future pickup",
+      "name": "Loot marker",
       "position": [
-        3,
+        2.5,
         0,
-        -8
+        -3.0
       ],
       "role": "Loot",
       "footprint": [
@@ -2903,113 +4103,41 @@
       ],
       "hide": false,
       "blocks": []
-    },
-    {
-      "key": "footstep_test",
-      "name": "18 - Footstep surfaces",
-      "position": [
-        0,
-        0,
-        0
-      ],
-      "role": "Route",
-      "footprint": [
-        2.6,
-        11
-      ],
-      "hide": false,
-      "blocks": [
-        {
-          "name": "Metal repair plate",
-          "position": [
-            0,
-            0.006,
-            -6
-          ],
-          "size": [
-            2.6,
-            0.012,
-            2
-          ],
-          "material": "Roof",
-          "collider": true,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube",
-          "footstepSurface": "Metal"
-        },
-        {
-          "name": "Gravel road repair",
-          "position": [
-            0,
-            0.007,
-            -9
-          ],
-          "size": [
-            2.6,
-            0.014,
-            2
-          ],
-          "material": "Gravel",
-          "collider": true,
-          "shadow": false,
-          "yaw": 0,
-          "shape": "Cube",
-          "footstepSurface": "Gravel"
-        }
-      ]
     }
   ],
   "targets": [
     {
       "key": "target_1",
-      "name": "AFK Target 1",
+      "name": "Training Target 1",
       "position": [
-        6,
-        0,
-        -8.3
+        8.9,
+        0.05,
+        -8.7
       ],
-      "material": "TargetCoral"
+      "material": "TargetCoral",
+      "mesh": "TrainingTarget"
     },
     {
       "key": "target_2",
-      "name": "AFK Target 2",
+      "name": "Training Target 2",
       "position": [
-        9,
-        0,
-        -8.3
+        11.4,
+        0.05,
+        -8.7
       ],
-      "material": "TargetMint"
+      "material": "TargetCoral",
+      "mesh": "TrainingTarget"
     },
     {
       "key": "target_3",
-      "name": "AFK Target 3",
+      "name": "Training Target 3",
       "position": [
-        12,
-        0,
-        -8.3
+        13.9,
+        0.05,
+        -8.7
       ],
-      "material": "TargetCoral"
-    },
-    {
-      "key": "target_4",
-      "name": "AFK Target 4",
-      "position": [
-        7,
-        0,
-        -5.5
-      ],
-      "material": "TargetMint"
-    },
-    {
-      "key": "target_5",
-      "name": "AFK Target 5",
-      "position": [
-        11,
-        0,
-        -5.5
-      ],
-      "material": "TargetCoral"
+      "material": "TargetCoral",
+      "mesh": "TrainingTarget"
     }
   ]
 }

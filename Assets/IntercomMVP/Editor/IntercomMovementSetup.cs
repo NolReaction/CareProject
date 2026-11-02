@@ -115,7 +115,8 @@ namespace IntercomMvp.Editor
             if (Mathf.Approximately(motor.moveSpeed, 0.8f)) motor.moveSpeed = 1.8f;
             if (Mathf.Approximately(motor.acceleration, 18f)) motor.acceleration = 8f;
             if (Mathf.Approximately(motor.deceleration, 24f)) motor.deceleration = 12f;
-            if (Mathf.Approximately(motor.runReferenceSpeed, 0.8f)) motor.runReferenceSpeed = 1.2f;
+            if (Mathf.Approximately(motor.runReferenceSpeed, 0.8f) || Mathf.Approximately(motor.runReferenceSpeed, 1.2f))
+                motor.runReferenceSpeed = 1.0f; // Measured stance travel of the current Run clips.
             EditorUtility.SetDirty(motor);
             if (PrefabUtility.IsPartOfPrefabInstance(motor))
                 PrefabUtility.RecordPrefabInstancePropertyModifications(motor);

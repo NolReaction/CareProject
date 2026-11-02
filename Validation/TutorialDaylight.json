@@ -1,0 +1,227 @@
+{
+  "revision": "tutorial-daylight-v1",
+  "unityEditorVersion": "6000.3.26f1",
+  "urpVersion": "17.3.0",
+  "reviewDate": "2026-11-02",
+  "scope": "Project-native lighting assets, explicit editor setup and isolated scene patch. No Unity Editor import, build, GPU performance or final visual equivalence is claimed.",
+  "assets": {
+    "pipeline": "Assets/IntercomMVP/Settings/IntercomPipeline.asset",
+    "renderer": "Assets/IntercomMVP/Settings/IntercomRenderer.asset",
+    "volumeProfile": "Assets/IntercomMVP/Settings/TutorialDaylight.asset",
+    "reflection": "Assets/IntercomMVP/Settings/TutorialDaylightReflection.hdr",
+    "setup": "Assets/IntercomMVP/Editor/IntercomDaylightSetup.cs"
+  },
+  "parameters": {
+    "sun": {
+      "type": "Directional",
+      "count": 1,
+      "eulerDegrees": [
+        45,
+        -35,
+        0
+      ],
+      "color": [
+        1,
+        0.96,
+        0.88
+      ],
+      "intensity": 1.65,
+      "softShadows": true,
+      "shadowStrength": 0.85
+    },
+    "ambient": {
+      "mode": "Trilight",
+      "sky": [
+        0.58,
+        0.67,
+        0.78
+      ],
+      "equator": [
+        0.4,
+        0.46,
+        0.52
+      ],
+      "ground": [
+        0.29,
+        0.28,
+        0.25
+      ]
+    },
+    "pipeline": {
+      "hdr": true,
+      "msaa": 2,
+      "renderScale": 1,
+      "shadowAtlas": 2048,
+      "cascades": 2,
+      "shadowDistance": 40,
+      "cascade2Split": 0.4,
+      "softShadowQuality": "Low",
+      "additionalLights": "Disabled"
+    },
+    "grading": {
+      "tonemapping": "ACES",
+      "postExposureEV": 0.1,
+      "contrast": 5,
+      "saturation": -4,
+      "bloom": false,
+      "depthOfField": false,
+      "motionBlur": false
+    },
+    "ssao": {
+      "source": "Depth",
+      "normalQuality": "Medium",
+      "method": "InterleavedGradient",
+      "downsample": true,
+      "afterOpaque": true,
+      "samples": 4,
+      "blur": "Medium/Gaussian",
+      "intensity": 0.55,
+      "radius": 0.35,
+      "falloff": 40
+    },
+    "reflection": {
+      "source": "Analytic linear HDR sky/horizon/ground gradient with a broad sun lobe",
+      "sourceDimensions": [
+        512,
+        256
+      ],
+      "importShape": "Cubemap",
+      "maxFaceSize": 128,
+      "convolution": "Specular",
+      "format": "RGBAHalf",
+      "approximateBytesWithMips": 1048576,
+      "intensity": 0.75,
+      "realtimeCapture": false
+    }
+  },
+  "verification": {
+    "syntax": {
+      "checker": "Roslyn C# 9",
+      "editorFiles": 17,
+      "preprocessorConfigurations": 3,
+      "errors": 0,
+      "limitation": "Syntax only, not Unity assembly/type compilation."
+    },
+    "apiSurface": {
+      "verified": true,
+      "notes": "Used UniversalAdditionalCameraData members renderPostProcessing/renderShadows/volumeLayerMask/antialiasing/dithering/allowHDROutput exist in 6000.3/staging. Volume isGlobal/priority/weight/sharedProfile exist. RenderSettings customReflectionTexture and DefaultReflectionMode alias verified in UnityCsReference 6000.3. No reflective access or private URP API in editor setup. AdditionalCameraData serialization version 2 is explicit to avoid legacy depth/opaque-option migration.",
+      "urls": [
+        "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+        "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.core/Runtime/Volume/Volume.cs",
+        "https://github.com/Unity-Technologies/UnityCsReference/blob/6000.3/Runtime/Export/Graphics/GraphicsManagers.bindings.cs"
+      ]
+    },
+    "rendererSerialization": {
+      "verifiedAgainst": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/ScreenSpaceAmbientOcclusion.cs",
+      "enums": {
+        "SourceDepth": 0,
+        "NormalMedium": 1,
+        "AOMethodInterleavedGradient": 1,
+        "SamplesLowFour": 2,
+        "BlurMediumGaussian": 1
+      },
+      "subassetFileID": 11400001,
+      "rendererFeatureMapLittleEndian": "41f3ad0000000000",
+      "resources": "UniversalRenderPipelineGlobalSettings.asset already contains ScreenSpaceAmbientOcclusionPersistentResources and shader 0849e84e3d62649e8882e9d6f056a017. Interleaved mode does not require the blue-noise texture resource.",
+      "shaderVariants": "m_PrefilteringModeScreenSpaceOcclusion retained as Select (1). Specific SSAO keyword prefilter flags remain false (not stripped by those flags). Verified enums/attributes against UniversalRenderPipelineAssetPrefiltering.cs 6000.3/staging; Unity build still required."
+    },
+    "hdr": {
+      "independentDecoder": "Blender 5.2.3 image loader",
+      "loadedDimensions": [
+        512,
+        256
+      ],
+      "floatImage": true,
+      "channels": 4,
+      "generatedLinearMin": 0.12,
+      "generatedLinearMax": 1.4228167957959732,
+      "decodedLinearMin": 0.119140625,
+      "decodedLinearMax": 1.421875
+    },
+    "isolatedScenePatch": {
+      "idempotent": true,
+      "transformFirst": true,
+      "softShadowType": 2,
+      "changedExistingObjectIDs": [
+        2,
+        34441810,
+        34441814,
+        1880017333,
+        1880017334,
+        "9223372036854775807"
+      ],
+      "newObjectIDs": [
+        8460000001,
+        8460000002,
+        8460000003,
+        8460000004
+      ],
+      "preservation": "Existing map objects and camera transform/lens/follow settings remained unchanged in the isolated scene-copy test. Scene is applied by the integrating agent after map edits.",
+      "cameraDataSerializationVersion": 2
+    },
+    "integratedScene": {
+      "verified": true,
+      "path": "Assets/IntercomMVP/Scenes/IntercomMVP.unity",
+      "cameraTransformFirst": true,
+      "cameraDataVersion": 2,
+      "cameraPostProcessing": true,
+      "output": "SDR with HDR working buffer",
+      "sunSoftShadowType": 2,
+      "profileAndCustomReflectionReferences": true,
+      "limitation": "Serialized scene inspection only; Unity import and Game View were not available."
+    }
+  },
+  "externalScriptGuidProof": [
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/package.json",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/package.json",
+      "blobSha": "b533ec6452753408ded76be4fd5b4f7852f32850",
+      "version": "17.3.0"
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeProfile.cs.meta",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.core/Runtime/Volume/VolumeProfile.cs.meta",
+      "blobSha": "c46be7126a47469d1a3665673e2a7dc519ef92d7",
+      "guid": "d7fd9488000d3734a9e00ee676215985"
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.core/Runtime/Volume/Volume.cs.meta",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.core/Runtime/Volume/Volume.cs.meta",
+      "blobSha": "27ac2bc40ef9559f3a0a980c14be70b334736be4",
+      "guid": "172515602e62fb746b5d573b38a5fe58"
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Tonemapping.cs.meta",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/Runtime/Overrides/Tonemapping.cs.meta",
+      "blobSha": "2431241e585b6008fc963ffe939c29fd4d756a9c",
+      "guid": "97c23e3b12dc18c42a140437e53d3951"
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorAdjustments.cs.meta",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/Runtime/Overrides/ColorAdjustments.cs.meta",
+      "blobSha": "aab8a22e1d95fbcdd2abd68339dc3a9364810beb",
+      "guid": "66f335fb1ffd8684294ad653bf1c7564"
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/ScreenSpaceAmbientOcclusion.cs.meta",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/Runtime/RendererFeatures/ScreenSpaceAmbientOcclusion.cs.meta",
+      "blobSha": "046068b779db46703352f2de9d3094f906cd7cca",
+      "guid": "f62c9c65cf3354c93be831c8bc075510"
+    },
+    {
+      "path": "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs.meta",
+      "url": "https://github.com/Unity-Technologies/Graphics/blob/6000.3/staging/Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs.meta",
+      "blobSha": "91e08eaa7d455836a032c5a9460959acb50e2fbf",
+      "guid": "a79441f348de89743a2939f4d699eac1"
+    }
+  ],
+  "primaryDocumentation": [
+    "https://docs.unity.com/en-us/engine/6000.3/manual/lighting-overview/lighting/shadows-in-urp/post-processing-ssao/ssao-renderer-feature-reference",
+    "https://docs.unity.com/en-us/engine/6000.3/manual/lighting-overview/lighting/shadows-in-urp/post-processing-ssao/ssao"
+  ],
+  "pending": [
+    "Open project in Unity 6000.3.26f1 and confirm the HDR imports as a Cubemap with specular mipmaps.",
+    "Inspect scene/Game view with the supplied profile and verify shadows/material response on the actual robot and map.",
+    "Build on target mobile hardware and profile SSAO, HDR and shadow passes; disable Tutorial Contact AO first for the low-cost option."
+  ]
+}

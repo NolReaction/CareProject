@@ -38,5 +38,7 @@
     "Unity Editor/model import/SampleAnimation/BakeMesh behavior and in-game acceptance not executed.",
     "If no Idle clip/controller is available, procedural feedback remains inactive until calibration is called with a valid reference; PlayerAudio retains its physical-ground fallback.",
     "Historical gait audit hashes and geometry results predate the new pivot; use ankle repair reports for the new assets."
-  ]
+  ],
+  "historicalReport": true,
+  "supersededForCurrentAnimationBy": "MotionPolish*.json and TutorialReview.json"
 }

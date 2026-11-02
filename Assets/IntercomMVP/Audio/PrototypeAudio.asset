@@ -37,15 +37,15 @@ MonoBehaviour:
   enableAmbience: 1
   enableMusic: 1
   masterVolume: 0.8
-  shotsVolume: 0.58
-  stepsVolume: 0.42
-  impactsVolume: 0.24
+  shotsVolume: 0.66
+  stepsVolume: 0.5
+  impactsVolume: 0.3
   minimumImpactInterval: 0.035
   impactAudibleRange: 18
-  ambienceVolume: 0.05
-  musicVolume: 0.2
-  shotPitchVariation: 0.04
-  stepPitchVariation: 0.045
-  fadeSeconds: 0.6
+  ambienceVolume: 0.12
+  musicVolume: 0.3
+  shotPitchVariation: 0.012
+  stepPitchVariation: 0.012
+  fadeSeconds: 1.2
   minimumStepSpeed: 0.08
   footstepPhaseOffset: 0

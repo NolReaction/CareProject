@@ -135,6 +135,11 @@ internal static class Program
             Near(IntercomLocomotionCadence.PlaybackRate(float.PositiveInfinity, 1.2f, 1f), 1f, "invalid rate source");
             Near(IntercomLocomotionCadence.PlaybackRate(.9f, 1.2f, float.NaN), 1f, "invalid blend");
         });
+        Case("current measured gait reference and fallback agree", () =>
+        {
+            Near(IntercomLocomotionCadence.PlaybackRate(1.8f, 1.0f, 1f) * 3f, 5.4f, "current full-speed contacts/sec");
+            Near(IntercomLocomotionCadence.PlaybackRate(1.8f, float.NaN, 1f), 1.8f, "invalid reference uses current measured gait");
+        });
         Console.WriteLine("PASS: " + cases + " cases / " + assertions + " assertions. Production direction and cadence; .NET 8, no Unity engine playback.");
     }
 }

@@ -28,7 +28,7 @@ namespace IntercomMvp
 
         [Header("Animation")]
         [Tooltip("World speed for which the authored Run clip was made.")]
-        [Min(0.1f)] public float runReferenceSpeed = 1.2f;
+        [Min(0.1f)] public float runReferenceSpeed = 1.0f;
         [Tooltip("Full boot stride above this world speed; slower travel blends into idle.")]
         [Min(0.1f)] public float fullRunBlendSpeed = 0.45f;
         [Min(0f)] public float animationDamping = 0.08f;
@@ -51,6 +51,8 @@ namespace IntercomMvp
         private uint inputCancellationSeen;
         private Vector2 localRunDirection = Vector2.up;
         private bool hadMovement;
+        private IntercomGroundFeedback groundFeedback;
+        public bool WantsToMove { get; private set; }
 
         /// <summary>Horizontal speed after collision resolution, in world metres per second.</summary>
         public float ActualPlanarSpeed { get; private set; }
@@ -72,6 +74,7 @@ namespace IntercomMvp
             if (movementCamera == null) movementCamera = Camera.main;
             if (inputSource == null) inputSource = GetComponent<IntercomPlayerInput>();
             if (weaponPose == null) weaponPose = GetComponent<IntercomWeaponPose>();
+            groundFeedback = GetComponent<IntercomGroundFeedback>();
             if (animator != null) animator.applyRootMotion = false;
             spawnPosition = transform.position;
             spawnRotation = transform.rotation;
@@ -86,6 +89,7 @@ namespace IntercomMvp
             // teleporting, or when the controller has been disabled.
             ActualPlanarSpeed = 0f;
             ActualPlanarVelocity = Vector3.zero;
+            WantsToMove = false;
             // Cancellation is distinct from an ordinary stick release. Clear
             // inertia even while timeScale is zero or a device rotates.
             if (observedInput != inputSource || (inputSource != null
@@ -114,6 +118,7 @@ namespace IntercomMvp
             Vector3 right = Vector3.Cross(Vector3.up, forward);
             Vector3 direction = Vector3.ClampMagnitude(right * input.x + forward * input.y, 1f);
             Vector3 desiredVelocity = direction * moveSpeed;
+            WantsToMove = direction.sqrMagnitude > 0f;
             float change = direction.sqrMagnitude > 0f ? acceleration : deceleration;
             horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, desiredVelocity, change * dt);
 
@@ -136,6 +141,12 @@ namespace IntercomMvp
             Vector3 facingDirection = aiming ? lastAimDirection : horizontalVelocity;
             if (facingDirection.sqrMagnitude > 0.0001f)
             {
+                // The upper body can lead a stationary turn, but cannot twist
+                // indefinitely while the planted boots are still catching up.
+                if (groundFeedback != null && !WantsToMove
+                    && groundFeedback.TryConstrainStationaryHeading(facingDirection,
+                        horizontalVelocity.magnitude, out Vector3 limitedFacing))
+                    facingDirection = limitedFacing;
                 Quaternion facing = Quaternion.LookRotation(facingDirection, Vector3.up)
                     * Quaternion.Euler(0f, -modelForwardYaw, 0f);
                 // The old static scene centred its wrapper on the silhouette,
@@ -195,6 +206,7 @@ namespace IntercomMvp
             transform.SetPositionAndRotation(spawnPosition, spawnRotation);
             controller.enabled = true;
             horizontalVelocity = Vector3.zero;
+            WantsToMove = false;
             ActualPlanarSpeed = 0f;
             ActualPlanarVelocity = Vector3.zero;
             unchecked { MotionResetVersion++; }
@@ -215,6 +227,7 @@ namespace IntercomMvp
 
         private void OnDisable()
         {
+            WantsToMove = false;
             horizontalVelocity = Vector3.zero;
             ActualPlanarSpeed = 0f;
             ActualPlanarVelocity = Vector3.zero;
@@ -236,6 +249,7 @@ namespace IntercomMvp
 
         private void ClearMotion()
         {
+            WantsToMove = false;
             horizontalVelocity = Vector3.zero;
             ActualPlanarSpeed = 0f;
             ActualPlanarVelocity = Vector3.zero;

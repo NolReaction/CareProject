@@ -42,5 +42,7 @@
   "takeNamesMatch": true,
   "fbxSha256": "cc392b120b63c2441ed9af1b6832403bdf44839e9e0344143452d8a3c5e9c0da",
   "scope": "Independent FBX binary structure and meta audit; not Unity imported subobjects or playback.",
-  "passed": true
+  "passed": true,
+  "historicalReport": true,
+  "supersededForCurrentAnimationBy": "MotionPolish*.json and TutorialReview.json"
 }
