@@ -1413,10 +1413,11 @@
             1.55
           ],
           "material": "Concrete",
-          "collider": false,
+          "collider": true,
           "shadow": false,
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Cube",
+          "footstepSurface": "Concrete"
         },
         {
           "name": "Loading chevron",
@@ -1538,10 +1539,11 @@
             7.6
           ],
           "material": "Concrete",
-          "collider": false,
+          "collider": true,
           "shadow": false,
           "yaw": 0,
-          "shape": "Cube"
+          "shape": "Cube",
+          "footstepSurface": "Concrete"
         },
         {
           "name": "Yard edge",
@@ -2901,6 +2903,61 @@
       ],
       "hide": false,
       "blocks": []
+    },
+    {
+      "key": "footstep_test",
+      "name": "18 - Footstep surfaces",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "role": "Route",
+      "footprint": [
+        2.6,
+        11
+      ],
+      "hide": false,
+      "blocks": [
+        {
+          "name": "Metal repair plate",
+          "position": [
+            0,
+            0.006,
+            -6
+          ],
+          "size": [
+            2.6,
+            0.012,
+            2
+          ],
+          "material": "Roof",
+          "collider": true,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube",
+          "footstepSurface": "Metal"
+        },
+        {
+          "name": "Gravel road repair",
+          "position": [
+            0,
+            0.007,
+            -9
+          ],
+          "size": [
+            2.6,
+            0.014,
+            2
+          ],
+          "material": "Gravel",
+          "collider": true,
+          "shadow": false,
+          "yaw": 0,
+          "shape": "Cube",
+          "footstepSurface": "Gravel"
+        }
+      ]
     }
   ],
   "targets": [

@@ -19,8 +19,8 @@ namespace IntercomMvp
 
         [Header("Movement (world metres)")]
         [Min(0.1f)] public float moveSpeed = 1.8f;
-        [Min(0.1f)] public float acceleration = 18f;
-        [Min(0.1f)] public float deceleration = 24f;
+        [Min(0.1f)] public float acceleration = 8f;
+        [Min(0.1f)] public float deceleration = 12f;
         [Min(1f)] public float turnSpeed = 720f;
         public float gravity = -25f;
         [Tooltip("The imported robot faces local -Z. Change only if the model's forward axis changes.")]
@@ -28,7 +28,9 @@ namespace IntercomMvp
 
         [Header("Animation")]
         [Tooltip("World speed for which the authored Run clip was made.")]
-        [Min(0.1f)] public float runReferenceSpeed = 0.8f;
+        [Min(0.1f)] public float runReferenceSpeed = 1.2f;
+        [Tooltip("Full boot stride above this world speed; slower travel blends into idle.")]
+        [Min(0.1f)] public float fullRunBlendSpeed = 0.45f;
         [Min(0f)] public float animationDamping = 0.08f;
         [Tooltip("Seconds for a smooth change of local running direction while aiming.")]
         [Min(0f)] public float directionDamping = 0.06f;
@@ -52,6 +54,10 @@ namespace IntercomMvp
 
         /// <summary>Horizontal speed after collision resolution, in world metres per second.</summary>
         public float ActualPlanarSpeed { get; private set; }
+        /// <summary>Collision-resolved travel velocity, excluding the body's turn-pivot correction.</summary>
+        public Vector3 ActualPlanarVelocity { get; private set; }
+        /// <summary>Invalidates planted feet and visual inertia after a discontinuity.</summary>
+        public uint MotionResetVersion { get; private set; }
         public bool IsGrounded => isActiveAndEnabled && controller != null
             && controller.enabled && controller.isGrounded;
         public bool IsAiming => aiming;
@@ -79,6 +85,7 @@ namespace IntercomMvp
             // Consumers must never retain a walking speed while paused, after
             // teleporting, or when the controller has been disabled.
             ActualPlanarSpeed = 0f;
+            ActualPlanarVelocity = Vector3.zero;
             // Cancellation is distinct from an ordinary stick release. Clear
             // inertia even while timeScale is zero or a device rotates.
             if (observedInput != inputSource || (inputSource != null
@@ -89,6 +96,7 @@ namespace IntercomMvp
                 horizontalVelocity = Vector3.zero;
                 aiming = hasAim = false;
                 hadMovement = false;
+                unchecked { MotionResetVersion++; }
             }
             float dt = Time.deltaTime;
             if (dt <= 0f || !controller.enabled) return;
@@ -146,6 +154,7 @@ namespace IntercomMvp
             Vector3 actualVelocity = Vector3.ProjectOnPlane(transform.position - before, Vector3.up) / dt;
             float actualSpeed = actualVelocity.magnitude;
             ActualPlanarSpeed = actualSpeed;
+            ActualPlanarVelocity = actualVelocity;
             if (animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null)
             {
                 // Project actual collision-resolved movement onto the visual
@@ -169,13 +178,11 @@ namespace IntercomMvp
                 animator.SetFloat(MoveXId, localRunDirection.x);
                 animator.SetFloat(MoveYId, localRunDirection.y);
                 // Speed is measured after collision resolution: a wall stops the running pose.
-                animator.SetFloat(SpeedId, Mathf.Clamp01(actualSpeed / Mathf.Max(0.1f, moveSpeed)), animationDamping, dt);
+                animator.SetFloat(SpeedId, IntercomLocomotionCadence.BlendWeight(actualSpeed, moveSpeed, fullRunBlendSpeed), animationDamping, dt);
                 // RunRate belongs to the whole locomotion blend state, which
                 // also contains idle. Keep idle at its authored rate and blend
                 // toward the measured travel cadence as running gains weight.
-                float travelRate = Mathf.Max(0.1f, actualSpeed / Mathf.Max(0.1f, runReferenceSpeed));
-                float runRate = actualSpeed <= 0.01f ? 1f
-                    : Mathf.Lerp(1f, travelRate, Mathf.Clamp01(animator.GetFloat(SpeedId)));
+                float runRate = IntercomLocomotionCadence.PlaybackRate(actualSpeed, runReferenceSpeed, animator.GetFloat(SpeedId));
                 animator.SetFloat(RunRateId, runRate);
             }
         }
@@ -189,6 +196,8 @@ namespace IntercomMvp
             controller.enabled = true;
             horizontalVelocity = Vector3.zero;
             ActualPlanarSpeed = 0f;
+            ActualPlanarVelocity = Vector3.zero;
+            unchecked { MotionResetVersion++; }
             verticalVelocity = 0f;
             hasAim = aiming = false;
             if (inputSource != null) inputSource.CancelUntilRelease();
@@ -208,6 +217,8 @@ namespace IntercomMvp
         {
             horizontalVelocity = Vector3.zero;
             ActualPlanarSpeed = 0f;
+            ActualPlanarVelocity = Vector3.zero;
+            unchecked { MotionResetVersion++; }
             verticalVelocity = 0f;
             aiming = hasAim = false;
             hadMovement = false;
@@ -215,12 +226,22 @@ namespace IntercomMvp
 
         private void OnApplicationFocus(bool focused)
         {
-            if (!focused) { horizontalVelocity = Vector3.zero; ActualPlanarSpeed = 0f; aiming = hasAim = false; hadMovement = false; }
+            if (!focused) ClearMotion();
         }
 
         private void OnApplicationPause(bool paused)
         {
-            if (paused) { horizontalVelocity = Vector3.zero; ActualPlanarSpeed = 0f; aiming = hasAim = false; hadMovement = false; }
+            if (paused) ClearMotion();
+        }
+
+        private void ClearMotion()
+        {
+            horizontalVelocity = Vector3.zero;
+            ActualPlanarSpeed = 0f;
+            ActualPlanarVelocity = Vector3.zero;
+            aiming = hasAim = false;
+            hadMovement = false;
+            unchecked { MotionResetVersion++; }
         }
 
         private static Vector2 ReadKeyboard()

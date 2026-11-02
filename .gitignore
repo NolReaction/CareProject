@@ -78,3 +78,9 @@ crashlytics-build.properties
 # .NET validation build outputs
 /Validation/**/bin/
 /Validation/**/obj/
+
+# Local validation output and Blender backup files
+/Validation/**/results.txt
+/Validation/Results/
+__pycache__/
+*.blend[0-9]*

@@ -52,8 +52,7 @@ namespace IntercomMvp.Editor
         }
 
         /// <summary>
-        /// Called automatically only for the supplied standalone project and
-        /// only while the target scene does not exist. Never overwrites it.
+        /// Used by Open Scene only when the target scene is missing. Never overwrites it.
         /// </summary>
         internal static void CreateScene()
         {
@@ -170,7 +169,7 @@ namespace IntercomMvp.Editor
                 IntercomMvpSetupWindow.ShowWindow();
         }
 
-        /// <summary>Explicit migration for an existing scene; generated scenery is added only once.</summary>
+        /// <summary>Connect camera follow and occlusion without rebuilding the scene or changing framing.</summary>
         internal static void ConfigureMobilePresentation(GameObject robot, Camera camera)
         {
             if (robot == null || camera == null)
@@ -182,30 +181,22 @@ namespace IntercomMvp.Editor
             Bounds groundBounds = groundRenderer != null
                 ? groundRenderer.bounds : new Bounds(Vector3.zero, new Vector3(24f, 0f, 24f));
             IntercomCameraFollow follow = camera.GetComponent<IntercomCameraFollow>();
+            bool captureCamera = follow == null || follow.target != robot.transform;
             if (follow == null) follow = Undo.AddComponent<IntercomCameraFollow>(camera.gameObject);
             Undo.RecordObjects(new UnityEngine.Object[] { follow, camera, camera.transform }, "Configure Intercom mobile camera");
             follow.target = robot.transform;
             follow.groundHeight = groundBounds.max.y;
             follow.groundMinimum = new Vector2(groundBounds.min.x, groundBounds.min.z);
             follow.groundMaximum = new Vector2(groundBounds.max.x, groundBounds.max.z);
-            // Adopt a hand-placed scene camera before the follow driver can snap it back.
-            follow.CaptureManualCameraChanges();
-            if (follow.ApplyMobilePresetIfNeeded())
-            {
-                camera.nearClipPlane = 0.05f;
-                camera.farClipPlane = 100f;
-                camera.clearFlags = CameraClearFlags.SolidColor;
-                camera.backgroundColor = new Color(0.16f, 0.19f, 0.20f, 1f);
-                camera.allowHDR = false;
-                camera.allowMSAA = true;
-            }
+            // Adopt hand-placed cameras without applying a default framing preset.
+            if (captureCamera) follow.CaptureFromCamera(camera);
+            else follow.CaptureManualCameraChanges();
             follow.enabled = true;
             follow.SnapToTarget();
             EditorUtility.SetDirty(follow);
             EditorUtility.SetDirty(camera);
             foreach (UnityEngine.Object item in new UnityEngine.Object[] { follow, camera, camera.transform })
                 if (PrefabUtility.IsPartOfPrefabInstance(item)) PrefabUtility.RecordPrefabInstancePropertyModifications(item);
-            IntercomPrototypeEnvironment.Ensure(robot.scene, groundBounds, ground != null ? ground.transform : null);
             IntercomOcclusionSetup.Setup(robot, camera);
             EditorSceneManager.MarkSceneDirty(robot.scene);
         }
@@ -294,45 +285,4 @@ namespace IntercomMvp.Editor
         }
     }
 
-    [InitializeOnLoad]
-    internal static class IntercomMvpFirstOpen
-    {
-        private const string Marker = "ProjectSettings/IntercomMvpProject.json";
-        private const string SessionKey = "IntercomMvp.FirstSceneAttempted";
-
-        static IntercomMvpFirstOpen()
-        {
-            if (File.Exists(Marker) && !File.Exists(IntercomMvpSceneBuilder.ScenePath)
-                && !SessionState.GetBool(SessionKey, false))
-                EditorApplication.update += WaitForImports;
-        }
-
-        private static void WaitForImports()
-        {
-            if (EditorApplication.isCompiling || EditorApplication.isUpdating
-                || EditorApplication.isPlayingOrWillChangePlaymode)
-                return;
-            EditorApplication.update -= WaitForImports;
-            if (!File.Exists(Marker) || File.Exists(IntercomMvpSceneBuilder.ScenePath))
-                return;
-            SessionState.SetBool(SessionKey, true);
-            for (int i = 0; i < SceneManager.sceneCount; i++)
-            {
-                if (SceneManager.GetSceneAt(i).isDirty)
-                {
-                    Debug.Log("В открытой сцене есть несохранённые изменения. Сохрани их и создай MVP через Tools > Intercom MVP > Open Scene.");
-                    return;
-                }
-            }
-            try
-            {
-                IntercomMvpSceneBuilder.CreateScene();
-            }
-            catch (Exception exception)
-            {
-                Debug.LogException(exception);
-                Debug.LogError("Сцену можно создать повторно через Tools > Intercom MVP > Open Scene после исправления ошибки.");
-            }
-        }
-    }
 }

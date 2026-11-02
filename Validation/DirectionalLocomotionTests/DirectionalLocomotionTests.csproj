@@ -3,5 +3,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs" />
   </ItemGroup>
 </Project>

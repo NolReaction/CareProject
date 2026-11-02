@@ -29,7 +29,7 @@ namespace IntercomMvp.Editor
             foreach (GameObject root in scene.GetRootGameObjects())
             {
                 if (root == robot || root == camera.gameObject) continue;
-                if (root.name == IntercomPrototypeEnvironment.RootName)
+                if (root.name == IntercomDistrictSetup.RootName)
                 {
                     foreach (Transform group in root.transform)
                     {

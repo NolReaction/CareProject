@@ -21,8 +21,7 @@ namespace IntercomMvp.Editor
             "IdleRelaxed", "RunRelaxed", "RunBackwardRelaxed", "RunLeftRelaxed", "RunRightRelaxed",
             "RaiseWeapons", "LowerWeapons", "Shoot" };
 
-        [MenuItem("Tools/Intercom MVP/Setup Movement", false, 20)]
-        [MenuItem("Tools/Intercom MVP/Setup Movement + Combat", false, 21)]
+        [MenuItem("Tools/Intercom MVP/Setup Robot", false, 20)]
         private static void SetupActiveScene()
         {
             try
@@ -34,13 +33,12 @@ namespace IntercomMvp.Editor
                 Setup(robot, FindCamera(scene));
                 EditorSceneManager.MarkSceneDirty(scene);
                 Selection.activeGameObject = robot;
-                Debug.Log("Intercom MVP: движение, два стика, положения оружия и звук подключены. Сохрани сцену (Ctrl+S), нажми Play и кликни Game. WASD / стрелки — движение; ЛКМ / пробел — прицеливание и стрельба; R — старт. На телефоне левый стик — движение, правый — направление и огонь. Противников и урона пока нет.", robot);
+                Debug.Log("Intercom MVP: движение, контакт ботинок, оружие и звук подключены. Сохрани сцену (Ctrl+S), нажми Play и кликни Game. WASD / стрелки — движение; ЛКМ / пробел — прицеливание и стрельба; R — старт. На телефоне левый стик — движение, правый — направление и огонь.", robot);
             }
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/Intercom MVP/Setup Movement", true)]
-        [MenuItem("Tools/Intercom MVP/Setup Movement + Combat", true)]
+        [MenuItem("Tools/Intercom MVP/Setup Robot", true)]
         private static bool CanSetup()
         {
             return !EditorApplication.isCompiling && !EditorApplication.isUpdating
@@ -115,7 +113,9 @@ namespace IntercomMvp.Editor
             motor.enabled = true;
             // Migrate only the old shipped reference value; keep a user's tuning.
             if (Mathf.Approximately(motor.moveSpeed, 0.8f)) motor.moveSpeed = 1.8f;
-            if (Mathf.Approximately(motor.runReferenceSpeed, 1.2f)) motor.runReferenceSpeed = 0.8f;
+            if (Mathf.Approximately(motor.acceleration, 18f)) motor.acceleration = 8f;
+            if (Mathf.Approximately(motor.deceleration, 24f)) motor.deceleration = 12f;
+            if (Mathf.Approximately(motor.runReferenceSpeed, 0.8f)) motor.runReferenceSpeed = 1.2f;
             EditorUtility.SetDirty(motor);
             if (PrefabUtility.IsPartOfPrefabInstance(motor))
                 PrefabUtility.RecordPrefabInstancePropertyModifications(motor);
@@ -151,16 +151,22 @@ namespace IntercomMvp.Editor
                 PrefabUtility.RecordPrefabInstancePropertyModifications(weaponPose);
             IntercomMuzzleSetup.Setup(robot, animator, weaponPose);
             IntercomMobileSetup.EnsureRuntimeSettings(robot);
-            IntercomAudioSetup.Setup(robot);
             IntercomCombatSetup.Setup(robot);
             IntercomGroundFeedbackSetup.Setup(robot);
+            IntercomAudioSetup.Setup(robot);
+            IntercomDistrictSetup.SetupSurfaceSounds(robot.scene);
 
             if (camera != null)
             {
                 IntercomCameraFollow follow = camera.GetComponent<IntercomCameraFollow>();
+                bool captureCamera = follow == null || follow.target != robot.transform;
                 if (follow == null) follow = Undo.AddComponent<IntercomCameraFollow>(camera.gameObject);
                 Undo.RecordObject(follow, "Connect Intercom Camera");
                 follow.target = robot.transform;
+                // New/rebound drivers adopt the actual camera; existing authored follow
+                // settings remain intact unless the camera was moved by hand.
+                if (captureCamera) follow.CaptureFromCamera(camera);
+                else follow.CaptureManualCameraChanges();
                 EditorUtility.SetDirty(follow);
                 if (PrefabUtility.IsPartOfPrefabInstance(follow))
                     PrefabUtility.RecordPrefabInstancePropertyModifications(follow);

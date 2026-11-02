@@ -39,7 +39,7 @@ namespace IntercomMvp
             if (shooter == null) shooter = GetComponent<IntercomSimpleShooter>();
             if (flashMaterial == null || casingMaterial == null || impactMaterial == null)
             {
-                Debug.LogWarning("Intercom MVP: подключи материалы эффектов через Setup Combat Feedback.", this);
+                Debug.LogWarning("Intercom MVP: подключи материалы эффектов через Setup Robot.", this);
                 enabled = false; return;
             }
             root = new GameObject("Intercom Combat Effects Pool");

@@ -43,7 +43,6 @@ namespace IntercomMvp.Editor
         }
 
         [MenuItem("Tools/Intercom MVP/Setup Mobile Prototype", false, 22)]
-        [MenuItem("Tools/Intercom MVP/Setup District Prototype", false, 25)]
         private static void SetupMobilePrototype()
         {
             try
@@ -56,7 +55,6 @@ namespace IntercomMvp.Editor
                 if (camera == null)
                     throw new InvalidOperationException("В активной сцене не найдена игровая Camera. Сначала открой Tools > Intercom MVP > Open Scene.");
 
-                IntercomDistrictSetup.Setup(scene);
                 IntercomMovementSetup.Setup(robot, camera);
                 IntercomMvpSceneBuilder.ConfigureMobilePresentation(robot, camera);
                 EnsureRuntimeSettings(robot);
@@ -71,7 +69,6 @@ namespace IntercomMvp.Editor
         }
 
         [MenuItem("Tools/Intercom MVP/Setup Mobile Prototype", true)]
-        [MenuItem("Tools/Intercom MVP/Setup District Prototype", true)]
         [MenuItem("Tools/Intercom MVP/Configure Android Test Settings", true)]
         [MenuItem("Tools/Intercom MVP/Configure iPhone Test Settings", true)]
         private static bool CanSetup()

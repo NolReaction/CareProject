@@ -10,15 +10,17 @@ namespace UnityEngine {
   public RuntimeAnimatorController runtimeAnimatorController=new RuntimeAnimatorController();
   public bool isActiveAndEnabled=true; public float speed=1f;
   public static int StringToHash(string s){return s.GetHashCode();}
-  public int GetLayerIndex(string s){return 1;} public bool HasState(int a,int b){return true;}
-  public void Play(int a,int b,float c){} public void SetLayerWeight(int a,float b){}
-  public void CrossFadeInFixedTime(int a,float b,int c,float d){} public void CrossFade(int a,float b,int c,float d){}
-  public AnimatorStateInfo GetCurrentAnimatorStateInfo(int i){return new AnimatorStateInfo{length=1f,normalizedTime=0f};}
+  public int NativeCalls;
+  private void RequireController(){if(runtimeAnimatorController==null)throw new Exception("Animator called without controller");NativeCalls++;}
+  public int GetLayerIndex(string s){RequireController();return 1;} public bool HasState(int a,int b){RequireController();return true;}
+  public void Play(int a,int b,float c){RequireController();} public void SetLayerWeight(int a,float b){RequireController();}
+  public void CrossFadeInFixedTime(int a,float b,int c,float d){RequireController();} public void CrossFade(int a,float b,int c,float d){RequireController();}
+  public AnimatorStateInfo GetCurrentAnimatorStateInfo(int i){RequireController();return new AnimatorStateInfo{length=1f,normalizedTime=0f};}
  }
  public struct AnimatorStateInfo {public float length,normalizedTime;}
  public static class Mathf {public static float Max(float a,float b)=>Math.Max(a,b);public static float Min(float a,float b)=>Math.Min(a,b);public static float Repeat(float a,float b)=>a-(float)Math.Floor(a/b)*b;}
  public static class Time {public static float deltaTime;}
- public static class Debug {public static void LogError(string message,object context){throw new Exception(message);}}
+ public static class Debug {public static int ErrorCount;public static bool ThrowOnError=true;public static void LogError(string message,object context){ErrorCount++;if(ThrowOnError)throw new Exception(message);}}
  public class DisallowMultipleComponent:Attribute {}
  public class TooltipAttribute:Attribute {public TooltipAttribute(string s){}}
 }

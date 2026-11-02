@@ -1,26 +1,12 @@
 using System;
-using System.Linq;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace IntercomMvp.Editor
 {
     internal static class IntercomCombatSetup
     {
         private const string Folder = "Assets/IntercomMVP/Art/Materials";
-        [MenuItem("Tools/Intercom MVP/Setup Combat Feedback", false, 25)]
-        private static void SetupActiveScene()
-        {
-            GameObject robot = SceneManager.GetActiveScene().GetRootGameObjects().FirstOrDefault(item => item.name == "Robot");
-            if (robot == null) { Debug.LogWarning("Intercom MVP: открой сцену с Robot."); return; }
-            Setup(robot);
-            EditorSceneManager.MarkSceneDirty(robot.scene); AssetDatabase.SaveAssets(); Selection.activeGameObject = robot;
-        }
-        [MenuItem("Tools/Intercom MVP/Setup Combat Feedback", true)]
-        private static bool CanSetup() => !EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isCompiling && !EditorApplication.isUpdating;
-
         internal static void Setup(GameObject robot)
         {
             IntercomSimpleShooter shooter = robot.GetComponent<IntercomSimpleShooter>();

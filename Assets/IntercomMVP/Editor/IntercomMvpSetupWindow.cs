@@ -19,12 +19,22 @@ namespace IntercomMvp.Editor
 
         private void OnGUI()
         {
-            EditorGUILayout.LabelField("Робот и тестовая площадка", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("В сцене только поле, робот, камера и свет.", EditorStyles.wordWrappedLabel);
+            if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling || EditorApplication.isUpdating)
+            {
+                EditorGUILayout.HelpBox("Останови Play и дождись завершения импорта, чтобы изменять материалы.", MessageType.Info);
+                return;
+            }
+            EditorGUILayout.LabelField("Материалы робота", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Проверка текстур и восстановление материалов из RobotMaterials.json.", EditorStyles.wordWrappedLabel);
             EditorGUILayout.Space();
             if (GUILayout.Button("Открыть сцену", GUILayout.Height(30)))
                 Run(() => IntercomMvpSceneBuilder.OpenOrCreateScene());
             EditorGUILayout.Space();
+            if (GUILayout.Button("Восстановить материалы и привязки FBX", GUILayout.Height(30))) Run(() =>
+            {
+                int remaining = IntercomRobotAssets.EnsureAssets();
+                result = remaining == 0 ? "Материалы и привязки восстановлены." : "Не найдено текстур: " + remaining;
+            });
             try
             {
                 var missing = IntercomRobotAssets.MissingTextureNames();
@@ -33,7 +43,7 @@ namespace IntercomMvp.Editor
                 else
                 {
                     EditorGUILayout.HelpBox("Не хватает картинок корпуса и кистей: " + missing.Count +
-                        ". В присланном архиве их не было. Выбери папку .fbm из исходной модели Tripo: файлы скопируются в проект. Пока эти части показаны однотонным материалом.", MessageType.Warning);
+                        ". Выбери папку с исходными изображениями: недостающие файлы скопируются в проект.", MessageType.Warning);
                     if (GUILayout.Button("Выбрать папку с текстурами (.fbm)", GUILayout.Height(30)))
                     {
                         string folder = EditorUtility.OpenFolderPanel("Папка с текстурами модели Tripo", "", "");

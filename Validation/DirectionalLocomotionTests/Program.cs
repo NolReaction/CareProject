@@ -107,6 +107,34 @@ internal static class Program
                 else {Near(x,expectedX,"fps X",0.00003f);Near(y,expectedY,"fps Y",0.00003f);}
             }
         });
-        Console.WriteLine("PASS: " + cases + " cases / " + assertions + " assertions. Production IntercomLocomotionDirection; .NET 8, no Unity engine playback.");
+        Case("normal analogue movement retains full measured stride", () =>
+        {
+            foreach (float speed in new[] { .45f, .9f, 1.35f, 1.8f })
+            {
+                float blend = IntercomLocomotionCadence.BlendWeight(speed, 1.8f, .45f);
+                Near(blend, 1f, "full stride at " + speed);
+                float rate = IntercomLocomotionCadence.PlaybackRate(speed, 1.2f, blend);
+                // Measured authored cycle: 0.8m of travel over 16/24 seconds.
+                Near(.8f / ((16f / 24f) / rate), speed, "stride travel matches motor");
+            }
+            Near(IntercomLocomotionCadence.PlaybackRate(1.8f, 1.2f, 1f) * 3f, 4.5f, "full-speed contacts/sec");
+        });
+        Case("idle cadence and low-speed transition remain separate", () =>
+        {
+            Near(IntercomLocomotionCadence.BlendWeight(0f, 1.8f, .45f), 0f, "idle blend");
+            Near(IntercomLocomotionCadence.PlaybackRate(0f, 1.2f, 1f), 1f, "idle remains authored rate even while blend decays");
+            Near(IntercomLocomotionCadence.BlendWeight(.225f, 1.8f, .45f), .5f, "transition only at low travel speed");
+            Near(IntercomLocomotionCadence.PlaybackRate(.9f, 1.2f, 1f), .75f, "half stick cadence");
+            Near(IntercomLocomotionCadence.PlaybackRate(.9f, 1.2f, 0f), 1f, "zero blend retains idle cadence");
+        });
+        Case("blend threshold remains reachable after designer speed changes", () =>
+        {
+            Near(IntercomLocomotionCadence.BlendWeight(.2f, .2f, .45f), 1f, "slow motor reaches full stride");
+            Near(IntercomLocomotionCadence.BlendWeight(.1f, 1.8f, -1f), 1f, "positive threshold floor");
+            Near(IntercomLocomotionCadence.BlendWeight(float.NaN, 1.8f, .45f), 0f, "invalid speed");
+            Near(IntercomLocomotionCadence.PlaybackRate(float.PositiveInfinity, 1.2f, 1f), 1f, "invalid rate source");
+            Near(IntercomLocomotionCadence.PlaybackRate(.9f, 1.2f, float.NaN), 1f, "invalid blend");
+        });
+        Console.WriteLine("PASS: " + cases + " cases / " + assertions + " assertions. Production direction and cadence; .NET 8, no Unity engine playback.");
     }
 }

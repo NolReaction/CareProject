@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace IntercomMvp
 {
-    /// <summary>Bounded player SFX and a quiet loop, independent of the distant overhead camera.</summary>
+    /// <summary>Bounded player SFX, verified boot contacts and two quiet background loops.</summary>
     [DisallowMultipleComponent]
     [DefaultExecutionOrder(300)]
     public sealed class IntercomPlayerAudio : MonoBehaviour
@@ -11,6 +11,7 @@ namespace IntercomMvp
         public IntercomSimpleShooter shooter;
         public IntercomPlayerMotor motor;
         public Animator animator;
+        public IntercomGroundFeedback groundFeedback;
 
         /// <summary>A grounded locomotion contact, emitted even when no footstep clip is assigned.</summary>
         public event System.Action FootContact;
@@ -23,8 +24,12 @@ namespace IntercomMvp
         private AudioSource[] steps;
         private AudioSource[] impacts;
         private AudioSource ambient;
+        private AudioSource music;
+        private readonly float[] stepGains = new float[StepVoices];
+        private readonly RaycastHit[] groundHits = new RaycastHit[12];
         private GameObject audioRoot;
         private IntercomSimpleShooter subscribedShooter;
+        private IntercomGroundFeedback subscribedGroundFeedback;
         private IntercomAudioProfile observedProfile;
         private int nextShot;
         private int nextStep;
@@ -32,12 +37,14 @@ namespace IntercomMvp
         private int lastImpactClip = -1;
         private float lastImpactTime = float.NegativeInfinity;
         private int lastShotClip = -1;
-        private int lastStepClip = -1;
+        private readonly int[] lastStepClips = { -1, -1, -1, -1 };
         private bool hasFocus = true;
         private bool appPaused;
         private bool suspended;
         private bool ambientPaused;
+        private bool musicPaused;
         private float ambienceGain;
+        private float musicGain;
 
         private bool CanPlay => isActiveAndEnabled && hasFocus && !appPaused
             && Time.timeScale > 0f && !AudioListener.pause && profile != null;
@@ -47,6 +54,7 @@ namespace IntercomMvp
             if (shooter == null) shooter = GetComponent<IntercomSimpleShooter>();
             if (motor == null) motor = GetComponent<IntercomPlayerMotor>();
             if (animator == null) animator = GetComponentInChildren<Animator>();
+            if (groundFeedback == null) groundFeedback = GetComponent<IntercomGroundFeedback>();
             audioRoot = new GameObject("Intercom Audio Voices");
             audioRoot.transform.SetParent(transform, false);
             shots = CreateVoices("Pistol", ShotVoices, 64);
@@ -55,6 +63,9 @@ namespace IntercomMvp
             ambient = CreateVoice("Yard Ambience", 200);
             ambient.loop = true;
             ambient.volume = 0f;
+            music = CreateVoice("District Music", 192);
+            music.loop = true;
+            music.volume = 0f;
         }
 
         private void OnEnable() { Subscribe(); }
@@ -67,8 +78,9 @@ namespace IntercomMvp
             StopVoices(impacts);
             lastImpactTime = float.NegativeInfinity;
             if (ambient != null) ambient.Stop();
-            ambienceGain = 0f;
-            ambientPaused = suspended = false;
+            if (music != null) music.Stop();
+            ambienceGain = musicGain = 0f;
+            ambientPaused = musicPaused = suspended = false;
             stepClock.Reset();
         }
 
@@ -80,17 +92,32 @@ namespace IntercomMvp
 
         private void Subscribe()
         {
-            if (subscribedShooter == shooter) return;
-            Unsubscribe();
-            subscribedShooter = shooter;
-            if (subscribedShooter != null)
+            if (subscribedShooter != shooter)
             {
-                subscribedShooter.VolleyFired += OnVolleyFired;
-                subscribedShooter.ProjectileHit += OnProjectileHit;
+                UnsubscribeShooter();
+                subscribedShooter = shooter;
+                if (subscribedShooter != null)
+                {
+                    subscribedShooter.VolleyFired += OnVolleyFired;
+                    subscribedShooter.ProjectileHit += OnProjectileHit;
+                }
             }
+            if (groundFeedback == null) groundFeedback = GetComponent<IntercomGroundFeedback>();
+            if (subscribedGroundFeedback == groundFeedback) return;
+            if (subscribedGroundFeedback != null) subscribedGroundFeedback.Footstep -= OnFootstep;
+            subscribedGroundFeedback = groundFeedback;
+            if (subscribedGroundFeedback != null) subscribedGroundFeedback.Footstep += OnFootstep;
+            stepClock.Reset();
         }
 
         private void Unsubscribe()
+        {
+            UnsubscribeShooter();
+            if (subscribedGroundFeedback != null) subscribedGroundFeedback.Footstep -= OnFootstep;
+            subscribedGroundFeedback = null;
+        }
+
+        private void UnsubscribeShooter()
         {
             if (subscribedShooter != null)
             {
@@ -145,7 +172,10 @@ namespace IntercomMvp
             ObserveProfile();
             suspended = false;
             UpdateMix();
-            UpdateAmbience();
+            UpdateLoop(ambient, profile.ambience, profile.enableAmbience,
+                profile.ambienceVolume, ref ambientPaused, ref ambienceGain);
+            UpdateLoop(music, profile.musicLoop, profile.enableMusic,
+                profile.musicVolume, ref musicPaused, ref musicGain);
             UpdateSteps();
         }
 
@@ -153,15 +183,17 @@ namespace IntercomMvp
         {
             if (observedProfile == profile) return;
             observedProfile = profile;
-            lastShotClip = lastStepClip = lastImpactClip = -1;
+            lastShotClip = lastImpactClip = -1;
+            for (int i = 0; i < lastStepClips.Length; i++) lastStepClips[i] = -1;
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
             lastImpactTime = float.NegativeInfinity;
             stepClock.Reset();
             if (ambient != null) ambient.Stop();
-            ambientPaused = false;
-            ambienceGain = 0f;
+            if (music != null) music.Stop();
+            ambientPaused = musicPaused = false;
+            ambienceGain = musicGain = 0f;
         }
 
         private void UpdateMix()
@@ -170,7 +202,7 @@ namespace IntercomMvp
             float shotVolume = master * Mathf.Clamp01(profile.shotsVolume);
             float stepVolume = master * Mathf.Clamp01(profile.stepsVolume);
             for (int i = 0; i < shots.Length; i++) shots[i].volume = shotVolume;
-            for (int i = 0; i < steps.Length; i++) steps[i].volume = stepVolume;
+            for (int i = 0; i < steps.Length; i++) steps[i].volume = stepVolume * stepGains[i];
             Vector3 player = motor != null ? motor.transform.position : transform.position;
             for (int i = 0; i < impacts.Length; i++)
                 impacts[i].volume = master * Mathf.Clamp01(profile.impactsVolume)
@@ -178,33 +210,37 @@ namespace IntercomMvp
                         / Mathf.Max(1f, profile.impactAudibleRange));
         }
 
-        private void UpdateAmbience()
+        private void UpdateLoop(AudioSource source, AudioClip clip, bool enabledLoop,
+            float volume, ref bool pausedLoop, ref float gain)
         {
-            if (ambient == null) return;
-            if (ambient.clip != profile.ambience)
+            if (source == null) return;
+            if (source.clip != clip)
             {
-                ambient.Stop();
-                ambient.clip = profile.ambience;
-                ambientPaused = false;
-                ambienceGain = 0f;
+                source.Stop();
+                source.clip = clip;
+                pausedLoop = false;
+                gain = 0f;
             }
-            if (ambient.clip == null) return;
-            if (ambientPaused)
-            {
-                ambient.UnPause();
-                ambientPaused = false;
-            }
-            if (!ambient.isPlaying) ambient.Play();
-            ambienceGain = Mathf.MoveTowards(ambienceGain, 1f,
+            if (source.clip == null) return;
+            gain = Mathf.MoveTowards(gain, enabledLoop ? 1f : 0f,
                 Time.unscaledDeltaTime / Mathf.Max(0.01f, profile.fadeSeconds));
-            ambient.volume = ambienceGain * Mathf.Clamp01(profile.masterVolume)
-                * Mathf.Clamp01(profile.ambienceVolume);
+            source.volume = gain * Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(volume);
+            if (!enabledLoop)
+            {
+                if (gain <= 0f) { source.Stop(); pausedLoop = false; }
+                return;
+            }
+            if (pausedLoop) { source.UnPause(); pausedLoop = false; }
+            if (!source.isPlaying) source.Play();
         }
 
         private void UpdateSteps()
         {
-            bool moving = motor != null && motor.isActiveAndEnabled && motor.IsGrounded
-                && motor.ActualPlanarSpeed >= Mathf.Max(0.01f, profile.minimumStepSpeed)
+            // The foot solver owns contact timing. Never layer phase-clock
+            // footsteps over its real planted-sole events.
+            if (groundFeedback != null && groundFeedback.ProvidesFootContacts)
+            { stepClock.Reset(); return; }
+            bool moving = MovingOnGround()
                 && animator != null && animator.isActiveAndEnabled && animator.speed > 0f
                 && animator.runtimeAnimatorController != null && !animator.IsInTransition(0);
             if (!moving) { stepClock.Reset(); return; }
@@ -212,12 +248,64 @@ namespace IntercomMvp
             // Follow the base locomotion cycle, not the independent Arms recoil.
             // Phase offset is tunable because directional blends approximate contact.
             if (!stepClock.Tick(state.normalizedTime, state.fullPathHash, profile.footstepPhaseOffset, true)) return;
+            if (ProbeLegacyGround(out RaycastHit hit)) OnFootstep(hit.collider, hit.point, 0.75f, false);
+        }
+
+        private bool MovingOnGround()
+        {
+            return motor != null && motor.isActiveAndEnabled && motor.IsGrounded
+                && motor.ActualPlanarSpeed >= Mathf.Max(0.01f, profile.minimumStepSpeed);
+        }
+
+        private void OnFootstep(Collider surface, Vector3 point, float strength, bool leftFoot)
+        {
+            if (!CanPlay || steps == null || !MovingOnGround() || surface == null
+                || surface.isTrigger || surface.transform.IsChildOf(transform)) return;
+            ObserveProfile();
+            IntercomFootstepSurface tag = IntercomFootstepSurface.Find(surface);
+            IntercomSurfaceKind kind = tag != null ? tag.kind : IntercomSurfaceKind.Asphalt;
+            int bankIndex = Mathf.Clamp((int)kind, 0, lastStepClips.Length - 1);
+            AudioClip[] bank = kind == IntercomSurfaceKind.Metal ? profile.metalSteps
+                : kind == IntercomSurfaceKind.Gravel ? profile.gravelSteps : profile.footsteps;
+            if (bank == null || bank.Length == 0) bank = profile.footsteps;
+            AudioClip clip = PickClip(bank, ref lastStepClips[bankIndex]);
+            if (clip == null && bank != profile.footsteps)
+                clip = PickClip(profile.footsteps, ref lastStepClips[0]);
+            // Keep legacy listeners informed, but the solver never subscribes
+            // back to this notification: there is only one contact authority.
             FootContact?.Invoke();
-            AudioClip clip = PickClip(profile.footsteps, ref lastStepClip);
             if (clip == null) return;
             AudioSource voice = NextVoice(steps, ref nextStep);
+            float materialGain = kind == IntercomSurfaceKind.Gravel ? 0.84f
+                : kind == IntercomSurfaceKind.Metal ? 0.78f : 1f;
+            float gain = Mathf.Lerp(0.55f, 1f, Mathf.Clamp01(strength)) * materialGain
+                * (tag != null ? Mathf.Clamp(tag.volume, 0f, 2f) : 1f);
+            float pitch = (kind == IntercomSurfaceKind.Concrete ? 0.94f : 1f)
+                * (tag != null ? Mathf.Clamp(tag.pitch, 0.6f, 1.4f) : 1f);
+            for (int i = 0; i < steps.Length; i++)
+                if (steps[i] == voice) { stepGains[i] = gain; break; }
+            voice.transform.position = point;
             PlayVoice(voice, clip, profile.stepPitchVariation,
-                Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(profile.stepsVolume));
+                Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(profile.stepsVolume) * gain, pitch);
+        }
+
+        private bool ProbeLegacyGround(out RaycastHit closest)
+        {
+            closest = default;
+            Vector3 origin = transform.position + Vector3.up * 0.25f;
+            int count = Physics.RaycastNonAlloc(origin, Vector3.down, groundHits,
+                0.65f, ~0, QueryTriggerInteraction.Ignore);
+            if (count == groundHits.Length) return false;
+            float distance = float.PositiveInfinity;
+            for (int i = 0; i < count; i++)
+            {
+                RaycastHit hit = groundHits[i];
+                if (hit.collider == null || hit.collider.isTrigger || hit.normal.y < 0.55f
+                    || hit.collider.transform.IsChildOf(transform) || hit.distance >= distance) continue;
+                closest = hit;
+                distance = hit.distance;
+            }
+            return distance < float.PositiveInfinity;
         }
 
         private void Suspend()
@@ -234,7 +322,12 @@ namespace IntercomMvp
                 ambient.Pause();
                 ambientPaused = true;
             }
-            ambienceGain = 0f;
+            if (music != null && music.isPlaying)
+            {
+                music.Pause();
+                musicPaused = true;
+            }
+            ambienceGain = musicGain = 0f;
         }
 
         private void OnApplicationFocus(bool focused)

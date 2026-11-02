@@ -90,7 +90,11 @@ namespace IntercomMvp
             FireCancelled?.Invoke();
             if (clock == null) return;
             clock.Reset();
-            if (animator != null && animator.isActiveAndEnabled && armsLayer >= 0)
+            // Stop Play / model reimport can clear the controller before this
+            // component is disabled. Cancellation must still work without
+            // asking Unity to evaluate a controller that is no longer there.
+            if (animator != null && animator.isActiveAndEnabled
+                && animator.runtimeAnimatorController != null && armsLayer >= 0)
                 animator.Play(RelaxedId, armsLayer, BasePhase());
         }
 
@@ -99,17 +103,20 @@ namespace IntercomMvp
             ObserveInputCancellation();
             if (animator == null || profile == null || animator.runtimeAnimatorController == null)
             {
-                Debug.LogError("Intercom MVP: подключи Animator и Weapon Pose Profile через Setup Movement + Combat.", this);
+                Debug.LogError("Intercom MVP: подключи Animator и Weapon Pose Profile через Setup Robot.", this);
                 enabled = false;
                 return;
             }
+            // A missing controller may have been assigned after a failed Start.
+            // Keep that valid repair instead of replacing it with the old null.
+            if (baseController == null) baseController = animator.runtimeAnimatorController;
             animator.runtimeAnimatorController = profile.animatorOverride != null ? profile.animatorOverride : baseController;
             armsLayer = animator.GetLayerIndex("Arms");
             if (armsLayer < 0 || !animator.HasState(armsLayer, RelaxedId) || !animator.HasState(armsLayer, RaiseId)
                 || !animator.HasState(armsLayer, CombatId) || !animator.HasState(armsLayer, LowerId)
                 || !animator.HasState(armsLayer, ShootId))
             {
-                Debug.LogError("Intercom MVP: контроллеру нужны состояния слоя Arms. Запусти Setup Movement + Combat.", this);
+                Debug.LogError("Intercom MVP: контроллеру нужны состояния слоя Arms. Запусти Setup Robot.", this);
                 enabled = false;
                 return;
             }
@@ -131,6 +138,11 @@ namespace IntercomMvp
             // Consume that cancellation before any paused/Animator early exit.
             if (ObserveInputCancellation()) return;
             if (!hasFocus || appPaused || clock == null || animator == null || !animator.isActiveAndEnabled) return;
+            if (animator.runtimeAnimatorController == null)
+            {
+                ResetPosture();
+                return;
+            }
             float dt = Time.deltaTime;
             if (dt <= 0f) return;
             // Timings use clip seconds, so a globally slowed Animator also slows the pose gate.
@@ -197,7 +209,9 @@ namespace IntercomMvp
         /// Do not call this from ShotReady: that event already registered the shot.</summary>
         public bool NotifyShotFired()
         {
-            if (!hasFocus || appPaused || clock == null || !clock.NotifyShotFired()) return false;
+            if (!hasFocus || appPaused || clock == null || animator == null
+                || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null
+                || !clock.NotifyShotFired()) return false;
             PlayRecoil();
             return true;
         }

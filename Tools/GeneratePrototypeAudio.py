@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Generate original CareProject prototype audio. Requires Python 3 + numpy.
+"""Generate original CareProject prototype audio. Requires Python 3, numpy, ffmpeg.
 
 No recordings, samples, external sounds, models, or network access are used.
 Run from any directory: python Tools/GeneratePrototypeAudio.py
-This regenerates only this script's named WAV files and their stable Unity .meta.
+This regenerates only this script's named WAV/OGG files and their stable Unity .meta.
 """
 from pathlib import Path
 import hashlib
 import json
 import math
+import subprocess
 import uuid
 import wave
 
@@ -53,39 +54,56 @@ def finish_hit(x, rate, peak):
 
 
 def pistol(index):
-    """A compact comic pop with a falling electronic chirp and a small action tick."""
-    rng = np.random.default_rng(51000 + index)
-    t = np.arange(round(FX_RATE * .30)) / FX_RATE
-    pitch = (1.0, .965, 1.045)[index]
-    crack = noise(rng, len(t), FX_RATE, 600, 6200, -.20) * envelope(t, .00045, .0045)
-    body_phase = 2 * math.pi * pitch * (102 * t + 136 * .013 * (1 - np.exp(-t / .013)))
-    body = (np.sin(body_phase) + .17 * np.sin(2 * body_phase)) * envelope(t, .0010, .031)
-    # The short falling tone reads as a toy/mechanical blaster without a long whistle.
-    chirp_phase = 2 * math.pi * pitch * (245 * t + 730 * .009 * (1 - np.exp(-t / .009)))
-    chirp = np.sin(chirp_phase) * envelope(t, .0008, .025)
-    pressure = noise(rng, len(t), FX_RATE, 160, 2600, -.35) * envelope(t, .001, .021)
-    delay = .045 + .002 * index
-    late = np.maximum(t - delay, 0)
-    tick = noise(rng, len(t), FX_RATE, 900, 3400) * envelope(late, .001, .006) * (late > 0)
-    x = .28 * crack + .58 * body + .22 * chirp + .20 * pressure + .045 * tick
-    return finish_hit(x, FX_RATE, 10 ** (-3.5 / 20))
+    """Weighted dry pop plus short action-clack; no pitch sweep / laser chirp."""
+    rng = np.random.default_rng(151000 + index)
+    t = np.arange(round(FX_RATE * .24)) / FX_RATE
+    pitch = (1.0, .982, 1.023)[index]
+    crack = noise(rng, len(t), FX_RATE, 680, 5100, -.24) * envelope(t, .00035, .0034)
+    pressure = noise(rng, len(t), FX_RATE, 110, 2100, -.48) * envelope(t, .0007, .015)
+    # A low, heavily damped cluster adds weight without an audible falling note.
+    body = sum(g * np.sin(2 * math.pi * pitch * f * t + p) * envelope(t, .0009, d)
+               for g, f, p, d in ((.32, 126, .3, .021), (.24, 189, -.3, .017),
+                                  (.17, 293, .1, .012), (.08, 417, .6, .009)))
+    opening = np.maximum(t - .026 - .001 * index, 0)
+    closure = np.maximum(t - .055 - .002 * index, 0)
+    action = noise(rng, len(t), FX_RATE, 430, 2700, -.2)
+    tick = action * (.095 * envelope(opening, .0008, .0055) * (opening > 0)
+                     + .068 * envelope(closure, .0007, .007) * (closure > 0))
+    dry = .43 * crack + .60 * pressure + body + tick
+    # Very short, quiet early reflections, never a long room hiss or ringing tail.
+    x = dry.copy()
+    for seconds, gain in ((.023, .09), (.047, .035)):
+        offset = round(seconds * FX_RATE)
+        x[offset:] += dry[:-offset] * gain
+    return finish_hit(x, FX_RATE, 10 ** (-5.5 / 20))
 
 
-def boot(index):
-    """A short rubber-sole thock, with a quiet spring/servo return."""
-    rng = np.random.default_rng(62000 + index)
-    t = np.arange(round(FX_RATE * .17)) / FX_RATE
-    pitch = (1.0, .94, 1.055, .98)[index]
-    phase = 2 * math.pi * pitch * (95 * t + 92 * .010 * (1 - np.exp(-t / .010)))
-    thud = np.sin(phase) * envelope(t, .0015, .020)
-    knock = np.sin(2 * math.pi * 265 * pitch * t) * envelope(t, .001, .012)
-    sole = noise(rng, len(t), FX_RATE, 110, 1500, -.35) * envelope(t, .001, .016)
-    scuff = noise(rng, len(t), FX_RATE, 650, 2200) * envelope(t, .003, .018)
-    late = np.maximum(t - .027, 0)
-    servo_phase = 2 * math.pi * pitch * (420 * late + 190 * .012 * (1 - np.exp(-late / .012)))
-    servo = np.sin(servo_phase) * envelope(late, .003, .016) * (late > 0)
-    x = .52 * thud + .13 * knock + .24 * sole + .04 * scuff + .028 * servo
-    return finish_hit(x, FX_RATE, 10 ** (-7.0 / 20))
+def boot(index, surface="asphalt"):
+    """Heel-to-sole contact: compact rubber on hard ground, metal, or loose grit."""
+    rng = np.random.default_rng(162000 + index + {"asphalt": 0, "metal": 200, "gravel": 400}[surface])
+    t = np.arange(round(FX_RATE * (.23 if surface == "gravel" else .20))) / FX_RATE
+    pitch = (1.0, .965, 1.035, .99)[index]
+    thud = (.38 * np.sin(2 * math.pi * 106 * pitch * t)
+            + .15 * np.sin(2 * math.pi * 183 * pitch * t)) * envelope(t, .0012, .020)
+    sole = noise(rng, len(t), FX_RATE, 100, 1400, -.45) * envelope(t, .0015, .016)
+    toe_time = np.maximum(t - .019, 0)
+    toe = noise(rng, len(t), FX_RATE, 220, 1700, -.35) * envelope(toe_time, .002, .016) * (toe_time > 0)
+    x = thud + .28 * sole + .105 * toe
+    if surface == "metal":
+        # Unequal panel modes give a short hollow deck response, not a pitched bell.
+        for frequency, level, decay in ((361, .105, .032), (713, .050, .023), (1139, .025, .015)):
+            x += level * np.sin(2 * math.pi * frequency * pitch * t) * envelope(t, .0008, decay)
+        x += .12 * noise(rng, len(t), FX_RATE, 650, 3200, -.35) * envelope(t, .0005, .005)
+    elif surface == "gravel":
+        grit = noise(rng, len(t), FX_RATE, 550, 3500, -.35)
+        granular = np.zeros_like(t)
+        for delay, strength in zip(rng.uniform(.006, .080, 7), rng.uniform(.026, .060, 7)):
+            u = np.maximum(t - delay, 0)
+            granular += strength * envelope(u, .0012, .010) * (u > 0)
+        x = .83 * x + grit * (granular + .09 * envelope(t, .003, .035))
+    else:
+        x += .04 * noise(rng, len(t), FX_RATE, 650, 2400, -.25) * envelope(t, .002, .018)
+    return finish_hit(x, FX_RATE, 10 ** (-8.0 / 20))
 
 
 def impact(index):
@@ -119,13 +137,127 @@ def ambience():
     out = np.column_stack((.060 * wind_gain * (.82 * common + .26 * left) + .12 * hum,
                            .060 * wind_gain * (.82 * common + .26 * right) + .12 * hum))
     out -= np.mean(out, axis=0)
-    out *= 10 ** (-26.0 / 20) / np.sqrt(np.mean(out ** 2))
+    # Leave the soundscape to steps and music; this is only a distant room bed.
+    out *= 10 ** (-39.0 / 20) / np.sqrt(np.mean(out ** 2))
     assert np.max(np.abs(out)) < .8
     return out
 
 
-def importer(path, stereo, ambient):
-    # Short PCM hits stay cheap and exact; the one ambient voice uses Vorbis.
+MUSIC_BPM = 96
+MUSIC_BARS = 16
+
+
+def note_frequency(midi):
+    return 440.0 * 2.0 ** ((midi - 69) / 12.0)
+
+
+def key_note(midi, length, velocity=1.0):
+    """Soft struck tine with a rounded fundamental and fast-decaying overtones."""
+    t = np.arange(round((length + .55) * FX_RATE)) / FX_RATE
+    f = note_frequency(midi)
+    fundamental = np.sin(2 * math.pi * f * t + .44 * np.exp(-t / .13) * np.sin(2 * math.pi * f * 2 * t))
+    modes = (.20 * np.sin(2 * math.pi * f * 2.002 * t) * np.exp(-t / .25)
+             + .065 * np.sin(2 * math.pi * f * 3.997 * t) * np.exp(-t / .08))
+    release = np.exp(-np.maximum(t - length, 0) / .13)
+    env = (1 - np.exp(-t / .006)) * np.exp(-t / 1.05) * release
+    return .22 * velocity * (fundamental + modes) * env
+
+
+def bass_note(midi, length):
+    t = np.arange(round((length + .16) * FX_RATE)) / FX_RATE
+    f = note_frequency(midi)
+    x = (np.sin(2 * math.pi * f * t)
+         + .27 * np.sin(2 * math.pi * 2 * f * t) * np.exp(-t / .18)
+         + .08 * np.sin(2 * math.pi * 3 * f * t) * np.exp(-t / .07))
+    env = (1 - np.exp(-t / .0045)) * np.exp(-t / .50) * np.exp(-np.maximum(t - length, 0) / .045)
+    return .21 * x * env
+
+
+def percussion(kind, rng):
+    t = np.arange(round(FX_RATE * .22)) / FX_RATE
+    if kind == "kick":
+        phase = 2 * math.pi * (54 * t + 47 * .012 * (1 - np.exp(-t / .012)))
+        x = (.13 * np.sin(phase) * envelope(t, .0015, .032)
+             + .018 * noise(rng, len(t), FX_RATE, 100, 700, -.3) * envelope(t, .001, .008))
+    elif kind == "rim":
+        x = (.026 * noise(rng, len(t), FX_RATE, 600, 3200, -.3) * envelope(t, .001, .011)
+             + .024 * np.sin(2 * math.pi * 472 * t) * envelope(t, .0008, .014)
+             + .012 * np.sin(2 * math.pi * 731 * t) * envelope(t, .0008, .010))
+    else:
+        x = .010 * noise(rng, len(t), FX_RATE, 2600, 6500, -.35) * envelope(t, .002, .014)
+    return x
+
+
+def music():
+    """Original 16-bar warm instrumental loop. No samples, pulse/square waves, or bit reduction."""
+    beat = 60.0 / MUSIC_BPM
+    count = round(FX_RATE * beat * 4 * MUSIC_BARS)
+    mix = np.zeros((count, 2), dtype=np.float64)
+    rng = np.random.default_rng(20261102)
+
+    def add(sound, when, gain=1.0, pan=0.0):
+        # Circular placement preserves ringing tails through the musical loop seam.
+        indices = (np.arange(len(sound)) + round(when * FX_RATE)) % count
+        gains = np.array([math.sqrt((1 - pan) / 2), math.sqrt((1 + pan) / 2)])
+        mix[indices] += sound[:, None] * gains * gain
+
+    chords = [(57, 60, 64, 71), (60, 64, 67, 71), (53, 57, 60, 64), (57, 60, 64, 67),
+              (53, 57, 60, 64), (57, 60, 64, 69), (56, 59, 62, 64), (56, 59, 62, 68)]
+    roots = [45, 45, 41, 41, 38, 38, 40, 40]
+    # Sparse answering phrases leave space for footsteps and gunfire.
+    phrases = {
+        1: [(2.50, 76, .30), (3.25, 74, .28)],
+        3: [(1.75, 72, .42), (3.00, 69, .56)],
+        5: [(2.25, 69, .25), (2.90, 72, .30), (3.50, 74, .27)],
+        7: [(1.50, 71, .45), (2.75, 68, .42)],
+        9: [(1.75, 76, .32), (2.50, 74, .30), (3.25, 72, .32)],
+        11: [(2.00, 69, .55), (3.25, 67, .30)],
+        13: [(1.75, 69, .40), (2.75, 72, .35)],
+        15: [(1.50, 71, .35), (2.50, 68, .45)],
+    }
+    for bar in range(MUSIC_BARS):
+        start = 4 * bar * beat
+        chord, root = chords[bar % 8], roots[bar % 8]
+        # Loose strumming and alternate off-beat voicings avoid a rigid metronomic bed.
+        for j, midi in enumerate(chord):
+            add(key_note(midi, .92, .91 + rng.uniform(-.08, .08)), start + .008 * j,
+                gain=.68, pan=-.27 + .15 * j)
+        if bar % 4 != 3:
+            for j, midi in enumerate(chord[1:]):
+                add(key_note(midi, .37, .75), start + (2.50 if bar % 2 else 2.75) * beat + .009 * j,
+                    gain=.42, pan=.23 - .12 * j)
+        add(bass_note(root, .48), start, gain=.78)
+        add(bass_note(root + 7, .30), start + 2.55 * beat, gain=.50)
+        if bar % 2 == 1:
+            target = roots[(bar + 1) % 8]
+            add(bass_note(target + 2, .19), start + 3.70 * beat, gain=.32)
+        add(percussion("kick", rng), start, gain=.61)
+        if bar % 4 != 3:
+            add(percussion("kick", rng), start + 2.50 * beat, gain=.33)
+        for at in (1.04, 3.03):
+            add(percussion("rim", rng), start + at * beat, gain=.65, pan=.13)
+        for j, at in enumerate((.56, 1.55, 2.56, 3.54)):
+            if bar % 4 == 3 and j > 1:
+                continue
+            add(percussion("brush", rng), start + at * beat, gain=.52 + .1 * (j % 2), pan=-.22)
+        for at, midi, length in phrases.get(bar, []):
+            add(key_note(midi, length, .70), start + at * beat, gain=.36, pan=.27)
+
+    # Gentle stereo early reflections; circular delays retain the seamless loop.
+    dry = mix.copy()
+    for delay, gain in ((.037, .08), (.083, .05), (.149, .025)):
+        mix += np.roll(dry[:, ::-1], round(delay * FX_RATE), axis=0) * gain
+    # Periodic filtering removes inaudible DC/sub-bass and rounds the highest tine/brush edge.
+    f = np.fft.rfftfreq(count, 1 / FX_RATE)
+    curve = (1 - np.exp(-(f / 32) ** 4)) * np.exp(-(f / 7000) ** 4)
+    mix = np.fft.irfft(np.fft.rfft(mix, axis=0) * curve[:, None], n=count, axis=0)
+    mix = np.tanh(mix * 1.12)
+    mix *= 10 ** (-5.5 / 20) / np.max(np.abs(mix))
+    return mix
+
+
+def importer(path, stereo, ambient, music_clip=False):
+    # Short PCM hits stay cheap and exact; ambience is compressed, music streams.
     # See UnityCsReference AudioCompressionFormat and AudioClipLoadType enums.
     relative = path.relative_to(ROOT).as_posix()
     return f"""fileFormatVersion: 2
@@ -135,17 +267,17 @@ AudioImporter:
   serializedVersion: 7
   defaultSettings:
     serializedVersion: 2
-    loadType: {1 if ambient else 0}
+    loadType: {2 if music_clip else 1 if ambient else 0}
     sampleRateSetting: 0
-    sampleRateOverride: {AMBIENT_RATE if ambient else FX_RATE}
-    compressionFormat: {1 if ambient else 0}
-    quality: {0.7 if ambient else 1}
+    sampleRateOverride: {AMBIENT_RATE if ambient and not music_clip else FX_RATE}
+    compressionFormat: {1 if ambient or music_clip else 0}
+    quality: {0.7 if ambient or music_clip else 1}
     conversionMode: 0
-    preloadAudioData: 1
+    preloadAudioData: {0 if music_clip else 1}
   platformSettingOverrides: {{}}
   forceToMono: {0 if stereo else 1}
   normalize: 0
-  loadInBackground: 0
+  loadInBackground: {1 if music_clip else 0}
   ambisonic: 0
   3D: 1
   userData:
@@ -187,16 +319,46 @@ def save(name, data, rate, ambient=False):
     return metrics
 
 
+def save_music(data):
+    path = AUDIO / "Music_IndustrialGroove.ogg"
+    subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(FX_RATE), "-ac", "2", "-i", "pipe:0",
+                    "-c:a", "libvorbis", "-q:a", "4", "-fflags", "+bitexact", "-flags:a", "+bitexact",
+                    "-map_metadata", "-1", "-y", str(path)],
+                   input=data.astype("<f4").tobytes(), check=True)
+    path.with_suffix(".ogg.meta").write_text(importer(path, True, False, True), encoding="utf-8")
+    decoded_bytes = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path), "-f", "f32le", "-ac", "2", "pipe:1"])
+    decoded = np.frombuffer(decoded_bytes, dtype="<f4").reshape(-1, 2)
+    assert len(decoded) == len(data), "Vorbis loop duration changed"
+    seam = float(np.max(np.abs(decoded[-1] - decoded[0])))
+    step = float(np.quantile(np.abs(np.diff(decoded, axis=0)), .99))
+    clipped = int(np.sum(np.abs(decoded) >= 1))
+    assert clipped == 0 and seam < step
+    return {
+        "file": path.relative_to(ROOT).as_posix(), "guid": guid(path.relative_to(ROOT).as_posix()),
+        "channels": 2, "sampleRate": FX_RATE, "seconds": len(decoded) / FX_RATE,
+        "peakDbFS": round(20 * math.log10(np.max(np.abs(decoded))), 3),
+        "rmsDbFS": round(20 * math.log10(np.sqrt(np.mean(decoded ** 2))), 3),
+        "clippedSamples": clipped, "dcOffset": float(np.max(np.abs(np.mean(decoded, axis=0)))),
+        "boundaryStep": seam, "internalStep99Percentile": step,
+        "bytes": path.stat().st_size, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "codec": "Vorbis quality 4 source, Unity streaming import", "bars": MUSIC_BARS, "bpm": MUSIC_BPM,
+    }
+
+
 def main():
     AUDIO.mkdir(parents=True, exist_ok=True)
     metrics = [save(f"Pistol_{i + 1:02d}.wav", pistol(i), FX_RATE) for i in range(3)]
     metrics += [save(f"BootStep_{i + 1:02d}.wav", boot(i), FX_RATE) for i in range(4)]
+    for surface in ("metal", "gravel"):
+        metrics += [save(f"BootStep_{surface.title()}_{i + 1:02d}.wav", boot(i, surface), FX_RATE) for i in range(3)]
     metrics += [save(f"Impact_{i + 1:02d}.wav", impact(i), FX_RATE) for i in range(2)]
     metrics.append(save("Ambience_IndustrialYard.wav", ambience(), AMBIENT_RATE, True))
-    report = {"generator": "Tools/GeneratePrototypeAudio.py", "source": "Original deterministic synthesis; no sampled material", "revision": "cartoon-district-v2",
+    metrics.append(save_music(music()))
+    report = {"generator": "Tools/GeneratePrototypeAudio.py", "source": "Original deterministic synthesis and composition; no sampled material", "revision": "grounded-groove-v3",
               "verification": "Decoded PCM numeric checks only; Unity mix/listening on device still required",
-              "assets": metrics, "totalWavBytes": sum(m["bytes"] for m in metrics)}
-    validation = ROOT / "Validation/PrototypeAudioAssets.json"
+              "assets": metrics, "totalWavBytes": sum(m["bytes"] for m in metrics if m["file"].endswith(".wav")),
+              "totalAudioBytes": sum(m["bytes"] for m in metrics)}
+    validation = ROOT / "Validation/Results/PrototypeAudioAssets.json"
     validation.parent.mkdir(parents=True, exist_ok=True)
     validation.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))

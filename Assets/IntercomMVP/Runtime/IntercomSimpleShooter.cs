@@ -183,7 +183,7 @@ namespace IntercomMvp
                 if (!warnedMissingMuzzles)
                 {
                     warnedMissingMuzzles = true;
-                    Debug.LogWarning("Intercom MVP: подключи Muzzle Right и Muzzle Left через Setup Movement + Combat. Маркер +Z должен смотреть из ствола.", this);
+                    Debug.LogWarning("Intercom MVP: подключи Muzzle Right и Muzzle Left через Setup Robot. Маркер +Z должен смотреть из ствола.", this);
                 }
                 return false;
             }

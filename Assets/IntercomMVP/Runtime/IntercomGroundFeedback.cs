@@ -20,7 +20,7 @@ namespace IntercomMvp
         public Transform leftCalf, rightCalf, leftToe, rightToe;
         public Transform leftUpperArm, rightUpperArm;
         public event Action<Collider, Vector3, float, bool> Footstep;
-        public bool ProvidesFootContacts => isActiveAndEnabled && soleOffsetsCalibrated
+        public bool ProvidesFootContacts => isActiveAndEnabled && HasCurrentSoleCalibration
             && animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null
             && leftFoot != null && rightFoot != null && leftCalf != null && rightCalf != null
             && leftFoot.parent == leftCalf && rightFoot.parent == rightCalf;
@@ -48,6 +48,11 @@ namespace IntercomMvp
         // Leave the serialized field uninitialized so old saved scenes read as version 0.
         private const int CurrentSoleCalibrationVersion = 1;
         [SerializeField, HideInInspector] private int soleCalibrationVersion;
+        private bool HasCurrentSoleCalibration => soleOffsetsCalibrated && contactMarkersCalibrated
+            && soleCalibrationVersion == CurrentSoleCalibrationVersion;
+        public bool NeedsSoleCalibration => !HasCurrentSoleCalibration;
+        private bool calibrationAttempted;
+        private RuntimeAnimatorController calibrationController;
         public LayerMask groundMask = ~0;
         [Range(0f, 0.6f)] public float shadowOpacity = 0.32f;
         public Vector2 shadowSize = new Vector2(0.34f, 0.46f);
@@ -145,14 +150,17 @@ namespace IntercomMvp
                     if (rightUpperArm == null && bone.name == "R_Upperarm") rightUpperArm = bone;
                 }
                 // Re-measure old saved offsets after a model-space calibration change.
-                if (!soleOffsetsCalibrated || !contactMarkersCalibrated
-                    || soleCalibrationVersion != CurrentSoleCalibrationVersion) CalibrateSoles();
+                if (!HasCurrentSoleCalibration) CalibrateSoles();
             }
             BindRig();
             if (contactMaterial != null) CreateEffects();
         }
 
-        private void OnEnable() { Subscribe(); }
+        private void OnEnable()
+        {
+            Subscribe();
+            if (!HasCurrentSoleCalibration) calibrationAttempted = false;
+        }
         private void Update()
         {
             // Restore the exact previous Animator pose before its next evaluation.
@@ -166,8 +174,13 @@ namespace IntercomMvp
         {
             bool animated = animator != null && animator.isActiveAndEnabled
                 && animator.runtimeAnimatorController != null && animator.speed > 0f;
+            // Awake can run before a controller is assigned. Retry once when it
+            // becomes available (or is replaced), never every rendered frame.
+            if (Active && animated && !HasCurrentSoleCalibration
+                && (!calibrationAttempted || calibrationController != animator.runtimeAnimatorController))
+                CalibrateSoles();
             if (!Active || motor == null || !motor.isActiveAndEnabled || !animated
-                || !soleOffsetsCalibrated || !contactMarkersCalibrated)
+                || !HasCurrentSoleCalibration)
             {
                 RestorePose(); ClearTransientState(); HideEffects(); return;
             }
@@ -553,6 +566,8 @@ namespace IntercomMvp
         /// <summary>Measure actual heel/toe sole positions in a known Idle pose, once per model.</summary>
         public void CalibrateSoles()
         {
+            calibrationAttempted = true;
+            calibrationController = animator != null ? animator.runtimeAnimatorController : null;
             soleOffsetsCalibrated = contactMarkersCalibrated = false;
             soleCalibrationVersion = 0;
             if (animator == null || animator.runtimeAnimatorController == null) return;

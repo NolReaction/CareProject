@@ -21,19 +21,31 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0a0d47ff81805e2fa08a437267e0eae8, type: 3}
   - {fileID: 8300000, guid: 2af761e82f435e628160ed448facea01, type: 3}
   - {fileID: 8300000, guid: 9d81a5979b555063861211aabdea36a9, type: 3}
+  metalSteps:
+  - {fileID: 8300000, guid: 3a7106cab1e754ca8aed6b8dce029ce6, type: 3}
+  - {fileID: 8300000, guid: ad51ef341cd55f42a0d797e36d3c9efb, type: 3}
+  - {fileID: 8300000, guid: becb3f47912b57b0a4e22f3db29ef898, type: 3}
+  gravelSteps:
+  - {fileID: 8300000, guid: ac8109fe131b532d879034662937a455, type: 3}
+  - {fileID: 8300000, guid: dd94e3c7670450e4bc2b772dab5dfc0e, type: 3}
+  - {fileID: 8300000, guid: 20f8e27dfc2e553d8d0e2b8c01a85f43, type: 3}
   impactHits:
   - {fileID: 8300000, guid: 41cd171fef615114a91c3097db556bc2, type: 3}
   - {fileID: 8300000, guid: 5fb4f08a23d25985a0c3a9c7897fa671, type: 3}
   ambience: {fileID: 8300000, guid: a06276eefc055f1fbf811da90649cacb, type: 3}
+  musicLoop: {fileID: 8300000, guid: 631c81496aa151eaacc599d592e2c21c, type: 3}
+  enableAmbience: 1
+  enableMusic: 1
   masterVolume: 0.8
   shotsVolume: 0.58
   stepsVolume: 0.42
   impactsVolume: 0.24
   minimumImpactInterval: 0.035
   impactAudibleRange: 18
-  ambienceVolume: 0.25
+  ambienceVolume: 0.05
+  musicVolume: 0.2
   shotPitchVariation: 0.04
-  stepPitchVariation: 0.08
+  stepPitchVariation: 0.045
   fadeSeconds: 0.6
   minimumStepSpeed: 0.08
   footstepPhaseOffset: 0
