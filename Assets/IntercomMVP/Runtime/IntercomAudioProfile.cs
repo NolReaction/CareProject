@@ -9,12 +9,19 @@ namespace IntercomMvp
         [Header("Replaceable clips")]
         [Tooltip("A short report per successful volley. Both pistols share one report to preserve headroom.")]
         public AudioClip[] pistolShots;
-        [Tooltip("Default hard-ground soles: asphalt and concrete.")]
+        [Tooltip("Default asphalt soles, also the fallback if a material bank is unavailable.")]
         public AudioClip[] footsteps;
+        public AudioClip[] concreteSteps;
         public AudioClip[] metalSteps;
         public AudioClip[] gravelSteps;
-        [Tooltip("Short impact pops; target hits are pitched up slightly.")]
+        public AudioClip[] woodSteps;
+        public AudioClip[] soilSteps;
+        [Tooltip("Default dense impact bank, used when a material-specific bank is unavailable.")]
         public AudioClip[] impactHits;
+        public AudioClip[] metalImpacts;
+        public AudioClip[] woodImpacts;
+        public AudioClip[] concreteImpacts;
+        public AudioClip[] soilImpacts;
         [Tooltip("A quiet seamless outdoor bed, mixed below footsteps.")]
         public AudioClip ambience;
         [Tooltip("Original instrumental loop; independent of the outdoor ambience.")]
@@ -24,16 +31,16 @@ namespace IntercomMvp
 
         [Header("Mix")]
         [Range(0f, 1f)] public float masterVolume = 0.8f;
-        [Range(0f, 1f)] public float shotsVolume = 0.58f;
-        [Range(0f, 1f)] public float stepsVolume = 0.42f;
-        [Range(0f, 1f)] public float impactsVolume = 0.24f;
+        [Range(0f, 1f)] public float shotsVolume = 0.78f;
+        [Range(0f, 1f)] public float stepsVolume = 0.18f;
+        [Range(0f, 1f)] public float impactsVolume = 0.35f;
         [Min(0.015f)] public float minimumImpactInterval = 0.035f;
         [Min(1f)] public float impactAudibleRange = 18f;
-        [Range(0f, 1f)] public float ambienceVolume = 0.05f;
-        [Range(0f, 1f)] public float musicVolume = 0.20f;
-        [Range(0f, 0.2f)] public float shotPitchVariation = 0.04f;
-        [Range(0f, 0.2f)] public float stepPitchVariation = 0.045f;
-        [Min(0.01f)] public float fadeSeconds = 0.6f;
+        [Range(0f, 1f)] public float ambienceVolume = 0.10f;
+        [Range(0f, 1f)] public float musicVolume = 0.24f;
+        [Range(0f, 0.2f)] public float shotPitchVariation = 0.008f;
+        [Range(0f, 0.2f)] public float stepPitchVariation = 0.018f;
+        [Min(0.01f)] public float fadeSeconds = 1.2f;
 
         [Header("Foot contact")]
         [Min(0.01f)] public float minimumStepSpeed = 0.08f;

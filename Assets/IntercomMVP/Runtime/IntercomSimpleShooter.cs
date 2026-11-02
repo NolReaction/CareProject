@@ -26,7 +26,9 @@ namespace IntercomMvp
         [Min(0.05f)] public float projectileLifetime = 1.4f;
         [Min(0.1f)] public float projectileRange = 20f;
         [Min(0.005f)] public float projectileRadius = 0.035f;
-        [Min(0.01f)] public float tracerLength = 0.42f;
+        [Tooltip("Visual width only. Collision remains controlled by Projectile Radius.")]
+        [Range(0.03f, 0.4f)] public float tracerWidth = 0.15f;
+        [Min(0.04f)] public float tracerLength = 0.68f;
         [Range(4, 128)] public int poolSize = 32;
         public LayerMask collisionMask = ~0;
         public bool fireBothPistols = true;
@@ -38,6 +40,8 @@ namespace IntercomMvp
         public event System.Action<Transform, bool> BarrelFired;
         /// <summary>Point, outward surface normal, and whether a live test target accepted damage.</summary>
         public event System.Action<Vector3, Vector3, bool> ProjectileHit;
+        /// <summary>Resolved material contact for sound and particles; legacy ProjectileHit remains compatible.</summary>
+        public event System.Action<IntercomProjectileImpact> DetailedProjectileHit;
 
         private struct Projectile
         {
@@ -48,6 +52,7 @@ namespace IntercomMvp
             public float radius;
             public float life;
             public float range;
+            public float travelled;
             public bool active;
         }
 
@@ -205,10 +210,12 @@ namespace IntercomMvp
             pool[slot].radius = radius;
             pool[slot].life = Mathf.Max(0.05f, projectileLifetime);
             pool[slot].range = Mathf.Max(0.1f, projectileRange);
+            pool[slot].travelled = 0f;
             pool[slot].active = true;
             Transform visual = pool[slot].visual;
             visual.SetPositionAndRotation(position, Quaternion.LookRotation(direction));
-            visual.localScale = new Vector3(radius * 2f, radius * 2f, Mathf.Max(radius * 2f, tracerLength));
+            float width = IntercomTracerStyle.Width(tracerWidth);
+            visual.localScale = new Vector3(width, width, IntercomTracerStyle.Length(tracerLength, 0f));
             visual.gameObject.SetActive(true);
             BarrelFired?.Invoke(muzzle, muzzle == muzzleRight);
             return true;
@@ -241,7 +248,11 @@ namespace IntercomMvp
                 pool[i].position = end;
                 pool[i].life -= dt;
                 pool[i].range -= travel;
+                pool[i].travelled += travel;
                 pool[i].visual.position = end;
+                float width = IntercomTracerStyle.Width(tracerWidth);
+                pool[i].visual.localScale = new Vector3(width, width,
+                    IntercomTracerStyle.Length(tracerLength, pool[i].travelled));
                 if (pool[i].life <= 0f || pool[i].range <= 0.0001f) Release(i);
             }
         }
@@ -264,7 +275,9 @@ namespace IntercomMvp
                 if (target != null) targetHit = target.ApplyHit(Mathf.Max(0.1f, damage), direction);
             }
             if (normal.sqrMagnitude < 0.001f) normal = -direction;
-            ProjectileHit?.Invoke(point, normal.normalized, targetHit);
+            normal = normal.normalized;
+            DetailedProjectileHit?.Invoke(IntercomProjectileImpact.Resolve(collider, point, normal, targetHit));
+            ProjectileHit?.Invoke(point, normal, targetHit);
         }
 
         private bool OverlapsObstacle(Vector3 position, float radius)
@@ -360,7 +373,7 @@ namespace IntercomMvp
                 if (fallbackMaterial.HasProperty("_Color")) fallbackMaterial.SetColor("_Color", color);
                 material = fallbackMaterial;
             }
-            projectileMesh = MakeTracerMesh();
+            projectileMesh = IntercomTracerGeometry.Create();
             poolRoot = new GameObject("Intercom Projectile Pool");
             pool = new Projectile[Mathf.Clamp(poolSize, 4, 128)];
             for (int i = 0; i < pool.Length; i++)
@@ -369,60 +382,14 @@ namespace IntercomMvp
                 bullet.transform.SetParent(poolRoot.transform, false);
                 bullet.AddComponent<MeshFilter>().sharedMesh = projectileMesh;
                 MeshRenderer renderer = bullet.AddComponent<MeshRenderer>();
-                renderer.sharedMaterial = material;
+                renderer.sharedMaterials = new[] { material, projectileCoreMaterial != null ? projectileCoreMaterial : material };
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
                 renderer.receiveShadows = false;
                 renderer.lightProbeUsage = LightProbeUsage.Off;
                 renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
-                if (projectileCoreMaterial != null)
-                {
-                    GameObject core = new GameObject("Cream core");
-                    core.transform.SetParent(bullet.transform, false);
-                    core.transform.localScale = new Vector3(0.68f, 0.68f, 0.32f);
-                    core.transform.localPosition = new Vector3(0f, 0f, 0.09f);
-                    core.AddComponent<MeshFilter>().sharedMesh = projectileMesh;
-                    MeshRenderer coreRenderer = core.AddComponent<MeshRenderer>();
-                    coreRenderer.sharedMaterial = projectileCoreMaterial;
-                    coreRenderer.shadowCastingMode = ShadowCastingMode.Off;
-                    coreRenderer.receiveShadows = false;
-                }
                 bullet.SetActive(false);
                 pool[i].visual = bullet.transform;
             }
-        }
-
-        private static Mesh MakeTracerMesh()
-        {
-            // Low-poly capsule/teardrop: pointed cream tip, fat middle, tapered tail.
-            const int sides = 8;
-            float[] depths = { -1f, -0.65f, -0.18f, 0f };
-            float[] radii = { 0.04f, 0.32f, 0.5f, 0.08f };
-            Vector3[] vertices = new Vector3[sides * 4];
-            int[] triangles = new int[sides * 3 * 6 + (sides - 2) * 6];
-            for (int ring = 0; ring < 4; ring++)
-                for (int i = 0; i < sides; i++)
-                {
-                    float angle = i * Mathf.PI * 2f / sides;
-                    vertices[ring * sides + i] = new Vector3(Mathf.Cos(angle) * radii[ring],
-                        Mathf.Sin(angle) * radii[ring], depths[ring]);
-                }
-            int n = 0;
-            for (int ring = 0; ring < 3; ring++)
-                for (int i = 0; i < sides; i++)
-                {
-                    int a = ring * sides + i, b = ring * sides + (i + 1) % sides;
-                    int c = a + sides, d = b + sides;
-                    triangles[n++] = a; triangles[n++] = b; triangles[n++] = c;
-                    triangles[n++] = b; triangles[n++] = d; triangles[n++] = c;
-                }
-            for (int i = 1; i < sides - 1; i++)
-            {
-                triangles[n++] = 0; triangles[n++] = i + 1; triangles[n++] = i;
-                triangles[n++] = 24; triangles[n++] = 24 + i; triangles[n++] = 24 + i + 1;
-            }
-            Mesh mesh = new Mesh { name = "Intercom Cartoon Bullet", vertices = vertices, triangles = triangles };
-            mesh.RecalculateNormals(); mesh.RecalculateBounds(); mesh.UploadMeshData(true);
-            return mesh;
         }
 
         private void OnDrawGizmosSelected()

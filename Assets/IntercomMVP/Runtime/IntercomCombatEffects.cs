@@ -12,6 +12,9 @@ namespace IntercomMvp
         public Material flashMaterial;
         public Material casingMaterial;
         public Material impactMaterial;
+        public Material woodImpactMaterial;
+        public Material stoneImpactMaterial;
+        public Material soilImpactMaterial;
         [Range(16, 96)] public int shellPoolSize = 48;
         [Range(16, 128)] public int sparkPoolSize = 64;
         [Min(0.2f)] public float shellLifetime = 2.5f;
@@ -20,16 +23,18 @@ namespace IntercomMvp
         private struct Piece
         {
             public Transform visual;
+            public MeshFilter meshFilter;
+            public Renderer renderer;
             public Vector3 velocity, spin, size;
             public float remaining, duration;
-            public byte kind; // 0 shell, 1 muzzle star, 2 impact spark
+            public byte kind; // 0 shell, 1 muzzle star, 2 metal spark, 3 wood, 4 stone, 5 dust
             public int bounces;
             public int bornFrame;
         }
         private Piece[] shells, sparks;
         private int nextShell, nextSpark;
         private GameObject root;
-        private Mesh shellMesh, sparkMesh;
+        private Mesh shellMesh, sparkMesh, chipMesh, puffMesh;
         private IntercomSimpleShooter subscribed;
         private readonly RaycastHit[] hits = new RaycastHit[24];
         private bool focused = true, paused;
@@ -46,6 +51,8 @@ namespace IntercomMvp
             root.AddComponent<IntercomOccluder>().hideWhenBlocking = false;
             shellMesh = MakeCasingMesh();
             sparkMesh = MakeStar();
+            chipMesh = MakeChip();
+            puffMesh = MakePuff();
             shells = CreatePool(Mathf.Clamp(shellPoolSize, 16, 96), shellMesh, casingMaterial, "Casing");
             sparks = CreatePool(Mathf.Clamp(sparkPoolSize, 16, 128), sparkMesh, impactMaterial, "Spark");
         }
@@ -56,11 +63,11 @@ namespace IntercomMvp
             if (subscribed == shooter) return;
             Unsubscribe(); subscribed = shooter;
             if (subscribed == null) return;
-            subscribed.BarrelFired += Barrel; subscribed.ProjectileHit += Impact;
+            subscribed.BarrelFired += Barrel; subscribed.DetailedProjectileHit += Impact;
         }
         private void Unsubscribe()
         {
-            if (subscribed != null) { subscribed.BarrelFired -= Barrel; subscribed.ProjectileHit -= Impact; }
+            if (subscribed != null) { subscribed.BarrelFired -= Barrel; subscribed.DetailedProjectileHit -= Impact; }
             subscribed = null;
         }
         private bool CanEmit => isActiveAndEnabled && focused && !paused && Time.timeScale > 0f && root != null;
@@ -70,30 +77,43 @@ namespace IntercomMvp
             if (!CanEmit || muzzle == null) return;
             ref Piece flash = ref sparks[nextSpark]; nextSpark = (nextSpark + 1) % sparks.Length;
             Activate(ref flash, muzzle.position + muzzle.forward * 0.055f, muzzle.rotation * Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)),
-                new Vector3(0.24f, 0.24f, 0.32f), 0.065f, 1, flashMaterial);
+                new Vector3(0.29f, 0.29f, 0.36f), 0.065f, 1, flashMaterial, sparkMesh);
             flash.velocity = Vector3.zero;
             ref Piece shell = ref shells[nextShell]; nextShell = (nextShell + 1) % shells.Length;
             // This is a visual ejection point near the chamber; marker itself remains the barrel tip.
             Vector3 outwards = muzzle.right * (rightHand ? 1f : -1f);
             Activate(ref shell, muzzle.position - muzzle.forward * 0.14f + Vector3.up * 0.035f,
-                Random.rotation, new Vector3(0.045f, 0.10f, 0.045f), Mathf.Max(0.2f, shellLifetime), 0, casingMaterial);
+                Random.rotation, new Vector3(0.045f, 0.10f, 0.045f), Mathf.Max(0.2f, shellLifetime), 0, casingMaterial, shellMesh);
             shell.velocity = outwards * Random.Range(0.8f, 1.4f) + Vector3.up * Random.Range(1.5f, 2.1f) - muzzle.forward * 0.35f;
             shell.spin = new Vector3(Random.Range(-420f, 420f), Random.Range(220f, 650f), Random.Range(-420f, 420f));
         }
 
-        private void Impact(Vector3 point, Vector3 normal, bool target)
+        private void Impact(IntercomProjectileImpact hit)
         {
             if (!CanEmit) return;
+            Vector3 point = hit.Point, normal = hit.Normal;
             Quaternion facing = Quaternion.FromToRotation(Vector3.forward, normal);
-            for (int i = 0; i < 6; i++)
+            bool metal = hit.Surface == IntercomSurfaceKind.Metal;
+            bool wood = hit.Surface == IntercomSurfaceKind.Wood;
+            bool soft = hit.Surface == IntercomSurfaceKind.Soil || hit.Surface == IntercomSurfaceKind.Gravel;
+            int count = metal ? 7 : wood ? 5 : 4;
+            byte kind = metal ? (byte)2 : wood ? (byte)3 : soft ? (byte)5 : (byte)4;
+            Material material = metal ? impactMaterial : wood ? woodImpactMaterial : soft ? soilImpactMaterial : stoneImpactMaterial;
+            if (material == null) material = impactMaterial;
+            for (int i = 0; i < count; i++)
             {
                 ref Piece spark = ref sparks[nextSpark]; nextSpark = (nextSpark + 1) % sparks.Length;
-                Vector3 radial = Quaternion.AngleAxis(i * 60f + Random.Range(-12f, 12f), normal)
+                Vector3 radial = Quaternion.AngleAxis(i * (360f / count) + Random.Range(-12f, 12f), normal)
                     * (facing * Vector3.up);
+                Vector3 size = metal ? new Vector3(0.04f, 0.19f, 0.04f)
+                    : wood ? new Vector3(0.04f, 0.10f, 0.025f)
+                    : soft ? new Vector3(0.14f, 0.11f, 0.10f) : new Vector3(0.055f, 0.06f, 0.04f);
+                float speed = metal ? 1.8f : wood ? 1.1f : soft ? 0.35f : 0.8f;
                 Activate(ref spark, point + normal * 0.035f, Quaternion.LookRotation(normal, radial),
-                    new Vector3(0.045f, target ? 0.20f : 0.13f, 0.045f), Random.Range(0.15f, 0.24f), 2,
-                    target ? flashMaterial : impactMaterial);
-                spark.velocity = radial * Random.Range(1.1f, 1.8f) + normal * 0.5f;
+                    size * Random.Range(0.8f, 1.2f), Random.Range(0.16f, 0.26f), kind, material,
+                    metal ? sparkMesh : soft ? puffMesh : chipMesh);
+                spark.velocity = radial * Random.Range(speed * 0.6f, speed) + normal * (soft ? 0.25f : 0.7f);
+                spark.spin = new Vector3(Random.Range(-220f, 220f), Random.Range(-220f, 220f), Random.Range(-220f, 220f));
             }
         }
 
@@ -134,7 +154,10 @@ namespace IntercomMvp
             }
             else
             {
+                if (piece.kind == 3 || piece.kind == 4) piece.velocity += Vector3.down * (4f * dt);
+                if (piece.kind == 5) piece.velocity *= Mathf.Max(0f, 1f - 3f * dt);
                 piece.visual.position += piece.velocity * dt;
+                if (piece.kind >= 3) piece.visual.Rotate(piece.spin * dt, Space.World);
                 float fraction = piece.remaining / piece.duration;
                 piece.visual.localScale = piece.size * (piece.kind == 1 ? fraction : Mathf.Sqrt(fraction));
             }
@@ -164,19 +187,20 @@ namespace IntercomMvp
             {
                 GameObject item = new GameObject(label + " " + i);
                 item.transform.SetParent(root.transform, false);
-                item.AddComponent<MeshFilter>().sharedMesh = mesh;
+                MeshFilter filter = item.AddComponent<MeshFilter>(); filter.sharedMesh = mesh;
                 MeshRenderer renderer = item.AddComponent<MeshRenderer>(); renderer.sharedMaterial = material;
                 renderer.shadowCastingMode = ShadowCastingMode.Off; renderer.receiveShadows = false;
                 renderer.lightProbeUsage = LightProbeUsage.Off; renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
-                item.SetActive(false); pool[i].visual = item.transform;
+                item.SetActive(false); pool[i].visual = item.transform; pool[i].meshFilter = filter; pool[i].renderer = renderer;
             }
             return pool;
         }
 
-        private static void Activate(ref Piece piece, Vector3 position, Quaternion rotation, Vector3 size, float duration, byte kind, Material material)
+        private static void Activate(ref Piece piece, Vector3 position, Quaternion rotation, Vector3 size, float duration, byte kind, Material material, Mesh mesh)
         {
             piece.visual.SetPositionAndRotation(position, rotation); piece.visual.localScale = size;
-            piece.visual.GetComponent<Renderer>().sharedMaterial = material;
+            piece.renderer.sharedMaterial = material;
+            piece.meshFilter.sharedMesh = mesh;
             piece.size = size; piece.duration = piece.remaining = duration; piece.kind = kind;
             piece.bounces = 0; piece.bornFrame = Time.frameCount; piece.spin = Vector3.zero; piece.visual.gameObject.SetActive(true);
         }
@@ -228,6 +252,26 @@ namespace IntercomMvp
             Mesh mesh = new Mesh { name = "Intercom Cartoon Star", vertices = vertices, triangles = triangles };
             mesh.RecalculateNormals(); mesh.RecalculateBounds(); mesh.UploadMeshData(true); return mesh;
         }
+        private static Mesh MakeChip()
+        {
+            Vector3[] vertices = {
+                new Vector3(-.5f,-.5f,-.5f), new Vector3(.5f,-.5f,-.5f),
+                new Vector3(.3f,.5f,-.4f), new Vector3(-.35f,.35f,-.4f),
+                new Vector3(-.5f,-.5f,.5f), new Vector3(.5f,-.5f,.5f),
+                new Vector3(.3f,.5f,.4f), new Vector3(-.35f,.35f,.4f) };
+            int[] triangles = { 0,2,1,0,3,2, 4,5,6,4,6,7, 0,4,7,0,7,3,
+                1,2,6,1,6,5, 3,7,6,3,6,2, 0,1,5,0,5,4 };
+            Mesh mesh = new Mesh { name = "Intercom Material Fragment", vertices = vertices, triangles = triangles };
+            mesh.RecalculateNormals(); mesh.RecalculateBounds(); mesh.UploadMeshData(true); return mesh;
+        }
+        private static Mesh MakePuff()
+        {
+            Vector3[] vertices = { Vector3.up*.5f, Vector3.down*.5f, Vector3.right*.5f,
+                Vector3.left*.5f, Vector3.forward*.5f, Vector3.back*.5f };
+            int[] triangles = { 0,4,2,0,3,4,0,5,3,0,2,5, 1,2,4,1,4,3,1,3,5,1,5,2 };
+            Mesh mesh = new Mesh { name = "Intercom Low-poly Dust Puff", vertices = vertices, triangles = triangles };
+            mesh.RecalculateNormals(); mesh.RecalculateBounds(); mesh.UploadMeshData(true); return mesh;
+        }
         private void Clear()
         {
             if (shells != null) for (int i = 0; i < shells.Length; i++) { shells[i].remaining = 0f; shells[i].visual.gameObject.SetActive(false); }
@@ -240,6 +284,7 @@ namespace IntercomMvp
         {
             Unsubscribe(); if (root != null) Destroy(root);
             if (shellMesh != null) Destroy(shellMesh); if (sparkMesh != null) Destroy(sparkMesh);
+            if (chipMesh != null) Destroy(chipMesh); if (puffMesh != null) Destroy(puffMesh);
         }
     }
 }

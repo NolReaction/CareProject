@@ -137,8 +137,29 @@ internal static class Program
         });
         Case("current measured gait reference and fallback agree", () =>
         {
-            Near(IntercomLocomotionCadence.PlaybackRate(1.8f, 1.0f, 1f) * 3f, 5.4f, "current full-speed contacts/sec");
+            Near(IntercomLocomotionCadence.PlaybackRate(2.1f, 1.0f, 1f) * 3f, 6.3f, "current full-speed contacts/sec");
             Near(IntercomLocomotionCadence.PlaybackRate(1.8f, float.NaN, 1f), 1.8f, "invalid reference uses current measured gait");
+        });
+        Case("shorter lateral stride preserves travel direction and bounded cadence", () =>
+        {
+            foreach(float angle in new[]{0f,45f,90f,135f,180f,225f,270f,315f})
+            {
+                float a=angle*(float)Math.PI/180f, dx=(float)Math.Sin(a),dy=(float)Math.Cos(a);
+                IntercomLocomotionCadence.AnimationDirection(dx,dy,.75f,out float x,out float y);
+                float reference=IntercomLocomotionCadence.DirectionalReference(x,y,1f,.75f);
+                Near(x*x+y*y,1f,"unit animation parameter");
+                Near(x*.75f/reference,dx,"physical X follows requested heading");
+                Near(y/reference,dy,"physical Y follows requested heading");
+                Near(IntercomLocomotionCadence.PlaybackRate(2.1f*reference,reference,1f)*3f,6.3f,"same maximum contact cadence");
+                float gain=Math.Abs(x)+Math.Abs(y);
+                Near((x*.75f/gain)*gain,reference*dx,"diamond-corrected stride X");
+                Near((y/gain)*gain,reference*dy,"diamond-corrected stride Y");
+            }
+            IntercomLocomotionCadence.AnimationDirection(1,1,.75f,out float diagonalX,out float diagonalY);
+            Near(diagonalX,.8f,"45-degree lateral parameter");Near(diagonalY,.6f,"45-degree forward parameter");
+            Near(IntercomLocomotionCadence.DirectionalReference(1,0,1,.75f)*2.1f,1.575f,"lateral speed limit");
+            Near(IntercomLocomotionCadence.DirectionalReference(diagonalX,diagonalY,1,.75f)*2.1f,1.781909f,"diagonal speed limit");
+            Near(IntercomLocomotionCadence.DirectionalReference(float.NaN,1,1,.75f),1f,"invalid params fallback");
         });
         Console.WriteLine("PASS: " + cases + " cases / " + assertions + " assertions. Production direction and cadence; .NET 8, no Unity engine playback.");
     }

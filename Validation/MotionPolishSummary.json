@@ -82,5 +82,7 @@
     "bytes": 825088,
     "sha256": "c4eabf88340ed1fa66aa5ce75d806b16d2c59c8d9aecc70d5b2e90a0085c0bc4",
     "scope": "Actual Blender render of baseline and final source at same simulated1.8m/s translation; same camera, technical clay materials. RunRelaxed four directions. No Unity runtime solver is applied in this video."
-  }
+  },
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

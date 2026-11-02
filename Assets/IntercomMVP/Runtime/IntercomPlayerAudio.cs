@@ -26,6 +26,7 @@ namespace IntercomMvp
         private AudioSource ambient;
         private AudioSource music;
         private readonly float[] stepGains = new float[StepVoices];
+        private readonly float[] impactGains = new float[ImpactVoices];
         private readonly RaycastHit[] groundHits = new RaycastHit[12];
         private GameObject audioRoot;
         private IntercomSimpleShooter subscribedShooter;
@@ -34,10 +35,10 @@ namespace IntercomMvp
         private int nextShot;
         private int nextStep;
         private int nextImpact;
-        private int lastImpactClip = -1;
+        private readonly int[] lastImpactClips = { -1, -1, -1, -1, -1, -1 };
         private float lastImpactTime = float.NegativeInfinity;
         private int lastShotClip = -1;
-        private readonly int[] lastStepClips = { -1, -1, -1, -1 };
+        private readonly int[] lastStepClips = { -1, -1, -1, -1, -1, -1 };
         private bool hasFocus = true;
         private bool appPaused;
         private bool suspended;
@@ -99,7 +100,7 @@ namespace IntercomMvp
                 if (subscribedShooter != null)
                 {
                     subscribedShooter.VolleyFired += OnVolleyFired;
-                    subscribedShooter.ProjectileHit += OnProjectileHit;
+                    subscribedShooter.DetailedProjectileHit += OnProjectileHit;
                 }
             }
             if (groundFeedback == null) groundFeedback = GetComponent<IntercomGroundFeedback>();
@@ -122,7 +123,7 @@ namespace IntercomMvp
             if (subscribedShooter != null)
             {
                 subscribedShooter.VolleyFired -= OnVolleyFired;
-                subscribedShooter.ProjectileHit -= OnProjectileHit;
+                subscribedShooter.DetailedProjectileHit -= OnProjectileHit;
             }
             subscribedShooter = null;
         }
@@ -139,7 +140,7 @@ namespace IntercomMvp
                 Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(profile.shotsVolume));
         }
 
-        private void OnProjectileHit(Vector3 position, Vector3 normal, bool targetHit)
+        private void OnProjectileHit(IntercomProjectileImpact hit)
         {
             if (!CanPlay || impacts == null) return;
             ObserveProfile();
@@ -148,17 +149,26 @@ namespace IntercomMvp
             // keeps rapid collisions readable without adding an audio burst.
             if (now - lastImpactTime < Mathf.Max(0.015f, profile.minimumImpactInterval)) return;
             Vector3 player = motor != null ? motor.transform.position : transform.position;
-            float gain = Mathf.Clamp01(1f - Vector3.Distance(position, player)
+            float gain = Mathf.Clamp01(1f - Vector3.Distance(hit.Point, player)
                 / Mathf.Max(1f, profile.impactAudibleRange));
-            if (gain <= 0f) return;
-            AudioClip clip = PickClip(profile.impactHits, ref lastImpactClip);
+            float materialGain = Mathf.Clamp(hit.Volume, 0f, 2f);
+            if (gain <= 0f || materialGain <= 0f) return;
+            int bankIndex = Mathf.Clamp((int)hit.Surface, 0, lastImpactClips.Length - 1);
+            AudioClip[] bank = hit.Surface == IntercomSurfaceKind.Metal ? profile.metalImpacts
+                : hit.Surface == IntercomSurfaceKind.Wood ? profile.woodImpacts
+                : hit.Surface == IntercomSurfaceKind.Soil || hit.Surface == IntercomSurfaceKind.Gravel ? profile.soilImpacts
+                : profile.concreteImpacts;
+            AudioClip clip = PickClip(bank, ref lastImpactClips[bankIndex]);
+            if (clip == null) clip = PickClip(profile.impactHits, ref lastImpactClips[0]);
             if (clip == null) return;
             lastImpactTime = now;
             AudioSource voice = NextVoice(impacts, ref nextImpact);
-            voice.transform.position = position;
-            PlayVoice(voice, clip, 0.045f,
-                gain * Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(profile.impactsVolume),
-                targetHit ? 1.12f : 0.94f);
+            voice.transform.position = hit.Point;
+            for (int i = 0; i < impacts.Length; i++)
+                if (impacts[i] == voice) { impactGains[i] = materialGain; break; }
+            PlayVoice(voice, clip, 0.018f,
+                gain * materialGain * Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(profile.impactsVolume),
+                Mathf.Clamp(hit.Pitch, 0.6f, 1.4f));
         }
 
         private void LateUpdate()
@@ -183,7 +193,8 @@ namespace IntercomMvp
         {
             if (observedProfile == profile) return;
             observedProfile = profile;
-            lastShotClip = lastImpactClip = -1;
+            lastShotClip = -1;
+            for (int i = 0; i < lastImpactClips.Length; i++) lastImpactClips[i] = -1;
             for (int i = 0; i < lastStepClips.Length; i++) lastStepClips[i] = -1;
             StopVoices(shots);
             StopVoices(steps);
@@ -205,7 +216,7 @@ namespace IntercomMvp
             for (int i = 0; i < steps.Length; i++) steps[i].volume = stepVolume * stepGains[i];
             Vector3 player = motor != null ? motor.transform.position : transform.position;
             for (int i = 0; i < impacts.Length; i++)
-                impacts[i].volume = master * Mathf.Clamp01(profile.impactsVolume)
+                impacts[i].volume = master * Mathf.Clamp01(profile.impactsVolume) * impactGains[i]
                     * Mathf.Clamp01(1f - Vector3.Distance(impacts[i].transform.position, player)
                         / Mathf.Max(1f, profile.impactAudibleRange));
         }
@@ -268,7 +279,10 @@ namespace IntercomMvp
             IntercomSurfaceKind kind = tag != null ? tag.kind : IntercomSurfaceKind.Asphalt;
             int bankIndex = Mathf.Clamp((int)kind, 0, lastStepClips.Length - 1);
             AudioClip[] bank = kind == IntercomSurfaceKind.Metal ? profile.metalSteps
-                : kind == IntercomSurfaceKind.Gravel ? profile.gravelSteps : profile.footsteps;
+                : kind == IntercomSurfaceKind.Concrete ? profile.concreteSteps
+                : kind == IntercomSurfaceKind.Gravel ? profile.gravelSteps
+                : kind == IntercomSurfaceKind.Wood ? profile.woodSteps
+                : kind == IntercomSurfaceKind.Soil ? profile.soilSteps : profile.footsteps;
             if (bank == null || bank.Length == 0) bank = profile.footsteps;
             AudioClip clip = PickClip(bank, ref lastStepClips[bankIndex]);
             if (clip == null && bank != profile.footsteps)
@@ -279,11 +293,11 @@ namespace IntercomMvp
             if (clip == null) return;
             AudioSource voice = NextVoice(steps, ref nextStep);
             float materialGain = kind == IntercomSurfaceKind.Gravel ? 0.84f
-                : kind == IntercomSurfaceKind.Metal ? 0.78f : 1f;
+                : kind == IntercomSurfaceKind.Metal ? 0.88f
+                : kind == IntercomSurfaceKind.Soil ? 0.82f : 1f;
             float gain = Mathf.Lerp(0.55f, 1f, Mathf.Clamp01(strength)) * materialGain
                 * (tag != null ? Mathf.Clamp(tag.volume, 0f, 2f) : 1f);
-            float pitch = (kind == IntercomSurfaceKind.Concrete ? 0.94f : 1f)
-                * (tag != null ? Mathf.Clamp(tag.pitch, 0.6f, 1.4f) : 1f);
+            float pitch = tag != null ? Mathf.Clamp(tag.pitch, 0.6f, 1.4f) : 1f;
             for (int i = 0; i < steps.Length; i++)
                 if (steps[i] == voice) { stepGains[i] = gain; break; }
             voice.transform.position = point;

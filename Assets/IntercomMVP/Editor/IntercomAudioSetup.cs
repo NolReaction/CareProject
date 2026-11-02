@@ -33,9 +33,16 @@ namespace IntercomMvp.Editor
             profile = ScriptableObject.CreateInstance<IntercomAudioProfile>();
             profile.pistolShots = Enumerable.Range(1, 3).Select(index => Clip("Pistol_" + index.ToString("00"))).ToArray();
             profile.footsteps = Enumerable.Range(1, 4).Select(index => Clip("BootStep_" + index.ToString("00"))).ToArray();
+            profile.concreteSteps = Enumerable.Range(1, 3).Select(index => Clip("BootStep_Concrete_" + index.ToString("00"))).ToArray();
             profile.metalSteps = Enumerable.Range(1, 3).Select(index => Clip("BootStep_Metal_" + index.ToString("00"))).ToArray();
             profile.gravelSteps = Enumerable.Range(1, 3).Select(index => Clip("BootStep_Gravel_" + index.ToString("00"))).ToArray();
+            profile.woodSteps = Enumerable.Range(1, 3).Select(index => Clip("BootStep_Wood_" + index.ToString("00"))).ToArray();
+            profile.soilSteps = Enumerable.Range(1, 3).Select(index => Clip("BootStep_Soil_" + index.ToString("00"))).ToArray();
             profile.impactHits = Enumerable.Range(1, 2).Select(index => Clip("Impact_" + index.ToString("00"))).ToArray();
+            profile.metalImpacts = Enumerable.Range(1, 3).Select(index => Clip("Impact_Metal_" + index.ToString("00"))).ToArray();
+            profile.woodImpacts = Enumerable.Range(1, 3).Select(index => Clip("Impact_Wood_" + index.ToString("00"))).ToArray();
+            profile.concreteImpacts = Enumerable.Range(1, 3).Select(index => Clip("Impact_Concrete_" + index.ToString("00"))).ToArray();
+            profile.soilImpacts = Enumerable.Range(1, 3).Select(index => Clip("Impact_Soil_" + index.ToString("00"))).ToArray();
             profile.ambience = Clip("Ambience_IndustrialYard");
             profile.musicLoop = Clip("Music_IndustrialGroove", ".ogg");
             AssetDatabase.CreateAsset(profile, ProfilePath);

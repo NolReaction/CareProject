@@ -36,5 +36,7 @@
   "fbxTakeNamesMatchMeta": true,
   "baselineFbxSha256": "cc392b120b63c2441ed9af1b6832403bdf44839e9e0344143452d8a3c5e9c0da",
   "candidateFbxSha256": "6613e68cc612d20d31a3662e655ee0a06f5301bf92f1fc918d18b718f7d384f4",
-  "status": "PASS"
+  "status": "PASS",
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

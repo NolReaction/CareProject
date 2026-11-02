@@ -36,5 +36,7 @@
     "TurnActualMesh9.json",
     "TurnActualMesh23.json"
   ],
-  "previewScope": "Two actual source-mesh poses were rendered and visually reviewed separately: midstep lift and landing. Technical clay views, not Unity captures."
+  "previewScope": "Two actual source-mesh poses were rendered and visually reviewed separately: midstep lift and landing. Technical clay views, not Unity captures.",
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json; standing-turn geometry was validated on the v0.2 source, whose Idle/rest/geometry are preserved."
 }

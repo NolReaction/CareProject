@@ -1,21 +1,23 @@
 # Исходники звука
 
-Здесь лежат короткие записи, необходимые для воспроизведения звуков и музыки.
-Это записанные инструменты и шумы, а не записи, сделанные автором кода.
-Все исходные записи опубликованы под CC0 1.0; текст посвящения в `CC0-1.0.txt`.
-Имена, ссылки на публикации, изменения и SHA-256 указаны в `manifest.json`.
+Короткие записи для воспроизводимого звукового дизайна и музыкальные исходники.
+Это записи указанных авторов, а не записи, сделанные автором кода.
+Все исходники опубликованы под CC0 1.0; текст посвящения — `CC0-1.0.txt`.
+Имена, ссылки, изменения и SHA-256 — в `manifest.json`; отдельные исходники нового
+трека и их манифест — в `MusicV3`.
 
 | Источник | Автор | Использование |
 | --- | --- | --- |
-| [Fantozzi’s Footsteps](https://opengameart.org/content/fantozzis-footsteps-grasssand-stone) | Fantozzi, нарезка qubodup | Контакт подошвы с твёрдым покрытием и сыпучим грунтом |
-| [Free Firearm Sound Library](https://opengameart.org/content/the-free-firearm-sound-library) | Ben Jaszczak, Brian Nelson, Kevin Heras, Matthew Nanney | Два разных записанных выстрела Walther PPQ |
-| [VCSL](https://github.com/sgossner/VCSL) | Versilian Studios / Sam Gossner и участники VCSL | Акустическое пианино Kawai, маримба, барабаны, шейкер и удар по металлу |
+| [Fantozzi’s Footsteps](https://opengameart.org/content/fantozzis-footsteps-grasssand-stone) | Fantozzi, нарезка qubodup | Подошва, каменная и сыпучая фактура |
+| [Free Firearm Sound Library](https://opengameart.org/content/the-free-firearm-sound-library) | Ben Jaszczak, Brian Nelson, Kevin Heras, Matthew Nanney | Близкие выстрелы .45 ACP 1911 и атака Walther PPQ |
+| [VCSL](https://github.com/sgossner/VCSL) | Versilian Studios / Sam Gossner и участники | Металл, деревянный блок и slapstick |
+| [Karoryfer](https://www.karoryfer.com/) | Подробности по каждому набору в `MusicV3/manifest.json` | Электрогитара, бас-гитара и ударная установка нового трека |
 
-Музыка **Morning Shift**: новая аранжировка CareProject, 32 такта, 92 BPM,
-около 83,5 секунды. Последовательность нот и ритм записаны в
-`Tools/GeneratePrototypeAudio.py`. Запись чужой песни или готовая мелодия не используются.
+**Iron Pulse** — оригинальные ноты, ритм и аранжировка CareProject;
+код композиции находится в `Tools/GenerateMainMusic.py`. Готовая песня или чужая
+мелодия не заимствуется. Прежние записи клавишных не используются в новом треке.
 
 Из корня проекта: `python Tools/GeneratePrototypeAudio.py`.
-Нужны Python 3, NumPy, SciPy и ffmpeg в PATH. Запуск офлайн: генератор проверяет
-контрольные суммы источников, собирает WAV/OGG и сохраняет существующие GUID.
-Готовые клипы уже в `Assets/IntercomMVP/Audio`; для обычного запуска игры генерация не нужна.
+Нужны Python 3, NumPy, SciPy и ffmpeg в PATH. Генерация офлайн проверяет контрольные
+суммы, собирает WAV/OGG и сохраняет GUID существующих файлов. `--sfx-only` обновляет
+только эффекты/фон. Для обычного запуска игры генерация не нужна.

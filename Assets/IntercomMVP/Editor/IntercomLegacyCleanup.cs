@@ -12,7 +12,7 @@ namespace IntercomMvp.Editor
     internal static class IntercomLegacyCleanup
     {
         private const string ManifestPath = "Assets/IntercomMVP/Editor/LegacyCleanup.json";
-        private const string SessionKey = "Intercom.TutorialFoundation.LegacyCleanup";
+        private const string SessionKey = "Intercom.GameplayV3.LegacyCleanup";
         [Serializable] private sealed class Manifest { public string revision; public Entry[] files; }
         [Serializable] private sealed class Entry { public string path; public string sha256; }
 
@@ -29,13 +29,14 @@ namespace IntercomMvp.Editor
                 return;
             }
             SessionState.SetBool(SessionKey, true);
-            if (!File.Exists(ManifestPath)) return;
             string root = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+            string manifestFile = Path.Combine(root, ManifestPath);
+            if (!File.Exists(manifestFile)) return;
             int removed = 0, preserved = 0;
             try
             {
-                Manifest manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(ManifestPath));
-                if (manifest == null || manifest.revision != "tutorial-foundation-v2" || manifest.files == null) return;
+                Manifest manifest = JsonUtility.FromJson<Manifest>(File.ReadAllText(manifestFile));
+                if (manifest == null || manifest.revision != "gameplay-v3" || manifest.files == null) return;
                 var expected = new Dictionary<string, string>(StringComparer.Ordinal);
                 foreach (Entry entry in manifest.files)
                     if (entry != null && !string.IsNullOrEmpty(entry.path)) expected[entry.path] = entry.sha256;

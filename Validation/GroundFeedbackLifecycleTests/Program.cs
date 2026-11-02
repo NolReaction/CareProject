@@ -26,6 +26,59 @@ class Program {
   public (Vector3,Quaternion,Vector3)[] Snapshot()=>bones.Select(b=>(b.localPosition,b.localRotation,b.localScale)).ToArray();
   public void Restored((Vector3,Quaternion,Vector3)[] pose){for(int i=0;i<bones.Length;i++){Check(bones[i].localPosition.Equals(pose[i].Item1),"position restored");Check(bones[i].localRotation.Equals(pose[i].Item2),"rotation restored");Check(bones[i].localScale.Equals(pose[i].Item3),"scale restored");}}
  }
+ sealed class MotorRig {
+  public IntercomPlayerMotor motor;public IntercomPlayerInput input;public Animator animator;
+  public MotorRig(){
+   var root=new GameObject("MovingRobot");root.transform.rotation=Quaternion.Euler(0,180,0);
+   var controller=root.AddComponent<CharacterController>();controller.center=new Vector3(.07f,.75f,.12f);
+   input=root.AddComponent<IntercomPlayerInput>();input.AimActive=true;input.Aim=Vector2.up;
+   animator=root.AddComponent<Animator>();animator.runtimeAnimatorController=Rig.Controller(new AnimationClip{name="Idle"});
+   motor=root.AddComponent<IntercomPlayerMotor>();motor.inputSource=input;motor.animator=animator;Call(motor,"Awake");
+  }
+  public void Step(){
+   // The stand-in integrates a requested displacement without collisions. Keep
+   // its grounded height fixed so long traces do not invoke the falling reset.
+   var p=motor.transform.position;motor.transform.position=new Vector3(p.x,0,p.z);
+   Time.deltaTime=1f/60;Time.frameCount++;Call(motor,"Update");
+   float rate=animator.GetFloat("RunRate");
+   Check(float.IsFinite(rate)&&rate<=2.10001f,"actual Motor caps cadence during direction transitions");
+   Vector3 facing=motor.FacingDirection,right=Vector3.Cross(Vector3.up,facing),velocity=motor.ActualPlanarVelocity;
+   float x=Vector3.Dot(velocity,right)/1.575f,y=Vector3.Dot(velocity,facing)/2.1f;
+   Check(x*x+y*y<=1.0002f,"actual Motor travel remains inside the final-facing speed ellipse");
+   float bx=animator.GetFloat("MoveX"),by=animator.GetFloat("MoveY");
+   Check(Math.Abs(bx*bx+by*by-1f)<.0001f,"smoothed authored direction stays normalized");
+   Check(Vector3.Dot(motor.AimWorldDirection,new Vector3(input.Aim.x,0,input.Aim.y).normalized)>.9999f,"travel never replaces held independent aim");
+  }
+  public void Settle(Vector2 travel,int frames=120){input.Move=travel;for(int i=0;i<frames;i++)Step();}
+  public Vector3 BlendTravel(){Vector3 facing=motor.FacingDirection;return (Vector3.Cross(Vector3.up,facing)*(animator.GetFloat("MoveX")*.75f)+facing*animator.GetFloat("MoveY")).normalized;}
+ }
+ static void CheckMotorEllipse(){
+  var directions=new[]{Vector2.up,Vector2.right,new Vector2(.70710678f,.70710678f),new Vector2(0,-1),new Vector2(-.70710678f,-.70710678f)};
+  var speeds=new[]{2.1f,1.575f,1.7819091f,2.1f,1.7819091f};
+  for(int i=0;i<directions.Length;i++){
+   var r=new MotorRig();r.Settle(directions[i]);
+   var expected=new Vector3(directions[i].x,0,directions[i].y).normalized;
+   Check(Math.Abs(r.motor.ActualPlanarSpeed-speeds[i])<.0002f,"steady directional top speed matches authored stride ellipse");
+   Check(Vector3.Dot(r.motor.ActualPlanarVelocity.normalized,expected)>.99999f,"ellipse scales speed without changing requested world heading");
+   Check(Vector3.Dot(r.BlendTravel(),expected)>.99999f,"anisotropic animation blend converges to physical travel heading");
+   Check(Math.Abs(r.animator.GetFloat("RunRate")-2.1f)<.0002f,"all full-speed directions use the same maximum cadence");
+  }
+  var transition=new MotorRig();transition.Settle(Vector2.up);transition.input.Aim=Vector2.right;transition.Step();
+  IntercomLocomotionDirection.TryProject(transition.motor.ActualPlanarVelocity.x,transition.motor.ActualPlanarVelocity.z,
+   transition.motor.FacingDirection.x,transition.motor.FacingDirection.z,out float physicalX,out float physicalY);
+  IntercomLocomotionCadence.AnimationDirection(physicalX,physicalY,.75f,out float targetX,out float targetY);
+  Check(Math.Abs(transition.animator.GetFloat("MoveX"))<Math.Abs(targetX)-.01f,"animation direction damps an aim turn instead of snapping");
+  for(int i=0;i<120;i++)transition.Step();
+  Check(Vector3.Dot(transition.BlendTravel(),Vector3.forward)>.99999f,"smoothed blend catches up after aim rotates independently");
+  Check(Math.Abs(transition.motor.ActualPlanarSpeed-1.575f)<.0002f,"aim turn changes permitted stride speed without steering travel");
+  var sequence=new[]{new Vector2(0,-1),Vector2.up,Vector2.right,new Vector2(-1,0),new Vector2(.70710678f,.70710678f)};
+  for(int cycle=0;cycle<3;cycle++)for(int i=0;i<sequence.Length;i++){
+   transition.input.Aim=sequence[(i+cycle)%sequence.Length];
+   transition.Settle(sequence[(i+1)%sequence.Length],24);
+  }
+  transition.input.Aim=Vector2.up;transition.Settle(Vector2.zero,60);
+  Check(transition.motor.ActualPlanarSpeed<.0001f&&transition.motor.IsAiming,"releasing movement stops travel while held aim remains active");
+ }
  static void Main(){
   var r=new Rig(true,true);Check(!r.feedback.NeedsSoleCalibration&&r.feedback.ProvidesFootContacts,"Awake resolves rig and calibrates both boots");Check(r.idle.samples==1,"one-shot initial calibration");var pose=r.Snapshot();r.feedback.CalibrateSoles();r.Restored(pose);Check(Field<int>(r.feedback,"soleCalibrationVersion")==1,"successful current geometry version");
   r.right.fail=true;bool threw=false;try{r.feedback.CalibrateSoles();}catch{threw=true;}r.Restored(pose);Check(threw&&r.feedback.NeedsSoleCalibration&&!r.feedback.ProvidesFootContacts,"failed right BakeMesh does not certify partial markers");Check(Field<int>(r.feedback,"soleCalibrationVersion")==0,"failed measurement clears version");r.right.fail=false;
@@ -35,6 +88,8 @@ class Program {
   r=new Rig();r.right.fail=true;try{r.feedback.CalibrateSoles();}catch{}r.right.fail=false;Call(r.feedback,"OnDisable");Call(r.feedback,"OnEnable");Call(r.feedback,"LateUpdate");Check(!r.feedback.NeedsSoleCalibration,"reenable retries repaired geometry with the same controller");
   r=new Rig();r.animator.runtimeAnimatorController=null;Call(r.feedback,"LateUpdate");Check(!r.feedback.ProvidesFootContacts,"controller removal advertises no contact provider");r.animator.runtimeAnimatorController=Rig.Controller(r.idle);Call(r.feedback,"LateUpdate");Check(r.feedback.ProvidesFootContacts&&r.idle.samples==1,"same geometry reuses valid calibration after teardown");
   r=new Rig();pose=r.Snapshot();Call(r.feedback,"SavePose");foreach(var b in r.bones)b.localPosition=new Vector3(7,8,9);Call(r.feedback,"OnDisable");for(int i=0;i<r.bones.Length;i++){if(i==6||i==7)continue;Check(r.bones[i].localPosition.Equals(pose[i].Item1),"disable restores bones mutated by feedback");}Check(Field<int>(r.feedback,"savedPoseCount")==0,"disable empties pose cache");
-  Console.WriteLine("GroundFeedback lifecycle: "+checks+" assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.");
+  r=new Rig();var measured=new IntercomGroundFeedbackSoleProfile{left=new[]{new IntercomGroundFeedbackSoleProfile.Point()},right=new[]{new IntercomGroundFeedbackSoleProfile.Point()}};r.feedback.soleProfile=measured;pose=r.Snapshot();Call(r.feedback,"LateUpdate");r.Restored(pose);Check(r.idle.samples==2&&Field<IntercomGroundFeedbackSoleProfile>(r.feedback,"calibratedSoleProfile")==measured,"late assigned contour is calibrated once in Idle and restores the pose");for(int i=0;i<5;i++)Call(r.feedback,"LateUpdate");Check(r.idle.samples==2,"contour does not trigger per-frame mesh baking");r.feedback.soleProfile=null;Call(r.feedback,"LateUpdate");Check(r.idle.samples==3&&r.feedback.ProvidesFootContacts,"removing contour restores the legacy contact provider once");
+  CheckMotorEllipse();
+  Console.WriteLine("GroundFeedback lifecycle and Motor ellipse: "+checks+" assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.");
  }
 }

@@ -1,0 +1,434 @@
+{
+  "baselineSourceSha256": "5e70fb918742174e301c4c6a7ee95e3dc83c39d308baca3036c9953e9f44120a",
+  "candidateSourceSha256": "bc53240074b897d34e1174f06d3503c7fb9eafcb46d15a01f3d06f06d8c589df",
+  "restRigUnchanged": true,
+  "meshGeometryTopologyWeightsMaterialsUnchanged": true,
+  "referencedTexturePayloadsUnchanged": true,
+  "referencedTextureCount": 28,
+  "baselinePackedReferencedImageCount": 6,
+  "candidatePackedReferencedImageCount": 28,
+  "allCandidateReferencedImagesPacked": true,
+  "baselineImageResolution": {
+    "T_M_Arms_BaseColor.png": "packed",
+    "T_M_Arms_Normal_GL.png": "packed",
+    "tripo_part_6_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_6_base_color.jpg",
+    "tripo_part_6_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_6_normal.jpg",
+    "rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg": "packed",
+    "rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg": "packed",
+    "rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg": "packed",
+    "rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg": "packed",
+    "tripo_part_0_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_0_base_color.jpg",
+    "tripo_part_0_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_0_normal.jpg",
+    "tripo_part_10_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_10_base_color.jpg",
+    "tripo_part_10_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_10_normal.jpg",
+    "tripo_part_11_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_11_base_color.jpg",
+    "tripo_part_11_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_11_normal.jpg",
+    "tripo_part_12_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_12_base_color.jpg",
+    "tripo_part_12_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_12_normal.jpg",
+    "tripo_part_24_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_24_base_color.jpg",
+    "tripo_part_24_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_24_normal.jpg",
+    "tripo_part_2_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_2_base_color.jpg",
+    "tripo_part_2_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_2_normal.jpg",
+    "tripo_part_3_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_3_base_color.jpg",
+    "tripo_part_3_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_3_normal.jpg",
+    "tripo_part_7_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_7_base_color.jpg",
+    "tripo_part_7_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_7_normal.jpg",
+    "tripo_part_8_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_8_base_color.jpg",
+    "tripo_part_8_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_8_normal.jpg",
+    "tripo_part_9_base_color.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_9_base_color.jpg",
+    "tripo_part_9_normal.jpg": "/workspace/scratch/0ce45fc2f6d6/CareProject_Tutorial/Assets/IntercomMVP/Art/Robot/Textures/tripo_part_9_normal.jpg"
+  },
+  "clipNamesUnchanged": true,
+  "boneCount": 42,
+  "meshCount": 24,
+  "clipNames": [
+    "Idle",
+    "IdleRelaxed",
+    "LowerWeapons",
+    "RaiseWeapons",
+    "Run",
+    "RunBackward",
+    "RunBackwardRelaxed",
+    "RunLeft",
+    "RunLeftRelaxed",
+    "RunRelaxed",
+    "RunRight",
+    "RunRightRelaxed",
+    "Shoot"
+  ],
+  "nonRunCurvesExactlyUnchanged": true,
+  "nonRunSamples": [
+    {
+      "clip": "Idle",
+      "frame": 1.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 1.03125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 1.0625,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 1.125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 7.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 13.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 19.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 25.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 31.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 37.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 43.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Idle",
+      "frame": 49.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 1.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 1.03125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 1.0625,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 1.125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 7.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 13.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 19.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 25.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 31.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 37.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 43.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "IdleRelaxed",
+      "frame": 49.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 1.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 1.03125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 1.0625,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 1.125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 2.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 3.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 4.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 5.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 6.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 7.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 8.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "RaiseWeapons",
+      "frame": 9.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 1.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 1.03125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 1.0625,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 1.125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 2.5,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 4.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 5.5,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 7.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 8.5,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 10.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 11.5,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "LowerWeapons",
+      "frame": 13.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.03125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.0625,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 1.125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 2.125,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 3.25,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 4.375,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 5.5,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 6.625,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 7.75,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 8.875,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    },
+    {
+      "clip": "Shoot",
+      "frame": 10.0,
+      "maxVertexErrorSourceUnits": 0.0,
+      "meshMismatches": []
+    }
+  ],
+  "maxNonRunVertexErrorSourceUnits": 0.0,
+  "attachmentSamples": 1690,
+  "maxJointErrorSourceUnits": 1.0925092620412159e-07,
+  "maxLegScaleError": 0.04525887966156006,
+  "baselineMaxLegScaleError": 0.04525887966156006,
+  "maxRunLegScaleError": 0.0,
+  "legScaleCurvesExactlyUnchanged": true,
+  "legacyNonRunScaleNote": "Idle/IdleRelaxed retain baseline Calf scaling up to4.526%, with compensatingFoot scaling. Non-Run curves and deformed meshes are unchanged. All8Run leg scales are1.",
+  "maxLegLocalTranslationSourceUnits": 6.537857940340133e-08,
+  "scope": "Read-only Blender source comparison. Source-space units; not Unity execution.",
+  "status": "PASS",
+  "candidateSourceBytes": 8186906
+}

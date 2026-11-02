@@ -10,10 +10,10 @@ namespace IntercomMvp
             if (!Finite(normalizedPhase)) return 0f;
             float phase = normalizedPhase - (float)Math.Floor(normalizedPhase) - (left ? 0f : 0.5f);
             if (phase < 0f) phase += 1f;
-            if (phase >= 0.28f) return 0f;
+            if (phase >= 0.40f) return 0f;
             // Let heel contact acquire gradually; release before toe-off.
-            float enter = Smooth(phase / 0.035f);
-            float leave = Smooth((0.28f - phase) / 0.11f);
+            float enter = Smooth(phase / 0.04f);
+            float leave = Smooth((0.40f - phase) / 0.06f);
             return enter * leave;
         }
 
@@ -23,8 +23,8 @@ namespace IntercomMvp
             if (!Finite(normalizedPhase)) return 0f;
             float phase = normalizedPhase - (float)Math.Floor(normalizedPhase) - (left ? 0f : 0.5f);
             if (phase < 0f) phase += 1f;
-            if (phase <= 0.035f || phase >= 0.17f) return 0f;
-            return Smooth((phase - 0.035f) / 0.02f) * Smooth((0.17f - phase) / 0.025f);
+            if (phase <= 0.12f || phase >= 0.28f) return 0f;
+            return Smooth((phase - 0.12f) / 0.015f) * Smooth((0.28f - phase) / 0.015f);
         }
 
         /// <summary>Height of a hip above an ankle for a single rigid calf link.</summary>

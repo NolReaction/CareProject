@@ -1,0 +1,410 @@
+{
+  "source": "Source/Robot/intercom-armed.blend",
+  "sourceSha256Before": "bc53240074b897d34e1174f06d3503c7fb9eafcb46d15a01f3d06f06d8c589df",
+  "sourceSha256After": "bc53240074b897d34e1174f06d3503c7fb9eafcb46d15a01f3d06f06d8c589df",
+  "runtimeProfileSha256": "ddb0efcbbc5a397673d144e7133f013047540f71e2b3d4415494610fb5cc77a0",
+  "samplesPerClip": 129,
+  "scope": "Actual full deformed Blender boot vertices compared with the frozen 197-point Foot/Toe profile, calibrated in Idle, across all 8 Run clips at 129 phases. This verifies cardinal source mesh coverage and exact selected-vertex linear skinning; runtime diagonal/intersection checks are separate. No Unity execution.",
+  "weightValidation": {
+    "L": {
+      "onlyFootAndToe": true,
+      "maximumWeightSumError": 2.9802322387695312e-08,
+      "maximumStoredToeWeightError": 4.864502134438453e-10
+    },
+    "R": {
+      "onlyFootAndToe": true,
+      "maximumWeightSumError": 2.9802322387695312e-08,
+      "maximumStoredToeWeightError": 4.92462182144493e-10
+    }
+  },
+  "maximumIdleVertexErrorMetres": 1.122805872641067e-07,
+  "maximumSelectedVertexReplicaErrorMetres": 1.812534639297058e-07,
+  "aggregate": {
+    "all": {
+      "samples": 2064,
+      "minimumErrorMetres": -2.5204035805151807e-08,
+      "maximumErrorMetres": 0.00025639297900860165,
+      "meanAbsoluteErrorMetres": 2.1719589722198397e-06
+    },
+    "newStance0To40": {
+      "samples": 840,
+      "minimumErrorMetres": -2.361501986809605e-08,
+      "maximumErrorMetres": 1.7952974565138595e-05,
+      "meanAbsoluteErrorMetres": 5.26129292304765e-08
+    },
+    "flat08To30": {
+      "samples": 448,
+      "minimumErrorMetres": -1.7802088509507812e-08,
+      "maximumErrorMetres": 2.6876503732813493e-08,
+      "meanAbsoluteErrorMetres": 5.8323288834628235e-09
+    }
+  },
+  "worst": {
+    "all": {
+      "clip": "RunLeft",
+      "phase": 0.875,
+      "side": "L",
+      "errorMetres": 0.00025639297900860165
+    },
+    "newStance0To40": {
+      "clip": "RunRight",
+      "phase": 0.3984375,
+      "side": "L",
+      "errorMetres": 1.7952974565138595e-05
+    },
+    "flat08To30": {
+      "clip": "Run",
+      "phase": 0.203125,
+      "side": "L",
+      "errorMetres": 2.6876503732813493e-08
+    }
+  },
+  "exceedsHalfMillimetre": [],
+  "clips": {
+    "Run": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.8672455541910242e-08,
+          "maximumErrorMetres": 3.828488117401797e-08,
+          "meanAbsoluteErrorMetres": 1.709986440940229e-08
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.8665031761680817e-08,
+          "maximumErrorMetres": 3.651118491143913e-08,
+          "meanAbsoluteErrorMetres": 1.3877081042094042e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.770715592238995e-08,
+          "maximumErrorMetres": 2.6876503732813493e-08,
+          "meanAbsoluteErrorMetres": 9.51517883462645e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.5204035805151807e-08,
+          "maximumErrorMetres": 7.050006046794382e-08,
+          "meanAbsoluteErrorMetres": 2.151238432346085e-08
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -2.170042851909088e-08,
+          "maximumErrorMetres": 6.359849975943264e-08,
+          "meanAbsoluteErrorMetres": 1.0035815223816014e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -3.6609583166345153e-09,
+          "maximumErrorMetres": 1.7779536460170715e-08,
+          "meanAbsoluteErrorMetres": 2.6011303437951613e-09
+        }
+      }
+    },
+    "RunBackward": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.1446229198211046e-08,
+          "maximumErrorMetres": 4.1216180232440605e-08,
+          "meanAbsoluteErrorMetres": 1.751793320704869e-08
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.7802088509507812e-08,
+          "maximumErrorMetres": 4.1216180232440605e-08,
+          "meanAbsoluteErrorMetres": 1.364348786024235e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.7802088509507812e-08,
+          "maximumErrorMetres": 1.7936937655046217e-08,
+          "meanAbsoluteErrorMetres": 9.532397693480488e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.4609126618292288e-08,
+          "maximumErrorMetres": 6.262227450126876e-08,
+          "meanAbsoluteErrorMetres": 1.6640957994525024e-08
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -2.361501986809605e-08,
+          "maximumErrorMetres": 6.262227450126876e-08,
+          "meanAbsoluteErrorMetres": 1.088898065262668e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -6.4139881746147674e-09,
+          "maximumErrorMetres": 6.2613674319664695e-09,
+          "meanAbsoluteErrorMetres": 3.1453337449945017e-09
+        }
+      }
+    },
+    "RunLeft": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.1662458434454132e-08,
+          "maximumErrorMetres": 0.00025639297900860165,
+          "meanAbsoluteErrorMetres": 1.2341383318435711e-05
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.1662458434454132e-08,
+          "maximumErrorMetres": 3.570807549433028e-08,
+          "meanAbsoluteErrorMetres": 9.199301426997854e-09
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.1662458434454132e-08,
+          "maximumErrorMetres": 1.638670135331347e-08,
+          "meanAbsoluteErrorMetres": 7.676390722788756e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.9521621391643378e-08,
+          "maximumErrorMetres": 5.933616897098093e-05,
+          "meanAbsoluteErrorMetres": 6.466800780689135e-07
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -1.9521621391643378e-08,
+          "maximumErrorMetres": 4.279052182454782e-08,
+          "meanAbsoluteErrorMetres": 6.969267207382685e-09
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -3.5253509914159964e-09,
+          "maximumErrorMetres": 9.986739768167192e-09,
+          "meanAbsoluteErrorMetres": 3.5927816870810826e-09
+        }
+      }
+    },
+    "RunRight": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.263199164179498e-08,
+          "maximumErrorMetres": 0.00018735453113706007,
+          "meanAbsoluteErrorMetres": 4.300014814832763e-06
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.263199164179498e-08,
+          "maximumErrorMetres": 1.7952974565138595e-05,
+          "meanAbsoluteErrorMetres": 3.462196434497793e-07
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.263199164179498e-08,
+          "maximumErrorMetres": 2.029311500809119e-08,
+          "meanAbsoluteErrorMetres": 7.810375432289069e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.0330578280113196e-08,
+          "maximumErrorMetres": 5.5164266343495454e-08,
+          "meanAbsoluteErrorMetres": 1.4822426486894429e-08
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -2.0330578280113196e-08,
+          "maximumErrorMetres": 5.5164266343495454e-08,
+          "meanAbsoluteErrorMetres": 6.7527839643883575e-09
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -2.9313230571244296e-09,
+          "maximumErrorMetres": 1.0780693919763799e-08,
+          "meanAbsoluteErrorMetres": 2.7850426086470857e-09
+        }
+      }
+    },
+    "RunRelaxed": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.8672455541910242e-08,
+          "maximumErrorMetres": 3.828488117401797e-08,
+          "meanAbsoluteErrorMetres": 1.709986440940229e-08
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.8665031761680817e-08,
+          "maximumErrorMetres": 3.651118491143913e-08,
+          "meanAbsoluteErrorMetres": 1.3877081042094042e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.770715592238995e-08,
+          "maximumErrorMetres": 2.6876503732813493e-08,
+          "meanAbsoluteErrorMetres": 9.51517883462645e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.5204035805151807e-08,
+          "maximumErrorMetres": 7.050006046794382e-08,
+          "meanAbsoluteErrorMetres": 2.151238432346085e-08
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -2.170042851909088e-08,
+          "maximumErrorMetres": 6.359849975943264e-08,
+          "meanAbsoluteErrorMetres": 1.0035815223816014e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -3.6609583166345153e-09,
+          "maximumErrorMetres": 1.7779536460170715e-08,
+          "meanAbsoluteErrorMetres": 2.6011303437951613e-09
+        }
+      }
+    },
+    "RunBackwardRelaxed": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.1446229198211046e-08,
+          "maximumErrorMetres": 4.1216180232440605e-08,
+          "meanAbsoluteErrorMetres": 1.751793320704869e-08
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.7802088509507812e-08,
+          "maximumErrorMetres": 4.1216180232440605e-08,
+          "meanAbsoluteErrorMetres": 1.364348786024235e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.7802088509507812e-08,
+          "maximumErrorMetres": 1.7936937655046217e-08,
+          "meanAbsoluteErrorMetres": 9.532397693480488e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.4609126618292288e-08,
+          "maximumErrorMetres": 6.262227450126876e-08,
+          "meanAbsoluteErrorMetres": 1.6640957994525024e-08
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -2.361501986809605e-08,
+          "maximumErrorMetres": 6.262227450126876e-08,
+          "meanAbsoluteErrorMetres": 1.088898065262668e-08
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -6.4139881746147674e-09,
+          "maximumErrorMetres": 6.2613674319664695e-09,
+          "meanAbsoluteErrorMetres": 3.1453337449945017e-09
+        }
+      }
+    },
+    "RunLeftRelaxed": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.1662458434454132e-08,
+          "maximumErrorMetres": 0.00025639297900860165,
+          "meanAbsoluteErrorMetres": 1.2341383318435711e-05
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.1662458434454132e-08,
+          "maximumErrorMetres": 3.570807549433028e-08,
+          "meanAbsoluteErrorMetres": 9.199301426997854e-09
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.1662458434454132e-08,
+          "maximumErrorMetres": 1.638670135331347e-08,
+          "meanAbsoluteErrorMetres": 7.676390722788756e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.9521621391643378e-08,
+          "maximumErrorMetres": 5.933616897098093e-05,
+          "meanAbsoluteErrorMetres": 6.466800780689135e-07
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -1.9521621391643378e-08,
+          "maximumErrorMetres": 4.279052182454782e-08,
+          "meanAbsoluteErrorMetres": 6.969267207382685e-09
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -3.5253509914159964e-09,
+          "maximumErrorMetres": 9.986739768167192e-09,
+          "meanAbsoluteErrorMetres": 3.5927816870810826e-09
+        }
+      }
+    },
+    "RunRightRelaxed": {
+      "L": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -1.263199164179498e-08,
+          "maximumErrorMetres": 0.00018735453113706007,
+          "meanAbsoluteErrorMetres": 4.300014814832763e-06
+        },
+        "newStance0To40": {
+          "samples": 53,
+          "minimumErrorMetres": -1.263199164179498e-08,
+          "maximumErrorMetres": 1.7952974565138595e-05,
+          "meanAbsoluteErrorMetres": 3.462196434497793e-07
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -1.263199164179498e-08,
+          "maximumErrorMetres": 2.029311500809119e-08,
+          "meanAbsoluteErrorMetres": 7.810375432289069e-09
+        }
+      },
+      "R": {
+        "all": {
+          "samples": 129,
+          "minimumErrorMetres": -2.0330578280113196e-08,
+          "maximumErrorMetres": 5.5164266343495454e-08,
+          "meanAbsoluteErrorMetres": 1.4822426486894429e-08
+        },
+        "newStance0To40": {
+          "samples": 52,
+          "minimumErrorMetres": -2.0330578280113196e-08,
+          "maximumErrorMetres": 5.5164266343495454e-08,
+          "meanAbsoluteErrorMetres": 6.7527839643883575e-09
+        },
+        "flat08To30": {
+          "samples": 28,
+          "minimumErrorMetres": -2.9313230571244296e-09,
+          "maximumErrorMetres": 1.0780693919763799e-08,
+          "meanAbsoluteErrorMetres": 2.7850426086470857e-09
+        }
+      }
+    }
+  },
+  "status": "ok",
+  "pointCounts": {
+    "L": 100,
+    "R": 97
+  },
+  "totalPoints": 197,
+  "testProfileSha256": "ddb0efcbbc5a397673d144e7133f013047540f71e2b3d4415494610fb5cc77a0",
+  "trueBindDataSha256": "ea86f91df22862c4453411c7ebfcdcfe1ad1f223522b37dfac9507e02b619fd4",
+  "actualMeshSamples": 2064
+}

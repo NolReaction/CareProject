@@ -1,5 +1,5 @@
 {
   "name": "Intercom MVP",
   "bootstrapScene": "Assets/IntercomMVP/Scenes/IntercomMVP.unity",
-  "scope": "Daylit industrial tutorial yard with four-direction robot locomotion, alternating turn steps, contact-aware audio and twin-stick dual-pistol shooting."
+  "scope": "Daylit industrial tutorial yard with grounded robot locomotion, alternating turn steps, quieter material footsteps, material-aware impacts, thick cartoon tracers, faster dual pistols and Iron Pulse music."
 }

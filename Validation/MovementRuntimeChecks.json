@@ -79,5 +79,7 @@
       "compilerOutput": "CareProject_Tutorial/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(39,182): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
       "output": "Turn rig: 457403 assertions; random verified landings 1654; max Body offset 0.04943m; stance drift 5.63E-008m; wrapper/lower twist 35.000deg; final torso twist 34.442deg; max swing speed 2.309m/s; swing sole min 0.00080m; landing gap max 0.00300m. Real production transform math + measured Idle geometry, not Unity skinning/physics.\n"
     }
-  ]
+  ],
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

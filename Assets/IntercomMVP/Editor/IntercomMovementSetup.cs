@@ -112,7 +112,10 @@ namespace IntercomMvp.Editor
             motor.movementCamera = camera;
             motor.enabled = true;
             // Migrate only the old shipped reference value; keep a user's tuning.
-            if (Mathf.Approximately(motor.moveSpeed, 0.8f)) motor.moveSpeed = 1.8f;
+            if (Mathf.Approximately(motor.moveSpeed, 0.8f) || Mathf.Approximately(motor.moveSpeed, 1.8f))
+                motor.moveSpeed = 2.1f;
+            if (motor.strafeSpeedRatio <= 0f) motor.strafeSpeedRatio = 0.75f;
+            // New components use the authored .75 lateral ratio; retain user tuning.
             if (Mathf.Approximately(motor.acceleration, 18f)) motor.acceleration = 8f;
             if (Mathf.Approximately(motor.deceleration, 24f)) motor.deceleration = 12f;
             if (Mathf.Approximately(motor.runReferenceSpeed, 0.8f) || Mathf.Approximately(motor.runReferenceSpeed, 1.2f))
@@ -154,6 +157,7 @@ namespace IntercomMvp.Editor
             IntercomMobileSetup.EnsureRuntimeSettings(robot);
             IntercomCombatSetup.Setup(robot);
             IntercomGroundFeedbackSetup.Setup(robot);
+            IntercomSoleProfileBuilder.Rebuild(robot, animator, clips);
             IntercomAudioSetup.Setup(robot);
             IntercomDistrictSetup.SetupSurfaceSounds(robot.scene);
 

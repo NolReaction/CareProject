@@ -1,0 +1,467 @@
+{
+  "scope": "Actual Blender deformed mesh driven by world transforms from production C# math harness, not Unity Play Mode",
+  "trace": "v3_runtime_audit/running_candidate9_tiltclearance_trace_diagonal.json",
+  "traceSha256": "d7e1e3f9b31e3cbe4bb8c1b3afbb447c0b4c9f29b02dd62e5871e864dcfcbc9e",
+  "sourceSha256": "bc53240074b897d34e1174f06d3503c7fb9eafcb46d15a01f3d06f06d8c589df",
+  "samples": 91,
+  "minimumBootFloorMetres": 0.0028901581875707487,
+  "collisions": [],
+  "rows": [
+    {
+      "frame": 0,
+      "phase": 0,
+      "minimumBootFloorMetres": 0.010298593294578696
+    },
+    {
+      "frame": 1,
+      "phase": 0.052500002,
+      "minimumBootFloorMetres": 0.0029578792479584923
+    },
+    {
+      "frame": 2,
+      "phase": 0.105000004,
+      "minimumBootFloorMetres": 0.0030000444521343333
+    },
+    {
+      "frame": 3,
+      "phase": 0.15750001,
+      "minimumBootFloorMetres": 0.002999882950065401
+    },
+    {
+      "frame": 4,
+      "phase": 0.21000001,
+      "minimumBootFloorMetres": 0.002999821303152409
+    },
+    {
+      "frame": 5,
+      "phase": 0.2625,
+      "minimumBootFloorMetres": 0.002999944596978393
+    },
+    {
+      "frame": 6,
+      "phase": 0.31500003,
+      "minimumBootFloorMetres": 0.0030001430229795864
+    },
+    {
+      "frame": 7,
+      "phase": 0.3675,
+      "minimumBootFloorMetres": 0.0032693913737925698
+    },
+    {
+      "frame": 8,
+      "phase": 0.42000002,
+      "minimumBootFloorMetres": 0.005572545729387458
+    },
+    {
+      "frame": 9,
+      "phase": 0.4725,
+      "minimumBootFloorMetres": 0.01035417055526236
+    },
+    {
+      "frame": 10,
+      "phase": 0.525,
+      "minimumBootFloorMetres": 0.0060606203934287185
+    },
+    {
+      "frame": 11,
+      "phase": 0.5775,
+      "minimumBootFloorMetres": 0.0029996402153454954
+    },
+    {
+      "frame": 12,
+      "phase": 0.63000005,
+      "minimumBootFloorMetres": 0.0029996042546462497
+    },
+    {
+      "frame": 13,
+      "phase": 0.6825,
+      "minimumBootFloorMetres": 0.002999624803617247
+    },
+    {
+      "frame": 14,
+      "phase": 0.735,
+      "minimumBootFloorMetres": 0.0029995220587622604
+    },
+    {
+      "frame": 15,
+      "phase": 0.78749996,
+      "minimumBootFloorMetres": 0.0029994388996452555
+    },
+    {
+      "frame": 16,
+      "phase": 0.84000003,
+      "minimumBootFloorMetres": 0.0029994803186649223
+    },
+    {
+      "frame": 17,
+      "phase": 0.89250004,
+      "minimumBootFloorMetres": 0.01093427057513846
+    },
+    {
+      "frame": 18,
+      "phase": 0.945,
+      "minimumBootFloorMetres": 0.0140361737078852
+    },
+    {
+      "frame": 19,
+      "phase": 0.99750006,
+      "minimumBootFloorMetres": 0.010746835062652314
+    },
+    {
+      "frame": 20,
+      "phase": 1.05,
+      "minimumBootFloorMetres": 0.0029023838620811466
+    },
+    {
+      "frame": 21,
+      "phase": 1.1025001,
+      "minimumBootFloorMetres": 0.0030001340328047747
+    },
+    {
+      "frame": 22,
+      "phase": 1.155,
+      "minimumBootFloorMetres": 0.002999998216949589
+    },
+    {
+      "frame": 23,
+      "phase": 1.2075,
+      "minimumBootFloorMetres": 0.0029997670410258693
+    },
+    {
+      "frame": 24,
+      "phase": 1.2600001,
+      "minimumBootFloorMetres": 0.0030001462337563047
+    },
+    {
+      "frame": 25,
+      "phase": 1.3125,
+      "minimumBootFloorMetres": 0.003000170635659364
+    },
+    {
+      "frame": 26,
+      "phase": 1.365,
+      "minimumBootFloorMetres": 0.0031067125551931325
+    },
+    {
+      "frame": 27,
+      "phase": 1.4175,
+      "minimumBootFloorMetres": 0.005603021779842535
+    },
+    {
+      "frame": 28,
+      "phase": 1.47,
+      "minimumBootFloorMetres": 0.00983215669699763
+    },
+    {
+      "frame": 29,
+      "phase": 1.5225,
+      "minimumBootFloorMetres": 0.00722555632884046
+    },
+    {
+      "frame": 30,
+      "phase": 1.5749999,
+      "minimumBootFloorMetres": 0.002999668149102945
+    },
+    {
+      "frame": 31,
+      "phase": 1.6275,
+      "minimumBootFloorMetres": 0.002999734612181014
+    },
+    {
+      "frame": 32,
+      "phase": 1.6800001,
+      "minimumBootFloorMetres": 0.002999580494898534
+    },
+    {
+      "frame": 33,
+      "phase": 1.7325,
+      "minimumBootFloorMetres": 0.0029995079313447
+    },
+    {
+      "frame": 34,
+      "phase": 1.7850001,
+      "minimumBootFloorMetres": 0.0029995490292866944
+    },
+    {
+      "frame": 35,
+      "phase": 1.8375001,
+      "minimumBootFloorMetres": 0.0029995490292866944
+    },
+    {
+      "frame": 36,
+      "phase": 1.89,
+      "minimumBootFloorMetres": 0.010557481432154634
+    },
+    {
+      "frame": 37,
+      "phase": 1.9425,
+      "minimumBootFloorMetres": 0.01386377940001376
+    },
+    {
+      "frame": 38,
+      "phase": 1.9950001,
+      "minimumBootFloorMetres": 0.011251684108580835
+    },
+    {
+      "frame": 39,
+      "phase": 2.0475001,
+      "minimumBootFloorMetres": 0.0029434837305418447
+    },
+    {
+      "frame": 40,
+      "phase": 2.1,
+      "minimumBootFloorMetres": 0.0030000280771730697
+    },
+    {
+      "frame": 41,
+      "phase": 2.1525002,
+      "minimumBootFloorMetres": 0.0029998203399193937
+    },
+    {
+      "frame": 42,
+      "phase": 2.2050002,
+      "minimumBootFloorMetres": 0.0029999384965026282
+    },
+    {
+      "frame": 43,
+      "phase": 2.2575,
+      "minimumBootFloorMetres": 0.003000174167513754
+    },
+    {
+      "frame": 44,
+      "phase": 2.31,
+      "minimumBootFloorMetres": 0.003000167745960317
+    },
+    {
+      "frame": 45,
+      "phase": 2.3625002,
+      "minimumBootFloorMetres": 0.0029914809895488664
+    },
+    {
+      "frame": 46,
+      "phase": 2.415,
+      "minimumBootFloorMetres": 0.005645226155494339
+    },
+    {
+      "frame": 47,
+      "phase": 2.4675,
+      "minimumBootFloorMetres": 0.009331811728649586
+    },
+    {
+      "frame": 48,
+      "phase": 2.5200002,
+      "minimumBootFloorMetres": 0.008438702718833322
+    },
+    {
+      "frame": 49,
+      "phase": 2.5725,
+      "minimumBootFloorMetres": 0.0029997882321522104
+    },
+    {
+      "frame": 50,
+      "phase": 2.625,
+      "minimumBootFloorMetres": 0.002999536507257493
+    },
+    {
+      "frame": 51,
+      "phase": 2.6775,
+      "minimumBootFloorMetres": 0.0029996084286559835
+    },
+    {
+      "frame": 52,
+      "phase": 2.73,
+      "minimumBootFloorMetres": 0.002999513710742793
+    },
+    {
+      "frame": 53,
+      "phase": 2.7825,
+      "minimumBootFloorMetres": 0.0029995355440244776
+    },
+    {
+      "frame": 54,
+      "phase": 2.835,
+      "minimumBootFloorMetres": 0.0029996382888794644
+    },
+    {
+      "frame": 55,
+      "phase": 2.8875,
+      "minimumBootFloorMetres": 0.01028162883470971
+    },
+    {
+      "frame": 56,
+      "phase": 2.94,
+      "minimumBootFloorMetres": 0.013700905687267518
+    },
+    {
+      "frame": 57,
+      "phase": 2.9925,
+      "minimumBootFloorMetres": 0.011815138177638407
+    },
+    {
+      "frame": 58,
+      "phase": 3.045,
+      "minimumBootFloorMetres": 0.0030005543234772046
+    },
+    {
+      "frame": 59,
+      "phase": 3.0975,
+      "minimumBootFloorMetres": 0.003000066285416018
+    },
+    {
+      "frame": 60,
+      "phase": 3.1499999,
+      "minimumBootFloorMetres": 0.0029998534109195924
+    },
+    {
+      "frame": 61,
+      "phase": 3.2025,
+      "minimumBootFloorMetres": 0.0029995194901408857
+    },
+    {
+      "frame": 62,
+      "phase": 3.255,
+      "minimumBootFloorMetres": 0.003000213017912046
+    },
+    {
+      "frame": 63,
+      "phase": 3.3075001,
+      "minimumBootFloorMetres": 0.003000179946911847
+    },
+    {
+      "frame": 64,
+      "phase": 3.3600001,
+      "minimumBootFloorMetres": 0.0029220020289078353
+    },
+    {
+      "frame": 65,
+      "phase": 3.4125,
+      "minimumBootFloorMetres": 0.005648829289127653
+    },
+    {
+      "frame": 66,
+      "phase": 3.465,
+      "minimumBootFloorMetres": 0.00885002697619954
+    },
+    {
+      "frame": 67,
+      "phase": 3.5175,
+      "minimumBootFloorMetres": 0.009764704057543538
+    },
+    {
+      "frame": 68,
+      "phase": 3.5700002,
+      "minimumBootFloorMetres": 0.002999477107888204
+    },
+    {
+      "frame": 69,
+      "phase": 3.6225002,
+      "minimumBootFloorMetres": 0.0029996440682775573
+    },
+    {
+      "frame": 70,
+      "phase": 3.6750002,
+      "minimumBootFloorMetres": 0.0029997057151905492
+    },
+    {
+      "frame": 71,
+      "phase": 3.7275,
+      "minimumBootFloorMetres": 0.002999592695850064
+    },
+    {
+      "frame": 72,
+      "phase": 3.78,
+      "minimumBootFloorMetres": 0.002999654342763056
+    },
+    {
+      "frame": 73,
+      "phase": 3.8325,
+      "minimumBootFloorMetres": 0.0029995429288109297
+    },
+    {
+      "frame": 74,
+      "phase": 3.885,
+      "minimumBootFloorMetres": 0.00996105140188909
+    },
+    {
+      "frame": 75,
+      "phase": 3.9375002,
+      "minimumBootFloorMetres": 0.013547544863782356
+    },
+    {
+      "frame": 76,
+      "phase": 3.9900002,
+      "minimumBootFloorMetres": 0.012315564699715096
+    },
+    {
+      "frame": 77,
+      "phase": 4.0425,
+      "minimumBootFloorMetres": 0.0030005202892439903
+    },
+    {
+      "frame": 78,
+      "phase": 4.0950003,
+      "minimumBootFloorMetres": 0.003000099035338545
+    },
+    {
+      "frame": 79,
+      "phase": 4.1475,
+      "minimumBootFloorMetres": 0.002999906709813117
+    },
+    {
+      "frame": 80,
+      "phase": 4.2,
+      "minimumBootFloorMetres": 0.0029997269063168903
+    },
+    {
+      "frame": 81,
+      "phase": 4.2525,
+      "minimumBootFloorMetres": 0.0029998296511718767
+    },
+    {
+      "frame": 82,
+      "phase": 4.3050003,
+      "minimumBootFloorMetres": 0.0030002438413685418
+    },
+    {
+      "frame": 83,
+      "phase": 4.3575,
+      "minimumBootFloorMetres": 0.0028901581875707487
+    },
+    {
+      "frame": 84,
+      "phase": 4.4100003,
+      "minimumBootFloorMetres": 0.005641182503295271
+    },
+    {
+      "frame": 85,
+      "phase": 4.4625,
+      "minimumBootFloorMetres": 0.00838966516816956
+    },
+    {
+      "frame": 86,
+      "phase": 4.515,
+      "minimumBootFloorMetres": 0.011148962371186538
+    },
+    {
+      "frame": 87,
+      "phase": 4.5675,
+      "minimumBootFloorMetres": 0.002999556092995475
+    },
+    {
+      "frame": 88,
+      "phase": 4.62,
+      "minimumBootFloorMetres": 0.002999692229928332
+    },
+    {
+      "frame": 89,
+      "phase": 4.6725,
+      "minimumBootFloorMetres": 0.002999735254336358
+    },
+    {
+      "frame": 90,
+      "phase": 4.7250004,
+      "minimumBootFloorMetres": 0.0029995297646263847
+    }
+  ],
+  "status": "ok"
+}

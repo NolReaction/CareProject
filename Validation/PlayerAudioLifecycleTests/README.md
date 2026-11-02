@@ -7,12 +7,14 @@ dotnet run --project Validation/PlayerAudioLifecycleTests/PlayerAudioLifecycleTe
 ```
 
 The harness compiles the actual audio runtime scripts against small Unity API
-fakes. Its 66 assertions cover bounded voices, clip replacement, pause/focus,
+fakes. Its 81 assertions cover bounded voices, clip replacement, pause/focus,
 footstep gating, component subscription lifecycle, impact deduplication/range,
 and contact feedback when no step clip is assigned. Added coverage includes:
 
 - Actual-foot contact timing taking priority over the fallback animation clock.
 - Surface banks, inherited/disabled tags, weight/pitch and persistent voice gain.
+- Six footstep materials and four impact banks, explicit tags overriding target fallback,
+  muted material handling, missing-bank fallback and impact gain across mix updates.
 - No audio for idle, airborne, owner/trigger/null contacts; legacy ground probes
   reject absent ground, wall normals and saturated results.
 - Two independent faded background loops, pause/resume, toggles and profile changes.

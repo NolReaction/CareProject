@@ -2,14 +2,16 @@
 """Rebuild CareProject audio from the curated CC0 recordings in Source/Audio.
 
 Python 3, NumPy, SciPy and ffmpeg are required. No network access or API key.
-The score is an original 32-bar arrangement; source authors/licences/hashes are
+The score is an original industrial guitar/bass arrangement; source authors/licences/hashes are
 listed in Source/Audio/manifest.json. Existing Unity GUIDs are preserved.
 """
 from functools import lru_cache
 from pathlib import Path
+import argparse
 import hashlib
 import json
 import math
+import re
 import subprocess
 import uuid
 import wave
@@ -23,11 +25,14 @@ AUDIO = ROOT / "Assets/IntercomMVP/Audio"
 SOURCE = ROOT / "Source/Audio"
 FX_RATE = 44100
 AMBIENT_RATE = 24000
-MUSIC_BPM = 92
-MUSIC_BARS = 32
 
 
 def guid(relative_path):
+    meta = ROOT / (relative_path + ".meta")
+    if meta.exists():
+        existing = re.search(r"^guid: ([a-f0-9]{32})$", meta.read_text(), re.MULTILINE)
+        if existing:
+            return existing.group(1)
     return uuid.uuid5(uuid.NAMESPACE_URL, "CareProject/audio/v1/" + relative_path).hex
 
 
@@ -83,19 +88,32 @@ def finish_hit(x, target_db):
     return x * db(target_db) / peak(x)
 
 
+def fit(x, seconds):
+    count = round(seconds * FX_RATE)
+    return np.pad(x[:count], (0, max(0, count - len(x))))
+
+
 def pistol(index):
-    """Recorded PPQ muzzle report with restrained early reflection and mechanical texture."""
-    source = sample(f"PPQ_shot_{1 + index % 2}.flac")
-    x = rate_shift(source, (1.0, .985, 1.018)[index])
-    x = onset_trim(band(x, 95, 9200))[:round(.31 * FX_RATE)]
-    t = np.arange(len(x)) / FX_RATE
-    # Keep the real pressure transient. Shape only the outdoor decay so repeated
-    # volleys remain distinct, with no oscillator pitch dive or 'laser' overtone.
-    x *= np.exp(-np.maximum(t - .045, 0) / .090)
-    # Moderate static soft limiting gives the recorded body enough weight on
-    # a phone speaker without adding an artificial bass oscillator.
-    x = np.tanh(x / peak(x) * 3.0)
-    return finish_hit(x, -3.2)
+    """Near-field 1911 pressure/body plus PPQ crack, all from real recordings."""
+    ratio = (.94, .965, .925)[index]
+    main = onset_trim(rate_shift(sample(f"1911_near_{1+index%2}.flac"), ratio), .012, .0005)
+    main = fit(band(main, 52, 10000), .37)
+    # Preserve the fast pressure transient, then a broader 45-150ms chest/body.
+    # Parallel body comes from the same recording; no pitched-down sci-fi sweep.
+    body = band(main, 65, 920)
+    body /= peak(body)
+    t = np.arange(len(main)) / FX_RATE
+    body *= np.exp(-np.maximum(t-.025, 0)/.095)
+    crack = onset_trim(sample(f"PPQ_shot_{1+index%2}.flac"), .018, .0005)
+    crack = fit(band(crack, 1800, 10400), .37)
+    crack /= peak(crack)
+    crack *= np.exp(-t/.027)
+    main /= peak(main)
+    x = .82*main + .34*body + .28*crack
+    x *= np.exp(-np.maximum(t-.055, 0)/.145)
+    # Parallel saturation retains the original crest while adding low-mid energy.
+    x = .25*x + .75*np.tanh(2.8*x)/2.8
+    return finish_hit(edges(x, .00035, .045), -2.4)
 
 
 BASE_STEPS = ("Fantozzi-StoneL1.flac", "Fantozzi-StoneR1.flac",
@@ -104,38 +122,58 @@ GRAVEL_STEPS = ("Fantozzi-SandL1.flac", "Fantozzi-SandR2.flac", "Fantozzi-SandL3
 
 
 def boot(index, surface="asphalt"):
-    """Real shoe contact and sole friction; floor material changes its texture."""
-    file = GRAVEL_STEPS[index % 3] if surface == "gravel" else BASE_STEPS[index % 4]
-    x = onset_trim(sample(file), fraction=.018)
-    x = rate_shift(x, (.88, .91, .87, .93)[index % 4])
-    length = round((.28 if surface == "gravel" else .235) * FX_RATE)
-    x = np.pad(x[:length], (0, max(0, length - len(x))))
-    x = band(x, 85, 4700 if surface == "gravel" else 3400)
+    """Recorded sole and grit with identifiable, short material responses."""
+    granular = surface in ("gravel", "soil")
+    file = GRAVEL_STEPS[index % 3] if granular else BASE_STEPS[index % 4]
+    ratio = (1.05, 1.00, 1.08)[index % 3] if surface == "concrete" else (.88, .91, .87, .93)[index % 4]
+    x = rate_shift(onset_trim(sample(file), fraction=.018), ratio)
+    length = .185 if surface == "concrete" else .245 if granular else .225
+    x = fit(x, length)
+    x = band(x, 130 if surface == "concrete" else 90,
+             6800 if surface == "concrete" else 5700 if surface == "gravel" else 1900 if surface == "soil" else 3600)
     t = np.arange(len(x)) / FX_RATE
-    # Suppress late shoe drag; the event is one landing, not a whole stride.
-    x *= np.exp(-np.maximum(t - .10, 0) / .095)
+    x *= np.exp(-np.maximum(t-(.025 if surface == "concrete" else .065), 0)
+                /(.038 if surface == "concrete" else .07 if surface == "soil" else .09))
     x /= peak(x)
     if surface == "metal":
-        plate = rate_shift(onset_trim(sample("metal.flac")), .68 + .035 * index)
-        plate = band(plate, 145, 4200)[:length]
-        plate = np.pad(plate, (0, length - len(plate)))
-        plate *= np.exp(-t / .050)
-        plate /= peak(plate)
-        x = .78 * x + .30 * plate
-    # Round the very high crest factor of close-miked foley so its texture
-    # survives quiet playback instead of becoming a single tiny click.
-    x = np.tanh(x / peak(x) * (3.5 if surface == "gravel" else 2.0))
-    return finish_hit(x, -9.8 if surface == "gravel" else -9.0)
+        response = fit(rate_shift(onset_trim(sample("metal.flac")), .58+.025*index), length)
+        response = band(response, 170, 5100)*np.exp(-t/.063)
+        x = .67*x + .48*response/peak(response)
+    elif surface == "wood":
+        response = fit(rate_shift(onset_trim(sample("wood_body.flac")), .43+.025*index), length)
+        response = band(response, 130, 1900)*np.exp(-t/.044)
+        x = .65*x + .48*response/peak(response)
+    elif surface == "soil":
+        x = band(x, 80, 1650)
+    x = np.tanh(x/peak(x)*1.65)
+    return finish_hit(x, -10.0 if surface != "soil" else -11.0)
 
 
-def impact(index):
-    plate = onset_trim(sample("metal.flac"))
-    plate = rate_shift(plate, (1.43, 1.72)[index])[:round(.17 * FX_RATE)]
-    plate = band(plate, 280, 6800)
-    t = np.arange(len(plate)) / FX_RATE
-    plate *= np.exp(-t / .032)
-    # Real metal source, quickly damped so hits do not create a pitched bell bed.
-    return finish_hit(plate, -11.5)
+def impact(index, surface="concrete"):
+    """Designed material contacts, using recorded metal/wood/stone/grit foley."""
+    length = .24
+    t = np.arange(round(length*FX_RATE))/FX_RATE
+    if surface == "metal":
+        x = fit(rate_shift(onset_trim(sample("metal.flac")), (.89,1.03,1.16)[index%3]), length)
+        x = band(x, 350, 8100)*np.exp(-t/.066)
+        crack = fit(onset_trim(sample("wood_crack.flac")), length)
+        crack = band(crack, 2200, 10500)*np.exp(-t/.012)
+        x = .9*x/peak(x) + .22*crack/peak(crack)
+    elif surface == "wood":
+        x = fit(rate_shift(onset_trim(sample("wood_crack.flac")), (.72,.80,.68)[index%3]), length)
+        x = band(x, 180, 5200)*np.exp(-t/.036)
+        body = fit(rate_shift(onset_trim(sample("wood_body.flac")), .50+.025*index), length)
+        body = band(body, 100, 1500)*np.exp(-t/.041)
+        x = .68*x/peak(x)+.45*body/peak(body)
+    else:
+        grit = fit(rate_shift(onset_trim(sample(GRAVEL_STEPS[index%3])), 1.12+.045*index), length)
+        grit = band(grit, 120 if surface=="soil" else 550, 5000 if surface=="soil" else 9000)
+        grit *= np.exp(-t/(.050 if surface=="soil" else .025))
+        body = fit(rate_shift(onset_trim(sample(BASE_STEPS[index%4])), 1.05+.03*index), length)
+        body = band(body, 90, 1900)*np.exp(-t/.022)
+        x = .67*body/peak(body)+(.55 if surface=="soil" else .72)*grit/peak(grit)
+    x = .82*x+.18*np.tanh(2*x)/2
+    return finish_hit(x, -7.0 if surface != "soil" else -9.0)
 
 
 def ambience():
@@ -152,134 +190,6 @@ def ambience():
     sound -= np.mean(sound, axis=0)
     sound *= db(-35) / math.sqrt(np.mean(sound * sound))
     return sound
-
-
-@lru_cache(maxsize=180)
-def piano(midi, length, bass=False):
-    # The source producer uses C3 for concert C4. The root notes below were
-    # verified against the actual recording frequencies, not inferred by name.
-    name, root = ("piano_bass.flac", 48) if midi < 53 else ("piano_low.flac", 60) if midi < 67 else ("piano_mid.flac", 72)
-    x = rate_shift(sample(name), 2 ** ((midi - root) / 12))
-    x = band(x, 35 if bass else 70, 2400 if bass else 7200)
-    # A sampled acoustic decay replaces the previous sine/FM 'toy tine'.
-    x = x[:round((length + .38) * FX_RATE)]
-    t = np.arange(len(x)) / FX_RATE
-    x *= np.exp(-np.maximum(t - length, 0) / (.060 if bass else .13))
-    if bass:
-        x *= np.exp(-t / .65)
-    return edges(x, .002, .08) / peak(x)
-
-
-@lru_cache(maxsize=64)
-def mallet(midi, length):
-    # Warm wooden marimba used as a sparse answering voice, never a constant arpeggio.
-    x = rate_shift(sample("marimba.flac"), 2 ** ((midi - 72 - .04) / 12))
-    x = band(x, 130, 4000)[:round((length + .25) * FX_RATE)]
-    t = np.arange(len(x)) / FX_RATE
-    x *= np.exp(-np.maximum(t - length, 0) / .10)
-    return edges(x, .002, .06) / peak(x)
-
-
-@lru_cache(maxsize=8)
-def drum(kind):
-    x = onset_trim(sample(kind + ".flac"), fraction=.012)
-    high = {"kick": 1800, "rim": 4100, "snare": 6500, "shaker_up": 7800, "shaker_down": 7800}[kind]
-    x = band(x, 38 if kind == "kick" else 170, high)
-    length = {"kick": .22, "rim": .13, "snare": .22, "shaker_up": .105, "shaker_down": .145}[kind]
-    x = x[:round(length * FX_RATE)]
-    t = np.arange(len(x)) / FX_RATE
-    x *= np.exp(-np.maximum(t - .022, 0) / (.075 if kind == "kick" else .09))
-    return edges(x, .001, .025) / peak(x)
-
-
-def music():
-    """Morning Shift: original 32-bar piano / wooden mallet / live percussion score."""
-    beat = 60 / MUSIC_BPM
-    count = round(FX_RATE * beat * 4 * MUSIC_BARS)
-    mix = np.zeros((count, 2), dtype=np.float64)
-    rng = np.random.default_rng(2026110207)
-
-    def add(x, when, gain, pan=0., human=.0):
-        start = round((when + rng.uniform(-human, human)) * FX_RATE)
-        indices = (np.arange(len(x)) + start) % count
-        gains = np.array([math.sqrt((1 - pan) / 2), math.sqrt((1 + pan) / 2)])
-        mix[indices] += x[:, None] * gains * gain
-
-    # Two related 16-bar periods: harmonic movement and arrangement change avoid
-    # a four-bar ringtone. Open voicings leave the shot/footstep midrange free.
-    chords = {
-        "Dm": ([53, 57, 60, 64], 38), "Bb": ([53, 57, 60, 62], 34),
-        "F": ([53, 57, 60, 67], 41), "C": ([52, 55, 60, 62], 36),
-        "Gm": ([53, 57, 58, 62], 43), "Asus": ([55, 57, 62, 64], 33),
-        "A": ([55, 57, 61, 64], 33),
-    }
-    order = ["Dm", "Dm", "Bb", "Bb", "F", "F", "C", "C", "Gm", "Gm", "Dm", "Dm", "Bb", "Bb", "Asus", "A",
-             "Dm", "Dm", "F", "F", "Bb", "Bb", "C", "C", "Gm", "Gm", "Bb", "Bb", "Dm", "Dm", "Asus", "A"]
-    melody = {
-        1: [(1.5, 69, .6), (2.5, 74, .65), (3.5, 76, .35)],
-        3: [(0.5, 77, .75), (2, 76, .5), (3.25, 74, .6)],
-        5: [(1, 72, .7), (2.5, 69, .9)],
-        7: [(1.5, 67, .65), (2.5, 64, .4), (3.25, 67, .5)],
-        9: [(1.5, 70, .75), (3, 69, .8)],
-        11: [(0.5, 69, .4), (1.5, 72, .5), (2.75, 74, .9)],
-        13: [(1, 77, .8), (2.75, 74, .65)],
-        15: [(1, 73, .7), (2.5, 71, .6), (3.5, 69, .35)],
-        19: [(1, 72, .7), (2.5, 76, 1)],
-        23: [(1.5, 67, .7), (3, 64, .8)],
-        25: [(0.5, 74, .6), (1.5, 77, .5), (3, 76, .6)],
-        27: [(1, 74, .7), (2.5, 72, .8)],
-        29: [(1, 69, .65), (2.25, 72, .6), (3.25, 74, .8)],
-        31: [(1, 73, .5), (2, 71, .5), (3, 69, .5)],
-    }
-    for bar, key in enumerate(order):
-        chord, root = chords[key]
-        start = 4 * bar * beat
-        breakdown = 16 <= bar < 20
-        # Broken/open voicings and naturally overlapping sampled tails.
-        chord_gain = .15 if breakdown else .19
-        for j, note in enumerate(chord):
-            add(piano(note, 1.5 * beat), start + j * .019, chord_gain * rng.uniform(.85, 1.03), -.28 + j * .15, .006)
-        if bar % 2 == 0 and not breakdown:
-            for j, note in enumerate(chord[1:]):
-                add(piano(note + (12 if bar >= 24 else 0), .55 * beat), start + 2.65 * beat + j * .016, .075, .10, .005)
-        add(piano(root, .65 * beat, True), start, .25 if not breakdown else .15, -.02, .003)
-        if not breakdown:
-            add(piano(root + 7, .38 * beat, True), start + 2.5 * beat, .14, -.02, .006)
-            if bar % 4 == 3:
-                next_root = chords[order[(bar + 1) % len(order)]][1]
-                add(piano(next_root + 12, .20 * beat, True), start + 3.5 * beat, .075, -.02, .004)
-        for at, note, length in melody.get(bar, []):
-            add(piano(note, length * beat), start + at * beat, .15 * rng.uniform(.85, 1.04), .22, .009)
-        if bar in (4, 8, 12, 20, 24, 28):
-            add(mallet(chord[-1] + 12, .5 * beat), start + 3.25 * beat, .035, -.35, .004)
-        # No piercing hi-hat or synthesized blips: quiet recorded skin and shaker.
-        if not breakdown:
-            add(drum("kick"), start, .28)
-            add(drum("kick"), start + (2.5 if bar % 2 == 0 else 2.75) * beat, .17)
-            for at in (1.025, 3.02):
-                add(drum("snare"), start + at * beat, .066 if bar < 8 else .085, .10, .006)
-                add(drum("rim"), start + at * beat, .026, .10)
-            for j in range(8):
-                if bar % 8 == 7 and j > 5:
-                    continue
-                add(drum("shaker_down" if j % 2 == 0 else "shaker_up"), start + (j / 2 + (.035 if j % 2 else 0)) * beat,
-                    .018 if j % 2 else .011, -.30, .008)
-            if bar % 8 == 7:
-                add(drum("rim"), start + 3.5 * beat, .032, -.05)
-        elif bar % 2 == 0:
-            add(drum("shaker_down"), start + 3 * beat, .010, -.3)
-
-    # Modest room diffusion, with circular tails rather than a fade-to-silence seam.
-    dry = mix.copy()
-    for delay, gain in ((.041, .10), (.089, .075), (.163, .048), (.241, .032), (.337, .020)):
-        mix += np.roll(dry[:, ::-1], round(delay * FX_RATE), axis=0) * gain
-    frequency = np.fft.rfftfreq(count, 1 / FX_RATE)
-    curve = (1 - np.exp(-(frequency / 32) ** 4)) * np.exp(-(frequency / 11200) ** 4)
-    mix = np.fft.irfft(np.fft.rfft(mix, axis=0) * curve[:, None], n=count, axis=0)
-    mix = np.tanh(mix * .85) / .85
-    # Leave natural transient headroom; no loudness-war limiter pumping.
-    mix *= min(db(-19.5) / math.sqrt(np.mean(mix * mix)), db(-3.5) / peak(mix))
-    return mix
 
 
 def importer(path, stereo, ambient=False, music_clip=False):
@@ -337,9 +247,11 @@ def save(name, data, rate, ambient=False):
 
 
 def save_music(data):
+    from GenerateMainMusic import TITLE, BARS, BPM
     path = AUDIO / "Music_IndustrialGroove.ogg"
     subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(FX_RATE), "-ac", "2", "-i", "pipe:0",
-                    "-c:a", "libvorbis", "-q:a", "5", "-fflags", "+bitexact", "-flags:a", "+bitexact", "-map_metadata", "-1", "-y", str(path)],
+                    "-c:a", "libvorbis", "-q:a", "5", "-fflags", "+bitexact", "-flags:a", "+bitexact", "-map_metadata", "-1",
+                    "-metadata", "title=" + TITLE, "-metadata", "artist=CareProject", "-y", str(path)],
                    input=data.astype("<f4").tobytes(), check=True)
     path.with_suffix(".ogg.meta").write_text(importer(path, True, music_clip=True))
     raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path), "-f", "f32le", "-ac", "2", "pipe:1"])
@@ -347,7 +259,7 @@ def save_music(data):
     result = metrics(path, decoded, FX_RATE)
     assert len(decoded) == len(data) and result["clippedSamples"] == 0
     assert result["boundaryStep"] < max(.001, result["internalStep99Percentile"])
-    result.update(title="Morning Shift", bars=MUSIC_BARS, bpm=MUSIC_BPM, source="Original arrangement rendered with credited CC0 real instruments")
+    result.update(title=TITLE, bars=BARS, bpm=BPM, source="Original v3 arrangement; see Validation/MusicV3Review.json")
     return result
 
 
@@ -361,22 +273,29 @@ def verify_sources():
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--sfx-only", action="store_true", help="Keep the existing music render")
+    args = parser.parse_args()
     count = verify_sources()
     AUDIO.mkdir(parents=True, exist_ok=True)
     results = [save(f"Pistol_{i+1:02d}.wav", pistol(i), FX_RATE) for i in range(3)]
     results += [save(f"BootStep_{i+1:02d}.wav", boot(i), FX_RATE) for i in range(4)]
-    for surface in ("metal", "gravel"):
+    for surface in ("concrete", "metal", "gravel", "wood", "soil"):
         results += [save(f"BootStep_{surface.title()}_{i+1:02d}.wav", boot(i, surface), FX_RATE) for i in range(3)]
     results += [save(f"Impact_{i+1:02d}.wav", impact(i), FX_RATE) for i in range(2)]
+    for surface in ("metal", "wood", "concrete", "soil"):
+        results += [save(f"Impact_{surface.title()}_{i+1:02d}.wav", impact(i, surface), FX_RATE) for i in range(3)]
     results.append(save("Ambience_IndustrialYard.wav", ambience(), AMBIENT_RATE, True))
-    results.append(save_music(music()))
-    report = {"revision":"recorded-foley-morning-shift-v4", "sourceRecordings":count, "assets":results,
+    if not args.sfx_only:
+        from GenerateMainMusic import generate_music
+        results.append(save_music(generate_music(sample_rate=FX_RATE)))
+    report = {"revision":"material-foley-close-pistol-v3", "sourceRecordings":count, "assets":results,
               "scope":"Decoded PCM, timing, clipping and seams. Not Unity engine listening, actual device mix or subjective approval.",
               "sourceManifest":"Source/Audio/manifest.json", "totalAudioBytes":sum(x["bytes"] for x in results)}
     output = ROOT / "Validation/Results/PrototypeAudioAssets.json"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({"revision":report["revision"], "assets":len(results), "bytes":report["totalAudioBytes"], "musicSeconds":results[-1]["seconds"], "clippedSamples":sum(x["clippedSamples"] for x in results)}))
+    print(json.dumps({"revision":report["revision"], "assets":len(results), "bytes":report["totalAudioBytes"], "clippedSamples":sum(x["clippedSamples"] for x in results)}))
 
 
 if __name__ == "__main__":

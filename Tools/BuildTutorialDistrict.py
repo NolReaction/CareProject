@@ -237,6 +237,32 @@ def make_materials():
 MODULES={}
 def mesh(name):m=Mesh(name);MODULES[name]=m;return m
 
+# Authoring metadata, serialized onto colliders. Runtime never guesses from names or colours.
+SURFACE_KINDS=['Asphalt','Concrete','Metal','Gravel','Wood','Soil']
+MODULE_SURFACES={
+    'Warehouse':'Metal','Workshop':'Metal','CargoCrate':'Wood','SteelDrum':'Metal',
+    'CableSpool':'Wood','Transformer':'Metal','CargoContainer':'Metal',
+    'JerseyBarrier':'Concrete','WallPanel':'Concrete','GatePanel':'Metal',
+    'Planter':'Concrete','Bollard':'Metal','TrainingTarget':'Metal','FencePanel':'Metal',
+}
+MATERIAL_SURFACES={'Concrete':'Concrete','Asphalt':'Asphalt','Gravel':'Gravel',
+                   'Roof':'Metal','Crate':'Wood','Moss':'Soil'}
+
+def configure_surface_responses(layout):
+    for group in layout['groups']:
+        for block in group['blocks']:
+            if not block['collider']:continue
+            if not block.get('footstepSurface'):
+                block['footstepSurface']=(MODULE_SURFACES[block['mesh']] if block.get('mesh')
+                                          else MATERIAL_SURFACES[block['material']])
+    for target,kind,material in zip(layout['targets'],['Metal','Wood','Concrete'],['TargetCoral','Crate','Concrete']):
+        target['footstepSurface']=kind;target['material']=material
+    layout['surfaceVersion']=2
+    return layout
+
+def surface_fields(kind):
+    return f'  kind: {SURFACE_KINDS.index(kind)}\n  volume: 1\n  pitch: 1\n  impactVolume: 1\n  impactPitch: 1\n'
+
 def build_modules():
     m=mesh('CargoCrate')
     m.box((0,.55,0),(1.05,1.1,1.05),'Crate',.045)
@@ -388,7 +414,7 @@ def build_layout():
     for z in [-2.3,.7]:
         for x in [-4.3,4.3]:module(g,'Side fence '+str(x)+str(z),(x,.08,z),'FencePanel',90)
     # A single simple collider blocks substation internals, separated from fence renderers.
-    box(g,'Substation collision',(0,1,0),(8.6,2,7.7),'Concrete',True,False)['visual']=False
+    box(g,'Substation collision',(0,1,0),(8.6,2,7.7),'Concrete',True,False,'Metal')['visual']=False
     module(g,'Substation pipes',(0,.08,2.4),'UtilityPipes')
     g=group('container','05 - Container cover',(-3,0,2),'Cover',(4.6,2.3),True)
     module(g,'Rust cargo container',(0,0,0),'CargoContainer',collider=True)
@@ -426,7 +452,7 @@ def build_layout():
     for x,z in [(-8.6,-12.5),(-5.3,-12.5),(5.6,-4.3),(15.3,-4.3),(-3.4,6),(4.3,6)]:module(g,'Safety bollard '+str(x)+str(z),(x,0,z),'Bollard',collider=True)
     for key,pos,role in [('spawn',(-7,0,-12),'PlayerSpawn'),('exit',(.5,0,13.5),'Exit'),('wave_w',(-14.5,0,1),'EnemySpawn'),('wave_n',(3,0,11.5),'EnemySpawn'),('loot',(2.5,0,-3.0),'Loot')]:group(key,key.title()+' marker',pos,role)
     targets=[{'key':f'target_{i+1}','name':f'Training Target {i+1}','position':[x,.05,-8.7],'material':'TargetCoral','mesh':'TrainingTarget'} for i,x in enumerate([8.9,11.4,13.9])]
-    return {'version':2,'width':36,'depth':32,'title':'Industrial courtyard - first tutorial location','groups':groups,'targets':targets}
+    return configure_surface_responses({'version':2,'width':36,'depth':32,'title':'Industrial courtyard - first tutorial location','groups':groups,'targets':targets})
 
 class SceneWriter:
     def __init__(self,old):
@@ -474,6 +500,7 @@ class SceneWriter:
             if oid in gos or oid in trs-{root} or (m and int(m[1]) in gos):removed.append(oid);del self.objects[oid]
         # Retained environment root and marker are updated, not replaced.
         self.objects[6100000756]=re.sub(r'layoutVersion: \d+','layoutVersion: 2',self.objects[6100000756])
+        self.objects[6100000756]=re.sub(r'surfaceVersion: \d+','surfaceVersion: 2',self.objects[6100000756])
         self.children[root]=[];return removed
     def finish(self):
         for go,name in self.go.items():
@@ -503,13 +530,14 @@ def write_scene(layout):
                 # Colliders are separate siblings so later visual replacements preserve physical boundaries.
                 col,ct=w.obj('Collision - '+b['name'],tr,b['position'],b['size'],b['yaw'])
                 w.collider(col,b.get('collisionCenter',(0,0,0)),b.get('collisionSize',(1,1,1)))
-                if b.get('footstepSurface'):w.component(col,'IntercomFootstepSurface',f"  kind: {['Asphalt','Concrete','Metal','Gravel'].index(b['footstepSurface'])}\n  volume: 1\n  pitch: 1\n")
+                if b.get('footstepSurface'):w.component(col,'IntercomFootstepSurface',surface_fields(b['footstepSurface']))
     targets,tt=w.obj('12 - Training targets',1550949731)
     for spec in layout['targets']:
         go,tr=w.obj(spec['name'],tt,spec['position']);w.collider(go,(0,.85,0),(.95,1.7,.45))
+        w.component(go,'IntercomFootstepSurface',surface_fields(spec.get('footstepSurface','Metal')))
         v,vt=w.obj('Visual - replace target',tr)
         stand,st=w.obj('Target stand',vt);w.renderer(stand,'TrainingStand',MODULES['TrainingStand'].materials)
-        face,ft=w.obj('Target face',vt);mr=w.renderer(face,'TrainingTarget',MODULES['TrainingTarget'].materials)
+        face,ft=w.obj('Target face',vt);mr=w.renderer(face,'TrainingTarget',[spec['material'],'Paint'])
         cid=w.component(go,'IntercomTargetDummy',f'  visual: {{fileID: {vt}}}\n  bodyRenderer: {{fileID: {mr}}}\n  maxHealth: 5\n  resetSeconds: 2.5\n')
         w.target_ids.append({'key':spec['key'],'name':spec['name'],'go':go,'transform':tr,'component':cid,'position':spec['position']})
     result=w.finish();SCENE.write_text(result)

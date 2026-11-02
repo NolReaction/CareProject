@@ -18,7 +18,9 @@ namespace IntercomMvp
         public IntercomWeaponPose weaponPose;
 
         [Header("Movement (world metres)")]
-        [Min(0.1f)] public float moveSpeed = 1.8f;
+        [Min(0.1f)] public float moveSpeed = 2.1f;
+        [Tooltip("Lateral stride and travel speed relative to forward/backward. Matches the authored side clips.")]
+        [Range(0.5f, 1f)] public float strafeSpeedRatio = 0.75f;
         [Min(0.1f)] public float acceleration = 8f;
         [Min(0.1f)] public float deceleration = 12f;
         [Min(1f)] public float turnSpeed = 720f;
@@ -117,7 +119,7 @@ namespace IntercomMvp
             if (forward.sqrMagnitude < 0.01f) forward = Vector3.forward;
             Vector3 right = Vector3.Cross(Vector3.up, forward);
             Vector3 direction = Vector3.ClampMagnitude(right * input.x + forward * input.y, 1f);
-            Vector3 desiredVelocity = direction * moveSpeed;
+            Vector3 desiredVelocity = direction * DirectionalTopSpeed(direction);
             WantsToMove = direction.sqrMagnitude > 0f;
             float change = direction.sqrMagnitude > 0f ? acceleration : deceleration;
             horizontalVelocity = Vector3.MoveTowards(horizontalVelocity, desiredVelocity, change * dt);
@@ -157,6 +159,10 @@ namespace IntercomMvp
                 transform.position += bodyPivot - transform.TransformPoint(controller.center);
             }
 
+            // Facing can change while aim and travel remain independent. Keep
+            // the resolved travel inside the new stride ellipse immediately,
+            // so a rapid aim turn cannot drive short side steps above cadence.
+            horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, DirectionalTopSpeed(horizontalVelocity));
             if (controller.isGrounded && verticalVelocity < 0f) verticalVelocity = -2f;
             verticalVelocity = Mathf.Max(verticalVelocity + gravity * dt, -40f);
             Vector3 before = transform.position;
@@ -175,6 +181,7 @@ namespace IntercomMvp
                     visualForward.x, visualForward.z, out float localX, out float localY);
                 if (moving)
                 {
+                    IntercomLocomotionCadence.AnimationDirection(localX, localY, strafeSpeedRatio, out localX, out localY);
                     if (!hadMovement) localRunDirection = new Vector2(localX, localY);
                     else
                     {
@@ -193,9 +200,24 @@ namespace IntercomMvp
                 // RunRate belongs to the whole locomotion blend state, which
                 // also contains idle. Keep idle at its authored rate and blend
                 // toward the measured travel cadence as running gains weight.
-                float runRate = IntercomLocomotionCadence.PlaybackRate(actualSpeed, runReferenceSpeed, animator.GetFloat(SpeedId));
+                float directionalReference = IntercomLocomotionCadence.DirectionalReference(
+                    localRunDirection.x, localRunDirection.y, runReferenceSpeed, strafeSpeedRatio);
+                float runRate = IntercomLocomotionCadence.PlaybackRate(actualSpeed, directionalReference, animator.GetFloat(SpeedId));
+                // A quick change of aim or a wall slide can change the physical
+                // direction faster than the smoothed blend. Do not turn that
+                // short transition into an implausibly faster stepping cadence.
+                runRate = Mathf.Min(runRate, Mathf.Max(1f, moveSpeed / Mathf.Max(0.1f, runReferenceSpeed)));
                 animator.SetFloat(RunRateId, runRate);
             }
+        }
+
+        private float DirectionalTopSpeed(Vector3 travel)
+        {
+            Vector3 facing = FacingDirection;
+            if (!IntercomLocomotionDirection.TryProject(travel.x, travel.z, facing.x, facing.z, out float x, out float y))
+                return moveSpeed;
+            IntercomLocomotionCadence.AnimationDirection(x, y, strafeSpeedRatio, out x, out y);
+            return moveSpeed * IntercomLocomotionCadence.DirectionalReference(x, y, 1f, strafeSpeedRatio);
         }
 
         [ContextMenu("Reset To Spawn (Play Mode)")]

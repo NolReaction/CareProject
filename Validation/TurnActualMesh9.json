@@ -4204,5 +4204,7 @@
   "aabbChecks": 10800,
   "bvhChecks": 426,
   "torsoPolicy": "Child of Body, world yaw set to wrapper heading plus baseline Torso rotation; preserved local position and scale",
-  "passed": true
+  "passed": true,
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json; standing-turn geometry was validated on the v0.2 source, whose Idle/rest/geometry are preserved."
 }

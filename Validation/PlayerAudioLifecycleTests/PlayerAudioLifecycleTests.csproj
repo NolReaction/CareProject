@@ -11,5 +11,6 @@
     <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomAudioProfile.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomFootstepClock.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomFootstepSurface.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomProjectileImpact.cs" />
   </ItemGroup>
 </Project>

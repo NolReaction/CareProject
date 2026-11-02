@@ -67,6 +67,16 @@ internal static class Program
                 Eq(shots, 1); Eq(c.Posture, IntercomWeaponPosture.Relaxed);
             }
         });
+        Case("current .30 second pistols deliver twenty volleys in six seconds", () => {
+            foreach (int fps in new[] {30,60,120}) {
+                var c=new IntercomWeaponPoseClock(.001f,.001f,.3f,2f);
+                c.Tick(.001f,true);c.Tick(.001f,true);True(c.ShotThisTick);
+                int volleys=0;
+                for(int i=0;i<fps*6;i++){c.Tick(1f/fps,true);if(c.ShotThisTick)volleys++;}
+                Eq(volleys,20);
+                c.Tick(10f,true);True(c.ShotThisTick);c.Tick(.01f,true);False(c.ShotThisTick);
+            }
+        });
         Console.WriteLine("PASS: " + cases + " cases, " + assertions + " assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8.");
     }
     private static IntercomWeaponPoseClock Clock() => new IntercomWeaponPoseClock(8f / 24f, 12f / 24f, .4f, 2f);

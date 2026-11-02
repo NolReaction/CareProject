@@ -1,1 +1,0 @@
-PASS: 14 geometry scenarios; 2400 randomized boxes / 146080 independently projected points; 292191 assertions. Production pure math, not Unity rendering.

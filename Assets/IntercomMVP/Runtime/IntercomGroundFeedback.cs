@@ -91,7 +91,11 @@ namespace IntercomMvp
             internal Collider surface;
             internal Vector3 anchorLocal, anchorMarkerOffset, anchorFacing, anchorTravel, targetAnkle, authoredAnkle, sole;
             internal int soleKind;
-            internal Quaternion authoredRotation;
+            internal SoleSample[] samples;
+            internal int sampleIndex = -1, anchorSampleIndex = -1;
+            internal Vector3 neutralLink, clearanceDirection;
+            internal bool neutralLinkReady, clearanceActive;
+            internal Quaternion authoredRotation, targetRotation, anchorRotation;
             internal float weight, length;
             internal Contact contact;
         }
@@ -150,7 +154,7 @@ namespace IntercomMvp
                     if (rightUpperArm == null && bone.name == "R_Upperarm") rightUpperArm = bone;
                 }
                 // Re-measure old saved offsets after a model-space calibration change.
-                if (!HasCurrentSoleCalibration) CalibrateSoles();
+                if (!HasCurrentSoleCalibration || calibratedSoleProfile != soleProfile) CalibrateSoles();
             }
             BindRig();
             if (contactMaterial != null) CreateEffects();
@@ -176,8 +180,9 @@ namespace IntercomMvp
                 && animator.runtimeAnimatorController != null && animator.speed > 0f;
             // Awake can run before a controller is assigned. Retry once when it
             // becomes available (or is replaced), never every rendered frame.
-            if (Active && animated && !HasCurrentSoleCalibration
+            if (Active && animated && ((!HasCurrentSoleCalibration
                 && (!calibrationAttempted || calibrationController != animator.runtimeAnimatorController))
+                || calibratedSoleProfile != soleProfile))
                 CalibrateSoles();
             if (!Active || motor == null || !motor.isActiveAndEnabled || !animated
                 || !HasCurrentSoleCalibration)
@@ -206,9 +211,18 @@ namespace IntercomMvp
             float blend = Mathf.Clamp01(animator.GetFloat("Speed"));
             SavePose();
             bool turnOwnsLegs = ApplyTurnFootwork(dt, blend);
+            bool wasRunning = sampleRunningSoles;
+            sampleRunningSoles = moving && !turnOwnsLegs;
+            if (wasRunning && !sampleRunningSoles) ResetRunningClearance();
+            if (sampleRunningSoles)
+            {
+                AlignRunningGround(blend);
+                RestoreDiagonalStride(phase, blend);
+            }
             PrepareFoot(leftRig, phase, blend, moving, grounded);
             PrepareFoot(rightRig, phase, blend, moving, grounded);
-            if (!turnOwnsLegs && plantFeet && body != null && grounded)
+            if (!turnOwnsLegs && plantFeet && body != null && grounded && moving) SolveRunningSupport();
+            else if (!turnOwnsLegs && plantFeet && body != null && grounded)
             {
                 float weightedHeight = 0f, weight = 0f;
                 AccumulateSupport(leftRig, ref weightedHeight, ref weight);
@@ -218,6 +232,7 @@ namespace IntercomMvp
                         -bodyHeightCompliance, bodyHeightCompliance) * Mathf.Min(1f, weight);
                 SolveFoot(leftRig); SolveFoot(rightRig);
             }
+            if (sampleRunningSoles && plantFeet) PreserveRunningClearance(phase, dt);
             leftContact = ProbeFoot(leftRig);
             rightContact = ProbeFoot(rightRig);
             if (turnOwnsLegs)
@@ -254,6 +269,7 @@ namespace IntercomMvp
 
         private void PrepareFoot(FootRig rig, float phase, float blend, bool moving, bool grounded)
         {
+            if (sampleRunningSoles) { PrepareRunningFoot(rig, phase, blend, grounded); return; }
             rig.weight = 0f;
             if (rig.foot == null) return;
             rig.authoredAnkle = rig.foot.position;
@@ -285,8 +301,8 @@ namespace IntercomMvp
                         : (rig.left ? leftSoleOffset : rightSoleOffset);
                     // Lock a boot material point, not its ankle. The ankle must
                     // still travel naturally as the boot rolls around its sole.
-                    rig.anchorLocal = rig.surface.transform.InverseTransformPoint(
-                        rig.anchorMarker.TransformPoint(rig.anchorMarkerOffset));
+                    rig.anchorSampleIndex = rig.sampleIndex;
+                    rig.anchorLocal = rig.surface.transform.InverseTransformPoint(AnchorMaterialPoint(rig));
                     rig.anchorFacing = motor.FacingDirection;
                     rig.anchorTravel = motor.ActualPlanarVelocity;
                     rig.anchored = true;
@@ -296,7 +312,7 @@ namespace IntercomMvp
             if (rig.anchored && rig.surface != null)
             {
                 Vector3 anchor = rig.surface.transform.TransformPoint(rig.anchorLocal);
-                Vector3 marker = rig.anchorMarker.TransformPoint(rig.anchorMarkerOffset);
+                Vector3 marker = AnchorMaterialPoint(rig);
                 Vector3 offset = Vector3.ProjectOnPlane(anchor - marker, Vector3.up);
                 float limit = Mathf.Min(maximumPlantCorrection, rig.length * 0.7f);
                 // A one-link robot leg cannot reach an arbitrarily old foot anchor.
@@ -344,7 +360,7 @@ namespace IntercomMvp
 
         private void PublishContact(FootRig rig, Contact contact, bool moving, bool discontinuity)
         {
-            bool touching = rig.weight >= 0.08f && contact.valid && contact.height <= 0.04f;
+            bool touching = rig.weight >= 0.08f && contact.valid && contact.height <= 0.008f;
             if (!rig.gate.Observe(rig.inWindow, moving, touching, discontinuity)) return;
             compression = 1f;
             float strength = Mathf.Clamp01(0.35f + motor.ActualPlanarSpeed / Mathf.Max(0.1f, motor.moveSpeed) * 0.65f);
@@ -355,6 +371,7 @@ namespace IntercomMvp
         private Contact ProbeFoot(FootRig rig)
         {
             if (rig.foot == null) return default;
+            if (ProbeSoleCloud(rig, out Contact cloudContact)) return cloudContact;
             Vector3 centre = rig.foot.TransformPoint(rig.left ? leftSoleOffset : rightSoleOffset);
             if (!contactMarkersCalibrated) { rig.sole = centre; rig.soleKind = 0; return ProbePoint(centre); }
             Vector3 heel = rig.foot.TransformPoint(rig.left ? leftHeelOffset : rightHeelOffset);
@@ -386,6 +403,11 @@ namespace IntercomMvp
             float pitchTarget = forwardSpeed * runLeanDegrees + Vector3.Dot(acceleration, forward) * accelerationLean;
             float rollTarget = -sideSpeed * runLeanDegrees - Vector3.Dot(acceleration, right) * accelerationLean
                 + Mathf.Sin(cycle) * runSwayDegrees * speedWeight;
+            // The cuffs sit close to the lower body. Keep translational lean
+            // and sway inside that clearance; yaw, recoil and standing turns
+            // retain their existing response.
+            pitchTarget *= Mathf.Clamp01(runningTiltWeight);
+            rollTarget *= Mathf.Clamp01(runningTiltWeight);
             float turnRate = discontinuity ? 0f : Vector3.SignedAngle(previousFacing, forward, Vector3.up) / Mathf.Max(0.001f, dt);
             float yawTarget = Mathf.Clamp(-turnRate * turnLagSeconds, -8f, 8f) * (motor.IsAiming ? 0.35f : 1f);
             float lagTargetX = Mathf.Clamp(-acceleration.x / 12f, -1f, 1f) * torsoTravelLag;
@@ -588,6 +610,8 @@ namespace IntercomMvp
         public void CalibrateSoles()
         {
             calibrationAttempted = true;
+            calibratedSoleProfile = soleProfile;
+            leftRig.samples = rightRig.samples = null;
             calibrationController = animator != null ? animator.runtimeAnimatorController : null;
             soleOffsetsCalibrated = contactMarkersCalibrated = false;
             soleCalibrationVersion = 0;
@@ -622,6 +646,7 @@ namespace IntercomMvp
                 if (right) { rightSoleOffset = rightCentre; rightHeelOffset = rightHeel; rightToeOffset = rightTip; }
                 soleOffsetsCalibrated = contactMarkersCalibrated = left && right;
                 soleCalibrationVersion = left && right ? CurrentSoleCalibrationVersion : 0;
+                if (left && right) CalibrateSoleClouds();
             }
             finally
             {
@@ -700,6 +725,9 @@ namespace IntercomMvp
         private void ClearTransientState(bool resetTurning = true)
         {
             if (resetTurning) ResetTurnFootwork();
+            sampleRunningSoles = false;
+            leftRig.clearanceDirection = rightRig.clearanceDirection = Vector3.zero;
+            leftRig.clearanceActive = rightRig.clearanceActive = false;
             compression = recoil = aimStabilization = 0f;
             leftRig.anchored = leftRig.inWindow = false;
             leftRig.gate.Reset();

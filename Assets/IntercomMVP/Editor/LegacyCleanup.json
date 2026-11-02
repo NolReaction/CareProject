@@ -1,5 +1,5 @@
 {
-  "revision": "tutorial-foundation-v2",
+  "revision": "gameplay-v3",
   "files": [
     {
       "path": "Assets/IntercomMVP/Art/Robot/FbxVerification.json",
@@ -284,6 +284,42 @@
     {
       "path": "Docs/DistrictPlan.png",
       "sha256": "2ea270f5f532bfaf0503ad936dc67f42d665105b76f4d9a09cee1ebcd2d433a4"
+    },
+    {
+      "path": "Source/Audio/piano_bass.flac",
+      "sha256": "5e0b8b0d01649358559d35657dc9786d1f5301dadf4324f69d642f687a4c9a51"
+    },
+    {
+      "path": "Source/Audio/piano_low.flac",
+      "sha256": "35bd811f9f1eea885179f72de0dc9267e83c8753ab60f5f728ef7f007eded8e5"
+    },
+    {
+      "path": "Source/Audio/piano_mid.flac",
+      "sha256": "94c79dd9caa531d67e6fba311ab3cc411d6ab3eb2e0ede112957619f5a897bb3"
+    },
+    {
+      "path": "Source/Audio/marimba.flac",
+      "sha256": "00b8217b698f84c127596d94f338a280ab3bc913317df6d7bdc3ec7b8f91931e"
+    },
+    {
+      "path": "Source/Audio/kick.flac",
+      "sha256": "ffa5a626211cf293be38dd812cbd1e756b6285f572c43922cf5982c359cc004a"
+    },
+    {
+      "path": "Source/Audio/snare.flac",
+      "sha256": "5a0852e1028bbbfee7d16fec26ae9e6fb7ddaf4269435b822c6991b06d9a0bf5"
+    },
+    {
+      "path": "Source/Audio/rim.flac",
+      "sha256": "b26ef9c8056f186389523358b5d6dc4b65df7158eb373258a0d1a54366a5ff28"
+    },
+    {
+      "path": "Source/Audio/shaker_down.flac",
+      "sha256": "09a4ff677151da9a7f011e407caf252da35d834b77b804e9b1151e5036b4ce33"
+    },
+    {
+      "path": "Source/Audio/shaker_up.flac",
+      "sha256": "e2ace6a60ed4d3a2b95b8871c8e742cb7c3849132aad113adeba2d54301ecd6d"
     }
   ]
 }

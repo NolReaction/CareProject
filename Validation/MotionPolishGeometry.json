@@ -226,5 +226,7 @@
     "mode": "Calf perturbed, authored Foot world orientation restored"
   },
   "scope": "Deformed source geometry, shared ankle-point invariant, loop and transform stress. Does not execute Unity.",
-  "status": "ok"
+  "status": "ok",
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

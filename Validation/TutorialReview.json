@@ -243,5 +243,7 @@
     "URP rendering and sound playback in the Unity scene",
     "Android/iOS builds and target-device performance tests"
   ],
-  "visualScope": "Blender previews use actual project meshes; motion comparison uses diagnostic materials. They are not Unity screenshots. Map is an authored modular foundation, not a pixel-identical recreation of the reference image."
+  "visualScope": "Blender previews use actual project meshes; motion comparison uses diagnostic materials. They are not Unity screenshots. Map is an authored modular foundation, not a pixel-identical recreation of the reference image.",
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

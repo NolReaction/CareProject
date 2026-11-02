@@ -16,6 +16,6 @@ MonoBehaviour:
   raiseWeapons: {fileID: -7747910883902908913, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
   lowerWeapons: {fileID: -706716206623838979, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
   shoot: {fileID: -4200418239737971428, guid: b5253562122cbe443b18acf9dd9a2e33, type: 3}
-  fireInterval: 0.4
+  fireInterval: 0.3
   combatHold: 2
   poseBlend: 0.06

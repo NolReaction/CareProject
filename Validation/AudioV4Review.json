@@ -229,5 +229,7 @@
   "deterministicOfflineRebuild": {
     "assets": 17,
     "byteIdentical": true
-  }
+  },
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

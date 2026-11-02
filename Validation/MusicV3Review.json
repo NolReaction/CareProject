@@ -1,0 +1,53 @@
+{
+  "title": "Iron Pulse",
+  "bpm": 128,
+  "bars": 48,
+  "seconds": 90.0,
+  "sampleRate": 44100,
+  "channels": 2,
+  "direction": "Original industrial breakbeat / guitar-led electrofunk instrumental. Recorded electric guitar, electric bass and acoustic drum kit. No old piano/marimba music, song sample, purchased loop or external melody.",
+  "arrangement": [
+    "0-15 bass motif / guitar entrance",
+    "15-30 full theme",
+    "30-45 harmonic bridge",
+    "45-52.5 half-time breakdown",
+    "52.5-60 build",
+    "60-75 full return",
+    "75-90 variation and cyclic turnaround"
+  ],
+  "sources": {
+    "recordings": 23,
+    "curatedBytes": 2785411,
+    "allSHA256Verified": true,
+    "license": "CC0-1.0",
+    "manifest": "Source/Audio/MusicV3/manifest.json",
+    "licensePrimarySource": "https://shop.karoryfer.com/pages/free-samples"
+  },
+  "decoded": {
+    "finite": true,
+    "clippedSamples": 0,
+    "peakDbFS": -1.9487719535827637,
+    "rmsDbFS": -18.88047981262207,
+    "loopBoundaryStep": 0.012080051004886627,
+    "internalStep99Percentile": 0.026894191280007362,
+    "boundaryWithinOrdinaryWaveformSlope": true,
+    "integratedLUFS": -18.2,
+    "loudnessRangeLU": 1.7,
+    "truePeakDbFS": -1.9
+  },
+  "unityGUID": "631c81496aa151eaacc599d592e2c21c",
+  "unityMetaByteUnchanged": true,
+  "deterministicOfflineRebuild": {
+    "byteIdentical": true,
+    "oggSHA256": "bde4edb6171d4b04827fbd51664e45fcad8ace6634a809d8f3d248d7bc1840f3",
+    "generatorSHA256": "268ccd7b912fa292a1b0e7b0d728ae8293e154b19156c439920a408241c869f0"
+  },
+  "preview": {
+    "path": "Docs/MusicPreview.mp3",
+    "seconds": 45,
+    "excerptStartSeconds": 15,
+    "endingFadeSeconds": 0.65,
+    "level": "Standalone file level; game profile applies additional attenuation."
+  },
+  "scope": "Numerical render, source license/hash review and decoded-sample checks only. No listening approval, Unity import/playback, target-device loudness or claim of iconic/cult quality."
+}

@@ -14,10 +14,10 @@ namespace IntercomMvp.Editor
         private const string LayoutPath = "Assets/IntercomMVP/World/DistrictLayout.json";
         private const string MaterialFolder = "Assets/IntercomMVP/Art/PrototypeEnvironment/";
         private const string MeshFolder = MaterialFolder + "Modules/";
-        [Serializable] private sealed class Layout { public int version; public float width, depth; public Group[] groups; public Target[] targets; }
+        [Serializable] private sealed class Layout { public int version, surfaceVersion; public float width, depth; public Group[] groups; public Target[] targets; }
         [Serializable] private sealed class Group { public string key, name, role; public float[] position, footprint; public bool hide; public Block[] blocks; }
         [Serializable] private sealed class Block { public string name, material, mesh, shape, footstepSurface; public string[] materials; public float[] position, size, collisionCenter, collisionSize; public float yaw; public bool collider, shadow; public bool visual = true; }
-        [Serializable] private sealed class Target { public string key, name, material, mesh; public float[] position; }
+        [Serializable] private sealed class Target { public string key, name, material, mesh, footstepSurface; public float[] position; }
         internal static void Setup(Scene scene)
         {
             GameObject root = scene.GetRootGameObjects().FirstOrDefault(item => item.name == RootName);
@@ -66,8 +66,7 @@ namespace IntercomMvp.Editor
                         BoxCollider collider = solid.AddComponent<BoxCollider>();
                         if (block.collisionCenter != null && block.collisionCenter.Length == 3) collider.center = Vector(block.collisionCenter);
                         if (block.collisionSize != null && block.collisionSize.Length == 3) collider.size = Vector(block.collisionSize);
-                        if (!string.IsNullOrEmpty(block.footstepSurface))
-                            solid.AddComponent<IntercomFootstepSurface>().kind = (IntercomSurfaceKind)Enum.Parse(typeof(IntercomSurfaceKind), block.footstepSurface);
+                        ConfigureSurface(solid, block.footstepSurface);
                     }
                     Renderer renderer = part.GetComponent<Renderer>();
                     if (!block.visual)
@@ -97,12 +96,12 @@ namespace IntercomMvp.Editor
                 if (renderer != null) { Undo.RecordObject(renderer, "Colour district ground"); renderer.sharedMaterial = Material("Asphalt"); }
             }
             IntercomDistrictMarker marker = Undo.AddComponent<IntercomDistrictMarker>(root);
-            marker.layoutVersion = layout.version; marker.surfaceVersion = layout.version >= 2 ? 1 : 0; marker.worldSize = new Vector2(layout.width, layout.depth);
+            marker.layoutVersion = layout.version; marker.surfaceVersion = layout.surfaceVersion; marker.worldSize = new Vector2(layout.width, layout.depth);
             SetupSurfaceSounds(scene);
             EditorSceneManager.MarkSceneDirty(scene);
         }
 
-        // Upgrade only named walkable patches once; retain existing buildings,
+        // Add explicit collision materials once; retain existing buildings,
         // camera framing, object transforms and all later surface edits.
         internal static void SetupSurfaceSounds(Scene scene)
         {
@@ -111,7 +110,7 @@ namespace IntercomMvp.Editor
                 Undo.AddComponent<IntercomFootstepSurface>(ground).kind = IntercomSurfaceKind.Asphalt;
             GameObject root = scene.GetRootGameObjects().FirstOrDefault(item => item.name == RootName);
             IntercomDistrictMarker marker = root != null ? root.GetComponent<IntercomDistrictMarker>() : null;
-            if (marker == null || marker.surfaceVersion >= 1) return;
+            if (marker == null || marker.surfaceVersion >= 2) return;
             TextAsset source = AssetDatabase.LoadAssetAtPath<TextAsset>(LayoutPath);
             if (source == null) throw new InvalidOperationException("Не найден World/DistrictLayout.json.");
             Layout layout = JsonUtility.FromJson<Layout>(source.text);
@@ -157,14 +156,24 @@ namespace IntercomMvp.Editor
                     {
                         solid = Child(group, "Collision - " + spec.name, visual.localPosition).transform;
                         solid.localRotation = visual.localRotation; solid.localScale = visual.localScale;
-                        solid.gameObject.AddComponent<BoxCollider>();
+                        BoxCollider collider = solid.gameObject.AddComponent<BoxCollider>();
+                        if (spec.collisionCenter != null && spec.collisionCenter.Length == 3) collider.center = Vector(spec.collisionCenter);
+                        if (spec.collisionSize != null && spec.collisionSize.Length == 3) collider.size = Vector(spec.collisionSize);
                     }
                     if (solid.GetComponent<IntercomFootstepSurface>() == null)
                         Undo.AddComponent<IntercomFootstepSurface>(solid.gameObject).kind = kind;
                 }
             }
+            Transform targets = root.transform.Find("12 - Training targets")
+                ?? root.transform.Find("17 - AFK test targets");
+            if (targets != null && layout.targets != null)
+                foreach (Target spec in layout.targets)
+                {
+                    Transform target = targets.Find(spec.name);
+                    if (target != null) ConfigureSurface(target.gameObject, spec.footstepSurface);
+                }
             Undo.RecordObject(marker, "Upgrade surface sound tags");
-            marker.surfaceVersion = 1; EditorUtility.SetDirty(marker);
+            marker.surfaceVersion = 2; EditorUtility.SetDirty(marker);
             EditorSceneManager.MarkSceneDirty(scene);
         }
 
@@ -172,6 +181,7 @@ namespace IntercomMvp.Editor
         {
             GameObject root = Child(parent, spec.name, Vector(spec.position));
             Anchor(root, spec.key, "Target", new Vector2(0.7f, 0.7f));
+            ConfigureSurface(root, spec.footstepSurface);
             CapsuleCollider collider = root.AddComponent<CapsuleCollider>();
             collider.center = Vector3.up * 0.8f; collider.radius = 0.35f; collider.height = 1.6f;
             GameObject visual = Child(root.transform, "Visual - replace capsule", Vector3.zero);
@@ -200,6 +210,14 @@ namespace IntercomMvp.Editor
             }
             IntercomTargetDummy target = root.AddComponent<IntercomTargetDummy>();
             target.visual = visual.transform; target.bodyRenderer = renderer; target.maxHealth = 5; target.resetSeconds = 2.5f;
+        }
+
+        private static void ConfigureSurface(GameObject owner, string surface)
+        {
+            if (string.IsNullOrEmpty(surface) || owner.GetComponent<IntercomFootstepSurface>() != null) return;
+            if (!Enum.TryParse(surface, out IntercomSurfaceKind kind) || !Enum.IsDefined(typeof(IntercomSurfaceKind), kind))
+                throw new InvalidOperationException("Неизвестная поверхность: " + surface);
+            Undo.AddComponent<IntercomFootstepSurface>(owner).kind = kind;
         }
 
         private static GameObject Child(Transform parent, string name, Vector3 position)

@@ -225,5 +225,7 @@
       ]
     }
   },
-  "scope": "Authoring invariants only. Visual, deformed-geometry and FBX roundtrip validation required separately."
+  "scope": "Authoring invariants only. Visual, deformed-geometry and FBX roundtrip validation required separately.",
+  "historicalReport": true,
+  "supersededForCurrentGameplayBy": "GameplayV3Review.json and its referenced V3 reports"
 }

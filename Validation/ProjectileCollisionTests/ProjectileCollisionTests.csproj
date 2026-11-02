@@ -1,4 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
-  <ItemGroup><Compile Include="Program.cs" /><Compile Include="../../Assets/IntercomMVP/Runtime/IntercomProjectileHitChoice.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="Program.cs" /><Compile Include="../../Assets/IntercomMVP/Runtime/IntercomProjectileHitChoice.cs" /><Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTracerStyle.cs" /></ItemGroup>
 </Project>

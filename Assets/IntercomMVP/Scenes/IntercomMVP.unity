@@ -359,7 +359,8 @@ MonoBehaviour:
   projectileLifetime: 1.4
   projectileRange: 20
   projectileRadius: 0.035
-  tracerLength: 0.42
+  tracerWidth: 0.15
+  tracerLength: 0.68
   poolSize: 32
   collisionMask:
     serializedVersion: 2
@@ -423,7 +424,8 @@ MonoBehaviour:
   movementCamera: {fileID: 34441814}
   inputSource: {fileID: 413439362}
   weaponPose: {fileID: 413439363}
-  moveSpeed: 1.8
+  moveSpeed: 2.1
+  strafeSpeedRatio: 0.75
   acceleration: 8
   deceleration: 12
   turnSpeed: 720
@@ -501,6 +503,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
 
+  woodImpactMaterial: {fileID: 2100000, guid: ef54a09942a255a6828fc3318b43578c, type: 2}
+  stoneImpactMaterial: {fileID: 2100000, guid: 3051758e3acb5b9ca6e54c69a6df6ef3, type: 2}
+  soilImpactMaterial: {fileID: 2100000, guid: 6231a52bc3b25919910b6340493e98da, type: 2}
 --- !u!114 &413439368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +548,8 @@ MonoBehaviour:
   rightToe: {fileID: 0}
   plantFeet: 1
   bodyHeightCompliance: 0.03
+  runBodyCorrection: 0.035
+  runningTiltWeight: 0.75
   maximumPlantCorrection: 0.1
   maximumCalfCorrection: 28
   maximumGroundTilt: 16
@@ -561,6 +568,7 @@ MonoBehaviour:
   turnLiftDegrees: 75
   turnExitSeconds: 0.14
 
+  soleProfile: {fileID: 11400000, guid: 70c38013218742a1b1b6fcc4095c8fba, type: 2}
 --- !u!1 &509721711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2185,7 +2193,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomDistrictMarker
   layoutVersion: 2
-  surfaceVersion: 1
+  surfaceVersion: 2
   worldSize: {x: 36, y: 32}
 
 --- !u!1660057539 &9223372036854775807
@@ -2215,6 +2223,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!114 &8200000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2343,6 +2353,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!33 &8200000015
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2440,6 +2452,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!33 &8200000023
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2537,6 +2551,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!33 &8200000031
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2634,6 +2650,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!33 &8200000039
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2731,6 +2749,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!33 &8200000047
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2828,6 +2848,8 @@ MonoBehaviour:
   volume: 1
   pitch: 1
 
+  impactVolume: 1
+  impactPitch: 1
 --- !u!33 &8200000055
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12700,7 +12722,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee57bf44d4815b9286d569baf718a08b, type: 2}
+  - {fileID: 2100000, guid: 7215d4cbf782aa345b70e2439f7aa58c, type: 2}
   - {fileID: 2100000, guid: 8e3655ca38e3e3a48a65982a4672ef9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -12859,7 +12881,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee57bf44d4815b9286d569baf718a08b, type: 2}
+  - {fileID: 2100000, guid: 5d0bcd380bd710a4d813345302914c21, type: 2}
   - {fileID: 2100000, guid: 8e3655ca38e3e3a48a65982a4672ef9d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -13216,6 +13238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000066}
   - component: {fileID: 8200000067}
+  - component: {fileID: 9223372036854775808}
   m_Layer: 0
   m_Name: Collision - Warehouse shell
   m_TagString: Untagged
@@ -13253,6 +13276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000073}
   - component: {fileID: 8200000074}
+  - component: {fileID: 9223372036854775809}
   m_Layer: 0
   m_Name: Collision - Loading cargo A
   m_TagString: Untagged
@@ -13290,6 +13314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000080}
   - component: {fileID: 8200000081}
+  - component: {fileID: 9223372036854775810}
   m_Layer: 0
   m_Name: Collision - Loading cargo B
   m_TagString: Untagged
@@ -13327,6 +13352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000087}
   - component: {fileID: 8200000088}
+  - component: {fileID: 9223372036854775811}
   m_Layer: 0
   m_Name: Collision - Loading drum
   m_TagString: Untagged
@@ -13383,6 +13409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000098}
   - component: {fileID: 8200000099}
+  - component: {fileID: 9223372036854775812}
   m_Layer: 0
   m_Name: Collision - Workshop shell
   m_TagString: Untagged
@@ -13420,6 +13447,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000105}
   - component: {fileID: 8200000106}
+  - component: {fileID: 9223372036854775813}
   m_Layer: 0
   m_Name: Collision - Workshop spool
   m_TagString: Untagged
@@ -13457,6 +13485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000112}
   - component: {fileID: 8200000113}
+  - component: {fileID: 9223372036854775814}
   m_Layer: 0
   m_Name: Collision - Workshop drum
   m_TagString: Untagged
@@ -13494,6 +13523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000119}
   - component: {fileID: 8200000120}
+  - component: {fileID: 9223372036854775815}
   m_Layer: 0
   m_Name: Collision - Workshop crates
   m_TagString: Untagged
@@ -13569,6 +13599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000134}
   - component: {fileID: 8200000135}
+  - component: {fileID: 9223372036854775816}
   m_Layer: 0
   m_Name: Collision - Transformer -1.8
   m_TagString: Untagged
@@ -13606,6 +13637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000141}
   - component: {fileID: 8200000142}
+  - component: {fileID: 9223372036854775817}
   m_Layer: 0
   m_Name: Collision - Transformer 1.8
   m_TagString: Untagged
@@ -13831,6 +13863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000186}
   - component: {fileID: 8200000187}
+  - component: {fileID: 9223372036854775818}
   m_Layer: 0
   m_Name: Collision - Substation collision
   m_TagString: Untagged
@@ -13906,6 +13939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000201}
   - component: {fileID: 8200000202}
+  - component: {fileID: 9223372036854775819}
   m_Layer: 0
   m_Name: Collision - Rust cargo container
   m_TagString: Untagged
@@ -13943,6 +13977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000208}
   - component: {fileID: 8200000209}
+  - component: {fileID: 9223372036854775820}
   m_Layer: 0
   m_Name: Collision - Container barrier
   m_TagString: Untagged
@@ -13980,6 +14015,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000215}
   - component: {fileID: 8200000216}
+  - component: {fileID: 9223372036854775821}
   m_Layer: 0
   m_Name: Collision - Container drum
   m_TagString: Untagged
@@ -14036,6 +14072,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000226}
   - component: {fileID: 8200000227}
+  - component: {fileID: 9223372036854775822}
   m_Layer: 0
   m_Name: Collision - Low barrier
   m_TagString: Untagged
@@ -14073,6 +14110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000233}
   - component: {fileID: 8200000234}
+  - component: {fileID: 9223372036854775823}
   m_Layer: 0
   m_Name: Collision - Supply crate
   m_TagString: Untagged
@@ -14110,6 +14148,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000240}
   - component: {fileID: 8200000241}
+  - component: {fileID: 9223372036854775824}
   m_Layer: 0
   m_Name: Collision - Supply drum
   m_TagString: Untagged
@@ -14166,6 +14205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000251}
   - component: {fileID: 8200000252}
+  - component: {fileID: 9223372036854775825}
   m_Layer: 0
   m_Name: Collision - Low barrier
   m_TagString: Untagged
@@ -14203,6 +14243,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000258}
   - component: {fileID: 8200000259}
+  - component: {fileID: 9223372036854775826}
   m_Layer: 0
   m_Name: Collision - Supply crate
   m_TagString: Untagged
@@ -14240,6 +14281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000265}
   - component: {fileID: 8200000266}
+  - component: {fileID: 9223372036854775827}
   m_Layer: 0
   m_Name: Collision - Supply drum
   m_TagString: Untagged
@@ -14296,6 +14338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000276}
   - component: {fileID: 8200000277}
+  - component: {fileID: 9223372036854775828}
   m_Layer: 0
   m_Name: Collision - Low barrier
   m_TagString: Untagged
@@ -14333,6 +14376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000283}
   - component: {fileID: 8200000284}
+  - component: {fileID: 9223372036854775829}
   m_Layer: 0
   m_Name: Collision - Supply crate
   m_TagString: Untagged
@@ -14370,6 +14414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000290}
   - component: {fileID: 8200000291}
+  - component: {fileID: 9223372036854775830}
   m_Layer: 0
   m_Name: Collision - Supply drum
   m_TagString: Untagged
@@ -14426,6 +14471,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000301}
   - component: {fileID: 8200000302}
+  - component: {fileID: 9223372036854775831}
   m_Layer: 0
   m_Name: Collision - Range backstop -3.4
   m_TagString: Untagged
@@ -14463,6 +14509,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000308}
   - component: {fileID: 8200000309}
+  - component: {fileID: 9223372036854775832}
   m_Layer: 0
   m_Name: Collision - Range backstop 0
   m_TagString: Untagged
@@ -14500,6 +14547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000315}
   - component: {fileID: 8200000316}
+  - component: {fileID: 9223372036854775833}
   m_Layer: 0
   m_Name: Collision - Range backstop 3.4
   m_TagString: Untagged
@@ -14537,6 +14585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000322}
   - component: {fileID: 8200000323}
+  - component: {fileID: 9223372036854775834}
   m_Layer: 0
   m_Name: Collision - Range side cover
   m_TagString: Untagged
@@ -14574,6 +14623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000329}
   - component: {fileID: 8200000330}
+  - component: {fileID: 9223372036854775835}
   m_Layer: 0
   m_Name: Collision - Range supplies
   m_TagString: Untagged
@@ -14630,6 +14680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000340}
   - component: {fileID: 8200000341}
+  - component: {fileID: 9223372036854775836}
   m_Layer: 0
   m_Name: Collision - West wall 0
   m_TagString: Untagged
@@ -14667,6 +14718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000347}
   - component: {fileID: 8200000348}
+  - component: {fileID: 9223372036854775837}
   m_Layer: 0
   m_Name: Collision - West wall 1
   m_TagString: Untagged
@@ -14704,6 +14756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000354}
   - component: {fileID: 8200000355}
+  - component: {fileID: 9223372036854775838}
   m_Layer: 0
   m_Name: Collision - West wall 2
   m_TagString: Untagged
@@ -14741,6 +14794,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000361}
   - component: {fileID: 8200000362}
+  - component: {fileID: 9223372036854775839}
   m_Layer: 0
   m_Name: Collision - West wall 3
   m_TagString: Untagged
@@ -14778,6 +14832,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000368}
   - component: {fileID: 8200000369}
+  - component: {fileID: 9223372036854775840}
   m_Layer: 0
   m_Name: Collision - West wall 4
   m_TagString: Untagged
@@ -14815,6 +14870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000375}
   - component: {fileID: 8200000376}
+  - component: {fileID: 9223372036854775841}
   m_Layer: 0
   m_Name: Collision - West wall 5
   m_TagString: Untagged
@@ -14852,6 +14908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000382}
   - component: {fileID: 8200000383}
+  - component: {fileID: 9223372036854775842}
   m_Layer: 0
   m_Name: Collision - West wall 6
   m_TagString: Untagged
@@ -14889,6 +14946,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000389}
   - component: {fileID: 8200000390}
+  - component: {fileID: 9223372036854775843}
   m_Layer: 0
   m_Name: Collision - West wall 7
   m_TagString: Untagged
@@ -14945,6 +15003,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000400}
   - component: {fileID: 8200000401}
+  - component: {fileID: 9223372036854775844}
   m_Layer: 0
   m_Name: Collision - West wall 8
   m_TagString: Untagged
@@ -15001,6 +15060,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000411}
   - component: {fileID: 8200000412}
+  - component: {fileID: 9223372036854775845}
   m_Layer: 0
   m_Name: Collision - West wall 9
   m_TagString: Untagged
@@ -15057,6 +15117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000422}
   - component: {fileID: 8200000423}
+  - component: {fileID: 9223372036854775846}
   m_Layer: 0
   m_Name: Collision - West wall 10
   m_TagString: Untagged
@@ -15113,6 +15174,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000433}
   - component: {fileID: 8200000434}
+  - component: {fileID: 9223372036854775847}
   m_Layer: 0
   m_Name: Collision - East wall 0
   m_TagString: Untagged
@@ -15150,6 +15212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000440}
   - component: {fileID: 8200000441}
+  - component: {fileID: 9223372036854775848}
   m_Layer: 0
   m_Name: Collision - East wall 1
   m_TagString: Untagged
@@ -15187,6 +15250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000447}
   - component: {fileID: 8200000448}
+  - component: {fileID: 9223372036854775849}
   m_Layer: 0
   m_Name: Collision - East wall 2
   m_TagString: Untagged
@@ -15224,6 +15288,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000454}
   - component: {fileID: 8200000455}
+  - component: {fileID: 9223372036854775850}
   m_Layer: 0
   m_Name: Collision - East wall 3
   m_TagString: Untagged
@@ -15261,6 +15326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000461}
   - component: {fileID: 8200000462}
+  - component: {fileID: 9223372036854775851}
   m_Layer: 0
   m_Name: Collision - East wall 4
   m_TagString: Untagged
@@ -15298,6 +15364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000468}
   - component: {fileID: 8200000469}
+  - component: {fileID: 9223372036854775852}
   m_Layer: 0
   m_Name: Collision - East wall 5
   m_TagString: Untagged
@@ -15335,6 +15402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000475}
   - component: {fileID: 8200000476}
+  - component: {fileID: 9223372036854775853}
   m_Layer: 0
   m_Name: Collision - East wall 6
   m_TagString: Untagged
@@ -15372,6 +15440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000482}
   - component: {fileID: 8200000483}
+  - component: {fileID: 9223372036854775854}
   m_Layer: 0
   m_Name: Collision - East wall 7
   m_TagString: Untagged
@@ -15428,6 +15497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000493}
   - component: {fileID: 8200000494}
+  - component: {fileID: 9223372036854775855}
   m_Layer: 0
   m_Name: Collision - East wall 8
   m_TagString: Untagged
@@ -15484,6 +15554,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000504}
   - component: {fileID: 8200000505}
+  - component: {fileID: 9223372036854775856}
   m_Layer: 0
   m_Name: Collision - East wall 9
   m_TagString: Untagged
@@ -15540,6 +15611,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000515}
   - component: {fileID: 8200000516}
+  - component: {fileID: 9223372036854775857}
   m_Layer: 0
   m_Name: Collision - East wall 10
   m_TagString: Untagged
@@ -15596,6 +15668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000526}
   - component: {fileID: 8200000527}
+  - component: {fileID: 9223372036854775858}
   m_Layer: 0
   m_Name: Collision - Front west wall 0
   m_TagString: Untagged
@@ -15633,6 +15706,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000533}
   - component: {fileID: 8200000534}
+  - component: {fileID: 9223372036854775859}
   m_Layer: 0
   m_Name: Collision - Front west wall 1
   m_TagString: Untagged
@@ -15670,6 +15744,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000540}
   - component: {fileID: 8200000541}
+  - component: {fileID: 9223372036854775860}
   m_Layer: 0
   m_Name: Collision - Front west wall 2
   m_TagString: Untagged
@@ -15707,6 +15782,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000547}
   - component: {fileID: 8200000548}
+  - component: {fileID: 9223372036854775861}
   m_Layer: 0
   m_Name: Collision - Front west wall 3
   m_TagString: Untagged
@@ -15744,6 +15820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000554}
   - component: {fileID: 8200000555}
+  - component: {fileID: 9223372036854775862}
   m_Layer: 0
   m_Name: Collision - Front east wall 0
   m_TagString: Untagged
@@ -15781,6 +15858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000561}
   - component: {fileID: 8200000562}
+  - component: {fileID: 9223372036854775863}
   m_Layer: 0
   m_Name: Collision - Front east wall 1
   m_TagString: Untagged
@@ -15818,6 +15896,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000568}
   - component: {fileID: 8200000569}
+  - component: {fileID: 9223372036854775864}
   m_Layer: 0
   m_Name: Collision - Front east wall 2
   m_TagString: Untagged
@@ -15855,6 +15934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000575}
   - component: {fileID: 8200000576}
+  - component: {fileID: 9223372036854775865}
   m_Layer: 0
   m_Name: Collision - Front east wall 3
   m_TagString: Untagged
@@ -15892,6 +15972,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000582}
   - component: {fileID: 8200000583}
+  - component: {fileID: 9223372036854775866}
   m_Layer: 0
   m_Name: Collision - Front east wall 4
   m_TagString: Untagged
@@ -15929,6 +16010,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000589}
   - component: {fileID: 8200000590}
+  - component: {fileID: 9223372036854775867}
   m_Layer: 0
   m_Name: Collision - Front east wall 5
   m_TagString: Untagged
@@ -15966,6 +16048,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000596}
   - component: {fileID: 8200000597}
+  - component: {fileID: 9223372036854775868}
   m_Layer: 0
   m_Name: Collision - Front east wall 6
   m_TagString: Untagged
@@ -16003,6 +16086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000603}
   - component: {fileID: 8200000604}
+  - component: {fileID: 9223372036854775869}
   m_Layer: 0
   m_Name: Collision - Front east wall 7
   m_TagString: Untagged
@@ -16040,6 +16124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000610}
   - component: {fileID: 8200000611}
+  - component: {fileID: 9223372036854775870}
   m_Layer: 0
   m_Name: Collision - Rear west wall 0
   m_TagString: Untagged
@@ -16096,6 +16181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000621}
   - component: {fileID: 8200000622}
+  - component: {fileID: 9223372036854775871}
   m_Layer: 0
   m_Name: Collision - Rear west wall 1
   m_TagString: Untagged
@@ -16152,6 +16238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000632}
   - component: {fileID: 8200000633}
+  - component: {fileID: 9223372036854775872}
   m_Layer: 0
   m_Name: Collision - Rear west wall 2
   m_TagString: Untagged
@@ -16208,6 +16295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000643}
   - component: {fileID: 8200000644}
+  - component: {fileID: 9223372036854775873}
   m_Layer: 0
   m_Name: Collision - Rear west wall 3
   m_TagString: Untagged
@@ -16264,6 +16352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000654}
   - component: {fileID: 8200000655}
+  - component: {fileID: 9223372036854775874}
   m_Layer: 0
   m_Name: Collision - Rear west wall 4
   m_TagString: Untagged
@@ -16320,6 +16409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000665}
   - component: {fileID: 8200000666}
+  - component: {fileID: 9223372036854775875}
   m_Layer: 0
   m_Name: Collision - Rear west wall 5
   m_TagString: Untagged
@@ -16376,6 +16466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000676}
   - component: {fileID: 8200000677}
+  - component: {fileID: 9223372036854775876}
   m_Layer: 0
   m_Name: Collision - Rear east wall 0
   m_TagString: Untagged
@@ -16432,6 +16523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000687}
   - component: {fileID: 8200000688}
+  - component: {fileID: 9223372036854775877}
   m_Layer: 0
   m_Name: Collision - Rear east wall 1
   m_TagString: Untagged
@@ -16488,6 +16580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000698}
   - component: {fileID: 8200000699}
+  - component: {fileID: 9223372036854775878}
   m_Layer: 0
   m_Name: Collision - Rear east wall 2
   m_TagString: Untagged
@@ -16544,6 +16637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000709}
   - component: {fileID: 8200000710}
+  - component: {fileID: 9223372036854775879}
   m_Layer: 0
   m_Name: Collision - Rear east wall 3
   m_TagString: Untagged
@@ -16600,6 +16694,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000720}
   - component: {fileID: 8200000721}
+  - component: {fileID: 9223372036854775880}
   m_Layer: 0
   m_Name: Collision - Rear east wall 4
   m_TagString: Untagged
@@ -16656,6 +16751,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000731}
   - component: {fileID: 8200000732}
+  - component: {fileID: 9223372036854775881}
   m_Layer: 0
   m_Name: Collision - Entry closed gate
   m_TagString: Untagged
@@ -16693,6 +16789,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000738}
   - component: {fileID: 8200000739}
+  - component: {fileID: 9223372036854775882}
   m_Layer: 0
   m_Name: Collision - Exit closed gate
   m_TagString: Untagged
@@ -16728,6 +16825,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000743}
   - component: {fileID: 8200000744}
+  - component: {fileID: 9223372036854775883}
   m_Layer: 0
   m_Name: Collision - West stop
   m_TagString: Untagged
@@ -16763,6 +16861,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000748}
   - component: {fileID: 8200000749}
+  - component: {fileID: 9223372036854775884}
   m_Layer: 0
   m_Name: Collision - East stop
   m_TagString: Untagged
@@ -16798,6 +16897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000753}
   - component: {fileID: 8200000754}
+  - component: {fileID: 9223372036854775885}
   m_Layer: 0
   m_Name: Collision - South stop
   m_TagString: Untagged
@@ -16833,6 +16933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000758}
   - component: {fileID: 8200000759}
+  - component: {fileID: 9223372036854775886}
   m_Layer: 0
   m_Name: Collision - North stop
   m_TagString: Untagged
@@ -16889,6 +16990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000769}
   - component: {fileID: 8200000770}
+  - component: {fileID: 9223372036854775887}
   m_Layer: 0
   m_Name: Collision - Planter -168
   m_TagString: Untagged
@@ -16926,6 +17028,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000776}
   - component: {fileID: 8200000777}
+  - component: {fileID: 9223372036854775888}
   m_Layer: 0
   m_Name: Collision - Planter -16-10
   m_TagString: Untagged
@@ -16963,6 +17066,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000783}
   - component: {fileID: 8200000784}
+  - component: {fileID: 9223372036854775889}
   m_Layer: 0
   m_Name: Collision - Planter 16-10
   m_TagString: Untagged
@@ -17000,6 +17104,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000790}
   - component: {fileID: 8200000791}
+  - component: {fileID: 9223372036854775890}
   m_Layer: 0
   m_Name: Collision - Planter 164
   m_TagString: Untagged
@@ -17037,6 +17142,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000797}
   - component: {fileID: 8200000798}
+  - component: {fileID: 9223372036854775891}
   m_Layer: 0
   m_Name: Collision - Planter -513
   m_TagString: Untagged
@@ -17074,6 +17180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000804}
   - component: {fileID: 8200000805}
+  - component: {fileID: 9223372036854775892}
   m_Layer: 0
   m_Name: Collision - Planter 613
   m_TagString: Untagged
@@ -17111,6 +17218,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000811}
   - component: {fileID: 8200000812}
+  - component: {fileID: 9223372036854775893}
   m_Layer: 0
   m_Name: Collision - Safety bollard -8.6-12.5
   m_TagString: Untagged
@@ -17148,6 +17256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000818}
   - component: {fileID: 8200000819}
+  - component: {fileID: 9223372036854775894}
   m_Layer: 0
   m_Name: Collision - Safety bollard -5.3-12.5
   m_TagString: Untagged
@@ -17185,6 +17294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000825}
   - component: {fileID: 8200000826}
+  - component: {fileID: 9223372036854775895}
   m_Layer: 0
   m_Name: Collision - Safety bollard 5.6-4.3
   m_TagString: Untagged
@@ -17222,6 +17332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000832}
   - component: {fileID: 8200000833}
+  - component: {fileID: 9223372036854775896}
   m_Layer: 0
   m_Name: Collision - Safety bollard 15.3-4.3
   m_TagString: Untagged
@@ -17259,6 +17370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000839}
   - component: {fileID: 8200000840}
+  - component: {fileID: 9223372036854775897}
   m_Layer: 0
   m_Name: Collision - Safety bollard -3.46
   m_TagString: Untagged
@@ -17296,6 +17408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000846}
   - component: {fileID: 8200000847}
+  - component: {fileID: 9223372036854775898}
   m_Layer: 0
   m_Name: Collision - Safety bollard 4.36
   m_TagString: Untagged
@@ -17427,6 +17540,7 @@ GameObject:
   - component: {fileID: 8200000871}
   - component: {fileID: 8200000872}
   - component: {fileID: 8200000883}
+  - component: {fileID: 9223372036854775899}
   m_Layer: 0
   m_Name: Training Target 1
   m_TagString: Untagged
@@ -17501,6 +17615,7 @@ GameObject:
   - component: {fileID: 8200000885}
   - component: {fileID: 8200000886}
   - component: {fileID: 8200000897}
+  - component: {fileID: 9223372036854775900}
   m_Layer: 0
   m_Name: Training Target 2
   m_TagString: Untagged
@@ -17575,6 +17690,7 @@ GameObject:
   - component: {fileID: 8200000899}
   - component: {fileID: 8200000900}
   - component: {fileID: 8200000911}
+  - component: {fileID: 9223372036854775901}
   m_Layer: 0
   m_Name: Training Target 3
   m_TagString: Untagged
@@ -22044,3 +22160,1601 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: f5955e7711685945b8dc4d48c8a7d70b, type: 2}
+--- !u!114 &9223372036854775808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 2
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 4
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1
+--- !u!114 &9223372036854775901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8200000898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56abaa00f8fa571183c64ee1b967dc08, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomFootstepSurface
+  kind: 1
+  volume: 1
+  pitch: 1
+  impactVolume: 1
+  impactPitch: 1

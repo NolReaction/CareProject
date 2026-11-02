@@ -31,6 +31,17 @@ class Program
         Check(!IntercomProjectileHitChoice.IsComplete(65,64), "overflow rejected");
         Check(!IntercomProjectileHitChoice.IsComplete(-1,64), "negativecount rejected");
         Check(!IntercomProjectileHitChoice.IsComplete(0,0), "zero capacity rejected");
+        // Increasing visual width must not change the thin-wall sweep/nearest-hit decision above.
+        Check(IntercomTracerStyle.Width(.15f) > .035f * 4f, "chunky visual is independent of collision radius");
+        Check(IntercomTracerStyle.Length(.68f,0f) == .04f, "no full-length streak through the barrel at spawn");
+        Check(IntercomTracerStyle.Length(.68f,.3f) == .3f, "streak only covers travelled space");
+        Check(IntercomTracerStyle.Length(.68f,20f) == .68f, "streak has a finite tail");
+        foreach(float x in new[]{float.NaN,float.NegativeInfinity,float.PositiveInfinity,-4f,0f,.15f,10f})
+        {
+            float width=IntercomTracerStyle.Width(x),length=IntercomTracerStyle.Length(x,x);
+            Check(!float.IsNaN(width)&&width>=.03f&&width<=.4f,"invalid width sanitized");
+            Check(!float.IsNaN(length)&&length>=.04f&&length<=2f,"invalid streak length sanitized");
+        }
         Console.WriteLine("Projectile hit selection: " + checks + " assertions passed. Pure selection logic; no Unity PhysX simulation.");
     }
 }
