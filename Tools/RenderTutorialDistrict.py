@@ -12,8 +12,8 @@ scene=bpy.context.scene;scene.render.engine='CYCLES';scene.cycles.samples=32;sce
 scene.render.resolution_x=1500;scene.render.resolution_y=1100;scene.render.resolution_percentage=100
 scene.render.image_settings.file_format='PNG';scene.render.filepath=str(output)
 scene.render.film_transparent=False;scene.world.color=(.23,.28,.32)
-scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.40,.47,.55,1);scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.48
-scene.view_settings.view_transform='AgX';scene.view_settings.exposure=.35
+scene.world.use_nodes=True;scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.52,.64,.78,1);scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.60
+scene.view_settings.view_transform='AgX';scene.view_settings.exposure=.25
 materials={}
 for name,(color,metal,smooth,texture) in data['materials'].items():
  m=bpy.data.materials.new(name);m.use_nodes=True;n=m.node_tree.nodes;p=n.get('Principled BSDF');p.inputs['Base Color'].default_value=(*color,1);p.inputs['Metallic'].default_value=metal;p.inputs['Roughness'].default_value=1-smooth
@@ -29,6 +29,8 @@ convert=lambda p:(-p[0],-p[2],p[1])
 meshes={}
 for name,mod in data['modules'].items():
  mesh=bpy.data.meshes.new(name);mesh.from_pydata([convert(v[:3]) for v in mod['vertices']],[],[list(reversed(t)) for t,mi in mod['faces']]);mesh.update()
+ for polygon in mesh.polygons:polygon.use_smooth=True
+ mesh.normals_split_custom_set_from_vertices([convert(v[3:6]) for v in mod['vertices']])
  uv=mesh.uv_layers.new(name='UV0')
  for poly,(_,mi) in zip(mesh.polygons,mod['faces']):
   poly.material_index=mi
@@ -71,7 +73,7 @@ try:
  lo=Vector((min(v.x for v in verts),min(v.y for v in verts),min(v.z for v in verts)));hi=Vector((max(v.x for v in verts),max(v.y for v in verts),max(v.z for v in verts)))
  anchor.location=(7-(lo.x+hi.x)/2,12-(lo.y+hi.y)/2,-lo.z+.04)
 except Exception as e:print('Robot preview import:',e)
-light=bpy.data.lights.new('Preview daylight','SUN');light.energy=2.4;light.color=(1,.96,.88);light.angle=.12;lo=bpy.data.objects.new('Preview daylight',light);scene.collection.objects.link(lo);lo.rotation_euler=(math.radians(34),math.radians(-22),math.radians(-32))
+light=bpy.data.lights.new('Preview daylight','SUN');light.energy=2.0;light.color=(1,.97,.90);light.angle=.15;lo=bpy.data.objects.new('Preview daylight',light);scene.collection.objects.link(lo);lo.rotation_euler=(math.radians(34),math.radians(-22),math.radians(-32))
 camera=bpy.data.cameras.new('Map overview');co=bpy.data.objects.new('Map overview',camera);scene.collection.objects.link(co);scene.camera=co;co.location=(25,36,36);look=Vector((0,0,.7));co.rotation_euler=(look-co.location).to_track_quat('-Z','Y').to_euler();camera.type='ORTHO';camera.ortho_scale=47;camera.lens=45
 output.parent.mkdir(parents=True,exist_ok=True)
 bpy.ops.wm.save_as_mainfile(filepath=str(output.with_suffix('.blend')))

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace IntercomMvp
 {
-    /// <summary>Fades substantial torso occluders while leaving small foreground overlaps visible.</summary>
+    /// <summary>Fades only meshes intersecting actual camera-to-torso visibility rays.</summary>
     [DefaultExecutionOrder(10000)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Camera))]
@@ -27,15 +27,24 @@ namespace IntercomMvp
         [Tooltip("Also discover unmarked scene meshes on startup. For a spawned building, add IntercomOccluder to its root.")]
         public bool includeUnmarkedScenery = false;
 
-        private sealed class Entry
+        private sealed class Part
         {
-            internal Renderer[] renderers;
-            internal bool fading;
-            internal float blockedSince = -1f;
-            internal float lastBlocked;
-            internal float opacity = 1f;
+            internal Renderer renderer;
+            internal IntercomOcclusionGeometry geometry;
         }
 
+        private sealed class Entry
+        {
+            internal Part[] parts;
+            internal readonly IntercomOcclusionState state = new IntercomOcclusionState();
+        }
+
+        private const int SampleCount = 9;
+        private readonly Vector3[] sampleStarts = new Vector3[SampleCount];
+        private readonly Vector3[] sampleEnds = new Vector3[SampleCount];
+        private readonly Ray[] sampleRays = new Ray[SampleCount];
+        private readonly float[] sampleDistances = new float[SampleCount];
+        private readonly Dictionary<Mesh, IntercomOcclusionGeometry> geometryCache = new Dictionary<Mesh, IntercomOcclusionGeometry>();
         private readonly List<Entry> entries = new List<Entry>();
         private Camera view;
         private Transform cachedTarget;
@@ -64,6 +73,7 @@ namespace IntercomMvp
             RenderPipelineManager.beginCameraRendering -= BeforeScriptableCamera;
             RestoreAll();
             entries.Clear();
+            geometryCache.Clear();
             cachedTarget = null;
         }
 
@@ -109,73 +119,90 @@ namespace IntercomMvp
             core.Expand(Mathf.Max(0f, silhouettePadding) * 2f);
             if (!Project(core, out IntercomOcclusionMath.Projection player)) { RestoreAll(); return; }
 
+            if (!PrepareSamples(player)) { RestoreAll(); return; }
             float now = Time.unscaledTime;
             int owner = GetInstanceID();
             for (int i = 0; i < entries.Count; i++)
             {
                 Entry entry = entries[i];
-                bool blocked = false;
-                Bounds groupBounds = default;
-                bool haveBounds = false;
-                for (int j = 0; j < entry.renderers.Length; j++)
+                int covered = 0;
+                float threshold = entry.state.Fading ? minimumCoverage * 0.6f : minimumCoverage;
+                int required = Mathf.CeilToInt(SampleCount * Mathf.Clamp(threshold, 0.1f, 0.9f));
+                // Every ray is finite and stops in front of the player's core.
+                // Bounds only prune work: they can NEVER decide to fade a mesh.
+                for (int sample = 0; sample < SampleCount; sample++)
                 {
-                    Renderer part = entry.renderers[j];
-                    if (part == null || !part.enabled || !part.gameObject.activeInHierarchy) continue;
-                    if (!haveBounds) { groupBounds = part.bounds; haveBounds = true; }
-                    else groupBounds.Encapsulate(part.bounds);
-                }
-                // Waist-high covers and crates remain visible. Their small
-                // overlap with boots is useful depth information to the player.
-                bool tallEnough = haveBounds && groupBounds.size.y >= fullBounds.size.y * 0.75f
-                    && groupBounds.max.y >= core.center.y;
-                float threshold = entry.fading ? minimumCoverage * 0.6f : minimumCoverage;
-                if (tallEnough)
-                    for (int j = 0; j < entry.renderers.Length; j++)
+                    bool hit = false;
+                    for (int j = 0; j < entry.parts.Length; j++)
                     {
-                        Renderer renderer = entry.renderers[j];
-                        if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
-                        if ((sceneryLayers.value & view.cullingMask & (1 << renderer.gameObject.layer)) == 0) continue;
-                        if (Project(renderer.bounds, out IntercomOcclusionMath.Projection obstacle)
-                            && IntercomOcclusionMath.BlocksCore(obstacle, player, threshold))
-                        { blocked = true; break; }
+                        Part part = entry.parts[j];
+                        if (!Eligible(part.renderer)) continue;
+                        if (!part.renderer.bounds.IntersectRay(sampleRays[sample], out float distance)
+                            || distance > sampleDistances[sample]) continue;
+                        Transform item = part.renderer.transform;
+                        if (part.geometry.Intersects(Point(item.InverseTransformPoint(sampleStarts[sample])),
+                            Point(item.InverseTransformPoint(sampleEnds[sample])))) { hit = true; break; }
                     }
-                if (blocked)
-                {
-                    entry.lastBlocked = now;
-                    if (entry.blockedSince < 0f) entry.blockedSince = now;
-                    if (now - entry.blockedSince >= Mathf.Max(0f, obstructionDelay)) entry.fading = true;
+                    if (hit) covered++;
+                    if (covered >= required || covered + SampleCount - sample - 1 < required) break;
                 }
-                else
+                entry.state.Update(covered >= required, now, Time.unscaledDeltaTime,
+                    obstructionDelay, restoreDelay, fadeSeconds, ghostOpacity);
+                for (int j = 0; j < entry.parts.Length; j++)
                 {
-                    entry.blockedSince = -1f;
-                    if (now - entry.lastBlocked >= Mathf.Max(0f, restoreDelay)) entry.fading = false;
-                }
-                float desired = entry.fading ? Mathf.Clamp(ghostOpacity, 0.1f, 0.75f) : 1f;
-                entry.opacity = Mathf.MoveTowards(entry.opacity, desired,
-                    Time.unscaledDeltaTime / Mathf.Max(0.01f, fadeSeconds));
-                for (int j = 0; j < entry.renderers.Length; j++)
-                {
-                    Renderer renderer = entry.renderers[j];
-                    if (entry.opacity < 0.999f) IntercomOcclusionFade.Set(renderer, owner, entry.opacity, fadeVariantTemplate);
+                    Renderer renderer = entry.parts[j].renderer;
+                    if (entry.state.Opacity < 0.999f && Eligible(renderer))
+                        IntercomOcclusionFade.Set(renderer, owner, entry.state.Opacity, fadeVariantTemplate);
                     else IntercomOcclusionFade.Release(renderer, owner);
                 }
             }
         }
 
+        private bool Eligible(Renderer renderer) => renderer != null && renderer.enabled
+            && !renderer.forceRenderingOff && renderer.gameObject.activeInHierarchy
+            && (sceneryLayers.value & view.cullingMask & (1 << renderer.gameObject.layer)) != 0;
+
+        private bool PrepareSamples(IntercomOcclusionMath.Projection core)
+        {
+            Vector3 forward = view.transform.forward;
+            float endDepth = core.nearDepth - 0.025f;
+            if (endDepth <= view.nearClipPlane) return false;
+            for (int y = 0; y < 3; y++)
+                for (int x = 0; x < 3; x++)
+                {
+                    // Interior samples avoid fading for a grazing boot or hand.
+                    float sx = Mathf.Lerp(core.minX, core.maxX, 0.18f + x * 0.32f);
+                    float sy = Mathf.Lerp(core.minY, core.maxY, 0.18f + y * 0.32f);
+                    Ray ray = view.ViewportPointToRay(new Vector3(sx * 0.5f + 0.5f, sy * 0.5f + 0.5f, 0f));
+                    float depth = Vector3.Dot(ray.origin - view.transform.position, forward);
+                    float distance = (endDepth - depth) / Mathf.Max(0.001f, Vector3.Dot(ray.direction, forward));
+                    int sample = y * 3 + x;
+                    sampleRays[sample] = ray;
+                    sampleDistances[sample] = distance;
+                    sampleStarts[sample] = ray.origin;
+                    sampleEnds[sample] = ray.GetPoint(distance);
+                }
+            return true;
+        }
+
+        private static IntercomOcclusionGeometry.Point Point(Vector3 point)
+            => new IntercomOcclusionGeometry.Point(point.x, point.y, point.z);
+
         private void RebuildCache()
         {
             RestoreAll();
             entries.Clear();
+            geometryCache.Clear();
             cachedTarget = target;
             capsule = target.GetComponent<CharacterController>();
             playerRenderers = target.GetComponentsInChildren<Renderer>(true);
-            Dictionary<Transform, List<Renderer>> groups = new Dictionary<Transform, List<Renderer>>();
+            Dictionary<Transform, List<Part>> groups = new Dictionary<Transform, List<Part>>();
             // Only cache when topology changes, never a global Find per frame.
             Renderer[] scenery = FindObjectsByType<Renderer>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             for (int i = 0; i < scenery.Length; i++)
             {
                 Renderer renderer = scenery[i];
-                if (!(renderer is MeshRenderer) && !(renderer is SkinnedMeshRenderer)) continue;
+                if (!(renderer is MeshRenderer)) continue;
                 if (renderer.transform == target || renderer.transform.IsChildOf(target)) continue;
                 if (!renderer.gameObject.scene.IsValid() || !renderer.gameObject.scene.isLoaded) continue;
                 IntercomOccluder marker = renderer.GetComponentInParent<IntercomOccluder>(true);
@@ -189,14 +216,27 @@ namespace IntercomMvp
                     if (renderer.bounds.size.y < 0.08f && renderer.bounds.max.y <= floor + 0.08f) continue;
                 }
                 if (IsProjectile(renderer.transform)) continue;
-                Transform group = marker != null ? marker.transform : renderer.transform;
-                if (!groups.TryGetValue(group, out List<Renderer> parts))
+                MeshFilter filter = renderer.GetComponent<MeshFilter>();
+                Mesh mesh = filter != null ? filter.sharedMesh : null;
+                // Imported scenery must enable Read/Write. Guessing from a large
+                // collider or AABB would reintroduce background-building fades.
+                if (mesh == null || !mesh.isReadable) continue;
+                if (!geometryCache.TryGetValue(mesh, out IntercomOcclusionGeometry geometry))
                 {
-                    parts = new List<Renderer>(); groups.Add(group, parts);
+                    Vector3[] source = mesh.vertices;
+                    IntercomOcclusionGeometry.Point[] vertices = new IntercomOcclusionGeometry.Point[source.Length];
+                    for (int v = 0; v < source.Length; v++) vertices[v] = Point(source[v]);
+                    geometry = new IntercomOcclusionGeometry(vertices, mesh.triangles);
+                    geometryCache.Add(mesh, geometry);
                 }
-                parts.Add(renderer);
+                Transform group = marker != null && marker.fadeWholeHierarchy ? marker.transform : renderer.transform;
+                if (!groups.TryGetValue(group, out List<Part> parts))
+                {
+                    parts = new List<Part>(); groups.Add(group, parts);
+                }
+                parts.Add(new Part { renderer = renderer, geometry = geometry });
             }
-            foreach (List<Renderer> parts in groups.Values) entries.Add(new Entry { renderers = parts.ToArray() });
+            foreach (List<Part> parts in groups.Values) entries.Add(new Entry { parts = parts.ToArray() });
             markerRevision = IntercomOccluder.Revision;
             visibilityEpoch = IntercomOcclusionFade.Epoch;
             refreshRequested = false;
@@ -250,11 +290,9 @@ namespace IntercomMvp
             for (int i = 0; i < entries.Count; i++)
             {
                 Entry entry = entries[i];
-                for (int j = 0; j < entry.renderers.Length; j++)
-                    IntercomOcclusionFade.Release(entry.renderers[j], owner);
-                entry.opacity = 1f;
-                entry.fading = false;
-                entry.blockedSince = -1f;
+                for (int j = 0; j < entry.parts.Length; j++)
+                    IntercomOcclusionFade.Release(entry.parts[j].renderer, owner);
+                entry.state.Reset();
             }
         }
     }

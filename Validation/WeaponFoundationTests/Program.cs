@@ -1,0 +1,21 @@
+using System;using IntercomMvp;using UnityEngine;
+class Program{
+ static int checks;static void Check(bool x,string s){checks++;if(!x)throw new Exception(s);}
+ static void Near(double x,double y,double eps,string s)=>Check(Math.Abs(x-y)<eps,s+": "+x+" vs "+y);
+ static void Main(){
+ var w=new IntercomWeaponDefinition();Check(w.ProjectilesPerVolley==2,"dual default");Check(w.IdealVolleys==4,"100HP takes4dual volleys");Near(w.IdealTtk,.54,1e-6,"first shot t0, 4volleys TTK.54");Near(w.IdealDps,500d/3d,1e-4,"dual DPS");
+ w.barrelMode=IntercomBarrelMode.SingleAlternating;Check(w.IdealVolleys==7,"single takes7 shots");Near(w.IdealTtk,1.08,1e-6,"singleTTK");w.referenceTargetHealth=15;Near(w.IdealTtk,0,1e-6,"one-hit TTKzero");w.referenceTargetHealth=15.01f;Check(w.IdealVolleys==2,"fractionalHP secondhit");
+ foreach(float bad in new[]{float.NaN,float.PositiveInfinity,float.NegativeInfinity}){w.damagePerProjectile=bad;w.fireInterval=bad;Check(w.Damage==15&&w.Interval==.18f,"invalid balance safely defaults");}
+ w.damagePerProjectile=15;w.fireInterval=.18f;w.referenceTargetHealth=100;w.barrelMode=IntercomBarrelMode.DualSimultaneous;
+ foreach(float frame in new[]{1f/30,1f/60,1f/120}){
+  var clock=new IntercomWeaponPoseClock(.3333f,.5f,w.Interval,2);var health=new IntercomHealthState(100);double first=-1,death=-1,time=0;int volleys=0;
+  for(int i=0;i<1000&&!health.IsDead;i++){time+=frame;clock.Tick(frame,true);if(clock.ShotThisTick){volleys++;if(first<0)first=time;for(int n=0;n<w.ProjectilesPerVolley;n++)health.Apply(w.Damage);if(health.IsDead)death=time;}}
+  Check(volleys==4,"simulation actual clock + health takes4volleys");Near(death-first,w.IdealTtk,frame+.0001,"clock TTK agrees within one frame");
+ }
+ var clock2=new IntercomWeaponPoseClock(.01f,.1f,.3f,2);clock2.Tick(.01f,true);clock2.Tick(.01f,true);Check(clock2.ShotThisTick,"first shot");clock2.SetFireInterval(.1f);clock2.Tick(.1f,true);Check(!clock2.ShotThisTick,"changing interval does not grant early shot");clock2.Tick(.2f,true);Check(clock2.ShotThisTick,"existing cooldown honored");clock2.Tick(.1f,true);Check(clock2.ShotThisTick,"new interval applied after next shot");
+ var source=new Vector3(.6f,.03787f,.8f);var planar=IntercomProjectileDirection.Resolve(source,Vector3.forward,true);Near(planar.y,0,1e-7,"small muzzle tilt cannot shoot up");Near(planar.x/planar.z,.75,1e-6,"horizontal aim preserved");Near(planar.sqrMagnitude,1,1e-6,"unit direction");var legacy=IntercomProjectileDirection.Resolve(source,Vector3.forward,false);Check(legacy.y>0,"legacy full3D retained");Near(IntercomProjectileDirection.Resolve(Vector3.up,new Vector3(1,0,0),true).x,1,1e-6,"vertical muzzle ownerfallback");Near(IntercomProjectileDirection.Resolve(Vector3.up,Vector3.up,true).z,1,1e-6,"degenerate fallback");
+ var h=new IntercomHealthState(100);foreach(float bad in new[]{0f,-1f,float.NaN,float.PositiveInfinity})Check(!h.Apply(bad)&&h.Current==100,"invalid damage rejected");Check(h.Apply(200)&&h.IsDead&&h.Current==0,"overkillclamps");Check(!h.Apply(1),"dead rejects repeatedhit");h.Reset(50);Check(h.Current==50&&!h.IsDead,"respawn resetsHP");
+ var component=new IntercomHealth();int deaths=0,damages=0;component.Died+=()=>deaths++;component.Damaged+=_=>damages++;var hit=new IntercomDamage(60,new Vector3(),Vector3.forward,new GameObject());component.invulnerable=true;Check(!component.TakeDamage(hit),"invulnerability");component.invulnerable=false;Check(component.TakeDamage(hit)&&component.Current==40,"genericdamage receiver");Check(component.TakeDamage(hit)&&component.IsDead,"secondhit kills");Check(!component.TakeDamage(hit)&&deaths==1&&damages==2,"death emitted once");Check(component.onDeath.Invocations==1&&component.onDamaged.Invocations==2,"UnityEvents match");component.ResetHealth();Check(component.Current==100&&!component.IsDead,"manualreset");component.isActiveAndEnabled=false;Check(!component.TakeDamage(hit),"disabled rejectsdamage");
+ Console.WriteLine("Weapon foundation: "+checks+" assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution.");
+ }
+}

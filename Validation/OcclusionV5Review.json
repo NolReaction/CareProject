@@ -1,0 +1,60 @@
+{
+  "version": "V5",
+  "scope": "Actual occluder selection, per-renderer ownership, stable fade/recovery",
+  "bugs_fixed": [
+    "Camera-space AABB minimum depth and projected overlap came from unrelated corners, falsely fading a wide warehouse behind the hero.",
+    "One district marker grouped unrelated props, fading loading crates and barrels when any building member matched.",
+    "Projection rectangles treated holes in a combined mesh as opaque geometry."
+  ],
+  "runtime": {
+    "sample_count": 9,
+    "acquisition_sample_count": 5,
+    "release_sample_count": 3,
+    "query": "Finite near-plane to torso-front segments, exact readable mesh triangles via balanced BVH; bounds prune only.",
+    "cache": "One BVH per unique mesh per camera, rebuilt only on topology refresh; freed on disable. No added colliders or per-frame mesh array reads.",
+    "grouping": "Independent MeshRenderer by default. IntercomOccluder.fadeWholeHierarchy is explicit opt-in only for one building.",
+    "unsupported": "Unreadable or skinned occluder meshes remain solid. New imported static scenery needs Read/Write enabled.",
+    "scene_migration": "None required: existing marker fields default fadeWholeHierarchy=false.",
+    "defaults": {
+      "silhouettePadding": 0.015,
+      "minimumCoverage": 0.45,
+      "obstructionDelay": 0.1,
+      "restoreDelay": 0.24,
+      "fadeSeconds": 0.2,
+      "ghostOpacity": 0.25
+    }
+  },
+  "regression": {
+    "OcclusionMathTests": "PASS: actual authored warehouse and crates; 700 independent real-mesh triangle comparisons; gap/foreground/depth finite tests; fade recovery at 30/60/120 fps. 730 new assertions plus 292211 existing projection assertions.",
+    "OcclusionRuntimeTests": "PASS: 19 complete-component integration assertions with Unity fakes: independent sibling ownership, foreground/behind, explicit grouping, exclusions, perspective, restore, cache reuse and cleanup.",
+    "OcclusionLeaseTests": "PASS: 12 cases / 1033 assertions including source RGB preservation and 250 entry/exit cycles without retained clones/leases.",
+    "screenshot_case": {
+      "warehouse_origin": [
+        -9,
+        0,
+        10.8
+      ],
+      "hero_in_front": [
+        -9,
+        0,
+        5.5
+      ],
+      "old_projected_bounds_result": "false positive: blocked",
+      "new_mesh_sample_hits": 0,
+      "hero_behind_warehouse": [
+        -9,
+        0,
+        15.5
+      ],
+      "foreground_hits_at_least": 5
+    },
+    "execution": "Standalone .NET 8 direct Roslyn compilation/execution. Unity Editor unavailable; no engine import, native renderer or device profiling claims."
+  },
+  "source_sha256": {
+    "Assets/IntercomMVP/Runtime/IntercomCameraOcclusion.cs": "659df8defbf1a723be45badeb60c674fda71a2ab986c9fba9349081a81236dbb",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionGeometry.cs": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionState.cs": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
+    "Assets/IntercomMVP/Runtime/IntercomOccluder.cs": "47fa05a8eb3dda8dea1aacc55e2f45b8e8924452eef61e8f3c55705a2eb2dbfe",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7"
+  }
+}

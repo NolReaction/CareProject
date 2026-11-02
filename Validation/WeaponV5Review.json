@@ -1,0 +1,37 @@
+{
+  "revision": "weapon-v5",
+  "reviewDate": "2026-11-02",
+  "settings": {
+    "fireIntervalSeconds": 0.18,
+    "damagePerProjectile": 15,
+    "projectilesPerVolley": 2,
+    "shotVolume": 0.68,
+    "referenceTargetHP": 100,
+    "idealVolleys": 4,
+    "idealTtkSeconds": 0.54,
+    "idealDps": 166.66666666666669,
+    "rateIncreaseVsV4Percent": 66.66666666666667
+  },
+  "timing": "Held fire preserves scheduled deadlines, removing per-shot frame drift. New tap after release and external shot start fresh cadence; current cooldown retained. Hitch debt discarded if next cooldown would be less than half an interval. At most one shot per Tick.",
+  "checks": {
+    "PoseClockTests": {
+      "passed": true,
+      "summary": "PASS: 16 cases, 1874 assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8."
+    },
+    "WeaponFoundationTests": {
+      "passed": true,
+      "summary": "Weapon foundation: 41 assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution."
+    },
+    "InputCancellationTests": {
+      "passed": true,
+      "summary": "PASS 17 cases / 46 assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback."
+    }
+  },
+  "assetSettingsMatch": true,
+  "oldPoseTombstoneUnchanged": true,
+  "sourceModelAndClips": "Not modified by combat task; existing recoil restarted for each real volley.",
+  "limitations": [
+    "Standalone logic executes production C# with minimal Unity doubles where needed.",
+    "Unity compilation, Animator playback, actual physics, final audio mix and device FPS not executed."
+  ]
+}

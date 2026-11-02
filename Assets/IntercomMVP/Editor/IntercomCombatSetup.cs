@@ -12,6 +12,8 @@ namespace IntercomMvp.Editor
             IntercomSimpleShooter shooter = robot.GetComponent<IntercomSimpleShooter>();
             if (shooter == null) return;
             Undo.RecordObject(shooter, "Tune Cartoon Projectiles");
+            if (shooter.weapon == null) shooter.weapon = AssetDatabase.LoadAssetAtPath<IntercomWeaponDefinition>(
+                "Assets/IntercomMVP/Game/Weapons/Pistols/DualPistols.asset");
             if (Mathf.Approximately(shooter.projectileSpeed, 16f)) shooter.projectileSpeed = 36f;
             if (Mathf.Approximately(shooter.projectileRadius, 0.025f)) shooter.projectileRadius = 0.035f;
             if (Mathf.Approximately(shooter.tracerLength, 0.18f) || Mathf.Approximately(shooter.tracerLength, 0.42f))
@@ -42,7 +44,7 @@ namespace IntercomMvp.Editor
 
         private static Material Material(string name, Color color)
         {
-            string path = Folder + "/" + name + ".mat";
+            string path = IntercomAssetCatalog.Resolve(Folder + "/" + name + ".mat");
             Material result = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (result != null) return result;
             Shader shader = name == "MVP_Casing" ? Shader.Find("Universal Render Pipeline/Lit") : Shader.Find("Universal Render Pipeline/Unlit");
@@ -56,6 +58,7 @@ namespace IntercomMvp.Editor
                 if (result.HasProperty("_Metallic")) result.SetFloat("_Metallic", 0.4f);
                 if (result.HasProperty("_Smoothness")) result.SetFloat("_Smoothness", 0.32f);
             }
+            IntercomAssetCatalog.EnsureParentFolder(path);
             AssetDatabase.CreateAsset(result, path);
             return result;
         }

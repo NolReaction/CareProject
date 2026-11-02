@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomImpactAudio.cs" />
     <Compile Include="UnityFakes.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerAudio.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomAudioProfile.cs" />

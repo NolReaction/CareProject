@@ -51,7 +51,7 @@ namespace IntercomMvp.Editor
 
         private static AudioClip Clip(string name, string extension = ".wav")
         {
-            AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(Folder + "/" + name + extension);
+            AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(IntercomAssetCatalog.Resolve(Folder + "/" + name + extension));
             if (clip == null) Debug.LogWarning("Intercom MVP: не найден звуковой файл " + name + extension + ".");
             return clip;
         }

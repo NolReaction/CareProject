@@ -15,6 +15,7 @@ import re
 import subprocess
 import uuid
 import wave
+from AssetPaths import asset_path
 
 import numpy as np
 from scipy.signal import butter, sosfiltfilt, resample_poly
@@ -150,30 +151,10 @@ def boot(index, surface="asphalt"):
 
 
 def impact(index, surface="concrete"):
-    """Designed material contacts, using recorded metal/wood/stone/grit foley."""
-    length = .24
-    t = np.arange(round(length*FX_RATE))/FX_RATE
-    if surface == "metal":
-        x = fit(rate_shift(onset_trim(sample("metal.flac")), (.89,1.03,1.16)[index%3]), length)
-        x = band(x, 350, 8100)*np.exp(-t/.066)
-        crack = fit(onset_trim(sample("wood_crack.flac")), length)
-        crack = band(crack, 2200, 10500)*np.exp(-t/.012)
-        x = .9*x/peak(x) + .22*crack/peak(crack)
-    elif surface == "wood":
-        x = fit(rate_shift(onset_trim(sample("wood_crack.flac")), (.72,.80,.68)[index%3]), length)
-        x = band(x, 180, 5200)*np.exp(-t/.036)
-        body = fit(rate_shift(onset_trim(sample("wood_body.flac")), .50+.025*index), length)
-        body = band(body, 100, 1500)*np.exp(-t/.041)
-        x = .68*x/peak(x)+.45*body/peak(body)
-    else:
-        grit = fit(rate_shift(onset_trim(sample(GRAVEL_STEPS[index%3])), 1.12+.045*index), length)
-        grit = band(grit, 120 if surface=="soil" else 550, 5000 if surface=="soil" else 9000)
-        grit *= np.exp(-t/(.050 if surface=="soil" else .025))
-        body = fit(rate_shift(onset_trim(sample(BASE_STEPS[index%4])), 1.05+.03*index), length)
-        body = band(body, 90, 1900)*np.exp(-t/.022)
-        x = .67*body/peak(body)+(.55 if surface=="soil" else .72)*grit/peak(grit)
-    x = .82*x+.18*np.tanh(2*x)/2
-    return finish_hit(x, -7.0 if surface != "soil" else -9.0)
+    # V5: share the standalone original material renderer; never recreate the
+    # old short, similar foley transients when rebuilding the full audio set.
+    from GenerateImpactAudio import impact as material_impact
+    return material_impact(index, surface)
 
 
 def ambience():
@@ -230,7 +211,8 @@ def metrics(path, data, rate):
 
 
 def save(name, data, rate, ambient=False):
-    path = AUDIO / name
+    path = asset_path(ROOT, "Assets/IntercomMVP/Audio/" + name)
+    path.parent.mkdir(parents=True, exist_ok=True)
     assert np.all(np.isfinite(data)) and peak(data) < 1
     pcm = np.rint(data * 32767).astype("<i2")
     with wave.open(str(path), "wb") as wav:
@@ -275,7 +257,12 @@ def verify_sources():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sfx-only", action="store_true", help="Keep the existing music render")
+    parser.add_argument("--impacts-only", action="store_true", help="Rebuild only the V5 material hits; preserve music, footsteps and pistols")
     args = parser.parse_args()
+    if args.impacts_only:
+        from GenerateImpactAudio import main as build_impacts
+        build_impacts()
+        return
     count = verify_sources()
     AUDIO.mkdir(parents=True, exist_ok=True)
     results = [save(f"Pistol_{i+1:02d}.wav", pistol(i), FX_RATE) for i in range(3)]

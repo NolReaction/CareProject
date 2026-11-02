@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "weaponAsset": "Assets/IntercomMVP/Game/Weapons/Pistols/DualPistols.asset",
+  "weaponGuid": "efc4ccf9a1224f078dadf974b01d842e",
+  "damagePerProjectile": 20,
+  "projectilesPerVolley": 2,
+  "fireIntervalSeconds": 0.3,
+  "referenceHealth": 100,
+  "idealVolleys": 3,
+  "idealTtkSeconds": 0.6,
+  "infiniteAmmo": true,
+  "planarDirection": true,
+  "damageSnapshotAtSpawn": true,
+  "tests": {
+    "WeaponFoundationAssertions": 41,
+    "InputCancellationAssertions": 46,
+    "PoseClockAssertions": 53,
+    "PlayerAudioLifecycleAssertions": 424
+  },
+  "limitations": [
+    "Standalone .NET with narrow Unity doubles; no Unity Editor or Android build execution",
+    "TTK excludes raise time, travel, misses, blocked barrels and frame quantization",
+    "No magazine/reload/armor/equipment manager"
+  ]
+}

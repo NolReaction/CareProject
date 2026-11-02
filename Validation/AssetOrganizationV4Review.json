@@ -1,0 +1,80 @@
+{
+  "revision": "foundation-v4",
+  "status": "PASS",
+  "assets": [
+    {
+      "old": "Assets/IntercomMVP/Audio/Pistol_01.wav",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Audio/Pistol_01.wav",
+      "originalGuid": "6001921e185f590690968bd2c5e01398",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    },
+    {
+      "old": "Assets/IntercomMVP/Audio/Pistol_02.wav",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Audio/Pistol_02.wav",
+      "originalGuid": "6a22b74cb30450c7b4cb402ba5122270",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    },
+    {
+      "old": "Assets/IntercomMVP/Audio/Pistol_03.wav",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Audio/Pistol_03.wav",
+      "originalGuid": "b0266e1c122d50ee93787d3fb0e3736d",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    },
+    {
+      "old": "Assets/IntercomMVP/Art/Materials/MVP_Projectile.mat",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Effects/Materials/MVP_Projectile.mat",
+      "originalGuid": "19108b423122c104eb3560ff763d1dd8",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    },
+    {
+      "old": "Assets/IntercomMVP/Art/Materials/MVP_Flash.mat",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Effects/Materials/MVP_Flash.mat",
+      "originalGuid": "9c4cae1213075f6396f3b1c512b1f4e5",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    },
+    {
+      "old": "Assets/IntercomMVP/Art/Materials/MVP_Casing.mat",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Effects/Materials/MVP_Casing.mat",
+      "originalGuid": "c6274b7ab14a5aa7938d8799de2b6fe4",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    },
+    {
+      "old": "Assets/IntercomMVP/Animation/DualPistolsPose.asset",
+      "new": "Assets/IntercomMVP/Game/Weapons/Pistols/Animation/DualPistolsPose.asset",
+      "originalGuid": "0ab8d7400fffe4d449da7ba975efd7d1",
+      "sameBytesAsBase": true,
+      "tombstoneDistinctGuid": true,
+      "pythonResolverCorrect": true
+    }
+  ],
+  "duplicateGuids": [],
+  "productionMigrationChecks": 13,
+  "covers": [
+    "first overlay",
+    "idempotent cleanup",
+    "repeat ZIP overlay",
+    "modified old asset preserved",
+    "modified importer preserved",
+    "missing original preserved",
+    "referenced placeholder preserved",
+    "partial upgrade move preserves GUID",
+    "destination conflict preserves both",
+    "user relocation follows GUID",
+    "path traversal rejected"
+  ],
+  "limitations": [
+    "Unity Editor import and real AssetDatabase execution not available; production migration compiled and executed with filesystem API substitutes."
+  ]
+}

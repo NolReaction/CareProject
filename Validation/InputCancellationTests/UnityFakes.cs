@@ -2,7 +2,7 @@
 // These do not validate Unity's real Animator implementation or engine APIs.
 using System;
 namespace UnityEngine {
- public class MonoBehaviour { public bool enabled=true; public T GetComponentInChildren<T>() where T:class {return null;} }
+ public class MonoBehaviour { public bool enabled=true; public object attachedComponent; public T GetComponent<T>() where T:class {return attachedComponent as T;} public T GetComponentInChildren<T>() where T:class {return null;} }
  public class RuntimeAnimatorController {}
  public class AnimatorOverrideController:RuntimeAnimatorController {}
  public class AnimationClip {public float length;}
@@ -26,6 +26,8 @@ namespace UnityEngine {
 }
 namespace UnityEngine.Events {public class UnityEvent {public void Invoke(){}}}
 namespace IntercomMvp {
+ public class IntercomSimpleShooter {public IntercomWeaponDefinition Weapon;}
+ public class IntercomWeaponDefinition {public IntercomWeaponPoseProfile poseProfile;public float Interval=.3f;}
  public class IntercomPlayerInput {public uint CancellationVersion;public bool FireHeld,FirePressed;}
  public class IntercomWeaponPoseProfile {
   public UnityEngine.AnimatorOverrideController animatorOverride;

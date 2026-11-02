@@ -44,6 +44,8 @@ namespace IntercomMvp
         private float raiseSeconds;
         private float shotSeconds;
         private float recoilRemaining;
+        private IntercomSimpleShooter shooter;
+        private IntercomWeaponDefinition ActiveWeapon => shooter != null ? shooter.Weapon : null;
 
         private void Awake()
         {
@@ -55,6 +57,8 @@ namespace IntercomMvp
         private void Start()
         {
             started = true;
+            shooter = GetComponent<IntercomSimpleShooter>();
+            if (ActiveWeapon != null && ActiveWeapon.poseProfile != null) profile = ActiveWeapon.poseProfile;
             if (animator == null) animator = GetComponentInChildren<Animator>();
             if (animator != null) baseController = animator.runtimeAnimatorController;
             Initialize();
@@ -123,7 +127,7 @@ namespace IntercomMvp
             raiseSeconds = ClipSeconds(profile.raiseWeapons, 8f / 24f);
             float lowerSeconds = ClipSeconds(profile.lowerWeapons, 12f / 24f);
             shotSeconds = ClipSeconds(profile.shoot, 9f / 24f);
-            clock = new IntercomWeaponPoseClock(raiseSeconds, lowerSeconds, profile.fireInterval,
+            clock = new IntercomWeaponPoseClock(raiseSeconds, lowerSeconds, ActiveWeapon != null ? ActiveWeapon.Interval : profile.fireInterval,
                 Mathf.Max(profile.combatHold, shotSeconds + profile.poseBlend));
             recoilRemaining = 0f;
             animator.SetLayerWeight(armsLayer, 1f);
@@ -153,6 +157,7 @@ namespace IntercomMvp
             bool pressed = inputSource != null
                 ? inputSource.FirePressed : previewInput && PreviewPressed();
             if (pressed) clock.RequestFire();
+            clock.SetFireInterval(ActiveWeapon != null ? ActiveWeapon.Interval : profile.fireInterval);
             clock.Tick(dt, held);
 
             if (clock.PostureChangedThisTick)

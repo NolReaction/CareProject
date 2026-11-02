@@ -21,9 +21,9 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.58, g: 0.67, b: 0.78, a: 1}
-  m_AmbientEquatorColor: {r: 0.4, g: 0.46, b: 0.52, a: 1}
-  m_AmbientGroundColor: {r: 0.29, g: 0.28, b: 0.25, a: 1}
+  m_AmbientSkyColor: {r: 0.62, g: 0.68, b: 0.74, a: 1}
+  m_AmbientEquatorColor: {r: 0.48, g: 0.53, b: 0.56, a: 1}
+  m_AmbientGroundColor: {r: 0.35, g: 0.35, b: 0.32, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
@@ -36,7 +36,7 @@ RenderSettings:
   m_DefaultReflectionMode: 1
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0.75
+  m_ReflectionIntensity: 0.55
   m_CustomReflection: {fileID: 8900000, guid: e7b6f2609e0a5c23b9ffd2eb114cbeca, type: 3}
   m_Sun: {fileID: 1880017333}
   m_UseRadianceAmbientProbe: 0
@@ -182,6 +182,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce77bcbf86b1af4cade4c36a34b9cc7, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomCameraFollow
+  freeMovement: 1
+  deadZoneSize: {x: 0.16, y: 0.12}
+  safetyZoneSize: {x: 0.65, y: 0.55}
+  recenterWhenIdle: 1
+  recenterDelay: 0.65
+  recenterSmoothTime: 0.8
+  idleSpeedThreshold: 0.04
+  teleportDistance: 8
+  showTrackingGuides: 1
   target: {fileID: 413439359}
   pitch: 35.000008
   yaw: 9.999999
@@ -193,9 +202,9 @@ MonoBehaviour:
   groundHeight: 1.110223e-16
   focusHeight: 0.65
   framingOffset: {x: 0.025406063, y: -0.13982761, z: -0.1038976}
-  smoothTime: 0.12
-  lookAheadDistance: 0.35
-  lookAheadSmoothTime: 0.18
+  smoothTime: 0.18
+  lookAheadDistance: 0.28
+  lookAheadSmoothTime: 0.14
   clampToGroundBounds: 0
   groundMinimum: {x: -18.0, y: -16.0}
   groundMaximum: {x: 18.0, y: 16.0}
@@ -347,6 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed2d2e6ad09bee4dbab1a618eb296cd, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomSimpleShooter
+  weapon: {fileID: 11400000, guid: efc4ccf9a1224f078dadf974b01d842e, type: 2}
   weaponPose: {fileID: 413439363}
   muzzleRight: {fileID: 509721712}
   muzzleLeft: {fileID: 2032384928}
@@ -424,15 +434,16 @@ MonoBehaviour:
   movementCamera: {fileID: 34441814}
   inputSource: {fileID: 413439362}
   weaponPose: {fileID: 413439363}
-  moveSpeed: 2.1
+  moveSpeed: 3.3
   strafeSpeedRatio: 0.75
-  acceleration: 8
-  deceleration: 12
+  acceleration: 22
+  deceleration: 30
   turnSpeed: 720
   gravity: -25
   modelForwardYaw: 180
   runReferenceSpeed: 1
-  animationDamping: 0.08
+  runStrideScale: 1.32
+  animationDamping: 0.05
   directionDamping: 0.06
   fullRunBlendSpeed: 0.45
 
@@ -1941,8 +1952,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.96, b: 0.88, a: 1}
-  m_Intensity: 1.65
+  m_Color: {r: 1, g: 0.98, b: 0.94, a: 1}
+  m_Intensity: 1.45
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1951,7 +1962,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: .85
+    m_Strength: .72
     m_Bias: .45
     m_NormalBias: .5
     m_NearPlane: 0.2
@@ -12603,7 +12614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomTargetDummy
   visual: {fileID: 8200000874}
   bodyRenderer: {fileID: 8200000882}
-  maxHealth: 5
+  maxHealth: 100
   resetSeconds: 2.5
 
 --- !u!65 &8200000886
@@ -12762,7 +12773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomTargetDummy
   visual: {fileID: 8200000888}
   bodyRenderer: {fileID: 8200000896}
-  maxHealth: 5
+  maxHealth: 100
   resetSeconds: 2.5
 
 --- !u!65 &8200000900
@@ -12921,7 +12932,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomTargetDummy
   visual: {fileID: 8200000902}
   bodyRenderer: {fileID: 8200000910}
-  maxHealth: 5
+  maxHealth: 100
   resetSeconds: 2.5
 
 --- !u!1 &8200000001

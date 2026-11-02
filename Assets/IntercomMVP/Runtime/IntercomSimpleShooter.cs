@@ -3,11 +3,19 @@ using UnityEngine.Rendering;
 
 namespace IntercomMvp
 {
-    /// <summary>Swept twin-stick bullets with bounded visuals and test-target hit feedback.</summary>
+    /// <summary>Swept twin-stick bullets with bounded visuals, per-projectile damage snapshots and generic damage receivers.</summary>
     [DisallowMultipleComponent]
     [DefaultExecutionOrder(200)]
     public sealed class IntercomSimpleShooter : MonoBehaviour
     {
+        [Header("Weapon definition")]
+        [Tooltip("Central balance, pose, sound and effects. Empty keeps legacy prototype settings.")]
+        public IntercomWeaponDefinition weapon;
+        public IntercomWeaponDefinition Weapon => weapon;
+        private bool DualVolley => weapon != null ? weapon.ProjectilesPerVolley == 2 : fireBothPistols;
+        private float ShotDamage => weapon != null ? weapon.Damage : IntercomWeaponBalance.Positive(damage,1f);
+        private float ShotWidth => weapon != null ? weapon.tracerWidth : tracerWidth;
+        private float ShotLength => weapon != null ? weapon.tracerLength : tracerLength;
         [Header("References")]
         public IntercomWeaponPose weaponPose;
         [Tooltip("Barrel tip; local +Z must point out of the right gun.")]
@@ -38,7 +46,7 @@ namespace IntercomMvp
         /// <summary>One event per volley that actually created bullets: sound position and successful barrel count.</summary>
         public event System.Action<Vector3, int> VolleyFired;
         public event System.Action<Transform, bool> BarrelFired;
-        /// <summary>Point, outward surface normal, and whether a live test target accepted damage.</summary>
+        /// <summary>Point, outward surface normal, and whether a damage receiver accepted damage.</summary>
         public event System.Action<Vector3, Vector3, bool> ProjectileHit;
         /// <summary>Resolved material contact for sound and particles; legacy ProjectileHit remains compatible.</summary>
         public event System.Action<IntercomProjectileImpact> DetailedProjectileHit;
@@ -53,6 +61,7 @@ namespace IntercomMvp
             public float life;
             public float range;
             public float travelled;
+            public float damage, visualWidth, visualLength;
             public bool active;
         }
 
@@ -163,7 +172,7 @@ namespace IntercomMvp
             {
                 int fired = 0;
                 Vector3 soundPosition = Vector3.zero;
-                if (fireBothPistols)
+                if (DualVolley)
                 {
                     if (Spawn(muzzleRight)) { fired++; soundPosition += muzzleRight.position; }
                     if (Spawn(muzzleLeft)) { fired++; soundPosition += muzzleLeft.position; }
@@ -193,7 +202,7 @@ namespace IntercomMvp
                 return false;
             }
             Vector3 position = muzzle.position;
-            float radius = Mathf.Max(0.005f, projectileRadius);
+            float radius = IntercomWeaponBalance.Positive(weapon != null ? weapon.projectileRadius : projectileRadius,0.035f,0.005f);
             Vector3 checkOrigin = BodyCheckOrigin(position);
             // A gun can visually poke through a thin wall. Check the whole
             // body-to-barrel path as well as the spawn point, so it cannot fire
@@ -203,19 +212,22 @@ namespace IntercomMvp
 
             int slot = FindAvailableSlot();
             if (slot < 0) return false; // Bounded pool: do not allocate or steal a live bullet.
-            Vector3 direction = muzzle.forward.normalized;
+            Vector3 direction = IntercomProjectileDirection.Resolve(muzzle.forward, ownerRoot != null ? ownerRoot.forward : transform.forward, weapon != null && weapon.planarProjectileDirection);
             pool[slot].position = position;
             pool[slot].direction = direction;
-            pool[slot].speed = Mathf.Max(0.1f, projectileSpeed);
+            pool[slot].speed = IntercomWeaponBalance.Positive(weapon != null ? weapon.projectileSpeed : projectileSpeed,36f,0.1f);
             pool[slot].radius = radius;
-            pool[slot].life = Mathf.Max(0.05f, projectileLifetime);
-            pool[slot].range = Mathf.Max(0.1f, projectileRange);
+            pool[slot].life = IntercomWeaponBalance.Positive(weapon != null ? weapon.projectileLifetime : projectileLifetime,1.4f,0.05f);
+            pool[slot].range = IntercomWeaponBalance.Positive(weapon != null ? weapon.projectileRange : projectileRange,20f,0.1f);
+            pool[slot].damage = ShotDamage;
+            pool[slot].visualWidth = ShotWidth;
+            pool[slot].visualLength = ShotLength;
             pool[slot].travelled = 0f;
             pool[slot].active = true;
             Transform visual = pool[slot].visual;
             visual.SetPositionAndRotation(position, Quaternion.LookRotation(direction));
-            float width = IntercomTracerStyle.Width(tracerWidth);
-            visual.localScale = new Vector3(width, width, IntercomTracerStyle.Length(tracerLength, 0f));
+            float width = IntercomTracerStyle.Width(ShotWidth);
+            visual.localScale = new Vector3(width, width, IntercomTracerStyle.Length(ShotLength, 0f));
             visual.gameObject.SetActive(true);
             BarrelFired?.Invoke(muzzle, muzzle == muzzleRight);
             return true;
@@ -233,14 +245,14 @@ namespace IntercomMvp
                 Collider overlap = FirstObstacle(start, pool[i].radius, out bool overlapSaturated);
                 if (overlap != null || overlapSaturated)
                 {
-                    Hit(overlap, start, -pool[i].direction, pool[i].direction);
+                    Hit(overlap, start, -pool[i].direction, pool[i].direction, pool[i].damage);
                     Release(i);
                     continue;
                 }
                 if (FirstHit(start, end, pool[i].radius, out RaycastHit hit, out bool sweepSaturated))
                 {
                     // NonAlloc hit order is undefined: damage only the nearest blocking surface.
-                    Hit(hit.collider, hit.point, hit.normal, pool[i].direction);
+                    Hit(hit.collider, hit.point, hit.normal, pool[i].direction, pool[i].damage);
                     Release(i);
                     continue;
                 }
@@ -250,9 +262,9 @@ namespace IntercomMvp
                 pool[i].range -= travel;
                 pool[i].travelled += travel;
                 pool[i].visual.position = end;
-                float width = IntercomTracerStyle.Width(tracerWidth);
+                float width = IntercomTracerStyle.Width(pool[i].visualWidth);
                 pool[i].visual.localScale = new Vector3(width, width,
-                    IntercomTracerStyle.Length(tracerLength, pool[i].travelled));
+                    IntercomTracerStyle.Length(pool[i].visualLength, pool[i].travelled));
                 if (pool[i].life <= 0f || pool[i].range <= 0.0001f) Release(i);
             }
         }
@@ -266,13 +278,14 @@ namespace IntercomMvp
             return new Vector3(ownerRoot.position.x, muzzlePosition.y, ownerRoot.position.z);
         }
 
-        private void Hit(Collider collider, Vector3 point, Vector3 normal, Vector3 direction)
+        private void Hit(Collider collider, Vector3 point, Vector3 normal, Vector3 direction, float shotDamage)
         {
             bool targetHit = false;
             if (collider != null)
             {
-                IntercomTargetDummy target = collider.GetComponentInParent<IntercomTargetDummy>();
-                if (target != null) targetHit = target.ApplyHit(Mathf.Max(0.1f, damage), direction);
+                IIntercomDamageable target = collider.GetComponentInParent<IIntercomDamageable>();
+                if (target != null) targetHit = target.TakeDamage(new IntercomDamage(shotDamage, point, direction,
+                    ownerRoot != null ? ownerRoot.gameObject : gameObject));
             }
             if (normal.sqrMagnitude < 0.001f) normal = -direction;
             normal = normal.normalized;
@@ -355,7 +368,8 @@ namespace IntercomMvp
 
         private void CreatePool()
         {
-            Material material = projectileMaterial;
+            Material material = weapon != null && weapon.projectileMaterial != null ? weapon.projectileMaterial : projectileMaterial;
+            Material coreMaterial = weapon != null && weapon.projectileCoreMaterial != null ? weapon.projectileCoreMaterial : projectileCoreMaterial;
             if (material == null)
             {
                 Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
@@ -382,7 +396,7 @@ namespace IntercomMvp
                 bullet.transform.SetParent(poolRoot.transform, false);
                 bullet.AddComponent<MeshFilter>().sharedMesh = projectileMesh;
                 MeshRenderer renderer = bullet.AddComponent<MeshRenderer>();
-                renderer.sharedMaterials = new[] { material, projectileCoreMaterial != null ? projectileCoreMaterial : material };
+                renderer.sharedMaterials = new[] { material, coreMaterial != null ? coreMaterial : material };
                 renderer.shadowCastingMode = ShadowCastingMode.Off;
                 renderer.receiveShadows = false;
                 renderer.lightProbeUsage = LightProbeUsage.Off;

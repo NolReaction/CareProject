@@ -37,6 +37,14 @@ internal static class Program {
   Case("runtime controller removal cancels pending fire and recovers",()=>{var h=new Harness();h.StartTap();h.Release();var a=h.Pose.animator;var controller=a.runtimeAnimatorController;int calls=a.NativeCalls;a.runtimeAnimatorController=null;h.Frame();Check(h.Pose.Posture==IntercomWeaponPosture.Relaxed,"Missing controller left a pending pose");Check(a.NativeCalls==calls,"Update queried controllerless Animator");a.runtimeAnimatorController=controller;h.Advance();Check(h.Shots==0,"Queued tap survived controller removal");h.StartTap();h.Release();h.Advance();Check(h.Shots==1,"Fresh tap failed after controller returned");});
   Case("assigning controller after failed Start permits re-enable",()=>{var h=new Harness(false);h.Pose.animator.runtimeAnimatorController=null;int errors=Debug.ErrorCount;Debug.ThrowOnError=false;try{Call(h.Pose,"Start");}finally{Debug.ThrowOnError=true;}Check(!h.Pose.enabled&&Debug.ErrorCount==errors+1,"Missing initial controller should disable with one diagnostic");var controller=new RuntimeAnimatorController();h.Pose.animator.runtimeAnimatorController=controller;h.Pose.enabled=true;Call(h.Pose,"OnEnable");Check(h.Pose.animator.runtimeAnimatorController==controller,"Re-enable overwrote valid controller with stale null");h.StartTap();h.Release();h.Advance();Check(h.Shots==1,"Re-enabled pose driver did not fire");});
   Case("external recoil notification rejects missing controller",()=>{var h=new Harness();h.StartTap();h.Release();h.Advance();Check(h.Pose.Posture==IntercomWeaponPosture.Combat,"Expected combat hold");var a=h.Pose.animator;int calls=a.NativeCalls;a.runtimeAnimatorController=null;Check(!h.Pose.NotifyShotFired(),"Missing controller accepted a recoil notification");Check(a.NativeCalls==calls,"External notification queried controllerless Animator");});
+  Case("central weapon controls pose profile and live fire interval",()=>{
+   var h=new Harness(false);var profile=new IntercomWeaponPoseProfile{fireInterval=4f};
+   var definition=new IntercomWeaponDefinition{poseProfile=profile,Interval=.1f};
+   h.Pose.attachedComponent=new IntercomSimpleShooter{Weapon=definition};Call(h.Pose,"Start");
+   Check(h.Pose.profile==profile,"Definition pose was not resolved before initialization");
+   h.StartTap();h.Advance(95);Check(h.Shots>=6,"Definition fire interval ignored in favor of legacy profile");
+   int before=h.Shots;definition.Interval=.5f;h.Advance(49);Check(h.Shots-before<=1,"Live definition interval was not adopted");
+  });
   Console.WriteLine("PASS "+cases+" cases / "+assertions+" assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback.");
  }
  static void Call(object target,string method,params object[] args){typeof(IntercomWeaponPose).GetMethod(method,BindingFlags.Instance|BindingFlags.NonPublic).Invoke(target,args);}

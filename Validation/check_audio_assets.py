@@ -43,12 +43,15 @@ def get_profile():
     text=(AUDIO/'PrototypeAudio.asset').read_text()
     fields=['masterVolume','shotsVolume','stepsVolume','impactsVolume','musicVolume','ambienceVolume']
     gains={k:float(re.search(r'^  '+k+r': ([0-9.]+)',text,re.M).group(1)) for k in fields}
-    mapping={re.search(r'^guid: ([a-f0-9]+)',p.read_text(),re.M).group(1):p.with_suffix('') for p in AUDIO.glob('*.meta') if p.name.endswith(('.wav.meta','.ogg.meta'))}
+    mapping={re.search(r'^guid: ([a-f0-9]+)',p.read_text(),re.M).group(1):p.with_suffix('') for p in (ROOT/'Assets/IntercomMVP').rglob('*.meta') if p.name.endswith(('.wav.meta','.ogg.meta'))}
     banks={}
     for match in re.finditer(r'^  (\w+):\n((?:  - .+\n)+)',text,re.M):
         banks[match.group(1)]=[mapping[g] for g in re.findall(r'guid: ([a-f0-9]+)',match.group(2))]
     for required in ['pistolShots','footsteps','concreteSteps','metalSteps','gravelSteps','woodSteps','soilSteps','impactHits','metalImpacts','woodImpacts','concreteImpacts','soilImpacts']:
         assert banks.get(required),required
+    weapon=(ROOT/'Assets/IntercomMVP/Game/Weapons/Pistols/DualPistols.asset').read_text()
+    gains['shotsVolume']=float(re.search(r'^  shotVolume: ([0-9.]+)',weapon,re.M).group(1))
+    gains['volleyInterval']=float(re.search(r'^  fireInterval: ([0-9.]+)',weapon,re.M).group(1))
     return gains,banks
 
 def add(mix,clip,at,gain):
@@ -84,7 +87,7 @@ def main():
         p=ROOT/relative;data=json.loads(p.read_text());manifest_counts[relative]=len(data[key])
         for item in data[key]:assert sha(p.parent/item['file'])==item['sha256'],item['file']
     mixes=[]
-    for name,steps,volleys,impacts in [('current_gameplay',6.3,1/.3,1/.3),('double_impact_stress',6.3,1/.3,2/.3),('higher_cadence_stress',8,5,10)]:
+    for name,steps,volleys,impacts in [('current_gameplay',8,1/gains['volleyInterval'],1/gains['volleyInterval']),('double_impact_stress',8,1/gains['volleyInterval'],2/gains['volleyInterval']),('higher_cadence_stress',10,7,14)]:
         x=stress(gains,banks,steps,volleys,impacts)
         row={'case':name,'seconds':len(x)/RATE,'stepsPerSecond':steps,'volleysPerSecond':volleys,'impactsPerSecond':impacts,**level(x)}
         assert row['clippedSamples']==0 and row['peakDbFS']<-1,row
@@ -96,10 +99,10 @@ def main():
         for i in range(6):add(preview,decode(banks[key][i%len(banks[key])]),4+k*2+i*.28,m*gains['stepsVolume']*vol[k])
     for k,key in enumerate(['concreteImpacts','metalImpacts','woodImpacts','soilImpacts']):
         for i in range(3):add(preview,decode(banks[key][i%3]),16+k*2+i*.55,m*gains['impactsVolume'])
-    preview[24*RATE:]=stress(gains,banks,6.3,1/.3,1/.3,20)
+    preview[24*RATE:]=stress(gains,banks,8,1/gains['volleyInterval'],1/gains['volleyInterval'],20)
     preview[-RATE:]*=np.linspace(1,0,RATE)[:,None]
-    export_mp3(ROOT/'Docs/SoundPreview.mp3',preview)
-    decoded_preview=decode(ROOT/'Docs/SoundPreview.mp3');assert np.max(np.abs(decoded_preview))<1
+    export_mp3(ROOT/'Docs/SoundPreviewV5.mp3',preview)
+    decoded_preview=decode(ROOT/'Docs/SoundPreviewV5.mp3');assert np.max(np.abs(decoded_preview))<1
     baseline=[]
     if args.baseline_ref:
         for p in sorted(AUDIO.glob('*.wav')):
@@ -118,8 +121,8 @@ def main():
             assert row['guidPreserved'];baseline.append(row)
     music=next(v for v in clips if v['file'].endswith('.ogg'))
     assert music['boundaryStep']<max(.001,music['internalStep99Percentile'])
-    report={'revision':'gameplay-audio-v3','profile':gains,'sourceManifests':manifest_counts,'clips':clips,'mixes':mixes,'comparisonToGitRef':args.baseline_ref,'comparison':baseline,'preview':{'file':'Docs/SoundPreview.mp3','seconds':44,'timeline':'0-4 pistol singles/burst;4-16 asphalt/concrete/metal/gravel/wood/soil,2s each;16-24 concrete/metal/wood/soil impacts,2s each;24-44 gameplay at actual profile gains','decoded':level(decoded_preview)},'scope':'Independent decoding, source hashes, GUIDs, numerical mix and timings. This does not listen to audio or run Unity, device output, DSP import or gameplay.'}
-    (ROOT/'Validation/AudioGameplayV3Review.json').write_text(json.dumps(report,indent=2)+'\n')
+    report={'revision':'gameplay-audio-v5','profile':gains,'sourceManifests':manifest_counts,'clips':clips,'mixes':mixes,'comparisonToGitRef':args.baseline_ref,'comparison':baseline,'preview':{'file':'Docs/SoundPreviewV5.mp3','seconds':44,'timeline':'0-4 pistol singles/burst;4-16 asphalt/concrete/metal/gravel/wood/soil,2s each;16-24 concrete/metal/wood/soil impacts,2s each;24-44 gameplay at actual profile gains','decoded':level(decoded_preview)},'scope':'Independent decoding, source hashes, GUIDs, numerical mix and timings. This does not listen to audio or run Unity, device output, DSP import or gameplay.'}
+    (ROOT/'Validation/AudioGameplayV5Review.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'assets':len(clips),'sources':sum(manifest_counts.values()),'mixes':mixes,'worstClipPeakDbFS':max(v['peakDbFS'] for v in clips),'baselineClips':len(baseline)},indent=2))
 
 if __name__=='__main__':main()

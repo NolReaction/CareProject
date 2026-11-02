@@ -12,7 +12,7 @@ namespace IntercomMvp.Editor
     internal static class IntercomMuzzleSetup
     {
         private const string MaterialFolder = "Assets/IntercomMVP/Art/Materials";
-        private const string MaterialPath = MaterialFolder + "/MVP_Projectile.mat";
+        private static string MaterialPath => IntercomAssetCatalog.Resolve(MaterialFolder + "/MVP_Projectile.mat");
 
         private readonly struct MuzzlePose
         {
@@ -196,6 +196,7 @@ namespace IntercomMvp.Editor
             Color color = new Color(1f, 0.76f, 0.12f, 1f);
             if (material.HasProperty("_BaseColor")) material.SetColor("_BaseColor", color);
             if (material.HasProperty("_Color")) material.SetColor("_Color", color);
+            IntercomAssetCatalog.EnsureParentFolder(MaterialPath);
             AssetDatabase.CreateAsset(material, MaterialPath);
             return material;
         }

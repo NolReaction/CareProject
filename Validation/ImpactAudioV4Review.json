@@ -1,0 +1,35 @@
+{
+  "revision": "v4-impact-audibility",
+  "profile": {
+    "masterVolume": 0.8,
+    "shotsVolume": 0.78,
+    "stepsVolume": 0.18,
+    "impactsVolume": 0.7,
+    "musicVolume": 0.24,
+    "ambienceVolume": 0.1
+  },
+  "mixes": [
+    {
+      "case": "current_gameplay",
+      "peakDbFS": -5.58177351313155,
+      "rmsDbFS": -23.441363309348517,
+      "clippedSamples": 0,
+      "finite": true
+    },
+    {
+      "case": "double_impact",
+      "peakDbFS": -5.6063644432415005,
+      "rmsDbFS": -22.851012249295515,
+      "clippedSamples": 0,
+      "finite": true
+    },
+    {
+      "case": "automatic_stress",
+      "peakDbFS": -4.602965598305011,
+      "rmsDbFS": -21.210513695562927,
+      "clippedSamples": 0,
+      "finite": true
+    }
+  ],
+  "scope": "Offline numerical summation with full close-range impact gain; no subjective listening or Unity DSP/device test."
+}

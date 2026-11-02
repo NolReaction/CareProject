@@ -18,11 +18,11 @@ namespace IntercomMvp
         public IntercomWeaponPose weaponPose;
 
         [Header("Movement (world metres)")]
-        [Min(0.1f)] public float moveSpeed = 2.1f;
+        [Min(0.1f)] public float moveSpeed = 3.3f;
         [Tooltip("Lateral stride and travel speed relative to forward/backward. Matches the authored side clips.")]
         [Range(0.5f, 1f)] public float strafeSpeedRatio = 0.75f;
-        [Min(0.1f)] public float acceleration = 8f;
-        [Min(0.1f)] public float deceleration = 12f;
+        [Min(0.1f)] public float acceleration = 22f;
+        [Min(0.1f)] public float deceleration = 30f;
         [Min(1f)] public float turnSpeed = 720f;
         public float gravity = -25f;
         [Tooltip("The imported robot faces local -Z. Change only if the model's forward axis changes.")]
@@ -31,9 +31,11 @@ namespace IntercomMvp
         [Header("Animation")]
         [Tooltip("World speed for which the authored Run clip was made.")]
         [Min(0.1f)] public float runReferenceSpeed = 1.0f;
+        [Tooltip("Additional running stroke from rigid calf rotation, never bone scaling. Requires enabled ground feedback. Keep at 1 for unmodified authored stride.")]
+        [Range(1f, 1.4f)] public float runStrideScale = 1.32f;
         [Tooltip("Full boot stride above this world speed; slower travel blends into idle.")]
         [Min(0.1f)] public float fullRunBlendSpeed = 0.45f;
-        [Min(0f)] public float animationDamping = 0.08f;
+        [Min(0f)] public float animationDamping = 0.05f;
         [Tooltip("Seconds for a smooth change of local running direction while aiming.")]
         [Min(0f)] public float directionDamping = 0.06f;
 
@@ -65,6 +67,8 @@ namespace IntercomMvp
         public bool IsGrounded => isActiveAndEnabled && controller != null
             && controller.enabled && controller.isGrounded;
         public bool IsAiming => aiming;
+        public float RuntimeStrideScale => groundFeedback != null && groundFeedback.CanAdjustRunningStride
+            ? IntercomLocomotionCadence.SafeStrideScale(runStrideScale) : 1f;
         public Vector3 FacingDirection => transform.TransformDirection(
             Quaternion.Euler(0f, modelForwardYaw, 0f) * Vector3.forward).normalized;
         public Vector3 AimWorldDirection => aiming && hasAim ? lastAimDirection : FacingDirection;
@@ -201,12 +205,12 @@ namespace IntercomMvp
                 // also contains idle. Keep idle at its authored rate and blend
                 // toward the measured travel cadence as running gains weight.
                 float directionalReference = IntercomLocomotionCadence.DirectionalReference(
-                    localRunDirection.x, localRunDirection.y, runReferenceSpeed, strafeSpeedRatio);
+                    localRunDirection.x, localRunDirection.y, runReferenceSpeed * RuntimeStrideScale, strafeSpeedRatio);
                 float runRate = IntercomLocomotionCadence.PlaybackRate(actualSpeed, directionalReference, animator.GetFloat(SpeedId));
                 // A quick change of aim or a wall slide can change the physical
                 // direction faster than the smoothed blend. Do not turn that
                 // short transition into an implausibly faster stepping cadence.
-                runRate = Mathf.Min(runRate, Mathf.Max(1f, moveSpeed / Mathf.Max(0.1f, runReferenceSpeed)));
+                runRate = Mathf.Min(runRate, Mathf.Max(1f, moveSpeed / Mathf.Max(0.1f, runReferenceSpeed * RuntimeStrideScale)));
                 animator.SetFloat(RunRateId, runRate);
             }
         }

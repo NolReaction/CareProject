@@ -12,7 +12,8 @@ namespace IntercomMvp
         public AnimationClip lowerWeapons;
         public AnimationClip shoot;
         [Header("Timing (seconds)")]
-        [Min(0.01f)] public float fireInterval = 0.3f;
+        [Tooltip("Legacy fallback only. With a Weapon Definition assigned, its Fire Interval controls firing.")]
+        [Min(0.01f)] public float fireInterval = 0.18f;
         [Min(0f)] public float combatHold = 2f;
         [Range(0f, 0.2f)] public float poseBlend = 0.06f;
     }

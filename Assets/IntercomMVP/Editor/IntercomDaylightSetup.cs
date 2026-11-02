@@ -48,11 +48,11 @@ namespace IntercomMvp.Editor
                 Undo.RecordObjects(new UnityEngine.Object[] { sun, sun.transform, camera, Unsupported.GetRenderSettings() }, "Configure daylight");
                 sun.type = LightType.Directional;
                 sun.enabled = true;
-                sun.color = new Color(1f, 0.96f, 0.88f);
+                sun.color = new Color(1f, 0.98f, 0.94f);
                 sun.useColorTemperature = false;
-                sun.intensity = 1.65f;
+                sun.intensity = 1.45f;
                 sun.shadows = LightShadows.Soft;
-                sun.shadowStrength = 0.85f;
+                sun.shadowStrength = 0.72f;
                 sun.shadowBias = 0.45f;
                 sun.shadowNormalBias = 0.5f;
                 sun.transform.rotation = Quaternion.Euler(45f, -35f, 0f);
@@ -60,13 +60,13 @@ namespace IntercomMvp.Editor
                 RenderSettings.fog = false;
                 RenderSettings.skybox = null;
                 RenderSettings.ambientMode = AmbientMode.Trilight;
-                RenderSettings.ambientSkyColor = new Color(0.58f, 0.67f, 0.78f);
-                RenderSettings.ambientEquatorColor = new Color(0.40f, 0.46f, 0.52f);
-                RenderSettings.ambientGroundColor = new Color(0.29f, 0.28f, 0.25f);
+                RenderSettings.ambientSkyColor = new Color(0.62f, 0.68f, 0.74f);
+                RenderSettings.ambientEquatorColor = new Color(0.48f, 0.53f, 0.56f);
+                RenderSettings.ambientGroundColor = new Color(0.35f, 0.35f, 0.32f);
                 RenderSettings.ambientIntensity = 1f;
                 RenderSettings.defaultReflectionMode = DefaultReflectionMode.Custom;
                 RenderSettings.customReflectionTexture = reflection;
-                RenderSettings.reflectionIntensity = 0.75f;
+                RenderSettings.reflectionIntensity = 0.55f;
                 RenderSettings.reflectionBounces = 1;
                 GraphicsSettings.defaultRenderPipeline = pipeline;
                 QualitySettings.renderPipeline = pipeline;
@@ -108,7 +108,7 @@ namespace IntercomMvp.Editor
                 Undo.CollapseUndoOperations(undoGroup);
                 EditorSceneManager.MarkSceneDirty(scene);
                 SceneView.RepaintAll();
-                Debug.Log("Intercom MVP: дневной свет, отражения и ACES подключены. Ракурс сохранён. Сохрани сцену Ctrl+S; для слабого телефона можно отключить Tutorial Contact AO в IntercomRenderer.");
+                Debug.Log("Intercom MVP: спокойный дневной свет V5, отражения и ACES подключены. Ракурс сохранён. Сохрани сцену Ctrl+S; для слабого телефона можно отключить Tutorial Contact AO в IntercomRenderer.");
             }
             catch (Exception exception) { Debug.LogException(exception); }
         }

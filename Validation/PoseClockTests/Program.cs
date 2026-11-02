@@ -67,15 +67,44 @@ internal static class Program
                 Eq(shots, 1); Eq(c.Posture, IntercomWeaponPosture.Relaxed);
             }
         });
-        Case("current .30 second pistols deliver twenty volleys in six seconds", () => {
+        Case("V5 .18 second pistols keep their cadence at 30/60/120 FPS", () => {
             foreach (int fps in new[] {30,60,120}) {
-                var c=new IntercomWeaponPoseClock(.001f,.001f,.3f,2f);
+                var c=new IntercomWeaponPoseClock(.001f,.001f,.18f,2f);
                 c.Tick(.001f,true);c.Tick(.001f,true);True(c.ShotThisTick);
-                int volleys=0;
-                for(int i=0;i<fps*6;i++){c.Tick(1f/fps,true);if(c.ShotThisTick)volleys++;}
-                Eq(volleys,20);
+                int volleys=0; double time=0;
+                for(int i=0;i<fps*60;i++){
+                    c.Tick(1f/fps,true);time+=1d/fps;
+                    if(c.ShotThisTick){volleys++;Near((float)time,volleys*.18f,1f/fps+.0001f);}
+                }
+                Eq(volleys,333);
                 c.Tick(10f,true);True(c.ShotThisTick);c.Tick(.01f,true);False(c.ShotThisTick);
             }
+        });
+        Case("tap after release starts a fresh cooldown without cadence debt", () => {
+            var c=new IntercomWeaponPoseClock(.001f,.001f,.18f,2f);
+            c.Tick(.001f,true);c.Tick(.001f,true);True(c.ShotThisTick);
+            c.Tick(.30f,false);False(c.ShotThisTick);
+            c.RequestFire();c.Tick(.01f,true);True(c.ShotThisTick);
+            c.Tick(.17f,true);False(c.ShotThisTick);
+            c.Tick(.011f,true);True(c.ShotThisTick);
+        });
+        Case("medium hitch cannot compress the next shot into a burst", () => {
+            var c=new IntercomWeaponPoseClock(.001f,.001f,.18f,2f);
+            c.Tick(.001f,true);c.Tick(.001f,true);True(c.ShotThisTick);
+            c.Tick(.30f,true);True(c.ShotThisTick);
+            c.Tick(.08f,true);False(c.ShotThisTick);
+            c.Tick(.10f,true);True(c.ShotThisTick);
+        });
+        Case("ordinary frame jitter does not accumulate cadence drift", () => {
+            var c=new IntercomWeaponPoseClock(.001f,.001f,.18f,2f);
+            c.Tick(.001f,true);c.Tick(.001f,true);True(c.ShotThisTick);
+            float[] frames={.016f,.021f,.033f,.011f,.025f,.04f};
+            double time=0;int volleys=0;
+            for(int i=0;i<6000;i++){
+                float dt=frames[i%frames.Length];time+=dt;c.Tick(dt,true);
+                if(c.ShotThisTick){volleys++;Near((float)time,volleys*.18f,.0401f);}
+            }
+            Eq(volleys,(int)Math.Floor(time/.18));
         });
         Console.WriteLine("PASS: " + cases + " cases, " + assertions + " assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8.");
     }

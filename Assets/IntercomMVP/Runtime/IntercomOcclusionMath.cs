@@ -2,7 +2,7 @@ using System;
 
 namespace IntercomMvp
 {
-    /// <summary>Conservative camera-space projection, shared with executable geometry tests.</summary>
+    /// <summary>Conservative camera-space projection for sample placement; never a final occlusion decision.</summary>
     public static class IntercomOcclusionMath
     {
         public struct Projection
@@ -49,7 +49,7 @@ namespace IntercomMvp
                 && obstacle.maxY >= player.minY && obstacle.minY <= player.maxY;
         }
 
-        /// <summary>Only sustained, central torso coverage should soften scenery.</summary>
+        /// <summary>Legacy broad-phase coverage estimate. A real finite mesh-ray test is required before fading.</summary>
         public static bool BlocksCore(Projection obstacle, Projection core, float coverageThreshold)
         {
             if (!Finite(coverageThreshold) || obstacle.nearDepth >= core.nearDepth - 0.01f) return false;

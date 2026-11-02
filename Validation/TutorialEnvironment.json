@@ -1,4 +1,5 @@
 {
+  "artRevision": "cartoon-foundation-v4",
   "layoutVersion": 2,
   "meshAssets": 17,
   "uniqueMeshTriangles": 14828,
@@ -569,155 +570,110 @@
     ],
     "scope": "Conservative 2D AABB connectivity, not Unity CharacterController or PhysX."
   },
-  "sceneIntegration": {
-    "environmentObjects": 255,
-    "renderers": 130,
-    "removedSerializedBlocks": 967,
-    "preservedNonEnvironmentBlocks": 41,
-    "groundRendererMaterialOnly": 1981137700,
-    "targets": [
-      {
-        "key": "target_1",
-        "name": "Training Target 1",
-        "go": 8200000870,
-        "transform": 8200000871,
-        "component": 8200000883,
-        "position": [
-          8.9,
-          0.05,
-          -8.7
-        ]
-      },
-      {
-        "key": "target_2",
-        "name": "Training Target 2",
-        "go": 8200000884,
-        "transform": 8200000885,
-        "component": 8200000897,
-        "position": [
-          11.4,
-          0.05,
-          -8.7
-        ]
-      },
-      {
-        "key": "target_3",
-        "name": "Training Target 3",
-        "go": 8200000898,
-        "transform": 8200000899,
-        "component": 8200000911,
-        "position": [
-          13.9,
-          0.05,
-          -8.7
-        ]
-      }
-    ]
-  },
   "meshBufferValidation": [
-    {
-      "mesh": "Bollard.mesh",
-      "vertices": 240,
-      "triangles": 144,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "TrainingTarget.mesh",
-      "vertices": 360,
-      "triangles": 228,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "CableSpool.mesh",
-      "vertices": 336,
-      "triangles": 208,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "Warehouse.mesh",
-      "vertices": 7512,
-      "triangles": 3492,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "Transformer.mesh",
-      "vertices": 2736,
-      "triangles": 1356,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "TrainingStand.mesh",
-      "vertices": 192,
-      "triangles": 104,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "Workshop.mesh",
-      "vertices": 5016,
-      "triangles": 2348,
-      "normalsAndWinding": "PASS"
-    },
     {
       "mesh": "CargoCrate.mesh",
       "vertices": 1248,
       "triangles": 572,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "CargoContainer.mesh",
-      "vertices": 5760,
-      "triangles": 2640,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "YardMarkings.mesh",
-      "vertices": 2520,
-      "triangles": 1260,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "GatePanel.mesh",
-      "vertices": 720,
-      "triangles": 344,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "UtilityPipes.mesh",
-      "vertices": 1408,
-      "triangles": 760,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "JerseyBarrier.mesh",
-      "vertices": 864,
-      "triangles": 396,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "Planter.mesh",
-      "vertices": 576,
-      "triangles": 264,
-      "normalsAndWinding": "PASS"
-    },
-    {
-      "mesh": "WallPanel.mesh",
-      "vertices": 192,
-      "triangles": 88,
-      "normalsAndWinding": "PASS"
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
     },
     {
       "mesh": "SteelDrum.mesh",
       "vertices": 432,
       "triangles": 268,
-      "normalsAndWinding": "PASS"
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "JerseyBarrier.mesh",
+      "vertices": 864,
+      "triangles": 396,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "CargoContainer.mesh",
+      "vertices": 5760,
+      "triangles": 2640,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
     },
     {
       "mesh": "FencePanel.mesh",
       "vertices": 744,
       "triangles": 356,
-      "normalsAndWinding": "PASS"
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "WallPanel.mesh",
+      "vertices": 192,
+      "triangles": 88,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "GatePanel.mesh",
+      "vertices": 720,
+      "triangles": 344,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "Transformer.mesh",
+      "vertices": 2736,
+      "triangles": 1356,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "UtilityPipes.mesh",
+      "vertices": 1408,
+      "triangles": 760,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "CableSpool.mesh",
+      "vertices": 336,
+      "triangles": 208,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "Bollard.mesh",
+      "vertices": 240,
+      "triangles": 144,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "Planter.mesh",
+      "vertices": 576,
+      "triangles": 264,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "TrainingStand.mesh",
+      "vertices": 192,
+      "triangles": 104,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "TrainingTarget.mesh",
+      "vertices": 360,
+      "triangles": 228,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "Warehouse.mesh",
+      "vertices": 7512,
+      "triangles": 3492,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "Workshop.mesh",
+      "vertices": 5016,
+      "triangles": 2348,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
+    },
+    {
+      "mesh": "YardMarkings.mesh",
+      "vertices": 2520,
+      "triangles": 1260,
+      "normalsAndWinding": "See CartoonEnvironmentV4.json for validated V4 buffers"
     }
   ],
-  "instancedEnvironmentTriangles": 41448,
-  "baseCommit": "3dd9354b44b343cd489a5dcf4223e38859a86ed9"
+  "instancedEnvironmentTriangles": 41376,
+  "scope": "Generator geometry + conservative route connectivity. Unity import/performance not measured."
 }

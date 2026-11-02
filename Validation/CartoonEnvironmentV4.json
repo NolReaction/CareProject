@@ -1,0 +1,156 @@
+{
+  "revision": "cartoon-foundation-v4",
+  "baselineCommit": "c0f3ef82077151c3a28945e25e5bc04103411e9d",
+  "status": "PASS",
+  "scope": "Native mesh buffers, normals/winding, bounds, layout, deterministic generation; Blender preview. No Unity Editor import/Game View/Android performance claim.",
+  "layoutSemanticallyUnchanged": true,
+  "modules": [
+    {
+      "mesh": "CargoCrate",
+      "vertices": 1248,
+      "triangles": 572,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "SteelDrum",
+      "vertices": 432,
+      "triangles": 268,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "JerseyBarrier",
+      "vertices": 864,
+      "triangles": 396,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "CargoContainer",
+      "vertices": 5760,
+      "triangles": 2640,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "FencePanel",
+      "vertices": 744,
+      "triangles": 356,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "WallPanel",
+      "vertices": 192,
+      "triangles": 88,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "GatePanel",
+      "vertices": 720,
+      "triangles": 344,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "Transformer",
+      "vertices": 2736,
+      "triangles": 1356,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "UtilityPipes",
+      "vertices": 1408,
+      "triangles": 760,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "CableSpool",
+      "vertices": 336,
+      "triangles": 208,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "Bollard",
+      "vertices": 240,
+      "triangles": 144,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "Planter",
+      "vertices": 576,
+      "triangles": 264,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "TrainingStand",
+      "vertices": 192,
+      "triangles": 104,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "TrainingTarget",
+      "vertices": 360,
+      "triangles": 228,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "Warehouse",
+      "vertices": 7512,
+      "triangles": 3492,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "Workshop",
+      "vertices": 5016,
+      "triangles": 2348,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    },
+    {
+      "mesh": "YardMarkings",
+      "vertices": 2520,
+      "triangles": 1260,
+      "boundsUnchanged": true,
+      "unitOutwardNormals": true,
+      "materialSlotsUnchanged": true
+    }
+  ],
+  "uniqueTriangles": 14828,
+  "instancedTriangles": 41448,
+  "newRenderPasses": 0,
+  "newMaterialSlots": 0,
+  "generatorIdempotent": true,
+  "robotSourceAndFbxByteIdentical": true,
+  "previews": {
+    "before": "Docs/TutorialEnvironment_BeforeV4.png",
+    "after": "Docs/TutorialEnvironment_V4.png",
+    "renderer": "Blender 5.2.3 Cycles 32 samples, actual project meshes/UV/material palette, approximate daylight; not Unity output"
+  }
+}

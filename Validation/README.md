@@ -1,4 +1,4 @@
-# Проверки движения и боя v0.3
+# Проверки V5
 
 В корне проекта:
 
@@ -14,7 +14,38 @@ python Validation/run_checks.py
 В среде подготовки использовались прямой компилятор Roslyn и .NET runtime без NuGet;
 это не компиляция всей игры против реальных сборок Unity.
 
-## Актуальные отчёты
+## Актуальные отчёты V5
+
+- `FoundationV5Review.json`: итог интеграции и границы проверки.
+- `AssetIntegrityV5Review.json`: GUID, .meta, свет сцены и сохранность модели/музыки/карты.
+- `ArcadeMotionV5Review.json`: скорость, разгон, широкий шаг и контакт на 30/60/120 FPS.
+- `WeaponV5Review.json`: темп .18 с, здоровье/TTK и поведение после пропуска кадров.
+- `ImpactAudioV5Review.json`, `MaterialImpactRoutingV5Review.json`, `AudioGameplayV5Review.json`:
+  новые звуки, маршрутизация поверхностей и проверка офлайн-смеси.
+- `CoverBulletHeightV5Review.json`: высота низких предметов; пуля выше предмета не попадает в него.
+- `PaletteV5Review.json`: материалы без изменения геометрии и планировки.
+- Проверки `OcclusionMathTests` и `OcclusionRuntimeTests`: реальные меши склада/ящика,
+  отрезки перед героем, независимая прозрачность и восстановление.
+
+`run_checks.py` автоматически находит все `*Tests/*.csproj`, включая новые.
+Дополнительная проверка аудио: `python Validation/check_audio_assets.py`.
+
+## Исторические отчёты V4
+
+- `FoundationV4Review.json`: итог всей версии; 19 автономных проектов проверок.
+- `FoundationV4AssetIntegrity.json`: GUID, метаданные, подключения сцены и сохранность модели.
+- `WeaponFoundationV4Review.json`: баланс, таймер позы, здоровье, направление пули.
+- `ImpactAudioV4Review.json`: громкость ударов, затухание и ограничения повторов.
+- `AssetOrganizationV4Review.json`: перенос ресурсов и безопасная повторная установка.
+- `CartoonEnvironmentV4.json`: геометрия и воспроизводимость художественного прохода.
+- `CameraTrackingTests`: свободная зона, плавность, проекции, остановка и телепортация.
+
+Команда `run_checks.py` запускает все проекты, включая новые. В среде подготовки
+SDK CLI не смог прочитать сведения процесса через `/proc`; тот же C# был собран
+напрямую Roslyn `csc.dll` с .NET8 reference assemblies и выполнен .NET runtime.
+Это проверяет тестируемые компоненты, но не заменяет сборку Unity.
+
+## Сохранённые отчёты V3 и предыдущих версий
 
 - `GameplayV3Review.json`: итог интеграции, версия GitHub, состав проверок и границы результата.
 - `GroundedRunV3*.json`: опорные траектории восьми клипов, сохранение рига и текстур,
@@ -37,8 +68,8 @@ python Validation/run_checks.py
 Отчёты `Ankle*.json`, `RepairReview.json`, `MotionPolish*.json`, `TutorialReview.json`,
 `MovementRuntimeChecks.json`, `TurnActualMesh*.json` и `AudioV4Review.json` оставлены
 как **история предыдущих версий**.
-Их SHA и измерения не подтверждают новую анимацию и звук. Текущие отчёты перечислены в
-`GameplayV3Review.json`; у исторических файлов установлено `historicalReport: true`.
+Их SHA и измерения не подтверждают новую анимацию и звук. Итог текущей версии находится в `FoundationV5Review.json`. Старые отчёты описывают
+свои версии; часть особо ранних файлов дополнительно помечена `historicalReport: true`.
 
 ## Что ещё проверяется в Unity
 
@@ -46,7 +77,7 @@ python Validation/run_checks.py
 прослушивание звука, сборки Android/iOS и частота кадров на устройстве здесь не выполнялись.
 Сценарий ручной проверки находится в `MOBILE_TESTING.md`. Визуальные превью в Docs получены
 в Blender из геометрии проекта и не являются видеозаписью Unity. Изображения
-`AnkleFix_before/after` показывают предыдущее исправление крепления. MP3 — офлайн-превью
-новых аудиоассетов: 44 секунды звуков/игровой смеси и 45 секунд музыки.
+`AnkleFix_before/after` показывают предыдущее исправление крепления. `Docs/SoundPreviewV5.mp3` — офлайн-превью новых звуков/игровой смеси длительностью
+44 секунды. Другие превью относятся к прежним версиям.
 
 Локальные `bin`, `obj`, `results.txt` и `Validation/Results` исключены из Git.

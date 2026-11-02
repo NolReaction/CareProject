@@ -47,6 +47,7 @@ namespace IntercomMvp
         }
 
         public static float SafeStrafeRatio(float ratio) => Finite(ratio) ? Math.Max(0.5f, Math.Min(1f, ratio)) : 0.75f;
+        public static float SafeStrideScale(float scale) => Finite(scale) ? Math.Max(1f, Math.Min(1.4f, scale)) : 1f;
 
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
     }

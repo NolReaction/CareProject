@@ -15,7 +15,7 @@ namespace IntercomMvp.Editor
         // A new asset leaves the previous controller and any user edits intact.
         private const string LegacyControllerPath = AnimationFolder + "/IntercomCombat.controller";
         private const string ControllerPath = AnimationFolder + "/IntercomDirectional.controller";
-        private const string ProfilePath = AnimationFolder + "/DualPistolsPose.asset";
+        private static string ProfilePath => IntercomAssetCatalog.Resolve(AnimationFolder + "/DualPistolsPose.asset");
         private const string GeneratedMaskName = "Intercom Upper Body";
         private static readonly string[] ClipNames = { "Idle", "Run", "RunBackward", "RunLeft", "RunRight",
             "IdleRelaxed", "RunRelaxed", "RunBackwardRelaxed", "RunLeftRelaxed", "RunRightRelaxed",
@@ -112,12 +112,14 @@ namespace IntercomMvp.Editor
             motor.movementCamera = camera;
             motor.enabled = true;
             // Migrate only the old shipped reference value; keep a user's tuning.
-            if (Mathf.Approximately(motor.moveSpeed, 0.8f) || Mathf.Approximately(motor.moveSpeed, 1.8f))
-                motor.moveSpeed = 2.1f;
+            if (Mathf.Approximately(motor.moveSpeed, 0.8f) || Mathf.Approximately(motor.moveSpeed, 1.8f)
+                || Mathf.Approximately(motor.moveSpeed, 2.1f))
+                motor.moveSpeed = 3.3f;
             if (motor.strafeSpeedRatio <= 0f) motor.strafeSpeedRatio = 0.75f;
             // New components use the authored .75 lateral ratio; retain user tuning.
-            if (Mathf.Approximately(motor.acceleration, 18f)) motor.acceleration = 8f;
-            if (Mathf.Approximately(motor.deceleration, 24f)) motor.deceleration = 12f;
+            if (Mathf.Approximately(motor.acceleration, 18f) || Mathf.Approximately(motor.acceleration, 8f)) motor.acceleration = 22f;
+            if (Mathf.Approximately(motor.deceleration, 24f) || Mathf.Approximately(motor.deceleration, 12f)) motor.deceleration = 30f;
+            if (Mathf.Approximately(motor.animationDamping, 0.08f)) motor.animationDamping = 0.05f;
             if (Mathf.Approximately(motor.runReferenceSpeed, 0.8f) || Mathf.Approximately(motor.runReferenceSpeed, 1.2f))
                 motor.runReferenceSpeed = 1.0f; // Measured stance travel of the current Run clips.
             EditorUtility.SetDirty(motor);
@@ -544,6 +546,7 @@ namespace IntercomMvp.Editor
             profile.raiseWeapons = raise;
             profile.lowerWeapons = lower;
             profile.shoot = shoot;
+            IntercomAssetCatalog.EnsureParentFolder(ProfilePath);
             AssetDatabase.CreateAsset(profile, ProfilePath);
             return profile;
         }

@@ -67,9 +67,9 @@ MonoBehaviour:
   masterVolume: 0.8
   shotsVolume: 0.78
   stepsVolume: 0.18
-  impactsVolume: 0.35
+  impactsVolume: 0.42
   minimumImpactInterval: 0.035
-  impactAudibleRange: 18
+  impactAudibleRange: 32
   ambienceVolume: 0.1
   musicVolume: 0.24
   shotPitchVariation: 0.008

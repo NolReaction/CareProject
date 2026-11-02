@@ -14,7 +14,7 @@ namespace IntercomMvp
 
         private readonly double raiseDuration;
         private readonly double lowerDuration;
-        private readonly double shotInterval;
+        private double shotInterval;
         private readonly double combatHold;
         private double now;
         private double phaseStart;
@@ -22,6 +22,7 @@ namespace IntercomMvp
         private double nextShot;
         private double holdUntil;
         private bool queuedShot;
+        private bool continuousFire;
 
         public IntercomWeaponPoseClock(float raiseSeconds, float lowerSeconds, float fireInterval, float holdSeconds)
         {
@@ -32,10 +33,16 @@ namespace IntercomMvp
             Reset();
         }
 
+        /// <summary>Balance changes affect the next scheduled interval; an in-progress cooldown is retained.</summary>
+        public void SetFireInterval(float seconds)
+        {
+            shotInterval = float.IsNaN(seconds) || float.IsInfinity(seconds) ? 0.18 : Math.Max(0.01, seconds);
+        }
+
         public void Reset()
         {
             now = phaseStart = phaseEnd = nextShot = holdUntil = 0.0;
-            queuedShot = ShotThisTick = PostureChangedThisTick = false;
+            queuedShot = continuousFire = ShotThisTick = PostureChangedThisTick = false;
             RaiseStartNormalized = 0f;
             Posture = IntercomWeaponPosture.Relaxed;
         }
@@ -48,6 +55,7 @@ namespace IntercomMvp
             ShotThisTick = PostureChangedThisTick = false;
             if (deltaTime <= 0f || float.IsNaN(deltaTime) || float.IsInfinity(deltaTime)) return;
             now += deltaTime;
+            if (!triggerHeld) continuousFire = false;
 
             bool wantsShot = queuedShot || triggerHeld;
             if (wantsShot && (Posture == IntercomWeaponPosture.Relaxed || Posture == IntercomWeaponPosture.Lowering))
@@ -71,7 +79,8 @@ namespace IntercomMvp
                 {
                     queuedShot = false;
                     ShotThisTick = true;
-                    RegisterShot();
+                    RegisterShot(triggerHeld && continuousFire);
+                    continuousFire = triggerHeld;
                 }
                 else if (!queuedShot && !triggerHeld && now + 0.000001 >= holdUntil)
                 {
@@ -89,13 +98,21 @@ namespace IntercomMvp
         public bool NotifyShotFired()
         {
             if (Posture != IntercomWeaponPosture.Combat) return false;
-            RegisterShot();
+            RegisterShot(false);
+            continuousFire = false;
             return true;
         }
 
-        private void RegisterShot()
+        private void RegisterShot(bool keepCadence)
         {
-            nextShot = now + shotInterval;
+            // Held fire retains its deadline, so a non-integral frame interval
+            // (for example .18 seconds at 30 FPS) does not drift on every shot.
+            // If less than half an interval would remain, discard the debt
+            // instead of compressing two reports into a burst after a hitch.
+            // Taps and externally fired shots start a fresh interval.
+            double scheduled = nextShot + shotInterval;
+            nextShot = keepCadence && scheduled - now >= shotInterval * 0.5
+                ? scheduled : now + shotInterval;
             holdUntil = now + combatHold;
         }
 

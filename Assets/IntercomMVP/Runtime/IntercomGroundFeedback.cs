@@ -217,7 +217,7 @@ namespace IntercomMvp
             if (sampleRunningSoles)
             {
                 AlignRunningGround(blend);
-                RestoreDiagonalStride(phase, blend);
+                RestoreRunningStride(blend);
             }
             PrepareFoot(leftRig, phase, blend, moving, grounded);
             PrepareFoot(rightRig, phase, blend, moving, grounded);

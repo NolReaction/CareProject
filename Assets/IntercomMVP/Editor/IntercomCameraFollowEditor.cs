@@ -19,6 +19,7 @@ namespace IntercomMvp.Editor
                 Apply(follow, "Preview Intercom camera framing");
 
             EditorGUILayout.Space();
+            EditorGUILayout.HelpBox("Free Movement разрешает роботу отходить от центра. Dead Zone Size — доля полного экрана: 0.16 означает ширину 16%. Smooth Time задаёт мягкость догоняния. Recenter When Idle возвращает кадр после паузы; выключи его, чтобы камера оставалась на месте после остановки. При выборе камеры зелёная рамка показывает свободную зону, жёлтая — страховочную. Проверяй движение в Game на формате 16:9.", MessageType.Info);
             EditorGUILayout.HelpBox("Выстрой ракурс в Scene и нажми Capture Scene View. Либо передвинь Main Camera и нажми Capture Current Camera. Сохрани сцену Ctrl+S. Захват сохраняет наклон, масштаб, проекцию и смещение кадра. Ширина кадра зависит от формата окна Game.", MessageType.Info);
             using (new EditorGUI.DisabledScope(follow.target == null))
             {
@@ -75,7 +76,7 @@ namespace IntercomMvp.Editor
         }
     }
 
-    /// <summary>Explicit opt-in transfer of framing only. No automatic scene saving or object lookup by name.</summary>
+    /// <summary>Explicit opt-in transfer of camera framing and tracking settings only. No automatic scene saving or object lookup by name.</summary>
     [InitializeOnLoad]
     internal static class IntercomCameraPlayFraming
     {
@@ -95,6 +96,10 @@ namespace IntercomMvp.Editor
             public bool orthographic, clampToGroundBounds;
             public Vector3 framingOffset;
             public Vector2 groundMinimum, groundMaximum;
+            public bool freeMovement, recenterWhenIdle, showTrackingGuides;
+            public Vector2 deadZoneSize, safetyZoneSize;
+            public float smoothTime, recenterDelay, recenterSmoothTime, idleSpeedThreshold, teleportDistance;
+            public float lookAheadDistance, lookAheadSmoothTime;
         }
 
         static IntercomCameraPlayFraming()
@@ -147,7 +152,14 @@ namespace IntercomMvp.Editor
                 orthographicSize = follow.orthographicSize, fieldOfView = follow.fieldOfView,
                 distance = follow.distance, groundHeight = follow.groundHeight, focusHeight = follow.focusHeight,
                 framingOffset = follow.framingOffset, clampToGroundBounds = follow.clampToGroundBounds,
-                groundMinimum = follow.groundMinimum, groundMaximum = follow.groundMaximum
+                groundMinimum = follow.groundMinimum, groundMaximum = follow.groundMaximum,
+                freeMovement = follow.freeMovement, recenterWhenIdle = follow.recenterWhenIdle,
+                showTrackingGuides = follow.showTrackingGuides,
+                deadZoneSize = follow.deadZoneSize, safetyZoneSize = follow.safetyZoneSize,
+                smoothTime = follow.smoothTime, recenterDelay = follow.recenterDelay,
+                recenterSmoothTime = follow.recenterSmoothTime, idleSpeedThreshold = follow.idleSpeedThreshold,
+                teleportDistance = follow.teleportDistance,
+                lookAheadDistance = follow.lookAheadDistance, lookAheadSmoothTime = follow.lookAheadSmoothTime
             };
             SessionState.SetString(PendingKey, JsonUtility.ToJson(framing));
             Debug.Log("Ракурс запомнен. Останови Play: параметры применятся к исходной камере, после чего сохрани сцену Ctrl+S. Последующие изменения потребуют повторного нажатия Keep Follow Settings After Play.", follow);
@@ -176,6 +188,13 @@ namespace IntercomMvp.Editor
             follow.distance = framing.distance; follow.groundHeight = framing.groundHeight; follow.focusHeight = framing.focusHeight;
             follow.framingOffset = framing.framingOffset; follow.clampToGroundBounds = framing.clampToGroundBounds;
             follow.groundMinimum = framing.groundMinimum; follow.groundMaximum = framing.groundMaximum;
+            follow.freeMovement = framing.freeMovement; follow.recenterWhenIdle = framing.recenterWhenIdle;
+            follow.showTrackingGuides = framing.showTrackingGuides;
+            follow.deadZoneSize = framing.deadZoneSize; follow.safetyZoneSize = framing.safetyZoneSize;
+            follow.smoothTime = framing.smoothTime; follow.recenterDelay = framing.recenterDelay;
+            follow.recenterSmoothTime = framing.recenterSmoothTime; follow.idleSpeedThreshold = framing.idleSpeedThreshold;
+            follow.teleportDistance = framing.teleportDistance;
+            follow.lookAheadDistance = framing.lookAheadDistance; follow.lookAheadSmoothTime = framing.lookAheadSmoothTime;
             follow.MarkFramingAuthored();
             follow.enabled = true;
             follow.SnapToTarget();

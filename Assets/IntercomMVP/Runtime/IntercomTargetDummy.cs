@@ -4,12 +4,12 @@ namespace IntercomMvp
 {
     /// <summary>Stationary training actor: readable hit squash, health tint and automatic reset.</summary>
     [DisallowMultipleComponent]
-    public sealed class IntercomTargetDummy : MonoBehaviour
+    public sealed class IntercomTargetDummy : MonoBehaviour, IIntercomDamageable
     {
         [Tooltip("Child containing the capsule mesh. Keep the collider on the unscaled parent.")]
         public Transform visual;
         public Renderer bodyRenderer;
-        [Min(1)] public int maxHealth = 5;
+        [Min(1)] public int maxHealth = 100;
         [Min(0.25f)] public float resetSeconds = 2.5f;
         public float Health { get; private set; }
         public bool IsDown => resetRemaining > 0f;
@@ -49,6 +49,8 @@ namespace IntercomMvp
             }
             Health = Mathf.Max(1, maxHealth);
         }
+
+        public bool TakeDamage(IntercomDamage hit) => ApplyHit(hit.Amount, hit.Direction);
 
         public bool ApplyHit(float damage, Vector3 direction)
         {

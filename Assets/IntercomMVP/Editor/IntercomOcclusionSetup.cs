@@ -48,8 +48,11 @@ namespace IntercomMvp.Editor
             // User markers, including an intentional exclusion, are preserved.
             if (item.GetComponent<IntercomOccluder>() != null) return;
             IntercomOccluder marker = Undo.AddComponent<IntercomOccluder>(item);
-            Undo.RecordObject(marker, "Group building visibility");
+            Undo.RecordObject(marker, "Mark scenery visibility");
             marker.hideWhenBlocking = hide;
+            // A district folder can also contain independent crates and drums.
+            // Sharing a parent must not make those props fade with its building.
+            marker.fadeWholeHierarchy = false;
             EditorUtility.SetDirty(marker);
             if (PrefabUtility.IsPartOfPrefabInstance(marker)) PrefabUtility.RecordPrefabInstancePropertyModifications(marker);
         }

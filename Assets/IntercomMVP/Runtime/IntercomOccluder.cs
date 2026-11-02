@@ -2,12 +2,15 @@ using UnityEngine;
 
 namespace IntercomMvp
 {
-    /// <summary>Add to a building root so its roof, walls and trim fade together.</summary>
+    /// <summary>Opts scenery into camera visibility checks. Meshes fade independently by default.</summary>
     [DisallowMultipleComponent]
     public sealed class IntercomOccluder : MonoBehaviour
     {
         [Tooltip("Disable for ground, background or props which must never fade. A disabled component also excludes this hierarchy.")]
         public bool hideWhenBlocking = true;
+
+        [Tooltip("Opt in only for one building's roof/walls/trim. Leave off for district folders containing crates, barrels or unrelated buildings. Meshes require Read/Write enabled.")]
+        public bool fadeWholeHierarchy = false;
 
         internal static uint Revision { get; private set; }
         private void OnEnable() { Changed(); }

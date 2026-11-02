@@ -209,7 +209,7 @@ namespace IntercomMvp.Editor
                 Undo.RegisterCreatedObjectUndo(body, "Create training capsule");
             }
             IntercomTargetDummy target = root.AddComponent<IntercomTargetDummy>();
-            target.visual = visual.transform; target.bodyRenderer = renderer; target.maxHealth = 5; target.resetSeconds = 2.5f;
+            target.visual = visual.transform; target.bodyRenderer = renderer; target.maxHealth = 100; target.resetSeconds = 2.5f;
         }
 
         private static void ConfigureSurface(GameObject owner, string surface)

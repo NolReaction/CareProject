@@ -5,6 +5,7 @@ python Tools/BuildTutorialDistrict.py --apply-scene
 The explicit flag replaces ONLY children of MVP_TestEnvironment in the supplied
 scene. Robot, camera, lights and unrelated root objects are preserved. Commit or
 back up manual environment edits before regenerating. Requires Python 3 + NumPy.
+Use --materials-only to apply the palette and surface textures without rebuilding geometry or layout.
 Render the same meshes with Blender using --render-json (see Tools/RenderTutorialDistrict.py).
 """
 from pathlib import Path
@@ -18,6 +19,9 @@ TEXTURES = ART / 'Surfaces'
 LAYOUT = ROOT / 'Assets/IntercomMVP/World/DistrictLayout.json'
 SCENE = ROOT / 'Assets/IntercomMVP/Scenes/IntercomMVP.unity'
 SALT = 'CareProject/tutorial-courtyard/v2/'
+# Stable GUID salt is retained across art revisions.
+ART_REVISION = 'calm-stylized-v5'
+BEVEL_SCALE = 1.6
 
 def stable(path): return uuid.uuid5(uuid.NAMESPACE_URL, SALT + str(path)).hex
 
@@ -38,17 +42,23 @@ def rotate(v,yaw):
 
 class Mesh:
     def __init__(self,name):self.name=name;self.vertices=[];self.faces=[];self.materials=[]
-    def polygon(self,pts,mat,normal=None):
+    def polygon(self,pts,mat,normal=None,vertex_normals=None):
         if mat not in self.materials:self.materials.append(mat)
         pts=[np.array(p,dtype=float) for p in pts]
         n=np.cross(pts[1]-pts[0],pts[2]-pts[0]);n/=max(1e-9,np.linalg.norm(n))
-        if normal is not None and np.dot(n,normal)<0:pts.reverse();n=-n
+        if vertex_normals is not None:vertex_normals=[np.array(v,dtype=float) for v in vertex_normals]
+        if normal is not None and np.dot(n,normal)<0:
+            pts.reverse();n=-n
+            if vertex_normals is not None:vertex_normals.reverse()
         axis=int(np.argmax(np.abs(n)));uvaxes=[k for k in range(3) if k!=axis]
         first=len(self.vertices)
-        for p in pts:self.vertices.append([*p,*n,p[uvaxes[0]],p[uvaxes[1]]])
+        for i,p in enumerate(pts):
+            vn=n if vertex_normals is None else vertex_normals[i]/max(1e-9,np.linalg.norm(vertex_normals[i]))
+            self.vertices.append([*p,*vn,p[uvaxes[0]],p[uvaxes[1]]])
         for j in range(1,len(pts)-1):self.faces.append(([first,first+j,first+j+1],self.materials.index(mat)))
     def box(self,pos,size,mat,bevel=.025,yaw=0):
-        h=np.array(size)/2;b=min(bevel,float(min(h))*.45)
+        h=np.array(size)/2;b=min(bevel*BEVEL_SCALE,float(min(h))*.45)
+        first_vertex=len(self.vertices)
         transform=lambda p:np.array(rotate(p,yaw))+np.array(pos)
         # Six face panels, then twelve chamfer strips and eight corner triangles.
         for axis in range(3):
@@ -76,6 +86,12 @@ class Mesh:
                     for axis in range(3):
                         q=signs*(h-b);q[axis]=signs[axis]*h[axis];pts.append(transform(q))
                     self.polygon(pts,mat,rotate(signs,yaw))
+        # Interpolated bevel normals produce broad rounded highlights without adding triangles.
+        # Each bevel endpoint shares its adjacent panel normal; face centres remain flat.
+        for vertex in self.vertices[first_vertex:]:
+            local=np.array(rotate(np.array(vertex[:3])-np.array(pos),-yaw))
+            vn=np.where(np.isclose(np.abs(local),h,atol=1e-7,rtol=0),np.sign(local),0.)
+            if np.linalg.norm(vn)>0:vertex[3:6]=rotate(vn/np.linalg.norm(vn),yaw)
     def cylinder(self,pos,radius,height,mat,sides=12,axis='y'):
         def trans(x,y,z):
             q=(x,y,z) if axis=='y' else ((y,x,z) if axis=='x' else (x,z,y))
@@ -84,7 +100,8 @@ class Mesh:
             a=math.tau*i/sides;b=math.tau*(i+1)/sides
             pts=[trans(radius*math.cos(t),y,radius*math.sin(t)) for t,y in [(a,-height/2),(b,-height/2),(b,height/2),(a,height/2)]]
             normal=np.mean(pts,axis=0)-np.array(pos)
-            self.polygon(pts,mat,normal)
+            normals=[trans(math.cos(t),0,math.sin(t))-np.array(pos) for t in [a,b,b,a]]
+            self.polygon(pts,mat,normal,vertex_normals=normals)
         for sign in [-1,1]:
             pts=[trans(radius*math.cos(math.tau*i/sides),sign*height/2,radius*math.sin(math.tau*i/sides)) for i in range(sides)]
             normal=np.zeros(3);normal['xyz'.index(axis)]=sign
@@ -93,12 +110,13 @@ class Mesh:
         # Quarter arc in XY; ten segments / eight sides, shared module geometry.
         for i in range(10):
             for j in range(8):
-                pts=[]
+                pts=[];normals=[]
                 for a,t in [(i,j),(i+1,j),(i+1,j+1),(i,j+1)]:
                     u=a*math.pi/20;v=t*math.tau/8
                     pts.append(np.array(pos)+[(radius+tube*math.cos(v))*math.cos(u),(radius+tube*math.cos(v))*math.sin(u),tube*math.sin(v)])
+                    normals.append([math.cos(u)*math.cos(v),math.sin(u)*math.cos(v),math.sin(v)])
                 u=(i+.5)*math.pi/20;v=(j+.5)*math.tau/8
-                self.polygon(pts,mat,[math.cos(u)*math.cos(v),math.sin(u)*math.cos(v),math.sin(v)])
+                self.polygon(pts,mat,[math.cos(u)*math.cos(v),math.sin(u)*math.cos(v),math.sin(v)],vertex_normals=normals)
     def bounds(self,verts=None):
         a=np.array(verts if verts is not None else self.vertices)[:,:3]
         lo=a.min(axis=0);hi=a.max(axis=0);return ((lo+hi)/2,(hi-lo)/2)
@@ -174,15 +192,18 @@ Mesh:
         path.write_text('\n'.join(line.rstrip() for line in text.splitlines())+'\n');meta(path,main=4300000)
         return {'name':self.name,'vertices':self.vertices,'faces':self.faces,'materials':self.materials,'triangles':len(self.faces)}
 
+# V5: neutral large surfaces and restrained accents, balanced against the weathered robot.
+# Stylization comes from silhouettes and broad bevels, not a global saturation boost.
+# Sparse broad texture variation survives the gameplay camera without noisy micro-grain.
 MATERIALS={
- 'Asphalt':((.29,.31,.31),0,.12,'AsphaltGrain'), 'Concrete':((.65,.64,.57),0,.12,'ConcreteGrain'),
- 'Backdrop':((.25,.29,.27),0,.1,'AsphaltGrain'),'BlueGrey':((.27,.44,.43),.3,.28,'MetalWeathering'),
- 'Roof':((.22,.31,.34),.45,.32,'MetalWeathering'),'Orange':((.59,.27,.14),.35,.22,'MetalWeathering'),
- 'Trim':((.57,.59,.54),.4,.3,'MetalWeathering'),'Door':((.14,.20,.21),.4,.24,'MetalWeathering'),
- 'Paint':((.87,.66,.24),.05,.2,None),'Crate':((.47,.35,.20),0,.12,'WoodGrain'),
- 'Moss':((.29,.39,.19),0,.04,None),'Gravel':((.40,.39,.34),0,.1,'ConcreteGrain'),
- 'TargetCoral':((.76,.33,.18),.25,.25,None),'TargetMint':((.34,.60,.53),.25,.25,None),
- 'Lamp':((.93,.75,.40),.1,.2,None),'Rubber':((.10,.13,.13),0,.12,None),
+ 'Asphalt':((.32,.34,.34),0,.10,'AsphaltGrain'), 'Concrete':((.70,.69,.63),0,.18,'ConcreteGrain'),
+ 'Backdrop':((.31,.35,.32),0,.10,'AsphaltGrain'),'BlueGrey':((.32,.46,.43),.08,.25,'MetalWeathering'),
+ 'Roof':((.26,.35,.38),.12,.30,'MetalWeathering'),'Orange':((.68,.41,.29),.08,.25,'MetalWeathering'),
+ 'Trim':((.72,.72,.66),.12,.28,'MetalWeathering'),'Door':((.20,.27,.29),.05,.22,'MetalWeathering'),
+ 'Paint':((.80,.65,.31),0,.24,None),'Crate':((.59,.46,.32),0,.18,'WoodGrain'),
+ 'Moss':((.38,.46,.29),0,.08,None),'Gravel':((.53,.52,.46),0,.12,'ConcreteGrain'),
+ 'TargetCoral':((.76,.44,.32),.05,.25,None),'TargetMint':((.39,.59,.49),.05,.25,None),
+ 'Lamp':((.94,.84,.60),0,.20,None),'Rubber':((.14,.17,.18),0,.12,None),
 }
 
 def png(path,array):
@@ -197,10 +218,11 @@ def make_materials():
     low=np.zeros((n,n))
     for k in range(28):
         a,b=rng.integers(1,13,2);b*=rng.choice([-1,1]);low+=np.sin(math.tau*(a*u+b*v)+rng.uniform(0,math.tau))/math.sqrt(a*a+b*b)
-    low=low/np.max(np.abs(low));fine=rng.normal(0,1,(n,n))
-    fields={'AsphaltGrain':.80+.035*low+.035*fine,'ConcreteGrain':.88+.035*low+.014*fine,
-            'MetalWeathering':.86+.045*low+.018*fine-.035*(np.cos(math.tau*16*u)>.92),
-            'WoodGrain':.84+.055*np.sin(math.tau*(12*u+.1*low))+.025*fine}
+    low=low/np.max(np.abs(low))
+    broad=np.sin(math.tau*u)*np.sin(math.tau*v)
+    fields={'AsphaltGrain':.94+.025*broad+.012*low,'ConcreteGrain':.97+.014*broad+.008*low,
+            'MetalWeathering':.97+.018*broad+.006*low,
+            'WoodGrain':.94+.026*np.sin(math.tau*(4*u+.04*low))+.008*broad}
     for name,f in fields.items():
         path=TEXTURES/(name+'.png');png(path,np.repeat(np.clip(f,.58,.99)[...,None],3,axis=2))
         # Existing texture importer is the project's stable compatible reference.
@@ -208,7 +230,7 @@ def make_materials():
         t=re.sub(r'^guid: \w+',f'guid: {stable(path.relative_to(ROOT).as_posix())}',t,flags=re.M)
         t=re.sub(r'(maxTextureSize:) \d+',r'\1 512',t)
         t=re.sub(r'(textureCompression:) \d+',r'\1 1',t)
-        t=re.sub(r'(wrap[UVW]:) \d+',r'\1 0',t)
+        t=re.sub(r'(wrap[UVW]:) \d+',r'\1 0',t).rstrip()
         Path(str(path)+'.meta').write_text('\n'.join(line.rstrip() for line in t.splitlines())+'\n')
     template=(ART/'Asphalt.mat').read_text()
     for prop in ['_BaseMap','_MainTex']:
@@ -280,7 +302,7 @@ def build_modules():
     m.box((0,.53,0),(2.0,.44,.38),'Concrete',.05)
     m.box((0,.82,0),(2.0,.16,.28),'Concrete',.035)
     for x in [-.75,.75]:
-        for z in [-.205,.205]:m.box((x,.55,z),(.22,.32,.025),'Paint',.005,yaw=0)
+        for z in [-.205,.205]:m.box((x,.55,z),(.30,.38,.025),'Paint',.005,yaw=0)
     for x in [-.8,.8]:m.box((x,.92,0),(.10,.12,.06),'Trim',.015)
     m=mesh('CargoContainer');m.box((0,1.18,0),(4.6,2.35,2.25),'Orange',.055)
     for x in np.linspace(-2.12,2.12,18):
@@ -329,7 +351,7 @@ def build_modules():
     for r,y in [(.31,-.095),(.12,-.11)]:m.cylinder((0,1.18,y),r,.025,'Paint',20,'z')
     # Buildings are modular shells: no enterable interiors; apron remains playable.
     for name,w,d,h,wall in [('Warehouse',10.5,5.1,4.1,'BlueGrey'),('Workshop',6.7,5.2,3.15,'BlueGrey')]:
-        m=mesh(name);m.box((0,h/2,0),(w,h,d),wall,.075)
+        m=mesh(name);m.box((0,h/2,0),(w,h,d),wall,.15)
         m.box((0,.16,0),(w+.15,.32,d+.15),'Concrete',.04)
         m.box((0,h+.08,0),(w+.35,.18,d+.35),'Roof',.035)
         for x in np.arange(-w/2+.25,w/2,.58):m.box((x,h/2,-d/2-.025),(.055,h-.25,.05),'Trim',.008)
@@ -538,7 +560,7 @@ def write_scene(layout):
         v,vt=w.obj('Visual - replace target',tr)
         stand,st=w.obj('Target stand',vt);w.renderer(stand,'TrainingStand',MODULES['TrainingStand'].materials)
         face,ft=w.obj('Target face',vt);mr=w.renderer(face,'TrainingTarget',[spec['material'],'Paint'])
-        cid=w.component(go,'IntercomTargetDummy',f'  visual: {{fileID: {vt}}}\n  bodyRenderer: {{fileID: {mr}}}\n  maxHealth: 5\n  resetSeconds: 2.5\n')
+        cid=w.component(go,'IntercomTargetDummy',f'  visual: {{fileID: {vt}}}\n  bodyRenderer: {{fileID: {mr}}}\n  maxHealth: 100\n  resetSeconds: 2.5\n')
         w.target_ids.append({'key':spec['key'],'name':spec['name'],'go':go,'transform':tr,'component':cid,'position':spec['position']})
     result=w.finish();SCENE.write_text(result)
     # Every unrelated serialized block must remain byte-identical.
@@ -571,12 +593,22 @@ def clearance(layout):
     return {'gridMeters':step,'inflatedPlayerRadius':radius,'checkedWaypoints':results,'reachableFreeCells':len(seen),'freeCells':int((~blocked).sum()),'obstacleAabbs':obstacles,'scope':'Conservative 2D AABB connectivity, not Unity CharacterController or PhysX.'}
 
 def main():
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--apply-scene',action='store_true');ap.add_argument('--render-json',type=Path);args=ap.parse_args()
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--apply-scene',action='store_true');ap.add_argument('--render-json',type=Path)
+    ap.add_argument('--materials-only',action='store_true',help='Update shared materials and textures only; preserve mesh, layout and scene files.')
+    args=ap.parse_args()
+    if args.materials_only:
+        if args.apply_scene or args.render_json:ap.error('--materials-only cannot be combined with --apply-scene or --render-json')
+        make_materials()
+        print(json.dumps({'artRevision':ART_REVISION,'materials':len(MATERIALS),'geometryAndScene':'untouched'},indent=2))
+        return
     for folder in [MESHES,TEXTURES]:folder.mkdir(parents=True,exist_ok=True);meta(folder)
     make_materials();build_modules();layout=build_layout();exported={name:m.export() for name,m in MODULES.items()};LAYOUT.write_text(json.dumps(layout,ensure_ascii=False,indent=2)+'\n')
-    report={'layoutVersion':2,'meshAssets':len(exported),'uniqueMeshTriangles':sum(x['triangles'] for x in exported.values()),'nativeMeshFormat':'Unity Graphics official Mesh v11 / VertexData v3 / Position+Normal+UV0 Float32 stride32 / UInt16 indices','pathClearance':clearance(layout)}
+    report={'artRevision':ART_REVISION,'layoutVersion':2,'meshAssets':len(exported),'uniqueMeshTriangles':sum(x['triangles'] for x in exported.values()),'nativeMeshFormat':'Unity Graphics official Mesh v11 / VertexData v3 / Position+Normal+UV0 Float32 stride32 / UInt16 indices','pathClearance':clearance(layout)}
     if args.apply_scene:report['sceneIntegration']=write_scene(layout)
     if args.render_json:args.render_json.write_text(json.dumps({'layout':layout,'modules':exported,'materials':MATERIALS}))
+    report['meshBufferValidation']=[{'mesh':name+'.mesh','vertices':len(m['vertices']),'triangles':m['triangles'],'normalsAndWinding':'See CartoonEnvironmentV4.json for validated V4 buffers'} for name,m in exported.items()]
+    report['instancedEnvironmentTriangles']=sum(exported[b['mesh']]['triangles'] for g in layout['groups'] for b in g['blocks'] if b.get('mesh') and b.get('visual',True))+sum(exported[t['mesh']]['triangles']+exported['TrainingStand']['triangles'] for t in layout['targets'])
+    report['scope']='Generator geometry + conservative route connectivity. Unity import/performance not measured.'
     out=ROOT/'Validation/TutorialEnvironment.json';out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='pathClearance'},ensure_ascii=False,indent=2))
 

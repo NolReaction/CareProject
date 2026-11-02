@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace IntercomMvp
 {
-    /// <summary>Follows the gameplay capsule using an authored, capturable camera framing.</summary>
+    /// <summary>Authored camera framing with viewport freedom, damped catch-up and optional idle recentering.</summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Camera))]
     public sealed class IntercomCameraFollow : MonoBehaviour
@@ -20,12 +20,27 @@ namespace IntercomMvp
         [Min(0f)] public float focusHeight = 0.65f;
         [Tooltip("World-space offset of the framing centre from the target anchor. Capture buttons preserve your off-centre composition.")]
         public Vector3 framingOffset;
-        [Min(0.01f)] public float smoothTime = 0.12f;
+        [Header("Movement inside the frame")]
+        [Tooltip("The robot can move within a screen rectangle before the camera begins following.")]
+        public bool freeMovement = true;
+        [Tooltip("Full width and height as fractions of the viewport. 0.16 means 16% of the full screen width.")]
+        public Vector2 deadZoneSize = new Vector2(0.16f, 0.12f);
+        [Tooltip("Outer screen rectangle: catches unusually fast movement before the robot leaves the frame. Map bounds have priority.")]
+        public Vector2 safetyZoneSize = new Vector2(0.65f, 0.55f);
+        [Tooltip("Catch-up damping in seconds. Higher values feel heavier.")]
+        [Min(0.01f)] public float smoothTime = 0.18f;
+        [Tooltip("After the robot stops, gently restore the captured composition.")]
+        public bool recenterWhenIdle = true;
+        [Min(0f)] public float recenterDelay = 0.65f;
+        [Min(0.01f)] public float recenterSmoothTime = 0.8f;
+        [Min(0f)] public float idleSpeedThreshold = 0.04f;
+        [Min(0.1f)] public float teleportDistance = 8f;
+        public bool showTrackingGuides = true;
         [Header("Gentle anticipation")]
-        [Range(0f, 1f)] public float lookAheadDistance = 0.35f;
-        [Min(0.01f)] public float lookAheadSmoothTime = 0.18f;
+        [Range(0f, 1f)] public float lookAheadDistance = 0.28f;
+        [Min(0.01f)] public float lookAheadSmoothTime = 0.14f;
         [Header("Optional map-edge framing")]
-        [Tooltip("Normally off: keep the player near the authored screen position. Bounds clamping is available for downward-facing orthographic views.")]
+        [Tooltip("Optional map edge limit. It takes priority over the screen safety zone. Available for downward-facing orthographic views.")]
         public bool clampToGroundBounds;
         public Vector2 groundMinimum = new Vector2(-12f, -12f);
         public Vector2 groundMaximum = new Vector2(12f, 12f);
@@ -35,9 +50,7 @@ namespace IntercomMvp
         private CharacterController targetCapsule;
         private Transform cachedTarget;
         private Vector3 focus;
-        private Vector3 focusVelocity;
-        private Vector3 lookAhead;
-        private Vector3 lookAheadVelocity;
+        private readonly IntercomCameraTracking tracking = new IntercomCameraTracking();
         private Vector3 lastTargetPosition;
         private Vector3 suppliedDirection;
         private int suppliedFrame = -10;
@@ -54,8 +67,12 @@ namespace IntercomMvp
             if (presentationVersion >= 1) return false;
             pitch = 35f; yaw = 10f; roll = 0f; orthographic = true;
             orthographicSize = 4.6f; fieldOfView = 60f; distance = 12f;
-            focusHeight = 0.65f; framingOffset = Vector3.zero; smoothTime = 0.12f;
-            lookAheadDistance = 0.35f; lookAheadSmoothTime = 0.18f;
+            focusHeight = 0.65f; framingOffset = Vector3.zero; smoothTime = 0.18f;
+            lookAheadDistance = 0.28f; lookAheadSmoothTime = 0.14f;
+            freeMovement = true; deadZoneSize = new Vector2(0.16f, 0.12f);
+            safetyZoneSize = new Vector2(0.65f, 0.55f); recenterWhenIdle = true;
+            recenterDelay = 0.65f; recenterSmoothTime = 0.8f;
+            idleSpeedThreshold = 0.04f; teleportDistance = 8f;
             clampToGroundBounds = false;
             presentationVersion = 1;
             return true;
@@ -123,10 +140,12 @@ namespace IntercomMvp
             view = GetComponent<Camera>();
             CacheTarget();
             lastTargetPosition = TargetPosition;
-            lookAhead = lookAheadVelocity = focusVelocity = Vector3.zero;
             suppliedFrame = -10;
             ApplyLens();
-            focus = ClampFocus(TargetFocus);
+            Vector3 anchor = TargetFocus;
+            focus = ClampFocus(anchor);
+            tracking.Reset(anchor.x, anchor.z);
+            tracking.ApplyBounds(focus.x, focus.z, focus.x, focus.z);
             transform.position = focus - transform.forward * Mathf.Max(0.1f, distance);
             initialized = true;
         }
@@ -146,16 +165,72 @@ namespace IntercomMvp
             ApplyLens();
             Vector3 point = TargetPosition;
             Vector3 displacement = Vector3.ProjectOnPlane(point - lastTargetPosition, Vector3.up);
-            if (displacement.sqrMagnitude > 64f) { SnapToTarget(); return; }
+            if (displacement.sqrMagnitude > Mathf.Max(0.1f, teleportDistance) * Mathf.Max(0.1f, teleportDistance)) { SnapToTarget(); return; }
             lastTargetPosition = point;
             Vector3 direction = Time.frameCount - suppliedFrame <= 1
                 ? suppliedDirection : Vector3.ClampMagnitude(displacement / dt, 1f);
-            lookAhead = Vector3.SmoothDamp(lookAhead, direction * lookAheadDistance,
-                ref lookAheadVelocity, Mathf.Max(0.01f, lookAheadSmoothTime), Mathf.Infinity, dt);
-            Vector3 desired = ClampFocus(TargetFocus + lookAhead);
-            focus = Vector3.SmoothDamp(focus, desired, ref focusVelocity, Mathf.Max(0.01f, smoothTime), Mathf.Infinity, dt);
-            focus = ClampFocus(focus);
+            Vector3 targetFocus = TargetFocus;
+            tracking.Advance(targetFocus.x, targetFocus.z, direction.x, direction.z, dt,
+                new IntercomCameraTracking.Settings
+                {
+                    freeMovement = freeMovement, recenterWhenIdle = recenterWhenIdle,
+                    zoneWidth = deadZoneSize.x, zoneHeight = deadZoneSize.y,
+                    safetyWidth = safetyZoneSize.x, safetyHeight = safetyZoneSize.y,
+                    followSeconds = smoothTime, recenterDelay = recenterDelay,
+                    recenterSeconds = recenterSmoothTime, idleSpeed = idleSpeedThreshold,
+                    anticipationDistance = lookAheadDistance, anticipationSeconds = lookAheadSmoothTime,
+                    teleportDistance = teleportDistance
+                }, TrackingProjection());
+            focus = ClampFocus(new Vector3((float)tracking.FocusX, targetFocus.y, (float)tracking.FocusZ));
+            Vector3 anchor = ClampFocus(new Vector3((float)tracking.AnchorX, targetFocus.y, (float)tracking.AnchorZ));
+            tracking.ApplyBounds(focus.x, focus.z, anchor.x, anchor.z);
             transform.position = focus - transform.forward * Mathf.Max(0.1f, distance);
+        }
+
+        private IntercomCameraTracking.Projection TrackingProjection()
+        {
+            Vector3 right = transform.right, up = transform.up, forward = transform.forward;
+            float depth = Mathf.Max(0.1f, distance);
+            return new IntercomCameraTracking.Projection
+            {
+                rightX = right.x, rightY = right.y, rightZ = right.z,
+                upX = up.x, upY = up.y, upZ = up.z,
+                forwardX = forward.x, forwardY = forward.y, forwardZ = forward.z,
+                distance = depth, aspect = view.aspect, orthographic = orthographic,
+                halfHeight = orthographic ? Mathf.Max(0.01f, orthographicSize)
+                    : depth * Mathf.Tan(Mathf.Clamp(fieldOfView, 1f, 179f) * Mathf.Deg2Rad * 0.5f)
+            };
+        }
+
+        private void OnValidate()
+        {
+            deadZoneSize = new Vector2(Mathf.Clamp(deadZoneSize.x, 0f, 0.8f), Mathf.Clamp(deadZoneSize.y, 0f, 0.8f));
+            safetyZoneSize = new Vector2(Mathf.Clamp(safetyZoneSize.x, deadZoneSize.x, 0.95f), Mathf.Clamp(safetyZoneSize.y, deadZoneSize.y, 0.95f));
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (!showTrackingGuides || !freeMovement) return;
+            Camera camera = GetComponent<Camera>();
+            if (camera == null || camera.transform.forward.y >= -0.01f) return;
+            DrawTrackingRectangle(camera, deadZoneSize, new Color(0.2f, 0.9f, 0.7f, 1f));
+            DrawTrackingRectangle(camera, safetyZoneSize, new Color(1f, 0.65f, 0.15f, 0.8f));
+        }
+
+        private void DrawTrackingRectangle(Camera camera, Vector2 size, Color color)
+        {
+            Plane ground = new Plane(Vector3.up, new Vector3(0f, groundHeight + focusHeight + framingOffset.y, 0f));
+            Vector3[] corners = new Vector3[4];
+            for (int i = 0; i < 4; i++)
+            {
+                float x = (i == 0 || i == 3) ? -0.5f : 0.5f;
+                float y = i < 2 ? -0.5f : 0.5f;
+                Ray ray = camera.ViewportPointToRay(new Vector3(0.5f + x * size.x, 0.5f + y * size.y, 0f));
+                if (!ground.Raycast(ray, out float enter)) return;
+                corners[i] = ray.GetPoint(enter);
+            }
+            Gizmos.color = color;
+            for (int i = 0; i < 4; i++) Gizmos.DrawLine(corners[i], corners[(i + 1) % 4]);
         }
 
         private void ApplyLens()

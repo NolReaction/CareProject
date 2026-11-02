@@ -1,9 +1,9 @@
 {
-  "revision": "tutorial-daylight-v1",
+  "revision": "tutorial-daylight-v5",
   "unityEditorVersion": "6000.3.26f1",
   "urpVersion": "17.3.0",
   "reviewDate": "2026-11-02",
-  "scope": "Project-native lighting assets, explicit editor setup and isolated scene patch. No Unity Editor import, build, GPU performance or final visual equivalence is claimed.",
+  "scope": "V5 serialized restrained palette and daylight defaults; previous API verification retained as historical evidence. No Unity Editor import, GPU performance or final rendered appearance is claimed.",
   "assets": {
     "pipeline": "Assets/IntercomMVP/Settings/IntercomPipeline.asset",
     "renderer": "Assets/IntercomMVP/Settings/IntercomRenderer.asset",
@@ -22,29 +22,29 @@
       ],
       "color": [
         1,
-        0.96,
-        0.88
+        0.98,
+        0.94
       ],
-      "intensity": 1.65,
+      "intensity": 1.45,
       "softShadows": true,
-      "shadowStrength": 0.85
+      "shadowStrength": 0.72
     },
     "ambient": {
       "mode": "Trilight",
       "sky": [
-        0.58,
-        0.67,
-        0.78
+        0.62,
+        0.68,
+        0.74
       ],
       "equator": [
-        0.4,
-        0.46,
-        0.52
+        0.48,
+        0.53,
+        0.56
       ],
       "ground": [
-        0.29,
-        0.28,
-        0.25
+        0.35,
+        0.35,
+        0.32
       ]
     },
     "pipeline": {
@@ -60,9 +60,9 @@
     },
     "grading": {
       "tonemapping": "ACES",
-      "postExposureEV": 0.1,
-      "contrast": 5,
-      "saturation": -4,
+      "postExposureEV": 0,
+      "contrast": -3,
+      "saturation": 0,
       "bloom": false,
       "depthOfField": false,
       "motionBlur": false
@@ -75,8 +75,8 @@
       "afterOpaque": true,
       "samples": 4,
       "blur": "Medium/Gaussian",
-      "intensity": 0.55,
-      "radius": 0.35,
+      "intensity": 0.3,
+      "radius": 0.25,
       "falloff": 40
     },
     "reflection": {
@@ -90,7 +90,7 @@
       "convolution": "Specular",
       "format": "RGBAHalf",
       "approximateBytesWithMips": 1048576,
-      "intensity": 0.75,
+      "intensity": 0.55,
       "realtimeCapture": false
     }
   },
@@ -168,8 +168,9 @@
       "output": "SDR with HDR working buffer",
       "sunSoftShadowType": 2,
       "profileAndCustomReflectionReferences": true,
-      "limitation": "Serialized scene inspection only; Unity import and Game View were not available."
-    }
+      "limitation": "V5 serialized sun, ambient and profile values checked against scene text; Unity import/render not executed."
+    },
+    "historicalVerificationRevision": "API and renderer checks retained from tutorial-daylight-v1; integrated sun and ambient values checked for V5."
   },
   "externalScriptGuidProof": [
     {

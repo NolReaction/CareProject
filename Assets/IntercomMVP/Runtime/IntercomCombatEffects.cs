@@ -42,6 +42,12 @@ namespace IntercomMvp
         private void Awake()
         {
             if (shooter == null) shooter = GetComponent<IntercomSimpleShooter>();
+            IntercomWeaponDefinition weapon = shooter != null ? shooter.Weapon : null;
+            if (weapon != null)
+            {
+                if (weapon.flashMaterial != null) flashMaterial = weapon.flashMaterial;
+                if (weapon.casingMaterial != null) casingMaterial = weapon.casingMaterial;
+            }
             if (flashMaterial == null || casingMaterial == null || impactMaterial == null)
             {
                 Debug.LogWarning("Intercom MVP: подключи материалы эффектов через Setup Robot.", this);
@@ -75,16 +81,23 @@ namespace IntercomMvp
         private void Barrel(Transform muzzle, bool rightHand)
         {
             if (!CanEmit || muzzle == null) return;
+            IntercomWeaponDefinition weapon = shooter != null ? shooter.Weapon : null;
             ref Piece flash = ref sparks[nextSpark]; nextSpark = (nextSpark + 1) % sparks.Length;
             Activate(ref flash, muzzle.position + muzzle.forward * 0.055f, muzzle.rotation * Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)),
-                new Vector3(0.29f, 0.29f, 0.36f), 0.065f, 1, flashMaterial, sparkMesh);
+                weapon != null ? weapon.flashScale : new Vector3(0.29f, 0.29f, 0.36f),
+                weapon != null ? IntercomWeaponBalance.Positive(weapon.flashLifetime,0.065f) : 0.065f,
+                1, flashMaterial, weapon != null && weapon.flashMesh != null ? weapon.flashMesh : sparkMesh);
             flash.velocity = Vector3.zero;
+            if (weapon != null && !weapon.ejectCasings) return;
             ref Piece shell = ref shells[nextShell]; nextShell = (nextShell + 1) % shells.Length;
             // This is a visual ejection point near the chamber; marker itself remains the barrel tip.
             Vector3 outwards = muzzle.right * (rightHand ? 1f : -1f);
             Activate(ref shell, muzzle.position - muzzle.forward * 0.14f + Vector3.up * 0.035f,
-                Random.rotation, new Vector3(0.045f, 0.10f, 0.045f), Mathf.Max(0.2f, shellLifetime), 0, casingMaterial, shellMesh);
+                Random.rotation, weapon != null ? weapon.casingScale : new Vector3(0.045f, 0.10f, 0.045f),
+                weapon != null ? IntercomWeaponBalance.Positive(weapon.casingLifetime,2.5f,0.2f) : Mathf.Max(0.2f, shellLifetime),
+                0, casingMaterial, weapon != null && weapon.casingMesh != null ? weapon.casingMesh : shellMesh);
             shell.velocity = outwards * Random.Range(0.8f, 1.4f) + Vector3.up * Random.Range(1.5f, 2.1f) - muzzle.forward * 0.35f;
+            if (weapon != null) shell.velocity *= Mathf.Max(0f, weapon.casingVelocityScale);
             shell.spin = new Vector3(Random.Range(-420f, 420f), Random.Range(220f, 650f), Random.Range(-420f, 420f));
         }
 

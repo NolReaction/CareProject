@@ -36,7 +36,7 @@ namespace IntercomMvp
         private int nextStep;
         private int nextImpact;
         private readonly int[] lastImpactClips = { -1, -1, -1, -1, -1, -1 };
-        private float lastImpactTime = float.NegativeInfinity;
+        private readonly IntercomImpactAudio impactReports = new IntercomImpactAudio();
         private int lastShotClip = -1;
         private readonly int[] lastStepClips = { -1, -1, -1, -1, -1, -1 };
         private bool hasFocus = true;
@@ -46,6 +46,11 @@ namespace IntercomMvp
         private bool musicPaused;
         private float ambienceGain;
         private float musicGain;
+
+        private IntercomWeaponDefinition Weapon => shooter != null ? shooter.Weapon : null;
+        private float ShotVolume => Weapon != null ? Weapon.shotVolume : profile.shotsVolume;
+        private float ShotPitchVariation => Weapon != null ? Weapon.shotPitchVariation : profile.shotPitchVariation;
+        private AudioClip[] ShotClips => Weapon != null ? Weapon.shotClips : profile.pistolShots;
 
         private bool CanPlay => isActiveAndEnabled && hasFocus && !appPaused
             && Time.timeScale > 0f && !AudioListener.pause && profile != null;
@@ -77,7 +82,7 @@ namespace IntercomMvp
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
-            lastImpactTime = float.NegativeInfinity;
+            impactReports.Reset();
             if (ambient != null) ambient.Stop();
             if (music != null) music.Stop();
             ambienceGain = musicGain = 0f;
@@ -132,12 +137,12 @@ namespace IntercomMvp
         {
             if (!CanPlay || shots == null || barrelCount <= 0) return;
             ObserveProfile();
-            AudioClip clip = PickClip(profile.pistolShots, ref lastShotClip);
+            AudioClip clip = PickClip(ShotClips, ref lastShotClip);
             if (clip == null) return;
             AudioSource voice = NextVoice(shots, ref nextShot);
             voice.transform.position = position;
-            PlayVoice(voice, clip, profile.shotPitchVariation,
-                Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(profile.shotsVolume));
+            PlayVoice(voice, clip, ShotPitchVariation,
+                Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(ShotVolume));
         }
 
         private void OnProjectileHit(IntercomProjectileImpact hit)
@@ -145,15 +150,14 @@ namespace IntercomMvp
             if (!CanPlay || impacts == null) return;
             ObserveProfile();
             float now = Time.unscaledTime;
-            // Two pistol rounds may arrive on the same frame. One short report
-            // keeps rapid collisions readable without adding an audio burst.
-            if (now - lastImpactTime < Mathf.Max(0.015f, profile.minimumImpactInterval)) return;
+            int bankIndex = Mathf.Clamp((int)hit.Surface, 0, lastImpactClips.Length - 1);
+            // Coalesce paired rounds only within the same material. A simultaneous
+            // wood/metal hit must retain both distinct reports.
+            if (!impactReports.CanPlay(bankIndex, now, profile.minimumImpactInterval)) return;
             Vector3 player = motor != null ? motor.transform.position : transform.position;
-            float gain = Mathf.Clamp01(1f - Vector3.Distance(hit.Point, player)
-                / Mathf.Max(1f, profile.impactAudibleRange));
+            float gain = IntercomImpactAudio.DistanceGain(Vector3.Distance(hit.Point, player), profile.impactAudibleRange);
             float materialGain = Mathf.Clamp(hit.Volume, 0f, 2f);
             if (gain <= 0f || materialGain <= 0f) return;
-            int bankIndex = Mathf.Clamp((int)hit.Surface, 0, lastImpactClips.Length - 1);
             AudioClip[] bank = hit.Surface == IntercomSurfaceKind.Metal ? profile.metalImpacts
                 : hit.Surface == IntercomSurfaceKind.Wood ? profile.woodImpacts
                 : hit.Surface == IntercomSurfaceKind.Soil || hit.Surface == IntercomSurfaceKind.Gravel ? profile.soilImpacts
@@ -161,7 +165,7 @@ namespace IntercomMvp
             AudioClip clip = PickClip(bank, ref lastImpactClips[bankIndex]);
             if (clip == null) clip = PickClip(profile.impactHits, ref lastImpactClips[0]);
             if (clip == null) return;
-            lastImpactTime = now;
+            impactReports.MarkPlayed(bankIndex, now);
             AudioSource voice = NextVoice(impacts, ref nextImpact);
             voice.transform.position = hit.Point;
             for (int i = 0; i < impacts.Length; i++)
@@ -199,7 +203,7 @@ namespace IntercomMvp
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
-            lastImpactTime = float.NegativeInfinity;
+            impactReports.Reset();
             stepClock.Reset();
             if (ambient != null) ambient.Stop();
             if (music != null) music.Stop();
@@ -210,15 +214,14 @@ namespace IntercomMvp
         private void UpdateMix()
         {
             float master = Mathf.Clamp01(profile.masterVolume);
-            float shotVolume = master * Mathf.Clamp01(profile.shotsVolume);
+            float shotVolume = master * Mathf.Clamp01(ShotVolume);
             float stepVolume = master * Mathf.Clamp01(profile.stepsVolume);
             for (int i = 0; i < shots.Length; i++) shots[i].volume = shotVolume;
             for (int i = 0; i < steps.Length; i++) steps[i].volume = stepVolume * stepGains[i];
             Vector3 player = motor != null ? motor.transform.position : transform.position;
             for (int i = 0; i < impacts.Length; i++)
                 impacts[i].volume = master * Mathf.Clamp01(profile.impactsVolume) * impactGains[i]
-                    * Mathf.Clamp01(1f - Vector3.Distance(impacts[i].transform.position, player)
-                        / Mathf.Max(1f, profile.impactAudibleRange));
+                    * IntercomImpactAudio.DistanceGain(Vector3.Distance(impacts[i].transform.position, player), profile.impactAudibleRange);
         }
 
         private void UpdateLoop(AudioSource source, AudioClip clip, bool enabledLoop,
@@ -332,7 +335,7 @@ namespace IntercomMvp
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
-            lastImpactTime = float.NegativeInfinity;
+            impactReports.Reset();
             if (ambient != null && ambient.isPlaying)
             {
                 ambient.Pause();

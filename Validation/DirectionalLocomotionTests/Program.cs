@@ -140,6 +140,16 @@ internal static class Program
             Near(IntercomLocomotionCadence.PlaybackRate(2.1f, 1.0f, 1f) * 3f, 6.3f, "current full-speed contacts/sec");
             Near(IntercomLocomotionCadence.PlaybackRate(1.8f, float.NaN, 1f), 1.8f, "invalid reference uses current measured gait");
         });
+        Case("V5 longer rigid stroke and cadence share the same reference", () =>
+        {
+            float scale=IntercomLocomotionCadence.SafeStrideScale(1.32f);
+            Near(IntercomLocomotionCadence.PlaybackRate(3.3f,1f*scale,1f),2.5f,"full forward playback");
+            Near(IntercomLocomotionCadence.PlaybackRate(3.3f,1f*scale,1f)*3f,7.5f,"V5 contact frequency");
+            Near(IntercomLocomotionCadence.PlaybackRate(3.3f*.75f,.75f*scale,1f),2.5f,"side stride uses identical cadence");
+            Near(IntercomLocomotionCadence.SafeStrideScale(float.NaN),1f,"invalid scale keeps authored stride");
+            Near(IntercomLocomotionCadence.SafeStrideScale(.1f),1f,"shortening cannot erase the gait");
+            Near(IntercomLocomotionCadence.SafeStrideScale(20f),1.4f,"rigid reach scale stays bounded");
+        });
         Case("shorter lateral stride preserves travel direction and bounded cadence", () =>
         {
             foreach(float angle in new[]{0f,45f,90f,135f,180f,225f,270f,315f})

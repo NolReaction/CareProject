@@ -1,0 +1,106 @@
+{
+  "scope": "Static authored world-height checks; excludes animation and PhysX sampling. A planar projectile above top+radius does not hit this object.",
+  "radius": 0.035,
+  "objects": [
+    {
+      "collider": "Collision - Loading cargo A",
+      "topY": 1.15,
+      "maximumBulletCenterYWithRadius035": 1.185
+    },
+    {
+      "collider": "Collision - Loading drum",
+      "topY": 0.9495,
+      "maximumBulletCenterYWithRadius035": 0.9845
+    },
+    {
+      "collider": "Collision - Workshop spool",
+      "topY": 0.835,
+      "maximumBulletCenterYWithRadius035": 0.87
+    },
+    {
+      "collider": "Collision - Workshop drum",
+      "topY": 0.9495,
+      "maximumBulletCenterYWithRadius035": 0.9845
+    },
+    {
+      "collider": "Collision - Workshop crates",
+      "topY": 1.15,
+      "maximumBulletCenterYWithRadius035": 1.185
+    },
+    {
+      "collider": "Collision - Container barrier",
+      "topY": 0.98,
+      "maximumBulletCenterYWithRadius035": 1.015
+    },
+    {
+      "collider": "Collision - Container drum",
+      "topY": 0.8995,
+      "maximumBulletCenterYWithRadius035": 0.9345
+    },
+    {
+      "collider": "Collision - Low barrier",
+      "topY": 0.98,
+      "maximumBulletCenterYWithRadius035": 1.015
+    },
+    {
+      "collider": "Collision - Supply crate",
+      "topY": 1.1,
+      "maximumBulletCenterYWithRadius035": 1.135
+    },
+    {
+      "collider": "Collision - Supply drum",
+      "topY": 0.8995,
+      "maximumBulletCenterYWithRadius035": 0.9345
+    },
+    {
+      "collider": "Collision - Low barrier",
+      "topY": 0.98,
+      "maximumBulletCenterYWithRadius035": 1.015
+    },
+    {
+      "collider": "Collision - Supply crate",
+      "topY": 1.1,
+      "maximumBulletCenterYWithRadius035": 1.135
+    },
+    {
+      "collider": "Collision - Supply drum",
+      "topY": 0.8995,
+      "maximumBulletCenterYWithRadius035": 0.9345
+    },
+    {
+      "collider": "Collision - Low barrier",
+      "topY": 0.98,
+      "maximumBulletCenterYWithRadius035": 1.015
+    },
+    {
+      "collider": "Collision - Supply crate",
+      "topY": 1.1,
+      "maximumBulletCenterYWithRadius035": 1.135
+    },
+    {
+      "collider": "Collision - Supply drum",
+      "topY": 0.8995,
+      "maximumBulletCenterYWithRadius035": 0.9345
+    },
+    {
+      "collider": "Collision - Range backstop -3.4",
+      "topY": 1.03,
+      "maximumBulletCenterYWithRadius035": 1.065
+    },
+    {
+      "collider": "Collision - Range backstop 0",
+      "topY": 1.03,
+      "maximumBulletCenterYWithRadius035": 1.065
+    },
+    {
+      "collider": "Collision - Range backstop 3.4",
+      "topY": 1.03,
+      "maximumBulletCenterYWithRadius035": 1.065
+    },
+    {
+      "collider": "Collision - Range supplies",
+      "topY": 1.15,
+      "maximumBulletCenterYWithRadius035": 1.185
+    }
+  ]
+}

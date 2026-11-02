@@ -16,6 +16,7 @@ internal static class Program
     }
     public static void Main()
     {
+        GeometryCases.Run();
         var player=Box(0,0,12,.5f,.8f,.5f);
         Check(IntercomOcclusionMath.Blocks(Box(0,0,5,1,2,1),player),"foreground house hides");
         Check(!IntercomOcclusionMath.Blocks(Box(0,0,15,1,2,1),player),"background house stays");

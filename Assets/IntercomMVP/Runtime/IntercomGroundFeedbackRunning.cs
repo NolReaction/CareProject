@@ -11,6 +11,11 @@ namespace IntercomMvp
         [Range(0f, 1f)] public float runningTiltWeight = 0.75f;
         private CharacterController runningController;
 
+        public bool CanAdjustRunningStride => ProvidesFootContacts && plantFeet && body != null
+            && leftRig.neutralLinkReady && rightRig.neutralLinkReady
+            && leftCalf != null && rightCalf != null && leftFoot != null && rightFoot != null
+            && leftFoot.parent == leftCalf && rightFoot.parent == rightCalf;
+
         private void AlignRunningGround(float blend)
         {
             if (body == null || !plantFeet) return;
@@ -28,7 +33,7 @@ namespace IntercomMvp
             body.position += Vector3.up * correction * blend;
         }
 
-        private void RestoreDiagonalStride(float phase, float blend)
+        private void RestoreRunningStride(float blend)
         {
             if (!plantFeet || body == null) return;
             float x = animator.GetFloat("MoveX"), y = animator.GetFloat("MoveY");
@@ -38,16 +43,19 @@ namespace IntercomMvp
             // about 29% of the travel stroke; increasing playback instead would
             // make these short legs chatter. Restore the stroke on the rigid
             // reach sphere, including the heel landing and swing transitions.
-            float gain = Mathf.Clamp((Math.Abs(x) + Math.Abs(y)) / length, 1f, 1.414214f);
+            float gain = Mathf.Clamp((Math.Abs(x) + Math.Abs(y)) / length, 1f, 1.414214f) * motor.RuntimeStrideScale;
+            // The motor uses the same stroke scale in its cadence denominator.
+            // This adds reach by rotation on the original rigid leg sphere;
+            // it never moves a boot away from its bearing or stretches a bone.
             if (gain < 1.001f) return;
             Vector3 forward = motor.FacingDirection;
             Vector3 right = Vector3.Cross(Vector3.up, forward);
             Vector3 travel = (right * (x * IntercomLocomotionCadence.SafeStrafeRatio(motor.strafeSpeedRatio)) + forward * y).normalized;
-            RestoreDiagonalFoot(leftRig, gain, travel, blend);
-            RestoreDiagonalFoot(rightRig, gain, travel, blend);
+            RestoreStrideFoot(leftRig, gain, travel, blend);
+            RestoreStrideFoot(rightRig, gain, travel, blend);
         }
 
-        private void RestoreDiagonalFoot(FootRig rig, float gain, Vector3 travel, float weight)
+        private void RestoreStrideFoot(FootRig rig, float gain, Vector3 travel, float weight)
         {
             if (weight <= 0f || !rig.neutralLinkReady || rig.foot == null || rig.calf == null) return;
             Vector3 link = rig.foot.position - rig.calf.position;
