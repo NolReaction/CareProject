@@ -483,6 +483,8 @@ AvatarMask:
     m_Weight: 1
   - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L/Pistol_L_tripo_part_4.001
     m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/L_Upperarm/L_Forearm_A/L_Forearm_B/L_Forearm_C/L_Hand/Pistol_L/IntercomMuzzle_L
+    m_Weight: 1
   - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm
     m_Weight: 1
   - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A
@@ -502,6 +504,8 @@ AvatarMask:
   - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/tripo_part_2.001
     m_Weight: 1
   - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/tripo_part_4.001
+    m_Weight: 1
+  - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/Pistol_R/IntercomMuzzle_R
     m_Weight: 1
   - m_Path: IntercomRobot/Intercom_Armature_Fixed/Body/Torso/R_Upperarm/R_Forearm_A/R_Forearm_B/R_Forearm_C/R_Hand/R_Index1
     m_Weight: 1

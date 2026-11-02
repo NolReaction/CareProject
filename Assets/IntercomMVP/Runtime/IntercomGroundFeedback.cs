@@ -1,32 +1,59 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace IntercomMvp
 {
-    /// <summary>Soft boot contacts and small additive torso accents. Legs and collision geometry stay authored.</summary>
+    /// <summary>Measured boot support, rigid single-link leg correction and independent torso suspension.</summary>
     [DefaultExecutionOrder(150)]
     [DisallowMultipleComponent]
     public sealed class IntercomGroundFeedback : MonoBehaviour
     {
         public IntercomPlayerMotor motor;
-        public IntercomPlayerAudio audioSource;
+        [HideInInspector] public IntercomPlayerAudio audioSource; // Kept only for old scene serialization.
         public IntercomSimpleShooter shooter;
         public Animator animator;
         public Transform leftFoot;
         public Transform rightFoot;
         public Transform torso;
+        public Transform body;
+        public Transform leftCalf, rightCalf, leftToe, rightToe;
+        public Transform leftUpperArm, rightUpperArm;
+        public event Action<Collider, Vector3, float, bool> Footstep;
+        public bool ProvidesFootContacts => isActiveAndEnabled && soleOffsetsCalibrated
+            && animator != null && animator.isActiveAndEnabled && animator.runtimeAnimatorController != null
+            && leftFoot != null && rightFoot != null && leftCalf != null && rightCalf != null
+            && leftFoot.parent == leftCalf && rightFoot.parent == rightCalf;
+        [Header("Foot support (world metres)")]
+        public bool plantFeet = true;
+        [Range(0f, 0.05f)] public float bodyHeightCompliance = 0.03f;
+        [Range(0f, 0.2f)] public float maximumPlantCorrection = 0.10f;
+        [Range(0f, 45f)] public float maximumCalfCorrection = 28f;
+        [Range(0f, 25f)] public float maximumGroundTilt = 16f;
+        [Header("Torso suspension")]
+        [Range(0f, 1f)] public float accelerationLean = 0.38f;
+        [Range(0f, 0.06f)] public float turnLagSeconds = 0.025f;
+        [Range(1f, 10f)] public float torsoSpringFrequency = 4.5f;
+        [Range(0f, 0.04f)] public float torsoTravelLag = 0.018f;
+        [Range(0.01f, 0.3f)] public float aimStabilizationSeconds = 0.1f;
         [Tooltip("Included radial material. Its shader is retained by the build through this reference.")]
         public Material contactMaterial;
         [Tooltip("Sole centres in the corresponding foot bone's local space.")]
         public Vector3 leftSoleOffset;
         public Vector3 rightSoleOffset;
         public bool soleOffsetsCalibrated;
+        [HideInInspector] public Vector3 leftHeelOffset, rightHeelOffset, leftToeOffset, rightToeOffset;
+        [HideInInspector] public bool contactMarkersCalibrated;
+        // The ankle pivot relocation changes foot-local marker coordinates.
+        // Leave the serialized field uninitialized so old saved scenes read as version 0.
+        private const int CurrentSoleCalibrationVersion = 1;
+        [SerializeField, HideInInspector] private int soleCalibrationVersion;
         public LayerMask groundMask = ~0;
         [Range(0f, 0.6f)] public float shadowOpacity = 0.32f;
         public Vector2 shadowSize = new Vector2(0.34f, 0.46f);
         [Min(0.05f)] public float shadowFadeHeight = 0.32f;
         [Min(0.001f)] public float surfaceOffset = 0.009f;
-        [Range(0f, 5f)] public float runLeanDegrees = 2.5f;
+        [Range(0f, 10f)] public float runLeanDegrees = 5.5f;
         [Range(0f, 4f)] public float runSwayDegrees = 1.25f;
         [Range(0f, 8f)] public float recoilDegrees = 4f;
         [Range(0f, 0.025f)] public float contactCompression = 0.008f;
@@ -37,6 +64,7 @@ namespace IntercomMvp
             internal bool valid;
             internal Vector3 point, normal;
             internal float height;
+            internal Collider collider;
         }
         private struct Puff
         {
@@ -50,24 +78,45 @@ namespace IntercomMvp
         private const int DustCapacity = 12;
         private static readonly int TintId = Shader.PropertyToID("_Tint");
         private readonly RaycastHit[] hits = new RaycastHit[24];
-        private readonly IntercomFootstepClock fallbackClock = new IntercomFootstepClock();
+        private sealed class FootRig
+        {
+            internal Transform foot, calf, toe, anchorMarker;
+            internal bool left, anchored, inWindow;
+            internal readonly IntercomFootPlantGate gate = new IntercomFootPlantGate();
+            internal Collider surface;
+            internal Vector3 anchorLocal, anchorMarkerOffset, anchorFacing, anchorTravel, targetAnkle, authoredAnkle, sole;
+            internal int soleKind;
+            internal Quaternion authoredRotation;
+            internal float weight, length;
+            internal Contact contact;
+        }
+        private struct SavedPose
+        {
+            internal Transform bone;
+            internal Vector3 position;
+            internal Quaternion rotation;
+        }
         private MaterialPropertyBlock properties;
-        private IntercomPlayerAudio subscribedAudio;
         private IntercomSimpleShooter subscribedShooter;
+        private IntercomWeaponPose weaponPose;
         private GameObject effectsRoot;
         private Mesh discMesh;
         private Transform[] shadows;
         private MeshRenderer[] shadowRenderers;
         private Puff[] dust;
+        private readonly SavedPose[] savedPose = new SavedPose[8];
+        private readonly FootRig leftRig = new FootRig { left = true };
+        private readonly FootRig rightRig = new FootRig { left = false };
         private Contact leftContact, rightContact;
-        private int nextPuff;
-        private bool nextLeft = true;
-        private bool pendingContact;
-        private float compression, recoil;
-        private bool poseApplied;
-        private Transform appliedTorso;
-        private Vector3 savedLocalPosition;
-        private Quaternion savedLocalRotation;
+        private int nextPuff, savedPoseCount;
+        private float compression, recoil, aimStabilization;
+        private Vector3 previousVelocity, previousPosition, previousFacing;
+        private bool motionObserved;
+        private uint resetVersion;
+        private int previousAnimatorState;
+        private float previousPhase;
+        private float pitch, pitchVelocity, roll, rollVelocity, yaw, yawVelocity;
+        private float lagX, lagXVelocity, lagZ, lagZVelocity, settle, settleVelocity;
         private bool focused = true;
         private bool paused;
 
@@ -77,8 +126,8 @@ namespace IntercomMvp
         {
             properties = new MaterialPropertyBlock();
             if (motor == null) motor = GetComponent<IntercomPlayerMotor>();
-            if (audioSource == null) audioSource = GetComponent<IntercomPlayerAudio>();
             if (shooter == null) shooter = GetComponent<IntercomSimpleShooter>();
+            weaponPose = GetComponent<IntercomWeaponPose>();
             if (animator == null) animator = GetComponentInChildren<Animator>(true);
             if (animator != null)
             {
@@ -87,10 +136,19 @@ namespace IntercomMvp
                     if (leftFoot == null && bone.name == "L_Foot") leftFoot = bone;
                     if (rightFoot == null && bone.name == "R_Foot") rightFoot = bone;
                     if (torso == null && bone.name == "Torso") torso = bone;
+                    if (body == null && bone.name == "Body") body = bone;
+                    if (leftCalf == null && bone.name == "L_Calf") leftCalf = bone;
+                    if (rightCalf == null && bone.name == "R_Calf") rightCalf = bone;
+                    if (leftToe == null && bone.name == "L_Toe") leftToe = bone;
+                    if (rightToe == null && bone.name == "R_Toe") rightToe = bone;
+                    if (leftUpperArm == null && bone.name == "L_Upperarm") leftUpperArm = bone;
+                    if (rightUpperArm == null && bone.name == "R_Upperarm") rightUpperArm = bone;
                 }
-                // Once at startup for old scenes without editor-calibrated offsets.
-                if (!soleOffsetsCalibrated) CalibrateSoles();
+                // Re-measure old saved offsets after a model-space calibration change.
+                if (!soleOffsetsCalibrated || !contactMarkersCalibrated
+                    || soleCalibrationVersion != CurrentSoleCalibrationVersion) CalibrateSoles();
             }
+            BindRig();
             if (contactMaterial != null) CreateEffects();
         }
 
@@ -106,98 +164,253 @@ namespace IntercomMvp
 
         private void LateUpdate()
         {
-            if (!Active || motor == null || !motor.isActiveAndEnabled)
+            bool animated = animator != null && animator.isActiveAndEnabled
+                && animator.runtimeAnimatorController != null && animator.speed > 0f;
+            if (!Active || motor == null || !motor.isActiveAndEnabled || !animated
+                || !soleOffsetsCalibrated || !contactMarkersCalibrated)
             {
-                RestorePose();
-                ClearTransientState();
-                HideEffects();
-                return;
+                RestorePose(); ClearTransientState(); HideEffects(); return;
             }
             float dt = Time.deltaTime;
+            Vector3 facing = motor.FacingDirection;
+            AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+            float phase = state.normalizedTime;
+            bool discontinuity = !motionObserved || resetVersion != motor.MotionResetVersion
+                || state.fullPathHash != previousAnimatorState || phase < previousPhase - 0.001f
+                || phase - previousPhase > 1f || (transform.position - previousPosition).sqrMagnitude > Mathf.Pow(Mathf.Max(0.5f, motor.moveSpeed * dt * 3f), 2f);
+            if (discontinuity)
+            {
+                ClearTransientState();
+                previousVelocity = motor.ActualPlanarVelocity;
+                previousFacing = facing;
+                motionObserved = true;
+            }
+            resetVersion = motor.MotionResetVersion;
+            previousPosition = transform.position;
             bool grounded = motor.IsGrounded;
-            leftContact = Probe(leftFoot, leftSoleOffset);
-            rightContact = Probe(rightFoot, rightSoleOffset);
+            bool moving = grounded && motor.ActualPlanarSpeed > 0.08f;
+            float blend = Mathf.Clamp01(animator.GetFloat("Speed"));
+            SavePose();
+            PrepareFoot(leftRig, phase, blend, moving, grounded);
+            PrepareFoot(rightRig, phase, blend, moving, grounded);
+            if (plantFeet && body != null && grounded)
+            {
+                float weightedHeight = 0f, weight = 0f;
+                AccumulateSupport(leftRig, ref weightedHeight, ref weight);
+                AccumulateSupport(rightRig, ref weightedHeight, ref weight);
+                if (weight > 0.001f)
+                    body.position += Vector3.up * Mathf.Clamp(weightedHeight / weight,
+                        -bodyHeightCompliance, bodyHeightCompliance) * Mathf.Min(1f, weight);
+                SolveFoot(leftRig); SolveFoot(rightRig);
+            }
+            leftContact = ProbeFoot(leftRig);
+            rightContact = ProbeFoot(rightRig);
+            PublishContact(leftRig, leftContact, moving, discontinuity);
+            PublishContact(rightRig, rightContact, moving, discontinuity);
             if (shadows != null)
             {
                 UpdateShadow(0, leftContact, grounded);
                 UpdateShadow(1, rightContact, grounded);
             }
-            bool moving = grounded && motor.ActualPlanarSpeed > 0.08f;
-            bool animated = animator != null && animator.isActiveAndEnabled
-                && animator.runtimeAnimatorController != null && animator.speed > 0f;
-            moving = moving && animated;
-            float phase = animated ? animator.GetCurrentAnimatorStateInfo(0).normalizedTime : 0f;
-            if (!animated) fallbackClock.Reset();
-            // The audio contact event is authoritative when available. This
-            // fallback keeps visual contacts working on a character without audio.
-            if (audioSource == null || !audioSource.isActiveAndEnabled || audioSource.profile == null)
-            {
-                if (animated && fallbackClock.Tick(phase, animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0f, moving))
-                    pendingContact = true;
-            }
-            else fallbackClock.Reset();
-            if (pendingContact && moving)
-            {
-                compression = 1f;
-                Contact contact = ChooseContact();
-                if (contact.valid && contact.height <= 0.065f) EmitDust(contact);
-            }
-            pendingContact = false;
+            ApplyTorso(phase, moving, dt, discontinuity);
             UpdateDust(dt);
-            if (animated) ApplyPose(phase, moving);
-            compression = Mathf.MoveTowards(compression, 0f, dt * 13f);
+            compression = Mathf.MoveTowards(compression, 0f, dt * 10f);
             recoil = Mathf.MoveTowards(recoil, 0f, dt * 12f);
+            previousVelocity = motor.ActualPlanarVelocity;
+            previousFacing = facing;
+            previousAnimatorState = state.fullPathHash;
+            previousPhase = phase;
         }
 
-        private Contact ChooseContact()
+        private void BindRig()
         {
-            Contact contact;
-            if (!leftContact.valid) contact = rightContact;
-            else if (!rightContact.valid) contact = leftContact;
-            else if (Mathf.Abs(leftContact.height - rightContact.height) > 0.025f)
-                contact = leftContact.height < rightContact.height ? leftContact : rightContact;
-            else contact = nextLeft ? leftContact : rightContact;
-            nextLeft = !nextLeft;
-            return contact;
+            leftRig.foot = leftFoot; leftRig.calf = leftCalf; leftRig.toe = leftToe;
+            rightRig.foot = rightFoot; rightRig.calf = rightCalf; rightRig.toe = rightToe;
         }
 
-        private void ApplyPose(float phase, bool moving)
+        private void PrepareFoot(FootRig rig, float phase, float blend, bool moving, bool grounded)
+        {
+            rig.weight = 0f;
+            if (rig.foot == null) return;
+            rig.authoredAnkle = rig.foot.position;
+            rig.authoredRotation = rig.foot.rotation;
+            rig.contact = ProbeFoot(rig);
+            bool supportWindow = moving && IntercomGroundMath.StanceWeight(phase, rig.left) > 0f;
+            if (!supportWindow || !grounded || !rig.contact.valid)
+            {
+                rig.anchored = false;
+                if (!supportWindow) rig.inWindow = false;
+            }
+            if (!grounded || !rig.contact.valid || rig.calf == null || rig.foot.parent != rig.calf) return;
+            rig.length = Vector3.Distance(rig.calf.position, rig.foot.position);
+            if (rig.length < 0.01f) return;
+            float support = moving ? IntercomGroundMath.StanceWeight(phase, rig.left) * blend : 1f;
+            if (rig.contact.height > (moving ? 0.10f : 0.055f)) support = 0f;
+            if (support <= 0f) return;
+            float friction = moving ? IntercomGroundMath.PlantLockWeight(phase, rig.left) : 0f;
+            if (supportWindow) rig.inWindow = true;
+            if (friction <= 0f) rig.anchored = false;
+            if (supportWindow && friction > 0f)
+            {
+                if (!rig.anchored || rig.surface != rig.contact.collider)
+                {
+                    rig.surface = rig.contact.collider;
+                    rig.anchorMarker = rig.soleKind == 2 && rig.toe != null ? rig.toe : rig.foot;
+                    rig.anchorMarkerOffset = rig.soleKind == 2 ? (rig.left ? leftToeOffset : rightToeOffset)
+                        : rig.soleKind == 1 ? (rig.left ? leftHeelOffset : rightHeelOffset)
+                        : (rig.left ? leftSoleOffset : rightSoleOffset);
+                    // Lock a boot material point, not its ankle. The ankle must
+                    // still travel naturally as the boot rolls around its sole.
+                    rig.anchorLocal = rig.surface.transform.InverseTransformPoint(
+                        rig.anchorMarker.TransformPoint(rig.anchorMarkerOffset));
+                    rig.anchorFacing = motor.FacingDirection;
+                    rig.anchorTravel = motor.ActualPlanarVelocity;
+                    rig.anchored = true;
+                }
+            }
+            Vector3 desired = rig.authoredAnkle;
+            if (rig.anchored && rig.surface != null)
+            {
+                Vector3 anchor = rig.surface.transform.TransformPoint(rig.anchorLocal);
+                Vector3 marker = rig.anchorMarker.TransformPoint(rig.anchorMarkerOffset);
+                Vector3 offset = Vector3.ProjectOnPlane(anchor - marker, Vector3.up);
+                float limit = Mathf.Min(maximumPlantCorrection, rig.length * 0.7f);
+                // A one-link robot leg cannot reach an arbitrarily old foot anchor.
+                // Release gracefully rather than stretching or detaching the boot.
+                float reach = offset.magnitude;
+                if (reach > limit && limit > 0.001f)
+                    friction *= Mathf.Clamp01(1f - (reach - limit) / (limit * 0.5f));
+                float turn = Vector3.Angle(rig.anchorFacing, motor.FacingDirection);
+                friction *= Mathf.Clamp01(1f - Mathf.Max(0f, turn - 20f) / 35f);
+                float travelChange = Vector3.Angle(rig.anchorTravel, motor.ActualPlanarVelocity);
+                friction *= Mathf.Clamp01(1f - Mathf.Max(0f, travelChange - 30f) / 45f);
+                desired += Vector3.ClampMagnitude(offset, limit) * friction;
+            }
+            float gap = Vector3.Dot(rig.sole - rig.contact.point, rig.contact.normal);
+            desired -= rig.contact.normal * Mathf.Clamp(gap - 0.003f, -0.04f, 0.10f);
+            rig.targetAnkle = desired;
+            rig.weight = support;
+        }
+
+        private void AccumulateSupport(FootRig rig, ref float height, ref float weight)
+        {
+            if (rig.weight <= 0f || rig.calf == null) return;
+            Vector3 delta = rig.targetAnkle - rig.calf.position;
+            float horizontal = new Vector2(delta.x, delta.z).magnitude;
+            if (!IntercomGroundMath.TryHipHeight(rig.targetAnkle.y, horizontal, rig.length, out float hipY))
+            { rig.weight = 0f; rig.anchored = false; return; }
+            height += (hipY - rig.calf.position.y) * rig.weight;
+            weight += rig.weight;
+        }
+
+        private void SolveFoot(FootRig rig)
+        {
+            if (rig.weight <= 0f || rig.foot == null || rig.calf == null) return;
+            Vector3 source = rig.foot.position - rig.calf.position;
+            Vector3 target = rig.targetAnkle - rig.calf.position;
+            if (target.sqrMagnitude < 0.00001f) return;
+            Quaternion correction = Quaternion.FromToRotation(source, target);
+            correction = Quaternion.RotateTowards(Quaternion.identity, correction, maximumCalfCorrection);
+            rig.calf.rotation = Quaternion.Slerp(Quaternion.identity, correction, rig.weight) * rig.calf.rotation;
+            Quaternion slope = Quaternion.FromToRotation(Vector3.up, rig.contact.normal);
+            slope = Quaternion.RotateTowards(Quaternion.identity, slope, maximumGroundTilt);
+            // Keep authored heel/toe roll and all toe keys after the calf changes.
+            rig.foot.rotation = Quaternion.Slerp(Quaternion.identity, slope, rig.weight) * rig.authoredRotation;
+        }
+
+        private void PublishContact(FootRig rig, Contact contact, bool moving, bool discontinuity)
+        {
+            bool touching = rig.weight >= 0.08f && contact.valid && contact.height <= 0.04f;
+            if (!rig.gate.Observe(rig.inWindow, moving, touching, discontinuity)) return;
+            compression = 1f;
+            float strength = Mathf.Clamp01(0.35f + motor.ActualPlanarSpeed / Mathf.Max(0.1f, motor.moveSpeed) * 0.65f);
+            Footstep?.Invoke(contact.collider, contact.point, strength, rig.left);
+            EmitDust(contact);
+        }
+
+        private Contact ProbeFoot(FootRig rig)
+        {
+            if (rig.foot == null) return default;
+            Vector3 centre = rig.foot.TransformPoint(rig.left ? leftSoleOffset : rightSoleOffset);
+            if (!contactMarkersCalibrated) { rig.sole = centre; rig.soleKind = 0; return ProbePoint(centre); }
+            Vector3 heel = rig.foot.TransformPoint(rig.left ? leftHeelOffset : rightHeelOffset);
+            Transform toe = rig.toe != null ? rig.toe : rig.foot;
+            Vector3 tip = toe.TransformPoint(rig.left ? leftToeOffset : rightToeOffset);
+            // Use the actual articulated heel/toe, not one centre point which
+            // floats as the boot rolls. The lower contact is the support point.
+            rig.sole = heel.y < tip.y ? heel : tip;
+            rig.soleKind = heel.y < tip.y ? 1 : 2;
+            if (centre.y < rig.sole.y) { rig.sole = centre; rig.soleKind = 0; }
+            return ProbePoint(rig.sole);
+        }
+
+        private void ApplyTorso(float phase, bool moving, float dt, bool discontinuity)
         {
             if (torso == null) return;
-            RestorePose();
-            appliedTorso = torso;
-            savedLocalPosition = torso.localPosition;
-            savedLocalRotation = torso.localRotation;
-            poseApplied = true;
             Vector3 forward = motor.FacingDirection;
             Vector3 right = Vector3.Cross(Vector3.up, forward).normalized;
-            float weight = moving ? Mathf.Clamp01(motor.ActualPlanarSpeed / Mathf.Max(0.1f, motor.moveSpeed)) : 0f;
-            float side = moving ? animator.GetFloat("MoveX") : 0f;
-            float travel = moving ? animator.GetFloat("MoveY") : 0f;
-            float sway = Mathf.Sin((phase % 1f) * Mathf.PI * 2f) * runSwayDegrees * weight;
-            float lean = travel * runLeanDegrees * weight - recoil * recoilDegrees;
-            torso.rotation = Quaternion.AngleAxis(lean, right)
-                * Quaternion.AngleAxis(sway - side * runLeanDegrees * weight, forward) * torso.rotation;
-            torso.position -= Vector3.up * (compression * contactCompression * weight);
+            Vector3 velocity = motor.ActualPlanarVelocity;
+            Vector3 acceleration = discontinuity ? Vector3.zero
+                : Vector3.ClampMagnitude((velocity - previousVelocity) / Mathf.Max(0.001f, dt), 16f);
+            float speedWeight = moving ? Mathf.Clamp01(motor.ActualPlanarSpeed / Mathf.Max(0.1f, motor.moveSpeed)) : 0f;
+            float forwardSpeed = Vector3.Dot(velocity, forward) / Mathf.Max(0.1f, motor.moveSpeed);
+            float sideSpeed = Vector3.Dot(velocity, right) / Mathf.Max(0.1f, motor.moveSpeed);
+            float cycle = phase * Mathf.PI * 2f;
+            float pitchTarget = forwardSpeed * runLeanDegrees + Vector3.Dot(acceleration, forward) * accelerationLean;
+            float rollTarget = -sideSpeed * runLeanDegrees - Vector3.Dot(acceleration, right) * accelerationLean
+                + Mathf.Sin(cycle) * runSwayDegrees * speedWeight;
+            float turnRate = discontinuity ? 0f : Vector3.SignedAngle(previousFacing, forward, Vector3.up) / Mathf.Max(0.001f, dt);
+            float yawTarget = Mathf.Clamp(-turnRate * turnLagSeconds, -8f, 8f) * (motor.IsAiming ? 0.35f : 1f);
+            float lagTargetX = Mathf.Clamp(-acceleration.x / 12f, -1f, 1f) * torsoTravelLag;
+            float lagTargetZ = Mathf.Clamp(-acceleration.z / 12f, -1f, 1f) * torsoTravelLag;
+            IntercomGroundMath.Spring(ref pitch, ref pitchVelocity, pitchTarget, torsoSpringFrequency, dt);
+            IntercomGroundMath.Spring(ref roll, ref rollVelocity, rollTarget, torsoSpringFrequency, dt);
+            IntercomGroundMath.Spring(ref yaw, ref yawVelocity, yawTarget, torsoSpringFrequency, dt);
+            IntercomGroundMath.Spring(ref lagX, ref lagXVelocity, lagTargetX, torsoSpringFrequency, dt);
+            IntercomGroundMath.Spring(ref lagZ, ref lagZVelocity, lagTargetZ, torsoSpringFrequency, dt);
+            IntercomGroundMath.Spring(ref settle, ref settleVelocity, -compression * contactCompression,
+                torsoSpringFrequency + 2f, dt);
+            bool armed = motor.IsAiming || (weaponPose != null && weaponPose.Posture != IntercomWeaponPosture.Relaxed);
+            if (discontinuity) aimStabilization = armed ? 1f : 0f;
+            else aimStabilization = Mathf.MoveTowards(aimStabilization, armed ? 1f : 0f,
+                dt / Mathf.Max(0.01f, aimStabilizationSeconds));
+            Quaternion leftAuthored = leftUpperArm != null ? leftUpperArm.rotation : Quaternion.identity;
+            Quaternion rightAuthored = rightUpperArm != null ? rightUpperArm.rotation : Quaternion.identity;
+            torso.rotation = Quaternion.AngleAxis(pitch - recoil * recoilDegrees, right)
+                * Quaternion.AngleAxis(roll, forward) * Quaternion.AngleAxis(yaw, Vector3.up) * torso.rotation;
+            torso.position += new Vector3(lagX, settle, lagZ) - forward * (recoil * 0.006f);
+            // Stabilize only our added torso motion. Source raise/recoil keys
+            // remain in the captured arm rotations; muzzle.forward stays valid.
+            if (leftUpperArm != null)
+                leftUpperArm.rotation = Quaternion.Slerp(leftUpperArm.rotation, leftAuthored, aimStabilization);
+            if (rightUpperArm != null)
+                rightUpperArm.rotation = Quaternion.Slerp(rightUpperArm.rotation, rightAuthored, aimStabilization);
         }
 
+        private void SavePose()
+        {
+            SaveBone(body); SaveBone(leftCalf); SaveBone(rightCalf);
+            SaveBone(leftFoot); SaveBone(rightFoot); SaveBone(torso);
+            SaveBone(leftUpperArm); SaveBone(rightUpperArm);
+        }
+        private void SaveBone(Transform bone)
+        {
+            if (bone == null) return;
+            savedPose[savedPoseCount++] = new SavedPose { bone = bone, position = bone.localPosition, rotation = bone.localRotation };
+        }
         private void RestorePose()
         {
-            if (!poseApplied) return;
-            if (appliedTorso != null)
+            for (int i = 0; i < savedPoseCount; i++)
             {
-                appliedTorso.localPosition = savedLocalPosition;
-                appliedTorso.localRotation = savedLocalRotation;
+                SavedPose pose = savedPose[i];
+                if (pose.bone != null) { pose.bone.localPosition = pose.position; pose.bone.localRotation = pose.rotation; }
             }
-            poseApplied = false;
-            appliedTorso = null;
+            savedPoseCount = 0;
         }
 
-        private Contact Probe(Transform foot, Vector3 offset)
+        private Contact ProbePoint(Vector3 sole)
         {
             Contact result = default;
-            if (foot == null) return result;
-            Vector3 sole = foot.TransformPoint(offset);
             int count = Physics.RaycastNonAlloc(sole + Vector3.up * 0.3f, Vector3.down,
                 hits, 1f, groundMask, QueryTriggerInteraction.Ignore);
             if (count == hits.Length) return result;
@@ -214,6 +427,7 @@ namespace IntercomMvp
                 if (signedHeight < -0.04f) continue;
                 nearest = hit.distance;
                 result.valid = true;
+                result.collider = hit.collider;
                 result.point = hit.point;
                 result.normal = hit.normal;
                 result.height = Mathf.Max(0f, signedHeight);
@@ -336,20 +550,59 @@ namespace IntercomMvp
             return mesh;
         }
 
-        /// <summary>Call in a known idle pose in the editor, or once in Awake for older scene components.</summary>
+        /// <summary>Measure actual heel/toe sole positions in a known Idle pose, once per model.</summary>
         public void CalibrateSoles()
         {
-            if (animator == null) return;
-            bool left = FindSole("tripo_part_3_fixed", leftFoot, out Vector3 leftOffset);
-            bool right = FindSole("tripo_part_2_fixed", rightFoot, out Vector3 rightOffset);
-            if (left) leftSoleOffset = leftOffset;
-            if (right) rightSoleOffset = rightOffset;
-            soleOffsetsCalibrated = left && right;
+            soleOffsetsCalibrated = contactMarkersCalibrated = false;
+            soleCalibrationVersion = 0;
+            if (animator == null || animator.runtimeAnimatorController == null) return;
+            AnimationClip idle = null;
+            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+                if (clip != null && clip.name == "Idle") { idle = clip; break; }
+            // Without the reference pose, leave contact feedback unavailable.
+            // PlayerAudio can use its existing physical-ground fallback instead.
+            if (idle == null) return;
+            Transform[] bones = animator.GetComponentsInChildren<Transform>(true);
+            Vector3[] positions = new Vector3[bones.Length];
+            Quaternion[] rotations = new Quaternion[bones.Length];
+            Vector3[] scales = new Vector3[bones.Length];
+            for (int i = 0; i < bones.Length; i++)
+            {
+                positions[i] = bones[i].localPosition;
+                rotations[i] = bones[i].localRotation;
+                scales[i] = bones[i].localScale;
+            }
+            try
+            {
+                // A saved scene can override the old bone transforms before the
+                // Animator's first evaluation. Measure the current model's Idle
+                // clip, then restore the user's pose without changing its state.
+                idle.SampleAnimation(animator.gameObject, 0f);
+                bool left = FindSole("tripo_part_3_fixed", leftFoot, leftToe,
+                    out Vector3 leftCentre, out Vector3 leftHeel, out Vector3 leftTip);
+                bool right = FindSole("tripo_part_2_fixed", rightFoot, rightToe,
+                    out Vector3 rightCentre, out Vector3 rightHeel, out Vector3 rightTip);
+                if (left) { leftSoleOffset = leftCentre; leftHeelOffset = leftHeel; leftToeOffset = leftTip; }
+                if (right) { rightSoleOffset = rightCentre; rightHeelOffset = rightHeel; rightToeOffset = rightTip; }
+                soleOffsetsCalibrated = contactMarkersCalibrated = left && right;
+                soleCalibrationVersion = left && right ? CurrentSoleCalibrationVersion : 0;
+            }
+            finally
+            {
+                for (int i = 0; i < bones.Length; i++)
+                {
+                    bones[i].localPosition = positions[i];
+                    bones[i].localRotation = rotations[i];
+                    bones[i].localScale = scales[i];
+                }
+            }
+            BindRig();
         }
 
-        private bool FindSole(string meshName, Transform foot, out Vector3 offset)
+        private bool FindSole(string meshName, Transform foot, Transform toe,
+            out Vector3 centreOffset, out Vector3 heelOffset, out Vector3 toeOffset)
         {
-            offset = Vector3.zero;
+            centreOffset = heelOffset = toeOffset = Vector3.zero;
             if (foot == null) return false;
             foreach (SkinnedMeshRenderer renderer in animator.GetComponentsInChildren<SkinnedMeshRenderer>(true))
             {
@@ -357,16 +610,42 @@ namespace IntercomMvp
                 Mesh mesh = new Mesh();
                 renderer.BakeMesh(mesh);
                 Vector3[] vertices = mesh.vertices;
-                Vector3 min = Vector3.one * float.PositiveInfinity;
-                Vector3 max = Vector3.one * float.NegativeInfinity;
-                foreach (Vector3 vertex in vertices)
-                {
-                    Vector3 point = renderer.transform.TransformPoint(vertex);
-                    min = Vector3.Min(min, point); max = Vector3.Max(max, point);
-                }
                 if (Application.isPlaying) Destroy(mesh); else DestroyImmediate(mesh);
                 if (vertices.Length == 0) return false;
-                offset = foot.InverseTransformPoint(new Vector3((min.x + max.x) * 0.5f, min.y, (min.z + max.z) * 0.5f));
+                Vector3 min = Vector3.one * float.PositiveInfinity;
+                Vector3 max = Vector3.one * float.NegativeInfinity;
+                Vector3 forward = motor != null ? motor.FacingDirection : -animator.transform.forward;
+                forward = Vector3.ProjectOnPlane(forward, Vector3.up).normalized;
+                if (forward.sqrMagnitude < 0.1f) forward = Vector3.forward;
+                float back = float.PositiveInfinity, front = float.NegativeInfinity;
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    vertices[i] = renderer.transform.TransformPoint(vertices[i]);
+                    Vector3 point = vertices[i];
+                    min = Vector3.Min(min, point); max = Vector3.Max(max, point);
+                    float along = Vector3.Dot(point, forward);
+                    back = Mathf.Min(back, along); front = Mathf.Max(front, along);
+                }
+                Vector3 centre = new Vector3((min.x + max.x) * 0.5f, min.y, (min.z + max.z) * 0.5f);
+                Vector3 heel = Vector3.zero, tip = Vector3.zero;
+                float heelY = float.PositiveInfinity, tipY = float.PositiveInfinity;
+                int heels = 0, tips = 0;
+                foreach (Vector3 point in vertices)
+                {
+                    if (point.y > min.y + 0.025f) continue;
+                    float along = Vector3.Dot(point, forward);
+                    if (along <= Mathf.Lerp(back, front, 0.28f))
+                    { heel += point; heelY = Mathf.Min(heelY, point.y); heels++; }
+                    if (along >= Mathf.Lerp(back, front, 0.72f))
+                    { tip += point; tipY = Mathf.Min(tipY, point.y); tips++; }
+                }
+                if (heels > 0) { heel /= heels; heel.y = heelY; }
+                else heel = centre - forward * ((front - back) * 0.25f);
+                if (tips > 0) { tip /= tips; tip.y = tipY; }
+                else tip = centre + forward * ((front - back) * 0.25f);
+                centreOffset = foot.InverseTransformPoint(centre);
+                heelOffset = foot.InverseTransformPoint(heel);
+                toeOffset = (toe != null ? toe : foot).InverseTransformPoint(tip);
                 return true;
             }
             return false;
@@ -374,12 +653,6 @@ namespace IntercomMvp
 
         private void Subscribe()
         {
-            if (subscribedAudio != audioSource)
-            {
-                if (subscribedAudio != null) subscribedAudio.FootContact -= OnFootContact;
-                subscribedAudio = audioSource;
-                if (subscribedAudio != null) subscribedAudio.FootContact += OnFootContact;
-            }
             if (subscribedShooter != shooter)
             {
                 if (subscribedShooter != null) subscribedShooter.VolleyFired -= OnVolley;
@@ -387,13 +660,19 @@ namespace IntercomMvp
                 if (subscribedShooter != null) subscribedShooter.VolleyFired += OnVolley;
             }
         }
-        private void OnFootContact() { if (Active) pendingContact = true; }
         private void OnVolley(Vector3 position, int barrels) { if (Active && barrels > 0) recoil = 1f; }
         private void ClearTransientState()
         {
-            pendingContact = false;
-            compression = recoil = 0f;
-            fallbackClock.Reset();
+            compression = recoil = aimStabilization = 0f;
+            leftRig.anchored = leftRig.inWindow = false;
+            leftRig.gate.Reset();
+            rightRig.anchored = rightRig.inWindow = false;
+            rightRig.gate.Reset();
+            leftRig.surface = rightRig.surface = null;
+            pitch = pitchVelocity = roll = rollVelocity = yaw = yawVelocity = 0f;
+            lagX = lagXVelocity = lagZ = lagZVelocity = settle = settleVelocity = 0f;
+            previousVelocity = Vector3.zero;
+            motionObserved = false;
         }
         private void HideEffects()
         {
@@ -404,9 +683,8 @@ namespace IntercomMvp
         private void OnDisable()
         {
             RestorePose(); ClearTransientState(); HideEffects();
-            if (subscribedAudio != null) subscribedAudio.FootContact -= OnFootContact;
             if (subscribedShooter != null) subscribedShooter.VolleyFired -= OnVolley;
-            subscribedAudio = null; subscribedShooter = null;
+            subscribedShooter = null;
         }
         private void OnApplicationFocus(bool value)
         {
