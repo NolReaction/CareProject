@@ -66,7 +66,7 @@ internal static class Program
             Check(started == expected && landed == expected, "heading catch-up and one final gather, without endless idle steps");
             Check(gathers == 1, "one gather completes both boot orientations");
             Near(IntercomTurnStepState.DeltaAngle(state.LowerYaw, target), 0f, 0.001f, "turn reaches requested heading");
-            Near(completion, expected * .18f, 1.01f / fps, "cadence remains within one rendered frame across frame rates");
+            Near(completion, expected * .13f, 1.01f / fps, "cadence remains within one rendered frame across frame rates");
         }
         var quiet = new IntercomTurnStepState();
         quiet.Reset(179f);

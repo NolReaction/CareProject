@@ -47,15 +47,26 @@ class Program {
     float drift=Vector3.Distance(stance.position,Field<Vector3>(f,"turnStanceAnkle"));maxDrift=Math.Max(maxDrift,drift);Check(drift<1e-5f,"planted ankle drift");
     var held=Field<Quaternion>(f,"turnStanceRotation");Check(Vector3.Angle(stance.rotation*Vector3.forward,held*Vector3.forward)<.04f && Vector3.Angle(stance.rotation*Vector3.up,held*Vector3.up)<.04f,"planted boot orientation drift");
     int side=state.SwingLeft?0:1;var swing=state.SwingLeft?f.leftFoot:f.rightFoot;
-    if(previousStep==state.StepId){float swingSpeed=Vector3.Distance(swing.position,previousSwing)/Time.deltaTime;maxSwingSpeed=Math.Max(maxSwingSpeed,swingSpeed);Check(swingSpeed<3f,"swing azimuth must not snap across reachable circle");}previousStep=state.StepId;previousSwing=swing.position;
+    if(previousStep==state.StepId){float swingSpeed=Vector3.Distance(swing.position,previousSwing)/Time.deltaTime;maxSwingSpeed=Math.Max(maxSwingSpeed,swingSpeed);Check(swingSpeed<3f*(.18f/f.turnStepSeconds),"swing azimuth must stay within the previous phase-space speed envelope");}previousStep=state.StepId;previousSwing=swing.position;
     float lowest=sole[side].Min(p=>swing.TransformPoint(p).y);minSwing=Math.Min(minSwing,lowest);Check(lowest>=-.0001f,"swing sole floor penetration: "+lowest+" step "+state.StepId+" phase "+state.Phase);
     if(state.LandedThisTick){maxLandingGap=Math.Max(maxLandingGap,Math.Abs(lowest));Check(Math.Abs(lowest)<.004f,"landing must reach floor");}
    }
    Check(!badContact,"airborne or unauthorised contact event");
   }
  }
+ static float CompleteQuarterTurn(float duration,int fps){
+  var r=new Rig();r.f.turnStepSeconds=duration;
+  for(int i=0;i<fps*3;i++){
+   r.Tick(90,1f/fps);r.Verify();var state=Field<IntercomTurnStepState>(r.f,"turnSteps");
+   if(state.IsGatherStep&&!state.Active&&Math.Abs(IntercomTurnStepState.DeltaAngle(state.LowerYaw,90))<.1f)return (i+1f)/fps;
+  }
+  throw new Exception("quarter turn did not complete with both boots gathered");
+ }
  static void Main(){
   foreach(int fps in new[]{30,60,120}){
+   float oldDuration=CompleteQuarterTurn(.18f,fps),newDuration=CompleteQuarterTurn(.13f,fps);
+   Check(newDuration<oldDuration*.82f,"V6 quarter turn including gather is at least 18 percent faster");
+   Console.WriteLine("Quarter turn "+fps+" FPS: "+oldDuration.ToString("F3")+" -> "+newDuration.ToString("F3")+" seconds including final gather.");
    var r=new Rig();for(int i=0;i<fps*18;i++){float target=i<fps*5?180f:i<fps*10?i*210f/fps:i<fps*14?-i*180f/fps:0f;r.Tick(target,1f/fps);r.Verify();}
    Check(r.contacts>20,"turns must emit actual landing contacts");int landed=r.contacts;for(int i=0;i<fps*2;i++){r.Tick(0,1f/fps);r.Verify();}Check(r.contacts==landed,"settled idle emits no contacts");
    // Cancel half a step into movement, then immediately release. Finish the

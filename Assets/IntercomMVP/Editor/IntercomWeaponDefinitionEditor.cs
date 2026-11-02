@@ -14,10 +14,12 @@ namespace IntercomMvp.Editor
             EditorGUILayout.LabelField("Баланс: все пули попали в одну цель",EditorStyles.boldLabel);
             EditorGUILayout.LabelField("Пуль в залпе",weapon.ProjectilesPerVolley.ToString());
             EditorGUILayout.LabelField("Залпов в минуту",(60d/weapon.Interval).ToString("0.##"));
-            EditorGUILayout.LabelField("Идеальный урон в секунду",weapon.IdealDps.ToString("0.##"));
+            EditorGUILayout.LabelField("Урон/с без перезарядки",weapon.IdealDps.ToString("0.##"));
+            EditorGUILayout.LabelField("Урон/с с перезарядкой",weapon.SustainedDps.ToString("0.##"));
+            EditorGUILayout.LabelField("Патронов в магазине",weapon.MagazineCapacity.ToString());
             EditorGUILayout.LabelField("Залпов до поражения",weapon.IdealVolleys.ToString());
             EditorGUILayout.LabelField("Идеальный TTK",weapon.IdealTtk.ToString("0.###")+" с");
-            EditorGUILayout.HelpBox("TTK считается от первого выстрела. Первый залп — в момент 0. Не учитывает поднятие рук, полёт пули, промахи и препятствия. Боезапас сейчас бесконечный; магазин и перезарядка ещё не реализованы. Reference Target Health меняет только расчёт, здоровье цели настраивается отдельно.",MessageType.Info);
+            EditorGUILayout.HelpBox("TTK считается от первого выстрела. Первый залп — в момент 0. Не учитывает поднятие рук, полёт пули, промахи и препятствия. Учитывает полный магазин и автоматическую перезарядку, начинающуюся после последнего залпа. Запас вне магазина бесконечный. Reference Target Health меняет только расчёт, здоровье цели настраивается отдельно.",MessageType.Info);
             if(weapon.poseProfile!=null)
             {
                 EditorGUILayout.LabelField("Связанные анимации",EditorStyles.boldLabel);

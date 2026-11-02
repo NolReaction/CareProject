@@ -13,17 +13,23 @@ MonoBehaviour:
   m_Name: DualPistols
   m_EditorClassIdentifier:
   displayName: Dual pistols
-  description: Unlimited ammunition. Two simultaneous projectiles per volley.
+  description: 24-round shared magazine, unlimited reserve. Two simultaneous projectiles per volley.
   damagePerProjectile: 15
   fireInterval: 0.18
   barrelMode: 1
   referenceTargetHealth: 100
+  magazineSize: 24
+  reloadSeconds: 1.15
+  reloadVolume: 0.36
+  reloadFinishClip: {fileID: 8300000, guid: 7ed875422909521381ea4e081a39b4fe, type: 3}
+  reloadStartClip: {fileID: 8300000, guid: 0ba96045f3225d958467575913184dd4, type: 3}
   poseProfile: {fileID: 11400000, guid: 0ab8d7400fffe4d449da7ba975efd7d1, type: 2}
   projectileSpeed: 36
   projectileRange: 20
   projectileLifetime: 1.4
   projectileRadius: 0.035
   planarProjectileDirection: 1
+  parallelProjectiles: 1
   tracerWidth: 0.15
   tracerLength: 0.68
   projectileMaterial: {fileID: 2100000, guid: 19108b423122c104eb3560ff763d1dd8, type: 2}

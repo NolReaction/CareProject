@@ -1,4 +1,4 @@
-# Проверки V5
+# Проверки V6
 
 В корне проекта:
 
@@ -14,7 +14,33 @@ python Validation/run_checks.py
 В среде подготовки использовались прямой компилятор Roslyn и .NET runtime без NuGet;
 это не компиляция всей игры против реальных сборок Unity.
 
-## Актуальные отчёты V5
+## Актуальные отчёты V6
+
+- `FoundationV6Review.json`: итог 25 автономных проектов проверок, синтаксиса и интеграции.
+- `AssetIntegrityV6Review.json`, `PackageV6Review.json`: сохранность ресурсов, GUID и установка поверх проекта.
+- `SceneV6Review.json`, `SceneIntegrityV6Review.json`: исправление 94 ID за пределами signed Int64,
+  связи объектов/компонентов и 101 коллайдер с материалом.
+- `CombatV6Review.json`: параллельные пули, магазин, перезарядка, TTK и реальный путь ввода.
+- `MotionV6Review.json`, `MotionMeshV6Review.json`: стабилизация корпуса, быстрые повороты,
+  контакт ног и проверка пересечений настоящих мешей в Blender 5.2.3.
+- `CharacterAnimationV6Review.json`: жесты и выравнивание стволов; владение позами и восстановление.
+- `AudioV6Review.json`, `WeaponAudioV6Review.json`, `AudioGameplayV6Review.json`: обработка
+  записанных CC0 выстрелов, перезарядка, события аудио и смесь без клиппинга.
+- `ReviewV6.json`: независимый обзор и дополнительные интеграционные сценарии.
+
+Новые проверки исполняют реальные компоненты с узкими заменами движка:
+`MagazineTests`, `PlayerInputRuntimeTests`, `ShooterIntegrationTests`,
+`CharacterAnimationTests`, `AnimationGroundingIntegrationTests`.
+Физика, GUI и Animator в них моделируются; это не Play Mode.
+
+Дополнительно:
+
+```sh
+python Validation/check_scene_integrity.py
+python Validation/check_audio_assets.py
+```
+
+## Исторические отчёты V5
 
 - `FoundationV5Review.json`: итог интеграции и границы проверки.
 - `AssetIntegrityV5Review.json`: GUID, .meta, свет сцены и сохранность модели/музыки/карты.
@@ -68,7 +94,7 @@ SDK CLI не смог прочитать сведения процесса че�
 Отчёты `Ankle*.json`, `RepairReview.json`, `MotionPolish*.json`, `TutorialReview.json`,
 `MovementRuntimeChecks.json`, `TurnActualMesh*.json` и `AudioV4Review.json` оставлены
 как **история предыдущих версий**.
-Их SHA и измерения не подтверждают новую анимацию и звук. Итог текущей версии находится в `FoundationV5Review.json`. Старые отчёты описывают
+Их SHA и измерения не подтверждают новую анимацию и звук. Итог текущей версии находится в `FoundationV6Review.json`. Старые отчёты описывают
 свои версии; часть особо ранних файлов дополнительно помечена `historicalReport: true`.
 
 ## Что ещё проверяется в Unity
@@ -77,7 +103,7 @@ SDK CLI не смог прочитать сведения процесса че�
 прослушивание звука, сборки Android/iOS и частота кадров на устройстве здесь не выполнялись.
 Сценарий ручной проверки находится в `MOBILE_TESTING.md`. Визуальные превью в Docs получены
 в Blender из геометрии проекта и не являются видеозаписью Unity. Изображения
-`AnkleFix_before/after` показывают предыдущее исправление крепления. `Docs/SoundPreviewV5.mp3` — офлайн-превью новых звуков/игровой смеси длительностью
+`AnkleFix_before/after` показывают предыдущее исправление крепления. `Docs/SoundPreviewV6.mp3` — офлайн-превью новых звуков/игровой смеси длительностью
 44 секунды. Другие превью относятся к прежним версиям.
 
 Локальные `bin`, `obj`, `results.txt` и `Validation/Results` исключены из Git.

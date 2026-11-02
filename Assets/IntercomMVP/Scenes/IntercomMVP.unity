@@ -305,6 +305,8 @@ GameObject:
   - component: {fileID: 413439366}
   - component: {fileID: 413439367}
   - component: {fileID: 413439368}
+  - component: {fileID: 8700000001}
+  - component: {fileID: 8700000002}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -561,6 +563,9 @@ MonoBehaviour:
   bodyHeightCompliance: 0.03
   runBodyCorrection: 0.035
   runningTiltWeight: 0.75
+  runningTorsoStabilization: 0.85
+  runningTorsoFrequency: 2.8
+  maximumRunningTorsoOffset: 0.05
   maximumPlantCorrection: 0.1
   maximumCalfCorrection: 28
   maximumGroundTilt: 16
@@ -574,7 +579,7 @@ MonoBehaviour:
   aimStabilizationSeconds: 0.1
   turnSteppingEnabled: 1
   maximumTurnTorsoYaw: 35
-  turnStepSeconds: 0.18
+  turnStepSeconds: 0.13
   turnStepDegrees: 20
   turnLiftDegrees: 75
   turnExitSeconds: 0.14
@@ -13249,7 +13254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000066}
   - component: {fileID: 8200000067}
-  - component: {fileID: 9223372036854775808}
+  - component: {fileID: 8600000001}
   m_Layer: 0
   m_Name: Collision - Warehouse shell
   m_TagString: Untagged
@@ -13287,7 +13292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000073}
   - component: {fileID: 8200000074}
-  - component: {fileID: 9223372036854775809}
+  - component: {fileID: 8600000002}
   m_Layer: 0
   m_Name: Collision - Loading cargo A
   m_TagString: Untagged
@@ -13325,7 +13330,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000080}
   - component: {fileID: 8200000081}
-  - component: {fileID: 9223372036854775810}
+  - component: {fileID: 8600000003}
   m_Layer: 0
   m_Name: Collision - Loading cargo B
   m_TagString: Untagged
@@ -13363,7 +13368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000087}
   - component: {fileID: 8200000088}
-  - component: {fileID: 9223372036854775811}
+  - component: {fileID: 8600000004}
   m_Layer: 0
   m_Name: Collision - Loading drum
   m_TagString: Untagged
@@ -13420,7 +13425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000098}
   - component: {fileID: 8200000099}
-  - component: {fileID: 9223372036854775812}
+  - component: {fileID: 8600000005}
   m_Layer: 0
   m_Name: Collision - Workshop shell
   m_TagString: Untagged
@@ -13458,7 +13463,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000105}
   - component: {fileID: 8200000106}
-  - component: {fileID: 9223372036854775813}
+  - component: {fileID: 8600000006}
   m_Layer: 0
   m_Name: Collision - Workshop spool
   m_TagString: Untagged
@@ -13496,7 +13501,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000112}
   - component: {fileID: 8200000113}
-  - component: {fileID: 9223372036854775814}
+  - component: {fileID: 8600000007}
   m_Layer: 0
   m_Name: Collision - Workshop drum
   m_TagString: Untagged
@@ -13534,7 +13539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000119}
   - component: {fileID: 8200000120}
-  - component: {fileID: 9223372036854775815}
+  - component: {fileID: 8600000008}
   m_Layer: 0
   m_Name: Collision - Workshop crates
   m_TagString: Untagged
@@ -13610,7 +13615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000134}
   - component: {fileID: 8200000135}
-  - component: {fileID: 9223372036854775816}
+  - component: {fileID: 8600000009}
   m_Layer: 0
   m_Name: Collision - Transformer -1.8
   m_TagString: Untagged
@@ -13648,7 +13653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000141}
   - component: {fileID: 8200000142}
-  - component: {fileID: 9223372036854775817}
+  - component: {fileID: 8600000010}
   m_Layer: 0
   m_Name: Collision - Transformer 1.8
   m_TagString: Untagged
@@ -13874,7 +13879,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000186}
   - component: {fileID: 8200000187}
-  - component: {fileID: 9223372036854775818}
+  - component: {fileID: 8600000011}
   m_Layer: 0
   m_Name: Collision - Substation collision
   m_TagString: Untagged
@@ -13950,7 +13955,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000201}
   - component: {fileID: 8200000202}
-  - component: {fileID: 9223372036854775819}
+  - component: {fileID: 8600000012}
   m_Layer: 0
   m_Name: Collision - Rust cargo container
   m_TagString: Untagged
@@ -13988,7 +13993,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000208}
   - component: {fileID: 8200000209}
-  - component: {fileID: 9223372036854775820}
+  - component: {fileID: 8600000013}
   m_Layer: 0
   m_Name: Collision - Container barrier
   m_TagString: Untagged
@@ -14026,7 +14031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000215}
   - component: {fileID: 8200000216}
-  - component: {fileID: 9223372036854775821}
+  - component: {fileID: 8600000014}
   m_Layer: 0
   m_Name: Collision - Container drum
   m_TagString: Untagged
@@ -14083,7 +14088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000226}
   - component: {fileID: 8200000227}
-  - component: {fileID: 9223372036854775822}
+  - component: {fileID: 8600000015}
   m_Layer: 0
   m_Name: Collision - Low barrier
   m_TagString: Untagged
@@ -14121,7 +14126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000233}
   - component: {fileID: 8200000234}
-  - component: {fileID: 9223372036854775823}
+  - component: {fileID: 8600000016}
   m_Layer: 0
   m_Name: Collision - Supply crate
   m_TagString: Untagged
@@ -14159,7 +14164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000240}
   - component: {fileID: 8200000241}
-  - component: {fileID: 9223372036854775824}
+  - component: {fileID: 8600000017}
   m_Layer: 0
   m_Name: Collision - Supply drum
   m_TagString: Untagged
@@ -14216,7 +14221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000251}
   - component: {fileID: 8200000252}
-  - component: {fileID: 9223372036854775825}
+  - component: {fileID: 8600000018}
   m_Layer: 0
   m_Name: Collision - Low barrier
   m_TagString: Untagged
@@ -14254,7 +14259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000258}
   - component: {fileID: 8200000259}
-  - component: {fileID: 9223372036854775826}
+  - component: {fileID: 8600000019}
   m_Layer: 0
   m_Name: Collision - Supply crate
   m_TagString: Untagged
@@ -14292,7 +14297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000265}
   - component: {fileID: 8200000266}
-  - component: {fileID: 9223372036854775827}
+  - component: {fileID: 8600000020}
   m_Layer: 0
   m_Name: Collision - Supply drum
   m_TagString: Untagged
@@ -14349,7 +14354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000276}
   - component: {fileID: 8200000277}
-  - component: {fileID: 9223372036854775828}
+  - component: {fileID: 8600000021}
   m_Layer: 0
   m_Name: Collision - Low barrier
   m_TagString: Untagged
@@ -14387,7 +14392,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000283}
   - component: {fileID: 8200000284}
-  - component: {fileID: 9223372036854775829}
+  - component: {fileID: 8600000022}
   m_Layer: 0
   m_Name: Collision - Supply crate
   m_TagString: Untagged
@@ -14425,7 +14430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000290}
   - component: {fileID: 8200000291}
-  - component: {fileID: 9223372036854775830}
+  - component: {fileID: 8600000023}
   m_Layer: 0
   m_Name: Collision - Supply drum
   m_TagString: Untagged
@@ -14482,7 +14487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000301}
   - component: {fileID: 8200000302}
-  - component: {fileID: 9223372036854775831}
+  - component: {fileID: 8600000024}
   m_Layer: 0
   m_Name: Collision - Range backstop -3.4
   m_TagString: Untagged
@@ -14520,7 +14525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000308}
   - component: {fileID: 8200000309}
-  - component: {fileID: 9223372036854775832}
+  - component: {fileID: 8600000025}
   m_Layer: 0
   m_Name: Collision - Range backstop 0
   m_TagString: Untagged
@@ -14558,7 +14563,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000315}
   - component: {fileID: 8200000316}
-  - component: {fileID: 9223372036854775833}
+  - component: {fileID: 8600000026}
   m_Layer: 0
   m_Name: Collision - Range backstop 3.4
   m_TagString: Untagged
@@ -14596,7 +14601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000322}
   - component: {fileID: 8200000323}
-  - component: {fileID: 9223372036854775834}
+  - component: {fileID: 8600000027}
   m_Layer: 0
   m_Name: Collision - Range side cover
   m_TagString: Untagged
@@ -14634,7 +14639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000329}
   - component: {fileID: 8200000330}
-  - component: {fileID: 9223372036854775835}
+  - component: {fileID: 8600000028}
   m_Layer: 0
   m_Name: Collision - Range supplies
   m_TagString: Untagged
@@ -14691,7 +14696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000340}
   - component: {fileID: 8200000341}
-  - component: {fileID: 9223372036854775836}
+  - component: {fileID: 8600000029}
   m_Layer: 0
   m_Name: Collision - West wall 0
   m_TagString: Untagged
@@ -14729,7 +14734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000347}
   - component: {fileID: 8200000348}
-  - component: {fileID: 9223372036854775837}
+  - component: {fileID: 8600000030}
   m_Layer: 0
   m_Name: Collision - West wall 1
   m_TagString: Untagged
@@ -14767,7 +14772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000354}
   - component: {fileID: 8200000355}
-  - component: {fileID: 9223372036854775838}
+  - component: {fileID: 8600000031}
   m_Layer: 0
   m_Name: Collision - West wall 2
   m_TagString: Untagged
@@ -14805,7 +14810,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000361}
   - component: {fileID: 8200000362}
-  - component: {fileID: 9223372036854775839}
+  - component: {fileID: 8600000032}
   m_Layer: 0
   m_Name: Collision - West wall 3
   m_TagString: Untagged
@@ -14843,7 +14848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000368}
   - component: {fileID: 8200000369}
-  - component: {fileID: 9223372036854775840}
+  - component: {fileID: 8600000033}
   m_Layer: 0
   m_Name: Collision - West wall 4
   m_TagString: Untagged
@@ -14881,7 +14886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000375}
   - component: {fileID: 8200000376}
-  - component: {fileID: 9223372036854775841}
+  - component: {fileID: 8600000034}
   m_Layer: 0
   m_Name: Collision - West wall 5
   m_TagString: Untagged
@@ -14919,7 +14924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000382}
   - component: {fileID: 8200000383}
-  - component: {fileID: 9223372036854775842}
+  - component: {fileID: 8600000035}
   m_Layer: 0
   m_Name: Collision - West wall 6
   m_TagString: Untagged
@@ -14957,7 +14962,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000389}
   - component: {fileID: 8200000390}
-  - component: {fileID: 9223372036854775843}
+  - component: {fileID: 8600000036}
   m_Layer: 0
   m_Name: Collision - West wall 7
   m_TagString: Untagged
@@ -15014,7 +15019,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000400}
   - component: {fileID: 8200000401}
-  - component: {fileID: 9223372036854775844}
+  - component: {fileID: 8600000037}
   m_Layer: 0
   m_Name: Collision - West wall 8
   m_TagString: Untagged
@@ -15071,7 +15076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000411}
   - component: {fileID: 8200000412}
-  - component: {fileID: 9223372036854775845}
+  - component: {fileID: 8600000038}
   m_Layer: 0
   m_Name: Collision - West wall 9
   m_TagString: Untagged
@@ -15128,7 +15133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000422}
   - component: {fileID: 8200000423}
-  - component: {fileID: 9223372036854775846}
+  - component: {fileID: 8600000039}
   m_Layer: 0
   m_Name: Collision - West wall 10
   m_TagString: Untagged
@@ -15185,7 +15190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000433}
   - component: {fileID: 8200000434}
-  - component: {fileID: 9223372036854775847}
+  - component: {fileID: 8600000040}
   m_Layer: 0
   m_Name: Collision - East wall 0
   m_TagString: Untagged
@@ -15223,7 +15228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000440}
   - component: {fileID: 8200000441}
-  - component: {fileID: 9223372036854775848}
+  - component: {fileID: 8600000041}
   m_Layer: 0
   m_Name: Collision - East wall 1
   m_TagString: Untagged
@@ -15261,7 +15266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000447}
   - component: {fileID: 8200000448}
-  - component: {fileID: 9223372036854775849}
+  - component: {fileID: 8600000042}
   m_Layer: 0
   m_Name: Collision - East wall 2
   m_TagString: Untagged
@@ -15299,7 +15304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000454}
   - component: {fileID: 8200000455}
-  - component: {fileID: 9223372036854775850}
+  - component: {fileID: 8600000043}
   m_Layer: 0
   m_Name: Collision - East wall 3
   m_TagString: Untagged
@@ -15337,7 +15342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000461}
   - component: {fileID: 8200000462}
-  - component: {fileID: 9223372036854775851}
+  - component: {fileID: 8600000044}
   m_Layer: 0
   m_Name: Collision - East wall 4
   m_TagString: Untagged
@@ -15375,7 +15380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000468}
   - component: {fileID: 8200000469}
-  - component: {fileID: 9223372036854775852}
+  - component: {fileID: 8600000045}
   m_Layer: 0
   m_Name: Collision - East wall 5
   m_TagString: Untagged
@@ -15413,7 +15418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000475}
   - component: {fileID: 8200000476}
-  - component: {fileID: 9223372036854775853}
+  - component: {fileID: 8600000046}
   m_Layer: 0
   m_Name: Collision - East wall 6
   m_TagString: Untagged
@@ -15451,7 +15456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000482}
   - component: {fileID: 8200000483}
-  - component: {fileID: 9223372036854775854}
+  - component: {fileID: 8600000047}
   m_Layer: 0
   m_Name: Collision - East wall 7
   m_TagString: Untagged
@@ -15508,7 +15513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000493}
   - component: {fileID: 8200000494}
-  - component: {fileID: 9223372036854775855}
+  - component: {fileID: 8600000048}
   m_Layer: 0
   m_Name: Collision - East wall 8
   m_TagString: Untagged
@@ -15565,7 +15570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000504}
   - component: {fileID: 8200000505}
-  - component: {fileID: 9223372036854775856}
+  - component: {fileID: 8600000049}
   m_Layer: 0
   m_Name: Collision - East wall 9
   m_TagString: Untagged
@@ -15622,7 +15627,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000515}
   - component: {fileID: 8200000516}
-  - component: {fileID: 9223372036854775857}
+  - component: {fileID: 8600000050}
   m_Layer: 0
   m_Name: Collision - East wall 10
   m_TagString: Untagged
@@ -15679,7 +15684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000526}
   - component: {fileID: 8200000527}
-  - component: {fileID: 9223372036854775858}
+  - component: {fileID: 8600000051}
   m_Layer: 0
   m_Name: Collision - Front west wall 0
   m_TagString: Untagged
@@ -15717,7 +15722,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000533}
   - component: {fileID: 8200000534}
-  - component: {fileID: 9223372036854775859}
+  - component: {fileID: 8600000052}
   m_Layer: 0
   m_Name: Collision - Front west wall 1
   m_TagString: Untagged
@@ -15755,7 +15760,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000540}
   - component: {fileID: 8200000541}
-  - component: {fileID: 9223372036854775860}
+  - component: {fileID: 8600000053}
   m_Layer: 0
   m_Name: Collision - Front west wall 2
   m_TagString: Untagged
@@ -15793,7 +15798,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000547}
   - component: {fileID: 8200000548}
-  - component: {fileID: 9223372036854775861}
+  - component: {fileID: 8600000054}
   m_Layer: 0
   m_Name: Collision - Front west wall 3
   m_TagString: Untagged
@@ -15831,7 +15836,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000554}
   - component: {fileID: 8200000555}
-  - component: {fileID: 9223372036854775862}
+  - component: {fileID: 8600000055}
   m_Layer: 0
   m_Name: Collision - Front east wall 0
   m_TagString: Untagged
@@ -15869,7 +15874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000561}
   - component: {fileID: 8200000562}
-  - component: {fileID: 9223372036854775863}
+  - component: {fileID: 8600000056}
   m_Layer: 0
   m_Name: Collision - Front east wall 1
   m_TagString: Untagged
@@ -15907,7 +15912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000568}
   - component: {fileID: 8200000569}
-  - component: {fileID: 9223372036854775864}
+  - component: {fileID: 8600000057}
   m_Layer: 0
   m_Name: Collision - Front east wall 2
   m_TagString: Untagged
@@ -15945,7 +15950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000575}
   - component: {fileID: 8200000576}
-  - component: {fileID: 9223372036854775865}
+  - component: {fileID: 8600000058}
   m_Layer: 0
   m_Name: Collision - Front east wall 3
   m_TagString: Untagged
@@ -15983,7 +15988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000582}
   - component: {fileID: 8200000583}
-  - component: {fileID: 9223372036854775866}
+  - component: {fileID: 8600000059}
   m_Layer: 0
   m_Name: Collision - Front east wall 4
   m_TagString: Untagged
@@ -16021,7 +16026,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000589}
   - component: {fileID: 8200000590}
-  - component: {fileID: 9223372036854775867}
+  - component: {fileID: 8600000060}
   m_Layer: 0
   m_Name: Collision - Front east wall 5
   m_TagString: Untagged
@@ -16059,7 +16064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000596}
   - component: {fileID: 8200000597}
-  - component: {fileID: 9223372036854775868}
+  - component: {fileID: 8600000061}
   m_Layer: 0
   m_Name: Collision - Front east wall 6
   m_TagString: Untagged
@@ -16097,7 +16102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000603}
   - component: {fileID: 8200000604}
-  - component: {fileID: 9223372036854775869}
+  - component: {fileID: 8600000062}
   m_Layer: 0
   m_Name: Collision - Front east wall 7
   m_TagString: Untagged
@@ -16135,7 +16140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000610}
   - component: {fileID: 8200000611}
-  - component: {fileID: 9223372036854775870}
+  - component: {fileID: 8600000063}
   m_Layer: 0
   m_Name: Collision - Rear west wall 0
   m_TagString: Untagged
@@ -16192,7 +16197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000621}
   - component: {fileID: 8200000622}
-  - component: {fileID: 9223372036854775871}
+  - component: {fileID: 8600000064}
   m_Layer: 0
   m_Name: Collision - Rear west wall 1
   m_TagString: Untagged
@@ -16249,7 +16254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000632}
   - component: {fileID: 8200000633}
-  - component: {fileID: 9223372036854775872}
+  - component: {fileID: 8600000065}
   m_Layer: 0
   m_Name: Collision - Rear west wall 2
   m_TagString: Untagged
@@ -16306,7 +16311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000643}
   - component: {fileID: 8200000644}
-  - component: {fileID: 9223372036854775873}
+  - component: {fileID: 8600000066}
   m_Layer: 0
   m_Name: Collision - Rear west wall 3
   m_TagString: Untagged
@@ -16363,7 +16368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000654}
   - component: {fileID: 8200000655}
-  - component: {fileID: 9223372036854775874}
+  - component: {fileID: 8600000067}
   m_Layer: 0
   m_Name: Collision - Rear west wall 4
   m_TagString: Untagged
@@ -16420,7 +16425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000665}
   - component: {fileID: 8200000666}
-  - component: {fileID: 9223372036854775875}
+  - component: {fileID: 8600000068}
   m_Layer: 0
   m_Name: Collision - Rear west wall 5
   m_TagString: Untagged
@@ -16477,7 +16482,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000676}
   - component: {fileID: 8200000677}
-  - component: {fileID: 9223372036854775876}
+  - component: {fileID: 8600000069}
   m_Layer: 0
   m_Name: Collision - Rear east wall 0
   m_TagString: Untagged
@@ -16534,7 +16539,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000687}
   - component: {fileID: 8200000688}
-  - component: {fileID: 9223372036854775877}
+  - component: {fileID: 8600000070}
   m_Layer: 0
   m_Name: Collision - Rear east wall 1
   m_TagString: Untagged
@@ -16591,7 +16596,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000698}
   - component: {fileID: 8200000699}
-  - component: {fileID: 9223372036854775878}
+  - component: {fileID: 8600000071}
   m_Layer: 0
   m_Name: Collision - Rear east wall 2
   m_TagString: Untagged
@@ -16648,7 +16653,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000709}
   - component: {fileID: 8200000710}
-  - component: {fileID: 9223372036854775879}
+  - component: {fileID: 8600000072}
   m_Layer: 0
   m_Name: Collision - Rear east wall 3
   m_TagString: Untagged
@@ -16705,7 +16710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000720}
   - component: {fileID: 8200000721}
-  - component: {fileID: 9223372036854775880}
+  - component: {fileID: 8600000073}
   m_Layer: 0
   m_Name: Collision - Rear east wall 4
   m_TagString: Untagged
@@ -16762,7 +16767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000731}
   - component: {fileID: 8200000732}
-  - component: {fileID: 9223372036854775881}
+  - component: {fileID: 8600000074}
   m_Layer: 0
   m_Name: Collision - Entry closed gate
   m_TagString: Untagged
@@ -16800,7 +16805,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000738}
   - component: {fileID: 8200000739}
-  - component: {fileID: 9223372036854775882}
+  - component: {fileID: 8600000075}
   m_Layer: 0
   m_Name: Collision - Exit closed gate
   m_TagString: Untagged
@@ -16836,7 +16841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000743}
   - component: {fileID: 8200000744}
-  - component: {fileID: 9223372036854775883}
+  - component: {fileID: 8600000076}
   m_Layer: 0
   m_Name: Collision - West stop
   m_TagString: Untagged
@@ -16872,7 +16877,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000748}
   - component: {fileID: 8200000749}
-  - component: {fileID: 9223372036854775884}
+  - component: {fileID: 8600000077}
   m_Layer: 0
   m_Name: Collision - East stop
   m_TagString: Untagged
@@ -16908,7 +16913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000753}
   - component: {fileID: 8200000754}
-  - component: {fileID: 9223372036854775885}
+  - component: {fileID: 8600000078}
   m_Layer: 0
   m_Name: Collision - South stop
   m_TagString: Untagged
@@ -16944,7 +16949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000758}
   - component: {fileID: 8200000759}
-  - component: {fileID: 9223372036854775886}
+  - component: {fileID: 8600000079}
   m_Layer: 0
   m_Name: Collision - North stop
   m_TagString: Untagged
@@ -17001,7 +17006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000769}
   - component: {fileID: 8200000770}
-  - component: {fileID: 9223372036854775887}
+  - component: {fileID: 8600000080}
   m_Layer: 0
   m_Name: Collision - Planter -168
   m_TagString: Untagged
@@ -17039,7 +17044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000776}
   - component: {fileID: 8200000777}
-  - component: {fileID: 9223372036854775888}
+  - component: {fileID: 8600000081}
   m_Layer: 0
   m_Name: Collision - Planter -16-10
   m_TagString: Untagged
@@ -17077,7 +17082,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000783}
   - component: {fileID: 8200000784}
-  - component: {fileID: 9223372036854775889}
+  - component: {fileID: 8600000082}
   m_Layer: 0
   m_Name: Collision - Planter 16-10
   m_TagString: Untagged
@@ -17115,7 +17120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000790}
   - component: {fileID: 8200000791}
-  - component: {fileID: 9223372036854775890}
+  - component: {fileID: 8600000083}
   m_Layer: 0
   m_Name: Collision - Planter 164
   m_TagString: Untagged
@@ -17153,7 +17158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000797}
   - component: {fileID: 8200000798}
-  - component: {fileID: 9223372036854775891}
+  - component: {fileID: 8600000084}
   m_Layer: 0
   m_Name: Collision - Planter -513
   m_TagString: Untagged
@@ -17191,7 +17196,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000804}
   - component: {fileID: 8200000805}
-  - component: {fileID: 9223372036854775892}
+  - component: {fileID: 8600000085}
   m_Layer: 0
   m_Name: Collision - Planter 613
   m_TagString: Untagged
@@ -17229,7 +17234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000811}
   - component: {fileID: 8200000812}
-  - component: {fileID: 9223372036854775893}
+  - component: {fileID: 8600000086}
   m_Layer: 0
   m_Name: Collision - Safety bollard -8.6-12.5
   m_TagString: Untagged
@@ -17267,7 +17272,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000818}
   - component: {fileID: 8200000819}
-  - component: {fileID: 9223372036854775894}
+  - component: {fileID: 8600000087}
   m_Layer: 0
   m_Name: Collision - Safety bollard -5.3-12.5
   m_TagString: Untagged
@@ -17305,7 +17310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000825}
   - component: {fileID: 8200000826}
-  - component: {fileID: 9223372036854775895}
+  - component: {fileID: 8600000088}
   m_Layer: 0
   m_Name: Collision - Safety bollard 5.6-4.3
   m_TagString: Untagged
@@ -17343,7 +17348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000832}
   - component: {fileID: 8200000833}
-  - component: {fileID: 9223372036854775896}
+  - component: {fileID: 8600000089}
   m_Layer: 0
   m_Name: Collision - Safety bollard 15.3-4.3
   m_TagString: Untagged
@@ -17381,7 +17386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000839}
   - component: {fileID: 8200000840}
-  - component: {fileID: 9223372036854775897}
+  - component: {fileID: 8600000090}
   m_Layer: 0
   m_Name: Collision - Safety bollard -3.46
   m_TagString: Untagged
@@ -17419,7 +17424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8200000846}
   - component: {fileID: 8200000847}
-  - component: {fileID: 9223372036854775898}
+  - component: {fileID: 8600000091}
   m_Layer: 0
   m_Name: Collision - Safety bollard 4.36
   m_TagString: Untagged
@@ -17551,7 +17556,7 @@ GameObject:
   - component: {fileID: 8200000871}
   - component: {fileID: 8200000872}
   - component: {fileID: 8200000883}
-  - component: {fileID: 9223372036854775899}
+  - component: {fileID: 8600000092}
   m_Layer: 0
   m_Name: Training Target 1
   m_TagString: Untagged
@@ -17626,7 +17631,7 @@ GameObject:
   - component: {fileID: 8200000885}
   - component: {fileID: 8200000886}
   - component: {fileID: 8200000897}
-  - component: {fileID: 9223372036854775900}
+  - component: {fileID: 8600000093}
   m_Layer: 0
   m_Name: Training Target 2
   m_TagString: Untagged
@@ -17701,7 +17706,7 @@ GameObject:
   - component: {fileID: 8200000899}
   - component: {fileID: 8200000900}
   - component: {fileID: 8200000911}
-  - component: {fileID: 9223372036854775901}
+  - component: {fileID: 8600000094}
   m_Layer: 0
   m_Name: Training Target 3
   m_TagString: Untagged
@@ -22171,7 +22176,7 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: f5955e7711685945b8dc4d48c8a7d70b, type: 2}
---- !u!114 &9223372036854775808
+--- !u!114 &8600000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22188,7 +22193,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775809
+--- !u!114 &8600000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22205,7 +22210,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775810
+--- !u!114 &8600000003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22222,7 +22227,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775811
+--- !u!114 &8600000004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22239,7 +22244,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775812
+--- !u!114 &8600000005
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22256,7 +22261,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775813
+--- !u!114 &8600000006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22273,7 +22278,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775814
+--- !u!114 &8600000007
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22290,7 +22295,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775815
+--- !u!114 &8600000008
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22307,7 +22312,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775816
+--- !u!114 &8600000009
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22324,7 +22329,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775817
+--- !u!114 &8600000010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22341,7 +22346,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775818
+--- !u!114 &8600000011
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22358,7 +22363,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775819
+--- !u!114 &8600000012
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22375,7 +22380,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775820
+--- !u!114 &8600000013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22392,7 +22397,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775821
+--- !u!114 &8600000014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22409,7 +22414,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775822
+--- !u!114 &8600000015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22426,7 +22431,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775823
+--- !u!114 &8600000016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22443,7 +22448,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775824
+--- !u!114 &8600000017
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22460,7 +22465,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775825
+--- !u!114 &8600000018
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22477,7 +22482,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775826
+--- !u!114 &8600000019
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22494,7 +22499,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775827
+--- !u!114 &8600000020
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22511,7 +22516,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775828
+--- !u!114 &8600000021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22528,7 +22533,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775829
+--- !u!114 &8600000022
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22545,7 +22550,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775830
+--- !u!114 &8600000023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22562,7 +22567,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775831
+--- !u!114 &8600000024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22579,7 +22584,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775832
+--- !u!114 &8600000025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22596,7 +22601,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775833
+--- !u!114 &8600000026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22613,7 +22618,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775834
+--- !u!114 &8600000027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22630,7 +22635,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775835
+--- !u!114 &8600000028
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22647,7 +22652,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775836
+--- !u!114 &8600000029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22664,7 +22669,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775837
+--- !u!114 &8600000030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22681,7 +22686,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775838
+--- !u!114 &8600000031
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22698,7 +22703,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775839
+--- !u!114 &8600000032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22715,7 +22720,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775840
+--- !u!114 &8600000033
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22732,7 +22737,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775841
+--- !u!114 &8600000034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22749,7 +22754,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775842
+--- !u!114 &8600000035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22766,7 +22771,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775843
+--- !u!114 &8600000036
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22783,7 +22788,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775844
+--- !u!114 &8600000037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22800,7 +22805,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775845
+--- !u!114 &8600000038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22817,7 +22822,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775846
+--- !u!114 &8600000039
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22834,7 +22839,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775847
+--- !u!114 &8600000040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22851,7 +22856,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775848
+--- !u!114 &8600000041
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22868,7 +22873,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775849
+--- !u!114 &8600000042
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22885,7 +22890,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775850
+--- !u!114 &8600000043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22902,7 +22907,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775851
+--- !u!114 &8600000044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22919,7 +22924,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775852
+--- !u!114 &8600000045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22936,7 +22941,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775853
+--- !u!114 &8600000046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22953,7 +22958,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775854
+--- !u!114 &8600000047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22970,7 +22975,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775855
+--- !u!114 &8600000048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -22987,7 +22992,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775856
+--- !u!114 &8600000049
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23004,7 +23009,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775857
+--- !u!114 &8600000050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23021,7 +23026,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775858
+--- !u!114 &8600000051
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23038,7 +23043,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775859
+--- !u!114 &8600000052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23055,7 +23060,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775860
+--- !u!114 &8600000053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23072,7 +23077,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775861
+--- !u!114 &8600000054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23089,7 +23094,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775862
+--- !u!114 &8600000055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23106,7 +23111,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775863
+--- !u!114 &8600000056
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23123,7 +23128,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775864
+--- !u!114 &8600000057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23140,7 +23145,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775865
+--- !u!114 &8600000058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23157,7 +23162,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775866
+--- !u!114 &8600000059
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23174,7 +23179,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775867
+--- !u!114 &8600000060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23191,7 +23196,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775868
+--- !u!114 &8600000061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23208,7 +23213,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775869
+--- !u!114 &8600000062
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23225,7 +23230,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775870
+--- !u!114 &8600000063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23242,7 +23247,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775871
+--- !u!114 &8600000064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23259,7 +23264,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775872
+--- !u!114 &8600000065
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23276,7 +23281,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775873
+--- !u!114 &8600000066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23293,7 +23298,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775874
+--- !u!114 &8600000067
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23310,7 +23315,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775875
+--- !u!114 &8600000068
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23327,7 +23332,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775876
+--- !u!114 &8600000069
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23344,7 +23349,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775877
+--- !u!114 &8600000070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23361,7 +23366,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775878
+--- !u!114 &8600000071
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23378,7 +23383,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775879
+--- !u!114 &8600000072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23395,7 +23400,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775880
+--- !u!114 &8600000073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23412,7 +23417,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775881
+--- !u!114 &8600000074
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23429,7 +23434,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775882
+--- !u!114 &8600000075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23446,7 +23451,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775883
+--- !u!114 &8600000076
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23463,7 +23468,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775884
+--- !u!114 &8600000077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23480,7 +23485,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775885
+--- !u!114 &8600000078
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23497,7 +23502,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775886
+--- !u!114 &8600000079
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23514,7 +23519,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775887
+--- !u!114 &8600000080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23531,7 +23536,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775888
+--- !u!114 &8600000081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23548,7 +23553,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775889
+--- !u!114 &8600000082
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23565,7 +23570,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775890
+--- !u!114 &8600000083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23582,7 +23587,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775891
+--- !u!114 &8600000084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23599,7 +23604,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775892
+--- !u!114 &8600000085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23616,7 +23621,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775893
+--- !u!114 &8600000086
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23633,7 +23638,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775894
+--- !u!114 &8600000087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23650,7 +23655,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775895
+--- !u!114 &8600000088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23667,7 +23672,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775896
+--- !u!114 &8600000089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23684,7 +23689,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775897
+--- !u!114 &8600000090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23701,7 +23706,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775898
+--- !u!114 &8600000091
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23718,7 +23723,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775899
+--- !u!114 &8600000092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23735,7 +23740,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775900
+--- !u!114 &8600000093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23752,7 +23757,7 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
---- !u!114 &9223372036854775901
+--- !u!114 &8600000094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23769,3 +23774,41 @@ MonoBehaviour:
   pitch: 1
   impactVolume: 1
   impactPitch: 1
+
+--- !u!114 &8700000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413439358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e93759af96e4ae7b214ea4a978080fe, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomWeaponMagazine
+  shooter: {fileID: 413439361}
+  inputSource: {fileID: 413439362}
+  automaticReload: 1
+
+--- !u!114 &8700000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413439358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4554619bdb34486a15a77972996edb9, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomCharacterAnimation
+  animator: {fileID: 1639736536}
+  motor: {fileID: 413439364}
+  weaponPose: {fileID: 413439363}
+  magazine: {fileID: 8700000001}
+  inputSource: {fileID: 413439362}
+  leftUpperArm: {fileID: 0}
+  rightUpperArm: {fileID: 0}
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}

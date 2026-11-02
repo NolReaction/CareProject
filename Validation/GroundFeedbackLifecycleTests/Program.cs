@@ -114,6 +114,17 @@ class Program {
   transition.input.Aim=Vector2.up;transition.Settle(Vector2.zero,60);
   Check(transition.motor.ActualPlanarSpeed<.0001f&&transition.motor.IsAiming,"releasing movement stops travel while held aim remains active");
  }
+ static void CheckRespawnAndSuspensionLifecycle(){
+  var moving=new MotorRig();uint start=moving.motor.RespawnVersion;
+  Call(moving.motor,"OnApplicationFocus",false);Check(moving.motor.RespawnVersion==start,"focus loss cannot refill a magazine through respawn identity");
+  Call(moving.motor,"OnApplicationPause",true);Check(moving.motor.RespawnVersion==start,"pause is not a respawn");
+  Call(moving.motor,"OnDisable");Check(moving.motor.RespawnVersion==start,"disable is not a respawn");
+  moving.motor.ResetToSpawn();Check(moving.motor.RespawnVersion==start+1,"explicit reset publishes one distinct respawn");
+  var r=new Rig();Call(r.feedback,"StabilizeRunningTorso",1f/60,false,true);Check(Field<bool>(r.feedback,"runningTorsoReady"),"upper body suspension initializes from authored position");
+  Call(r.feedback,"OnApplicationFocus",false);Check(!Field<bool>(r.feedback,"runningTorsoReady")&&Field<float>(r.feedback,"runningTorsoWeight")==0,"focus loss clears all upper body suspension history");
+  Call(r.feedback,"OnApplicationFocus",true);Call(r.feedback,"StabilizeRunningTorso",1f/60,false,true);Call(r.feedback,"OnApplicationPause",true);Check(!Field<bool>(r.feedback,"runningTorsoReady"),"pause clears suspension");
+  Call(r.feedback,"OnApplicationPause",false);Call(r.feedback,"StabilizeRunningTorso",1f/60,false,true);Call(r.feedback,"OnDisable");Check(!Field<bool>(r.feedback,"runningTorsoReady"),"disable clears suspension");
+ }
  static void Main(){
   var r=new Rig(true,true);Check(!r.feedback.NeedsSoleCalibration&&r.feedback.ProvidesFootContacts,"Awake resolves rig and calibrates both boots");Check(r.idle.samples==1,"one-shot initial calibration");var pose=r.Snapshot();r.feedback.CalibrateSoles();r.Restored(pose);Check(Field<int>(r.feedback,"soleCalibrationVersion")==1,"successful current geometry version");
   Call(r.motor,"Awake");Check(Math.Abs(r.motor.RuntimeStrideScale-1.32f)<1e-6f,"valid calibrated feedback enables V5 stride reference");
@@ -125,7 +136,7 @@ class Program {
   r=new Rig();r.animator.runtimeAnimatorController=null;Call(r.feedback,"LateUpdate");Check(!r.feedback.ProvidesFootContacts,"controller removal advertises no contact provider");r.animator.runtimeAnimatorController=Rig.Controller(r.idle);Call(r.feedback,"LateUpdate");Check(r.feedback.ProvidesFootContacts&&r.idle.samples==1,"same geometry reuses valid calibration after teardown");
   r=new Rig();pose=r.Snapshot();Call(r.feedback,"SavePose");foreach(var b in r.bones)b.localPosition=new Vector3(7,8,9);Call(r.feedback,"OnDisable");for(int i=0;i<r.bones.Length;i++){if(i==6||i==7)continue;Check(r.bones[i].localPosition.Equals(pose[i].Item1),"disable restores bones mutated by feedback");}Check(Field<int>(r.feedback,"savedPoseCount")==0,"disable empties pose cache");
   r=new Rig();var measured=new IntercomGroundFeedbackSoleProfile{left=new[]{new IntercomGroundFeedbackSoleProfile.Point()},right=new[]{new IntercomGroundFeedbackSoleProfile.Point()}};r.feedback.soleProfile=measured;pose=r.Snapshot();Call(r.feedback,"LateUpdate");r.Restored(pose);Check(r.idle.samples==2&&Field<IntercomGroundFeedbackSoleProfile>(r.feedback,"calibratedSoleProfile")==measured,"late assigned contour is calibrated once in Idle and restores the pose");for(int i=0;i<5;i++)Call(r.feedback,"LateUpdate");Check(r.idle.samples==2,"contour does not trigger per-frame mesh baking");r.feedback.soleProfile=null;Call(r.feedback,"LateUpdate");Check(r.idle.samples==3&&r.feedback.ProvidesFootContacts,"removing contour restores the legacy contact provider once");
-  CheckMotorEllipse();CheckArcadeMotor();
+  CheckMotorEllipse();CheckArcadeMotor();CheckRespawnAndSuspensionLifecycle();
   Console.WriteLine("GroundFeedback lifecycle and Motor ellipse: "+checks+" assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.");
  }
 }

@@ -11,6 +11,7 @@ Render the same meshes with Blender using --render-json (see Tools/RenderTutoria
 from pathlib import Path
 import argparse, collections, hashlib, json, math, re, struct, uuid, zlib
 import numpy as np
+from UnitySceneIds import SceneIdAllocator, validate_scene_ids
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'Assets/IntercomMVP/Art/PrototypeEnvironment'
@@ -479,11 +480,12 @@ def build_layout():
 class SceneWriter:
     def __init__(self,old):
         chunks=re.split(r'(?=^--- !u!)',old,flags=re.M);self.header=chunks[0]
-        self.objects={int(re.match(r'--- !u!\d+ &(-?\d+)',c)[1]):c for c in chunks[1:]};self.next=8200000000;self.children={};self.components={};self.go={};self.transforms={};self.renderers={};self.target_ids=[]
+        validate_scene_ids(old)
+        self.objects={int(re.match(r'--- !u!\d+ &(-?\d+)',c)[1]):c for c in chunks[1:]};self.ids=SceneIdAllocator(self.objects);self.children={};self.components={};self.go={};self.transforms={};self.renderers={};self.target_ids=[]
         # Reuse scene templates for engine-version-specific renderer and collider fields.
         self.renderer_template=next(c for c in chunks if c.startswith('--- !u!23 '))
         self.collider_template=next(c for c in chunks if c.startswith('--- !u!65 '))
-    def ident(self):self.next+=1;return self.next
+    def ident(self):return self.ids.allocate()
     def obj(self,name,parent,pos=(0,0,0),scale=(1,1,1),yaw=0):
         go,tr=self.ident(),self.ident();self.go[go]=name;self.components[go]=[tr];self.transforms[tr]=(go,parent,pos,scale,yaw)
         self.children.setdefault(parent,[]).append(tr);self.children[tr]=[];return go,tr
@@ -523,6 +525,7 @@ class SceneWriter:
         # Retained environment root and marker are updated, not replaced.
         self.objects[6100000756]=re.sub(r'layoutVersion: \d+','layoutVersion: 2',self.objects[6100000756])
         self.objects[6100000756]=re.sub(r'surfaceVersion: \d+','surfaceVersion: 2',self.objects[6100000756])
+        self.ids.release(removed)
         self.children[root]=[];return removed
     def finish(self):
         for go,name in self.go.items():
@@ -562,11 +565,13 @@ def write_scene(layout):
         face,ft=w.obj('Target face',vt);mr=w.renderer(face,'TrainingTarget',[spec['material'],'Paint'])
         cid=w.component(go,'IntercomTargetDummy',f'  visual: {{fileID: {vt}}}\n  bodyRenderer: {{fileID: {mr}}}\n  maxHealth: 100\n  resetSeconds: 2.5\n')
         w.target_ids.append({'key':spec['key'],'name':spec['name'],'go':go,'transform':tr,'component':cid,'position':spec['position']})
-    result=w.finish();SCENE.write_text(result)
+    result=w.finish();validate_scene_ids(result)
     # Every unrelated serialized block must remain byte-identical.
     after=SceneWriter(result).objects;before=SceneWriter(old).objects
     changed=[oid for oid,c in before.items() if oid not in removed and after.get(oid)!=c]
     assert set(changed)<={1550949731,6100000756,ground_renderer},changed
+    # Write only after reference/range and preservation checks succeed.
+    SCENE.write_text(result)
     return {'environmentObjects':len(w.go),'renderers':len(w.renderers),'removedSerializedBlocks':len(removed),'preservedNonEnvironmentBlocks':len(before)-len(removed)-3,'groundRendererMaterialOnly':ground_renderer,'targets':w.target_ids}
 
 def clearance(layout):

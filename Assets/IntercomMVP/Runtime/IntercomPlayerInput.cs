@@ -7,7 +7,7 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 namespace IntercomMvp
 {
-    /// <summary>Exactly two controls: movement and aim/fire. Input is sampled before the player motor.</summary>
+    /// <summary>Two sticks plus a separate reload button. Input is sampled before magazine and motor.</summary>
     [DefaultExecutionOrder(-200)]
     [DisallowMultipleComponent]
     public sealed class IntercomPlayerInput : MonoBehaviour
@@ -29,6 +29,7 @@ namespace IntercomMvp
         public bool FireHeld { get; private set; }
         public bool FirePressed { get; private set; }
         public bool ResetPressed { get; private set; }
+        public bool ReloadPressed { get; private set; }
         public bool TouchActive { get; private set; }
         /// <summary>System cancellation epoch. Normal stick release does not invalidate a queued tap.</summary>
         public uint CancellationVersion { get; private set; }
@@ -36,6 +37,10 @@ namespace IntercomMvp
 
         private const int MousePointerId = int.MinValue;
         private readonly IntercomTwinStickState sticks = new IntercomTwinStickState();
+        private readonly IntercomReloadControl reloadControl = new IntercomReloadControl();
+        private IntercomWeaponMagazine magazine;
+        private Rect reloadButton;
+        private GUIStyle ammoStyle, reloadStyle;
         private Texture2D discTexture, ringTexture;
         private CharacterController targetCapsule;
         private Transform cachedTarget;
@@ -53,6 +58,7 @@ namespace IntercomMvp
         {
             if (movementCamera == null) movementCamera = Camera.main;
             if (target == null) target = transform;
+            magazine = GetComponent<IntercomWeaponMagazine>();
             RefreshLayout();
         }
 
@@ -93,8 +99,9 @@ namespace IntercomMvp
         public void ClearInput()
         {
             sticks.Reset();
+            reloadControl.Reset();
             Move = Aim = Vector2.zero;
-            AimActive = FireHeld = FirePressed = ResetPressed = TouchActive = wasFireHeld = false;
+            AimActive = FireHeld = FirePressed = ResetPressed = ReloadPressed = TouchActive = wasFireHeld = false;
         }
 
         /// <summary>Respawn/pause gate: held mouse, keys and fingers must be released before control resumes.</summary>
@@ -108,6 +115,7 @@ namespace IntercomMvp
         private void Update()
         {
             RefreshLayout();
+            ReloadPressed = false;
             if (!focused || paused || Time.timeScale <= 0f) { CancelUntilRelease(); return; }
             Vector2 keyboard = ReadKeyboard();
             ReadMouse(out Vector2 mousePosition, out bool mouseHeld, out bool mouseDown, out bool mouseUp);
@@ -127,9 +135,13 @@ namespace IntercomMvp
             bool allowMouse = !Application.isMobilePlatform && touchCount == 0;
             if (allowMouse)
             {
-                if (mouseDown && ControlsVisible) sticks.PointerDown(MousePointerId, mousePosition.x, mousePosition.y);
-                if (mouseHeld) sticks.PointerMove(MousePointerId, mousePosition.x, mousePosition.y);
-                if (mouseUp || !mouseHeld) sticks.PointerUp(MousePointerId);
+                if (mouseDown)
+                {
+                    if (magazine != null && reloadControl.PointerDown(MousePointerId, mousePosition.x, mousePosition.y)) ReloadPressed = true;
+                    else if (ControlsVisible) sticks.PointerDown(MousePointerId, mousePosition.x, mousePosition.y);
+                }
+                if (mouseHeld && !reloadControl.Owns(MousePointerId)) sticks.PointerMove(MousePointerId, mousePosition.x, mousePosition.y);
+                if (mouseUp || !mouseHeld) { sticks.PointerUp(MousePointerId); reloadControl.PointerUp(MousePointerId); }
             }
             else sticks.PointerUp(MousePointerId);
             if (sticks.EndFrame()) { CancelUntilRelease(); return; }
@@ -138,7 +150,7 @@ namespace IntercomMvp
             Aim = new Vector2(sticks.Right.X, sticks.Right.Y);
             AimActive = Aim.sqrMagnitude > 0.000001f;
             bool mouseOwnsStick = sticks.Owns(MousePointerId);
-            bool desktopFire = allowMouse && !mouseOwnsStick && (mouseHeld || spaceHeld);
+            bool desktopFire = allowMouse && !mouseOwnsStick && !reloadControl.Owns(MousePointerId) && (mouseHeld || spaceHeld);
             if (!AimActive && desktopFire)
             {
                 Aim = MouseAim(mousePosition);
@@ -149,6 +161,7 @@ namespace IntercomMvp
             FirePressed = FireHeld && !wasFireHeld;
             wasFireHeld = FireHeld;
             ResetPressed = ReadResetPressed();
+            ReloadPressed |= ReadReloadPressed();
         }
 
         private void RefreshLayout()
@@ -167,6 +180,9 @@ namespace IntercomMvp
             leftCenter = new Vector2(safe.xMin + radius + margin, safe.yMin + radius + margin);
             rightCenter = new Vector2(safe.xMax - radius - margin, safe.yMin + radius + margin);
             sticks.Configure(leftCenter.x, leftCenter.y, rightCenter.x, rightCenter.y, radius, movementDeadZone, aimDeadZone);
+            float width = 142f * scale, height = 54f * scale;
+            reloadButton = new Rect(rightCenter.x - width * .5f, rightCenter.y + radius + 14f * scale, width, height);
+            reloadControl.Configure(reloadButton.x, reloadButton.y, reloadButton.width, reloadButton.height);
         }
 
         private Vector2 MouseAim(Vector2 screenPosition)
@@ -199,8 +215,12 @@ namespace IntercomMvp
             {
                 var touch = touches[i];
                 Vector2 point = touch.screenPosition;
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled) { CancelUntilRelease(); return false; }
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began && magazine != null && reloadControl.PointerDown(touch.touchId, point.x, point.y))
+                { ReloadPressed = true; continue; }
+                if (reloadControl.Owns(touch.touchId))
+                { if (touch.phase == UnityEngine.InputSystem.TouchPhase.Ended) reloadControl.PointerUp(touch.touchId); continue; }
                 if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began) sticks.PointerDown(touch.touchId, point.x, point.y);
-                else if (touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled) { CancelUntilRelease(); return false; }
                 else if (touch.phase == UnityEngine.InputSystem.TouchPhase.Ended) sticks.PointerUp(touch.touchId);
                 else sticks.PointerMove(touch.touchId, point.x, point.y);
             }
@@ -208,8 +228,12 @@ namespace IntercomMvp
             for (int i = 0; i < Input.touchCount; i++)
             {
                 Touch touch = Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Canceled) { CancelUntilRelease(); return false; }
+                if (touch.phase == TouchPhase.Began && magazine != null && reloadControl.PointerDown(touch.fingerId, touch.position.x, touch.position.y))
+                { ReloadPressed = true; continue; }
+                if (reloadControl.Owns(touch.fingerId))
+                { if (touch.phase == TouchPhase.Ended) reloadControl.PointerUp(touch.fingerId); continue; }
                 if (touch.phase == TouchPhase.Began) sticks.PointerDown(touch.fingerId, touch.position.x, touch.position.y);
-                else if (touch.phase == TouchPhase.Canceled) { CancelUntilRelease(); return false; }
                 else if (touch.phase == TouchPhase.Ended) sticks.PointerUp(touch.fingerId);
                 else sticks.PointerMove(touch.fingerId, touch.position.x, touch.position.y);
             }
@@ -275,6 +299,17 @@ namespace IntercomMvp
         private static bool ReadResetPressed()
         {
 #if ENABLE_INPUT_SYSTEM
+            return Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame;
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetKeyDown(KeyCode.Backspace);
+#else
+            return false;
+#endif
+        }
+
+        private static bool ReadReloadPressed()
+        {
+#if ENABLE_INPUT_SYSTEM
             return Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame;
 #elif ENABLE_LEGACY_INPUT_MANAGER
             return Input.GetKeyDown(KeyCode.R);
@@ -285,13 +320,40 @@ namespace IntercomMvp
 
         private void OnGUI()
         {
-            if (!ControlsVisible || Event.current == null || Event.current.type != EventType.Repaint) return;
+            if (Event.current == null || Event.current.type != EventType.Repaint) return;
             EnsureTextures();
             Color previousColor = GUI.color; Matrix4x4 previousMatrix = GUI.matrix; int previousDepth = GUI.depth;
             GUI.matrix = Matrix4x4.identity; GUI.depth = -50;
-            DrawStick(leftCenter, sticks.Left, new Color(0.55f, 0.86f, 0.94f, 1f));
-            DrawStick(rightCenter, sticks.Right, new Color(1f, 0.74f, 0.32f, 1f));
+            if (ControlsVisible)
+            {
+                DrawStick(leftCenter, sticks.Left, new Color(0.55f, 0.86f, 0.94f, 1f));
+                DrawStick(rightCenter, sticks.Right, new Color(1f, 0.74f, 0.32f, 1f));
+            }
+            DrawAmmo();
             GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth;
+        }
+
+        private void DrawAmmo()
+        {
+            if (magazine == null || !magazine.isActiveAndEnabled) return;
+            float scale = reloadButton.height / 54f;
+            Rect panel = new Rect(reloadButton.x, Screen.height - reloadButton.yMax, reloadButton.width, reloadButton.height);
+            if (ammoStyle == null)
+            {
+                ammoStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
+                reloadStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
+                ammoStyle.normal.textColor = Color.white; reloadStyle.normal.textColor = new Color(.85f,.87f,.84f,1f);
+            }
+            ammoStyle.fontSize = Mathf.Max(12,Mathf.RoundToInt(23f * scale));
+            reloadStyle.fontSize = Mathf.Max(8,Mathf.RoundToInt(11f * scale));
+            GUI.color = new Color(.055f,.07f,.075f,.82f);
+            GUI.DrawTexture(panel,Texture2D.whiteTexture);
+            GUI.color = magazine.IsReloading ? new Color(.77f,.64f,.38f,.85f) : new Color(.47f,.61f,.58f,.7f);
+            GUI.DrawTexture(new Rect(panel.x,panel.yMax-3f*scale,panel.width*(magazine.IsReloading?magazine.ReloadProgress:magazine.CurrentAmmo/(float)magazine.Capacity),3f*scale),Texture2D.whiteTexture);
+            GUI.color = Color.white;
+            GUI.Label(new Rect(panel.x,panel.y+1f*scale,panel.width,31f*scale),magazine.CurrentAmmo+" / ∞",ammoStyle);
+            string label = magazine.IsReloading ? "ПЕРЕЗАРЯДКА" : Application.isMobilePlatform ? "ПЕРЕЗАРЯДИТЬ" : "R · ПЕРЕЗАРЯДИТЬ";
+            GUI.Label(new Rect(panel.x,panel.y+30f*scale,panel.width,20f*scale),label,reloadStyle);
         }
 
         private void DrawStick(Vector2 center, IntercomTwinStickState.Stick stick, Color accent)

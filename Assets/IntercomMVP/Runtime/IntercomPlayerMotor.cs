@@ -64,6 +64,8 @@ namespace IntercomMvp
         public Vector3 ActualPlanarVelocity { get; private set; }
         /// <summary>Invalidates planted feet and visual inertia after a discontinuity.</summary>
         public uint MotionResetVersion { get; private set; }
+        /// <summary>Changes only for an explicit return to spawn, not focus/input cancellation.</summary>
+        public uint RespawnVersion { get; private set; }
         public bool IsGrounded => isActiveAndEnabled && controller != null
             && controller.enabled && controller.isGrounded;
         public bool IsAiming => aiming;
@@ -230,6 +232,7 @@ namespace IntercomMvp
             if (!Application.isPlaying || controller == null) return;
             controller.enabled = false;
             transform.SetPositionAndRotation(spawnPosition, spawnRotation);
+            unchecked { RespawnVersion++; }
             controller.enabled = true;
             horizontalVelocity = Vector3.zero;
             WantsToMove = false;
@@ -306,9 +309,9 @@ namespace IntercomMvp
         private static bool ResetPressed()
         {
 #if ENABLE_INPUT_SYSTEM
-            return Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame;
+            return Keyboard.current != null && Keyboard.current.backspaceKey.wasPressedThisFrame;
 #elif ENABLE_LEGACY_INPUT_MANAGER
-            return Input.GetKeyDown(KeyCode.R);
+            return Input.GetKeyDown(KeyCode.Backspace);
 #else
             return false;
 #endif

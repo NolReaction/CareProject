@@ -8,7 +8,7 @@ namespace IntercomMvp
         [Header("Stationary turn steps")]
         public bool turnSteppingEnabled = true;
         [Range(15f, 50f)] public float maximumTurnTorsoYaw = 35f;
-        [Range(0.12f, 0.35f)] public float turnStepSeconds = 0.18f;
+        [Range(0.12f, 0.35f)] public float turnStepSeconds = 0.13f;
         [Range(15f, 20f)] public float turnStepDegrees = 20f;
         [Range(35f, 75f)] public float turnLiftDegrees = 75f;
         [Range(0.08f, 0.25f)] public float turnExitSeconds = 0.14f;
@@ -191,7 +191,8 @@ namespace IntercomMvp
             // rate, retaining the exact height and link length throughout.
             if (turnSwingDirection.sqrMagnitude < 0.1f) turnSwingDirection = horizontal;
             Quaternion azimuth = Quaternion.FromToRotation(turnSwingDirection, horizontal);
-            turnSwingDirection = Quaternion.RotateTowards(Quaternion.identity, azimuth, 720f * dt) * turnSwingDirection;
+            float swingSpeed = 720f * (0.18f / Mathf.Clamp(turnStepSeconds, 0.12f, 0.35f));
+            turnSwingDirection = Quaternion.RotateTowards(Quaternion.identity, azimuth, swingSpeed * dt) * turnSwingDirection;
             turnSwingDirection = Vector3.ProjectOnPlane(turnSwingDirection, Vector3.up).normalized;
             Vector3 target = turnSwingDirection * radius + Vector3.up * vertical;
             calf.rotation = Quaternion.FromToRotation(link, target) * calf.rotation;

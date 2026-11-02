@@ -1,0 +1,230 @@
+{
+  "version": "V6",
+  "scope": "Production motor, foot support and torso suspension with measured V3 poses and narrow Unity doubles; original evaluated Blender5.2 meshes used for shell/boot clearance. Not Unity Animator/PhysX playback.",
+  "changes": {
+    "runningSpeedMetersPerSecond": 3.3,
+    "rigidStrideScale": 1.32,
+    "turnStepSeconds": 0.13,
+    "previousTurnStepSeconds": 0.18,
+    "runningTorsoStabilization": 0.85,
+    "runningTorsoFrequencyHz": 2.8,
+    "maximumRunningTorsoOffsetMeters": 0.05,
+    "suspension": "Capsule-local critically damped torso translation after exact lower-body support. Smooth nonnegative vertical envelope prevents pushing the shell into raised heels. Locomotion itself is not delayed.",
+    "backpedal": "Forward-braced shell, with nonnegative pitch target during backward acceleration. Rebind into a running pose seeds the brace from its target rather than zero."
+  },
+  "quarterTurnIncludingFinalGatherSeconds": [
+    {
+      "fps": 30,
+      "before": 1.1,
+      "after": 0.8
+    },
+    {
+      "fps": 60,
+      "before": 1.1,
+      "after": 0.8
+    },
+    {
+      "fps": 120,
+      "before": 1.092,
+      "after": 0.792
+    }
+  ],
+  "upperBodyMeasurements": [
+    {
+      "clip": "RunRelaxed",
+      "fps": 30,
+      "torsoRmsVelocity": 0.6755540063286856,
+      "smoothedRmsVelocity": 0.4019085411725452,
+      "torsoRmsAcceleration": 26.521289927669248,
+      "smoothedRmsAcceleration": 19.350669941406263,
+      "rawRange": 0.032220304,
+      "smoothedRange": 0.023495436,
+      "maximumTorsoFrameDisplacement": 0.031558838,
+      "smoothedMaximumFrameDisplacement": 0.022839354
+    },
+    {
+      "clip": "RunRelaxed",
+      "fps": 60,
+      "torsoRmsVelocity": 1.5725983586632726,
+      "smoothedRmsVelocity": 0.7175764398732083,
+      "torsoRmsAcceleration": 135.16024398829887,
+      "smoothedRmsAcceleration": 57.596248575341626,
+      "rawRange": 0.05754465,
+      "smoothedRange": 0.031225204,
+      "maximumTorsoFrameDisplacement": 0.048115227,
+      "smoothedMaximumFrameDisplacement": 0.022435226
+    },
+    {
+      "clip": "RunRelaxed",
+      "fps": 120,
+      "torsoRmsVelocity": 1.6861381821914527,
+      "smoothedRmsVelocity": 0.8686763792178418,
+      "torsoRmsAcceleration": 178.70028387638519,
+      "smoothedRmsAcceleration": 100.0810228990299,
+      "rawRange": 0.060905814,
+      "smoothedRange": 0.034276187,
+      "maximumTorsoFrameDisplacement": 0.024826102,
+      "smoothedMaximumFrameDisplacement": 0.019297536
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "fps": 30,
+      "torsoRmsVelocity": 0.7471688610226637,
+      "smoothedRmsVelocity": 0.37022853253454274,
+      "torsoRmsAcceleration": 24.328196865360294,
+      "smoothedRmsAcceleration": 15.216069265270123,
+      "rawRange": 0.03061366,
+      "smoothedRange": 0.02198571,
+      "maximumTorsoFrameDisplacement": 0.03283362,
+      "smoothedMaximumFrameDisplacement": 0.020006482
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "fps": 60,
+      "torsoRmsVelocity": 1.516535690029832,
+      "smoothedRmsVelocity": 0.7586572037215268,
+      "torsoRmsAcceleration": 124.86789022869019,
+      "smoothedRmsAcceleration": 63.17244284527204,
+      "rawRange": 0.059382856,
+      "smoothedRange": 0.03408158,
+      "maximumTorsoFrameDisplacement": 0.040478006,
+      "smoothedMaximumFrameDisplacement": 0.02779382
+    },
+    {
+      "clip": "RunBackwardRelaxed",
+      "fps": 120,
+      "torsoRmsVelocity": 1.700695423582437,
+      "smoothedRmsVelocity": 0.8334569458589421,
+      "torsoRmsAcceleration": 180.5547298821812,
+      "smoothedRmsAcceleration": 96.05088896338312,
+      "rawRange": 0.059299707,
+      "smoothedRange": 0.034027517,
+      "maximumTorsoFrameDisplacement": 0.029969785,
+      "smoothedMaximumFrameDisplacement": 0.018217143
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "fps": 30,
+      "torsoRmsVelocity": 1.095151461936938,
+      "smoothedRmsVelocity": 0.6012439121341606,
+      "torsoRmsAcceleration": 31.50435823838815,
+      "smoothedRmsAcceleration": 23.30520210478024,
+      "rawRange": 0.0495103,
+      "smoothedRange": 0.038790345,
+      "maximumTorsoFrameDisplacement": 0.049297944,
+      "smoothedMaximumFrameDisplacement": 0.038927566
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "fps": 60,
+      "torsoRmsVelocity": 1.3258014849765665,
+      "smoothedRmsVelocity": 0.8274215821145177,
+      "torsoRmsAcceleration": 75.87000947772258,
+      "smoothedRmsAcceleration": 59.498015751248026,
+      "rawRange": 0.06638473,
+      "smoothedRange": 0.051564693,
+      "maximumTorsoFrameDisplacement": 0.037877593,
+      "smoothedMaximumFrameDisplacement": 0.03399789
+    },
+    {
+      "clip": "RunLeftRelaxed",
+      "fps": 120,
+      "torsoRmsVelocity": 1.4016580718152059,
+      "smoothedRmsVelocity": 0.8770907645669082,
+      "torsoRmsAcceleration": 105.2060951490795,
+      "smoothedRmsAcceleration": 78.87466848483457,
+      "rawRange": 0.066378,
+      "smoothedRange": 0.05301404,
+      "maximumTorsoFrameDisplacement": 0.020969285,
+      "smoothedMaximumFrameDisplacement": 0.019101992
+    },
+    {
+      "clip": "Run+RunLeft",
+      "fps": 30,
+      "torsoRmsVelocity": 0.8597847365768717,
+      "smoothedRmsVelocity": 0.43761510663098363,
+      "torsoRmsAcceleration": 25.482257394009096,
+      "smoothedRmsAcceleration": 16.87020747307606,
+      "rawRange": 0.03568256,
+      "smoothedRange": 0.03034985,
+      "maximumTorsoFrameDisplacement": 0.039997175,
+      "smoothedMaximumFrameDisplacement": 0.030447895
+    },
+    {
+      "clip": "Run+RunLeft",
+      "fps": 60,
+      "torsoRmsVelocity": 1.389101199243293,
+      "smoothedRmsVelocity": 0.7464461134968151,
+      "torsoRmsAcceleration": 104.70775283808743,
+      "smoothedRmsAcceleration": 59.342138592537424,
+      "rawRange": 0.06454098,
+      "smoothedRange": 0.043562174,
+      "maximumTorsoFrameDisplacement": 0.03999279,
+      "smoothedMaximumFrameDisplacement": 0.029391624
+    },
+    {
+      "clip": "Run+RunLeft",
+      "fps": 120,
+      "torsoRmsVelocity": 1.502452417355438,
+      "smoothedRmsVelocity": 0.8350027020204739,
+      "torsoRmsAcceleration": 149.21855197038664,
+      "smoothedRmsAcceleration": 93.46775083247746,
+      "rawRange": 0.0634048,
+      "smoothedRange": 0.043219924,
+      "maximumTorsoFrameDisplacement": 0.027274266,
+      "smoothedMaximumFrameDisplacement": 0.019745266
+    }
+  ],
+  "comparison": "Same measured 3.3 m/s running support and brace with torso stabilization disabled vs enabled; metrics exclude world travel. This isolates the suspension effect, not a Unity-video measurement.",
+  "checks": {
+    "RunningContactTests": {
+      "passed": true,
+      "assertionsWithTraceExport": 973995,
+      "measuredCases": 432,
+      "comparisonPairs": 12,
+      "flatMinimumMeters": 0.0029994026,
+      "flatMaximumMeters": 0.0029999954,
+      "meanFlatSlipMetersPerSecond": 1.3574731758286778e-05,
+      "maximumCalfRotationDegrees": 41.384743,
+      "legLocalPositionsAndScalesUnchanged": true
+    },
+    "TurningRigTests": {
+      "passed": true,
+      "assertions": 464142,
+      "verifiedRandomLandings": 2301,
+      "maxSwingSpeedMetersPerSecond": 3.142,
+      "maxStanceDriftMeters": 5.58e-08,
+      "maxLandingGapMeters": 0.003
+    },
+    "GroundFeedbackLifecycleTests": {
+      "passed": true,
+      "assertions": 6614,
+      "newChecks": "RespawnVersion changes only on explicit reset; focus/pause/disable cannot trigger magazine refill. Torso suspension history clears on all teardown paths."
+    },
+    "TurnStepTests": {
+      "passed": true,
+      "assertions": 51681
+    },
+    "actualMeshClearance": {
+      "report": "MotionMeshV6Review.json",
+      "passed": true,
+      "frames": 364,
+      "shellBootIntersections": 0,
+      "sourceHash": "bc53240074b897d34e1174f06d3503c7fb9eafcb46d15a01f3d06f06d8c589df"
+    }
+  },
+  "keyboard": "Legacy reset key is now Backspace. R is reserved for weapon reload. RespawnVersion is independent from input/focus cancellation.",
+  "limits": [
+    "The short rigid single-link legs still take 7.5 contacts/s at maximum forward speed. No bone scale or foot-local translation changes were made.",
+    "Suspension is deliberately constrained by physical shell clearance; it reduces measured torso velocity by 37–54% in the sampled directions rather than freezing the whole robot.",
+    "Mesh clearance samples cover forward/backward/left/forward-left at60Hz, 364 rendered-pose frames; all432 contact cases cover12clip/direction combinations and30/60/120Hz using measured skin points.",
+    "Live Unity transitions, real terrain/physics, phone rendering and final subjective feel still require Play Mode/device review."
+  ],
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedback.cs": "e53981ec509cb4453003b17f192b99bfb437bea824532364af3c7f797b02f757",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackRunning.cs": "5dac164c87f4fd85f094d4d4cf05e95ceeacdf74aa629717e95c0b63ae6d4eeb",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackTurning.cs": "ff758cb696d5b234b6411b21d805f703689f68abc580b12d3589dbd5c8634fa0",
+    "Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs": "80202091f8d914ed9e3908f2b431dac79f6dd9064d8582147b216f34492a1988",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs": "c6a49de670dfdc03bdb0e5216eb10c3f180f74a30be0b359a2e9012bf8e9c1a6"
+  }
+}

@@ -12,6 +12,7 @@ namespace IntercomMvp
         public IntercomPlayerMotor motor;
         public Animator animator;
         public IntercomGroundFeedback groundFeedback;
+        public IntercomWeaponMagazine magazine;
 
         /// <summary>A grounded locomotion contact, emitted even when no footstep clip is assigned.</summary>
         public event System.Action FootContact;
@@ -25,12 +26,15 @@ namespace IntercomMvp
         private AudioSource[] impacts;
         private AudioSource ambient;
         private AudioSource music;
+        private AudioSource reloadVoice;
+        private readonly float[] shotTimes = new float[ShotVoices];
         private readonly float[] stepGains = new float[StepVoices];
         private readonly float[] impactGains = new float[ImpactVoices];
         private readonly RaycastHit[] groundHits = new RaycastHit[12];
         private GameObject audioRoot;
         private IntercomSimpleShooter subscribedShooter;
         private IntercomGroundFeedback subscribedGroundFeedback;
+        private IntercomWeaponMagazine subscribedMagazine;
         private IntercomAudioProfile observedProfile;
         private int nextShot;
         private int nextStep;
@@ -46,6 +50,7 @@ namespace IntercomMvp
         private bool musicPaused;
         private float ambienceGain;
         private float musicGain;
+        private float lastMaterialHit = float.NegativeInfinity;
 
         private IntercomWeaponDefinition Weapon => shooter != null ? shooter.Weapon : null;
         private float ShotVolume => Weapon != null ? Weapon.shotVolume : profile.shotsVolume;
@@ -61,11 +66,13 @@ namespace IntercomMvp
             if (motor == null) motor = GetComponent<IntercomPlayerMotor>();
             if (animator == null) animator = GetComponentInChildren<Animator>();
             if (groundFeedback == null) groundFeedback = GetComponent<IntercomGroundFeedback>();
+            if (magazine == null) magazine = GetComponent<IntercomWeaponMagazine>();
             audioRoot = new GameObject("Intercom Audio Voices");
             audioRoot.transform.SetParent(transform, false);
             shots = CreateVoices("Pistol", ShotVoices, 64);
             steps = CreateVoices("Boot", StepVoices, 128);
             impacts = CreateVoices("Impact", ImpactVoices, 112);
+            reloadVoice = CreateVoice("Weapon Reload", 96);
             ambient = CreateVoice("Yard Ambience", 200);
             ambient.loop = true;
             ambient.volume = 0f;
@@ -82,6 +89,8 @@ namespace IntercomMvp
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
+            if (reloadVoice != null) reloadVoice.Stop();
+            lastMaterialHit = float.NegativeInfinity;
             impactReports.Reset();
             if (ambient != null) ambient.Stop();
             if (music != null) music.Stop();
@@ -98,6 +107,17 @@ namespace IntercomMvp
 
         private void Subscribe()
         {
+            if (magazine == null) magazine = GetComponent<IntercomWeaponMagazine>();
+            if (subscribedMagazine != magazine)
+            {
+                UnsubscribeMagazine();
+                subscribedMagazine = magazine;
+                if (subscribedMagazine != null)
+                {
+                    subscribedMagazine.ReloadStarted += OnReloadStarted;
+                    subscribedMagazine.ReloadCompleted += OnReloadCompleted;
+                }
+            }
             if (subscribedShooter != shooter)
             {
                 UnsubscribeShooter();
@@ -119,6 +139,7 @@ namespace IntercomMvp
         private void Unsubscribe()
         {
             UnsubscribeShooter();
+            UnsubscribeMagazine();
             if (subscribedGroundFeedback != null) subscribedGroundFeedback.Footstep -= OnFootstep;
             subscribedGroundFeedback = null;
         }
@@ -133,6 +154,29 @@ namespace IntercomMvp
             subscribedShooter = null;
         }
 
+        private void UnsubscribeMagazine()
+        {
+            if (subscribedMagazine != null)
+            {
+                subscribedMagazine.ReloadStarted -= OnReloadStarted;
+                subscribedMagazine.ReloadCompleted -= OnReloadCompleted;
+            }
+            subscribedMagazine = null;
+        }
+
+        private void OnReloadStarted() => PlayReload(false);
+        private void OnReloadCompleted() => PlayReload(true);
+
+        private void PlayReload(bool completed)
+        {
+            if (!CanPlay || reloadVoice == null || Weapon == null) return;
+            ObserveProfile();
+            AudioClip clip = completed ? Weapon.reloadFinishClip : Weapon.reloadStartClip;
+            if (clip == null) return;
+            reloadVoice.transform.position = transform.position;
+            PlayVoice(reloadVoice, clip, 0f, Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(Weapon.reloadVolume));
+        }
+
         private void OnVolleyFired(Vector3 position, int barrelCount)
         {
             if (!CanPlay || shots == null || barrelCount <= 0) return;
@@ -140,6 +184,8 @@ namespace IntercomMvp
             AudioClip clip = PickClip(ShotClips, ref lastShotClip);
             if (clip == null) return;
             AudioSource voice = NextVoice(shots, ref nextShot);
+            for (int i = 0; i < shots.Length; i++)
+                if (shots[i] == voice) { shotTimes[i] = Time.unscaledTime; break; }
             voice.transform.position = position;
             PlayVoice(voice, clip, ShotPitchVariation,
                 Mathf.Clamp01(profile.masterVolume) * Mathf.Clamp01(ShotVolume));
@@ -166,6 +212,7 @@ namespace IntercomMvp
             if (clip == null) clip = PickClip(profile.impactHits, ref lastImpactClips[0]);
             if (clip == null) return;
             impactReports.MarkPlayed(bankIndex, now);
+            lastMaterialHit = now;
             AudioSource voice = NextVoice(impacts, ref nextImpact);
             voice.transform.position = hit.Point;
             for (int i = 0; i < impacts.Length; i++)
@@ -203,6 +250,8 @@ namespace IntercomMvp
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
+            if (reloadVoice != null) reloadVoice.Stop();
+            lastMaterialHit = float.NegativeInfinity;
             impactReports.Reset();
             stepClock.Reset();
             if (ambient != null) ambient.Stop();
@@ -216,7 +265,11 @@ namespace IntercomMvp
             float master = Mathf.Clamp01(profile.masterVolume);
             float shotVolume = master * Mathf.Clamp01(ShotVolume);
             float stepVolume = master * Mathf.Clamp01(profile.stepsVolume);
-            for (int i = 0; i < shots.Length; i++) shots[i].volume = shotVolume;
+            for (int i = 0; i < shots.Length; i++)
+                shots[i].volume = shotVolume * IntercomImpactAudio.ShotTailGain(
+                    Time.unscaledTime - shotTimes[i], Time.unscaledTime - lastMaterialHit, profile.shotTailGainOnImpact);
+            if (reloadVoice != null && Weapon != null)
+                reloadVoice.volume = master * Mathf.Clamp01(Weapon.reloadVolume);
             for (int i = 0; i < steps.Length; i++) steps[i].volume = stepVolume * stepGains[i];
             Vector3 player = motor != null ? motor.transform.position : transform.position;
             for (int i = 0; i < impacts.Length; i++)
@@ -335,6 +388,8 @@ namespace IntercomMvp
             StopVoices(shots);
             StopVoices(steps);
             StopVoices(impacts);
+            if (reloadVoice != null) reloadVoice.Stop();
+            lastMaterialHit = float.NegativeInfinity;
             impactReports.Reset();
             if (ambient != null && ambient.isPlaying)
             {

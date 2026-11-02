@@ -95,26 +95,9 @@ def fit(x, seconds):
 
 
 def pistol(index):
-    """Near-field 1911 pressure/body plus PPQ crack, all from real recordings."""
-    ratio = (.94, .965, .925)[index]
-    main = onset_trim(rate_shift(sample(f"1911_near_{1+index%2}.flac"), ratio), .012, .0005)
-    main = fit(band(main, 52, 10000), .37)
-    # Preserve the fast pressure transient, then a broader 45-150ms chest/body.
-    # Parallel body comes from the same recording; no pitched-down sci-fi sweep.
-    body = band(main, 65, 920)
-    body /= peak(body)
-    t = np.arange(len(main)) / FX_RATE
-    body *= np.exp(-np.maximum(t-.025, 0)/.095)
-    crack = onset_trim(sample(f"PPQ_shot_{1+index%2}.flac"), .018, .0005)
-    crack = fit(band(crack, 1800, 10400), .37)
-    crack /= peak(crack)
-    crack *= np.exp(-t/.027)
-    main /= peak(main)
-    x = .82*main + .34*body + .28*crack
-    x *= np.exp(-np.maximum(t-.055, 0)/.145)
-    # Parallel saturation retains the original crest while adding low-mid energy.
-    x = .25*x + .75*np.tanh(2.8*x)/2.8
-    return finish_hit(edges(x, .00035, .045), -2.4)
+    # Keep full rebuilds consistent with the compact V6 reports.
+    from GenerateWeaponAudio import render_pistol
+    return render_pistol(index)
 
 
 BASE_STEPS = ("Fantozzi-StoneL1.flac", "Fantozzi-StoneR1.flac",

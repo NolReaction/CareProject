@@ -50,7 +50,10 @@ namespace IntercomMvp
         /// <summary>Queues one tap, including a tap released before the raise finishes.</summary>
         public void RequestFire() { queuedShot = true; }
 
-        public void Tick(float deltaTime, bool triggerHeld)
+        /// <summary>Drop fire intent while reloading without changing the current arm posture.</summary>
+        public void CancelFireRequests() { queuedShot = continuousFire = ShotThisTick = false; }
+
+        public void Tick(float deltaTime, bool triggerHeld, bool keepCombatPosture = false)
         {
             ShotThisTick = PostureChangedThisTick = false;
             if (deltaTime <= 0f || float.IsNaN(deltaTime) || float.IsInfinity(deltaTime)) return;
@@ -75,6 +78,8 @@ namespace IntercomMvp
 
             if (Posture == IntercomWeaponPosture.Combat)
             {
+                // Reload visuals need a stable raised baseline even for a designer's long reload.
+                if (keepCombatPosture) holdUntil = now + combatHold;
                 if ((queuedShot || triggerHeld) && now + 0.000001 >= nextShot)
                 {
                     queuedShot = false;
@@ -82,7 +87,7 @@ namespace IntercomMvp
                     RegisterShot(triggerHeld && continuousFire);
                     continuousFire = triggerHeld;
                 }
-                else if (!queuedShot && !triggerHeld && now + 0.000001 >= holdUntil)
+                else if (!keepCombatPosture && !queuedShot && !triggerHeld && now + 0.000001 >= holdUntil)
                 {
                     ChangePosture(IntercomWeaponPosture.Lowering);
                     phaseStart = now;

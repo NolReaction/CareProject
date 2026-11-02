@@ -1,0 +1,73 @@
+{
+  "revision": "combat-v6",
+  "baseGitCommit": "194c845",
+  "changes": {
+    "parallelProjectiles": "Both real muzzle origins share the normalized mean of their current animated forward vectors, with planar projection and fallback; owner-body-to-muzzle obstruction checks retained.",
+    "magazineSize": 24,
+    "projectilesPerVolley": 2,
+    "reloadSeconds": 1.15,
+    "infiniteReserve": true,
+    "manualReload": "R or tap ammo panel",
+    "reset": "Backspace",
+    "ammoAccounting": "Only successfully spawned barrels committed once before external firing callbacks. Fully blocked or exhausted pool produces no ammo cost, report or recoil.",
+    "recoil": "Real Shooter confirms visual recoil after spawning, independent of the shot clock registration.",
+    "timing": "Auto reload starts after final actual volley; reload retains raised baseline. No buffered tap or catch-up shot is retained during reload."
+  },
+  "balance": {
+    "damagePerBullet": 15,
+    "interval": 0.18,
+    "ttk100": 0.54,
+    "burstDps": 166.66666666666669,
+    "sustainedDps": 115.01597444089457
+  },
+  "checks": [
+    {
+      "project": "InputCancellationTests",
+      "passed": true,
+      "summary": "PASS 19 cases / 55 assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback."
+    },
+    {
+      "project": "MagazineTests",
+      "passed": true,
+      "summary": "PASS 9 magazine/parallel-fire cases, 1571 assertions. Production state, component, pose clock and direction; narrow Unity stand-ins, no PhysX or actual GUI execution."
+    },
+    {
+      "project": "PoseClockTests",
+      "passed": true,
+      "summary": "PASS: 16 cases, 1874 assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8."
+    },
+    {
+      "project": "WeaponFoundationTests",
+      "passed": true,
+      "summary": "Weapon foundation: 41 assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution."
+    },
+    {
+      "project": "PlayerInputRuntimeTests",
+      "passed": true,
+      "summary": "PASS 5 actual PlayerInput/GUI call-path cases, 14 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim."
+    }
+  ],
+  "integrationNotes": [
+    "Magazine component scriptGUID2e93759af96e4ae7b214ea4a978080fe; root integrates into Robot scene.",
+    "Input captures reload pointer before stick and desktop-fire routing; left movement remains independent.",
+    "Motor RespawnVersion is separate from input/layout/focus cancellation, avoiding free refill on app switching.",
+    "Scene references and actual Unity imports are validated by root static checks / user Play Mode."
+  ],
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomSimpleShooter.cs": "d8e1b613d374406026a39babb8f16a0d4d84effbf67a01658dcbb065fb29ffb0",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponMagazine.cs": "7aa8be1034a65389022053fc64ab32ff64830a10de483cf4f9fa32566ff1239b",
+    "Assets/IntercomMVP/Runtime/IntercomMagazineState.cs": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs": "7b6c010807ce8fdcdb6c345cf5c7dfe1f0ce4a4372f2eba7efeac871dc624856",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+    "Assets/IntercomMVP/Runtime/IntercomProjectileDirection.cs": "9e5322630b7aea8bd53f0fae1095d2f678267c2c7ab132d134efa21e1b84a15f",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "5466e6fb326357c303afbd7beea71ecb380d5bfe8eb9be6477fde45faf0a6d4f",
+    "Assets/IntercomMVP/Runtime/IntercomReloadControl.cs": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponDefinition.cs": "7d7754809613cb81241e7bc39d8679621fc333e8f6fa7f14886d2189b1096110",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponBalance.cs": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707"
+  },
+  "limitations": [
+    "Standalone C# uses narrow Unity stand-ins, not actual engine compilation or PhysX.",
+    "Actual touch backend, GUI layout, rendered gun alignment and animator playback require Unity/device inspection.",
+    "Source FBX is unchanged. Runtime CharacterAnimation aligns the visual wrists separately; see CharacterAnimationV6Review.json for its own checks."
+  ]
+}

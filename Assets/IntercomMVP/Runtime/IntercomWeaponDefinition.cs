@@ -8,7 +8,7 @@ namespace IntercomMvp
     {
         [Header("Identity")]
         public string displayName = "Dual pistols";
-        [TextArea] public string description = "Unlimited ammunition. Both barrels fire together.";
+        [TextArea] public string description = "24 rounds per magazine; unlimited reserve. Both barrels fire together.";
         [Header("Balance — per projectile and per volley")]
         [Min(0.01f)] public float damagePerProjectile = 15f;
         [Min(0.01f), Tooltip("Seconds between volleys. Two simultaneous pistols are ONE volley.")]
@@ -16,6 +16,13 @@ namespace IntercomMvp
         public IntercomBarrelMode barrelMode = IntercomBarrelMode.DualSimultaneous;
         [Min(1f), Tooltip("Calculator only; target Health is configured on the target itself.")]
         public float referenceTargetHealth = 100f;
+        [Header("Magazine — unlimited reserve")]
+        [Min(1), Tooltip("Total projectiles in both pistols together, not volleys.")]
+        public int magazineSize = 24;
+        [Min(0.1f)] public float reloadSeconds = 1.15f;
+        public AudioClip reloadStartClip;
+        public AudioClip reloadFinishClip;
+        [Range(0f,1f)] public float reloadVolume = 0.36f;
         [Header("Animation")]
         public IntercomWeaponPoseProfile poseProfile;
         [Header("Projectile")]
@@ -25,6 +32,8 @@ namespace IntercomMvp
         [Min(0.005f)] public float projectileRadius = 0.035f;
         [Tooltip("Top-down fire: horizontal flight from the actual muzzle, ignoring animation tilt. Props below muzzle height can still be shot over.")]
         public bool planarProjectileDirection = true;
+        [Tooltip("Both pistols share the current weapon heading while keeping their individual muzzle origins. Prevents crossed X trajectories.")]
+        public bool parallelProjectiles = true;
         [Range(0.03f,0.4f)] public float tracerWidth = 0.15f;
         [Min(0.04f)] public float tracerLength = 0.68f;
         public Material projectileMaterial;
@@ -49,10 +58,13 @@ namespace IntercomMvp
         [Min(0f)] public float casingVelocityScale = 1f;
 
         public int ProjectilesPerVolley => barrelMode == IntercomBarrelMode.DualSimultaneous ? 2 : 1;
+        public int MagazineCapacity => System.Math.Max(ProjectilesPerVolley, System.Math.Min(999, magazineSize));
+        public float ReloadSeconds => IntercomWeaponBalance.Positive(reloadSeconds,1.15f,0.1f);
         public float Damage => IntercomWeaponBalance.Positive(damagePerProjectile,15f);
         public float Interval => IntercomWeaponBalance.Positive(fireInterval,0.18f);
         public double IdealDps => IntercomWeaponBalance.Dps(Damage,ProjectilesPerVolley,Interval);
         public int IdealVolleys => IntercomWeaponBalance.VolleysToDefeat(referenceTargetHealth,Damage,ProjectilesPerVolley);
-        public double IdealTtk => IntercomWeaponBalance.IdealTtk(referenceTargetHealth,Damage,ProjectilesPerVolley,Interval);
+        public double IdealTtk => IntercomWeaponBalance.IdealTtkWithReload(referenceTargetHealth,Damage,ProjectilesPerVolley,Interval,MagazineCapacity,ReloadSeconds);
+        public double SustainedDps => IntercomWeaponBalance.SustainedDps(Damage,ProjectilesPerVolley,Interval,MagazineCapacity,ReloadSeconds);
     }
 }

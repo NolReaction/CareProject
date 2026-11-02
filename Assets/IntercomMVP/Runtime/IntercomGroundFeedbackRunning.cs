@@ -9,7 +9,57 @@ namespace IntercomMvp
         [Range(0f, 0.06f)] public float runBodyCorrection = 0.035f;
         [Tooltip("Keep the body clear of the short leg cuffs during running lean and sway.")]
         [Range(0f, 1f)] public float runningTiltWeight = 0.75f;
+        [Tooltip("Isolate the upper body from the short legs' rapid support corrections. Feet and bearing joints keep their exact solved pose.")]
+        [Range(0f, 1f)] public float runningTorsoStabilization = 0.85f;
+        [Range(1f, 8f)] public float runningTorsoFrequency = 2.8f;
+        [Tooltip("Maximum upper-body suspension travel in world metres, not a change to leg length.")]
+        [Range(0f, 0.06f)] public float maximumRunningTorsoOffset = 0.05f;
         private CharacterController runningController;
+        private Vector3 runningTorsoPosition, runningTorsoVelocity;
+        private float runningTorsoWeight;
+        private bool runningTorsoReady;
+
+        private void StabilizeRunningTorso(float dt, bool moving, bool discontinuity)
+        {
+            if (torso == null) return;
+            // Work relative to the collision capsule: smoothing a world position
+            // would delay locomotion/camera response and make a fast runner trail
+            // behind its feet. Only the authored gait bob and support residual
+            // are filtered here. The whole rigid lower-body solve stays intact.
+            Vector3 local = transform.InverseTransformPoint(torso.position);
+            if (!runningTorsoReady || discontinuity)
+            {
+                runningTorsoPosition = local;
+                runningTorsoVelocity = Vector3.zero;
+                runningTorsoWeight = 0f;
+                runningTorsoReady = true;
+            }
+            float frequency = Mathf.Clamp(runningTorsoFrequency, 1f, 8f);
+            IntercomGroundMath.Spring(ref runningTorsoPosition.x, ref runningTorsoVelocity.x, local.x, frequency, dt);
+            IntercomGroundMath.Spring(ref runningTorsoPosition.y, ref runningTorsoVelocity.y, local.y, frequency, dt);
+            IntercomGroundMath.Spring(ref runningTorsoPosition.z, ref runningTorsoVelocity.z, local.z, frequency, dt);
+            bool active = moving && sampleRunningSoles && plantFeet;
+            runningTorsoWeight = Mathf.MoveTowards(runningTorsoWeight, active ? 1f : 0f, dt / 0.12f);
+            Vector3 offset = transform.TransformPoint(runningTorsoPosition) - torso.position;
+            float limit = Mathf.Clamp(maximumRunningTorsoOffset, 0f, 0.06f);
+            offset = Vector3.ClampMagnitude(offset, limit);
+            // The shell sits close to the heel and bearing cuffs. Soften the
+            // rapid hip drop, but never compress the shell below the solved
+            // lower-body pose merely to obtain a flatter visual curve.
+            // Smooth positive envelope avoids a hard half-wave corner each
+            // landing while retaining a nonnegative shell-clearance offset.
+            const float clearanceSoftness = 0.006f;
+            offset.y = 0.5f * (offset.y + (float)Math.Sqrt(offset.y * offset.y + clearanceSoftness * clearanceSoftness));
+            offset = Vector3.ClampMagnitude(offset, limit);
+            torso.position += offset * (runningTorsoWeight * Mathf.Clamp01(runningTorsoStabilization));
+        }
+
+        private void ResetRunningTorso()
+        {
+            runningTorsoReady = false;
+            runningTorsoPosition = runningTorsoVelocity = Vector3.zero;
+            runningTorsoWeight = 0f;
+        }
 
         public bool CanAdjustRunningStride => ProvidesFootContacts && plantFeet && body != null
             && leftRig.neutralLinkReady && rightRig.neutralLinkReady

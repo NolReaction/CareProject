@@ -72,6 +72,8 @@ namespace IntercomMvp
         private Mesh projectileMesh;
         private Material fallbackMaterial;
         private CharacterController ownerCapsule;
+        private IntercomPlayerMotor motor;
+        private IntercomWeaponMagazine magazine;
         private IntercomWeaponPose subscribedPose;
         private int pendingShots;
         private int nextSlot;
@@ -97,6 +99,8 @@ namespace IntercomMvp
             if (ownerRoot == null) ownerRoot = transform;
             if (weaponPose == null) weaponPose = GetComponent<IntercomWeaponPose>();
             ownerCapsule = ownerRoot.GetComponent<CharacterController>();
+            motor = GetComponent<IntercomPlayerMotor>();
+            magazine = GetComponent<IntercomWeaponMagazine>();
             CreatePool();
         }
 
@@ -155,7 +159,7 @@ namespace IntercomMvp
 
         private void QueueShot()
         {
-            if (hasFocus && !appPaused && subscribedPose != null && subscribedPose.IsReadyToFire)
+            if (hasFocus && !appPaused && (magazine == null || magazine.CanFire) && subscribedPose != null && subscribedPose.IsReadyToFire)
                 pendingShots = Mathf.Min(pendingShots + 1, 4);
         }
 
@@ -165,32 +169,50 @@ namespace IntercomMvp
             AdvanceProjectiles(Time.deltaTime);
             // The pose driver raises first and queues here during Update.
             // Sample the animated markers after Animator evaluation and turning.
-            // Never substitute the desired aim for the actual barrel direction.
+            // Parallel pistols share the current animated weapon heading, not two inward yaw angles.
             int shots = subscribedPose != null && subscribedPose.isActiveAndEnabled && subscribedPose.IsReadyToFire ? pendingShots : 0;
             pendingShots = 0;
             for (int i = 0; i < shots; i++)
             {
+                if (magazine != null && !magazine.CanFire) break;
                 int fired = 0;
                 Vector3 soundPosition = Vector3.zero;
+                Vector3 fallback = motor != null ? motor.AimWorldDirection : ownerRoot != null ? ownerRoot.forward : transform.forward;
+                bool planar = weapon != null && weapon.planarProjectileDirection;
+                Vector3 parallel = IntercomProjectileDirection.Parallel(muzzleRight != null ? muzzleRight.forward : Vector3.zero,
+                    muzzleLeft != null ? muzzleLeft.forward : Vector3.zero,fallback,planar);
+                bool shareHeading = DualVolley && (weapon == null || weapon.parallelProjectiles);
+                Transform firedRight = null, firedLeft = null;
                 if (DualVolley)
                 {
-                    if (Spawn(muzzleRight)) { fired++; soundPosition += muzzleRight.position; }
-                    if (Spawn(muzzleLeft)) { fired++; soundPosition += muzzleLeft.position; }
+                    if (Spawn(muzzleRight, shareHeading, parallel)) { fired++; soundPosition += muzzleRight.position; firedRight=muzzleRight; }
+                    if (Spawn(muzzleLeft, shareHeading, parallel)) { fired++; soundPosition += muzzleLeft.position; firedLeft=muzzleLeft; }
                 }
                 else
                 {
                     Transform muzzle = nextRight ? muzzleRight : muzzleLeft;
                     if (muzzle == null) muzzle = muzzleRight != null ? muzzleRight : muzzleLeft;
-                    if (Spawn(muzzle)) { fired = 1; soundPosition = muzzle.position; }
-                    nextRight = !nextRight;
+                    if (Spawn(muzzle, false, parallel))
+                    {
+                        fired = 1; soundPosition = muzzle.position;
+                        if(muzzle==muzzleRight) firedRight=muzzle; else firedLeft=muzzle;
+                        nextRight = !nextRight;
+                    }
                 }
-                // A blocked barrel / exhausted pool does not create a phantom report.
-                // Simultaneous pistols share one report rather than clipping two identical sounds.
-                if (fired > 0) VolleyFired?.Invoke(soundPosition / fired, fired);
+                // Commit only successful barrels, before external callbacks can request a reload.
+                // Wall checks / an exhausted pool consume no round and emit no report.
+                if (fired > 0)
+                {
+                    if(weaponPose != null) weaponPose.ConfirmShotVisual();
+                    if(magazine != null) magazine.CommitVolley(fired);
+                    if(firedRight != null) BarrelFired?.Invoke(firedRight,true);
+                    if(firedLeft != null) BarrelFired?.Invoke(firedLeft,false);
+                    VolleyFired?.Invoke(soundPosition / fired, fired);
+                }
             }
         }
 
-        private bool Spawn(Transform muzzle)
+        private bool Spawn(Transform muzzle, bool shareHeading, Vector3 parallel)
         {
             if (muzzle == null)
             {
@@ -212,7 +234,7 @@ namespace IntercomMvp
 
             int slot = FindAvailableSlot();
             if (slot < 0) return false; // Bounded pool: do not allocate or steal a live bullet.
-            Vector3 direction = IntercomProjectileDirection.Resolve(muzzle.forward, ownerRoot != null ? ownerRoot.forward : transform.forward, weapon != null && weapon.planarProjectileDirection);
+            Vector3 direction = shareHeading ? parallel : IntercomProjectileDirection.Resolve(muzzle.forward, motor != null ? motor.AimWorldDirection : ownerRoot != null ? ownerRoot.forward : transform.forward, weapon != null && weapon.planarProjectileDirection);
             pool[slot].position = position;
             pool[slot].direction = direction;
             pool[slot].speed = IntercomWeaponBalance.Positive(weapon != null ? weapon.projectileSpeed : projectileSpeed,36f,0.1f);
@@ -229,7 +251,6 @@ namespace IntercomMvp
             float width = IntercomTracerStyle.Width(ShotWidth);
             visual.localScale = new Vector3(width, width, IntercomTracerStyle.Length(ShotLength, 0f));
             visual.gameObject.SetActive(true);
-            BarrelFired?.Invoke(muzzle, muzzle == muzzleRight);
             return true;
         }
 

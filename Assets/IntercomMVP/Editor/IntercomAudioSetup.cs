@@ -18,6 +18,7 @@ namespace IntercomMvp.Editor
             audio.shooter = robot.GetComponent<IntercomSimpleShooter>();
             audio.animator = robot.GetComponentInChildren<Animator>(true);
             audio.groundFeedback = robot.GetComponent<IntercomGroundFeedback>();
+            audio.magazine = robot.GetComponent<IntercomWeaponMagazine>();
             if (audio.profile == null) audio.profile = GetOrCreateProfile();
             EditorUtility.SetDirty(audio);
             if (PrefabUtility.IsPartOfPrefabInstance(audio))

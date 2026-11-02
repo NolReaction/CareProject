@@ -45,7 +45,8 @@ namespace UnityEngine {
 namespace IntercomMvp {
  public class IntercomGroundFeedback:UnityEngine.Behaviour {public bool ContactsAvailable=true;public bool IsTurnFootstep;public bool ProvidesFootContacts=>isActiveAndEnabled&&ContactsAvailable;public event Action<UnityEngine.Collider,UnityEngine.Vector3,float,bool> Footstep;public void Emit(UnityEngine.Collider c,float strength=1f){Footstep?.Invoke(c,new UnityEngine.Vector3{x=2,y=.01f,z=3},strength,true);}public void EmitTurn(UnityEngine.Collider c){IsTurnFootstep=true;try{Emit(c,.42f);}finally{IsTurnFootstep=false;}}}
  public class IntercomPlayerMotor : UnityEngine.Behaviour {public float ActualPlanarSpeed;public bool IsGrounded=true;}
- public class IntercomWeaponDefinition {public UnityEngine.AudioClip[] shotClips;public float shotVolume,shotPitchVariation;}
+ public class IntercomWeaponDefinition {public UnityEngine.AudioClip[] shotClips;public float shotVolume,shotPitchVariation;public UnityEngine.AudioClip reloadStartClip,reloadFinishClip;public float reloadVolume=.36f;}
+ public class IntercomWeaponMagazine:UnityEngine.Behaviour {public event Action ReloadStarted,ReloadCompleted;public void StartReload()=>ReloadStarted?.Invoke();public void FinishReload()=>ReloadCompleted?.Invoke();}
  public class IntercomSimpleShooter : UnityEngine.Behaviour {
   public IntercomWeaponDefinition Weapon {get;set;}
   public event Action<UnityEngine.Vector3,int> VolleyFired;

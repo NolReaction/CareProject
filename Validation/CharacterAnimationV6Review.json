@@ -1,0 +1,79 @@
+{
+  "revision": "character-animation-v6",
+  "date": "2026-11-02",
+  "status": "PASS",
+  "scope": "Runtime arm/hand additive animation and source-mesh keypose inspection. Not Unity playback.",
+  "runtime": {
+    "executionOrder": 175,
+    "groundFeedbackOrder": 150,
+    "muzzleSamplingOrder": 200,
+    "modifiedChannels": "Upperarm and Hand rotations only; no bone position/scale edits; no Body/Torso/leg edits.",
+    "reload": {
+      "armLiftDegrees": 38,
+      "armSpreadDegrees": 8,
+      "wristLiftDegrees": 18,
+      "wristRollDegrees": 8,
+      "entryFraction": 0.2,
+      "returnStartsAt": 0.72,
+      "endsAt": 1,
+      "mechanicalLatch": "single smoothed pulse, no rapid oscillation",
+      "physicalMagazineMeshes": false
+    },
+    "wall": {
+      "postures": [
+        "Relaxed",
+        "Lowering"
+      ],
+      "distanceNear": 0.35,
+      "distanceFar": 0.78,
+      "sphereRadius": 0.12,
+      "probeHeight": 1.02,
+      "maxHits": 24,
+      "selfAndFloorFiltered": true,
+      "blendIn": 0.16,
+      "blendOut": 0.1
+    },
+    "idle": "One small wrist inspection after 3.5 seconds quiet standing; cancelled by movement/fire/reload/wall.",
+    "aimAlignment": {
+      "helper": "IntercomProjectileDirection.Parallel",
+      "maxWorldYawDegrees": 25,
+      "raiseBlendSeconds": 0.16,
+      "bothDirectionsCapturedBeforeEitherHandRotates": true,
+      "pitchAndRecoilRetained": true,
+      "reload": "suppressed at peak gesture, returns during final 28%"
+    }
+  },
+  "validation": {
+    "CharacterAnimationTests": "PASS 9387 assertions; full production component and envelope math against narrow Unity stand-ins, 30/60/120 FPS, no transform accumulation, restore ownership, reload complete/parallel aims, self/floor wall filtering.",
+    "AnimationGroundingIntegrationTests": "Independent review initially passed 5013 assertions combining actual GroundFeedback restoration and character component. Final consolidated suite is recorded by root integration.",
+    "blender": {
+      "version": "5.2.3",
+      "rig": "Intercom_Armature_Fixed",
+      "boneCount": 42,
+      "renderedKeyPoses": 8,
+      "allBoneLocalPositionsAndScalesUnchangedAtEveryKeyPose": true,
+      "boneMatricesStableAcrossRenderReevaluation": true,
+      "sourcePoseMuzzleYawCorrectionDegrees": {
+        "L": 2.2463473,
+        "R": -2.2463475
+      },
+      "preview": "Docs/CharacterGesturesV6.jpg",
+      "reproduction": "BlenderTools/Preview_Character_Gestures_V6.py"
+    }
+  },
+  "sourceModelSha256": {
+    "Source/Robot/intercom-armed.blend": "bc53240074b897d34e1174f06d3503c7fb9eafcb46d15a01f3d06f06d8c589df",
+    "Assets/IntercomMVP/Art/Robot/IntercomRobot.fbx": "cf54febceec015f972fafd41050337444256643a03ef63b04eb97471add47e6a"
+  },
+  "runtimeSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomCharacterAnimation.cs": "d3e48ff645fbc10873a333e900fb4f74995b22e7e876e0f9af9cf6d79854957e",
+    "Assets/IntercomMVP/Runtime/IntercomCharacterAnimationMath.cs": "b265a528087045a5ccbc090f4ab5438f8571d0cdc907b615ffcc9aeae05aa5f3",
+    "Assets/IntercomMVP/Editor/IntercomCharacterAnimationSetup.cs": "dbc92ea1ff4a86942e2673a660a4bad3096b1e96183e06ca14c0423af77816cf"
+  },
+  "limitations": [
+    "Reload is a stylized wrist/arm reset; current pistols have no removable magazine or slide animation.",
+    "Wall gesture intentionally does not fold active firing arms.",
+    "Blender keyposes are visual/geometry evidence, not real Unity skinning/PhysX or final in-game animation quality.",
+    "Source Blender and FBX animation Actions were not modified."
+  ]
+}

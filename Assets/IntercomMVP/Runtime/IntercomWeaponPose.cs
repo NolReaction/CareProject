@@ -25,7 +25,7 @@ namespace IntercomMvp
         /// <summary>Invalidates a ShotReady queued earlier in this frame, for example on respawn.</summary>
         public event Action FireCancelled;
         public IntercomWeaponPosture Posture => clock != null ? clock.Posture : IntercomWeaponPosture.Relaxed;
-        public bool IsReadyToFire => Posture == IntercomWeaponPosture.Combat;
+        public bool IsReadyToFire => Posture == IntercomWeaponPosture.Combat && (magazine == null || magazine.CanFire);
 
         private static readonly int RelaxedId = Animator.StringToHash("Arms.Relaxed");
         private static readonly int RaiseId = Animator.StringToHash("Arms.RaiseWeapons");
@@ -45,6 +45,8 @@ namespace IntercomMvp
         private float shotSeconds;
         private float recoilRemaining;
         private IntercomSimpleShooter shooter;
+        private IntercomWeaponMagazine magazine;
+        private bool reloadSeen;
         private IntercomWeaponDefinition ActiveWeapon => shooter != null ? shooter.Weapon : null;
 
         private void Awake()
@@ -58,6 +60,7 @@ namespace IntercomMvp
         {
             started = true;
             shooter = GetComponent<IntercomSimpleShooter>();
+            magazine = GetComponent<IntercomWeaponMagazine>();
             if (ActiveWeapon != null && ActiveWeapon.poseProfile != null) profile = ActiveWeapon.poseProfile;
             if (animator == null) animator = GetComponentInChildren<Animator>();
             if (animator != null) baseController = animator.runtimeAnimatorController;
@@ -91,6 +94,7 @@ namespace IntercomMvp
         {
             externalTriggerHeld = pendingBeforeStart = false;
             recoilRemaining = 0f;
+            reloadSeen = false;
             FireCancelled?.Invoke();
             if (clock == null) return;
             clock.Reset();
@@ -156,9 +160,23 @@ namespace IntercomMvp
                 ? inputSource.FireHeld : previewInput && ReadPreviewHeld());
             bool pressed = inputSource != null
                 ? inputSource.FirePressed : previewInput && PreviewPressed();
+            bool reloading = magazine != null && magazine.IsReloading;
+            if (reloading && !reloadSeen)
+            {
+                recoilRemaining = 0f;
+                if (clock.Posture == IntercomWeaponPosture.Combat) BlendLocomotion(CombatId);
+            }
+            reloadSeen = reloading;
+            if (magazine != null && !magazine.CanFire)
+            {
+                held = pressed = false;
+                clock.CancelFireRequests();
+                pendingBeforeStart = false;
+                FireCancelled?.Invoke();
+            }
             if (pressed) clock.RequestFire();
             clock.SetFireInterval(ActiveWeapon != null ? ActiveWeapon.Interval : profile.fireInterval);
-            clock.Tick(dt, held);
+            clock.Tick(dt, held, reloading);
 
             if (clock.PostureChangedThisTick)
             {
@@ -178,7 +196,9 @@ namespace IntercomMvp
 
             if (clock.ShotThisTick)
             {
-                PlayRecoil();
+                // A real shooter confirms recoil only after at least one bullet exists.
+                // The standalone animation preview retains its old behaviour.
+                if (shooter == null) PlayRecoil();
                 ShotReady?.Invoke();
                 onShotReady?.Invoke();
             }
@@ -203,7 +223,7 @@ namespace IntercomMvp
 
         public void RequestFire()
         {
-            if (!hasFocus || appPaused) return;
+            if (!hasFocus || appPaused || (magazine != null && !magazine.CanFire)) return;
             if (clock == null) pendingBeforeStart = true;
             else clock.RequestFire();
         }
@@ -214,7 +234,7 @@ namespace IntercomMvp
         /// Do not call this from ShotReady: that event already registered the shot.</summary>
         public bool NotifyShotFired()
         {
-            if (!hasFocus || appPaused || clock == null || animator == null
+            if (!hasFocus || appPaused || (magazine != null && !magazine.CanFire) || clock == null || animator == null
                 || !animator.isActiveAndEnabled || animator.runtimeAnimatorController == null
                 || !clock.NotifyShotFired()) return false;
             PlayRecoil();
@@ -229,6 +249,14 @@ namespace IntercomMvp
             profile = value;
             externalTriggerHeld = pendingBeforeStart = false;
             if (started) Initialize();
+        }
+
+        /// <summary>Visual acknowledgement only. Does not schedule another shot or change ammo.</summary>
+        public void ConfirmShotVisual()
+        {
+            if (!hasFocus || appPaused || clock == null || animator == null || !animator.isActiveAndEnabled
+                || animator.runtimeAnimatorController == null || armsLayer < 0) return;
+            PlayRecoil();
         }
 
         private void PlayRecoil()

@@ -1,0 +1,76 @@
+{
+  "revision": "v6-independent-review",
+  "status": "PASS-at-review-snapshot",
+  "baseCommit": "194c84599e6681bed83a5b01c19f714118095d00",
+  "scope": "Independent source review plus executable tests of production components using narrow engine doubles. No Unity Editor or target device execution.",
+  "findings": [
+    {
+      "topic": "Shared upper-arm pose ownership",
+      "risk": "Restoring a later additive layer after GroundFeedback could overwrite the authored arm pose with a stale GroundFeedback-modified snapshot.",
+      "resolution": "CharacterAnimation now restores only rotations still owned by its last applied pose. Component comparison preserves even small authoritative changes. Joint production-component test passes both restore/disable orders and repeated frames.",
+      "status": "resolved"
+    },
+    {
+      "topic": "Ammo/projectile integration coverage",
+      "risk": "Testing CommitVolley directly did not establish that actual clear/blocked barrels consume the right count or that parallel headings reach real projectile instances.",
+      "resolution": "Added ShooterIntegrationTests executing complete production Shooter/Spawn/LateUpdate with production Magazine and deterministic physics results. Clear, blocked, partial, reload, cancellation and hit paths pass.",
+      "status": "resolved"
+    },
+    {
+      "topic": "Close wall impact interpretation",
+      "risk": "A muzzle obstructed between body and barrel creates no projectile and therefore no material-hit event; this is separate from invalid serialized surface IDs.",
+      "resolution": "Audio owner informed and documentation distinguishes blocked shots from actual material hits. Shooter suppresses both report and visual recoil on blocked attempts.",
+      "status": "documented design boundary"
+    }
+  ],
+  "tests": {
+    "AnimationGroundingIntegrationTests": {
+      "passed": true,
+      "assertions": 5023,
+      "repeatFrames": 1000,
+      "coverage": [
+        "actual GroundFeedback pose snapshot/restore and CharacterAnimation lifecycle",
+        "both disable orders",
+        "external hand pose preservation",
+        "controller removal",
+        "scene component registration and actual script GUIDs"
+      ],
+      "limitation": "The GroundFeedback torso aim rotation is represented by an explicit four-degree arm offset after its real SavePose; the measured full gait solve has separate tests."
+    },
+    "ShooterIntegrationTests": {
+      "passed": true,
+      "cases": 10,
+      "assertions": 33,
+      "coverage": [
+        "actual full Shooter compilation and execution",
+        "0/1/2 successful barrels and atomic ammo visibility to callbacks",
+        "common heading and actual advanced projectile separation",
+        "12 actual volleys start one reload",
+        "queued attempts cannot overdraw one-volley magazine",
+        "pool saturation/obstruction do not consume ammo or trigger recoil",
+        "manual reload between queue and spawn",
+        "pause/focus/cancellation/disable",
+        "actual swept hits route Metal/Wood/Concrete and snapshot original damage"
+      ]
+    }
+  },
+  "reviewedSourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomSimpleShooter.cs": "d8e1b613d374406026a39babb8f16a0d4d84effbf67a01658dcbb065fb29ffb0",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponMagazine.cs": "7aa8be1034a65389022053fc64ab32ff64830a10de483cf4f9fa32566ff1239b",
+    "Assets/IntercomMVP/Runtime/IntercomMagazineState.cs": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs": "7b6c010807ce8fdcdb6c345cf5c7dfe1f0ce4a4372f2eba7efeac871dc624856",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+    "Assets/IntercomMVP/Runtime/IntercomCharacterAnimation.cs": "d3e48ff645fbc10873a333e900fb4f74995b22e7e876e0f9af9cf6d79854957e",
+    "Assets/IntercomMVP/Runtime/IntercomCharacterAnimationMath.cs": "b265a528087045a5ccbc090f4ab5438f8571d0cdc907b615ffcc9aeae05aa5f3",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "5466e6fb326357c303afbd7beea71ecb380d5bfe8eb9be6477fde45faf0a6d4f",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerAudio.cs": "7347bb0509d5977251887079e0e24c94b0292b853cef5cfcdf5861de321bfc33",
+    "Assets/IntercomMVP/Runtime/IntercomImpactAudio.cs": "18496ae3829ab86b3cda8a920f436b8a1c2424fccc9661fc09399ec8ac571933"
+  },
+  "unresolvedBlockingFindings": [],
+  "remainingValidation": [
+    "Actual Unity import and API type compilation",
+    "Animator/rendered reload and running appearance",
+    "Native PhysX contacts at scene boundaries",
+    "Mobile CPU/GPU/audio and touch behavior"
+  ]
+}

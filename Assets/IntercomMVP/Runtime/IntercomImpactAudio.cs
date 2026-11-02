@@ -45,5 +45,18 @@ namespace IntercomMvp
             }
             return (float)gain;
         }
+
+        /// <summary>Briefly clear the gun tail for a real material hit, preserving the report attack.</summary>
+        public static float ShotTailGain(float shotAge, float impactAge, float focusedGain)
+        {
+            if (float.IsNaN(shotAge) || float.IsNaN(impactAge) || float.IsInfinity(impactAge)
+                || shotAge <= 0.015f || impactAge < 0f || impactAge >= 0.13f) return 1f;
+            double target = float.IsNaN(focusedGain) || float.IsInfinity(focusedGain) ? 0.55 : Math.Max(0.2, Math.Min(1, focusedGain));
+            double attack = Math.Max(0, Math.Min(1, (shotAge - 0.015) / 0.020));
+            attack = attack * attack * (3 - 2 * attack);
+            double release = Math.Max(0, Math.Min(1, (impactAge - 0.07) / 0.06));
+            release = release * release * (3 - 2 * release);
+            return (float)(1 - (1 - target) * attack * (1 - release));
+        }
     }
 }

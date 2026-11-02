@@ -7,6 +7,7 @@ import argparse, functools, hashlib, io, json, math, re, subprocess, wave
 import numpy as np
 ROOT=Path(__file__).resolve().parents[1]
 AUDIO=ROOT/'Assets/IntercomMVP/Audio'
+WEAPON_AUDIO=ROOT/'Assets/IntercomMVP/Game/Weapons/Pistols/Audio'
 RATE=44100
 
 def db(value): return 20*math.log10(max(1e-12,float(value)))
@@ -23,7 +24,7 @@ def decode(path):
     # Duplicate mono at unity gain for a conservative per-channel sum.
     return np.repeat(x,2,axis=1) if channels==1 else x
 def measure(path):
-    x=decode(path);result={'file':path.name,'sha256':sha(path),'seconds':len(x)/RATE,**level(x)}
+    x=decode(path);result={'file':str(path.relative_to(ROOT)),'sha256':sha(path),'seconds':len(x)/RATE,**level(x)}
     assert result['finite'] and result['clippedSamples']==0,path
     result['boundaryStep']=float(np.max(np.abs(x[-1]-x[0])))
     result['dcOffset']=float(np.max(np.abs(np.mean(x,axis=0))))
@@ -52,6 +53,9 @@ def get_profile():
     weapon=(ROOT/'Assets/IntercomMVP/Game/Weapons/Pistols/DualPistols.asset').read_text()
     gains['shotsVolume']=float(re.search(r'^  shotVolume: ([0-9.]+)',weapon,re.M).group(1))
     gains['volleyInterval']=float(re.search(r'^  fireInterval: ([0-9.]+)',weapon,re.M).group(1))
+    gains['reloadVolume']=float(re.search(r'^  reloadVolume: ([0-9.]+)',weapon,re.M).group(1))
+    gains['reloadSeconds']=float(re.search(r'^  reloadSeconds: ([0-9.]+)',weapon,re.M).group(1))
+    gains['magazineSize']=int(re.search(r'^  magazineSize: ([0-9]+)',weapon,re.M).group(1))
     return gains,banks
 
 def add(mix,clip,at,gain):
@@ -74,6 +78,29 @@ def stress(gains,banks,steps_per_second,volleys_per_second,impacts_per_second,se
         bank=banks[surfaces[i%4]];add(mix,decode(bank[(i//4)%len(bank)]),at,m*gains['impactsVolume'])
     return mix
 
+
+def reload_gameplay(gains,banks,seconds):
+    n=round(seconds*RATE);m=gains['masterVolume']
+    music=decode(AUDIO/'Music_IndustrialGroove.ogg');ambient=decode(AUDIO/'Ambience_IndustrialYard.wav')
+    mix=music[(np.arange(n)+30*RATE)%len(music)]*(m*gains['musicVolume'])
+    mix+=ambient[np.arange(n)%len(ambient)]*(m*gains['ambienceVolume'])
+    for i,at in enumerate(np.arange(.015,seconds,1/7.5)):
+        add(mix,decode(banks['footsteps'][i%len(banks['footsteps'])]),at,m*gains['stepsVolume'])
+    at=.1;cycle=0
+    surfaces=['metalImpacts','woodImpacts','concreteImpacts','soilImpacts']
+    while at<seconds:
+        for shot in range(gains['magazineSize']//2):
+            if at>=seconds:break
+            add(mix,decode(banks['pistolShots'][shot%3]),at,m*gains['shotsVolume'])
+            add(mix,decode(banks[surfaces[cycle%4]][shot%3]),at+.075,m*gains['impactsVolume'])
+            at+=gains['volleyInterval']
+        at-=gains['volleyInterval']
+        add(mix,decode(WEAPON_AUDIO/'Reload_Start.wav'),at,m*gains['reloadVolume'])
+        at+=gains['reloadSeconds']
+        add(mix,decode(WEAPON_AUDIO/'Reload_Finish.wav'),at,m*gains['reloadVolume'])
+        at+=.02;cycle+=1
+    return mix
+
 def export_mp3(path,x):
     assert np.isfinite(x).all() and np.max(np.abs(x))<1
     subprocess.run(['ffmpeg','-v','error','-f','f32le','-ar',str(RATE),'-ac','2','-i','pipe:0','-c:a','libmp3lame','-q:a','2','-map_metadata','-1','-y',str(path)],input=x.astype('<f4').tobytes(),check=True)
@@ -81,7 +108,7 @@ def export_mp3(path,x):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--baseline-ref');args=parser.parse_args()
     gains,banks=get_profile();assert gains['stepsVolume']<=.2
-    clips=[measure(p) for p in sorted(AUDIO.glob('*')) if p.suffix in ('.wav','.ogg')]
+    clips=[measure(p) for p in sorted(list(AUDIO.glob('*'))+list(WEAPON_AUDIO.glob('*'))) if p.suffix in ('.wav','.ogg')]
     manifest_counts={}
     for relative,key in [('Source/Audio/manifest.json','recordings'),('Source/Audio/MusicV3/manifest.json','sources')]:
         p=ROOT/relative;data=json.loads(p.read_text());manifest_counts[relative]=len(data[key])
@@ -96,13 +123,15 @@ def main():
     for i,at in enumerate([.1,1.0,1.9,2.2,2.5,2.8,3.1]):add(preview,decode(banks['pistolShots'][i%3]),at,m*gains['shotsVolume'])
     materials=['footsteps','concreteSteps','metalSteps','gravelSteps','woodSteps','soilSteps'];vol=[1,1,.88,.84,1,.82]
     for k,key in enumerate(materials):
-        for i in range(6):add(preview,decode(banks[key][i%len(banks[key])]),4+k*2+i*.28,m*gains['stepsVolume']*vol[k])
+        for i in range(4):add(preview,decode(banks[key][i%len(banks[key])]),7+k*1.5+i*.28,m*gains['stepsVolume']*vol[k])
     for k,key in enumerate(['concreteImpacts','metalImpacts','woodImpacts','soilImpacts']):
         for i in range(3):add(preview,decode(banks[key][i%3]),16+k*2+i*.55,m*gains['impactsVolume'])
-    preview[24*RATE:]=stress(gains,banks,8,1/gains['volleyInterval'],1/gains['volleyInterval'],20)
+    add(preview,decode(WEAPON_AUDIO/'Reload_Start.wav'),4.3,m*gains['reloadVolume'])
+    add(preview,decode(WEAPON_AUDIO/'Reload_Finish.wav'),4.3+gains['reloadSeconds'],m*gains['reloadVolume'])
+    preview[24*RATE:]=reload_gameplay(gains,banks,20)
     preview[-RATE:]*=np.linspace(1,0,RATE)[:,None]
-    export_mp3(ROOT/'Docs/SoundPreviewV5.mp3',preview)
-    decoded_preview=decode(ROOT/'Docs/SoundPreviewV5.mp3');assert np.max(np.abs(decoded_preview))<1
+    export_mp3(ROOT/'Docs/SoundPreviewV6.mp3',preview)
+    decoded_preview=decode(ROOT/'Docs/SoundPreviewV6.mp3');assert np.max(np.abs(decoded_preview))<1
     baseline=[]
     if args.baseline_ref:
         for p in sorted(AUDIO.glob('*.wav')):
@@ -121,8 +150,8 @@ def main():
             assert row['guidPreserved'];baseline.append(row)
     music=next(v for v in clips if v['file'].endswith('.ogg'))
     assert music['boundaryStep']<max(.001,music['internalStep99Percentile'])
-    report={'revision':'gameplay-audio-v5','profile':gains,'sourceManifests':manifest_counts,'clips':clips,'mixes':mixes,'comparisonToGitRef':args.baseline_ref,'comparison':baseline,'preview':{'file':'Docs/SoundPreviewV5.mp3','seconds':44,'timeline':'0-4 pistol singles/burst;4-16 asphalt/concrete/metal/gravel/wood/soil,2s each;16-24 concrete/metal/wood/soil impacts,2s each;24-44 gameplay at actual profile gains','decoded':level(decoded_preview)},'scope':'Independent decoding, source hashes, GUIDs, numerical mix and timings. This does not listen to audio or run Unity, device output, DSP import or gameplay.'}
-    (ROOT/'Validation/AudioGameplayV5Review.json').write_text(json.dumps(report,indent=2)+'\n')
+    report={'revision':'gameplay-audio-v6','profile':gains,'sourceManifests':manifest_counts,'clips':clips,'mixes':mixes,'comparisonToGitRef':args.baseline_ref,'comparison':baseline,'preview':{'file':'Docs/SoundPreviewV6.mp3','seconds':44,'timeline':'0-4 pistol singles/burst;4-7 reload cues;7-16 footsteps;16-24 concrete/metal/wood/soil hits;24-44 scripted magazine/reload gameplay mix (not Unity capture)','decoded':level(decoded_preview)},'scope':'Independent decoding, source hashes, GUIDs, numerical mix and timings. This does not listen to audio or run Unity, device output, DSP import or gameplay.'}
+    (ROOT/'Validation/AudioGameplayV6Review.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({'assets':len(clips),'sources':sum(manifest_counts.values()),'mixes':mixes,'worstClipPeakDbFS':max(v['peakDbFS'] for v in clips),'baselineClips':len(baseline)},indent=2))
 
 if __name__=='__main__':main()

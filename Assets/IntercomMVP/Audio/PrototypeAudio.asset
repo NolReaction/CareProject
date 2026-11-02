@@ -68,6 +68,7 @@ MonoBehaviour:
   shotsVolume: 0.78
   stepsVolume: 0.18
   impactsVolume: 0.42
+  shotTailGainOnImpact: 0.55
   minimumImpactInterval: 0.035
   impactAudibleRange: 32
   ambienceVolume: 0.1

@@ -13,6 +13,7 @@ namespace IntercomMvp.Editor
             if (feedback == null) feedback = Undo.AddComponent<IntercomGroundFeedback>(robot);
             Undo.RecordObject(feedback, "Connect Intercom Ground Feedback");
             if (Mathf.Approximately(feedback.runLeanDegrees, 2.5f)) feedback.runLeanDegrees = 5.5f;
+            if (Mathf.Approximately(feedback.turnStepSeconds, 0.18f)) feedback.turnStepSeconds = 0.13f;
             feedback.motor = robot.GetComponent<IntercomPlayerMotor>();
             feedback.audioSource = robot.GetComponent<IntercomPlayerAudio>();
             feedback.shooter = robot.GetComponent<IntercomSimpleShooter>();

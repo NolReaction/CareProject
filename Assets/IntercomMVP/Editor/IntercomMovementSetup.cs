@@ -161,6 +161,7 @@ namespace IntercomMvp.Editor
             IntercomGroundFeedbackSetup.Setup(robot);
             IntercomSoleProfileBuilder.Rebuild(robot, animator, clips);
             IntercomAudioSetup.Setup(robot);
+            IntercomCharacterAnimationSetup.Setup(robot, animator);
             IntercomDistrictSetup.SetupSurfaceSounds(robot.scene);
 
             if (camera != null)

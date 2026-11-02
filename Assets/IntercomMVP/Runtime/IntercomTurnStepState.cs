@@ -8,7 +8,7 @@ namespace IntercomMvp
     /// </summary>
     public sealed class IntercomTurnStepState
     {
-        public float stepDuration = 0.18f;
+        public float stepDuration = 0.13f;
         public float maxStepDegrees = 40f;
         public float startDegrees = 12f;
         public float finishDegrees = 3f;
@@ -117,7 +117,7 @@ namespace IntercomMvp
             SwingLeft = hasStepped ? !SwingLeft : error < 0f;
             hasStepped = sequence = Active = StartedThisTick = true;
             IsGatherStep = gather;
-            duration = Clamp(Value(stepDuration, 0.18f), 0.08f, 0.8f);
+            duration = Clamp(Value(stepDuration, 0.13f), 0.08f, 0.8f);
             float limit = Clamp(Value(maxStepDegrees, 40f), 1f, 70f);
             LastStepYawDelta = gather ? 0f : Clamp(error, -limit, limit);
             startYaw = LowerYaw;

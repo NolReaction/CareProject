@@ -250,6 +250,7 @@ namespace IntercomMvp
                 UpdateShadow(0, leftContact, grounded);
                 UpdateShadow(1, rightContact, grounded);
             }
+            StabilizeRunningTorso(dt, moving, discontinuity);
             ApplyTorso(phase, moving, dt, discontinuity);
             CacheTurnPose();
             UpdateDust(dt);
@@ -400,7 +401,10 @@ namespace IntercomMvp
             float forwardSpeed = Vector3.Dot(velocity, forward) / Mathf.Max(0.1f, motor.moveSpeed);
             float sideSpeed = Vector3.Dot(velocity, right) / Mathf.Max(0.1f, motor.moveSpeed);
             float cycle = phase * Mathf.PI * 2f;
-            float pitchTarget = forwardSpeed * runLeanDegrees + Vector3.Dot(acceleration, forward) * accelerationLean;
+            // Backpedal with a braced forward shell. Reclining into the raised
+            // heels made the short rigid legs intersect the lower body at toe-off.
+            float pitchTarget = Mathf.Abs(forwardSpeed) * runLeanDegrees + Vector3.Dot(acceleration, forward) * accelerationLean;
+            if (forwardSpeed < -0.05f) pitchTarget = Mathf.Max(0f, pitchTarget);
             float rollTarget = -sideSpeed * runLeanDegrees - Vector3.Dot(acceleration, right) * accelerationLean
                 + Mathf.Sin(cycle) * runSwayDegrees * speedWeight;
             // The cuffs sit close to the lower body. Keep translational lean
@@ -412,6 +416,13 @@ namespace IntercomMvp
             float yawTarget = Mathf.Clamp(-turnRate * turnLagSeconds, -8f, 8f) * (motor.IsAiming ? 0.35f : 1f);
             float lagTargetX = Mathf.Clamp(-acceleration.x / 12f, -1f, 1f) * torsoTravelLag;
             float lagTargetZ = Mathf.Clamp(-acceleration.z / 12f, -1f, 1f) * torsoTravelLag;
+            if (discontinuity)
+            {
+                // A rebind/teleport into an already running pose starts at the
+                // appropriate brace, rather than briefly reclining into a heel.
+                pitch = pitchTarget; roll = rollTarget;
+                pitchVelocity = rollVelocity = 0f;
+            }
             IntercomGroundMath.Spring(ref pitch, ref pitchVelocity, pitchTarget, torsoSpringFrequency, dt);
             IntercomGroundMath.Spring(ref roll, ref rollVelocity, rollTarget, torsoSpringFrequency, dt);
             IntercomGroundMath.Spring(ref yaw, ref yawVelocity, yawTarget, torsoSpringFrequency, dt);
@@ -726,6 +737,7 @@ namespace IntercomMvp
         {
             if (resetTurning) ResetTurnFootwork();
             sampleRunningSoles = false;
+            ResetRunningTorso();
             leftRig.clearanceDirection = rightRig.clearanceDirection = Vector3.zero;
             leftRig.clearanceActive = rightRig.clearanceActive = false;
             compression = recoil = aimStabilization = 0f;

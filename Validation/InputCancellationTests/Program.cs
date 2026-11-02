@@ -45,6 +45,18 @@ internal static class Program {
    h.StartTap();h.Advance(95);Check(h.Shots>=6,"Definition fire interval ignored in favor of legacy profile");
    int before=h.Shots;definition.Interval=.5f;h.Advance(49);Check(h.Shots-before<=1,"Live definition interval was not adopted");
   });
+  Case("reload rejects fire intent and cannot replay queued tap",()=>{
+   var h=new Harness(false);var mag=new IntercomWeaponMagazine{CanFire=false,IsReloading=true};h.Pose.additionalComponent=mag;
+   Call(h.Pose,"Start");h.StartTap();h.Release();h.Advance();Check(h.Shots==0&&h.Pose.animator.RecoilCalls==0,"Reload fired or recoiled");
+   h.Pose.RequestFire();mag.CanFire=true;mag.IsReloading=false;h.Advance();Check(h.Shots==0,"Tap during reload was replayed");
+   h.StartTap();h.Release();h.Advance();Check(h.Shots==1,"Fresh tap after reload failed");
+  });
+  Case("real shooter must confirm recoil, failed shot cannot animate",()=>{
+   var h=new Harness(false);h.Pose.attachedComponent=new IntercomSimpleShooter();Call(h.Pose,"Start");
+   h.StartTap();h.Release();h.Advance();Check(h.Shots==1&&h.Pose.animator.RecoilCalls==0,"Unconfirmed shot recoiled");
+   h.Pose.ConfirmShotVisual();Check(h.Pose.animator.RecoilCalls==1,"Confirmed visual did not play");
+   int shots=h.Shots;h.Frame();Check(h.Shots==shots,"Visual confirmation registered another shot");
+  });
   Console.WriteLine("PASS "+cases+" cases / "+assertions+" assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback.");
  }
  static void Call(object target,string method,params object[] args){typeof(IntercomWeaponPose).GetMethod(method,BindingFlags.Instance|BindingFlags.NonPublic).Invoke(target,args);}

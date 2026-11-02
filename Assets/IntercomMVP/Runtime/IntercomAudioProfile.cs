@@ -33,8 +33,10 @@ namespace IntercomMvp
         [Range(0f, 1f)] public float masterVolume = 0.8f;
         [Range(0f, 1f)] public float shotsVolume = 0.78f;
         [Range(0f, 1f)] public float stepsVolume = 0.18f;
-        [Tooltip("Quiet material detail below the weapon report; V5 banks carry distinct timbres without extra gain.")]
+        [Tooltip("Quiet material detail below the weapon report. Surface tags select distinct banks.")]
         [Range(0f, 1f)] public float impactsVolume = 0.42f;
+        [Tooltip("On a real hit, briefly reduce the pistol tail so the material can be heard. The first 15 ms of each shot are preserved; 1 disables ducking.")]
+        [Range(0.2f, 1f)] public float shotTailGainOnImpact = 0.55f;
         [Tooltip("Minimum report spacing per surface material. Different materials can sound together.")]
         [Min(0.015f)] public float minimumImpactInterval = 0.035f;
         [Tooltip("Outer audible range; material reports remain clear across the 20 m pistol range.")]

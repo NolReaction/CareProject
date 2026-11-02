@@ -2,7 +2,7 @@
 // These do not validate Unity's real Animator implementation or engine APIs.
 using System;
 namespace UnityEngine {
- public class MonoBehaviour { public bool enabled=true; public object attachedComponent; public T GetComponent<T>() where T:class {return attachedComponent as T;} public T GetComponentInChildren<T>() where T:class {return null;} }
+ public class MonoBehaviour { public bool enabled=true; public object attachedComponent,additionalComponent; public T GetComponent<T>() where T:class {return attachedComponent as T ?? additionalComponent as T;} public T GetComponentInChildren<T>() where T:class {return null;} }
  public class RuntimeAnimatorController {}
  public class AnimatorOverrideController:RuntimeAnimatorController {}
  public class AnimationClip {public float length;}
@@ -10,11 +10,11 @@ namespace UnityEngine {
   public RuntimeAnimatorController runtimeAnimatorController=new RuntimeAnimatorController();
   public bool isActiveAndEnabled=true; public float speed=1f;
   public static int StringToHash(string s){return s.GetHashCode();}
-  public int NativeCalls;
+  public int NativeCalls,RecoilCalls;
   private void RequireController(){if(runtimeAnimatorController==null)throw new Exception("Animator called without controller");NativeCalls++;}
   public int GetLayerIndex(string s){RequireController();return 1;} public bool HasState(int a,int b){RequireController();return true;}
   public void Play(int a,int b,float c){RequireController();} public void SetLayerWeight(int a,float b){RequireController();}
-  public void CrossFadeInFixedTime(int a,float b,int c,float d){RequireController();} public void CrossFade(int a,float b,int c,float d){RequireController();}
+  public void CrossFadeInFixedTime(int a,float b,int c,float d){RequireController();if(a==StringToHash("Arms.Shoot"))RecoilCalls++;} public void CrossFade(int a,float b,int c,float d){RequireController();}
   public AnimatorStateInfo GetCurrentAnimatorStateInfo(int i){RequireController();return new AnimatorStateInfo{length=1f,normalizedTime=0f};}
  }
  public struct AnimatorStateInfo {public float length,normalizedTime;}
@@ -26,6 +26,7 @@ namespace UnityEngine {
 }
 namespace UnityEngine.Events {public class UnityEvent {public void Invoke(){}}}
 namespace IntercomMvp {
+ public class IntercomWeaponMagazine {public bool CanFire=true,IsReloading;}
  public class IntercomSimpleShooter {public IntercomWeaponDefinition Weapon;}
  public class IntercomWeaponDefinition {public IntercomWeaponPoseProfile poseProfile;public float Interval=.3f;}
  public class IntercomPlayerInput {public uint CancellationVersion;public bool FireHeld,FirePressed;}

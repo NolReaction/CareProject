@@ -27,6 +27,13 @@ namespace IntercomMvp.Editor
             Material soil = Material("MVP_SoilImpact", new Color(0.35f, 0.27f, 0.16f));
             if (shooter.projectileCoreMaterial == null) shooter.projectileCoreMaterial = flash;
             EditorUtility.SetDirty(shooter);
+            IntercomWeaponMagazine magazine = robot.GetComponent<IntercomWeaponMagazine>();
+            if (magazine == null) magazine = Undo.AddComponent<IntercomWeaponMagazine>(robot);
+            Undo.RecordObject(magazine, "Connect Magazine and Reload");
+            magazine.shooter = shooter;
+            magazine.inputSource = robot.GetComponent<IntercomPlayerInput>();
+            EditorUtility.SetDirty(magazine);
+            if (PrefabUtility.IsPartOfPrefabInstance(magazine)) PrefabUtility.RecordPrefabInstancePropertyModifications(magazine);
             IntercomCombatEffects effects = robot.GetComponent<IntercomCombatEffects>();
             if (effects == null) effects = Undo.AddComponent<IntercomCombatEffects>(robot);
             Undo.RecordObject(effects, "Connect Cartoon Combat Effects");
