@@ -26,6 +26,7 @@ namespace IntercomMvp
         private bool locked, motorWasEnabled, shooterWasEnabled, poseWasEnabled;
         private bool focused = true, paused;
         private float hitRemaining;
+        private object missionBlockOwner;
 
         private void Awake()
         {
@@ -93,11 +94,23 @@ namespace IntercomMvp
         /// <summary>Mission menus and results share the same component lock as death.</summary>
         public void SetMissionBlocked(bool blocked)
         {
+            SetMissionBlocked(this, blocked);
+        }
+
+        /// <summary>Only the controller that acquired a mission lock may release it.</summary>
+        public bool CanSetMissionBlocked(object owner)
+            => owner != null && (missionBlockOwner == null || ReferenceEquals(missionBlockOwner, owner));
+
+        public bool SetMissionBlocked(object owner, bool blocked)
+        {
+            if(!CanSetMissionBlocked(owner)) return false;
+            missionBlockOwner = blocked ? owner : null;
             bool changed = MissionBlocked != blocked;
             MissionBlocked = blocked;
             if(IsDead || MissionBlocked) LockControls();
             else RestoreControls();
             if(changed && input != null) input.CancelUntilRelease();
+            return true;
         }
 
         private void LockControls()

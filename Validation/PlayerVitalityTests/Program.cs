@@ -229,10 +229,24 @@ static class Program
         Check(disabled.motor.enabled&&!disabled.shooter.enabled&&!disabled.pose.enabled,"nested menu/reset preserves authored disabled components");
     }
 
+    static void MissionLockOwners()
+    {
+        var f=new Hero();var first=new object();var second=new object();
+        Check(f.vitality.SetMissionBlocked(first,true),"first mission controller acquires lock");
+        Check(!f.vitality.SetMissionBlocked(second,false)&&!f.vitality.SetMissionBlocked(second,true),"another controller cannot change owned lock");
+        f.vitality.SetMissionBlocked(false);
+        Check(f.vitality.MissionBlocked&&!f.motor.enabled,"legacy release cannot override another controller");
+        Check(f.vitality.Retry()&&!f.motor.enabled,"retry preserves owner and lock");
+        Check(f.vitality.SetMissionBlocked(first,false)&&f.motor.enabled,"owner can release lock after retry");
+        Check(f.vitality.SetMissionBlocked(second,true),"released lock can be acquired by next controller");
+        Check(!f.vitality.SetMissionBlocked(first,false)&&!f.motor.enabled,"old controller cannot release new owner lock");
+        f.Fatal();Check(f.vitality.SetMissionBlocked(second,false)&&!f.motor.enabled,"release after death cannot revive controls");
+        Check(!f.vitality.SetMissionBlocked(null,true),"missing owner rejected");
+    }
     static void Main()
     {
         ArithmeticAndGuards();OwnershipAndTeams();TimedImmunity();CallbackReentrancy();
-        DeathAndRetry();RespawnVersusCancellation();AuthoredStatesAndLifecycle();ReferenceReplacement();MissionControlOwnership();
+        DeathAndRetry();RespawnVersusCancellation();AuthoredStatesAndLifecycle();ReferenceReplacement();MissionControlOwnership();MissionLockOwners();
         Console.WriteLine("Player health/vitality: "+checks+" assertions passed. Production health and lifecycle with narrow Unity stand-ins; not a Unity Editor test.");
     }
 }

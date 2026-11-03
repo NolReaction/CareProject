@@ -202,12 +202,35 @@ namespace IntercomMvp
         {if(!isActiveAndEnabled||IsDead||damage.Amount<=0)return false;Current=Math.Max(0,Current-damage.Amount);DamageCalls++;LastDamage=damage;Damaged?.Invoke(damage);if(IsDead)Died?.Invoke();return true;}
     }
     public class IntercomPlayerMotor:MonoBehaviour {public uint RespawnVersion;public int ResetCalls;public void ResetToSpawn(){RespawnVersion++;ResetCalls++;transform.position=Vector3.zero;}}
-    public class IntercomPlayerInput:MonoBehaviour {public int Cancellations;public void CancelUntilRelease(){Cancellations++;}}
+    public class IntercomPlayerInput:MonoBehaviour
+    {
+        public IntercomMissionDirector mission;public IntercomPlayerVitality vitality;
+        public int Cancellations;public void CancelUntilRelease(){Cancellations++;}
+    }
     public class IntercomPlayerVitality:MonoBehaviour
     {
         public IntercomPlayerMotor motor;public IntercomHealth health;public IntercomPlayerInput input;
-        public bool Blocked,RetrySucceeds=true;public int RetryCalls;
-        public void SetMissionBlocked(bool value){Blocked=value;}
+        public bool Blocked,RetrySucceeds=true;public int RetryCalls,HiddenLockCalls;
+        private object blockOwner;
+        public bool CanSetMissionBlocked(object owner)=>owner!=null && (blockOwner==null || ReferenceEquals(blockOwner,owner));
+        public void SetMissionBlocked(bool value){SetMissionBlocked(this,value);}
+        public bool SetMissionBlocked(object owner,bool value)
+        {
+            if(owner==null)return false;
+            if(value)
+            {
+                if(!CanSetMissionBlocked(owner))return false;
+                blockOwner=owner;
+            }
+            else
+            {
+                if(!ReferenceEquals(blockOwner,owner))return false;
+                blockOwner=null;
+            }
+            if(value && (input==null || !input.isActiveAndEnabled || input.mission==null || !input.mission.isActiveAndEnabled)) HiddenLockCalls++;
+            Blocked=value;
+            return true;
+        }
         public bool Retry(){RetryCalls++;if(!RetrySucceeds)return false;motor.ResetToSpawn();health.ResetHealth();return true;}
     }
     public class IntercomNpcController:MonoBehaviour

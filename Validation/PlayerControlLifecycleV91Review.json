@@ -1,0 +1,30 @@
+{
+  "revision": "player-control-lifecycle-v9.1",
+  "status": "PASS (standalone component integration)",
+  "checks": [
+    {
+      "project": "PlayerControlLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Player control lifecycle: 24 checks passed. Production Input/Motor/Vitality/Health with enabled callbacks and narrow Unity/mission stand-ins; not Unity Play Mode.\n"
+    }
+  ],
+  "baseline": {
+    "commit": "eb721ad76df43a38de441a95930696c22bae9d14",
+    "compileExit": 0,
+    "runExit": -6,
+    "expectedFailure": "holding movement key does not prevent choosing a mission after cancellation",
+    "method": "Same harness with Input from delivered V9, whose blob matches pinned GitHub HEAD; compiled to separate scratch directory, no runtime files swapped."
+  },
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "ce37f649fd88b473d1a30dbc67d1dd0b75389ab3ae31ee40f1c1bf2ce4011816",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs": "c6a49de670dfdc03bdb0e5216eb10c3f180f74a30be0b359a2e9012bf8e9c1a6",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs": "3997719b448ce42e288cd2efd71ca40597958fa0cac9037741fc3446550d2523",
+    "Assets/IntercomMVP/Runtime/IntercomHealth.cs": "e89ab75b92e15877fd345d3b24e0dc67e780242b993393deea6565fdcc084ee0"
+  },
+  "limitations": [
+    "Production Input, Motor, Vitality and Health run together; mission coordinator and Unity APIs are stand-ins.",
+    "Real Unity lifecycle scheduler, physics, rendering and Android device input were not run."
+  ]
+}

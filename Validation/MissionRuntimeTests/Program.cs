@@ -43,7 +43,7 @@ internal static class Program
     private static void Main()
     {
         AllyFactory(); Recruitment(); Following(); AllyLifecycle();
-        MissionSelection(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
+        MissionConnection(); MissionSelection(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
     }
     private static void AllyFactory()
@@ -138,7 +138,7 @@ internal static class Program
         public IntercomPlayerMotor Motor;
         public IntercomPlayerVitality Vitality;
         public IntercomMissionDefinition Elimination,Rescue;
-        public MissionFixture()
+        public MissionFixture(Action<MissionFixture> beforeActivate=null)
         {
             Time.timeScale=1;Time.time=0;Time.deltaTime=.01f;Application.isPlaying=true;Physics.Hits=null;
             IntercomNpcController.Created.Clear();UnityEngine.Object.Destroyed.Clear();GameObject.BeforeAwake=null;
@@ -154,6 +154,7 @@ internal static class Program
             Director.eliminationDefinition=Elimination;Director.rescueDefinition=Rescue;
             Director.spawnPoints=new[]{Marker(8,0),Marker(-8,0),Marker(0,8),Marker(0,-8),Marker(8,8),Marker(-8,-8)};
             Director.allySpawn=Marker(0,4);Director.extractionPoint=Marker(0,0);
+            beforeActivate?.Invoke(this);
             root.SetActive(true);Send(Director,"Start");
         }
         public static Transform Marker(float x,float z){var go=new GameObject("Marker");go.transform.position=new Vector3(x,0,z);return go.transform;}
@@ -167,6 +168,84 @@ internal static class Program
         public IntercomRescueAlly Ally=>Field<IntercomRescueAlly>(Director,"ally");
         public IntercomNpcController[] Living=>IntercomNpcController.Created.Where(n=>n.gameObject.activeInHierarchy&&!n.Health.IsDead).ToArray();
     }
+    private static void MissionConnection()
+    {
+        // Saved/unsaved V8 scenes can contain the new Director but leave the
+        // reverse Input.mission reference empty. That must never create an
+        // invisible menu lock behind an otherwise responsive gameplay HUD.
+        var f=new MissionFixture();var input=f.Vitality.input;
+        Check(input.mission==f.Director && input.vitality==f.Vitality,"director startup connects the exact input that displays its menu");
+        Check(f.Vitality.Blocked && f.Vitality.HiddenLockCalls==0,"selection lock is acquired only after a visible input/HUD route exists");
+        int cancellations=input.Cancellations;f.Advance(1);
+        Check(input.Cancellations==cancellations,"stable selection does not cancel the menu pointer on every frame");
+        input.mission=null;f.Step();
+        Check(input.mission==f.Director && f.Vitality.HiddenLockCalls==0,"lost reverse link is repaired without an invisible lock");
+        var oldVitality=f.Vitality;
+        var nextHero=new GameObject("Replacement hero");
+        var nextHealth=nextHero.AddComponent<IntercomHealth>();
+        var nextMotor=nextHero.AddComponent<IntercomPlayerMotor>();
+        var nextVitality=nextHero.AddComponent<IntercomPlayerVitality>();
+        var nextInput=nextHero.AddComponent<IntercomPlayerInput>();
+        nextVitality.health=nextHealth;nextVitality.motor=nextMotor;nextVitality.input=nextInput;
+        f.Director.playerHealth=nextHealth;f.Director.playerMotor=nextMotor;f.Director.playerVitality=nextVitality;f.Step();
+        Check(!oldVitality.Blocked && nextVitality.Blocked && nextInput.mission==f.Director,"rebinding hero releases old owned lock and binds replacement menu before blocking");
+        Check(input.mission==null && nextVitality.HiddenLockCalls==0,"rebinding clears the old reverse reference without creating a hidden lock");
+        nextVitality.enabled=false;f.Step();
+        Check(!nextVitality.Blocked && nextInput.mission==null,"loss of vitality releases the block and clears the now unusable HUD reverse link");
+
+        f=new MissionFixture(x=>x.Vitality.input.enabled=false);input=f.Vitality.input;
+        Check(!f.Vitality.Blocked && f.Vitality.HiddenLockCalls==0,"disabled input never invisibly blocks hero on startup");
+        Check(!f.Director.StartMission(IntercomMissionMode.Elimination),"mission cannot start without an active menu input");
+        input.enabled=true;f.Step();
+        Check(input.mission==f.Director && input.vitality==f.Vitality && f.Vitality.Blocked,"reenabled input restores the visible selection and its lock");
+
+        f=new MissionFixture(x=>x.Vitality.input=null);
+        input=f.Hero.GetComponent<IntercomPlayerInput>();
+        Check(f.Vitality.input==input && input.mission==f.Director,"missing explicit input reference resolves the same hero component");
+
+        f=new MissionFixture(x=>
+        {
+            UnityEngine.Object.Destroy(x.Vitality.input);x.Vitality.input=null;
+        });
+        Check(!f.Vitality.Blocked && f.Vitality.HiddenLockCalls==0,"missing input component cannot leave startup movement frozen");
+        Check(!f.Director.StartMission(IntercomMissionMode.Elimination),"missing input refuses mission start instead of partial lock");
+        input=f.Hero.gameObject.AddComponent<IntercomPlayerInput>();f.Step();
+        Check(f.Vitality.input==input && input.mission==f.Director && f.Vitality.Blocked,"adding the missing input recovers selection without scene reload");
+
+        f=new MissionFixture();input=f.Vitality.input;
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"connected mission starts for loss-of-input check");
+        f.Advance(1);input.enabled=false;f.Step();
+        Check(!f.Vitality.Blocked && f.Living.Length==0,"losing active input stops mission actors and releases the owned block");
+        input.enabled=true;f.Step();
+        Check(input.mission==f.Director && f.Vitality.HiddenLockCalls==0,"reactivated input does not retain stale hidden-block state");
+
+        IntercomMissionDirector foreign=null;
+        f=new MissionFixture(x=>
+        {
+            foreign=new GameObject("Other active mission").AddComponent<IntercomMissionDirector>();
+            x.Vitality.input.mission=foreign;x.Vitality.Blocked=true;
+        });
+        Check(f.Vitality.input.mission==foreign,"a second director cannot steal another active mission's input");
+        Check(f.Vitality.Blocked && f.Vitality.HiddenLockCalls==0,"rejected director does not release another owner's lock");
+        Check(!f.Director.StartMission(IntercomMissionMode.Elimination),"conflicting director cannot start behind another menu");
+        f.Director.enabled=false;
+        Check(f.Vitality.Blocked && f.Vitality.input.mission==foreign,"disabling rejected director preserves the other owner's lock and link");
+
+        f=new MissionFixture();input=f.Vitality.input;input.mission=null;
+        var competingRoot=new GameObject("Competing mission after broken reverse link");competingRoot.SetActive(false);
+        var competing=competingRoot.AddComponent<IntercomMissionDirector>();
+        competing.playerVitality=f.Vitality;competing.playerMotor=f.Motor;competing.playerHealth=f.Hero;
+        competingRoot.SetActive(true);
+        Check(input.mission==null && f.Vitality.Blocked,"competing director cannot bind an empty reverse link while another director owns the lock");
+        f.Step();
+        Check(input.mission==f.Director && f.Vitality.Blocked && f.Vitality.HiddenLockCalls==0,"original owner repairs its broken reverse link after a competitor is refused");
+        competing.enabled=false;
+        Check(input.mission==f.Director && f.Vitality.Blocked,"refused competitor disable cannot clear repaired owner link or lock");
+
+        f=new MissionFixture(x=>x.Vitality.enabled=false);
+        Check(!f.Vitality.Blocked,"disabled vitality cannot be used to acquire an invisible mission block");
+    }
+
     private static void MissionSelection()
     {
         var f=new MissionFixture();

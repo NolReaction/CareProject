@@ -27,7 +27,7 @@ static class Program
 
     static void Main()
     {
-        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();DrawPreviews();
+        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();DrawPreviews();
         Console.WriteLine($"PASS {checks} mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.");
     }
     static void Layouts()
@@ -93,6 +93,25 @@ static class Program
         p.mission.Phase=IntercomMissionPhase.Selection;p.mission.ResultText="Навигация двора ещё не готова";
         GUI.labels.Clear();Call(p,"OnGUI");
         Check(GUI.labels.Contains(p.mission.ResultText),"mission setup failure is hidden in selection");
+    }
+    static void MovementAfterCancellation()
+    {
+        var p=Fresh();p.mission.Phase=IntercomMissionPhase.Active;
+        p.CancelUntilRelease();Input.held.Add(KeyCode.W);
+        Input.MouseHeld=true;Input.mousePosition=new Vector2(900,300);
+        Call(p,"Update");
+        Check(p.Move.y>0&&!p.FireHeld&&!p.FirePressed,"held movement after cancellation must not be blocked by a stale firing pointer");
+        Input.MouseHeld=false;Call(p,"Update");Call(p,"Update");
+        Check(p.Move.y>0&&!p.FireHeld,"W held across menu/focus must resume without a neutral keyboard frame");
+        Input.MouseHeld=Input.MouseDown=true;Call(p,"Update");
+        Check(p.Move.y>0&&p.FireHeld,"fresh shot after release remains independent from moving");
+        p.vitality=new IntercomPlayerVitality{IsDead=true};p.CancelUntilRelease();Call(p,"Update");
+        Check(NoGameplay(p),"dead hero cannot move through the cancellation gate");
+        p=Fresh();p.CancelUntilRelease();Input.held.Add(KeyCode.W);
+        Call(p,"Update");Click(p,Layout().MissionFirst);
+        Check(p.mission.Starts==1&&!p.FireHeld,"movement key held in selection must not prevent a fresh mode click");
+        Input.MouseDown=false;Input.MouseHeld=false;Call(p,"Update");Call(p,"Update");
+        Check(p.Move.y>0,"holding W during mode selection must move after start");
     }
     static string Root()
     {

@@ -83,6 +83,9 @@ namespace IntercomMvp
         private bool focused = true, paused, transitioning;
         private Camera displayCamera;
         private GUIStyle guidanceStyle;
+        private IntercomPlayerInput connectedInput;
+        private IntercomPlayerVitality controlOwner;
+        private bool connectionWarningShown;
         private static Vector3 Flat(Vector3 value) => new Vector3(value.x,0f,value.z);
         private static float Safe(float value,float fallback,float min,float max) => IntercomNpcDefinition.Safe(value,fallback,min,max);
 
@@ -96,6 +99,34 @@ namespace IntercomMvp
             SubscribeHero(); ApplyBlock();
         }
         private void Start() { SubscribeHero(); ApplyBlock(); }
+
+        private bool ConnectPlayerInput()
+        {
+            if(playerVitality==null && playerMotor!=null) playerVitality=playerMotor.GetComponent<IntercomPlayerVitality>();
+            if(playerVitality==null && playerHealth!=null) playerVitality=playerHealth.GetComponent<IntercomPlayerVitality>();
+            if(playerVitality==null || !playerVitality.isActiveAndEnabled) return false;
+            if(!playerVitality.CanSetMissionBlocked(this)) return false;
+            if(playerMotor==null) playerMotor=playerVitality.motor!=null ? playerVitality.motor : playerVitality.GetComponent<IntercomPlayerMotor>();
+            if(playerHealth==null) playerHealth=playerVitality.health!=null ? playerVitality.health : playerVitality.GetComponent<IntercomHealth>();
+            IntercomPlayerInput source=playerVitality.input;
+            if(source==null) source=playerVitality.GetComponent<IntercomPlayerInput>();
+            if(source==null || !source.isActiveAndEnabled) return false;
+            if(source.mission!=null && source.mission!=this && source.mission.isActiveAndEnabled) return false;
+            if(connectedInput!=null && connectedInput!=source && connectedInput.mission==this) connectedInput.mission=null;
+            connectedInput=source;
+            source.mission=this;
+            source.vitality=playerVitality;
+            playerVitality.input=source;
+            if(playerVitality.motor==null) playerVitality.motor=playerMotor;
+            if(playerVitality.health==null) playerVitality.health=playerHealth;
+            return true;
+        }
+
+        private void ReleaseControlLock()
+        {
+            if(controlOwner!=null) controlOwner.SetMissionBlocked(this,false);
+            controlOwner=null;
+        }
         private void SubscribeHero()
         {
             if(subscribedHero==playerHealth) return;
@@ -133,7 +164,10 @@ namespace IntercomMvp
             var candidate=mode==IntercomMissionMode.Elimination ? eliminationDefinition : rescueDefinition;
             if(!Ready(candidate,mode,out Vector3 rescuePosition)) return false;
             transitioning=true;
-            playerVitality.SetMissionBlocked(true);
+            if(controlOwner!=playerVitality) ReleaseControlLock();
+            if(!playerVitality.SetMissionBlocked(this,true))
+            { ResultText="Управлением уже владеет другой контроллер"; transitioning=false; return false; }
+            controlOwner=playerVitality;
             StopActors();
             if(ally!=null) ally.gameObject.SetActive(false);
             if(resetPlayer && !playerVitality.Retry())
@@ -162,6 +196,8 @@ namespace IntercomMvp
         private bool Ready(IntercomMissionDefinition candidate,IntercomMissionMode mode,out Vector3 rescuePosition)
         {
             rescuePosition=Vector3.zero;
+            if(!ConnectPlayerInput())
+            { ResultText="Не подключён активный ввод героя"; return false; }
             if(candidate==null || candidate.mode!=mode || playerHealth==null || playerMotor==null || playerVitality==null
                 || navigation==null || !navigation.isActiveAndEnabled || enemyDefinition==null || spawnPoints==null || spawnPoints.Length==0
                 || enemyDefinition.bodyMaterial==null || enemyDefinition.detailMaterial==null || enemyDefinition.telegraphMaterial==null)
@@ -181,6 +217,16 @@ namespace IntercomMvp
         private void Update()
         {
             SubscribeHero();
+            if(playerVitality==null || !playerVitality.isActiveAndEnabled
+                || connectedInput==null || !connectedInput.isActiveAndEnabled || connectedInput.mission!=this
+                || connectedInput.vitality!=playerVitality || playerVitality.input!=connectedInput || controlOwner!=playerVitality)
+            {
+                if(!ApplyBlock())
+                {
+                    if(Phase==IntercomMissionPhase.Active) ReturnToSelection();
+                    return;
+                }
+            }
             if(Phase!=IntercomMissionPhase.Active || transitioning) return;
             if(playerMotor!=null && playerMotor.RespawnVersion!=observedRespawn)
             {
@@ -352,10 +398,26 @@ namespace IntercomMvp
             if(ally!=null) ally.Suspended=true;
             ApplyBlock();
         }
-        private void ApplyBlock()
+        private bool ApplyBlock()
         {
-            if(playerVitality!=null) playerVitality.SetMissionBlocked(BlocksGameplay);
-            if(playerVitality!=null && playerVitality.input!=null) playerVitality.input.CancelUntilRelease();
+            if(!ConnectPlayerInput())
+            {
+                ReleaseControlLock();
+                if(connectedInput!=null && connectedInput.mission==this) connectedInput.mission=null;
+                connectedInput=null;
+                if(!connectionWarningShown)
+                {
+                    Debug.LogWarning("Mission UI has no active player input. Hero mission lock released; connect Mission Director to the hero input.",this);
+                    connectionWarningShown=true;
+                }
+                return false;
+            }
+            if(controlOwner!=playerVitality) ReleaseControlLock();
+            if(!playerVitality.SetMissionBlocked(this,BlocksGameplay)) return false;
+            controlOwner=playerVitality;
+            connectionWarningShown=false;
+            connectedInput.CancelUntilRelease();
+            return true;
         }
         private void OnApplicationFocus(bool value) { focused=value; }
         private void OnApplicationPause(bool value) { paused=value; }
@@ -391,7 +453,9 @@ namespace IntercomMvp
             if(extractionVisual!=null) extractionVisual.SetActive(false);
             state.Select(); transitioning=false;
             if(subscribedHero!=null) subscribedHero.Died-=OnHeroDied; subscribedHero=null;
-            if(playerVitality!=null) playerVitality.SetMissionBlocked(false);
+            ReleaseControlLock();
+            if(connectedInput!=null && connectedInput.mission==this) connectedInput.mission=null;
+            connectedInput=null;
         }
         private void OnDestroy()
         {

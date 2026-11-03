@@ -1,0 +1,35 @@
+{
+  "revision": "v9.2",
+  "status": "PASS",
+  "baseCommit": "eb721ad76df43a38de441a95930696c22bae9d14",
+  "files": [
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs",
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs.meta",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs.meta",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs.meta",
+    "UPDATE_V9_2.md",
+    "Validation/HiddenMissionLockV92Review.json",
+    "Validation/MissionRuntimeTests/Program.cs",
+    "Validation/MissionRuntimeTests/README.md",
+    "Validation/MissionRuntimeTests/UnityFakes.cs",
+    "Validation/MissionUiTests/Program.cs",
+    "Validation/PlayerControlLifecycleTests/PlayerControlLifecycleTests.csproj",
+    "Validation/PlayerControlLifecycleTests/Program.cs",
+    "Validation/PlayerControlLifecycleTests/README.md",
+    "Validation/PlayerControlLifecycleTests/UnityFakes.cs",
+    "Validation/PlayerControlLifecycleV92Review.json",
+    "Validation/PlayerVitalityTests/Program.cs",
+    "Validation/StartupFixV92Review.json"
+  ],
+  "deletions": [],
+  "existingGuidsPreserved": true,
+  "onlyAssetChanges": [
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs"
+  ],
+  "sceneAndOtherAssetsPreservedFromV9": true,
+  "installation": "Cumulative overlay on current v0.2.4/V9 or V9.1; scene replacement and Setup unnecessary."
+}

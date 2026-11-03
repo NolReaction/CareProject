@@ -1,0 +1,46 @@
+{
+  "revision": "hidden-mission-lock-v9.2",
+  "status": "PASS (standalone component checks)",
+  "reproduction": "Director holds hero menu lock while Input.mission is absent, so Input paints the ordinary gameplay HUD and updates the stick while the motor is disabled.",
+  "baseline": {
+    "source": "CareProject_V9_1/Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs",
+    "sourceSha256": "affc981a8811b5ae86a774691432ffe51851db542cc4e6b3a85c0895cc85b5b2",
+    "compileExit": 0,
+    "runExit": -6,
+    "expectedFailure": "director startup connects the exact input that displays its menu",
+    "method": "Same final test harness compiled in a separate output directory with only the production Director source replaced by V9.1. No working runtime files swapped."
+  },
+  "checks": [
+    {
+      "project": "MissionRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission/rescue runtime: 731 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    }
+  ],
+  "scenarios": [
+    "Missing reverse input.mission startup reference automatically connected before menu lock",
+    "Input.vitality and Vitality.input linked to the same hero",
+    "Lost reverse link repaired",
+    "Missing or disabled Input refuses mission start and cannot acquire a hidden menu block",
+    "Input reactivation/addition recovers selection",
+    "Active mission loses input: owned actors stop and owned block releases",
+    "Second active Director cannot steal input or release foreign lock on disable",
+    "Disabled Vitality cannot acquire block",
+    "Replacement hero releases previous owned block and clears its reverse reference",
+    "Stable selection does not cancel pointers every frame",
+    "Cleared reverse link does not permit competing director to take the existing control owner lease",
+    "Losing the active vitality releases its owned block and clears the unusable HUD reverse link"
+  ],
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs": "f35ed3c7c3fe1b81f063b35e6c6ed96b45841fad98e9f73ed4c971fd1c9ba7e0",
+    "Validation/MissionRuntimeTests/Program.cs": "42bd45fdc0d4ecb705fad46e0b6d7c724ca80d10b966c3965d566a38a9cd052c",
+    "Validation/MissionRuntimeTests/UnityFakes.cs": "3ce1decdd4a364dd5f3dcedea4ab2e3bf7c2642b44284541b440bebb95c998f0"
+  },
+  "limitations": [
+    "Executes production MissionDirector and RescueAlly with narrow Unity, input, vitality, NPC and navigation stand-ins.",
+    "Real Unity scheduler, PhysX, HUD drawing and Android input not executed.",
+    "Screenshot is consistent with this code path; exact live user scene cannot be inspected in this environment."
+  ]
+}

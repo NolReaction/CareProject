@@ -1,0 +1,325 @@
+{
+  "revision": "startup-fix-v9.2",
+  "date": "2026-11-03",
+  "status": "PASS (standalone checks)",
+  "github": {
+    "repository": "NolReaction/CareProject",
+    "branch": "main",
+    "commit": "eb721ad76df43a38de441a95930696c22bae9d14"
+  },
+  "symptom": "Ordinary gameplay HUD and moving left-stick knob; hero motor remains disabled; no mission selection, objective or MODES button.",
+  "cause": "Director acquires menu lock but does not connect the reverse Input.mission reference needed to draw and operate that menu.",
+  "fix": [
+    "Bind this hero Input, Vitality and MissionDirector before acquiring the menu lock",
+    "Recover lost reverse references and release owned locks if there is no active input route",
+    "Use an owner token so another director cannot steal/release the lock",
+    "Include V9.1 independent keyboard/fire cancellation correction"
+  ],
+  "baselines": [
+    {
+      "source": "CareProject_V9_1/Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs",
+      "sourceSha256": "affc981a8811b5ae86a774691432ffe51851db542cc4e6b3a85c0895cc85b5b2",
+      "compileExit": 0,
+      "runExit": -6,
+      "expectedFailure": "director startup connects the exact input that displays its menu",
+      "method": "Same final test harness compiled in a separate output directory with only the production Director source replaced by V9.1. No working runtime files swapped."
+    },
+    {
+      "commit": "eb721ad76df43a38de441a95930696c22bae9d14",
+      "variant": "Same production component harness, only Director replaced by delivered V9 source matching pinned GitHub HEAD; separate scratch compilation, no runtime files swapped.",
+      "baselineCompileExit": 0,
+      "baselineRunExit": -6,
+      "expectedFailure": "Missing-link fixture: visibleMenu=False, inputMove=0.7727273, motorEnabled=False, travel=0\nUnhandled exception. System.Exception: missing mission link cannot leave normal HUD with deflected stick and a locked Motor\n   at Program.Check(Boolean v, String s)\n   at Program.HiddenLinkScreenshot()\n   at Program.Main(String[] args)\n",
+      "observed": {
+        "visibleMissionMenu": false,
+        "leftStickMoveY": 0.7727273,
+        "motorEnabled": false,
+        "travel": 0
+      }
+    }
+  ],
+  "validation": {
+    "projects": [
+      {
+        "project": "AnimationGroundingIntegrationTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9_2/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "PASS 5023 combined production GroundFeedback/Character restore assertions, 1000 frames, both disable orders, external pose and controller removal. Scene component registration checked from YAML; narrow Unity doubles, no engine execution.\n"
+      },
+      {
+        "project": "AssetOrganizationTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(17,44): warning CS0649: Field 'IntercomAssetCatalog.Entry.tombstoneMetaSha256' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,27): warning CS0649: Field 'IntercomAssetCatalog.Entry.legacyPath' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,58): warning CS0649: Field 'IntercomAssetCatalog.Entry.tombstoneGuid' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(13,71): warning CS0649: Field 'IntercomAssetCatalog.Manifest.revision' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(17,27): warning CS0649: Field 'IntercomAssetCatalog.Entry.tombstoneSha256' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,52): warning CS0649: Field 'IntercomAssetCatalog.Entry.guid' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,39): warning CS0649: Field 'IntercomAssetCatalog.Entry.destination' is never assigned to, and will always have its default value null\nCareProject_V9_2/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(13,96): warning CS0649: Field 'IntercomAssetCatalog.Manifest.files' is never assigned to, and will always have its default value null\n",
+        "runExit": 0,
+        "output": "PASS: 13 production asset migration/resolution checks (Unity API filesystem stubs).\n"
+      },
+      {
+        "project": "AudioTimingTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS starting mid-stride does not invent a contact\nPASS left and right contacts alternate through loop boundaries\nPASS standing, wall collision and airborne movement suppress footsteps\nPASS long frame does not replay missed steps\nPASS rebind and controller-state changes resynchronize silently\nPASS explicit pause and respawn reset cannot produce a delayed step\nPASS phase offset follows replacement run clips\nPASS zero elapsed animation never repeats a contact\nPASS non-finite phases reset safely\nPASS faster run contacts remain consistent at mobile frame rates\n10 scenarios / 72 assertions passed\n"
+      },
+      {
+        "project": "CameraTrackingTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Camera tracking: 19919 assertions PASS. Production ground-plane projection/tracking math; no Unity Editor or rendering execution.\n"
+      },
+      {
+        "project": "CharacterAnimationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Character gestures: 9387 assertions passed; production component/math, narrow Unity stand-ins. No Unity playback/render claim.\n"
+      },
+      {
+        "project": "DirectionalLocomotionTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS four visual headings, four world movement axes\nPASS authored model -Z forward is not wrapper +Z\nPASS all diagonal signs\nPASS diagonal heading with wall-slide movement\nPASS analog speed remains independent of direction\nPASS zero and numerical jitter are not movement\nPASS nonfinite movement cannot poison animator parameters\nPASS zero smoothing applies requested direction immediately\nPASS paused time preserves direction\nPASS 180-degree reversal never blends through undefined origin\nPASS angle wrap takes short route across zero\nPASS smoothing stable across frame rates\nPASS normal analogue movement retains full measured stride\nPASS idle cadence and low-speed transition remain separate\nPASS blend threshold remains reachable after designer speed changes\nPASS current measured gait reference and fallback agree\nPASS V5 longer rigid stroke and cadence share the same reference\nPASS shorter lateral stride preserves travel direction and bounded cadence\nPASS: 18 cases / 301 assertions. Production direction and cadence; .NET 8, no Unity engine playback.\n"
+      },
+      {
+        "project": "GroundContactTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Ground contact / rigid support / torso spring / impact gate: 7513 assertions passed. Production pure math; not Unity physics/rendering.\n"
+      },
+      {
+        "project": "GroundFeedbackLifecycleTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9_2/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "GroundFeedback lifecycle and Motor ellipse: 6614 assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.\n"
+      },
+      {
+        "project": "HudLayoutTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS 931 safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.\n"
+      },
+      {
+        "project": "InputCancellationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS normal short release survives raise and fires exactly once\nPASS timeScale-zero frame cancels before deltaTime early exit\nPASS layout cancellation stops queued tap\nPASS lost OS contact cancels queued tap\nPASS source replacement with equal epoch cancels old tap\nPASS removing source cancels old tap before fallback\nPASS initial snapshot preserves legitimate pre-Start request\nPASS cancellation before Start invalidates pending request\nPASS uint epoch wrap cancels correctly\nPASS cancelled frame cannot consume stale fire flags\nPASS fresh tap works after cancellation\nPASS disable cancels without touching a controllerless Animator\nPASS focus and pause callbacks tolerate controller teardown\nPASS runtime controller removal cancels pending fire and recovers\nPASS assigning controller after failed Start permits re-enable\nPASS external recoil notification rejects missing controller\nPASS central weapon controls pose profile and live fire interval\nPASS reload rejects fire intent and cannot replay queued tap\nPASS real shooter must confirm recoil, failed shot cannot animate\nPASS 19 cases / 55 assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback.\n"
+      },
+      {
+        "project": "MagazineTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS finite magazine, successful projectiles only\nPASS automatic reload starts exactly after last complete volley\nPASS manual partial reload and pause do not refill or advance\nPASS respawn resets ammo but ordinary motion cancellation does not\nPASS reload pointer never becomes fire or steals movement\nPASS parallel dual barrels never cross at near or far ranges\nPASS held poseclock and magazine agree with reload-aware TTK at mobile rates\nPASS long custom reload keeps raised baseline without replaying intent\nPASS invalid time and tiny custom magazines remain safe\nPASS 9 magazine/parallel-fire cases, 1571 assertions. Production state, component, pose clock and direction; narrow Unity stand-ins, no PhysX or actual GUI execution.\n"
+      },
+      {
+        "project": "MissionRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Mission/rescue runtime: 731 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      },
+      {
+        "project": "MissionSceneRouteTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Mission scene routes: 413 assertions passed; 12 real scene anchors, 144 pair routes and two rescue approaches using production grid. Not Unity PhysX.\n"
+      },
+      {
+        "project": "MissionStateTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Mission state: 56376 assertions passed. Production mission accounting; no Unity runtime or rendering.\n"
+      },
+      {
+        "project": "MissionUiTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS 160 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+      },
+      {
+        "project": "MobileInputTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS Two thumbs move and aim independently\nPASS Crossing thumbs cannot swap sticks\nPASS A third finger cannot steal an occupied stick\nPASS Normal fire release leaves movement running and preserves tap semantics\nPASS A missing OS contact is released at the next poll\nPASS Pointer IDs may be reused after release\nPASS A touch starting outside controls cannot drift into firing\nPASS Dead zone prevents accidental fire but knob still follows finger\nPASS Diagonal movement is capped to the same speed\nPASS Safe-area or orientation change clears old screen coordinates\nPASS An unchanged layout preserves two active fingers\nPASS Pause or focus reset clears all state\nPASS Invalid device coordinates cannot poison output\nPASS Mouse ID stays distinct from normal touch IDs\nPASS: 14 cases / 45 assertions. Production pointer state compiled and executed; Unity UI/device runtime not executed.\n"
+      },
+      {
+        "project": "NpcArenaTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS: 29 bootstrap lifecycle checks using production IntercomNpcArena; Unity/PhysX not simulated.\n"
+      },
+      {
+        "project": "NpcBrainTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "NPC brain and melee geometry: 968 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+      },
+      {
+        "project": "NpcNavigationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "NPC navigation: 4551 assertions passed. Production grid/service, 1200 independent BFS comparisons, authored V7 courtyard geometry. Narrow Unity stand-ins; not Unity physics.\n"
+      },
+      {
+        "project": "NpcRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "NPC runtime/factory: 164 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      },
+      {
+        "project": "OcclusionLeaseTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS material fade preserves source and never toggles visibility\nPASS most transparent camera wins until last lease ends\nPASS updates reuse same clone rather than allocate each frame\nPASS external hidden flags and preexisting alpha survive\nPASS unsupported shaders and MPB owners remain solid\nPASS external slot replacement is preserved during restore\nPASS cutout cannot suddenly disappear below its cutoff\nPASS subsystem reset disposes and restores\nPASS destroyed renderer removes lease and disposes clone\nPASS missing renderer or template has no effect\nPASS fade changes alpha only, preserving authored colour and texture ownership\nPASS 250 repeated entry and exit cycles never retain old materials or leases\nPASS 12 cases / 1033 assertions; material leases against Unity fakes, not a Unity renderer test.\n"
+      },
+      {
+        "project": "OcclusionMathTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS V5 actual warehouse/crates/foreground/gap/finite-ray/hysteresis regression + 700 independent mesh ray comparisons, 730 assertions.\nPASS: 24 geometry scenarios; 2400 randomized boxes / 146080 independently projected points; 292211 assertions. Production pure math, not Unity rendering.\n"
+      },
+      {
+        "project": "OcclusionRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9_2/Validation/OcclusionRuntimeTests/UnityFakes.cs(155,121): warning CS0067: The event 'RenderPipelineManager.beginCameraRendering' is never used\nCareProject_V9_2/Validation/OcclusionRuntimeTests/UnityFakes.cs(114,44): warning CS0067: The event 'Camera.onPreCull' is never used\nCareProject_V9_2/Validation/OcclusionRuntimeTests/UnityFakes.cs(162,30): warning CS0649: Field 'IntercomOcclusionFade.Epoch' is never assigned to, and will always have its default value 0\nCareProject_V9_2/Validation/OcclusionRuntimeTests/UnityFakes.cs(150,136): warning CS0067: The event 'SceneManager.sceneUnloaded' is never used\nCareProject_V9_2/Validation/OcclusionRuntimeTests/UnityFakes.cs(150,89): warning CS0067: The event 'SceneManager.sceneLoaded' is never used\n",
+        "runExit": 0,
+        "output": "PASS 19 camera integration assertions against Unity fakes. Complete production component compiled; not a Unity renderer or Play Mode test.\n"
+      },
+      {
+        "project": "PlayerAudioLifecycleTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PlayerAudio fake-Unity lifecycle: 847 assertions passed. Not a Unity Editor test.\n"
+      },
+      {
+        "project": "PlayerControlLifecycleTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 37 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+      },
+      {
+        "project": "PlayerInputRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 8 actual PlayerInput/GUI call-path cases, 23 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
+      },
+      {
+        "project": "PlayerVitalityTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Player health/vitality: 196 assertions passed. Production health and lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
+      },
+      {
+        "project": "PoseClockTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS tap waits for full raise, survives early release\nPASS held fire repeats only after interval\nPASS release does not invent another queued automatic shot\nPASS new tap during cooldown is queued\nPASS combat hold is counted from the latest shot\nPASS tap halfway down reverses and is not discarded\nPASS held trigger immediately interrupts lowering\nPASS large frame never creates a catch-up shot burst\nPASS paused time consumes neither queued request nor timers\nPASS reset clears queued shots and posture\nPASS external shot renews hold and requires raised weapons\nPASS rates 30/60/144 FPS all return to relaxed after one tap\nPASS V5 .18 second pistols keep their cadence at 30/60/120 FPS\nPASS tap after release starts a fresh cooldown without cadence debt\nPASS medium hitch cannot compress the next shot into a burst\nPASS ordinary frame jitter does not accumulate cadence drift\nPASS: 16 cases, 1874 assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8.\n"
+      },
+      {
+        "project": "ProjectileCollisionTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Projectile hit selection: 429 assertions passed. Pure selection logic; no Unity PhysX simulation.\n"
+      },
+      {
+        "project": "ProjectileSurfaceTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Projectile material routing: 16 assertions passed. Production resolver/surface lookup with narrow Unity stand-ins; no PhysX execution.\n"
+      },
+      {
+        "project": "ReactivePropTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Reactive props: 1041 assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
+      },
+      {
+        "project": "RunningContactTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9_2/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "Running contact: 973995 assertions, 432 measured cases. Flat floor 0.002999..0.003000m; mean slip baseline 0.12574 -> corrected 0.00001m/s; diagonal 0.37647->0.00001m/s; Body 0.04380m; calf 41.385deg; contact phase 0.138; cloud interpolation 0.000790m.\n"
+      },
+      {
+        "project": "ShooterIntegrationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS actual two-barrel Spawn uses one heading and consumes once before callbacks\nPASS both muzzle overlaps block bullets ammo reports and recoil\nPASS body-to-muzzle obstruction blocks even a clear muzzle point\nPASS one obstructed barrel consumes only the one real projectile\nPASS empty magazine starts reload after exactly twelve actual volleys\nPASS queued attempts cannot fire beyond a one-volley magazine\nPASS pool exhaustion consumes no additional round or visual event\nPASS reload requested between queue and spawn cancels the pending attempt\nPASS focus pause and explicit cancellation drop pending shots\nPASS real swept hit routes material and uses per-projectile damage snapshot\nPASS 10 complete Shooter/Magazine integration cases, 33 assertions. Production shot spawn, actual ammo commit, hit routing and pool lifecycle with controlled physics and pose doubles; no Unity/PhysX/rendering.\n"
+      },
+      {
+        "project": "TracerGeometryTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Tracer geometry: 616 assertions passed. Executed production mesh construction with data-only Unity stand-ins; no Unity rendering.\n"
+      },
+      {
+        "project": "TurnStepTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Turn step scheduler and pivot geometry: 51681 assertions passed. Production pure math; no Unity renderer, skinned rig or physics execution.\n"
+      },
+      {
+        "project": "TurningRigTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9_2/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "Quarter turn 30 FPS: 1.100 -> 0.800 seconds including final gather.\nQuarter turn 60 FPS: 1.100 -> 0.800 seconds including final gather.\nQuarter turn 120 FPS: 1.092 -> 0.792 seconds including final gather.\nTurn rig: 464142 assertions; random verified landings 2301; max Body offset 0.04948m; stance drift 5.58E-008m; wrapper/lower twist 35.001deg; final torso twist 33.305deg; max swing speed 3.142m/s; swing sole min 0.00081m; landing gap max 0.00300m. Real production transform math + measured Idle geometry, not Unity skinning/physics.\n"
+      },
+      {
+        "project": "WeaponFoundationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Weapon foundation: 41 assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution.\n"
+      }
+    ],
+    "testProjects": 37,
+    "syntax": {
+      "files": 90,
+      "configurations": 3,
+      "errors": 0,
+      "scope": "Roslyn syntax only"
+    }
+  },
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs": "f35ed3c7c3fe1b81f063b35e6c6ed96b45841fad98e9f73ed4c971fd1c9ba7e0",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs": "f1c62b033e21d7f3ea5530e5f0b5ef5c034f0d7fdc9d8351fdd729423ce96c9e",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "ce37f649fd88b473d1a30dbc67d1dd0b75389ab3ae31ee40f1c1bf2ce4011816"
+  },
+  "details": [
+    "HiddenMissionLockV92Review.json",
+    "PlayerControlLifecycleV92Review.json"
+  ],
+  "limitations": [
+    "User live scene cannot be inspected here; screenshot matches the reproduced missing-reference path.",
+    "Standalone fixtures use production Director/Input/HUD/Motor/Vitality/Health with narrow Unity, NPC and navigation stand-ins.",
+    "Actual Unity scheduler, PhysX, import/Play Mode, rendering and Android device testing were not executed."
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "revision": "player-control-lifecycle-v9.2",
+  "status": "PASS (standalone component integration)",
+  "checks": [
+    {
+      "project": "PlayerControlLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 37 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+    }
+  ],
+  "baseline": {
+    "commit": "eb721ad76df43a38de441a95930696c22bae9d14",
+    "variant": "Same production component harness, only Director replaced by delivered V9 source matching pinned GitHub HEAD; separate scratch compilation, no runtime files swapped.",
+    "baselineCompileExit": 0,
+    "baselineRunExit": -6,
+    "expectedFailure": "Missing-link fixture: visibleMenu=False, inputMove=0.7727273, motorEnabled=False, travel=0\nUnhandled exception. System.Exception: missing mission link cannot leave normal HUD with deflected stick and a locked Motor\n   at Program.Check(Boolean v, String s)\n   at Program.HiddenLinkScreenshot()\n   at Program.Main(String[] args)\n",
+    "observed": {
+      "visibleMissionMenu": false,
+      "leftStickMoveY": 0.7727273,
+      "motorEnabled": false,
+      "travel": 0
+    }
+  },
+  "fixedObserved": {
+    "visibleMissionMenu": true,
+    "leftStickIgnoredWhileMenuVisible": true,
+    "touchCardStartsActualDirector": true,
+    "leftStickMovesActualMotorAfterStart": true
+  },
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "ce37f649fd88b473d1a30dbc67d1dd0b75389ab3ae31ee40f1c1bf2ce4011816",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs": "c6a49de670dfdc03bdb0e5216eb10c3f180f74a30be0b359a2e9012bf8e9c1a6",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs": "f1c62b033e21d7f3ea5530e5f0b5ef5c034f0d7fdc9d8351fdd729423ce96c9e",
+    "Assets/IntercomMVP/Runtime/IntercomHealth.cs": "e89ab75b92e15877fd345d3b24e0dc67e780242b993393deea6565fdcc084ee0",
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs": "f35ed3c7c3fe1b81f063b35e6c6ed96b45841fad98e9f73ed4c971fd1c9ba7e0",
+    "Validation/PlayerControlLifecycleTests/Program.cs": "5d825fb493c751a438a608295f250bc69546eb9da80486fb888d43919acb78c5",
+    "Validation/PlayerControlLifecycleTests/UnityFakes.cs": "f71f46a69f928df1db08a6ee3baf55ca3fe41a0af53849a0da2869dd56a4faaf"
+  },
+  "limitations": [
+    "Production Input, Motor, Vitality, Health and Director run together; Unity APIs, NPCs, rescue ally and navigation are stand-ins.",
+    "Real Unity lifecycle scheduler, physics, rendering and Android device input were not run."
+  ]
+}

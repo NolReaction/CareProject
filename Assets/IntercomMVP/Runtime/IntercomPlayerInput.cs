@@ -111,7 +111,7 @@ namespace IntercomMvp
             AimActive = FireHeld = FirePressed = ResetPressed = ReloadPressed = TouchActive = wasFireHeld = false;
         }
 
-        /// <summary>Respawn/pause gate: held mouse, keys and fingers must be released before control resumes.</summary>
+        /// <summary>Respawn/pause gate: held firing controls must be released before shots resume.</summary>
         public void CancelUntilRelease()
         {
             ClearInput();
@@ -143,7 +143,11 @@ namespace IntercomMvp
             if (requireRelease)
             {
                 ClearInput();
-                if (touchCount == 0 && !mouseHeld && !spaceHeld && keyboard.sqrMagnitude == 0f) requireRelease = false;
+                // Movement keys are independent of the firing/menu pointer.
+                // Holding W through focus or a mode change must not keep the
+                // whole character locked until a neutral keyboard frame.
+                Move = vitality != null && vitality.IsDead ? Vector2.zero : keyboard;
+                if (touchCount == 0 && !mouseHeld && !spaceHeld) requireRelease = false;
                 return;
             }
 
@@ -192,7 +196,7 @@ namespace IntercomMvp
             // carried from the result screen cannot become a stick or a shot.
             if(requireRelease)
             {
-                if(modal && touchCount == 0 && !mouseHeld && !spaceHeld && keyboard.sqrMagnitude == 0f)
+                if(modal && touchCount == 0 && !mouseHeld && !spaceHeld)
                     requireRelease=false;
                 return modal;
             }
