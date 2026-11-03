@@ -64,3 +64,5 @@ namespace IntercomMvp {public class IntercomPlayerAudio:UnityEngine.Behaviour{}p
 
 // Narrow reload state for joint grounding/presentation tests; real magazine is tested separately.
 namespace IntercomMvp {public class IntercomWeaponMagazine:UnityEngine.Behaviour {public bool IsReloading=true;public float ReloadProgress=.5f;}}
+
+namespace IntercomMvp {public class IntercomPlayerHurtFeedback:UnityEngine.Behaviour {public float HurtPitch {get;set;} public float HurtRoll {get;set;}}}

@@ -64,6 +64,6 @@ namespace IntercomMvp {
  public enum IntercomWeaponPosture {Relaxed,Raising,Combat,Lowering}
  public class IntercomWeaponPose:UnityEngine.Behaviour {public IntercomWeaponPosture Posture;}
  public class IntercomPlayerInput:UnityEngine.Behaviour {public bool FireHeld,FirePressed;}
- public class IntercomPlayerMotor:UnityEngine.Behaviour {public UnityEngine.Vector3 FacingDirection=UnityEngine.Vector3.forward;public uint MotionResetVersion;public float ActualPlanarSpeed;}
+ public class IntercomPlayerMotor:UnityEngine.Behaviour {public UnityEngine.Vector3 FacingDirection=UnityEngine.Vector3.forward;public uint MotionResetVersion;public float ActualPlanarSpeed;public float moveSpeed=3.3f;public bool IsGrounded=true;}
  public class IntercomWeaponMagazine:UnityEngine.Behaviour {public bool IsReloading;public float ReloadProgress;}
 }

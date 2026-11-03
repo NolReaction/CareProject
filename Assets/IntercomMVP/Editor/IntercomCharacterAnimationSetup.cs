@@ -45,6 +45,7 @@ namespace IntercomMvp.Editor
             gestures.ResolveReferences();
             gestures.enabled = true;
             EditorUtility.SetDirty(gestures);
+            IntercomPlayerHurtSetup.Setup(robot);
             if (PrefabUtility.IsPartOfPrefabInstance(gestures))
                 PrefabUtility.RecordPrefabInstancePropertyModifications(gestures);
         }

@@ -15,8 +15,9 @@ namespace IntercomMvp.Editor
         private const string MaterialFolder = "Assets/IntercomMVP/Art/PrototypeEnvironment/";
         private const string MeshFolder = MaterialFolder + "Modules/";
         [Serializable] private sealed class Layout { public int version, surfaceVersion; public float width, depth; public Group[] groups; public Target[] targets; }
-        [Serializable] private sealed class Group { public string key, name, role; public float[] position, footprint; public bool hide; public Block[] blocks; }
-        [Serializable] private sealed class Block { public string name, material, mesh, shape, footstepSurface; public string[] materials; public float[] position, size, collisionCenter, collisionSize; public float yaw; public bool collider, shadow; public bool visual = true; }
+        [Serializable] private sealed class Group { public string key, name, role; public float[] position, footprint; public bool hide; public Block[] blocks; public Interaction interaction; }
+        [Serializable] private sealed class Interaction { public string kind, visual, collision, flap, indicator, spentVisual; public float maxHealth, recoverSeconds, foldLift; }
+        [Serializable] private sealed class Block { public string name, material, mesh, shape, footstepSurface; public string[] materials; public float[] position, size, collisionCenter, collisionSize; public float yaw; public bool collider, shadow; public bool visual = true; public bool active = true; }
         [Serializable] private sealed class Target { public string key, name, material, mesh, footstepSurface; public float[] position; }
         internal static void Setup(Scene scene)
         {
@@ -24,6 +25,7 @@ namespace IntercomMvp.Editor
             if (root != null)
             {
                 SetupSurfaceSounds(scene);
+                SetupReactiveProps(scene);
                 return;
             }
             TextAsset source = AssetDatabase.LoadAssetAtPath<TextAsset>(LayoutPath);
@@ -81,6 +83,7 @@ namespace IntercomMvp.Editor
                             ? block.materials.Select(Material).ToArray() : new[] { Material(block.material) };
                         renderer.shadowCastingMode = block.shadow ? ShadowCastingMode.On : ShadowCastingMode.Off;
                     }
+                    part.SetActive(block.active);
                     Undo.RegisterCreatedObjectUndo(part, "Create district module");
                 }
             }
@@ -98,7 +101,42 @@ namespace IntercomMvp.Editor
             IntercomDistrictMarker marker = Undo.AddComponent<IntercomDistrictMarker>(root);
             marker.layoutVersion = layout.version; marker.surfaceVersion = layout.surfaceVersion; marker.worldSize = new Vector2(layout.width, layout.depth);
             SetupSurfaceSounds(scene);
+            SetupReactiveProps(scene);
             EditorSceneManager.MarkSceneDirty(scene);
+        }
+
+        // Interaction metadata is explicit; names never guess gameplay behavior.
+        // Existing components retain designer tuning on repeated Setup.
+        internal static void SetupReactiveProps(Scene scene)
+        {
+            GameObject root = scene.GetRootGameObjects().FirstOrDefault(item => item.name == RootName);
+            if (root == null) return;
+            TextAsset source = AssetDatabase.LoadAssetAtPath<TextAsset>(LayoutPath);
+            if (source == null) throw new InvalidOperationException("Не найден World/DistrictLayout.json.");
+            Layout layout = JsonUtility.FromJson<Layout>(source.text);
+            IntercomPlayerMotor motor = scene.GetRootGameObjects()
+                .SelectMany(item => item.GetComponentsInChildren<IntercomPlayerMotor>(true)).FirstOrDefault();
+            foreach (Group spec in layout.groups)
+            {
+                Interaction data = spec.interaction;
+                if (data == null || string.IsNullOrEmpty(data.kind)) continue;
+                Transform group = root.GetComponentsInChildren<IntercomWorldAnchor>(true)
+                    .FirstOrDefault(anchor => anchor.anchorId == spec.key)?.transform;
+                if (group == null) continue; // An older/custom map is never silently rebuilt.
+                if (!Enum.TryParse(data.kind, out IntercomPropKind kind) || !Enum.IsDefined(typeof(IntercomPropKind), kind))
+                    throw new InvalidOperationException("Неизвестное взаимодействие: " + data.kind);
+                Transform owner = group.Find(data.collision);
+                Transform visual = group.Find(data.visual);
+                Transform flap = string.IsNullOrEmpty(data.flap) ? null : group.Find(data.flap);
+                Transform lamp = string.IsNullOrEmpty(data.indicator) ? null : group.Find(data.indicator);
+                Transform spent = string.IsNullOrEmpty(data.spentVisual) ? null : group.Find(data.spentVisual);
+                if (owner == null || visual == null)
+                    throw new InvalidOperationException("Неполный интерактивный предмет: " + spec.key);
+                IntercomReactivePropSetup.Configure(owner.gameObject, kind, visual, flap,
+                    lamp != null ? lamp.GetComponent<Renderer>() : null,
+                    owner.GetComponents<Collider>(), motor, data.maxHealth, data.recoverSeconds, spent,
+                    data.foldLift > 0f ? data.foldLift : .14f);
+            }
         }
 
         // Add explicit collision materials once; retain existing buildings,

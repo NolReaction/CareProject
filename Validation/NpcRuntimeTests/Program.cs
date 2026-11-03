@@ -36,7 +36,42 @@ internal static class Program
         public Collider Obstacle()=>new GameObject("Wall or low cover").AddComponent<Collider>();
     }
     private static void Main()
-    {Factory();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    {Factory();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    private static void PresentationWorkBudget()
+    {
+        var f=new Fixture(new Vector3(0,0,30));
+        int writes=f.Npc.bodyRenderer.PropertyWrites;
+        f.For(.2f);
+        Check(f.Npc.bodyRenderer.PropertyWrites==writes,"unchanged NPC tint does not submit repeated property blocks");
+        int rays=Physics.RayCalls;
+        f.Npc.Health.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,f.Player.gameObject));
+        Check(Physics.RayCalls==rays,"lethal hit avoids unnecessary alert/line-of-sight ray");
+        f.For(.6f);writes=f.Npc.bodyRenderer.PropertyWrites;
+        f.For(1);
+        Check(f.Npc.bodyRenderer.PropertyWrites==writes,"settled corpse no longer resubmits presentation");
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero);f.Npc.gameObject.SetActive(true);
+        Check(f.Npc.bodyRenderer.PropertyWrites>writes&&f.Npc.visual.localScale.y==1,
+            "pooled new life restores live color and full pose after presentation optimization");
+    }
+    private static void PoolAllocationBudget()
+    {
+        var f=new Fixture(new Vector3(0,0,30));
+        var actors=new IntercomNpcController[8];actors[0]=f.Npc;
+        for(int i=1;i<actors.Length;i++)actors[i]=IntercomNpcController.Create(f.Definition,f.Nav,f.Player,f.Motor,new Vector3(i,0,0),i);
+        foreach(var actor in actors)actor.gameObject.SetActive(false);
+        int created=GameObject.Created.Count,materials=Material.Created,destroyed=UnityEngine.Object.Destroyed.Count;
+        for(int life=0;life<100;life++)
+        {
+            var actor=actors[life%actors.Length];actor.PrepareForSpawn(new Vector3(life%4,0,life%7));
+            actor.SetTarget(f.Player);actor.gameObject.SetActive(true);actor.Investigate(f.Player.transform.position);
+            actor.Health.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,f.Player.gameObject));
+            actor.gameObject.SetActive(false);
+        }
+        Check(GameObject.Created.Count==created,"100 real controller/factory pool lives construct no additional GameObjects");
+        Check(Material.Created==materials&&UnityEngine.Object.Destroyed.Count==destroyed,
+            "100 pooled deaths create no materials or deferred destruction requests");
+        foreach(var actor in actors)UnityEngine.Object.Destroy(actor.gameObject);
+    }
     private static void Factory()
     {
         var f=new Fixture(new Vector3(0,0,6));

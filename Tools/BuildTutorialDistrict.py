@@ -21,7 +21,8 @@ LAYOUT = ROOT / 'Assets/IntercomMVP/World/DistrictLayout.json'
 SCENE = ROOT / 'Assets/IntercomMVP/Scenes/IntercomMVP.unity'
 SALT = 'CareProject/tutorial-courtyard/v2/'
 # Stable GUID salt is retained across art revisions.
-ART_REVISION = 'calm-stylized-v5'
+ART_REVISION = 'open-courtyard-v7'
+LAYOUT_VERSION = 7
 BEVEL_SCALE = 1.6
 
 def stable(path): return uuid.uuid5(uuid.NAMESPACE_URL, SALT + str(path)).hex
@@ -264,7 +265,7 @@ def mesh(name):m=Mesh(name);MODULES[name]=m;return m
 SURFACE_KINDS=['Asphalt','Concrete','Metal','Gravel','Wood','Soil']
 MODULE_SURFACES={
     'Warehouse':'Metal','Workshop':'Metal','CargoCrate':'Wood','SteelDrum':'Metal',
-    'CableSpool':'Wood','Transformer':'Metal','CargoContainer':'Metal',
+    'CableSpool':'Wood','Transformer':'Metal','CargoContainer':'Metal','ServiceRelayBody':'Metal','SafetyPunchPost':'Metal',
     'JerseyBarrier':'Concrete','WallPanel':'Concrete','GatePanel':'Metal',
     'Planter':'Concrete','Bollard':'Metal','TrainingTarget':'Metal','FencePanel':'Metal',
 }
@@ -274,6 +275,8 @@ MATERIAL_SURFACES={'Concrete':'Concrete','Asphalt':'Asphalt','Gravel':'Gravel',
 def configure_surface_responses(layout):
     for group in layout['groups']:
         for block in group['blocks']:
+            block.setdefault('active', True)
+            block.setdefault('visual', True)
             if not block['collider']:continue
             if not block.get('footstepSurface'):
                 block['footstepSurface']=(MODULE_SURFACES[block['mesh']] if block.get('mesh')
@@ -294,6 +297,12 @@ def build_modules():
         for y in [.13,.96]:m.box((0,y,z),(1.08,.10,.08),'Crate',.01)
     for x in [-.54,.54]:
         for y in [.13,.96]:m.box((x,y,0),(.07,.10,1.08),'Crate',.01)
+    m=mesh('BrokenSupplyCrate')
+    # Single cheap mesh of separated boards. Stays flat and never blocks movement.
+    for pos,size,yaw in [((-.16,.055,.06),(.91,.10,.22),18),((.15,.065,-.20),(.88,.11,.19),-29),
+                         ((.24,.13,.16),(.72,.12,.23),42),((-.27,.11,-.24),(.22,.13,.66),-14)]:
+        m.box(pos,size,'Crate',.018,yaw=yaw)
+    m.box((.03,.19,.03),(.16,.10,.73),'Trim',.012,yaw=-22)
     m=mesh('SteelDrum');m.cylinder((0,.43,0),.30,.84,'BlueGrey',16)
     for y in [.08,.76]:m.cylinder((0,y,0),.316,.045,'Trim',16)
     m.cylinder((0,.864,0),.27,.025,'Roof',16);m.cylinder((.13,.887,0),.043,.025,'Trim',8)
@@ -342,6 +351,19 @@ def build_modules():
     m=mesh('Bollard');m.cylinder((0,.43,0),.095,.86,'Paint',10)
     for y in [.25,.55]:m.cylinder((0,y,0),.098,.13,'Door',10)
     m.cylinder((0,.045,0),.16,.09,'Roof',10)
+    # Low service box with separate door and lamp for the reactive relay.
+    m=mesh('SafetyPunchPost')
+    m.cylinder((0,.12,0),.42,.24,'Roof',16)
+    m.box((0,.58,0),(.84,.78,.56),'Paint',.10)
+    for y in [.40,.76]:m.box((0,y,0),(.86,.12,.58),'Door',.04)
+    m.box((0,1.02,0),(.95,.26,.62),'Paint',.095)
+    m=mesh('ServiceRelayBody');m.box((0,.56,0),(.94,1.12,.60),'BlueGrey',.055)
+    m.box((0,.07,0),(1.04,.14,.70),'Concrete',.03)
+    for x in [-.40,.40]:m.box((x,.62,-.32),(.08,.78,.055),'Trim',.012)
+    m.box((0,.62,-.32),(.70,.73,.035),'Door',.012)
+    m=mesh('ServiceRelayDoor');m.box((0,-.35,0),(.69,.70,.055),'Roof',.035)
+    m.box((.23,-.35,-.04),(.045,.14,.035),'Paint',.012)
+    m=mesh('ServiceRelayLamp');m.cylinder((0,0,0),.07,.045,'TargetMint',12,'z')
     m=mesh('Planter');m.box((0,.21,0),(1.6,.42,.75),'Concrete',.045)
     m.box((0,.43,0),(1.4,.05,.55),'Door',.01)
     for x,z,h in [(-.52,-.1,.33),(-.15,.08,.46),(.25,-.06,.35),(.51,.1,.4)]:
@@ -396,8 +418,8 @@ def build_layout():
     for z in np.arange(-12,12,2.8):
         m.box((-.1,.009,z),(.10,.008,1.15),'Paint',0)
     for x in np.arange(-12,13,2.8):m.box((x,.010,-2.8),(1.15,.008,.10),'Paint',0)
-    for x,z,w,d in [(-9,6.7,11.3,2.2),(-11,-5,7.4,6.1),(10,-7.8,9,7),(-3,2,5.7,3.4)]:
-        height=.060 if z!=2 else .016
+    for x,z,w,d in [(-10.8,8.6,11.3,2.2),(-13.8,-5,6.5,6.1),(10,-7.8,9,7),(5.9,14.3,5.1,2.6)]:
+        height=.060 if z!=14.3 else .016
         for xx in [x-w/2,x+w/2]:m.box((xx,height,z),(.10,.008,d),'Paint',0)
         for zz in [z-d/2,z+d/2]:m.box((x,height,zz),(w,.008,.1),'Paint',0)
     # Landing stripes at entrance and visibly separated practice lanes.
@@ -406,7 +428,7 @@ def build_layout():
         m.box((x,.060,-7.5),(.08,.008,4.4),'Paint',0)
         m.box((x+.8,.060,-9.7),(1.6,.008,.08),'Paint',0)
     # Light slab seams and inset drains add scale without filling the combat space.
-    for x,z,w,d in [(-9,6.7,11.7,3.0),(-12,-5,8.4,7.0),(10.9,-8.2,9.8,7.2)]:
+    for x,z,w,d in [(-10.8,8.6,11.7,3.0),(-13.8,-5,6.5,7.0),(10.9,-8.2,9.8,7.2)]:
         for xx in np.arange(x-w/2+1.8,x+w/2,1.8):m.box((xx,.056,z),(.018,.004,d),'Trim',0)
         for zz in np.arange(z-d/2+1.8,z+d/2,1.8):m.box((x,.056,zz),(w,.004,.018),'Trim',0)
     for x,z in [(-7,-11.2),(-9,4.9),(4.5,-3.8),(14.5,3.9)]:
@@ -414,22 +436,19 @@ def build_layout():
         for dx in np.arange(-.3,.35,.10):m.box((x+dx,.026,z),(.035,.008,.38),'Trim',0)
     g=group('surface','01 - Pavement and lane markings',(0,0,0),'Route',(36,32))
     # Shared ground collider remains outside environment. Thin aprons have contact tags.
-    for name,pos,size in [('Warehouse concrete apron',(-9,.025,6.7),(11.7,.05,3.0)),('Workshop concrete apron',(-12,.025,-5.0),(8.4,.05,7.0)),('Training concrete pad',(10.9,.025,-8.2),(9.8,.05,7.2)),('Substation slab',(11,.04,9.2),(8.5,.08,8.0))]:box(g,name,pos,size,'Concrete',True,False,'Concrete')
+    for name,pos,size in [('Warehouse concrete apron',(-10.8,.025,8.6),(11.7,.05,3.0)),('Workshop concrete apron',(-13.8,.025,-5.0),(6.5,.05,7.0)),('Training concrete pad',(10.9,.025,-8.2),(9.8,.05,7.2)),('Substation slab',(13.3,.04,11.6),(8.5,.08,7.8))]:box(g,name,pos,size,'Concrete',True,False,'Concrete')
     box(g,'Gravel service strip',(-16.3,.022,3.2),(2,.044,5.4),'Gravel',True,False,'Gravel')
     box(g,'Metal service plate',(-6.0,.03,-9.9),(2,.06,1.2),'Roof',True,False,'Metal')
     module(g,'Faded yard markings',(0,0,0),'YardMarkings')
-    g=group('depot','02 - Warehouse - replace shell',(-9,0,10.8),'Building',(10.5,5.1),True)
+    g=group('depot','02 - Warehouse - replace shell',(-10.8,0,13.0),'Building',(10.5,5.1),True)
     shell=module(g,'Warehouse shell',(0,0,0),'Warehouse',collider=True);shell['collisionCenter']=[0,2.05,0];shell['collisionSize']=[10.5,4.1,5.1]
-    module(g,'Loading cargo A',(-4,.05,-3.35),'CargoCrate',8,True)
-    module(g,'Loading cargo B',(4,.05,-3.3),'CargoCrate',-8,True)
+    module(g,'Loading cargo B',(4.4,.05,-3.3),'CargoCrate',-8,True)['size']=[.8,.8,.8]
     module(g,'Loading drum',(3,.05,-3.25),'SteelDrum',collider=True)
-    g=group('workshop','03 - Workshop - replace shell',(-12,0,-4.8),'Building',(6.7,5.2),True)
+    g=group('workshop','03 - Workshop - replace shell',(-14.25,0,-4.8),'Building',(6.7,5.2),True)
     shell=module(g,'Workshop shell',(0,0,0),'Workshop',collider=True);shell['collisionCenter']=[0,1.575,0];shell['collisionSize']=[6.7,3.15,5.2]
     module(g,'Workshop spool',(2.6,.05,-3.55),'CableSpool',collider=True)
-    module(g,'Workshop drum',(3.55,.05,-2.9),'SteelDrum',collider=True)
-    module(g,'Workshop crates',(-2.6,.05,-3.55),'CargoCrate',5,True)
-    module(g,'Service pipes',(-3.65,.05,0),'UtilityPipes',90)
-    g=group('substation','04 - Electrical substation',(11,0,9.2),'Building',(8.5,8.0),True)
+    module(g,'Service pipes',(-2.8,.05,3.1),'UtilityPipes')
+    g=group('substation','04 - Electrical substation',(13.3,0,11.6),'Building',(8.5,8.0),True)
     for x in [-1.8,1.8]:module(g,'Transformer '+str(x),(x,.08,0),'Transformer',collider=True)
     for x in [-2.9,.1,3.1]:
         module(g,'Rear fence '+str(x),(x,.08,3.8),'FencePanel')
@@ -439,19 +458,28 @@ def build_layout():
     # A single simple collider blocks substation internals, separated from fence renderers.
     box(g,'Substation collision',(0,1,0),(8.6,2,7.7),'Concrete',True,False,'Metal')['visual']=False
     module(g,'Substation pipes',(0,.08,2.4),'UtilityPipes')
-    g=group('container','05 - Container cover',(-3,0,2),'Cover',(4.6,2.3),True)
+    # Tall container sits against the back boundary, never in the central arena.
+    g=group('container','05 - Rear cargo bay',(5.9,0,14.3),'Building',(4.6,2.3),True)
     module(g,'Rust cargo container',(0,0,0),'CargoContainer',collider=True)
-    module(g,'Container barrier',(-.5,0,-1.7),'JerseyBarrier',collider=True)
-    module(g,'Container drum',(2.8,0,-.8),'SteelDrum',collider=True)
-    for key,name,pos,yaw in [('cover_e','06 - East cover cluster',(6,0,-.4),0),('cover_s','07 - Entry cover cluster',(-3,0,-6.3),0),('cover_n','08 - North cover cluster',(1,0,7.5),0)]:
-        g=group(key,name,pos,'Cover',(3.6,2.4))
-        module(g,'Low barrier',(0,0,-.65),'JerseyBarrier',yaw,True)
-        module(g,'Supply crate',(-.35,0,.35),'CargoCrate',yaw+10,True)
-        module(g,'Supply drum',(1.3,0,.28),'SteelDrum',collider=True)
+    # Two isolated low covers leave broad loops instead of crate-and-drum clusters.
+    for key,name,pos,yaw in [('cover_e','06 - Low east island',(6.3,0,3.5),90),('cover_s','07 - Low entry island',(-3.5,0,-5.7),0)]:
+        g=group(key,name,pos,'Cover',(2.2,0.7))
+        b=module(g,'Low barrier',(0,0,0),'JerseyBarrier',yaw,True);b['size']=[1,.64,1]
+    # Explicit reactive objects use small footprints; states are authored, not physics debris.
+    g=group('interactive_crate','08A - Breakable supply crate',(-3.8,0,-4),'Prop',(1.2,1.2))
+    b=module(g,'Supply crate',(0,0,0),'CargoCrate',8,True);b['size']=[1.05,1.05,1.05]
+    module(g,'Spent crate',(0,0,0),'BrokenSupplyCrate')['active']=False
+    g['interaction']={'kind':'Crate','visual':'Supply crate','collision':'Collision - Supply crate','spentVisual':'Spent crate','maxHealth':45,'recoverSeconds':0}
+    g=group('interactive_bollard','08B - Spring safety bumper',(5.8,0,1.1),'Prop',(.95,.85))
+    b=module(g,'Spring post',(0,0,0),'SafetyPunchPost',0,True)
+    g['interaction']={'kind':'Bollard','visual':'Spring post','collision':'Collision - Spring post','maxHealth':30,'recoverSeconds':0,'foldLift':.46}
+    g=group('interactive_relay','08C - Service relay',(-4.5,0,5.7),'Prop',(1.05,.7))
+    module(g,'Relay body',(0,0,0),'ServiceRelayBody',0,True)
+    module(g,'Relay door',(0,.99,-.35),'ServiceRelayDoor')
+    module(g,'Relay lamp',(0,1.05,-.34),'ServiceRelayLamp')
+    g['interaction']={'kind':'Relay','visual':'Relay body','collision':'Collision - Relay body','flap':'Relay door','indicator':'Relay lamp','maxHealth':15,'recoverSeconds':4}
     g=group('training','09 - Training range',(10.9,0,-8.2),'Zone',(9.8,7.2))
     for x in [-3.4,0,3.4]:module(g,'Range backstop '+str(x),(x,.05,-3.4),'JerseyBarrier',collider=True)
-    module(g,'Range side cover',(-4.7,.05,-1.4),'JerseyBarrier',90,True)
-    module(g,'Range supplies',(4.2,.05,-2.5),'CargoCrate',collider=True)
     g=group('perimeter','10 - Perimeter and gates',(0,0,0),'Boundary',(36,32))
     def wall_run(label,start,end,fixed,along_x=True,fence=False):
         count=math.ceil((end-start)/3);length=(end-start)/count
@@ -471,23 +499,23 @@ def build_layout():
     # Invisible boundary stops leave entry visually open without allowing a fall off the scene.
     for name,pos,size in [('West stop',(-18.1,1,0),(.3,2,33)),('East stop',(18.1,1,0),(.3,2,33)),('South stop',(0,1,-16.1),(36.5,2,.3)),('North stop',(0,1,16.1),(36.5,2,.3))]:box(g,name,pos,size,'Concrete',True)['visual']=False
     g=group('details','11 - Street furniture',(0,0,0),'Prop',(36,32))
-    for x,z in [(-16,8),(-16,-10),(16,-10),(16,4),(-5,13),(6,13)]:module(g,'Planter '+str(x)+str(z),(x,0,z),'Planter',collider=True)
-    for x,z in [(-8.6,-12.5),(-5.3,-12.5),(5.6,-4.3),(15.3,-4.3),(-3.4,6),(4.3,6)]:module(g,'Safety bollard '+str(x)+str(z),(x,0,z),'Bollard',collider=True)
+    for x,z in [(-16.5,6),(-16,-11),(16,-11),(16,3.5)]:module(g,'Planter '+str(x)+str(z),(x,0,z),'Planter',collider=True)
+    for x,z in [(-8.6,-12.5),(-5.3,-12.5)]:module(g,'Safety bollard '+str(x)+str(z),(x,0,z),'Bollard',collider=True)
     for key,pos,role in [('spawn',(-7,0,-12),'PlayerSpawn'),('exit',(.5,0,13.5),'Exit'),('wave_w',(-14.5,0,1),'EnemySpawn'),('wave_n',(3,0,11.5),'EnemySpawn'),('loot',(2.5,0,-3.0),'Loot')]:group(key,key.title()+' marker',pos,role)
     targets=[{'key':f'target_{i+1}','name':f'Training Target {i+1}','position':[x,.05,-8.7],'material':'TargetCoral','mesh':'TrainingTarget'} for i,x in enumerate([8.9,11.4,13.9])]
-    return configure_surface_responses({'version':2,'width':36,'depth':32,'title':'Industrial courtyard - first tutorial location','groups':groups,'targets':targets})
+    return configure_surface_responses({'version':LAYOUT_VERSION,'width':36,'depth':32,'title':'Open service courtyard - first tutorial location','groups':groups,'targets':targets})
 
 class SceneWriter:
     def __init__(self,old):
         chunks=re.split(r'(?=^--- !u!)',old,flags=re.M);self.header=chunks[0]
         validate_scene_ids(old)
-        self.objects={int(re.match(r'--- !u!\d+ &(-?\d+)',c)[1]):c for c in chunks[1:]};self.ids=SceneIdAllocator(self.objects);self.children={};self.components={};self.go={};self.transforms={};self.renderers={};self.target_ids=[]
+        self.objects={int(re.match(r'--- !u!\d+ &(-?\d+)',c)[1]):c for c in chunks[1:]};self.ids=SceneIdAllocator(self.objects);self.children={};self.components={};self.go={};self.transforms={};self.renderers={};self.target_ids=[];self.active={}
         # Reuse scene templates for engine-version-specific renderer and collider fields.
         self.renderer_template=next(c for c in chunks if c.startswith('--- !u!23 '))
         self.collider_template=next(c for c in chunks if c.startswith('--- !u!65 '))
     def ident(self):return self.ids.allocate()
-    def obj(self,name,parent,pos=(0,0,0),scale=(1,1,1),yaw=0):
-        go,tr=self.ident(),self.ident();self.go[go]=name;self.components[go]=[tr];self.transforms[tr]=(go,parent,pos,scale,yaw)
+    def obj(self,name,parent,pos=(0,0,0),scale=(1,1,1),yaw=0,active=True):
+        go,tr=self.ident(),self.ident();self.go[go]=name;self.active[go]=active;self.components[go]=[tr];self.transforms[tr]=(go,parent,pos,scale,yaw)
         self.children.setdefault(parent,[]).append(tr);self.children[tr]=[];return go,tr
     def common(self,go):return f'  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {{fileID: 0}}\n  m_PrefabInstance: {{fileID: 0}}\n  m_PrefabAsset: {{fileID: 0}}\n  m_GameObject: {{fileID: {go}}}\n'
     def component(self,go,klass,fields):
@@ -523,14 +551,14 @@ class SceneWriter:
             m=re.search(r'm_GameObject: \{fileID: (\d+)\}',c)
             if oid in gos or oid in trs-{root} or (m and int(m[1]) in gos):removed.append(oid);del self.objects[oid]
         # Retained environment root and marker are updated, not replaced.
-        self.objects[6100000756]=re.sub(r'layoutVersion: \d+','layoutVersion: 2',self.objects[6100000756])
+        self.objects[6100000756]=re.sub(r'layoutVersion: \d+',f'layoutVersion: {LAYOUT_VERSION}',self.objects[6100000756])
         self.objects[6100000756]=re.sub(r'surfaceVersion: \d+','surfaceVersion: 2',self.objects[6100000756])
         self.ids.release(removed)
         self.children[root]=[];return removed
     def finish(self):
         for go,name in self.go.items():
             cs=''.join(f'  - component: {{fileID: {c}}}\n' for c in self.components[go])
-            self.objects[go]=f'''--- !u!1 &{go}\nGameObject:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {{fileID: 0}}\n  m_PrefabInstance: {{fileID: 0}}\n  m_PrefabAsset: {{fileID: 0}}\n  serializedVersion: 6\n  m_Component:\n{cs}  m_Layer: 0\n  m_Name: {name}\n  m_TagString: Untagged\n  m_Icon: {{fileID: 0}}\n  m_NavMeshLayer: 0\n  m_StaticEditorFlags: 0\n  m_IsActive: 1\n'''
+            self.objects[go]=f'''--- !u!1 &{go}\nGameObject:\n  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {{fileID: 0}}\n  m_PrefabInstance: {{fileID: 0}}\n  m_PrefabAsset: {{fileID: 0}}\n  serializedVersion: 6\n  m_Component:\n{cs}  m_Layer: 0\n  m_Name: {name}\n  m_TagString: Untagged\n  m_Icon: {{fileID: 0}}\n  m_NavMeshLayer: 0\n  m_StaticEditorFlags: 0\n  m_IsActive: {int(self.active[go])}\n'''
         for tr,(go,parent,pos,scale,yaw) in self.transforms.items():
             ch='\n'+''.join(f'  - {{fileID: {c}}}\n' for c in self.children[tr]) if self.children[tr] else ' []\n'
             self.objects[tr]=f'--- !u!4 &{tr}\nTransform:\n'+self.common(go)+f'  serializedVersion: 2\n  m_LocalRotation: {v4(yawq(yaw))}\n  m_LocalPosition: {v3(pos)}\n  m_LocalScale: {v3(scale)}\n  m_ConstrainProportionsScale: 0\n  m_Children:'+ch+f'  m_Father: {{fileID: {parent}}}\n  m_LocalEulerAnglesHint: {v3((0,yaw,0))}\n'
@@ -544,18 +572,37 @@ def write_scene(layout):
     asphalt=meta(ART/'Asphalt.mat')
     w.objects[ground_renderer]=re.sub(r'(  m_Materials:\n)(?:  - .*\n)+',r'\1  - {fileID: 2100000, guid: '+asphalt+', type: 2}\n',w.objects[ground_renderer])
     roles=['Zone','Building','Route','Cover','Prop','Boundary','PlayerSpawn','EnemySpawn','Loot','Exit','Target']
+    motor_guid=meta(ROOT/'Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs')
+    motor_id=next(oid for oid,c in w.objects.items() if 'guid: '+motor_guid in c)
+    reactive_ids=[]
     for g in layout['groups']:
         go,tr=w.obj(g['name'],1550949731,g['position'])
         w.component(go,'IntercomWorldAnchor',f"  anchorId: {g['key']}\n  role: {roles.index(g['role'])}\n  footprint: {{x: {g['footprint'][0]}, y: {g['footprint'][1]}}}\n  designerNote: Replace visual module children; retain gameplay colliders and anchor.\n")
         w.component(go,'IntercomOccluder',f"  hideWhenBlocking: {int(g['hide'])}\n")
+        refs={}
         for b in g['blocks']:
-            obj,tf=w.obj(b['name'],tr,b['position'],b['size'],b['yaw'])
-            if b.get('visual',True):w.renderer(obj,b.get('mesh'),b.get('materials',[b['material']]),b['shadow'])
+            obj,tf=w.obj(b['name'],tr,b['position'],b['size'],b['yaw'],b.get('active',True))
+            mr=w.renderer(obj,b.get('mesh'),b.get('materials',[b['material']]),b['shadow']) if b.get('visual',True) else 0
+            refs[b['name']]={'go':obj,'transform':tf,'renderer':mr}
             if b['collider']:
                 # Colliders are separate siblings so later visual replacements preserve physical boundaries.
                 col,ct=w.obj('Collision - '+b['name'],tr,b['position'],b['size'],b['yaw'])
-                w.collider(col,b.get('collisionCenter',(0,0,0)),b.get('collisionSize',(1,1,1)))
+                collider_id=w.collider(col,b.get('collisionCenter',(0,0,0)),b.get('collisionSize',(1,1,1)))
+                refs['Collision - '+b['name']]={'go':col,'transform':ct,'collider':collider_id}
                 if b.get('footstepSurface'):w.component(col,'IntercomFootstepSurface',surface_fields(b['footstepSurface']))
+        reactive=g.get('interaction')
+        if reactive:
+            solid=refs[reactive['collision']];visual=refs[reactive['visual']]
+            indicator=refs.get(reactive.get('indicator'),{}).get('renderer',0)
+            flap=refs.get(reactive.get('flap'),{}).get('transform',0)
+            spent=refs.get(reactive.get('spentVisual'),{}).get('transform',0)
+            fields=(f"  kind: {['Crate','Bollard','Relay'].index(reactive['kind'])}\n"
+                    f"  visual: {{fileID: {visual['transform']}}}\n  indicator: {{fileID: {indicator}}}\n"
+                    f"  flap: {{fileID: {flap}}}\n  spentVisual: {{fileID: {spent}}}\n  resetMotor: {{fileID: {motor_id}}}\n"
+                    f"  blockingColliders:\n  - {{fileID: {solid['collider']}}}\n"
+                    f"  maxHealth: {reactive['maxHealth']}\n  recoverSeconds: {reactive['recoverSeconds']}\n  foldAngle: 78\n  foldLift: {reactive.get('foldLift',.14)}\n")
+            cid=w.component(solid['go'],'IntercomReactiveProp',fields)
+            reactive_ids.append({'key':g['key'],'kind':reactive['kind'],'component':cid,'collider':solid['collider'],'position':g['position']})
     targets,tt=w.obj('12 - Training targets',1550949731)
     for spec in layout['targets']:
         go,tr=w.obj(spec['name'],tt,spec['position']);w.collider(go,(0,.85,0),(.95,1.7,.45))
@@ -572,7 +619,7 @@ def write_scene(layout):
     assert set(changed)<={1550949731,6100000756,ground_renderer},changed
     # Write only after reference/range and preservation checks succeed.
     SCENE.write_text(result)
-    return {'environmentObjects':len(w.go),'renderers':len(w.renderers),'removedSerializedBlocks':len(removed),'preservedNonEnvironmentBlocks':len(before)-len(removed)-3,'groundRendererMaterialOnly':ground_renderer,'targets':w.target_ids}
+    return {'environmentObjects':len(w.go),'renderers':len(w.renderers),'removedSerializedBlocks':len(removed),'preservedNonEnvironmentBlocks':len(before)-len(removed)-3,'groundRendererMaterialOnly':ground_renderer,'targets':w.target_ids,'reactiveProps':reactive_ids}
 
 def clearance(layout):
     # Rasterize conservative AABB obstacles expanded by the player's radius + margin.
@@ -593,12 +640,32 @@ def clearance(layout):
         y,x=q.popleft()
         for ny,nx in [(y-1,x),(y+1,x),(y,x-1),(y,x+1)]:
             if 0<=ny<len(zs) and 0<=nx<len(xs) and not blocked[ny,nx] and (ny,nx) not in seen:seen.add((ny,nx));q.append((ny,nx))
-    routes={'center':(0,0),'warehouse_apron':(-9,6.1),'workshop_apron':(-12,-8.1),'training_entry':(10,-5.5),'rear_exit':(.5,13.3),'west_flank':(-15,1),'east_flank':(15,1),'north_flank':(3.0,10),'south_crossing':(0,-11)}
+    routes={'center':(0,0),'warehouse_apron':(-10.8,8.5),'workshop_apron':(-13.5,-8.1),'training_entry':(10,-5.5),'rear_exit':(.5,13.3),'west_flank':(-15,1),'east_flank':(15,1),'north_flank':(3.0,10),'south_crossing':(0,-11)}
+    if layout.get('version',0)<7:
+        routes['warehouse_apron']=(-9,6.1);routes['workshop_apron']=(-12,-8.1)
     results={k:point(*v) in seen for k,v in routes.items()};assert all(results.values()),results
     return {'gridMeters':step,'inflatedPlayerRadius':radius,'checkedWaypoints':results,'reachableFreeCells':len(seen),'freeCells':int((~blocked).sum()),'obstacleAabbs':obstacles,'scope':'Conservative 2D AABB connectivity, not Unity CharacterController or PhysX.'}
 
+def validate_mesh_buffers(exported):
+    results=[]
+    for name,mesh in exported.items():
+        vertices=np.asarray(mesh['vertices'],dtype=float)
+        assert np.isfinite(vertices).all(),name
+        assert np.max(np.abs(np.linalg.norm(vertices[:,3:6],axis=1)-1))<1e-5,name
+        for triangle,material in mesh['faces']:
+            assert all(0<=i<len(vertices) for i in triangle),name
+            points=vertices[triangle,:3]
+            cross=np.cross(points[1]-points[0],points[2]-points[0])
+            assert np.linalg.norm(cross)>1e-10,name
+            assert np.dot(cross,vertices[triangle,3:6].mean(axis=0))>0,name
+            assert 0<=material<len(mesh['materials']),name
+        results.append({'mesh':name+'.mesh','vertices':len(vertices),'triangles':len(mesh['faces']),
+                        'finiteUnitNormals':True,'nondegenerateTriangles':True,'windingAlignedWithNormals':True})
+    return results
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--apply-scene',action='store_true');ap.add_argument('--render-json',type=Path)
+    ap.add_argument('--refresh-materials',action='store_true',help='Explicitly replace the material palette; default preserves current user-edited materials.')
     ap.add_argument('--materials-only',action='store_true',help='Update shared materials and textures only; preserve mesh, layout and scene files.')
     args=ap.parse_args()
     if args.materials_only:
@@ -607,14 +674,15 @@ def main():
         print(json.dumps({'artRevision':ART_REVISION,'materials':len(MATERIALS),'geometryAndScene':'untouched'},indent=2))
         return
     for folder in [MESHES,TEXTURES]:folder.mkdir(parents=True,exist_ok=True);meta(folder)
-    make_materials();build_modules();layout=build_layout();exported={name:m.export() for name,m in MODULES.items()};LAYOUT.write_text(json.dumps(layout,ensure_ascii=False,indent=2)+'\n')
-    report={'artRevision':ART_REVISION,'layoutVersion':2,'meshAssets':len(exported),'uniqueMeshTriangles':sum(x['triangles'] for x in exported.values()),'nativeMeshFormat':'Unity Graphics official Mesh v11 / VertexData v3 / Position+Normal+UV0 Float32 stride32 / UInt16 indices','pathClearance':clearance(layout)}
+    if args.refresh_materials:make_materials()
+    build_modules();layout=build_layout();exported={name:m.export() for name,m in MODULES.items()};LAYOUT.write_text(json.dumps(layout,ensure_ascii=False,indent=2)+'\n')
+    report={'artRevision':ART_REVISION,'layoutVersion':LAYOUT_VERSION,'meshAssets':len(exported),'uniqueMeshTriangles':sum(x['triangles'] for x in exported.values()),'nativeMeshFormat':'Unity Graphics official Mesh v11 / VertexData v3 / Position+Normal+UV0 Float32 stride32 / UInt16 indices','pathClearance':clearance(layout)}
     if args.apply_scene:report['sceneIntegration']=write_scene(layout)
     if args.render_json:args.render_json.write_text(json.dumps({'layout':layout,'modules':exported,'materials':MATERIALS}))
-    report['meshBufferValidation']=[{'mesh':name+'.mesh','vertices':len(m['vertices']),'triangles':m['triangles'],'normalsAndWinding':'See CartoonEnvironmentV4.json for validated V4 buffers'} for name,m in exported.items()]
+    report['meshBufferValidation']=validate_mesh_buffers(exported)
     report['instancedEnvironmentTriangles']=sum(exported[b['mesh']]['triangles'] for g in layout['groups'] for b in g['blocks'] if b.get('mesh') and b.get('visual',True))+sum(exported[t['mesh']]['triangles']+exported['TrainingStand']['triangles'] for t in layout['targets'])
     report['scope']='Generator geometry + conservative route connectivity. Unity import/performance not measured.'
-    out=ROOT/'Validation/TutorialEnvironment.json';out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+    out=ROOT/'Validation/CourtyardV7Review.json';out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='pathClearance'},ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()

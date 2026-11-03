@@ -30,7 +30,7 @@ internal static class Program
     }
     private static void Main()
     {
-        ProjectionCases(); FreeZoneAndDamping(); RecenterAndLifecycle(); FrameRatesAndSafety(); ArcadeResponse();
+        ProjectionCases(); FreeZoneAndDamping(); RecenterAndLifecycle(); FrameRatesAndSafety(); ArcadeResponse(); AdaptiveRunning(); ImmediateReversalBraking();
         Console.WriteLine($"Camera tracking: {checks} assertions PASS. Production ground-plane projection/tracking math; no Unity Editor or rendering execution.");
     }
     private static void ProjectionCases()
@@ -154,6 +154,124 @@ internal static class Program
             Check(b.FocusX>=before,"camera does not recoil on stopping");
             for(int i=0;i<fps*6;i++) b.Advance(9.9,0,0,0,1d/fps,current,p);
             Near(b.FocusX,9.9,.0001,"arcade idle recovers the authored framing");
+        }
+    }
+
+    private static IntercomCameraTracking.Settings AdaptiveDefaults()
+    {
+        var s=Defaults(); s.zoneWidth=.16; s.zoneHeight=.12; s.followSeconds=.18;
+        s.anticipationDistance=.28; s.anticipationSeconds=.14;
+        s.recenterDelay=.65; s.recenterSeconds=.8;
+        s.adaptiveMotion=true; s.velocityFilterSeconds=.09; s.velocityLeadSeconds=.16;
+        s.maximumLeadDistance=.65; s.runningSpeed=3.3; s.runningFollowSeconds=.12; s.reversalBrakeSeconds=.09;
+        return s;
+    }
+
+    private static void AdaptiveRunning()
+    {
+        double reference=0;
+        foreach(int fps in new[]{120,15,30,60,240})
+        {
+            var s=AdaptiveDefaults(); var p=Projection();
+            var t=new IntercomCameraTracking(); var legacy=new IntercomCameraTracking();
+            var old=s; old.adaptiveMotion=false; t.Reset(0,0); legacy.Reset(0,0);
+            double previous=0;
+            for(int i=1;i<=fps*3;i++)
+            {
+                double x=3.3*i/fps;
+                // Deliberately stale/contradictory intent. Adaptive look is based on
+                // real displacement so aiming left cannot pull it away from travel.
+                t.Advance(x,0,-1,0,1d/fps,s,p);
+                legacy.Advance(x,0,1,0,1d/fps,old,p);
+                if(x<1) Near(t.FocusX,0,1e-9,"adaptive lead retains initial free movement");
+                Check(t.FocusX>=previous-1e-8,"adaptive run follows monotonically");
+                Check(t.FocusX-previous<4.8d/fps,$"adaptive crossing has no camera snap FPS={fps} frame={i} delta={t.FocusX-previous}");
+                previous=t.FocusX;
+            }
+            Check(t.FocusX>legacy.FocusX+.35,"adaptive camera reduces run lag at unchanged hero speed");
+            Check(9.9-t.FocusX>.6,"adaptive run still leaves hero off centre");
+            Console.WriteLine($"Adaptive camera {fps} FPS: at 3.3 m/s, target-to-focus lag {9.9-legacy.FocusX:F3} -> {9.9-t.FocusX:F3} m; dead zone retained.");
+            if(fps==120) reference=t.FocusX;
+            else Near(t.FocusX,reference,.12,"adaptive run similar across 15-240 FPS");
+            // A stop does not remove lead and pull the image backwards.
+            for(int i=0;i<fps/2;i++)
+            {
+                t.Advance(9.9,0,1,0,1d/fps,s,p);
+                Check(t.FocusX>=previous-1e-8,"adaptive stop has no anticipation recoil");
+                previous=t.FocusX;
+            }
+            for(int i=0;i<fps*6;i++) t.Advance(9.9,0,1,0,1d/fps,s,p);
+            Near(t.FocusX,9.9,.0002,"adaptive idle returns authored framing even with held intent");
+            // Turning back must brake the previous camera travel; after a full
+            // second it must already be travelling with the new direction.
+            for(int i=1;i<=fps*3;i++) t.Advance(9.9+3.3*i/fps,0,1,0,1d/fps,s,p);
+            double furthest=t.FocusX;
+            for(int i=1;i<=fps;i++)
+            {
+                t.Advance(19.8-3.3*i/fps,0,-1,0,1d/fps,s,p);
+                furthest=Math.Max(furthest,t.FocusX);
+            }
+            Check(t.FocusX<furthest-.15,"reversal brakes and changes camera travel within one second");
+            double frozen=t.FocusX;
+            t.Advance(100,20,0,0,0,s,p); Near(t.FocusX,frozen,0,"adaptive pause does not update motion history");
+            t.Advance(100,20,0,0,1d/fps,s,p); Near(t.FocusX,100,0,"adaptive teleport clears anticipation");
+            t.Advance(100.01,20,1,0,1d/fps,s,p); Near(t.FocusX,100,1e-10,"teleport leaves no stale running lead");
+        }
+        var cfg=AdaptiveDefaults(); var projection=Projection(); var wall=new IntercomCameraTracking(); wall.Reset(0,0);
+        for(int i=0;i<600;i++) wall.Advance(0,0,1,1,1d/60,cfg,projection);
+        Near(wall.FocusX,0,0,"blocked hero and held stick cannot move camera x");
+        Near(wall.FocusZ,0,0,"blocked hero and held stick cannot move camera z");
+
+        // In centred mode the maximal extra look may not exceed the authored
+        // cap, even if the target is moving implausibly fast.
+        cfg.freeMovement=false; cfg.followSeconds=.01; cfg.runningFollowSeconds=.01;
+        cfg.anticipationSeconds=.01; cfg.teleportDistance=100;
+        var capped=new IntercomCameraTracking(); capped.Reset(0,0);
+        for(int i=1;i<=600;i++)
+        {
+            capped.Advance(i*.2,i*.2,1,1,1d/60,cfg,projection);
+            double leadX=capped.FocusX-capped.AnchorX,leadZ=capped.FocusZ-capped.AnchorZ;
+            Check(Math.Sqrt(leadX*leadX+leadZ*leadZ)<=cfg.maximumLeadDistance+.001,"diagonal prediction remains capped in world distance");
+        }
+        for(int i=0;i<120;i++) capped.Advance(120,120,1,1,1d/60,cfg,projection);
+        Near(capped.FocusX,120,.00001,"centred mode releases running lead when stopped x");
+        Near(capped.FocusZ,120,.00001,"centred mode releases running lead when stopped z");
+        cfg=AdaptiveDefaults(); cfg.recenterWhenIdle=false;
+        var parked=new IntercomCameraTracking(); parked.Reset(0,0);
+        for(int i=1;i<=180;i++) parked.Advance(i*.055,0,1,0,1d/60,cfg,projection);
+        for(int i=0;i<600;i++) parked.Advance(9.9,0,0,0,1d/60,cfg,projection);
+        Check(9.9-parked.FocusX>.6 && !parked.Recentering,"no-recenter option preserves parked predictive framing");
+    }
+
+    private static void ImmediateReversalBraking()
+    {
+        foreach(int fps in new[]{30,60,120,240})
+        foreach(double reverseAt in new[]{.48,.6,.8,2.0})
+        {
+            var s=AdaptiveDefaults(); var p=Projection();
+            var quick=new IntercomCameraTracking(); var slow=new IntercomCameraTracking();
+            var gentle=s; gentle.reversalBrakeSeconds=.18;
+            quick.Reset(0,0); slow.Reset(0,0);
+            int runFrames=(int)Math.Ceiling(fps*reverseAt);
+            double x=0;
+            for(int i=1;i<=runFrames;i++)
+            {
+                x=3.3*i/fps;
+                quick.Advance(x,0,1,0,1d/fps,s,p);
+                slow.Advance(x,0,1,0,1d/fps,gentle,p);
+            }
+            double startQuick=quick.FocusX,startSlow=slow.FocusX;
+            double previous=quick.FocusX, previousDelta=double.MaxValue;
+            for(int i=1;i<=Math.Ceiling(fps*.2);i++)
+            {
+                quick.Advance(x-3.3*i/fps,0,-1,0,1d/fps,s,p);
+                slow.Advance(x-3.3*i/fps,0,-1,0,1d/fps,gentle,p);
+                double delta=quick.FocusX-previous;
+                Check(delta<=previousDelta+1e-9,"reversal never accelerates camera toward the stale forward goal");
+                previousDelta=delta; previous=quick.FocusX;
+            }
+            Check(quick.FocusX-startQuick<slow.FocusX-startSlow-.001,"shorter reversal brake reduces old-direction travel immediately");
+            Check(quick.FocusX-startQuick<.43,$"old-direction coast remains bounded FPS={fps} reverseAt={reverseAt} travel={quick.FocusX-startQuick}");
         }
     }
 }

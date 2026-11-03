@@ -4,5 +4,7 @@
  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs"/>
  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs"/>
  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomReloadControl.cs"/>
+ <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomHudLayout.cs"/>
+ <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWorkshopHud.cs"/>
  </ItemGroup>
 </Project>

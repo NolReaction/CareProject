@@ -1,0 +1,64 @@
+{
+  "version": "V10",
+  "actualProductionClasses": [
+    "IntercomHealth",
+    "IntercomHealthState",
+    "IntercomPlayerHurtFeedback",
+    "IntercomHurtResponse"
+  ],
+  "standIns": [
+    "Unity component lifecycle invoked manually",
+    "AudioSource records calls; no playback device",
+    "PlayerMotor facing and respawn",
+    "Vitality mission flag"
+  ],
+  "limitations": [
+    "Not Unity Play Mode",
+    "No perceptual/audio listening sign-off",
+    "No mobile profiling"
+  ],
+  "checks": [
+    "Accepted damage only, direction, decay, bounded overlapping impulses",
+    "30/60/120 fps agreement",
+    "10,000 response ticks allocate zero managed bytes after warmup",
+    "No GameObjects or voices created per hit",
+    "Single voice with minimum cooldown and alternating clips",
+    "Invulnerability, invalid/healing hits and death filtering",
+    "Lethal audio survives synchronous mission result lock",
+    "Focus, app/time/listener pause, reenable, rebound health, respawn and menu reset"
+  ],
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomPlayerHurtFeedback.cs": "e410a17a9da47d5d6c14ce500199b8de980fbcfb94e68d42d1f01423be8c25dd",
+    "Assets/IntercomMVP/Runtime/IntercomHurtResponse.cs": "ffda783716df22ba930df89f4a17608f46e3f833fa7d2a701e588b2625a0da5d",
+    "Tools/GeneratePlayerHurtAudio.py": "9e2cab445c6bb2a9e7be52b2845c8144c93489fbc6c4db25d03a9315c2a27a86",
+    "Validation/PlayerHurtFeedbackTests/Program.cs": "c8cad3dffbf11c1d707f6f4266743da5e368985451ef4033907bae1f28997bed"
+  },
+  "audio": [
+    {
+      "path": "Assets/IntercomMVP/Audio/Player/ChassisHurt_01.wav",
+      "sha256": "42a7bef83b39dad0a3d69641fe5e9adb3e0858955af5a1c953d705f16ee7fa84",
+      "sampleRate": 44100,
+      "channels": 1,
+      "seconds": 0.34,
+      "peakDbFS": -3.223371622199789,
+      "rmsDbFS": -19.22213735911193,
+      "clippedSamples": 0,
+      "firstSample": 0.0,
+      "lastSample": 0.0
+    },
+    {
+      "path": "Assets/IntercomMVP/Audio/Player/ChassisHurt_02.wav",
+      "sha256": "634946a07464872929048d9eefc2f52383bc2d4361f02307401dca78ebf7485b",
+      "sampleRate": 44100,
+      "channels": 1,
+      "seconds": 0.34,
+      "peakDbFS": -3.223371622199789,
+      "rmsDbFS": -18.753038725921257,
+      "clippedSamples": 0,
+      "firstSample": 0.0,
+      "lastSample": 0.0
+    }
+  ],
+  "testOutput": "Player hurt feedback: 258 checks PASS (real Health, HurtFeedback, response; narrow Unity stand-ins).",
+  "result": "PASS"
+}

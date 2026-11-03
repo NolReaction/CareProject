@@ -27,6 +27,27 @@ namespace IntercomMvp
             return Smooth((phase - 0.12f) / 0.015f) * Smooth((0.28f - phase) / 0.015f);
         }
 
+        /// <summary>
+        /// Broad suspension pulse once per left/right stride. A short rigid leg
+        /// already makes two quick contacts per cycle; copying both onto the
+        /// shell reads as vibration. This slower, smooth bound gives the paired
+        /// steps a heavy/light rhythm without changing either contact window.
+        /// </summary>
+        public static float GaitLift(float normalizedPhase)
+        {
+            if (!Finite(normalizedPhase)) return 0f;
+            float phase = normalizedPhase - (float)Math.Floor(normalizedPhase);
+            return 0.5f - 0.5f * (float)Math.Cos((phase - 0.12f) * 6.28318530718f);
+        }
+
+        /// <summary>Alternating shoulder/weight-transfer rhythm in [-1,1].</summary>
+        public static float GaitCounterSwing(float normalizedPhase)
+        {
+            if (!Finite(normalizedPhase)) return 0f;
+            float phase = normalizedPhase - (float)Math.Floor(normalizedPhase);
+            return (float)Math.Sin((phase - 0.06f) * 6.28318530718f);
+        }
+
         /// <summary>Height of a hip above an ankle for a single rigid calf link.</summary>
         public static bool TryHipHeight(float ankleY, float horizontalDistance, float linkLength, out float hipY)
         {

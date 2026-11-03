@@ -43,7 +43,7 @@ internal static class Program
     private static void Main()
     {
         AllyFactory(); Recruitment(); Following(); AllyLifecycle();
-        MissionConnection(); MissionSelection(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
+        MissionConnection(); MissionSelection(); WarmPoolBudget(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
     }
     private static void AllyFactory()
@@ -250,7 +250,7 @@ internal static class Program
     {
         var f=new MissionFixture();
         Check(f.Director.Phase==IntercomMissionPhase.Selection&&f.Director.BlocksGameplay&&f.Vitality.Blocked,"mission first launch blocks gameplay at selection");
-        f.Advance(4);Check(IntercomNpcController.Created.Count==0&&f.Director.SpawnedEnemies==0,"selection does not spawn enemies");
+        f.Advance(4);Check(f.Living.Length==0&&f.Director.SpawnedEnemies==0,"selection keeps prepared enemies inactive");
         Check(!f.Director.StartMission((IntercomMissionMode)99),"undefined mode rejected");
         f.Director.spawnPoints=Array.Empty<Transform>();
         Check(!f.Director.StartMission(IntercomMissionMode.Elimination)&&f.Vitality.RetryCalls==0,"invalid setup cannot reset hero or partially start");
@@ -265,6 +265,37 @@ internal static class Program
         f.Advance(.3f);Check(f.Director.SpawnedEnemies==1,"initial grace period eventually spawns");
         f.Director.ReturnToSelection();
         Check(f.Director.Phase==IntercomMissionPhase.Selection&&f.Vitality.Blocked&&f.Living.Length==0,"return to menu cancels active enemies and controls");
+    }
+    private static void WarmPoolBudget()
+    {
+        var f=new MissionFixture();
+        for(int i=1;i<=8;i++)
+        {
+            f.Step();
+            Check(IntercomNpcController.Created.Count==i,"selection prepares at most one actor per update");
+            Check(f.Director.PreparedEnemyCount==i&&f.Director.SpawnedEnemies==0&&f.Living.Length==0,
+                "prewarming initializes parked actors without mission spawns or visible enemies");
+        }
+        f.Advance(1);
+        Check(IntercomNpcController.Created.Count==8,"completed warmup makes no additional actors");
+        int objects=GameObject.Created.Count;
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"warmed mission starts normally");
+        f.Advance(2);
+        Check(GameObject.Created.Count==objects&&f.Living.Length>0,"real spawn frames create no objects once pool is warm");
+        foreach(var actor in f.Living)actor.Kill();
+        f.Advance(2);
+        Check(GameObject.Created.Count==objects,"kills and replenishment do not construct objects");
+        string label=f.Director.ObjectiveText;
+        for(int i=0;i<20;i++)Check(ReferenceEquals(label,f.Director.ObjectiveText),"unchanged objective reuses its formatted string");
+        var paused=new MissionFixture();Signal(paused.Director,"OnApplicationPause",true);paused.Advance(1);
+        Check(paused.Director.PreparedEnemyCount==0,"paused menu does not do background warmup");
+        Signal(paused.Director,"OnApplicationPause",false);paused.Step();
+        Check(paused.Director.PreparedEnemyCount==1,"resume continues one-at-a-time preparation");
+        var fast=new MissionFixture();Check(fast.Director.StartMission(IntercomMissionMode.Elimination),"immediate click remains accepted");
+        fast.Step();Check(!fast.Vitality.Blocked&&fast.Director.PreparedEnemyCount==1&&fast.Director.SpawnedEnemies==0,
+            "incomplete pool never creates an invisible player lock");
+        fast.Advance(1);Check(fast.Director.PreparedEnemyCount==8&&fast.Director.SpawnedEnemies>0,
+            "initial grace period finishes prewarming even after an immediate click");
     }
     private static void SpawnSafety()
     {
@@ -290,11 +321,11 @@ internal static class Program
     private static void EliminationPoolAndWaves()
     {
         var f=new MissionFixture();f.Director.StartMission(IntercomMissionMode.Elimination);f.Advance(4);
-        Check(f.Director.AliveEnemies==3&&f.Living.Length==3&&IntercomNpcController.Created.Count==3,"maximumAlive bound enforced while waiting");
+        Check(f.Director.AliveEnemies==3&&f.Living.Length==3&&IntercomNpcController.Created.Count==8,"maximumAlive bound enforced while waiting");
         var first=f.Living[0];first.Kill();int kills=f.Director.Kills;
         first.Kill();Check(f.Director.Kills==kills,"same health death cannot count twice");
         f.Advance(.2f);Check(first.Health.IsDead,"dead pooled actor not revived before corpse delay");
-        f.Advance(1);Check(IntercomNpcController.Created.Count<=4&&f.Director.AliveEnemies<=3,"vacancy replenished with bounded reusable pool");
+        f.Advance(1);Check(IntercomNpcController.Created.Count==8&&f.Director.AliveEnemies<=3,"vacancy replenished with bounded reusable pool");
         int priorWave=1,maxAlive=0;
         for(int tick=0;tick<2500&&f.Director.Phase==IntercomMissionPhase.Active;tick++)
         {

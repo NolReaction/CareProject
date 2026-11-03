@@ -84,7 +84,31 @@ static class Program
         }
         CheckYard(path);
         CheckService();
+        CheckWorkBudget();
         Console.WriteLine($"NPC navigation: {checks} assertions passed. Production grid/service, 1200 independent BFS comparisons, authored V7 courtyard geometry. Narrow Unity stand-ins; not Unity physics.");
+    }
+
+    static void CheckWorkBudget()
+    {
+        var root=new UnityEngine.GameObject();
+        var wall=new UnityEngine.GameObject();root.transform.children.Add(wall.transform);
+        wall.AddComponent<UnityEngine.Collider>().bounds=new UnityEngine.Bounds(
+            new UnityEngine.Vector3(7,0,0),new UnityEngine.Vector3(8,2,16));
+        var nav=new UnityEngine.GameObject().AddComponent<IntercomNpcNavigation>();
+        nav.obstacleRoot=root.transform;nav.worldMin=new UnityEngine.Vector2(0,0);nav.worldSize=new UnityEngine.Vector2(16,16);
+        nav.maximumSearchesPerFrame=8;nav.maximumExpandedNodesPerFrame=64;nav.RebuildObstacleCache();
+        var start=new UnityEngine.Vector3(1,0,1);var goal=new UnityEngine.Vector3(14,0,1);
+        var output=new List<UnityEngine.Vector3>();UnityEngine.Time.frameCount++;
+        Check(nav.TryFindPath(start,goal,output)==IntercomNavResult.Unreachable,"one expensive sealed-area search is completed accurately");
+        int expanded=nav.ExpandedNodesThisFrame;
+        Check(expanded>=64,"expensive search consumes soft node budget");
+        output.Add(start);
+        Check(nav.TryFindPath(start,goal,output)==IntercomNavResult.Deferred&&output.Count==1,
+            "node budget defers later work without clearing the caller's existing route");
+        Check(nav.ExpandedNodesThisFrame==expanded,"deferred request performs no extra node expansions");
+        UnityEngine.Time.frameCount++;
+        Check(nav.ExpandedNodesThisFrame==0,"new frame exposes fresh work budget");
+        Check(nav.TryFindPath(start,goal,output)==IntercomNavResult.Unreachable,"deferred work can resume next frame");
     }
 
     static void CheckService()

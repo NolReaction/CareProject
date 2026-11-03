@@ -16,6 +16,9 @@ namespace IntercomMvp
         private string ammoText = "", capacityText = "";
         private int lastHealth = -1, lastMaximum = -1;
         private string healthText = "";
+        private bool progressReady, progressRescue, progressHasAlly;
+        private int progressCurrent, progressMaximum;
+        private string missionProgressText = "";
 
         public void Draw(IntercomHudLayout layout, IntercomTwinStickState sticks,
             IntercomWeaponMagazine magazine, bool showSticks, float controlsOpacity, IntercomPlayerVitality vitality = null,
@@ -82,17 +85,31 @@ namespace IntercomMvp
             string title=rescue ? (mission.IsAllyRecruited ? "ДОВЕДИ ДО ВЫХОДА" : "НАЙДИ СОЮЗНИКА") : "УДАРНИКИ";
             if(!string.IsNullOrEmpty(mission.HudHint)) title=mission.HudHint;
             Text(new Rect(r.x+10f*sx,r.y+6f*sy,r.width-20f*sx,19f*sy),title,bold,Mathf.Max(10f,12f*s),Ink,.8f);
-            string progress;
-            if(rescue)
-            {
-                IntercomHealth ally=mission.AllyHealth;
-                progress=ally == null ? "СОЮЗНИК ЖДЁТ" : "КОРПУС  " + Mathf.Max(0,Mathf.CeilToInt(ally.Current)) + " / " + Mathf.Max(1,Mathf.CeilToInt(ally.Maximum));
-            }
-            else progress=mission.Kills+" / "+mission.Goal;
+            string progress=MissionProgress(mission);
             Text(new Rect(r.x+10f*sx,r.y+25f*sy,r.width-20f*sx,30f*sy),progress,number,Mathf.Max(rescue ? 13f : 18f,(rescue ? 18f : 25f)*s),Ink);
             Rect menu=GuiRect(layout.Modes);
             Texture(menu,plate,Paper,.96f);
             Text(menu,"РЕЖИМЫ",bold,Mathf.Min(menu.width/8f,menu.height*.3f),Ink);
+        }
+
+        // OnGUI is called for layout/input/repaint. Stable scores and ally HP
+        // must not allocate a new string in every pass throughout a wave.
+        internal string MissionProgress(IntercomMissionDirector mission)
+        {
+            bool rescue=mission.Mode == IntercomMissionMode.Rescue;
+            IntercomHealth ally=rescue ? mission.AllyHealth : null;
+            bool hasAlly=ally != null;
+            int current=rescue ? (hasAlly ? Mathf.Max(0,Mathf.CeilToInt(ally.Current)) : 0) : mission.Kills;
+            int maximum=rescue ? (hasAlly ? Mathf.Max(1,Mathf.CeilToInt(ally.Maximum)) : 0) : mission.Goal;
+            if(!progressReady || progressRescue!=rescue || progressHasAlly!=hasAlly
+                || progressCurrent!=current || progressMaximum!=maximum)
+            {
+                progressReady=true; progressRescue=rescue; progressHasAlly=hasAlly;
+                progressCurrent=current; progressMaximum=maximum;
+                missionProgressText=rescue && !hasAlly ? "СОЮЗНИК ЖДЁТ"
+                    : (rescue ? "КОРПУС  " : "") + current + " / " + maximum;
+            }
+            return missionProgressText;
         }
 
         private void DrawHealth(IntercomHudLayout.Box box, IntercomPlayerVitality vitality)

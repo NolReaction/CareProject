@@ -20,11 +20,15 @@ namespace IntercomMvp
         [Min(.5f)] public float agentHeight = 1.35f;
         [Min(.05f)] public float obstacleRefreshSeconds = .2f;
         [Range(1, 8)] public int maximumSearchesPerFrame = 2;
+        // A finished search may exceed this soft budget. Later queries wait
+        // until the next frame instead of stacking several costly A* searches.
+        [Min(64)] public int maximumExpandedNodesPerFrame = 1200;
         [Min(0f)] public float maximumGoalSnap = 1f;
 
         public uint Version => revision;
         public bool IsReady => grid != null && cachedRoot != null;
         public int LastExpandedNodes => grid != null ? grid.LastExpandedNodes : 0;
+        public int ExpandedNodesThisFrame => searchFrame==Time.frameCount ? expandedNodes : 0;
         private IntercomNavGrid grid;
         private Transform cachedRoot;
         private Collider[] colliders;
@@ -33,7 +37,7 @@ namespace IntercomMvp
         private List<IntercomNavPoint> path;
         private uint revision;
         private float nextRefresh;
-        private int searchFrame = -1, searches;
+        private int searchFrame = -1, searches, expandedNodes;
 
         private void Start() => RebuildObstacleCache();
         private void Update()
@@ -68,11 +72,15 @@ namespace IntercomMvp
             if (cachedRoot != obstacleRoot || grid == null) RebuildObstacleCache();
             if (!IsReady) { output.Clear(); return IntercomNavResult.Unreachable; }
             if (Time.unscaledTime >= nextRefresh) RefreshObstacles(false);
-            if (searchFrame != Time.frameCount) { searchFrame = Time.frameCount; searches = 0; }
+            if (searchFrame != Time.frameCount) { searchFrame = Time.frameCount; searches = expandedNodes = 0; }
             if (searches >= Mathf.Clamp(maximumSearchesPerFrame, 1, 8)) return IntercomNavResult.Deferred;
+            if (searches>0 && expandedNodes>=Mathf.Clamp(maximumExpandedNodesPerFrame,64,32768))
+                return IntercomNavResult.Deferred;
             searches++;
-            if (!grid.FindPath(start.x, start.z, destination.x, destination.z,
-                Safe(maximumGoalSnap, 1f, 0f, 2f), path))
+            bool found=grid.FindPath(start.x, start.z, destination.x, destination.z,
+                Safe(maximumGoalSnap, 1f, 0f, 2f), path);
+            expandedNodes+=grid.LastExpandedNodes;
+            if (!found)
             { output.Clear(); return IntercomNavResult.Unreachable; }
             output.Clear();
             if (output.Capacity < path.Count) output.Capacity = path.Count;

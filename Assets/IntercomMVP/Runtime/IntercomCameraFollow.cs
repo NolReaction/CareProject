@@ -3,6 +3,7 @@ using UnityEngine;
 namespace IntercomMvp
 {
     /// <summary>Authored camera framing with viewport freedom, damped catch-up and optional idle recentering.</summary>
+    [DefaultExecutionOrder(300)]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Camera))]
     public sealed class IntercomCameraFollow : MonoBehaviour
@@ -39,6 +40,17 @@ namespace IntercomMvp
         [Header("Gentle anticipation")]
         [Range(0f, 1f)] public float lookAheadDistance = 0.28f;
         [Min(0.01f)] public float lookAheadSmoothTime = 0.14f;
+        [Header("Running — movement-led framing")]
+        [Tooltip("Predicts from actual ground travel; keeps the free zone and never follows the visual body's hop.")]
+        public bool adaptiveMotion = true;
+        [Min(0.01f)] public float velocityFilterSeconds = 0.09f;
+        [Tooltip("How far ahead in time to frame actual travel. Maximum distance below limits sudden changes.")]
+        [Min(0f)] public float velocityLeadSeconds = 0.16f;
+        [Min(0f)] public float maximumLeadDistance = 0.65f;
+        [Min(0.1f)] public float runningSpeed = 3.3f;
+        [Tooltip("Catch-up time at running speed; never slower than your saved smoothTime.")]
+        [Min(0.01f)] public float runningFollowSeconds = 0.12f;
+        [Min(0.01f)] public float reversalBrakeSeconds = 0.09f;
         [Header("Optional map-edge framing")]
         [Tooltip("Optional map edge limit. It takes priority over the screen safety zone. Available for downward-facing orthographic views.")]
         public bool clampToGroundBounds;
@@ -179,7 +191,11 @@ namespace IntercomMvp
                     followSeconds = smoothTime, recenterDelay = recenterDelay,
                     recenterSeconds = recenterSmoothTime, idleSpeed = idleSpeedThreshold,
                     anticipationDistance = lookAheadDistance, anticipationSeconds = lookAheadSmoothTime,
-                    teleportDistance = teleportDistance
+                    teleportDistance = teleportDistance,
+                    adaptiveMotion = adaptiveMotion, velocityFilterSeconds = velocityFilterSeconds,
+                    velocityLeadSeconds = velocityLeadSeconds, maximumLeadDistance = maximumLeadDistance,
+                    runningSpeed = runningSpeed, runningFollowSeconds = runningFollowSeconds,
+                    reversalBrakeSeconds = reversalBrakeSeconds
                 }, TrackingProjection());
             focus = ClampFocus(new Vector3((float)tracking.FocusX, targetFocus.y, (float)tracking.FocusZ));
             Vector3 anchor = ClampFocus(new Vector3((float)tracking.AnchorX, targetFocus.y, (float)tracking.AnchorZ));

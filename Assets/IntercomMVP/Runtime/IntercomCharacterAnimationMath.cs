@@ -37,6 +37,15 @@ namespace IntercomMvp
             return 1f - Smooth((distance - near) / (far - near));
         }
 
+        internal static float StrideSwing(float normalizedPhase)
+        {
+            if (!Finite(normalizedPhase)) return 0f;
+            float phase = normalizedPhase - (float)Math.Floor(normalizedPhase);
+            // Match the chassis weight-transfer phase. The hands lag by a
+            // further .05 cycle instead of reversing rigidly with the hips.
+            return (float)Math.Sin((phase - 0.11f) * 6.28318530718f);
+        }
+
         internal static float Follow(float current, float target, float seconds, float deltaTime)
         {
             if (!Finite(current)) current = 0f;

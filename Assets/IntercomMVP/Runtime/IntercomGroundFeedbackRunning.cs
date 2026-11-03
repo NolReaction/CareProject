@@ -14,6 +14,30 @@ namespace IntercomMvp
         [Range(1f, 8f)] public float runningTorsoFrequency = 2.8f;
         [Tooltip("Maximum upper-body suspension travel in world metres, not a change to leg length.")]
         [Range(0f, 0.06f)] public float maximumRunningTorsoOffset = 0.05f;
+        [Header("Expressive chassis gait")]
+        [Tooltip("Upper-shell suspension lift at gentle stick input. Feet and bearing joints are unchanged.")]
+        [Range(0f, 0.035f)] public float walkBounceHeight = 0.012f;
+        [Tooltip("A broad lift once per complete stride, not a hard shake at every rapid foot contact.")]
+        [Range(0f, 0.055f)] public float runBounceHeight = 0.034f;
+        [Range(0f, 6f)] public float strideCounterTwist = 3.6f;
+        [Range(0.01f, 0.4f)] public float gaitBlendSeconds = 0.16f;
+        private float expressiveWeight, expressiveLift, expressiveLiftVelocity;
+
+        private void UpdateExpressiveGait(float phase, bool moving, float dt)
+        {
+            // Use actual capsule travel: pushing into a wall, the selection
+            // menu and airborne poses must not keep a "running in place" bob.
+            float speed = moving ? Mathf.Clamp01(motor.ActualPlanarSpeed / Mathf.Max(0.1f, motor.moveSpeed)) : 0f;
+            float target = moving ? Mathf.Clamp01(motor.ActualPlanarSpeed / 0.35f) : 0f;
+            expressiveWeight = Mathf.MoveTowards(expressiveWeight, target, dt / Mathf.Max(0.01f, gaitBlendSeconds));
+            float amplitude = Mathf.Lerp(walkBounceHeight, runBounceHeight, speed);
+            float lift = IntercomGroundMath.GaitLift(phase) * Mathf.Clamp(amplitude, 0f, 0.055f) * expressiveWeight;
+            // Clear smoothly when movement ends, even if the Animator switches
+            // straight to Idle and its normalized phase changes abruptly.
+            if (!moving) lift = 0f;
+            IntercomGroundMath.Spring(ref expressiveLift, ref expressiveLiftVelocity, lift, 5.5f, dt);
+        }
+
         private CharacterController runningController;
         private Vector3 runningTorsoPosition, runningTorsoVelocity;
         private float runningTorsoWeight;
@@ -59,6 +83,7 @@ namespace IntercomMvp
             runningTorsoReady = false;
             runningTorsoPosition = runningTorsoVelocity = Vector3.zero;
             runningTorsoWeight = 0f;
+            expressiveWeight = expressiveLift = expressiveLiftVelocity = 0f;
         }
 
         public bool CanAdjustRunningStride => ProvidesFootContacts && plantFeet && body != null

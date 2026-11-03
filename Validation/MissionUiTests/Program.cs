@@ -27,8 +27,29 @@ static class Program
 
     static void Main()
     {
-        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();DrawPreviews();
+        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();DrawPreviews();
         Console.WriteLine($"PASS {checks} mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.");
+    }
+    static void MissionProgressCache()
+    {
+        var hud=new IntercomWorkshopHud();
+        var mission=new IntercomMissionDirector{Mode=IntercomMissionMode.Elimination,Kills=7,Goal=50};
+        string first=hud.MissionProgress(mission);
+        Check(first=="7 / 50","kill objective text");
+        bool reused=true;
+        long before=GC.GetAllocatedBytesForCurrentThread();
+        for(int i=0;i<10000;i++) reused &= ReferenceEquals(first,hud.MissionProgress(mission));
+        long allocated=GC.GetAllocatedBytesForCurrentThread()-before;
+        Check(reused && allocated==0,"stable objective generated strings during repeated HUD passes");
+        mission.Kills=8;Check(hud.MissionProgress(mission)=="8 / 50","kill updates immediately");
+        mission.Mode=IntercomMissionMode.Rescue;
+        Check(hud.MissionProgress(mission)=="СОЮЗНИК ЖДЁТ","mode change invalidates cached kills");
+        mission.AllyHealth=new IntercomHealth{Current=42,Maximum=60};
+        Check(hud.MissionProgress(mission)=="КОРПУС  42 / 60","ally appearance updates objective");
+        mission.AllyHealth.Current=30;Check(hud.MissionProgress(mission)=="КОРПУС  30 / 60","ally damage updates objective");
+        mission.AllyHealth=null;Check(hud.MissionProgress(mission)=="СОЮЗНИК ЖДЁТ","ally disappearance invalidates objective");
+        mission.Mode=IntercomMissionMode.Elimination;mission.Kills=0;
+        Check(hud.MissionProgress(mission)=="0 / 50","retry clears displayed count");
     }
     static void Layouts()
     {

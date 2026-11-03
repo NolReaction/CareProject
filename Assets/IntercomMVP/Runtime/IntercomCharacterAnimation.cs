@@ -36,6 +36,12 @@ namespace IntercomMvp
         [Min(0.01f)] public float wallBlendIn = 0.16f;
         [Min(0.01f)] public float wallBlendOut = 0.10f;
 
+        [Header("Relaxed locomotion — shoulders carry the stride")]
+        [Range(0f, 25f)] public float runningArmLift = 16f;
+        [Range(0f, 20f)] public float runningArmSwing = 11f;
+        [Range(0f, 8f)] public float runningWristFollow = 3.5f;
+        [Min(0.01f)] public float runningArmBlendSeconds = 0.14f;
+
         [Header("Quiet idle gesture")]
         [Range(0f, 8f)] public float idleInspectionDegrees = 3f;
 
@@ -50,7 +56,7 @@ namespace IntercomMvp
         private readonly RaycastHit[] hits = new RaycastHit[24];
         private int savedCount;
         private int updatedFrame = -1;
-        private float wallWeight, idleSeconds, aimWeight;
+        private float wallWeight, idleSeconds, aimWeight, locomotionWeight;
         private bool focused = true, paused;
         private uint observedReset;
         private Animator boundAnimator;
@@ -129,13 +135,26 @@ namespace IntercomMvp
                 aimAlignmentSeconds, Time.deltaTime);
             if (weaponPose != null && weaponPose.Posture == IntercomWeaponPosture.Combat) aimWeight = 1f;
             float alignment = aimWeight * (1f - reload) * (1f - wallWeight);
-            if (reload <= 0f && wallWeight <= 0f && inspect <= 0f && alignment <= 0f) return;
+            bool runningRelaxed = relaxed && !reloading && !firing && motor.IsGrounded
+                && motor.ActualPlanarSpeed > 0.08f;
+            float pace = Mathf.Clamp01(motor.ActualPlanarSpeed / Mathf.Max(0.1f, motor.moveSpeed));
+            float runTarget = runningRelaxed ? Mathf.Lerp(0.35f, 1f, pace) : 0f;
+            locomotionWeight = IntercomCharacterAnimationMath.Follow(locomotionWeight, runTarget,
+                runningArmBlendSeconds, Time.deltaTime);
+            // Fade the raised running carry during the .33 s weapon raise or
+            // the opening of a reload. The first Combat frame is authoritative:
+            // a fading running overlay must never move a live firing barrel.
+            bool raisingPose = weaponPose != null && weaponPose.Posture == IntercomWeaponPosture.Raising;
+            float locomotion = ((relaxed && !firing) || raisingPose || reloading)
+                ? locomotionWeight * (1f - wallWeight) * (1f - aimWeight) * (1f - reload) : 0f;
+            float stride = IntercomCharacterAnimationMath.StrideSwing(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            if (reload <= 0f && wallWeight <= 0f && inspect <= 0f && alignment <= 0f && locomotion <= 0f) return;
 
             Save(leftUpperArm); Save(rightUpperArm); Save(leftHand); Save(rightHand);
             Vector3 centre = leftUpperArm != null && rightUpperArm != null
                 ? (leftUpperArm.position + rightUpperArm.position) * 0.5f : transform.position;
-            ApplyArm(leftUpperArm, leftHand, centre, forward, right, reload, latch, inspect);
-            ApplyArm(rightUpperArm, rightHand, centre, forward, right, reload, latch, inspect);
+            ApplyArm(leftUpperArm, leftHand, centre, forward, right, reload, latch, inspect, locomotion, stride);
+            ApplyArm(rightUpperArm, rightHand, centre, forward, right, reload, latch, inspect, locomotion, stride);
             AlignMuzzles(forward, alignment);
             for (int i = 0; i < savedCount; i++)
             {
@@ -160,16 +179,21 @@ namespace IntercomMvp
         }
 
         private void ApplyArm(Transform arm, Transform hand, Vector3 centre, Vector3 forward,
-            Vector3 right, float reload, float latch, float inspect)
+            Vector3 right, float reload, float latch, float inspect, float locomotion, float stride)
         {
             if (arm == null) return;
             float side = Vector3.Dot(arm.position - centre, right) >= 0f ? 1f : -1f;
-            float pitch = -reloadArmLift * reload + wallArmDrawback * wallWeight;
+            // A lifted relaxed carry and opposite shoulder swing make the
+            // short-legged run readable from the gameplay camera. Rotation at
+            // the shoulder preserves every segment length in the spring arms.
+            float runningPitch = -runningArmLift + side * stride * runningArmSwing;
+            float pitch = -reloadArmLift * reload + wallArmDrawback * wallWeight + runningPitch * locomotion;
             float inward = side * (reloadArmSpread * reload - wallArmInward * wallWeight);
             arm.rotation = Quaternion.AngleAxis(inward, Vector3.up)
                 * Quaternion.AngleAxis(pitch, right) * arm.rotation;
             if (hand == null) return;
-            float handPitch = -reloadWristLift * reload + 5f * latch + idleInspectionDegrees * inspect;
+            float handPitch = -reloadWristLift * reload + 5f * latch + idleInspectionDegrees * inspect
+                - side * stride * runningWristFollow * locomotion;
             float handRoll = side * (reloadWristRoll * reload - 6f * latch + idleInspectionDegrees * 0.5f * inspect);
             hand.rotation = Quaternion.AngleAxis(handRoll, forward)
                 * Quaternion.AngleAxis(handPitch, right) * hand.rotation;
@@ -222,7 +246,7 @@ namespace IntercomMvp
                 && Mathf.Abs(a.w - b.w * sign) <= 0.000001f;
         }
 
-        private void ClearState() { wallWeight = idleSeconds = aimWeight = 0f; updatedFrame = -1; }
+        private void ClearState() { wallWeight = idleSeconds = aimWeight = locomotionWeight = 0f; updatedFrame = -1; }
         private void OnDisable() { RestoreOwnedPose(); ClearState(); }
         private void OnApplicationFocus(bool value)
         { focused = value; if (!value) { RestoreOwnedPose(); ClearState(); } }

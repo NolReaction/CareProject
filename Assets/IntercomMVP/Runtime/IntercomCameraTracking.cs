@@ -19,6 +19,9 @@ namespace IntercomMvp
             public double zoneWidth, zoneHeight, safetyWidth, safetyHeight;
             public double followSeconds, recenterDelay, recenterSeconds, idleSpeed;
             public double anticipationDistance, anticipationSeconds, teleportDistance;
+            public bool adaptiveMotion;
+            public double velocityFilterSeconds, velocityLeadSeconds, maximumLeadDistance;
+            public double runningSpeed, runningFollowSeconds, reversalBrakeSeconds;
         }
 
         public double FocusX { get; private set; }
@@ -29,6 +32,7 @@ namespace IntercomMvp
         public bool Recentering { get; private set; }
         private double velocityX, velocityZ, lookX, lookZ, lookVelocityX, lookVelocityZ;
         private double lastX, lastZ;
+        private double measuredVelocityX, measuredVelocityZ, lookTargetX, lookTargetZ;
         private bool initialized;
 
         public void Reset(double x, double z)
@@ -36,6 +40,7 @@ namespace IntercomMvp
             FocusX = AnchorX = lastX = Finite(x, 0);
             FocusZ = AnchorZ = lastZ = Finite(z, 0);
             velocityX = velocityZ = lookX = lookZ = lookVelocityX = lookVelocityZ = 0;
+            measuredVelocityX = measuredVelocityZ = lookTargetX = lookTargetZ = 0;
             IdleSeconds = 0;
             Recentering = false;
             initialized = true;
@@ -51,6 +56,12 @@ namespace IntercomMvp
             if (travelled > Math.Max(.1, Finite(settings.teleportDistance, 8))) { Reset(x, z); return; }
             lastX = x; lastZ = z;
             bool moving = travelled / dt > Math.Max(0, Finite(settings.idleSpeed, .04));
+            // Measure the collision-resolved anchor, never the stick or the visual
+            // skeleton. A held stick against a wall cannot keep pulling the view.
+            double sampleX = moving ? dx / dt : 0, sampleZ = moving ? dz / dt : 0;
+            double blend = 1 - Math.Exp(-dt / Math.Max(.01, Finite(settings.velocityFilterSeconds, .09)));
+            measuredVelocityX += (sampleX - measuredVelocityX) * blend;
+            measuredVelocityZ += (sampleZ - measuredVelocityZ) * blend;
             IdleSeconds = moving ? 0 : IdleSeconds + dt;
             bool recenter = settings.freeMovement && settings.recenterWhenIdle && !moving
                 && IdleSeconds >= Math.Max(0, Finite(settings.recenterDelay, .85));
@@ -69,12 +80,68 @@ namespace IntercomMvp
             else if (directionLength > 1) { directionX /= directionLength; directionZ /= directionLength; }
             double lead = moving && (!settings.freeMovement || following)
                 ? Math.Max(0, Finite(settings.anticipationDistance, 0)) : 0;
-            Damp(ref lookX, ref lookVelocityX, directionX * lead, settings.anticipationSeconds, dt);
-            Damp(ref lookZ, ref lookVelocityZ, directionZ * lead, settings.anticipationSeconds, dt);
+            if (settings.adaptiveMotion)
+            {
+                if (recenter || (!settings.freeMovement && !moving)) lookTargetX = lookTargetZ = 0;
+                else if (moving && (!settings.freeMovement || following))
+                {
+                    double speed = Math.Sqrt(measuredVelocityX * measuredVelocityX + measuredVelocityZ * measuredVelocityZ);
+                    // The existing fixed lead remains a useful minimum at full
+                    // speed, but very small movements must not make the camera lurch.
+                    double runSpeed = Math.Max(.1, Finite(settings.runningSpeed, 3.3));
+                    double distance = Math.Max(Math.Max(0, Finite(settings.anticipationDistance, 0)) * Clamp(speed / runSpeed, 0, 1),
+                        speed * Math.Max(0, Finite(settings.velocityLeadSeconds, .16)));
+                    distance = Math.Min(distance, Math.Max(0, Finite(settings.maximumLeadDistance, .65)));
+                    lookTargetX = speed > .0001 ? measuredVelocityX / speed * distance : 0;
+                    lookTargetZ = speed > .0001 ? measuredVelocityZ / speed * distance : 0;
+                }
+                // Inside the free zone retain the last framing goal. Cancelling
+                // anticipation immediately on stop used to make the camera recoil.
+                // Idle recentering, when enabled, removes it gently after its delay.
+            }
+            else { lookTargetX = directionX * lead; lookTargetZ = directionZ * lead; }
+            Damp(ref lookX, ref lookVelocityX, lookTargetX, settings.anticipationSeconds, dt);
+            Damp(ref lookZ, ref lookVelocityZ, lookTargetZ, settings.anticipationSeconds, dt);
             double fx = FocusX, fz = FocusZ;
             double seconds = recenter ? settings.recenterSeconds : settings.followSeconds;
+            bool coastAgainstStaleGoal = false;
+            double travelX = 0, travelZ = 0, coastPosition = 0, coastVelocity = 0;
+            if (settings.adaptiveMotion && !recenter)
+            {
+                double speed = Math.Sqrt(measuredVelocityX * measuredVelocityX + measuredVelocityZ * measuredVelocityZ);
+                double amount = Clamp(speed / Math.Max(.1, Finite(settings.runningSpeed, 3.3)), 0, 1);
+                double slow = Math.Max(.01, Finite(settings.followSeconds, .18));
+                double fast = Math.Min(slow, Math.Max(.01, Finite(settings.runningFollowSeconds, .12)));
+                seconds = slow + (fast - slow) * amount;
+                // Brake the existing camera travel quickly when the hero reverses;
+                // the screen-space dead zone still determines when chasing resumes.
+                if (moving && velocityX * sampleX + velocityZ * sampleZ < 0)
+                    seconds = Math.Min(seconds, Math.Max(.01, Finite(settings.reversalBrakeSeconds, .09)));
+                if (moving && (ax + lookX - fx) * sampleX + (az + lookZ - fz) * sampleZ < 0)
+                {
+                    // During a reversal the free-zone anchor can still be on the
+                    // old side. A faster spring toward that stale goal would speed
+                    // the camera UP in the wrong direction. Coast to rest along the
+                    // travel axis instead; lateral catch-up may continue normally.
+                    double sampleSpeed = Math.Sqrt(sampleX * sampleX + sampleZ * sampleZ);
+                    travelX = sampleX / sampleSpeed; travelZ = sampleZ / sampleSpeed;
+                    double brakingSeconds = Math.Max(.01, Finite(settings.reversalBrakeSeconds, .09));
+                    double decay = Math.Exp(-dt / brakingSeconds);
+                    double previousVelocity = velocityX * travelX + velocityZ * travelZ;
+                    coastPosition = fx * travelX + fz * travelZ + previousVelocity * brakingSeconds * (1 - decay);
+                    coastVelocity = previousVelocity * decay;
+                    coastAgainstStaleGoal = true;
+                }
+            }
             Damp(ref fx, ref velocityX, ax + lookX, seconds, dt);
             Damp(ref fz, ref velocityZ, az + lookZ, seconds, dt);
+            if (coastAgainstStaleGoal)
+            {
+                double correction = coastPosition - (fx * travelX + fz * travelZ);
+                fx += travelX * correction; fz += travelZ * correction;
+                correction = coastVelocity - (velocityX * travelX + velocityZ * travelZ);
+                velocityX += travelX * correction; velocityZ += travelZ * correction;
+            }
             if (settings.freeMovement)
             {
                 double unclampedX = fx, unclampedZ = fz;

@@ -45,12 +45,13 @@ def cube(name,pos,scale,material,yaw=0):
  bpy.ops.mesh.primitive_cube_add(size=1,location=convert(pos));o=bpy.context.object;o.name=name;o.scale=(scale[0],scale[2],scale[1]);o.rotation_euler[2]=-math.radians(yaw);o.data.materials.append(materials[material]);return o
 for group in data['layout']['groups']:
  for block in group['blocks']:
-  if not block.get('visual',True):continue
+  if not block.get('visual',True) or not block.get('active',True):continue
   pos=[a+b for a,b in zip(group['position'],block['position'])]
   if block.get('mesh'):create(block['name'],meshes[block['mesh']],pos,block['size'],block['yaw'])
   else:cube(block['name'],pos,block['size'],block['material'],block['yaw'])
 for target in data['layout']['targets']:
- create(target['name'],meshes[target['mesh']],target['position'])
+ target_object=create(target['name'],meshes[target['mesh']],target['position'])
+ target_object.material_slots[0].link='OBJECT';target_object.material_slots[0].material=materials[target['material']]
  create(target['name']+' stand',meshes['TrainingStand'],target['position'])
 cube('Asphalt ground',(0,-.025,0),(36,.05,32),'Asphalt')
 cube('Context ground',(0,-.11,0),(40,.12,36),'Backdrop')

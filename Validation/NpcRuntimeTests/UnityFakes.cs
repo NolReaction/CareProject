@@ -124,8 +124,9 @@ namespace UnityEngine
     public static class Physics
     {
         public static Func<Vector3,Vector3,float,Collider[]> Hits;
+        public static int RayCalls;
         public static int RaycastNonAlloc(Vector3 origin,Vector3 direction,RaycastHit[] buffer,float length,int mask,QueryTriggerInteraction triggers)
-        {var hits=Hits?.Invoke(origin,direction,length)??Array.Empty<Collider>();int count=Math.Min(hits.Length,buffer.Length);for(int i=0;i<count;i++)buffer[i]=new RaycastHit{collider=hits[i]};return count;}
+        {RayCalls++;var hits=Hits?.Invoke(origin,direction,length)??Array.Empty<Collider>();int count=Math.Min(hits.Length,buffer.Length);for(int i=0;i<count;i++)buffer[i]=new RaycastHit{collider=hits[i]};return count;}
     }
     public class Material:Object {public static int Created;public Material(){Created++;}}
     public struct Color
@@ -139,10 +140,11 @@ namespace UnityEngine
     }
     public class Renderer:Component
     {
+        public int PropertyReads, PropertyWrites;
         public Material sharedMaterial;public Rendering.ShadowCastingMode shadowCastingMode;public bool receiveShadows;
         private readonly Dictionary<int,Color> colors=new Dictionary<int,Color>();
-        public void GetPropertyBlock(MaterialPropertyBlock p){p.Colors.Clear();foreach(var x in colors)p.Colors[x.Key]=x.Value;}
-        public void SetPropertyBlock(MaterialPropertyBlock p){colors.Clear();foreach(var x in p.Colors)colors[x.Key]=x.Value;}
+        public void GetPropertyBlock(MaterialPropertyBlock p){PropertyReads++;p.Colors.Clear();foreach(var x in colors)p.Colors[x.Key]=x.Value;}
+        public void SetPropertyBlock(MaterialPropertyBlock p){PropertyWrites++;colors.Clear();foreach(var x in p.Colors)colors[x.Key]=x.Value;}
     }
     public class MeshRenderer:Renderer{}
     public class MeshFilter:Component {public Mesh sharedMesh;}

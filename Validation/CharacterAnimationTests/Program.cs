@@ -136,6 +136,32 @@ static class Program
             float residual=Vector3.Angle(Vector3.ProjectOnPlane(leftMuzzle.forward,Vector3.up),common);
             Check(residual>8.9f&&residual<9.1f,"custom excessive toe-in is bounded by correction limit");
         }
+        foreach(int fps in new[]{30,60,120})
+        {
+            var rig=new Rig();rig.pose.Posture=IntercomWeaponPosture.Relaxed;rig.motor.ActualPlanarSpeed=3.3f;
+            float minLeft=99,maxLeft=-99,minRight=99,maxRight=-99;
+            for(int i=0;i<fps*2;i++)
+            {
+                float phase=i/(float)fps*3.75f;rig.animator.state=new AnimatorStateInfo{normalizedTime=phase};
+                rig.Step(1f/fps);rig.Invariants();
+                float leftAngle=Vector3.SignedAngle(Vector3.forward,rig.left.forward,new Vector3(1,0,0));
+                float rightAngle=Vector3.SignedAngle(Vector3.forward,rig.right.forward,new Vector3(1,0,0));
+                if(i>fps){minLeft=Math.Min(minLeft,leftAngle);maxLeft=Math.Max(maxLeft,leftAngle);minRight=Math.Min(minRight,rightAngle);maxRight=Math.Max(maxRight,rightAngle);Near(leftAngle+rightAngle,-32,.02f,"raised shoulders counter-swing symmetrically around16-degree carry");}
+            }
+            Check(maxLeft-minLeft>20&&maxRight-minRight>20,"running shoulder arc is visibly larger than a tiny wrist twitch");
+            Check(maxLeft<0&&maxRight<0,"even backwards arm swing stays lifted relative to authored lowered pose");
+            rig.input.FireHeld=true;rig.pose.Posture=IntercomWeaponPosture.Raising;rig.Step(1f/fps);
+            Check(!Same(rig.left.localRotation,Quaternion.identity),"weapon raise fades the running carry instead of snapping arms down on its first frame");
+            for(int i=0;i<fps/4+1;i++)rig.Step(1f/fps);
+            Check(Same(rig.left.localRotation,Quaternion.identity)&&Same(rig.right.localRotation,Quaternion.identity),"running carry clears before the .33-second raise can fire");
+            rig.pose.Posture=IntercomWeaponPosture.Combat;rig.Step();
+            Check(Same(rig.left.localRotation,Quaternion.identity)&&Same(rig.right.localRotation,Quaternion.identity),"first shot owns exact source arms with no running residual");
+            rig.input.FireHeld=false;rig.pose.Posture=IntercomWeaponPosture.Relaxed;rig.motor.ActualPlanarSpeed=0;
+            for(int i=0;i<fps;i++)rig.Step(1f/fps);
+            Check(Same(rig.left.localRotation,Quaternion.identity)&&Same(rig.rightHand.localRotation,Quaternion.identity),"stop fully returns shoulders and wrist to authored idle");
+            rig.motor.ActualPlanarSpeed=3.3f;for(int i=0;i<fps;i++)rig.Step(1f/fps);Call(rig.animation,"OnDisable");
+            Check(Same(rig.left.localRotation,Quaternion.identity)&&Same(rig.right.localRotation,Quaternion.identity),"disable restores added running shoulders");
+        }
         Console.WriteLine("Character gestures: "+checks+" assertions passed; production component/math, narrow Unity stand-ins. No Unity playback/render claim.");
     }
 }

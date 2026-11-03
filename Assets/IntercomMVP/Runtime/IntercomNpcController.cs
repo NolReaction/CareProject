@@ -34,7 +34,9 @@ namespace IntercomMvp
         private float verticalVelocity, repathRemaining, hitRemaining, strikeRemaining, deathSeconds, stuckSeconds, recoveryRemaining, investigateRemaining;
         private bool initialized, hasFocus = true, paused, suspended;
         private MaterialPropertyBlock bodyProperties;
-        private Color baseColor;
+        private Color baseColor, presentedColor;
+        private bool colorApplied;
+        private Renderer presentedRenderer;
         private Mesh ownedTelegraphMesh;
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -173,7 +175,14 @@ namespace IntercomMvp
             if (health.IsDead)
             {
                 brain.Kill(); controller.enabled = false;
-                deathSeconds += dt; ApplyPresentation(dt); return;
+                // The collapse ends at .45 s; parked corpses need no repeated
+                // transform/property-block writes while awaiting pool reuse.
+                if(deathSeconds<.45f)
+                {
+                    deathSeconds=Mathf.Min(.45f,deathSeconds+dt);
+                    ApplyPresentation(dt);
+                }
+                return;
             }
             if (!controller.enabled) { Suspend(); return; }
 
@@ -399,8 +408,11 @@ namespace IntercomMvp
             hitRemaining=.18f;
             // Damage triggers an alert using remembered information. It does
             // not reveal an unseen victim's current coordinates.
+            // Health has already applied the damage before this callback. A
+            // lethal hit cannot start pursuit and needs no extra physics ray.
+            if(health==null || health.IsDead) return;
             if(TargetAlive && ClearSight(targetHealth.transform.position)) lastSeen=targetHealth.transform.position;
-            if(health!=null && !health.IsDead) brain.Alert();
+            brain.Alert();
         }
         private void OnDied()
         {
@@ -434,8 +446,14 @@ namespace IntercomMvp
                 Color tint=health.IsDead ? Color.Lerp(baseColor,new Color(.24f,.27f,.26f,1f),.75f) : baseColor;
                 if(brain.Phase==IntercomNpcPhase.Windup) tint=Color.Lerp(tint,new Color(.95f,.75f,.32f,1f),.5f+.3f*brain.WindupProgress);
                 if(hitRemaining>0f) tint=Color.Lerp(tint,new Color(1f,.92f,.7f,1f),hitRemaining/.18f);
-                bodyRenderer.GetPropertyBlock(bodyProperties); bodyProperties.SetColor(BaseColorId,tint); bodyProperties.SetColor(ColorId,tint);
-                bodyRenderer.SetPropertyBlock(bodyProperties);
+                if(!colorApplied || presentedRenderer!=bodyRenderer || tint.r!=presentedColor.r || tint.g!=presentedColor.g
+                    || tint.b!=presentedColor.b || tint.a!=presentedColor.a)
+                {
+                    bodyRenderer.GetPropertyBlock(bodyProperties);
+                    bodyProperties.SetColor(BaseColorId,tint); bodyProperties.SetColor(ColorId,tint);
+                    bodyRenderer.SetPropertyBlock(bodyProperties);
+                    presentedColor=tint; presentedRenderer=bodyRenderer; colorApplied=true;
+                }
             }
             if(telegraph!=null)
             {

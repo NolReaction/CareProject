@@ -61,6 +61,7 @@ namespace IntercomMvp.Editor
                 Undo.RecordObject(input, "Connect player vitality");
                 input.vitality = vitality; EditorUtility.SetDirty(input);
             }
+            IntercomPlayerHurtSetup.Setup(robot);
 
             GameObject arena = scene.GetRootGameObjects().FirstOrDefault(item => item.name == ArenaName);
             if (arena == null)

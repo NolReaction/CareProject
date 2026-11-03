@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 8700000002}
   - component: {fileID: 8800000001}
   - component: {fileID: 8800000002}
+  - component: {fileID: 8800000013}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -21377,3 +21378,26 @@ MonoBehaviour:
   extractionPoint: {fileID: 8900000022}
   eliminationDefinition: {fileID: 11400000, guid: 2524121e461b57e39ef7c1c0f823aa04, type: 2}
   rescueDefinition: {fileID: 11400000, guid: 4ae86bc1b1df5b3690b5358015c52c6b, type: 2}
+--- !u!114 &8800000013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413439358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81219f11f454459bbc8e7479721dd647, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomPlayerHurtFeedback
+  health: {fileID: 8800000001}
+  vitality: {fileID: 8800000002}
+  motor: {fileID: 413439364}
+  pitchDegrees: 5.5
+  rollDegrees: 4
+  fullStrengthDamage: 20
+  hurtClips:
+  - {fileID: 8300000, guid: e4929266ce834c15a23b571a2710e267, type: 3}
+  - {fileID: 8300000, guid: 7217afed6f4a4510afc595281ddc6eec, type: 3}
+  volume: 0.38
+  soundCooldown: 0.16

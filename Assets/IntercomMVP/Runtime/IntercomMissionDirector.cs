@@ -29,6 +29,16 @@ namespace IntercomMvp
         public int AliveEnemies => state.Alive;
         public int SpawnedEnemies => state.Spawned;
         public int Wave => wave;
+        /// <summary>Constructed reusable actors, including inactive slots. Never exceeds eight.</summary>
+        public int PreparedEnemyCount
+        {
+            get
+            {
+                int count=0;
+                for(int i=0;i<pool.Length;i++) if(pool[i]!=null && pool[i].actor!=null) count++;
+                return count;
+            }
+        }
         public bool IsAllyRecruited => ally != null && ally.Recruited;
         public bool RescueRecruited => IsAllyRecruited;
         public IntercomHealth AllyHealth => ally != null ? ally.Health : null;
@@ -53,7 +63,17 @@ namespace IntercomMvp
                 if(Phase == IntercomMissionPhase.Victory) return Mode == IntercomMissionMode.Elimination ? "Двор очищен" : "Союзник спасён";
                 if(Phase == IntercomMissionPhase.Defeat) return ResultText;
                 if(Mode == IntercomMissionMode.Elimination)
-                    return spawnBlockedTime > 5f ? "Отойдите от точек появления подкрепления" : "Уничтожьте роботов: " + Kills + " / " + Goal;
+                {
+                    if(spawnBlockedTime > 5f) return "Отойдите от точек появления подкрепления";
+                    // IMGUI may ask multiple times per rendered frame. Rebuild
+                    // the score label only when its displayed values change.
+                    if(objectiveKills != Kills || objectiveGoal != Goal)
+                    {
+                        objectiveKills = Kills; objectiveGoal = Goal;
+                        eliminationObjective = "Уничтожьте роботов: " + Kills + " / " + Goal;
+                    }
+                    return eliminationObjective;
+                }
                 if(ally == null || !ally.Recruited) return "Найдите зелёную капсулу и подойдите к ней";
                 if(ally.WaitingForPlayer) return "Вернитесь к союзнику — он ждёт вас";
                 return "Доведите союзника до зелёной площадки у входа";
@@ -83,6 +103,11 @@ namespace IntercomMvp
         private bool focused = true, paused, transitioning;
         private Camera displayCamera;
         private GUIStyle guidanceStyle;
+        private int objectiveKills = -1, objectiveGoal = -1;
+        private string eliminationObjective = "";
+        private string guidanceLabel = "";
+        private int guidanceMeters = -1;
+        private bool guidanceWasExit;
         private IntercomPlayerInput connectedInput;
         private IntercomPlayerVitality controlOwner;
         private bool connectionWarningShown;
@@ -227,6 +252,12 @@ namespace IntercomMvp
                     return;
                 }
             }
+            // Spread primitive construction/Awake/mesh allocation over menu
+            // frames (or the initial grace period after an immediate selection).
+            // Enemy arrival and death frames must only reuse prepared actors.
+            if(!transitioning && focused && !paused && Time.timeScale>0f
+                && (Phase==IntercomMissionPhase.Selection || (Phase==IntercomMissionPhase.Active && state.Spawned==0)))
+                PrepareOneEnemy();
             if(Phase!=IntercomMissionPhase.Active || transitioning) return;
             if(playerMotor!=null && playerMotor.RespawnVersion!=observedRespawn)
             {
@@ -277,8 +308,11 @@ namespace IntercomMvp
         }
         private bool TrySpawnOne()
         {
+            // A quick click can beat menu prewarming. Hold only the spawn
+            // deadline until all eight slots are ready; hero controls stay live.
+            if(state.Spawned==0 && PreparedEnemyCount<pool.Length) return false;
             int free=-1;
-            for(int i=0;i<pool.Length;i++) if(!pool[i].living && (pool[i].actor==null || Time.time>=pool[i].reuseAfter)) { free=i; break; }
+            for(int i=0;i<pool.Length;i++) if(!pool[i].living && pool[i].actor!=null && Time.time>=pool[i].reuseAfter) { free=i; break; }
             if(free<0) return false;
             float minimum=Safe(profile.minimumSpawnDistance,5f,2.5f,12f);
             for(int checkedPoints=0;checkedPoints<spawnPoints.Length;checkedPoints++)
@@ -299,16 +333,31 @@ namespace IntercomMvp
             }
             return false;
         }
+        private void PrepareOneEnemy()
+        {
+            if(navigation==null || !navigation.isActiveAndEnabled || !navigation.IsReady
+                || playerHealth==null || playerMotor==null || enemyDefinition==null
+                || enemyDefinition.bodyMaterial==null || enemyDefinition.detailMaterial==null
+                || enemyDefinition.telegraphMaterial==null) return;
+            for(int i=0;i<pool.Length;i++)
+            {
+                Slot slot=pool[i];
+                if(slot.actor!=null) continue;
+                slot.actor=IntercomNpcController.Create(enemyDefinition,navigation,playerHealth,playerMotor,
+                    playerHealth.transform.position,i);
+                // The factory activates synchronously to initialize Awake and
+                // subscriptions. No rendering/AI frame occurs before parking.
+                slot.actor.gameObject.SetActive(false);
+                slot.actor.transform.SetParent(transform,true);
+                int captured=i; slot.deathHandler=()=>OnEnemyDied(captured);
+                slot.actor.Health.Died+=slot.deathHandler;
+                return; // At most one allocation-heavy actor in a frame.
+            }
+        }
         private void ActivateSlot(int index,Vector3 position)
         {
             Slot slot=pool[index];
-            if(slot.actor==null)
-            {
-                slot.actor=IntercomNpcController.Create(enemyDefinition,navigation,playerHealth,playerMotor,position,index);
-                slot.actor.transform.SetParent(transform,true);
-                int captured=index; slot.deathHandler=()=>OnEnemyDied(captured);
-                slot.actor.Health.Died+=slot.deathHandler;
-            }
+            if(slot.actor==null) return;
             slot.actor.gameObject.SetActive(false);
             slot.actor.PrepareForSpawn(position); slot.actor.SetTarget(playerHealth);
             unchecked { slot.life++; if(slot.life==0) slot.life++; }
@@ -439,11 +488,16 @@ namespace IntercomMvp
             guidanceStyle.fontSize=Mathf.RoundToInt(13f*scale);
             guidanceStyle.normal.textColor=new Color(.10f,.24f,.23f,1f);
             float distance=Flat(destination-playerHealth.transform.position).magnitude;
-            string label=(ally.Recruited ? "ВЫХОД" : "СОЮЗНИК")+" · "+Mathf.CeilToInt(distance)+" м";
+            int meters=Mathf.CeilToInt(distance);
+            if(meters!=guidanceMeters || guidanceWasExit!=ally.Recruited)
+            {
+                guidanceMeters=meters; guidanceWasExit=ally.Recruited;
+                guidanceLabel=(ally.Recruited ? "ВЫХОД" : "СОЮЗНИК")+" · "+meters+" м";
+            }
             Color prior=GUI.color; int depth=GUI.depth; GUI.depth=-34;
             GUI.color=new Color(.10f,.21f,.21f,.9f); GUI.DrawTexture(new Rect(x-2f,y-2f,width+4f,height+4f),Texture2D.whiteTexture);
             GUI.color=new Color(.72f,.85f,.71f,.94f); GUI.DrawTexture(new Rect(x,y,width,height),Texture2D.whiteTexture);
-            GUI.color=Color.white; GUI.Label(new Rect(x,y,width,height),label,guidanceStyle);
+            GUI.color=Color.white; GUI.Label(new Rect(x,y,width,height),guidanceLabel,guidanceStyle);
             GUI.color=prior; GUI.depth=depth;
         }
         private void OnDisable()

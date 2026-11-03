@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="UnityFakes.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPropState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomReactiveProp.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/IIntercomDamageable.cs" />
+  </ItemGroup>
+</Project>

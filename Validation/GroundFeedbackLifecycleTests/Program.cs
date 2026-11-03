@@ -125,6 +125,53 @@ class Program {
   Call(r.feedback,"OnApplicationFocus",true);Call(r.feedback,"StabilizeRunningTorso",1f/60,false,true);Call(r.feedback,"OnApplicationPause",true);Check(!Field<bool>(r.feedback,"runningTorsoReady"),"pause clears suspension");
   Call(r.feedback,"OnApplicationPause",false);Call(r.feedback,"StabilizeRunningTorso",1f/60,false,true);Call(r.feedback,"OnDisable");Check(!Field<bool>(r.feedback,"runningTorsoReady"),"disable clears suspension");
  }
+ static void CheckHurtTorsoOwnership(){
+  var r=new Rig();Call(r.motor,"Awake");r.motor.enabled=true;
+  var hit=r.feedback.gameObject.AddComponent<IntercomPlayerHurtFeedback>();hit.HurtPitch=4;hit.HurtRoll=-3;Call(r.feedback,"OnEnable");
+  var pose=r.Snapshot();Call(r.feedback,"SavePose");Call(r.feedback,"ApplyTorso",0f,false,1f/60,true);
+  Check(Math.Abs(Quaternion.Dot(r.bones[1].localRotation,pose[1].Item2))<.9999f,"damage pitch and roll visibly reach the single torso owner");
+  for(int i=2;i<=7;i++){Check(r.bones[i].localPosition.Equals(pose[i].Item1),"hurt never moves leg local position");Check(r.bones[i].localRotation.Equals(pose[i].Item2),"hurt never rotates calf/foot/toe");}
+  Call(r.feedback,"Update");r.Restored(pose);
+  hit.enabled=false;Call(r.feedback,"SavePose");Call(r.feedback,"ApplyTorso",0f,false,1f/60,true);
+  Check(Math.Abs(Quaternion.Dot(r.bones[1].localRotation,pose[1].Item2))>.999999f,"disabled hurt source leaves no impulse in torso");
+  Call(r.feedback,"OnDisable");r.Restored(pose);
+ }
+ static void CheckExpressiveGait(){
+  float walkHeight=0,runHeight=0;
+  foreach(int fps in new[]{30,60,120})foreach(float speed in new[]{.7f,3.3f}){
+   var r=new Rig();Call(r.motor,"Awake");r.motor.enabled=true;
+   typeof(IntercomPlayerMotor).GetField("<ActualPlanarSpeed>k__BackingField",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(r.motor,speed);
+   var pose=r.Snapshot();float minimum=1,maximum=-1,largestStep=0,last=0;
+   float rate=speed/1.32f*1.5f;
+   for(int i=0;i<fps*4;i++){
+    Call(r.feedback,"UpdateExpressiveGait",i/(float)fps*rate,true,1f/fps);
+    float lift=Field<float>(r.feedback,"expressiveLift");
+    Check(lift>=-.000001f&&lift<=r.feedback.runBounceHeight+.000001f,"controlled lift is positive and bounded, never presses shell into heel");
+    if(i>fps){minimum=Math.Min(minimum,lift);maximum=Math.Max(maximum,lift);largestStep=Math.Max(largestStep,Math.Abs(lift-last));}
+    last=lift;
+   }
+   Check(maximum-minimum>.008f,"walk and run have a readable broad suspension arc");
+   Check(largestStep<.014f,"broad gait pulse does not step the shell abruptly");
+   r.Restored(pose);
+   if(fps==60){if(speed<1)walkHeight=maximum-minimum;else runHeight=maximum-minimum;}
+   for(int i=0;i<fps;i++)Call(r.feedback,"UpdateExpressiveGait",0f,false,1f/fps);
+   Check(Field<float>(r.feedback,"expressiveLift")<.00001f&&Field<float>(r.feedback,"expressiveWeight")==0,"stop settles gait completely without time sine ticking in idle");
+   Call(r.feedback,"UpdateExpressiveGait",.6f,true,1f/fps);Call(r.feedback,"OnApplicationFocus",false);
+   Check(Field<float>(r.feedback,"expressiveLift")==0&&Field<float>(r.feedback,"expressiveLiftVelocity")==0,"focus reset clears bounce history");
+   Call(r.feedback,"OnApplicationFocus",true);Call(r.feedback,"UpdateExpressiveGait",.6f,true,1f/fps);Call(r.feedback,"OnDisable");
+   Check(Field<float>(r.feedback,"expressiveWeight")==0,"disable clears expressive weight");
+  }
+  Check(runHeight>walkHeight*1.15f,"full run suspension reads stronger than gentle stick movement");
+  for(int i=0;i<=1000;i++){
+   float p=i/1000f;float lift=IntercomGroundMath.GaitLift(p),swing=IntercomGroundMath.GaitCounterSwing(p);
+   Check(lift>=0&&lift<=1&&swing>=-1&&swing<=1,"phase envelopes bounded");
+   Check(Math.Abs(lift-IntercomGroundMath.GaitLift(p+3))<.000002f,"lift continuous across loop count");
+   Check(Math.Abs(swing+IntercomGroundMath.GaitCounterSwing(p+.5f))<.000002f,"weight transfer alternates between shoulders");
+  }
+  foreach(float bad in new[]{float.NaN,float.PositiveInfinity,float.NegativeInfinity})
+   Check(IntercomGroundMath.GaitLift(bad)==0&&IntercomGroundMath.GaitCounterSwing(bad)==0,"invalid animation phase gives neutral gesture");
+  Console.WriteLine("V10 expressive torso peak-to-peak at60fps: walk="+walkHeight+"m run="+runHeight+"m; actual production spring, not captured Unity.");
+ }
  static void Main(){
   var r=new Rig(true,true);Check(!r.feedback.NeedsSoleCalibration&&r.feedback.ProvidesFootContacts,"Awake resolves rig and calibrates both boots");Check(r.idle.samples==1,"one-shot initial calibration");var pose=r.Snapshot();r.feedback.CalibrateSoles();r.Restored(pose);Check(Field<int>(r.feedback,"soleCalibrationVersion")==1,"successful current geometry version");
   Call(r.motor,"Awake");Check(Math.Abs(r.motor.RuntimeStrideScale-1.32f)<1e-6f,"valid calibrated feedback enables V5 stride reference");
@@ -136,7 +183,7 @@ class Program {
   r=new Rig();r.animator.runtimeAnimatorController=null;Call(r.feedback,"LateUpdate");Check(!r.feedback.ProvidesFootContacts,"controller removal advertises no contact provider");r.animator.runtimeAnimatorController=Rig.Controller(r.idle);Call(r.feedback,"LateUpdate");Check(r.feedback.ProvidesFootContacts&&r.idle.samples==1,"same geometry reuses valid calibration after teardown");
   r=new Rig();pose=r.Snapshot();Call(r.feedback,"SavePose");foreach(var b in r.bones)b.localPosition=new Vector3(7,8,9);Call(r.feedback,"OnDisable");for(int i=0;i<r.bones.Length;i++){if(i==6||i==7)continue;Check(r.bones[i].localPosition.Equals(pose[i].Item1),"disable restores bones mutated by feedback");}Check(Field<int>(r.feedback,"savedPoseCount")==0,"disable empties pose cache");
   r=new Rig();var measured=new IntercomGroundFeedbackSoleProfile{left=new[]{new IntercomGroundFeedbackSoleProfile.Point()},right=new[]{new IntercomGroundFeedbackSoleProfile.Point()}};r.feedback.soleProfile=measured;pose=r.Snapshot();Call(r.feedback,"LateUpdate");r.Restored(pose);Check(r.idle.samples==2&&Field<IntercomGroundFeedbackSoleProfile>(r.feedback,"calibratedSoleProfile")==measured,"late assigned contour is calibrated once in Idle and restores the pose");for(int i=0;i<5;i++)Call(r.feedback,"LateUpdate");Check(r.idle.samples==2,"contour does not trigger per-frame mesh baking");r.feedback.soleProfile=null;Call(r.feedback,"LateUpdate");Check(r.idle.samples==3&&r.feedback.ProvidesFootContacts,"removing contour restores the legacy contact provider once");
-  CheckMotorEllipse();CheckArcadeMotor();CheckRespawnAndSuspensionLifecycle();
+  CheckMotorEllipse();CheckArcadeMotor();CheckRespawnAndSuspensionLifecycle();CheckExpressiveGait();CheckHurtTorsoOwnership();
   Console.WriteLine("GroundFeedback lifecycle and Motor ellipse: "+checks+" assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.");
  }
 }

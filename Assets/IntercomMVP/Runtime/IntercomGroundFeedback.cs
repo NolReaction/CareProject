@@ -108,6 +108,7 @@ namespace IntercomMvp
         private MaterialPropertyBlock properties;
         private IntercomSimpleShooter subscribedShooter;
         private IntercomWeaponPose weaponPose;
+        private IntercomPlayerHurtFeedback hurtFeedback;
         private GameObject effectsRoot;
         private Mesh discMesh;
         private Transform[] shadows;
@@ -137,6 +138,7 @@ namespace IntercomMvp
             if (motor == null) motor = GetComponent<IntercomPlayerMotor>();
             if (shooter == null) shooter = GetComponent<IntercomSimpleShooter>();
             weaponPose = GetComponent<IntercomWeaponPose>();
+            hurtFeedback = GetComponent<IntercomPlayerHurtFeedback>();
             if (animator == null) animator = GetComponentInChildren<Animator>(true);
             if (animator != null)
             {
@@ -162,6 +164,7 @@ namespace IntercomMvp
 
         private void OnEnable()
         {
+            if (hurtFeedback == null) hurtFeedback = GetComponent<IntercomPlayerHurtFeedback>();
             Subscribe();
             if (!HasCurrentSoleCalibration) calibrationAttempted = false;
         }
@@ -251,6 +254,7 @@ namespace IntercomMvp
                 UpdateShadow(1, rightContact, grounded);
             }
             StabilizeRunningTorso(dt, moving, discontinuity);
+            UpdateExpressiveGait(phase, moving, dt);
             ApplyTorso(phase, moving, dt, discontinuity);
             CacheTurnPose();
             UpdateDust(dt);
@@ -414,6 +418,10 @@ namespace IntercomMvp
             rollTarget *= Mathf.Clamp01(runningTiltWeight);
             float turnRate = discontinuity ? 0f : Vector3.SignedAngle(previousFacing, forward, Vector3.up) / Mathf.Max(0.001f, dt);
             float yawTarget = Mathf.Clamp(-turnRate * turnLagSeconds, -8f, 8f) * (motor.IsAiming ? 0.35f : 1f);
+            // Shoulder counter-rotation follows the same stride clock as the
+            // feet. It does not advance on a separate time-based sine wave.
+            yawTarget += IntercomGroundMath.GaitCounterSwing(phase) * strideCounterTwist
+                * expressiveWeight * (motor.IsAiming ? 0.25f : 1f);
             float lagTargetX = Mathf.Clamp(-acceleration.x / 12f, -1f, 1f) * torsoTravelLag;
             float lagTargetZ = Mathf.Clamp(-acceleration.z / 12f, -1f, 1f) * torsoTravelLag;
             if (discontinuity)
@@ -443,9 +451,13 @@ namespace IntercomMvp
                 if (turnSteps.Active) limit = Mathf.Max(limit, turnCommittedTwistLimit);
                 visibleYaw = Mathf.Clamp(yaw, turnAppliedYaw - limit, turnAppliedYaw + limit);
             }
-            torso.rotation = Quaternion.AngleAxis(pitch - recoil * recoilDegrees, right)
-                * Quaternion.AngleAxis(roll, forward) * Quaternion.AngleAxis(visibleYaw, Vector3.up) * torso.rotation;
-            torso.position += new Vector3(lagX, settle, lagZ) - forward * (recoil * 0.006f);
+            float hurtPitch = hurtFeedback != null && hurtFeedback.isActiveAndEnabled ? hurtFeedback.HurtPitch : 0f;
+            float hurtRoll = hurtFeedback != null && hurtFeedback.isActiveAndEnabled ? hurtFeedback.HurtRoll : 0f;
+            torso.rotation = Quaternion.AngleAxis(pitch - recoil * recoilDegrees + hurtPitch, right)
+                * Quaternion.AngleAxis(roll + hurtRoll, forward) * Quaternion.AngleAxis(visibleYaw, Vector3.up) * torso.rotation;
+            // Lift only the independent upper-shell suspension. Moving Body
+            // here would detach the planted soles or fight the rigid-link solve.
+            torso.position += new Vector3(lagX, settle + expressiveLift, lagZ) - forward * (recoil * 0.006f);
             // Stabilize only our added torso motion. Source raise/recoil keys
             // remain in the captured arm rotations; muzzle.forward stays valid.
             if (leftUpperArm != null)
