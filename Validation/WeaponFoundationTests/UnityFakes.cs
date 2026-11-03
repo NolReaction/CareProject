@@ -1,7 +1,10 @@
 using System;
 namespace UnityEngine {
- public class Object{} public class ScriptableObject:Object{} public class GameObject:Object{} public class Material:Object{} public class Mesh:Object{} public class AudioClip:Object{}
- public class MonoBehaviour {public bool isActiveAndEnabled=true;}
+ public class Object{} public class ScriptableObject:Object{} public class GameObject:Object{public Transform transform=new Transform();public T GetComponentInParent<T>()where T:class=>null;} public class Material:Object{} public class Mesh:Object{} public class AudioClip:Object{}
+ public class MonoBehaviour {public bool isActiveAndEnabled=true;public Transform transform=new Transform();}
+ public class Transform{public bool IsChildOf(Transform other)=>this==other;}
+ public static class Time{public static float timeScale=1,time;}
+ public static class Mathf{public static float Clamp(float x,float min,float max)=>Math.Max(min,Math.Min(max,x));}
  public class DisallowMultipleComponent:Attribute{} public class ContextMenu:Attribute{public ContextMenu(string x){}}
  public class CreateAssetMenuAttribute:Attribute{public string menuName,fileName;}
  public class HeaderAttribute:Attribute{public HeaderAttribute(string x){}} public class TooltipAttribute:Attribute{public TooltipAttribute(string x){}}

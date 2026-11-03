@@ -1,0 +1,82 @@
+{
+  "revision": "npc-v8",
+  "status": "PASS (pure brain and production runtime with narrow Unity substitutes)",
+  "profile": "Assets/IntercomMVP/Game/Enemies/Udarnik/UdarnikCapsule.asset",
+  "initialEnemyCount": 3,
+  "behavior": [
+    "idle/patrol",
+    "detect/chase with last-seen memory",
+    "locked-heading windup",
+    "single melee strike with live range/cone/two-height physics check",
+    "recovery",
+    "leash/return",
+    "damage/death",
+    "explicit respawn"
+  ],
+  "attack": {
+    "windupSeconds": 0.45,
+    "recoverySeconds": 0.65,
+    "rangeMeters": 1.15,
+    "halfAngleDegrees": 40,
+    "damage": 12,
+    "actualBlockerRayHeights": [
+      0.28,
+      0.82
+    ],
+    "navigationMaskIsNotMeleeAuthority": true,
+    "contactDamage": false
+  },
+  "lifecycle": {
+    "cancelWindupOnPauseFocusDisable": true,
+    "respawnObservedBeforeStrike": true,
+    "deadTargetCancelsAttack": true,
+    "deadColliderDisabled": true,
+    "disabledAiStillReceivesDeathCleanup": true,
+    "focusDoesNotHeal": true,
+    "oneStrikePerAttack": true
+  },
+  "movement": {
+    "sharedGridNavigation": true,
+    "controllerFinalCollision": true,
+    "finalAcceleratedMotionGridChecked": true,
+    "deferredRouteRetryNextFrame": true,
+    "noTeleportUnsticking": true,
+    "localSeparation": true
+  },
+  "factory": {
+    "inactiveUntilConfigured": true,
+    "sharedAuthoredMaterials": true,
+    "primitiveCollidersDisabledBeforeDeferredDestroy": true,
+    "metalSurfaceTag": true,
+    "wedgeMeshDisposedOnDestroy": true,
+    "noFootstepAudioAdded": true
+  },
+  "checks": [
+    {
+      "project": "NpcBrainTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC brain and melee geometry: 965 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+    },
+    {
+      "project": "NpcRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC runtime/factory: 114 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    }
+  ],
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/IntercomNpcDefinition.cs": "68c26ee8fd08697c4b321de36ef18c1eae53e0078e95051f8413a23e01485a98",
+    "Assets/IntercomMVP/Runtime/IntercomNpcBrain.cs": "a05087a58397f430668c2eb0e0babcf1c92b0eecbbbe6fae184b4a352b43bc06",
+    "Assets/IntercomMVP/Runtime/IntercomNpcController.cs": "7a21bd8834fbdf25df77d675353a001906c82efd806967c52e2c7dfd7acd8158",
+    "Assets/IntercomMVP/Runtime/IntercomNpcFactory.cs": "fa2a438b12d8a9f772b2f26d146812765374d2c092986786118a25070d456ab0"
+  },
+  "limitations": [
+    "No actual Unity Editor import/compilation, PhysX collision or device playtest.",
+    "NPC is a capsule placeholder, not the generated UD-1 mesh or animation rig.",
+    "No wave director, rewards or mission loop added.",
+    "Pathfinding is for the existing flat courtyard; stairs and multi-level navigation are not supported."
+  ]
+}

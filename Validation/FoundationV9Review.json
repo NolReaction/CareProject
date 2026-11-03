@@ -1,0 +1,390 @@
+{
+  "revision": "missions-v9",
+  "date": "2026-11-03",
+  "baseline": {
+    "overlay": "CareProject_NPC_V8_2026-11-02.zip",
+    "sha256": "ddb629a8e1b6b7014d9186b6b57ddb8abe260b3d024b1606c876a5a64148ed86",
+    "onFullProject": "CareProject_Gameplay_V6_2026-11-02.zip"
+  },
+  "delivery": "Changed-files overlay on delivered V8. No GitHub writes.",
+  "changes": [
+    "Two playable mission modes: eliminate 50 enemies or rescue and escort a vulnerable ally",
+    "Bounded reused enemy pool, waves, safe reachable spawns and per-life/run kill accounting",
+    "Close-range tracking melee, brief final commitment, direct pursuit and crowd/stuck handling",
+    "Selection, objective and result HUD with consistent input and player control locks"
+  ],
+  "validation": {
+    "testProjects": 36,
+    "projects": [
+      {
+        "project": "AnimationGroundingIntegrationTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "PASS 5023 combined production GroundFeedback/Character restore assertions, 1000 frames, both disable orders, external pose and controller removal. Scene component registration checked from YAML; narrow Unity doubles, no engine execution.\n"
+      },
+      {
+        "project": "AssetOrganizationTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,52): warning CS0649: Field 'IntercomAssetCatalog.Entry.guid' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(17,44): warning CS0649: Field 'IntercomAssetCatalog.Entry.tombstoneMetaSha256' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,58): warning CS0649: Field 'IntercomAssetCatalog.Entry.tombstoneGuid' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,27): warning CS0649: Field 'IntercomAssetCatalog.Entry.legacyPath' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(16,39): warning CS0649: Field 'IntercomAssetCatalog.Entry.destination' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(13,71): warning CS0649: Field 'IntercomAssetCatalog.Manifest.revision' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(17,27): warning CS0649: Field 'IntercomAssetCatalog.Entry.tombstoneSha256' is never assigned to, and will always have its default value null\nCareProject_V9/Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs(13,96): warning CS0649: Field 'IntercomAssetCatalog.Manifest.files' is never assigned to, and will always have its default value null\n",
+        "runExit": 0,
+        "output": "PASS: 13 production asset migration/resolution checks (Unity API filesystem stubs).\n"
+      },
+      {
+        "project": "AudioTimingTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS starting mid-stride does not invent a contact\nPASS left and right contacts alternate through loop boundaries\nPASS standing, wall collision and airborne movement suppress footsteps\nPASS long frame does not replay missed steps\nPASS rebind and controller-state changes resynchronize silently\nPASS explicit pause and respawn reset cannot produce a delayed step\nPASS phase offset follows replacement run clips\nPASS zero elapsed animation never repeats a contact\nPASS non-finite phases reset safely\nPASS faster run contacts remain consistent at mobile frame rates\n10 scenarios / 72 assertions passed\n"
+      },
+      {
+        "project": "CameraTrackingTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Camera tracking: 19919 assertions PASS. Production ground-plane projection/tracking math; no Unity Editor or rendering execution.\n"
+      },
+      {
+        "project": "CharacterAnimationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Character gestures: 9387 assertions passed; production component/math, narrow Unity stand-ins. No Unity playback/render claim.\n"
+      },
+      {
+        "project": "DirectionalLocomotionTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS four visual headings, four world movement axes\nPASS authored model -Z forward is not wrapper +Z\nPASS all diagonal signs\nPASS diagonal heading with wall-slide movement\nPASS analog speed remains independent of direction\nPASS zero and numerical jitter are not movement\nPASS nonfinite movement cannot poison animator parameters\nPASS zero smoothing applies requested direction immediately\nPASS paused time preserves direction\nPASS 180-degree reversal never blends through undefined origin\nPASS angle wrap takes short route across zero\nPASS smoothing stable across frame rates\nPASS normal analogue movement retains full measured stride\nPASS idle cadence and low-speed transition remain separate\nPASS blend threshold remains reachable after designer speed changes\nPASS current measured gait reference and fallback agree\nPASS V5 longer rigid stroke and cadence share the same reference\nPASS shorter lateral stride preserves travel direction and bounded cadence\nPASS: 18 cases / 301 assertions. Production direction and cadence; .NET 8, no Unity engine playback.\n"
+      },
+      {
+        "project": "GroundContactTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Ground contact / rigid support / torso spring / impact gate: 7513 assertions passed. Production pure math; not Unity physics/rendering.\n"
+      },
+      {
+        "project": "GroundFeedbackLifecycleTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "GroundFeedback lifecycle and Motor ellipse: 6614 assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.\n"
+      },
+      {
+        "project": "HudLayoutTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS 931 safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.\n"
+      },
+      {
+        "project": "InputCancellationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS normal short release survives raise and fires exactly once\nPASS timeScale-zero frame cancels before deltaTime early exit\nPASS layout cancellation stops queued tap\nPASS lost OS contact cancels queued tap\nPASS source replacement with equal epoch cancels old tap\nPASS removing source cancels old tap before fallback\nPASS initial snapshot preserves legitimate pre-Start request\nPASS cancellation before Start invalidates pending request\nPASS uint epoch wrap cancels correctly\nPASS cancelled frame cannot consume stale fire flags\nPASS fresh tap works after cancellation\nPASS disable cancels without touching a controllerless Animator\nPASS focus and pause callbacks tolerate controller teardown\nPASS runtime controller removal cancels pending fire and recovers\nPASS assigning controller after failed Start permits re-enable\nPASS external recoil notification rejects missing controller\nPASS central weapon controls pose profile and live fire interval\nPASS reload rejects fire intent and cannot replay queued tap\nPASS real shooter must confirm recoil, failed shot cannot animate\nPASS 19 cases / 55 assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback.\n"
+      },
+      {
+        "project": "MagazineTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS finite magazine, successful projectiles only\nPASS automatic reload starts exactly after last complete volley\nPASS manual partial reload and pause do not refill or advance\nPASS respawn resets ammo but ordinary motion cancellation does not\nPASS reload pointer never becomes fire or steals movement\nPASS parallel dual barrels never cross at near or far ranges\nPASS held poseclock and magazine agree with reload-aware TTK at mobile rates\nPASS long custom reload keeps raised baseline without replaying intent\nPASS invalid time and tiny custom magazines remain safe\nPASS 9 magazine/parallel-fire cases, 1571 assertions. Production state, component, pose clock and direction; narrow Unity stand-ins, no PhysX or actual GUI execution.\n"
+      },
+      {
+        "project": "MissionRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Mission/rescue runtime: 706 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      },
+      {
+        "project": "MissionSceneRouteTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Mission scene routes: 413 assertions passed; 12 real scene anchors, 144 pair routes and two rescue approaches using production grid. Not Unity PhysX.\n"
+      },
+      {
+        "project": "MissionStateTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Mission state: 56376 assertions passed. Production mission accounting; no Unity runtime or rendering.\n"
+      },
+      {
+        "project": "MissionUiTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS 154 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+      },
+      {
+        "project": "MobileInputTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS Two thumbs move and aim independently\nPASS Crossing thumbs cannot swap sticks\nPASS A third finger cannot steal an occupied stick\nPASS Normal fire release leaves movement running and preserves tap semantics\nPASS A missing OS contact is released at the next poll\nPASS Pointer IDs may be reused after release\nPASS A touch starting outside controls cannot drift into firing\nPASS Dead zone prevents accidental fire but knob still follows finger\nPASS Diagonal movement is capped to the same speed\nPASS Safe-area or orientation change clears old screen coordinates\nPASS An unchanged layout preserves two active fingers\nPASS Pause or focus reset clears all state\nPASS Invalid device coordinates cannot poison output\nPASS Mouse ID stays distinct from normal touch IDs\nPASS: 14 cases / 45 assertions. Production pointer state compiled and executed; Unity UI/device runtime not executed.\n"
+      },
+      {
+        "project": "NpcArenaTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS: 29 bootstrap lifecycle checks using production IntercomNpcArena; Unity/PhysX not simulated.\n"
+      },
+      {
+        "project": "NpcBrainTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "NPC brain and melee geometry: 968 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+      },
+      {
+        "project": "NpcNavigationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "NPC navigation: 4551 assertions passed. Production grid/service, 1200 independent BFS comparisons, authored V7 courtyard geometry. Narrow Unity stand-ins; not Unity physics.\n"
+      },
+      {
+        "project": "NpcRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "NPC runtime/factory: 164 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      },
+      {
+        "project": "OcclusionLeaseTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS material fade preserves source and never toggles visibility\nPASS most transparent camera wins until last lease ends\nPASS updates reuse same clone rather than allocate each frame\nPASS external hidden flags and preexisting alpha survive\nPASS unsupported shaders and MPB owners remain solid\nPASS external slot replacement is preserved during restore\nPASS cutout cannot suddenly disappear below its cutoff\nPASS subsystem reset disposes and restores\nPASS destroyed renderer removes lease and disposes clone\nPASS missing renderer or template has no effect\nPASS fade changes alpha only, preserving authored colour and texture ownership\nPASS 250 repeated entry and exit cycles never retain old materials or leases\nPASS 12 cases / 1033 assertions; material leases against Unity fakes, not a Unity renderer test.\n"
+      },
+      {
+        "project": "OcclusionMathTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS V5 actual warehouse/crates/foreground/gap/finite-ray/hysteresis regression + 700 independent mesh ray comparisons, 730 assertions.\nPASS: 24 geometry scenarios; 2400 randomized boxes / 146080 independently projected points; 292211 assertions. Production pure math, not Unity rendering.\n"
+      },
+      {
+        "project": "OcclusionRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9/Validation/OcclusionRuntimeTests/UnityFakes.cs(155,121): warning CS0067: The event 'RenderPipelineManager.beginCameraRendering' is never used\nCareProject_V9/Validation/OcclusionRuntimeTests/UnityFakes.cs(150,89): warning CS0067: The event 'SceneManager.sceneLoaded' is never used\nCareProject_V9/Validation/OcclusionRuntimeTests/UnityFakes.cs(162,30): warning CS0649: Field 'IntercomOcclusionFade.Epoch' is never assigned to, and will always have its default value 0\nCareProject_V9/Validation/OcclusionRuntimeTests/UnityFakes.cs(114,44): warning CS0067: The event 'Camera.onPreCull' is never used\nCareProject_V9/Validation/OcclusionRuntimeTests/UnityFakes.cs(150,136): warning CS0067: The event 'SceneManager.sceneUnloaded' is never used\n",
+        "runExit": 0,
+        "output": "PASS 19 camera integration assertions against Unity fakes. Complete production component compiled; not a Unity renderer or Play Mode test.\n"
+      },
+      {
+        "project": "PlayerAudioLifecycleTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PlayerAudio fake-Unity lifecycle: 847 assertions passed. Not a Unity Editor test.\n"
+      },
+      {
+        "project": "PlayerInputRuntimeTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 8 actual PlayerInput/GUI call-path cases, 23 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
+      },
+      {
+        "project": "PlayerVitalityTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Player health/vitality: 186 assertions passed. Production health and lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
+      },
+      {
+        "project": "PoseClockTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS tap waits for full raise, survives early release\nPASS held fire repeats only after interval\nPASS release does not invent another queued automatic shot\nPASS new tap during cooldown is queued\nPASS combat hold is counted from the latest shot\nPASS tap halfway down reverses and is not discarded\nPASS held trigger immediately interrupts lowering\nPASS large frame never creates a catch-up shot burst\nPASS paused time consumes neither queued request nor timers\nPASS reset clears queued shots and posture\nPASS external shot renews hold and requires raised weapons\nPASS rates 30/60/144 FPS all return to relaxed after one tap\nPASS V5 .18 second pistols keep their cadence at 30/60/120 FPS\nPASS tap after release starts a fresh cooldown without cadence debt\nPASS medium hitch cannot compress the next shot into a burst\nPASS ordinary frame jitter does not accumulate cadence drift\nPASS: 16 cases, 1874 assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8.\n"
+      },
+      {
+        "project": "ProjectileCollisionTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Projectile hit selection: 429 assertions passed. Pure selection logic; no Unity PhysX simulation.\n"
+      },
+      {
+        "project": "ProjectileSurfaceTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Projectile material routing: 16 assertions passed. Production resolver/surface lookup with narrow Unity stand-ins; no PhysX execution.\n"
+      },
+      {
+        "project": "ReactivePropTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Reactive props: 1041 assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
+      },
+      {
+        "project": "RunningContactTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "Running contact: 973995 assertions, 432 measured cases. Flat floor 0.002999..0.003000m; mean slip baseline 0.12574 -> corrected 0.00001m/s; diagonal 0.37647->0.00001m/s; Body 0.04380m; calf 41.385deg; contact phase 0.138; cloud interpolation 0.000790m.\n"
+      },
+      {
+        "project": "ShooterIntegrationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "PASS actual two-barrel Spawn uses one heading and consumes once before callbacks\nPASS both muzzle overlaps block bullets ammo reports and recoil\nPASS body-to-muzzle obstruction blocks even a clear muzzle point\nPASS one obstructed barrel consumes only the one real projectile\nPASS empty magazine starts reload after exactly twelve actual volleys\nPASS queued attempts cannot fire beyond a one-volley magazine\nPASS pool exhaustion consumes no additional round or visual event\nPASS reload requested between queue and spawn cancels the pending attempt\nPASS focus pause and explicit cancellation drop pending shots\nPASS real swept hit routes material and uses per-projectile damage snapshot\nPASS 10 complete Shooter/Magazine integration cases, 33 assertions. Production shot spawn, actual ammo commit, hit routing and pool lifecycle with controlled physics and pose doubles; no Unity/PhysX/rendering.\n"
+      },
+      {
+        "project": "TracerGeometryTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Tracer geometry: 616 assertions passed. Executed production mesh construction with data-only Unity stand-ins; no Unity rendering.\n"
+      },
+      {
+        "project": "TurnStepTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Turn step scheduler and pivot geometry: 51681 assertions passed. Production pure math; no Unity renderer, skinned rig or physics execution.\n"
+      },
+      {
+        "project": "TurningRigTests",
+        "compileExit": 0,
+        "compileOutput": "CareProject_V9/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,234): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+        "runExit": 0,
+        "output": "Quarter turn 30 FPS: 1.100 -> 0.800 seconds including final gather.\nQuarter turn 60 FPS: 1.100 -> 0.800 seconds including final gather.\nQuarter turn 120 FPS: 1.092 -> 0.792 seconds including final gather.\nTurn rig: 464142 assertions; random verified landings 2301; max Body offset 0.04948m; stance drift 5.58E-008m; wrapper/lower twist 35.001deg; final torso twist 33.305deg; max swing speed 3.142m/s; swing sole min 0.00081m; landing gap max 0.00300m. Real production transform math + measured Idle geometry, not Unity skinning/physics.\n"
+      },
+      {
+        "project": "WeaponFoundationTests",
+        "compileExit": 0,
+        "compileOutput": "",
+        "runExit": 0,
+        "output": "Weapon foundation: 41 assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution.\n"
+      }
+    ],
+    "syntax": {
+      "files": 90,
+      "configurations": 3,
+      "errors": 0,
+      "scope": "Roslyn syntax only"
+    },
+    "surfaceColliders": 84,
+    "uniqueAssetGuids": 289,
+    "existingMetaFilesPreserved": true,
+    "newUnresolvedGuids": [],
+    "otherExistingAssetsModelAudioMapMovementCameraPreserved": true
+  },
+  "sourceSha256": {
+    "Assets/IntercomMVP/Editor/IntercomAssetCatalog.cs": "bfa58d2e7d9f9194b619c34fbe35c9fd9247d2170d5ac8994bd57f613587dca0",
+    "Assets/IntercomMVP/Editor/IntercomAssetOrganization.cs": "70afb1b85ce7280af0a48195aa84c2f76ceecb54a56ad3612cc9925e117a1abb",
+    "Assets/IntercomMVP/Editor/IntercomAudioSetup.cs": "ddcc79002a4aa64a521b1805a32f9ec3285c51f2ec87ab3ef1021223c1fab948",
+    "Assets/IntercomMVP/Editor/IntercomCameraFollowEditor.cs": "b2eaa7fead031dd93c83f5a9d5ac37a4251125c22f15047b66f3d583807b7b5d",
+    "Assets/IntercomMVP/Editor/IntercomCharacterAnimationSetup.cs": "dbc92ea1ff4a86942e2673a660a4bad3096b1e96183e06ca14c0423af77816cf",
+    "Assets/IntercomMVP/Editor/IntercomCombatSetup.cs": "335a3e451d898c059f8d76487f738c8d2cd39352b9f979598f3f263da022ac78",
+    "Assets/IntercomMVP/Editor/IntercomDaylightSetup.cs": "ac08ebfe4b11241b82212008bd91a19efda9b227df6246b0bdbfcc8e547b6d8c",
+    "Assets/IntercomMVP/Editor/IntercomDistrictSetup.cs": "c8124d019fd704abe3188e933f34a8d98e5b62220018230c6fa8f729c1839f3f",
+    "Assets/IntercomMVP/Editor/IntercomGroundFeedbackSetup.cs": "6d9abe6c435e64fd41a6cdf83ddd825800e47e74bb1167f2bc8a0ed6eaeee57c",
+    "Assets/IntercomMVP/Editor/IntercomLegacyCleanup.cs": "d343370d01474daff033b4806548d334a47a2fe573de2ee7784fcde4b58dc1b5",
+    "Assets/IntercomMVP/Editor/IntercomMobileSetup.cs": "a72a1b504fd9e129864174c94957b07f7aa2a3b9ca7206c42bf5d88cce85d414",
+    "Assets/IntercomMVP/Editor/IntercomMovementSetup.cs": "a826bf85c31cce715a9427d5f7ca3c188f0fc0ee65a88a00f1b2cc7bcddbed7f",
+    "Assets/IntercomMVP/Editor/IntercomMuzzleSetup.cs": "3a8d2c0fe2ab053a20ff5d32a99e695ecf1f9e3e18dda534b02f9b6ce95b8ae0",
+    "Assets/IntercomMVP/Editor/IntercomMvpSceneBuilder.cs": "8825c84a3277c16bfbc52f0e48ca911dec4bc41393532995fd884dc9d357929d",
+    "Assets/IntercomMVP/Editor/IntercomMvpSetupWindow.cs": "e7a93ffb93352f365000c1eaa16c42fc038df8e9fe5cadd234a8dbc47a64d5eb",
+    "Assets/IntercomMVP/Editor/IntercomNpcSetup.cs": "30451f88a8a7ed06b04f8abf00618faa057d0e173c13a6e8072ad4db438622cc",
+    "Assets/IntercomMVP/Editor/IntercomOcclusionSetup.cs": "6f128c8804e7b4bae621d926e736049f6083447368a546ec0d12af93b69cccc2",
+    "Assets/IntercomMVP/Editor/IntercomProjectHub.cs": "94aed90232e2e1471b7cd4d127f878ea14a1aa352781dd2c792eed3a0908f35c",
+    "Assets/IntercomMVP/Editor/IntercomReactivePropSetup.cs": "b976424617f330bfd2def14c0cc81f34cb16e724d8cdeec927cef93861601af9",
+    "Assets/IntercomMVP/Editor/IntercomRenderPipelineSetup.cs": "fdc6ad50f4188c2a1de3a790922c26390240ef2e9c519cacfe67ddffa06aaca5",
+    "Assets/IntercomMVP/Editor/IntercomRobotAssets.cs": "e98886a5cedb16f81f353d8d940f62ca4ddd8afde0a1b8c531f7adfc3b1ae884",
+    "Assets/IntercomMVP/Editor/IntercomSoleProfileBuilder.cs": "a98c6479432c4f2b8235ee78ca32bc4cf8526c96a1352883669f1e793fc7c93e",
+    "Assets/IntercomMVP/Editor/IntercomWeaponDefinitionEditor.cs": "a75ba857be715dd3be85d27b47402807242ab4ad85589b290888ac2352ef3234",
+    "Assets/IntercomMVP/Runtime/IIntercomDamageable.cs": "757af175fe12f7d89207fb303a3a055e939785fd89164fe61e207df4f4ab9cd1",
+    "Assets/IntercomMVP/Runtime/IntercomAudioProfile.cs": "907266a023e4dba11882cd34eccd68cf473cf07c774b94fd3f303577f30337b6",
+    "Assets/IntercomMVP/Runtime/IntercomCameraFollow.cs": "0dafea2687837b58820de80cfec67795d65cf0ff86ec34f9b7fbc183ce0949da",
+    "Assets/IntercomMVP/Runtime/IntercomCameraOcclusion.cs": "659df8defbf1a723be45badeb60c674fda71a2ab986c9fba9349081a81236dbb",
+    "Assets/IntercomMVP/Runtime/IntercomCameraTracking.cs": "e5c0d931be38812bc08fe71800a8c5500b48faa429499ac66ef20724388a7b77",
+    "Assets/IntercomMVP/Runtime/IntercomCharacterAnimation.cs": "d3e48ff645fbc10873a333e900fb4f74995b22e7e876e0f9af9cf6d79854957e",
+    "Assets/IntercomMVP/Runtime/IntercomCharacterAnimationMath.cs": "b265a528087045a5ccbc090f4ab5438f8571d0cdc907b615ffcc9aeae05aa5f3",
+    "Assets/IntercomMVP/Runtime/IntercomCombatEffects.cs": "40c1f1015ffdcea6c369c1f73d56fe15467c2560cba731db777313bc6c1b5061",
+    "Assets/IntercomMVP/Runtime/IntercomDistrictMarker.cs": "1cfe9857f24435b0a8b819983fd3bbacce8e4ed08419da18d060072c4bc73580",
+    "Assets/IntercomMVP/Runtime/IntercomFootstepClock.cs": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
+    "Assets/IntercomMVP/Runtime/IntercomFootstepSurface.cs": "e16077ab63179e2516d4681f8828441249f482d4187b9634cb4bb43135b1404f",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedback.cs": "e53981ec509cb4453003b17f192b99bfb437bea824532364af3c7f797b02f757",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackRunning.cs": "5dac164c87f4fd85f094d4d4cf05e95ceeacdf74aa629717e95c0b63ae6d4eeb",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackSoleProfile.cs": "5dc1994102f97adc8d2712a207c6f9ed4a837e7da4f681882344ea58b9ad709c",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackSoles.cs": "9892802350e35211b03d27b59b744306853c5e2f180f4efb1d0ab03e737d205d",
+    "Assets/IntercomMVP/Runtime/IntercomGroundFeedbackTurning.cs": "ff758cb696d5b234b6411b21d805f703689f68abc580b12d3589dbd5c8634fa0",
+    "Assets/IntercomMVP/Runtime/IntercomGroundMath.cs": "7b3fd3b530e8572871f63c4d733d6a86a01f35712945ec81e4f523ba1a9e87e5",
+    "Assets/IntercomMVP/Runtime/IntercomHealth.cs": "e89ab75b92e15877fd345d3b24e0dc67e780242b993393deea6565fdcc084ee0",
+    "Assets/IntercomMVP/Runtime/IntercomHealthState.cs": "09a9d644e8c1501941441782660d28d9250ac9b500f67c90bbb83da901936038",
+    "Assets/IntercomMVP/Runtime/IntercomHudLayout.cs": "120f9e8fda8d7e8aba81f6cb50d4381ef2bc73166fbd8bd02eb84d35ad9620b8",
+    "Assets/IntercomMVP/Runtime/IntercomImpactAudio.cs": "18496ae3829ab86b3cda8a920f436b8a1c2424fccc9661fc09399ec8ac571933",
+    "Assets/IntercomMVP/Runtime/IntercomInputCancellation.cs": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+    "Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs": "b89d83d9105dda444bd8267d5104c27dc58cf90a0b82abb07f8569eb6692e327",
+    "Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs": "0c0e14b3f283cc7f0173d9c5d1691cd26ddf405c1944c0f3d432a27b650405ab",
+    "Assets/IntercomMVP/Runtime/IntercomMagazineState.cs": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+    "Assets/IntercomMVP/Runtime/IntercomMissionDefinition.cs": "018ebfe63f5b2dd4371f9716dc6d345d1bbe708cfdaaf5c588d0280755e32ffc",
+    "Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs": "affc981a8811b5ae86a774691432ffe51851db542cc4e6b3a85c0895cc85b5b2",
+    "Assets/IntercomMVP/Runtime/IntercomMissionState.cs": "f1731abcf3181ee5b237a522ad6daaf171743062f7293a4a1bafeb5453405f72",
+    "Assets/IntercomMVP/Runtime/IntercomMobileRuntimeSettings.cs": "5a933eb229cc89515640903caf8d1f636ba0252c8df0690741bbf1860d55b459",
+    "Assets/IntercomMVP/Runtime/IntercomNavGrid.cs": "500c658e2b043203c6cc72fea6b73f86a52a42bd18e51c272c133106ea518ebd",
+    "Assets/IntercomMVP/Runtime/IntercomNpcArena.cs": "778d36a074b7bac133c831a7d50acf14c9a80efffe84a032d13af74682a36c09",
+    "Assets/IntercomMVP/Runtime/IntercomNpcBrain.cs": "673ba68a9d639b5a6d20e9728b5f97c8de23b9eaf22d3210a0d4432465390548",
+    "Assets/IntercomMVP/Runtime/IntercomNpcController.cs": "2e70199f4ef9f90946df3971e692d1941e36e2f48da5abf42e624796a75d0aff",
+    "Assets/IntercomMVP/Runtime/IntercomNpcDefinition.cs": "dee795cdfa36f228adf16caae699c73233e03e65ae5decce0829c91a913abbe2",
+    "Assets/IntercomMVP/Runtime/IntercomNpcFactory.cs": "862f169b2a83d033c23193654cdb92dd9ff380f27130dc53e2e278ef3b2789eb",
+    "Assets/IntercomMVP/Runtime/IntercomNpcNavigation.cs": "eead64bfcf8f302375119718ebd77618b391ad63e1153b8c03d60b2749fbd269",
+    "Assets/IntercomMVP/Runtime/IntercomOccluder.cs": "47fa05a8eb3dda8dea1aacc55e2f45b8e8924452eef61e8f3c55705a2eb2dbfe",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionFade.cs": "274f4cb1c808fb2f46a7a9ad0a3347c5f7dc7caf36a6a6c6d03fc57636b5ca0d",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionGeometry.cs": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7",
+    "Assets/IntercomMVP/Runtime/IntercomOcclusionState.cs": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerAudio.cs": "4f82a29163993ced544c14565e42c7b3b0c363349c98afb81d22472281f467ad",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs": "94d8824079b2a08efddfcf065151cb1fd2de25c888ca1b45efb54b8e3e8961e9",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs": "c6a49de670dfdc03bdb0e5216eb10c3f180f74a30be0b359a2e9012bf8e9c1a6",
+    "Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs": "3997719b448ce42e288cd2efd71ca40597958fa0cac9037741fc3446550d2523",
+    "Assets/IntercomMVP/Runtime/IntercomProjectileDirection.cs": "9e5322630b7aea8bd53f0fae1095d2f678267c2c7ab132d134efa21e1b84a15f",
+    "Assets/IntercomMVP/Runtime/IntercomProjectileHitChoice.cs": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
+    "Assets/IntercomMVP/Runtime/IntercomProjectileImpact.cs": "fa911e93ab0627527f8ef0e1d21feab8569ef2fc67ba88df6b5a7b3d6aceebe4",
+    "Assets/IntercomMVP/Runtime/IntercomPropState.cs": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d",
+    "Assets/IntercomMVP/Runtime/IntercomReactiveProp.cs": "2f9fec9c85b3135da912ac9c2dd9a32d8d129873fde14fb9215d368194e23373",
+    "Assets/IntercomMVP/Runtime/IntercomReloadControl.cs": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
+    "Assets/IntercomMVP/Runtime/IntercomRescueAlly.cs": "f59dddfc3bf1db57c619702f141cf139865f9ddd294124794fcafbb50cd5b706",
+    "Assets/IntercomMVP/Runtime/IntercomSimpleShooter.cs": "d8e1b613d374406026a39babb8f16a0d4d84effbf67a01658dcbb065fb29ffb0",
+    "Assets/IntercomMVP/Runtime/IntercomTargetDummy.cs": "5b19eb59d3420a8a42ae9d63a4842737b9d0e14d1073049b9e4dd6899a3ab6fa",
+    "Assets/IntercomMVP/Runtime/IntercomTeam.cs": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e",
+    "Assets/IntercomMVP/Runtime/IntercomTracerGeometry.cs": "69a00cf8b0c7ae89725850f6206b0b595c9e08bf54fa8b711545680dcd273733",
+    "Assets/IntercomMVP/Runtime/IntercomTracerStyle.cs": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c",
+    "Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs": "80202091f8d914ed9e3908f2b431dac79f6dd9064d8582147b216f34492a1988",
+    "Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponBalance.cs": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponDefinition.cs": "7d7754809613cb81241e7bc39d8679621fc333e8f6fa7f14886d2189b1096110",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponMagazine.cs": "7aa8be1034a65389022053fc64ab32ff64830a10de483cf4f9fa32566ff1239b",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs": "7b6c010807ce8fdcdb6c345cf5c7dfe1f0ce4a4372f2eba7efeac871dc624856",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+    "Assets/IntercomMVP/Runtime/IntercomWeaponPoseProfile.cs": "305b9e9d4ce94731fff443c6291579e1603f211d1059dae0a775c9a58f9ae473",
+    "Assets/IntercomMVP/Runtime/IntercomWorkshopHud.cs": "4178753a51aeb7553b3c57ac9740a3e6043e2eeeb100df02ce186ba8f153bb6b",
+    "Assets/IntercomMVP/Runtime/IntercomWorldAnchor.cs": "09e5dbc2243b20bb8179a050f43a76c7744abd5cd213eb2ad05100890ac5cc6f"
+  },
+  "details": [
+    "NpcV9Review.json",
+    "MissionsV9Review.json",
+    "MissionInterfaceV9Review.json",
+    "SceneMissionsV9Review.json",
+    "SceneIntegrityV9Review.json",
+    "ReviewV9.json"
+  ],
+  "limitations": [
+    "Unity Editor compilation/import, actual Animator/PhysX, real GUI rendering and Android testing not executed.",
+    "Standalone component tests use narrow Unity stand-ins; HUD previews capture draw commands offline.",
+    "No new 3D models, mission rewards or persistent progress; existing map and art retained.",
+    "Locally authored scene edits after V8 should be saved separately before replacing the tutorial scene."
+  ]
+}

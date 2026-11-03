@@ -15,6 +15,8 @@ namespace IntercomMvp
         [Header("References")]
         public Camera movementCamera;
         public Transform target;
+        public IntercomPlayerVitality vitality;
+        public IntercomMissionDirector mission;
         [Header("Two sticks")]
         [Range(0f, 0.8f)] public float movementDeadZone = 0.12f;
         [Range(0f, 0.8f)] public float aimDeadZone = 0.2f;
@@ -38,12 +40,15 @@ namespace IntercomMvp
         private const int MousePointerId = int.MinValue;
         private readonly IntercomTwinStickState sticks = new IntercomTwinStickState();
         private readonly IntercomReloadControl reloadControl = new IntercomReloadControl();
+        private readonly IntercomReloadControl retryControl = new IntercomReloadControl();
         private IntercomWeaponMagazine magazine;
         private Rect reloadButton;
-        private GUIStyle ammoStyle, reloadStyle;
-        private Texture2D discTexture, ringTexture;
+        private readonly IntercomWorkshopHud hud = new IntercomWorkshopHud();
+        private IntercomHudLayout hudLayout;
         private CharacterController targetCapsule;
         private Transform cachedTarget;
+        private IntercomMissionDirector observedMission;
+        private IntercomMissionDirector ActiveMission => mission != null && mission.isActiveAndEnabled ? mission : null;
         private Vector2 leftCenter, rightCenter;
         private float radius;
         private bool focused = true, paused, requireRelease, wasFireHeld, hasLayout;
@@ -59,6 +64,7 @@ namespace IntercomMvp
             if (movementCamera == null) movementCamera = Camera.main;
             if (target == null) target = transform;
             magazine = GetComponent<IntercomWeaponMagazine>();
+            if(vitality == null) vitality = GetComponent<IntercomPlayerVitality>();
             RefreshLayout();
         }
 
@@ -100,6 +106,7 @@ namespace IntercomMvp
         {
             sticks.Reset();
             reloadControl.Reset();
+            retryControl.Reset();
             Move = Aim = Vector2.zero;
             AimActive = FireHeld = FirePressed = ResetPressed = ReloadPressed = TouchActive = wasFireHeld = false;
         }
@@ -115,6 +122,11 @@ namespace IntercomMvp
         private void Update()
         {
             RefreshLayout();
+            if(observedMission != ActiveMission)
+            {
+                observedMission=ActiveMission;
+                CancelUntilRelease();
+            }
             ReloadPressed = false;
             if (!focused || paused || Time.timeScale <= 0f) { CancelUntilRelease(); return; }
             Vector2 keyboard = ReadKeyboard();
@@ -122,6 +134,12 @@ namespace IntercomMvp
             bool spaceHeld = SpaceHeld();
             int touchCount = TouchCount();
             TouchActive = touchCount > 0;
+            if(UpdateMissionInput(touchCount,mousePosition,mouseHeld,mouseDown,spaceHeld,keyboard)) return;
+            if(ActiveMission == null && vitality != null && vitality.IsDead)
+            {
+                UpdateDefeatInput(touchCount, mousePosition, mouseHeld, mouseDown, spaceHeld);
+                return;
+            }
             if (requireRelease)
             {
                 ClearInput();
@@ -164,6 +182,105 @@ namespace IntercomMvp
             ReloadPressed |= ReadReloadPressed();
         }
 
+        private bool UpdateMissionInput(int touchCount, Vector2 mousePosition, bool mouseHeld,
+            bool mouseDown, bool spaceHeld, Vector2 keyboard)
+        {
+            if(ActiveMission == null) return false;
+            bool modal = mission.BlocksGameplay;
+            if(modal) ClearInput();
+            // The entire press that opened/closed a menu is consumed. A finger
+            // carried from the result screen cannot become a stick or a shot.
+            if(requireRelease)
+            {
+                if(modal && touchCount == 0 && !mouseHeld && !spaceHeld && keyboard.sqrMagnitude == 0f)
+                    requireRelease=false;
+                return modal;
+            }
+            if(ReadModesPressed() && mission.Phase != IntercomMissionPhase.Selection)
+            { mission.ReturnToSelection(); CancelUntilRelease(); return true; }
+            if(ReadResetPressed() && mission.Phase != IntercomMissionPhase.Selection)
+            { mission.RetryMission(); CancelUntilRelease(); return true; }
+            if(!Application.isMobilePlatform && touchCount == 0 && mouseDown
+                && ApplyMissionPress(mousePosition.x,mousePosition.y)) return true;
+#if ENABLE_INPUT_SYSTEM
+            var touches = EnhancedTouch.activeTouches;
+            for(int i=0;i<touches.Count;i++)
+            {
+                var touch=touches[i];
+                if(touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled)
+                { CancelUntilRelease(); return true; }
+                if(touch.phase == UnityEngine.InputSystem.TouchPhase.Began
+                    && ApplyMissionPress(touch.screenPosition.x,touch.screenPosition.y)) return true;
+            }
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            for(int i=0;i<Input.touchCount;i++)
+            {
+                Touch touch=Input.GetTouch(i);
+                if(touch.phase == TouchPhase.Canceled) { CancelUntilRelease(); return true; }
+                if(touch.phase == TouchPhase.Began && ApplyMissionPress(touch.position.x,touch.position.y)) return true;
+            }
+#endif
+            // Death events can be observed by Input one frame before Director.Update.
+            if(!modal && vitality != null && vitality.IsDead) { ClearInput(); return true; }
+            return modal;
+        }
+
+        private bool ApplyMissionPress(float x,float y)
+        {
+            bool first=hudLayout.MissionFirst.Contains(x,y), second=hudLayout.MissionSecond.Contains(x,y);
+            if(mission.Phase == IntercomMissionPhase.Active)
+            {
+                if(!hudLayout.Modes.Contains(x,y)) return false;
+                mission.ReturnToSelection();
+            }
+            else if(mission.Phase == IntercomMissionPhase.Selection)
+            {
+                if(!first && !second) return false;
+                mission.StartMission(first ? IntercomMissionMode.Elimination : IntercomMissionMode.Rescue);
+            }
+            else
+            {
+                if(first) mission.RetryMission();
+                else if(second) mission.ReturnToSelection();
+                else return false;
+            }
+            CancelUntilRelease(); return true;
+        }
+
+        private void UpdateDefeatInput(int touchCount, Vector2 mousePosition, bool mouseHeld, bool mouseDown, bool spaceHeld)
+        {
+            // All gameplay pointers are inert while dead. Retry uses only a
+            // fresh press inside the same rectangle drawn by the HUD.
+            ClearInput();
+            if(ReadResetPressed()) { vitality.Retry(); CancelUntilRelease(); return; }
+            if(requireRelease)
+            {
+                if(touchCount == 0 && !mouseHeld && !spaceHeld) requireRelease = false;
+                return;
+            }
+            bool retry = !Application.isMobilePlatform && touchCount == 0 && mouseDown
+                && retryControl.PointerDown(MousePointerId, mousePosition.x, mousePosition.y);
+#if ENABLE_INPUT_SYSTEM
+            var touches = EnhancedTouch.activeTouches;
+            for(int i=0;i<touches.Count;i++)
+            {
+                var touch = touches[i];
+                if(touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled) { CancelUntilRelease(); return; }
+                if(touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+                    retry |= retryControl.PointerDown(touch.touchId,touch.screenPosition.x,touch.screenPosition.y);
+            }
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            for(int i=0;i<Input.touchCount;i++)
+            {
+                Touch touch = Input.GetTouch(i);
+                if(touch.phase == TouchPhase.Canceled) { CancelUntilRelease(); return; }
+                if(touch.phase == TouchPhase.Began)
+                    retry |= retryControl.PointerDown(touch.fingerId,touch.position.x,touch.position.y);
+            }
+#endif
+            if(retry) { vitality.Retry(); CancelUntilRelease(); }
+        }
+
         private void RefreshLayout()
         {
             Rect safe = Screen.safeArea;
@@ -173,16 +290,15 @@ namespace IntercomMvp
             layoutWidth = Screen.width; layoutHeight = Screen.height;
             layoutOrientation = Screen.orientation; layoutSafeArea = safe; hasLayout = true;
             if (changedScreen) CancelUntilRelease();
-            float scale = Mathf.Max(0.25f, Mathf.Min(safe.width / 1280f, safe.height / 720f));
-            radius = Mathf.Min(stickRadiusAt720p * scale, Mathf.Min(safe.width * 0.18f, safe.height * 0.25f));
-            radius = Mathf.Max(8f, radius);
-            float margin = edgeMarginAt720p * scale;
-            leftCenter = new Vector2(safe.xMin + radius + margin, safe.yMin + radius + margin);
-            rightCenter = new Vector2(safe.xMax - radius - margin, safe.yMin + radius + margin);
+            hudLayout = IntercomHudLayout.Calculate(safe.x, safe.y, safe.width, safe.height,
+                stickRadiusAt720p, edgeMarginAt720p);
+            radius = hudLayout.Radius;
+            leftCenter = new Vector2(hudLayout.LeftX, hudLayout.LeftY);
+            rightCenter = new Vector2(hudLayout.RightX, hudLayout.RightY);
             sticks.Configure(leftCenter.x, leftCenter.y, rightCenter.x, rightCenter.y, radius, movementDeadZone, aimDeadZone);
-            float width = 142f * scale, height = 54f * scale;
-            reloadButton = new Rect(rightCenter.x - width * .5f, rightCenter.y + radius + 14f * scale, width, height);
+            reloadButton = new Rect(hudLayout.Reload.X, hudLayout.Reload.Y, hudLayout.Reload.Width, hudLayout.Reload.Height);
             reloadControl.Configure(reloadButton.x, reloadButton.y, reloadButton.width, reloadButton.height);
+            retryControl.Configure(hudLayout.Retry.X,hudLayout.Retry.Y,hudLayout.Retry.Width,hudLayout.Retry.Height);
         }
 
         private Vector2 MouseAim(Vector2 screenPosition)
@@ -318,91 +434,26 @@ namespace IntercomMvp
 #endif
         }
 
+        private static bool ReadModesPressed()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetKeyDown(KeyCode.Escape);
+#else
+            return false;
+#endif
+        }
+
         private void OnGUI()
         {
-            if (Event.current == null || Event.current.type != EventType.Repaint) return;
-            EnsureTextures();
+            if (Event.current == null || Event.current.type != EventType.Repaint || !hasLayout) return;
             Color previousColor = GUI.color; Matrix4x4 previousMatrix = GUI.matrix; int previousDepth = GUI.depth;
             GUI.matrix = Matrix4x4.identity; GUI.depth = -50;
-            if (ControlsVisible)
-            {
-                DrawStick(leftCenter, sticks.Left, new Color(0.55f, 0.86f, 0.94f, 1f));
-                DrawStick(rightCenter, sticks.Right, new Color(1f, 0.74f, 0.32f, 1f));
-            }
-            DrawAmmo();
+            hud.Draw(hudLayout, sticks, magazine, ControlsVisible, controlsOpacity, vitality, ActiveMission);
             GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth;
         }
 
-        private void DrawAmmo()
-        {
-            if (magazine == null || !magazine.isActiveAndEnabled) return;
-            float scale = reloadButton.height / 54f;
-            Rect panel = new Rect(reloadButton.x, Screen.height - reloadButton.yMax, reloadButton.width, reloadButton.height);
-            if (ammoStyle == null)
-            {
-                ammoStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
-                reloadStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
-                ammoStyle.normal.textColor = Color.white; reloadStyle.normal.textColor = new Color(.85f,.87f,.84f,1f);
-            }
-            ammoStyle.fontSize = Mathf.Max(12,Mathf.RoundToInt(23f * scale));
-            reloadStyle.fontSize = Mathf.Max(8,Mathf.RoundToInt(11f * scale));
-            GUI.color = new Color(.055f,.07f,.075f,.82f);
-            GUI.DrawTexture(panel,Texture2D.whiteTexture);
-            GUI.color = magazine.IsReloading ? new Color(.77f,.64f,.38f,.85f) : new Color(.47f,.61f,.58f,.7f);
-            GUI.DrawTexture(new Rect(panel.x,panel.yMax-3f*scale,panel.width*(magazine.IsReloading?magazine.ReloadProgress:magazine.CurrentAmmo/(float)magazine.Capacity),3f*scale),Texture2D.whiteTexture);
-            GUI.color = Color.white;
-            GUI.Label(new Rect(panel.x,panel.y+1f*scale,panel.width,31f*scale),magazine.CurrentAmmo+" / ∞",ammoStyle);
-            string label = magazine.IsReloading ? "ПЕРЕЗАРЯДКА" : Application.isMobilePlatform ? "ПЕРЕЗАРЯДИТЬ" : "R · ПЕРЕЗАРЯДИТЬ";
-            GUI.Label(new Rect(panel.x,panel.y+30f*scale,panel.width,20f*scale),label,reloadStyle);
-        }
-
-        private void DrawStick(Vector2 center, IntercomTwinStickState.Stick stick, Color accent)
-        {
-            float opacity = controlsOpacity * (stick.Captured ? 1f : 0.72f);
-            DrawCircle(center, radius, discTexture, new Color(0.035f, 0.055f, 0.07f, opacity * 0.45f));
-            DrawCircle(center, radius, ringTexture, new Color(accent.r, accent.g, accent.b, opacity * 0.72f));
-            Vector2 knob = center + new Vector2(stick.RawX, stick.RawY) * radius * 0.68f;
-            DrawCircle(knob, radius * 0.35f, discTexture, new Color(accent.r, accent.g, accent.b, opacity * 0.9f));
-            DrawCircle(knob, radius * 0.35f, ringTexture, new Color(1f, 1f, 1f, opacity * 0.6f));
-        }
-
-        private static void DrawCircle(Vector2 center, float size, Texture texture, Color color)
-        {
-            GUI.color = color;
-            GUI.DrawTexture(new Rect(center.x - size, Screen.height - center.y - size, size * 2f, size * 2f), texture);
-        }
-
-        private void EnsureTextures()
-        {
-            if (discTexture != null) return;
-            discTexture = CircleTexture(false); ringTexture = CircleTexture(true);
-        }
-
-        private static Texture2D CircleTexture(bool ring)
-        {
-            const int size = 128;
-            Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false)
-            { name = ring ? "Intercom Stick Ring" : "Intercom Stick Disc", hideFlags = HideFlags.HideAndDontSave,
-                wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear };
-            Color32[] pixels = new Color32[size * size];
-            for (int y = 0; y < size; y++)
-                for (int x = 0; x < size; x++)
-                {
-                    float dx = (x + 0.5f - size * 0.5f) / (size * 0.5f);
-                    float dy = (y + 0.5f - size * 0.5f) / (size * 0.5f);
-                    float distance = Mathf.Sqrt(dx * dx + dy * dy);
-                    float alpha = Mathf.Clamp01((1f - distance) * size * 0.5f);
-                    if (ring) alpha *= Mathf.Clamp01((distance - 0.94f) * size * 0.5f);
-                    pixels[y * size + x] = new Color32(255, 255, 255, (byte)(alpha * 255f));
-                }
-            texture.SetPixels32(pixels); texture.Apply(false, true);
-            return texture;
-        }
-
-        private void OnDestroy()
-        {
-            if (discTexture != null) Destroy(discTexture);
-            if (ringTexture != null) Destroy(ringTexture);
-        }
+        private void OnDestroy() => hud.Dispose();
     }
 }

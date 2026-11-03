@@ -1,4 +1,4 @@
-# Проверки V6
+# Проверки V9
 
 В корне проекта:
 
@@ -14,7 +14,55 @@ python Validation/run_checks.py
 В среде подготовки использовались прямой компилятор Roslyn и .NET runtime без NuGet;
 это не компиляция всей игры против реальных сборок Unity.
 
-## Актуальные отчёты V6
+## Актуальные отчёты V9
+
+- `FoundationV9Review.json`: полный прогон и границы проверки.
+- `PackageV9Review.json`: состав дополнения поверх V8, ссылки и сохранение GUID.
+- `MissionsV9Review.json`: учёт миссий, волны, переиспользование и спасение.
+- `NpcV9Review.json`: сопровождающий замах, ближний бой, движение и смена цели.
+- `MissionInterfaceV9Review.json`: выбор режима, результаты, подсказки и отмена удержанного ввода.
+- `SceneMissionsV9Review.json`: явные ссылки, маркеры и маршруты текущего двора.
+- `SceneIntegrityV9Review.json`: локальные ID и владельцы компонентов сцены.
+- `ReviewV9.json`: интеграционный обзор и блокировка героя в меню.
+
+Новые проекты: `MissionStateTests`, `MissionRuntimeTests`, `MissionUiTests`,
+`MissionSceneRouteTests`. Исполняют производственный код с узкими заменами движка.
+Проверки сценовых маршрутов используют настоящую сетку навигации и маркеры сцены.
+`Docs/MissionHudV9_*.png` — офлайн-превью команд HUD, не скриншоты Unity.
+
+## Исторические отчёты V8
+
+- `FoundationV8Review.json`: итог автономных проверок и границы результата.
+- `PackageV8Review.json`: дополнение поверх V7, состав файлов и сохранение GUID.
+- `SceneNpcV8Review.json`: подключения героя, NPC, навигации и материалов в сцене.
+- `SceneIntegrityV8Review.json`: локальные ID, владельцы компонентов и материалы коллайдеров.
+- `NpcNavigationV8Review.json`: поиск пути, углы, динамические препятствия и бюджет запросов.
+- `NpcV8Review.json`: состояния, удары, жизненный цикл и создание капсул.
+- `PlayerHealthV8Review.json`: здоровье, смерть, повтор, ввод и безопасная область интерфейса.
+
+Новые проверки находятся в `NpcBrainTests`, `NpcNavigationTests`,
+`NpcRuntimeTests`, `NpcArenaTests` и `PlayerVitalityTests`. Это исполнение производственного
+кода с узкими заменами Unity API, без реального PhysX или Play Mode.
+`Docs/PlayerHealthV8*.png` — офлайн-превью команд отрисовки интерфейса.
+
+## Исторические отчёты V7
+
+- `FoundationV7Review.json`: сводка всех автономных проверок и границы результата.
+- `PackageV7Review.json`: состав дополнения, GUID и установка поверх V6/V6.1.
+- `CourtyardV7Review.json`: геометрия двора, доступность маршрутов и сохранность
+  компонентов персонажа, камеры, света и аудио.
+- `SceneIntegrityV7Review.json`: локальные ID, владельцы компонентов и фактические
+  материалы всех коллайдеров. Количество выводится из текущей планировки.
+- `InterfaceV7Review.json`: безопасные области экрана и настоящий путь ввода.
+- `InteractivePropsV7Review.json`: состояния предметов, коллайдеры, сброс и визуальные реакции.
+- `MuzzleHeightV7Review.json`: высота стволов и расстояние между ними по исходной
+  геометрии; указаны ограничения переноса этих измерений на Animator в Unity.
+
+Новые `HudLayoutTests` и `ReactivePropTests` дополняют существующие проверки.
+`Docs/InterfaceV7*.png` — офлайн-превью команд отрисовки интерфейса с заменой
+движка. `Docs/CourtyardV7.png` — Blender-превью геометрии карты. Это не скриншоты Unity.
+
+## Исторические отчёты V6
 
 - `FoundationV6Review.json`: итог 25 автономных проектов проверок, синтаксиса и интеграции.
 - `AssetIntegrityV6Review.json`, `PackageV6Review.json`: сохранность ресурсов, GUID и установка поверх проекта.
@@ -94,7 +142,7 @@ SDK CLI не смог прочитать сведения процесса че�
 Отчёты `Ankle*.json`, `RepairReview.json`, `MotionPolish*.json`, `TutorialReview.json`,
 `MovementRuntimeChecks.json`, `TurnActualMesh*.json` и `AudioV4Review.json` оставлены
 как **история предыдущих версий**.
-Их SHA и измерения не подтверждают новую анимацию и звук. Итог текущей версии находится в `FoundationV6Review.json`. Старые отчёты описывают
+Их SHA и измерения не подтверждают новую анимацию и звук. Итог текущей версии находится в `FoundationV7Review.json`. Старые отчёты описывают
 свои версии; часть особо ранних файлов дополнительно помечена `historicalReport: true`.
 
 ## Что ещё проверяется в Unity

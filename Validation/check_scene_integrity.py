@@ -55,12 +55,15 @@ def surface_routing(text):
         assert component in components[go], f"Detached component {component} on {names[go]}"
 
     layout = json.loads((ROOT / "Assets/IntercomMVP/World/DistrictLayout.json").read_text())
-    expected = {"Ground - Future Map": "Asphalt"}
+    # Different authored groups may reuse a module name (e.g. Low barrier).
+    # Compare the complete counted name/material inventory instead of losing
+    # duplicate instances through a dictionary overwrite.
+    expected = Counter({("Ground - Future Map", "Asphalt"): 1})
     for group in layout["groups"]:
         for item in group["blocks"]:
             if item["collider"]:
-                expected["Collision - " + item["name"]] = item["footstepSurface"]
-    expected.update({item["name"]: item["footstepSurface"] for item in layout["targets"]})
+                expected[("Collision - " + item["name"], item["footstepSurface"])] += 1
+    expected.update((item["name"], item["footstepSurface"]) for item in layout["targets"])
     routed = []
     for fid, (kind, _) in blocks.items():
         if kind not in {64, 65, 135, 136}:  # Mesh, Box, Sphere, Capsule collider.
@@ -70,9 +73,9 @@ def surface_routing(text):
         assert go in tags, f"Untagged collider {name}"
         tag_id, material = tags[go]
         assert tag_id in components[go]
-        assert expected[name] == material, (name, expected[name], material)
+        assert expected[(name, material)] > 0, (name, material)
         routed.append({"object": name, "colliderID": fid, "surfaceID": tag_id, "material": material})
-    assert len(routed) == 101, len(routed)
+    assert Counter((x["object"], x["material"]) for x in routed) == expected, "Collider inventory differs from authored layout"
     return routed
 
 
@@ -134,7 +137,7 @@ def main():
     try:
         generator.build_modules()  # In-memory mesh construction; no asset export.
         layout = json.loads((ROOT / "Assets/IntercomMVP/World/DistrictLayout.json").read_text())
-        with tempfile.TemporaryDirectory(prefix="care-scene-v6-") as directory:
+        with tempfile.TemporaryDirectory(prefix="care-scene-v9-") as directory:
             generator.SCENE = Path(directory) / "IntercomMVP.unity"
             generator.SCENE.write_text(source)
             generated_report = generator.write_scene(layout)
@@ -146,7 +149,7 @@ def main():
     finally:
         generator.SCENE = original_scene
     assert hashlib.sha256(SCENE.read_bytes()).hexdigest() == original_hash, "Working scene was changed by validation"
-    result = {"revision": "scene-integrity-v6", "status": "PASS", "yamlFiles": len(audited),
+    result = {"revision": "scene-integrity-v9", "status": "PASS", "yamlFiles": len(audited),
               "files": audited, "regressionCases": assertions, "sceneSHA256": original_hash,
               "surfaceCount": len(contacts), "surfaceCounts": dict(Counter(x["material"] for x in contacts)),
               "colliderRouting": contacts,
@@ -154,7 +157,7 @@ def main():
                             "localIDs": generated_ids, "surfaceCount": len(generated_contacts),
                             "environmentObjects": generated_report["environmentObjects"]},
               "scope": "Signed Int64 IDs, local reference resolution, bidirectional component ownership and authored material routing. Not Unity importer or PhysX execution."}
-    (ROOT / "Validation/SceneIntegrityV6Review.json").write_text(json.dumps(result, indent=2) + "\n")
+    (ROOT / "Validation/SceneIntegrityV9Review.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps({key: result[key] for key in ["status", "yamlFiles", "regressionCases", "surfaceCount", "surfaceCounts"]}))
 
 

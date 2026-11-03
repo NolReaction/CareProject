@@ -28,8 +28,34 @@ static class Program{
    Input.touches=Array.Empty<Touch>();Call(p,"Update");Input.touches=new[]{T(3,1767,320,TouchPhase.Began)};Time.timeScale=0;Call(p,"Update");Check(!p.ReloadPressed&&!p.FireHeld,"pausedUIproducedintent");Time.timeScale=1;
   });
   Case("actual HUD publishes ammo and reload status without GUI input handler",()=>{
-   var p=Fresh(false);GUI.labels.Clear();Call(p,"OnGUI");Check(GUI.labels.Contains("24 / ∞")&&GUI.labels.Contains("R · ПЕРЕЗАРЯДИТЬ"),"ammoHUDlabels missing");
+   var p=Fresh(false);GUI.labels.Clear();Call(p,"OnGUI");Check(GUI.labels.Contains("24")&&GUI.labels.Contains("/ 24")&&GUI.labels.Contains("∞")&&GUI.labels.Contains("R · ПЕРЕЗАРЯДИТЬ"),"ammoHUDlabels missing");
    ((IntercomWeaponMagazine)p.attached).IsReloading=true;GUI.labels.Clear();Call(p,"OnGUI");Check(GUI.labels.Contains("ПЕРЕЗАРЯДКА"),"reloadstatusmissing");
+  });
+  Case("death blocks both sticks and old held input cannot retry",()=>{
+   var p=Fresh(true);p.vitality=new IntercomPlayerVitality{IsDead=true};p.CancelUntilRelease();
+   Input.touches=new[]{T(8,223,153,TouchPhase.Began),T(9,1870,153,TouchPhase.Began)};Call(p,"Update");
+   Check(p.Move.sqrMagnitude==0&&!p.FireHeld&&!p.ReloadPressed&&p.vitality.Retries==0,"dead input leaked or retried");
+   Input.touches=Array.Empty<Touch>();Call(p,"Update");
+   var b=IntercomHudLayout.Calculate(0,0,1920,1080,70,32).Retry;
+   Input.touches=new[]{T(10,b.X+b.Width*.5f,b.Y+b.Height*.5f,TouchPhase.Began)};Call(p,"Update");
+   Check(p.vitality.Retries==1&&!p.FireHeld&&!p.FirePressed,"retry touch must restart once without fire");
+   Input.touches=new[]{T(10,1870,153,TouchPhase.Moved)};Call(p,"Update");
+   Check(!p.FireHeld&&!p.FirePressed&&p.Move.sqrMagnitude==0,"retry held finger became a new stick");
+   Input.touches=Array.Empty<Touch>();Call(p,"Update");
+   Input.touches=new[]{T(10,1870,153,TouchPhase.Began)};Call(p,"Update");Check(p.FireHeld,"fresh postretry finger must work");
+  });
+  Case("defeat uses Backspace and dedicated button, never reload or arbitrary click",()=>{
+   var p=Fresh(false);p.vitality=new IntercomPlayerVitality{IsDead=true};
+   Input.down.Add(KeyCode.R);Call(p,"Update");Check(p.vitality.Retries==0&&!p.ReloadPressed,"R retried whiledead");
+   Input.down.Clear();Input.MouseHeld=Input.MouseDown=true;Input.mousePosition=new Vector2(50,500);Call(p,"Update");
+   Check(p.vitality.Retries==0&&!p.FireHeld,"outsideclick retried orfired");
+   Input.Clear();Input.down.Add(KeyCode.Backspace);Call(p,"Update");Check(p.vitality.Retries==1,"Backspace failedwhilemotorlocked");
+  });
+  Case("actual HUD shows health and dead screen, hides ammunition whiledead",()=>{
+   var p=Fresh(false);p.vitality=new IntercomPlayerVitality();p.vitality.Health.Current=37;
+   GUI.labels.Clear();Call(p,"OnGUI");Check(GUI.labels.Contains("37 / 100")&&GUI.labels.Contains("КОРПУС"),"health not real");
+   p.vitality.IsDead=true;p.vitality.Health.Current=0;GUI.labels.Clear();Call(p,"OnGUI");
+   Check(GUI.labels.Contains("0 / 100")&&GUI.labels.Contains("СИСТЕМА ОТКЛЮЧЕНА")&&GUI.labels.Contains("ПОПРОБОВАТЬ СНОВА")&&!GUI.labels.Contains("24"),"defeatHUD invalid");
   });
   Console.WriteLine("PASS "+cases+" actual PlayerInput/GUI call-path cases, "+assertions+" assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.");
  }

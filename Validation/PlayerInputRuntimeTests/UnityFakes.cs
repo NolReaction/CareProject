@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 namespace UnityEngine {
+ public class Object{public static void Destroy(object o){}}
  public class MonoBehaviour{public Transform transform=new Transform();public object attached;public T GetComponent<T>()where T:class=>attached as T;public static void Destroy(object o){}}
  public class Transform{public Vector3 position,forward=Vector3.forward;public T GetComponent<T>()where T:class=>null;public Vector3 TransformPoint(Vector3 p)=>position+p;}
  public class CharacterController{public Vector3 center;}
@@ -30,8 +31,8 @@ namespace UnityEngine {
   public float xMin=>x;public float yMin=>y;public float xMax=>x+width;public float yMax=>y+height;
   public static bool operator==(Rect a,Rect b)=>a.x==b.x&&a.y==b.y&&a.width==b.width&&a.height==b.height;public static bool operator!=(Rect a,Rect b)=>!(a==b);public override bool Equals(object o)=>o is Rect r&&this==r;public override int GetHashCode()=>x.GetHashCode();
  }
- public static class Mathf{public static float Max(float a,float b)=>Math.Max(a,b);public static int Max(int a,int b)=>Math.Max(a,b);public static float Min(float a,float b)=>Math.Min(a,b);public static float Sqrt(float a)=>(float)Math.Sqrt(a);public static float Clamp01(float a)=>Math.Max(0,Math.Min(1,a));public static int RoundToInt(float a)=>(int)Math.Round(a);}
- public enum KeyCode{A,D,W,S,LeftArrow,RightArrow,UpArrow,DownArrow,Space,R,Backspace}
+ public static class Mathf{public static float Max(float a,float b)=>Math.Max(a,b);public static int Max(int a,int b)=>Math.Max(a,b);public static float Min(float a,float b)=>Math.Min(a,b);public static float Sqrt(float a)=>(float)Math.Sqrt(a);public static float Clamp01(float a)=>Math.Max(0,Math.Min(1,a));public static int RoundToInt(float a)=>(int)Math.Round(a);public static int CeilToInt(float a)=>(int)Math.Ceiling(a);}
+ public enum KeyCode{A,D,W,S,LeftArrow,RightArrow,UpArrow,DownArrow,Space,R,Backspace,Escape}
  public enum TouchPhase{Began,Moved,Stationary,Ended,Canceled}
  public struct Touch{public int fingerId;public Vector2 position;public TouchPhase phase;}
  public static class Input{
@@ -41,12 +42,41 @@ namespace UnityEngine {
  }
  public class Texture{}public enum TextureFormat{RGBA32}public enum HideFlags{HideAndDontSave}public enum TextureWrapMode{Clamp}public enum FilterMode{Bilinear}
  public struct Color{public float r,g,b,a;public Color(float r,float g,float b,float a=1){this.r=r;this.g=g;this.b=b;this.a=a;}public static Color white=>new Color(1,1,1,1);}
- public struct Color32{public Color32(byte r,byte g,byte b,byte a){}}
- public class Texture2D:Texture{public string name;public HideFlags hideFlags;public TextureWrapMode wrapMode;public FilterMode filterMode;public static Texture2D whiteTexture=new Texture2D(1,1,TextureFormat.RGBA32,false);public Texture2D(int w,int h,TextureFormat f,bool m){}public void SetPixels32(Color32[] p){}public void Apply(bool a,bool b){}}
+ public struct Color32{public byte r,g,b,a;public Color32(byte r,byte g,byte b,byte a){this.r=r;this.g=g;this.b=b;this.a=a;}}
+ public class Texture2D:Texture{public string name="white";public int width,height;public Color32[] pixels;public HideFlags hideFlags;public TextureWrapMode wrapMode;public FilterMode filterMode;public static Texture2D whiteTexture=new Texture2D(1,1,TextureFormat.RGBA32,false);public Texture2D(int w,int h,TextureFormat f,bool m){width=w;height=h;pixels=new Color32[w*h];if(w==1&&h==1)pixels[0]=new Color32(255,255,255,255);}public void SetPixels32(Color32[] p){pixels=p;}public void Apply(bool a,bool b){}}
  public struct Matrix4x4{public static Matrix4x4 identity=>new Matrix4x4();}public enum EventType{Repaint}public class Event{public static Event current=new Event();public EventType type=EventType.Repaint;}
- public enum TextAnchor{MiddleCenter}public enum FontStyle{Bold}public class GUIStyleState{public Color textColor;}
- public class GUIStyle{public TextAnchor alignment;public FontStyle fontStyle;public int fontSize;public GUIStyleState normal=new GUIStyleState();public GUIStyle(){}public GUIStyle(GUIStyle other){}}
+ public enum TextAnchor{MiddleCenter}public enum FontStyle{Normal,Bold}public class GUIStyleState{public Color textColor;}
+ public class GUIStyle{public TextAnchor alignment;public FontStyle fontStyle;public int fontSize;public GUIStyleState normal=new GUIStyleState();public GUIStyle(){}public GUIStyle(GUIStyle other){alignment=other.alignment;fontStyle=other.fontStyle;}}
  public class GUISkin{public GUIStyle label=new GUIStyle();}
- public static class GUI{public static Color color;public static Matrix4x4 matrix;public static int depth;public static GUISkin skin=new GUISkin();public static List<string> labels=new List<string>();public static void DrawTexture(Rect r,Texture t){}public static void Label(Rect r,string s,GUIStyle style){labels.Add(s);}}
+ public static class GUI{
+  public static Color color;public static Matrix4x4 matrix;public static int depth;public static GUISkin skin=new GUISkin();public static List<string> labels=new List<string>();
+  public static bool Record;public static List<object> commands=new List<object>();public static Dictionary<string,Texture2D> textures=new Dictionary<string,Texture2D>();
+  static object Bounds(Rect r)=>new[]{r.x,r.y,r.width,r.height};static float[] Rgba(Color c)=>new[]{c.r,c.g,c.b,c.a};
+  public static void DrawTexture(Rect r,Texture t){if(!Record)return;var texture=(Texture2D)t;textures[texture.name]=texture;commands.Add(new{kind="texture",rect=Bounds(r),texture=texture.name,color=Rgba(color)});}
+  public static void Label(Rect r,string s,GUIStyle style){labels.Add(s);if(Record)commands.Add(new{kind="text",rect=Bounds(r),text=s,fontSize=style.fontSize,bold=style.fontStyle==FontStyle.Bold,color=Rgba(style.normal.textColor)});}
+  public static void Save(string path){var images=new List<object>();foreach(var pair in textures){var t=pair.Value;var bytes=new byte[t.pixels.Length*4];for(int i=0;i<t.pixels.Length;i++){bytes[i*4]=t.pixels[i].r;bytes[i*4+1]=t.pixels[i].g;bytes[i*4+2]=t.pixels[i].b;bytes[i*4+3]=t.pixels[i].a;}images.Add(new{name=pair.Key,width=t.width,height=t.height,rgba=Convert.ToBase64String(bytes)});}System.IO.File.WriteAllText(path,System.Text.Json.JsonSerializer.Serialize(new{width=Screen.width,height=Screen.height,textures=images,commands=commands}));}
+ }
+
 }
 namespace IntercomMvp {public class IntercomWeaponMagazine{public bool isActiveAndEnabled=true,IsReloading;public int CurrentAmmo=24,Capacity=24;public float ReloadProgress;}}
+
+namespace IntercomMvp { public class IntercomHealth{public float Current=100,Maximum=100;} public class IntercomPlayerVitality{public IntercomHealth Health=new IntercomHealth();public bool IsDead;public float ShowHitRemaining;public int Retries;public bool Retry(){Retries++;IsDead=false;Health.Current=Health.Maximum;return true;}}}
+
+namespace IntercomMvp {
+ public enum IntercomMissionMode { Elimination, Rescue }
+ public enum IntercomMissionPhase { Selection, Active, Victory, Defeat }
+ public class IntercomMissionDirector {
+  public bool isActiveAndEnabled=true;
+  public IntercomMissionPhase Phase=IntercomMissionPhase.Selection;
+  public IntercomMissionMode Mode;
+  public bool BlocksGameplay=>Phase!=IntercomMissionPhase.Active;
+  public int Kills=12,Goal=50,AliveEnemies=6,SpawnedEnemies=18,Wave=2;
+  public bool IsAllyRecruited;
+  public IntercomHealth AllyHealth;
+  public string ObjectiveText="Задание",ResultText="Двор снова работает.",HudHint="";
+  public int Starts,Retries,Selections;
+  public bool StartMission(IntercomMissionMode mode){Starts++;Mode=mode;Phase=IntercomMissionPhase.Active;return true;}
+  public bool RetryMission(){Retries++;Phase=IntercomMissionPhase.Active;return true;}
+  public void ReturnToSelection(){Selections++;Phase=IntercomMissionPhase.Selection;}
+ }
+}

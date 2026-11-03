@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems><DefineConstants>ENABLE_LEGACY_INPUT_MANAGER</DefineConstants></PropertyGroup>
+ <ItemGroup>
+  <Compile Include="Program.cs"/>
+  <Compile Include="../PlayerInputRuntimeTests/UnityFakes.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWorkshopHud.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomHudLayout.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomReloadControl.cs"/>
+ </ItemGroup>
+</Project>
