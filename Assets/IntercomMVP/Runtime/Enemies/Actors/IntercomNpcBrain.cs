@@ -63,8 +63,8 @@ namespace IntercomMvp
             { Enter(IntercomNpcPhase.Return); return false; }
             if(facts.OutsideLeash && (Phase==IntercomNpcPhase.Chase || Phase==IntercomNpcPhase.Windup || Phase==IntercomNpcPhase.Recovery))
             { Enter(IntercomNpcPhase.Return); return false; }
-            if(Phase!=IntercomNpcPhase.Return && facts.TargetAlive && facts.Detected
-                && (Phase==IntercomNpcPhase.Idle || Phase==IntercomNpcPhase.Patrol))
+            if(facts.TargetAlive && facts.Detected && !facts.OutsideLeash
+                && (Phase==IntercomNpcPhase.Idle || Phase==IntercomNpcPhase.Patrol || Phase==IntercomNpcPhase.Return))
             { unseen=0f; Enter(IntercomNpcPhase.Chase); return false; }
             switch(Phase)
             {

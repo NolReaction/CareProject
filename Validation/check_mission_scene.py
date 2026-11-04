@@ -91,9 +91,9 @@ def main():
     enemy_path = ROOT / 'Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset'
     enemy = enemy_path.read_text(); enemy_guid = installer.metadata(enemy_path, 11400000)
     assert f'guid: {enemy_guid},' in field(scene.blocks[director], 'enemyDefinition')
-    for name, expected in [('moveSpeed', 3), ('windupSeconds', .3), ('recoverySeconds', .48), ('attackRange', 1.05),
+    for name, expected in [('moveSpeed', 2.65), ('windupSeconds', .3), ('recoverySeconds', .48), ('attackRange', 1.05),
                            ('attackCommitSeconds', .08), ('attackTrackingTurnSpeed', 900), ('repathSeconds', .32),
-                           ('detectionRadius', 14), ('loseTargetSeconds', 4), ('leashRadius', 40)]:
+                           ('detectionRadius', 14), ('loseTargetSeconds', 6), ('leashRadius', 40)]:
         assert scalar(enemy, name) == expected, name
     # Ownership is bidirectional: no detached components or mismatched roots.
     components, owners = {}, {}

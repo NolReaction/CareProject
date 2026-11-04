@@ -150,7 +150,7 @@ namespace UnityEngine
     public class Mesh:Object {public Vector3[] vertices;public int[] triangles;public void RecalculateNormals(){}public void RecalculateBounds(){}}
     public enum PrimitiveType {Capsule,Cube,Cylinder}
     public static class Shader {public static int PropertyToID(string s)=>s.GetHashCode();}
-    public class Camera:Behaviour {public static Camera main;public Vector3 WorldToScreenPoint(Vector3 p)=>new Vector3(p.x+100,p.y+100,1);}
+    public class Camera:Behaviour {public static Camera main;public Func<Vector3,Vector3> ProjectPoint;public Vector3 WorldToScreenPoint(Vector3 p)=>ProjectPoint!=null?ProjectPoint(p):new Vector3(p.x+100,p.y+100,1);}
     public class Texture2D:Object {public static readonly Texture2D whiteTexture=new Texture2D();}
     public struct Rect {public float x,y,width,height;public float xMax=>x+width;public float yMax=>y+height;public Rect(float x,float y,float width,float height){this.x=x;this.y=y;this.width=width;this.height=height;}}
     public class GUIStyleState{public Color textColor;}
@@ -237,7 +237,7 @@ namespace IntercomMvp
     {
         public static readonly List<IntercomNpcController> Created=new List<IntercomNpcController>();
         public IntercomHealth Health;public IntercomHealth targetHealth;public IntercomNpcPhase Phase;
-        public int PrepareCalls,InvestigateCalls,EmergenceCalls;public Vector3 Investigation;public int ordinal;
+        public int PrepareCalls,InvestigateCalls,EmergenceCalls;public float ArrivalWarning;public Vector3 Investigation;public int ordinal;
         public static IntercomNpcController Create(IntercomNpcDefinition definition,IntercomNpcNavigation navigation,
             IntercomHealth target,IntercomPlayerMotor motor,Vector3 position,int ordinal)
         {
@@ -248,7 +248,8 @@ namespace IntercomMvp
         }
         public void PrepareForSpawn(Vector3 position){PrepareCalls++;transform.position=position;Health.ResetHealth();Phase=IntercomNpcPhase.Idle;}
         public void SetTarget(IntercomHealth health){targetHealth=health;}
-        public void BeginEmergence(){EmergenceCalls++;}
+        public void BeginEmergence(){BeginEmergence(0f);}
+        public void BeginEmergence(float warningSeconds){EmergenceCalls++;ArrivalWarning=warningSeconds;}
         public void Investigate(Vector3 point){InvestigateCalls++;Investigation=point;}
         public void Kill(){Health.TakeDamage(new IntercomDamage(10000,Vector3.zero,Vector3.forward,null));}
     }

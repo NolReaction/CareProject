@@ -18,13 +18,13 @@ MonoBehaviour:
   attackHalfAngle: 40
   windupSeconds: 0.3
   recoverySeconds: 0.48
-  moveSpeed: 3
+  moveSpeed: 2.65
   patrolSpeed: 0.9
   acceleration: 10
   turnSpeed: 420
   repathSeconds: 0.32
   detectionRadius: 14
-  loseTargetSeconds: 4
+  loseTargetSeconds: 6
   leashRadius: 40
   patrolRadius: 1.5
   idleSeconds: 1.1

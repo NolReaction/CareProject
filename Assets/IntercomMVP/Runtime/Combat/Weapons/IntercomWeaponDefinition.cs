@@ -50,12 +50,20 @@ namespace IntercomMvp
         [Min(0.01f)] public float flashLifetime = 0.065f;
         [Header("Ejected casing")]
         public bool ejectCasings = true;
+        [Range(1, 8), Tooltip("Cosmetic ejection cadence per hand. 2 emits one visible casing for every two shots; ammo use is unchanged.")]
+        public int casingEveryNthShot = 2;
         public Material casingMaterial;
         [Tooltip("Optional replacement. Empty uses the built-in bevelled casing.")]
         public Mesh casingMesh;
-        public Vector3 casingScale = new Vector3(0.045f,0.10f,0.045f);
+        public Vector3 casingScale = new Vector3(0.05625f,0.125f,0.05625f);
         [Min(0.2f)] public float casingLifetime = 2.5f;
         [Min(0f)] public float casingVelocityScale = 1f;
+
+        public int CasingCadence => System.Math.Max(1, System.Math.Min(8, casingEveryNthShot));
+        public Vector3 CasingScale => new Vector3(
+            System.Math.Min(1f, IntercomWeaponBalance.Positive(casingScale.x, .05625f, .005f)),
+            System.Math.Min(1f, IntercomWeaponBalance.Positive(casingScale.y, .125f, .005f)),
+            System.Math.Min(1f, IntercomWeaponBalance.Positive(casingScale.z, .05625f, .005f)));
 
         public int ProjectilesPerVolley => barrelMode == IntercomBarrelMode.DualSimultaneous ? 2 : 1;
         public int MagazineCapacity => System.Math.Max(ProjectilesPerVolley, System.Math.Min(999, magazineSize));

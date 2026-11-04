@@ -42,6 +42,7 @@ def profile(name, mode):
                       killTarget=50, maximumAlive=6 if mode == 0 else 5,
                       waveSize=10 if mode == 0 else 6, spawnInterval=1.2 if mode == 0 else 1.6,
                       waveRestSeconds=2.5 if mode == 0 else 3, minimumSpawnDistance=5,
+                      visibleSpawnEvery=3, minimumVisibleSpawnDistance=5.5, visibleSpawnWarningSeconds=.35,
                       rescueEnemySupply=30, allyHealth=60, allyMoveSpeed=3.4,
                       recruitDistance=1.6, recruitSeconds=.6, extractionRadius=2, allyWaitDistance=8)
         text = npc.YAML + '--- !u!114 &11400000\nMonoBehaviour:\n' + npc.common(0)
@@ -61,8 +62,8 @@ def ensure_assets():
     text = enemy.read_text()
     # Only migrate known V8 defaults; authored changes survive explicit reruns.
     upgrades = {'attackRange': (1.15, 1.05), 'windupSeconds': (.45, .3),
-                'recoverySeconds': (.65, .48), 'moveSpeed': (2.25, 3), 'repathSeconds': (.35, .32),
-                'detectionRadius': (10, 14), 'loseTargetSeconds': (2.5, 4), 'leashRadius': (18, 40)}
+                'recoverySeconds': (.65, .48), 'moveSpeed': (2.25, 2.65), 'repathSeconds': (.35, .32),
+                'detectionRadius': (10, 14), 'loseTargetSeconds': (2.5, 6), 'leashRadius': (18, 40)}
     for key, (old, new) in upgrades.items():
         match = re.search(r'^  ' + key + r': ([^\n]+)$', text, re.M)
         if match and float(match[1]) == old:
@@ -112,6 +113,8 @@ def install(text, profiles, enemy_guid):
         fields += f'  rescueDefinition: {{fileID: 11400000, guid: {profiles["Rescue"]}, type: 2}}\n'
         director = scene.add_component(arena, 'IntercomMissionDirector', fields)
         scene.blocks[nav] = set_field(scene.blocks[nav], 'maximumSearchesPerFrame', '4')
+    # Existing authoredSpawnPoints are deliberately never rewritten. Scene
+    # designers can add ground/hatch points independently of perimeter markers.
     # The legacy bootstrap must not create three extra untracked enemies.
     scene.blocks[legacy_arena] = set_field(scene.blocks[legacy_arena], 'm_Enabled', '0')
     if not re.search(r'^  mission: \{fileID: [1-9]', scene.blocks[input_id], re.M):

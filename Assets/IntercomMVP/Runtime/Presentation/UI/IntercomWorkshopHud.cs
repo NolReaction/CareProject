@@ -22,7 +22,7 @@ namespace IntercomMvp
 
         public void Draw(IntercomHudLayout layout, IntercomTwinStickState sticks,
             IntercomWeaponMagazine magazine, bool showSticks, float controlsOpacity, IntercomPlayerVitality vitality = null,
-            IntercomMissionDirector mission = null)
+            IntercomMissionDirector mission = null, bool hasFrontEnd = false)
         {
             EnsureResources();
             if(mission != null && mission.BlocksGameplay) { DrawMissionMenu(layout,mission); return; }
@@ -36,7 +36,7 @@ namespace IntercomMvp
             else if (layout.ShowAreaBadge) DrawArea(layout.AreaBadge);
             if(dead && mission == null) DrawDefeat(layout);
             else if (!dead && magazine != null && magazine.isActiveAndEnabled) DrawMagazine(layout.Reload, magazine);
-            if(mission != null) DrawMissionObjective(layout,mission);
+            if(mission != null) DrawMissionObjective(layout,mission,hasFrontEnd);
         }
 
         private void DrawMissionMenu(IntercomHudLayout layout, IntercomMissionDirector mission)
@@ -78,7 +78,7 @@ namespace IntercomMvp
             Text(new Rect(r.x+76f*sx,r.y+50f*sy,r.width-94f*sx,25f*sy),detail,small,13f*s,Ink,.82f);
         }
 
-        private void DrawMissionObjective(IntercomHudLayout layout,IntercomMissionDirector mission)
+        private void DrawMissionObjective(IntercomHudLayout layout,IntercomMissionDirector mission,bool hasFrontEnd)
         {
             Rect r=GuiRect(layout.MissionObjective);
             float sx=r.width/370f, sy=r.height/66f, s=Mathf.Min(sx,sy);
@@ -92,7 +92,7 @@ namespace IntercomMvp
             Text(new Rect(r.x+10f*sx,r.y+25f*sy,r.width-20f*sx,30f*sy),progress,number,Mathf.Max(rescue ? 13f : 18f,(rescue ? 18f : 25f)*s),Ink);
             Rect menu=GuiRect(layout.Modes);
             Texture(menu,plate,Paper,.96f);
-            Text(menu,"РЕЖИМЫ",bold,Mathf.Min(menu.width/8f,menu.height*.3f),Ink);
+            Text(menu,hasFrontEnd ? "МЕНЮ" : "РЕЖИМЫ",bold,Mathf.Min(menu.width/8f,menu.height*.3f),Ink);
         }
 
         // OnGUI is called for layout/input/repaint. Stable scores and ally HP

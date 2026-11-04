@@ -78,7 +78,7 @@ def ensure_assets():
         text+=f'  m_Script: {{fileID: 11500000, guid: {script("IntercomNpcDefinition")}, type: 3}}\n'
         text+='  m_Name: UdarnikCapsule\n  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomNpcDefinition\n'
         values={'maximumHealth':75,'damage':12,'attackRange':1.15,'attackHalfAngle':40,'windupSeconds':.45,
-                'recoverySeconds':.65,'moveSpeed':2.25,'patrolSpeed':.9,'acceleration':10,'turnSpeed':420,
+                'recoverySeconds':.65,'moveSpeed':2.65,'patrolSpeed':.9,'acceleration':10,'turnSpeed':420,
                 'repathSeconds':.35,'detectionRadius':10,'loseTargetSeconds':2.5,'leashRadius':18,
                 'patrolRadius':1.5,'idleSeconds':1.1}
         text+=''.join(f'  {key}: {value}\n' for key,value in values.items())

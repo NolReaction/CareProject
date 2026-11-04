@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "projects": [
+    {
+      "project": "FrontEndModelTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Front end models: 8384 assertions PASS; navigation, safe areas and shared pointer bounds. Pure production models, no Unity execution.\n"
+    },
+    {
+      "project": "FrontEndRoomCameraTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 14 real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.\n"
+    },
+    {
+      "project": "FrontEndRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 34 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+    },
+    {
+      "project": "MissionUiTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 202 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+    },
+    {
+      "project": "PlayerControlLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 44 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+    },
+    {
+      "project": "PlayerInputRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 8 actual PlayerInput/GUI call-path cases, 23 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
+    }
+  ],
+  "menu": "Full initial home, mode selection, robot workshop and armory with live current stats; locked future upgrade slots, no purchases or economy",
+  "sceneComponentGuid": "a49b1e6dc2fb5d35b69e8843653af647",
+  "serializedFields": [
+    "mission",
+    "input",
+    "weapon",
+    "playerHealth",
+    "playerMotor",
+    "gameTitle",
+    "heroPortrait",
+    "weaponPortrait",
+    "roomCamera"
+  ],
+  "rootComposition": "One controller on MVP_NpcSandbox; optional roomCamera left null",
+  "input": "Frontend interface registered with real Input; all held presses released before game controls resume; fallback HUD retained without registered frontend",
+  "viewPreviews": "Validation/Results/V15UI/Previews",
+  "previewScope": "Exact production OnGUI draw commands rasterized with Pillow and included portrait assets; not Unity render",
+  "roomCamera": "Optional dedicated camera +4 room anchors; no gameplay camera transform edits; original state restored on disable/hide/rebind",
+  "sourceSha256": {
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs": "4c9447b72ad72b8591a2271b4fb6e42cb7a68c6b61243f1183e77ab983220385",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs": "cb30b579c8ecd4bb5d83ebfad21f0db3393aa94252d99d5c87d239c9877e7e54",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs": "41d6ec80ff63ee0163d1fd606d8744dbd0f6819f4cd2ff8f325ada3c87617510",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs": "29ea460616430253f394ac823caea675ea68d4a75aa7713b47817c15a13b83a6"
+  },
+  "limitations": [
+    "No Unity Editor/Play Mode available.",
+    "Garage and armory future upgrade/new-weapon cards are deliberately locked; no real purchases or server currency persistence.",
+    "3D room camera adapter is implemented but no sofa/TV room scene is built in this iteration."
+  ]
+}

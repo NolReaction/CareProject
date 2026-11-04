@@ -23,12 +23,19 @@ namespace IntercomMvp
         [Tooltip("Ground clearance at the full fold. Match this to the authored bumper's base width.")]
         [Min(0f)] public float foldLift = .14f;
 
+        [Header("Cartoon hit feedback")]
+        [Range(.08f, .6f)] public float hitDuration = .26f;
+        [Range(0f, .3f)] public float hitShapeAmount = .16f;
+        [Range(0f, 1f)] public float hitFlashStrength = .55f;
+        public Color hitTint = new Color(.94f, .25f, .16f, 1f);
+
         public IntercomPropPhase Phase => state.Phase;
         public float Health => state.Health;
         public bool IsSpent => state.Phase == IntercomPropPhase.Spent;
         public bool IsTripped => state.Phase == IntercomPropPhase.Tripped;
 
         private readonly IntercomPropState state = new IntercomPropState();
+        private readonly IntercomPropHitTint hitFeedback = new IntercomPropHitTint();
         private Vector3 restPosition, restScale;
         private Quaternion restRotation, restFlapRotation;
         private bool[] originalColliders;
@@ -72,6 +79,7 @@ namespace IntercomMvp
                 Material material = indicator.sharedMaterial;
                 if (material != null && material.HasProperty(BaseColorId)) lampColor = material.GetColor(BaseColorId);
             }
+            hitFeedback.Capture(visual, indicator);
             initialized = true;
             ResetProp();
         }
@@ -81,7 +89,7 @@ namespace IntercomMvp
             if (!initialized || !isActiveAndEnabled || Time.timeScale <= 0f) return false;
             ObserveRespawn();
             if (!state.TakeDamage(damage.Amount)) return false;
-            hitRemaining = .2f;
+            hitRemaining = IntercomPropHitResponse.Duration(hitDuration);
             Vector3 direction = Vector3.ProjectOnPlane(damage.Direction, Vector3.up);
             if (direction.sqrMagnitude > .0001f && visual != null)
             {
@@ -92,6 +100,7 @@ namespace IntercomMvp
                 if (axis.sqrMagnitude > .0001f) foldAxis = axis.normalized;
             }
             SyncColliders();
+            ApplyVisuals();
             return true;
         }
 
@@ -124,7 +133,12 @@ namespace IntercomMvp
 
         private void ApplyVisuals()
         {
-            float hit = Mathf.Sin(Mathf.Clamp01(hitRemaining / .2f) * Mathf.PI);
+            float duration = IntercomPropHitResponse.Duration(hitDuration);
+            float hit = IntercomPropHitResponse.Shape(hitRemaining, duration);
+            float amount = IntercomPropHitResponse.Amount(hitShapeAmount, .16f, .3f);
+            float flash = IntercomPropHitResponse.Flash(hitRemaining, duration)
+                * IntercomPropHitResponse.Amount(hitFlashStrength, .55f, 1f);
+            hitFeedback.Apply(flash, hitTint);
             float ease = stateBlend * stateBlend * (3f - 2f * stateBlend);
             if (state.Kind == IntercomPropKind.Crate && spentVisual != null)
             {
@@ -140,7 +154,7 @@ namespace IntercomMvp
                 {
                     float damaged = Phase == IntercomPropPhase.Damaged ? 1f : 0f;
                     visual.localScale = Vector3.Scale(restScale, new Vector3(
-                        1f + hit * .08f + ease * .12f, 1f - hit * .09f - ease * .86f, 1f + hit * .08f + ease * .09f));
+                        1f + hit * amount + ease * .12f, 1f - hit * amount * .8f - ease * .86f, 1f + hit * amount + ease * .09f));
                     visual.localRotation = restRotation * Quaternion.AngleAxis(damaged * 3f + hit * 5f + ease * 7f, foldAxis);
                     visual.localPosition = restPosition;
                 }
@@ -150,7 +164,7 @@ namespace IntercomMvp
                     float safeFold = float.IsNaN(foldAngle) || float.IsInfinity(foldAngle) ? 78f : Mathf.Clamp(foldAngle, 30f, 88f);
                     float angle = Mathf.Lerp(damaged, safeFold, ease) + hit * 10f * (1f - ease);
                     visual.localRotation = restRotation * Quaternion.AngleAxis(angle, foldAxis);
-                    visual.localScale = Vector3.Scale(restScale, new Vector3(1f, 1f - hit * .08f * (1f - ease), 1f));
+                    visual.localScale = Vector3.Scale(restScale, new Vector3(1f + hit * amount * .5f * (1f - ease), 1f - hit * amount * .65f * (1f - ease), 1f + hit * amount * .5f * (1f - ease)));
                     // Follow the actual tilt, including the damaged pose and hit recoil.
                     // Linear-in-time lift would still put the base through the floor halfway down.
                     float safeLift = float.IsNaN(foldLift) || float.IsInfinity(foldLift) ? .14f : Mathf.Max(0f, foldLift);
@@ -158,7 +172,14 @@ namespace IntercomMvp
                         / Mathf.Sin(safeFold * Mathf.PI / 180f);
                     visual.localPosition = restPosition + Vector3.up * (lift * Mathf.Abs(restScale.y));
                 }
-                // Relay housing stays fixed; only its correctly hinged door moves.
+                // The relay housing gets a very small local punch; the collision owner remains fixed.
+                else
+                {
+                    visual.localPosition = restPosition;
+                    visual.localRotation = restRotation;
+                    visual.localScale = Vector3.Scale(restScale, new Vector3(1f + hit * amount * .6f,
+                        1f - hit * amount * .45f, 1f + hit * amount * .6f));
+                }
             }
             if (flap != null)
                 flap.localRotation = restFlapRotation * Quaternion.Euler(ease * 65f + hit * 8f * (1f - ease), 0f, 0f);
@@ -179,6 +200,7 @@ namespace IntercomMvp
             if (!initialized) return;
             state.Reset(kind, maxHealth, recoverSeconds);
             hitRemaining = stateBlend = 0f;
+            hitFeedback.Reset();
             foldAxis = Vector3.right;
             observedMotor = resetMotor;
             observedRespawn = resetMotor != null ? resetMotor.RespawnVersion : 0;

@@ -1,7 +1,7 @@
 {
   "revision": "scene-integrity-v9",
   "status": "PASS",
-  "yamlFiles": 103,
+  "yamlFiles": 106,
   "files": [
     {
       "path": "Assets/DefaultVolumeProfile.asset",
@@ -122,6 +122,24 @@
       "objects": 2,
       "localReferences": 19,
       "externalReferences": 5
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchLid.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchRim.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/SpawnWarningRing.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
     },
     {
       "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat",
@@ -455,9 +473,9 @@
     },
     {
       "path": "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity",
-      "objects": 979,
-      "localReferences": 6193,
-      "externalReferences": 868
+      "objects": 1021,
+      "localReferences": 6464,
+      "externalReferences": 897
     },
     {
       "path": "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight.asset",
@@ -623,7 +641,7 @@
     }
   ],
   "regressionCases": 14,
-  "sceneSHA256": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
+  "sceneSHA256": "fa04707d509475c0b2f20ea1dd8730c76244e405413305191cbea1ad8f8dbd6c",
   "surfaceCount": 84,
   "surfaceCounts": {
     "Asphalt": 1,
@@ -1142,9 +1160,9 @@
     "checkedInTemporaryFile": true,
     "regenerationIdempotent": true,
     "localIDs": {
-      "objects": 979,
-      "localReferences": 6193,
-      "externalReferences": 868
+      "objects": 1021,
+      "localReferences": 6464,
+      "externalReferences": 897
     },
     "surfaceCount": 84,
     "environmentObjects": 226

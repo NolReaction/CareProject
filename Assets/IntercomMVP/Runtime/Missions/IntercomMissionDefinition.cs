@@ -13,6 +13,10 @@ namespace IntercomMvp
         [Min(.1f)] public float spawnInterval = 1.2f;
         [Min(0f)] public float waveRestSeconds = 2.5f;
         [Min(1f)] public float minimumSpawnDistance = 5f;
+        [Header("Readable ground and hatch arrivals")]
+        [Range(0, 8)] public int visibleSpawnEvery = 3;
+        [Min(2.5f)] public float minimumVisibleSpawnDistance = 5.5f;
+        [Min(.2f)] public float visibleSpawnWarningSeconds = .35f;
         [Header("Rescue")]
         [Min(1)] public int rescueEnemySupply = 30;
         [Min(1f)] public float allyHealth = 60f;

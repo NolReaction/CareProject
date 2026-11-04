@@ -13,7 +13,7 @@ for name,loc,power,size in [('Key',(-3,-4,5),700,4),('Fill',(4,-1,3),400,3),('Ri
  data=bpy.data.lights.new(name,'AREA');data.energy=power;data.shape='DISK';data.size=size;obj=bpy.data.objects.new(name,data);scene.collection.objects.link(obj);obj.location=loc;obj.rotation_euler=(Vector((0,0,.5))-obj.location).to_track_quat('-Z','Y').to_euler()
 data=bpy.data.cameras.new('PreviewCamera');camera=bpy.data.objects.new('PreviewCamera',data);scene.collection.objects.link(camera);camera.location=(1.8,-3,1.75);camera.rotation_euler=(Vector((0,-.03,.52))-camera.location).to_track_quat('-Z','Y').to_euler();data.type='ORTHO';data.ortho_scale=1.65;scene.camera=camera
 scene.render.engine='CYCLES';scene.cycles.samples=12;scene.cycles.use_denoising=True;scene.render.resolution_x=512;scene.render.resolution_y=512;scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG';scene.view_settings.view_transform='AgX';scene.render.film_transparent=False
-for action in ['Archive_V3_RunRelaxed','RunRelaxed']:
+for action in ['IdleRelaxed','RunRelaxed']:
  rig.animation_data.action=bpy.data.actions[action]
  if rig.animation_data.action.slots:rig.animation_data.action_slot=rig.animation_data.action.slots[0]
  for i,frame in enumerate([1,5,9,13]):

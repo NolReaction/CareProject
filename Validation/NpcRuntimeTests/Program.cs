@@ -39,6 +39,21 @@ internal static class Program
     {Factory();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
     private static void Emergence()
     {
+        var visibleArrival=new Fixture(new Vector3(0,0,1));
+        int visibleObjects=GameObject.Created.Count,visibleMaterials=Material.Created;
+        visibleArrival.Npc.BeginEmergence(.35f);
+        visibleArrival.For(.35f);
+        Check(visibleArrival.Npc.IsEmerging&&visibleArrival.Npc.visual.localPosition.y<-1.4f
+            &&visibleArrival.Player.DamageCalls==0,"authored visible arrival keeps extra warning readable before the chassis rises");
+        visibleArrival.For(.25f);
+        Check(visibleArrival.Npc.IsEmerging&&visibleArrival.Npc.visual.localPosition.y> -1.4f
+            &&visibleArrival.Npc.visual.localPosition.y<0f,"authored warning leads into the same continuous pooled rise");
+        visibleArrival.For(.44f);
+        Check(!visibleArrival.Npc.IsEmerging&&visibleArrival.Capsule.enabled&&!visibleArrival.Npc.Health.invulnerable
+            &&visibleArrival.Player.DamageCalls==0,"extra-warning arrival finishes exactly once without a hidden punch");
+        Check(GameObject.Created.Count==visibleObjects&&Material.Created==visibleMaterials,"authored visible arrival allocates no objects or materials");
+        visibleArrival.Npc.BeginEmergence();visibleArrival.For(.69f);
+        Check(!visibleArrival.Npc.IsEmerging,"reused actor does not retain the previous marker extra warning");
         var f=new Fixture(new Vector3(0,0,1));
         int objects=GameObject.Created.Count, materials=Material.Created;
         Vector3 root=f.Npc.transform.position;

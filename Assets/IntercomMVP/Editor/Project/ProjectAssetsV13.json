@@ -1340,6 +1340,86 @@
       "legacyPath": "Assets/IntercomMVP/Animation/DualPistolsPose.asset",
       "destination": "Assets/IntercomMVP/Content/Weapons/Pistols/Animation/DualPistolsPose.asset",
       "guid": "0ab8d7400fffe4d449da7ba975efd7d1"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Documentation/START_HERE.md",
+      "destination": "Assets/IntercomMVP/Documentation/START_HERE.md",
+      "guid": "000936d02e2a5eb0a0b28c3fb16ff458"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Textures/RobotPortrait.png",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Textures/RobotPortrait.png",
+      "guid": "a81669f6c57052ff8f192b3e2cd784fe"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Textures/PistolPortrait.png",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Textures/PistolPortrait.png",
+      "guid": "db2cb70e07935f7580a0ce12cc835761"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchRim.mesh",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchRim.mesh",
+      "guid": "268980235bc3591696f0637db19f8bd3"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchLid.mesh",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchLid.mesh",
+      "guid": "8e49bd28fe625247b31485d9fb6b84e8"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/SpawnWarningRing.mesh",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/SpawnWarningRing.mesh",
+      "guid": "ef73894109025ca3a157a0601d19406a"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs",
+      "guid": "a49b1e6dc2fb5d35b69e8843653af647"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs",
+      "guid": "6b12fbaa757754679ff7ddef990f7639"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs",
+      "guid": "8d27f998ef5c53379dbd8dcb49903939"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs",
+      "guid": "59514f3f6edd5db0aa18b8107a96ed1b"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs",
+      "guid": "c09fc317f8e456df9177cdbcdb2c80bb"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs",
+      "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs",
+      "guid": "4d838105dbfd5fefbd274cb595175dcd"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs",
+      "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs",
+      "guid": "e7ae18cdc6245ed98d14be219d959aff"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs",
+      "guid": "3742717848525a97b58bdc48cb100c43"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs",
+      "guid": "27c2b5903c0550639ed09b712393e1f6"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs",
+      "destination": "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs",
+      "guid": "94c5b38a97b9582fa83bee98ffa89636"
     }
   ]
 }

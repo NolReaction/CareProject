@@ -17,7 +17,7 @@ namespace IntercomMvp
         [Min(.03f)] public float attackCommitSeconds = .08f;
         [Min(1f)] public float attackTrackingTurnSpeed = 900f;
         [Header("Movement")]
-        [Min(.1f)] public float moveSpeed = 3f;
+        [Min(.1f)] public float moveSpeed = 2.65f;
         [Min(0f)] public float patrolSpeed = .9f;
         [Min(.1f)] public float acceleration = 10f;
         [Min(1f)] public float turnSpeed = 420f;

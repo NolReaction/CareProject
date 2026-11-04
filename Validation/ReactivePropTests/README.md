@@ -1,6 +1,7 @@
 # Reactive prop checks
 
 This executable compiles the production `IntercomPropState`, `IntercomReactiveProp`
+`IntercomPropHitResponse`, `IntercomPropHitTint`, `IntercomTargetDummy`
 and `IIntercomDamageable`. Narrow Unity stand-ins track collider flags, transforms,
 material property blocks and reset versions; System.Numerics supplies rotation math.
 
@@ -17,3 +18,10 @@ is checked separately by the courtyard geometry review, not by these stand-ins.
 
 Run `dotnet run --project Validation/ReactivePropTests/ReactivePropTests.csproj`.
 This does not substitute for importing, rendering or shooting at props in Unity.
+
+Cartoon feedback checks exercise accepted hits immediately tinting red; the
+positive squash and opposite settling stretch; restoration of exact baseline
+scales/property blocks; preserved alpha and unrelated overrides; empty-block
+cleanup; repeated hit/reset cycles without drift; no new materials/property
+blocks; invalid tuning fallback; and safe target reset without a mesh reference.
+Collider owners remain unscaled throughout both prop and target feedback.

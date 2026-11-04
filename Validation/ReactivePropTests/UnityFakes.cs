@@ -8,11 +8,12 @@ namespace UnityEngine
     public class Object { }
     public class GameObject : Object
     {
+        public static readonly List<GameObject> All = new List<GameObject>();
         public readonly List<Component> Components = new List<Component>();
         public readonly Transform transform;
         public bool activeSelf { get; private set; } = true;
         public bool activeInHierarchy => activeSelf && (transform.parent == null || transform.parent.gameObject.activeInHierarchy);
-        public GameObject() { transform = new Transform { gameObject = this }; Components.Add(transform); }
+        public GameObject() { All.Add(this); transform = new Transform { gameObject = this }; Components.Add(transform); }
         public T AddComponent<T>() where T : Component, new() { var component = new T { gameObject = this }; Components.Add(component); return component; }
         public void SetActive(bool value) { activeSelf = value; }
     }
@@ -21,6 +22,9 @@ namespace UnityEngine
         public GameObject gameObject;
         public Transform transform => gameObject.transform;
         public T[] GetComponents<T>() where T : Component => gameObject.Components.OfType<T>().ToArray();
+        public T[] GetComponentsInChildren<T>(bool includeInactive=false) where T : Component
+            => GameObject.All.Where(o=>o.transform.IsChildOf(transform)&&(includeInactive||o.activeInHierarchy)).SelectMany(o=>o.Components.OfType<T>()).ToArray();
+        public T GetComponentInChildren<T>() where T : Component => GetComponentsInChildren<T>().FirstOrDefault();
     }
     public class Behaviour : Component { public bool enabled = true; public bool isActiveAndEnabled => enabled && gameObject.activeInHierarchy; }
     public class MonoBehaviour : Behaviour { }
@@ -69,7 +73,7 @@ namespace UnityEngine
     public struct Color
     {
         public float r,g,b,a;
-        public Color(float r,float g,float b,float a) {this.r=r;this.g=g;this.b=b;this.a=a;}
+        public Color(float r,float g,float b,float a=1f) {this.r=r;this.g=g;this.b=b;this.a=a;}
         public static Color Lerp(Color a, Color b, float t) {t=Math.Clamp(t,0,1);return new Color(a.r+(b.r-a.r)*t,a.g+(b.g-a.g)*t,a.b+(b.b-a.b)*t,a.a+(b.a-a.a)*t);}
         public static Color operator *(Color c,float n) => new Color(c.r*n,c.g*n,c.b*n,c.a*n);
     }
@@ -86,7 +90,10 @@ namespace UnityEngine
         public static int Created;
         public readonly Dictionary<int,Color> Colors = new Dictionary<int,Color>();
         public MaterialPropertyBlock() { Created++; }
+        public bool isEmpty => Colors.Count==0;
         public void SetColor(int id,Color color) { Colors[id]=color; }
+        public bool HasColor(int id) => Colors.ContainsKey(id);
+        public Color GetColor(int id) => Colors.TryGetValue(id,out var color) ? color : default;
         public void CopyFrom(Dictionary<int,Color> source) {Colors.Clear();foreach(var pair in source)Colors.Add(pair.Key,pair.Value);}
     }
     public class Renderer : Component
@@ -94,7 +101,7 @@ namespace UnityEngine
         public Material sharedMaterial;
         public readonly Dictionary<int,Color> Colors = new Dictionary<int,Color>();
         public void GetPropertyBlock(MaterialPropertyBlock block) {block.CopyFrom(Colors);}
-        public void SetPropertyBlock(MaterialPropertyBlock block) {Colors.Clear();foreach(var pair in block.Colors)Colors.Add(pair.Key,pair.Value);}
+        public void SetPropertyBlock(MaterialPropertyBlock block) {Colors.Clear();if(block!=null)foreach(var pair in block.Colors)Colors.Add(pair.Key,pair.Value);}
     }
     public static class Shader {public static int PropertyToID(string name) => name.GetHashCode();}
     public static class Time {public static float timeScale=1,deltaTime=1f/60;}
@@ -109,6 +116,7 @@ namespace UnityEngine
         public static float Lerp(float a,float b,float t)=>a+(b-a)*Clamp01(t);
         public static float MoveTowards(float a,float b,float delta)=>a<b?Math.Min(a+delta,b):Math.Max(a-delta,b);
     }
+    public class HeaderAttribute : Attribute {public HeaderAttribute(string value) {}}
     public class DisallowMultipleComponent : Attribute { }
     public class TooltipAttribute : Attribute {public TooltipAttribute(string value) {}}
     public class MinAttribute : Attribute {public MinAttribute(float value) {}}

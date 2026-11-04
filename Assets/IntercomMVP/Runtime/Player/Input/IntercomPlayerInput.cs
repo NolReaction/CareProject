@@ -7,6 +7,14 @@ using EnhancedTouch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 namespace IntercomMvp
 {
+    /// <summary>Front end input is routed through the same cancellation gate as the game sticks.</summary>
+    public interface IIntercomMenuInput
+    {
+        bool IsVisible { get; }
+        bool PointerDown(float x, float y);
+        void Back();
+    }
+
     /// <summary>Two sticks plus a separate reload button. Input is sampled before magazine and motor.</summary>
     [DefaultExecutionOrder(-200)]
     [DisallowMultipleComponent]
@@ -36,6 +44,18 @@ namespace IntercomMvp
         /// <summary>System cancellation epoch. Normal stick release does not invalidate a queued tap.</summary>
         public uint CancellationVersion { get; private set; }
         public bool ControlsVisible => Application.isMobilePlatform || showOnDesktop;
+        public IIntercomMenuInput FrontEnd { get; private set; }
+
+        public bool RegisterFrontEnd(IIntercomMenuInput menu)
+        {
+            if (menu == null || (FrontEnd != null && !ReferenceEquals(FrontEnd, menu))) return false;
+            FrontEnd = menu; CancelUntilRelease(); return true;
+        }
+        public void UnregisterFrontEnd(IIntercomMenuInput menu)
+        {
+            if (!ReferenceEquals(FrontEnd, menu)) return;
+            FrontEnd = null; CancelUntilRelease();
+        }
 
         private const int MousePointerId = int.MinValue;
         private readonly IntercomTwinStickState sticks = new IntercomTwinStickState();
@@ -51,7 +71,7 @@ namespace IntercomMvp
         private IntercomMissionDirector ActiveMission => mission != null && mission.isActiveAndEnabled ? mission : null;
         private Vector2 leftCenter, rightCenter;
         private float radius;
-        private bool focused = true, paused, requireRelease, wasFireHeld, hasLayout;
+        private bool focused = true, paused, requireRelease, wasFireHeld, hasLayout, observedFrontEndVisible;
         private ScreenOrientation layoutOrientation;
         private Rect layoutSafeArea;
         private int layoutWidth, layoutHeight;
@@ -134,6 +154,11 @@ namespace IntercomMvp
             bool spaceHeld = SpaceHeld();
             int touchCount = TouchCount();
             TouchActive = touchCount > 0;
+            bool menuVisible = FrontEnd != null && FrontEnd.IsVisible;
+            if (menuVisible != observedFrontEndVisible)
+            { observedFrontEndVisible = menuVisible; CancelUntilRelease(); }
+            if (menuVisible)
+            { UpdateFrontEndInput(touchCount,mousePosition,mouseHeld,mouseDown,spaceHeld); return; }
             if(UpdateMissionInput(touchCount,mousePosition,mouseHeld,mouseDown,spaceHeld,keyboard)) return;
             if(ActiveMission == null && vitality != null && vitality.IsDead)
             {
@@ -184,6 +209,40 @@ namespace IntercomMvp
             wasFireHeld = FireHeld;
             ResetPressed = ReadResetPressed();
             ReloadPressed |= ReadReloadPressed();
+        }
+
+        private void UpdateFrontEndInput(int touchCount, Vector2 mousePosition, bool mouseHeld,
+            bool mouseDown, bool spaceHeld)
+        {
+            ClearInput();
+            if (requireRelease)
+            {
+                if (touchCount == 0 && !mouseHeld && !spaceHeld) requireRelease = false;
+                return;
+            }
+            if (ReadModesPressed() || ReadResetPressed())
+            { FrontEnd.Back(); CancelUntilRelease(); return; }
+            if (!Application.isMobilePlatform && touchCount == 0 && mouseDown)
+            { FrontEnd.PointerDown(mousePosition.x,mousePosition.y); CancelUntilRelease(); return; }
+#if ENABLE_INPUT_SYSTEM
+            var touches = EnhancedTouch.activeTouches;
+            for (int i=0; i<touches.Count; i++)
+            {
+                var touch = touches[i];
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled)
+                { CancelUntilRelease(); return; }
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+                { FrontEnd.PointerDown(touch.screenPosition.x,touch.screenPosition.y); CancelUntilRelease(); return; }
+            }
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            for (int i=0; i<Input.touchCount; i++)
+            {
+                Touch touch=Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Canceled) { CancelUntilRelease(); return; }
+                if (touch.phase == TouchPhase.Began)
+                { FrontEnd.PointerDown(touch.position.x,touch.position.y); CancelUntilRelease(); return; }
+            }
+#endif
         }
 
         private bool UpdateMissionInput(int touchCount, Vector2 mousePosition, bool mouseHeld,
@@ -454,10 +513,11 @@ namespace IntercomMvp
 
         private void OnGUI()
         {
-            if (Event.current == null || Event.current.type != EventType.Repaint || !hasLayout) return;
+            if (Event.current == null || Event.current.type != EventType.Repaint || !hasLayout
+                || (FrontEnd != null && FrontEnd.IsVisible)) return;
             Color previousColor = GUI.color; Matrix4x4 previousMatrix = GUI.matrix; int previousDepth = GUI.depth;
             GUI.matrix = Matrix4x4.identity; GUI.depth = -50;
-            hud.Draw(hudLayout, sticks, magazine, ControlsVisible, controlsOpacity, vitality, ActiveMission);
+            hud.Draw(hudLayout, sticks, magazine, ControlsVisible, controlsOpacity, vitality, ActiveMission, FrontEnd != null);
             GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth;
         }
 

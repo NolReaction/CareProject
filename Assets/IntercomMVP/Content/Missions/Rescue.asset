@@ -27,3 +27,6 @@ MonoBehaviour:
   recruitSeconds: 0.6
   extractionRadius: 2
   allyWaitDistance: 8
+  visibleSpawnEvery: 3
+  minimumVisibleSpawnDistance: 5.5
+  visibleSpawnWarningSeconds: 0.35

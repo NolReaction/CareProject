@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "scope": "V15 cosmetic casings, comic impacts and scenery/target hit feedback",
+  "casing": {
+    "perHandEveryNthShot": 2,
+    "scaleFactorVersusV14": 1.25,
+    "ammoRateUnchanged": true
+  },
+  "feedback": {
+    "positiveSquashAndOppositeSettlingStretch": true,
+    "redFlash": true,
+    "unscaledCollisionOwner": true,
+    "restoresPropertyBlocksAndScale": true,
+    "sharesNoMaterialInstances": true,
+    "hitDuration": 0.26
+  },
+  "tests": [
+    {
+      "project": "CombatEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Combat effects: 31 assertions PASS; actual pooled effects/weapon/impact route with narrow Unity stand-ins, no engine rendering or PhysX.\n"
+    },
+    {
+      "project": "ReactivePropTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Reactive props: 1275 assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
+    }
+  ],
+  "additionalRegressionProjects": [
+    "MagazineTests PASS2401 assertions",
+    "ShooterIntegrationTests PASS3511 assertions",
+    "WeaponFoundationTests PASS43 assertions"
+  ],
+  "sourceSHA256": {
+    "Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs": "a612c03ec2ae99544f675f1041dac554465b1042fa069cef05b405d22225a236",
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs": "8b856c52b3cd0bfec37c95550a82d9579190ea8b0fba551412c51b3acd845401",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs": "e088b78dddab89d24514fb45a3e2137396441d358080845092c9349386a1bba0",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomTargetDummy.cs": "ce0ce9a82fa30176bd3478932412737037fd1d3025c0747974574f980f45cc84",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs": "73bbaec0a1f740cb0f8403cdde1b98bc49ce240d16ff13a4566110704a1558d6",
+    "Assets/IntercomMVP/Editor/Combat/IntercomWeaponDefinitionEditor.cs": "ac0832dc95456cf7cc84622ea0eab8222283d941088c387d0a2074dd65d586ff",
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset": "95da221e8af7bdb813273c56915867f1e411a78d05f5f6dd910e9efc33d5dfa7"
+  },
+  "limits": [
+    "Actual Unity rendering, PhysX and subjective sound/visual review are not executed by these .NET test stand-ins."
+  ],
+  "newSources": [
+    "Runtime/World/Props/IntercomPropHitResponse.cs",
+    "Runtime/World/Props/IntercomPropHitTint.cs"
+  ],
+  "sceneFieldsRequired": []
+}

@@ -17,6 +17,7 @@ namespace IntercomMvp.Editor
             EditorGUILayout.LabelField("Урон/с без перезарядки",weapon.IdealDps.ToString("0.##"));
             EditorGUILayout.LabelField("Урон/с с перезарядкой",weapon.SustainedDps.ToString("0.##"));
             EditorGUILayout.LabelField("Патронов в магазине",weapon.MagazineCapacity.ToString());
+            EditorGUILayout.LabelField("Видимая гильза", "Каждый " + weapon.CasingCadence + "-й выстрел каждой руки");
             EditorGUILayout.LabelField("Залпов до поражения",weapon.IdealVolleys.ToString());
             EditorGUILayout.LabelField("Идеальный TTK",weapon.IdealTtk.ToString("0.###")+" с");
             EditorGUILayout.HelpBox("TTK считается от первого выстрела. Первый залп — в момент 0. Не учитывает поднятие рук, полёт пули, промахи и препятствия. Учитывает полный магазин и автоматическую перезарядку, начинающуюся после последнего залпа. Запас вне магазина бесконечный. Reference Target Health меняет только расчёт, здоровье цели настраивается отдельно.",MessageType.Info);

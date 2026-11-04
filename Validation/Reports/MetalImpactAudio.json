@@ -1,0 +1,84 @@
+{
+  "revision": "cartoon-metal-contact-v15",
+  "metalOnly": true,
+  "source": "Included verified CC0 VCSL brake-drum contact plus original deterministic mechanical layers. Other material banks retain their original synthesis.",
+  "sourceSha256": "7e957bd8783745be264456937b1e2e5fadd625e75c5b4cb850fb369258e4690d",
+  "scope": "PCM analysis and existing GUID/importer preservation; not Unity/device listening approval.",
+  "assets": [
+    {
+      "file": "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_01.wav",
+      "surface": "metal",
+      "sha256": "14a414cb968c20d5d0480e19a237af0b4cabce4612b6e6132f8f0fd17177aea4",
+      "previousSha256": "572652f58ffeca50da3b737a44f4753f263daf6dab89aa62fdc3890d545313df",
+      "previous": {
+        "seconds": 0.245,
+        "peakDbFS": -8.429,
+        "rmsDbFS": -23.5,
+        "energyCentroidHz": 1031.9,
+        "energy90ms": 66.44,
+        "energyAfter20ms": 0.5375,
+        "clippedSamples": 0,
+        "dcOffset": -2.81e-05
+      },
+      "importerSha256": "d473e7e918ba48ececf300975353c5cf2bd564891af9ba1444ef76e0bed4be7d",
+      "seconds": 0.152,
+      "peakDbFS": -10.7,
+      "rmsDbFS": -27.401,
+      "energyCentroidHz": 866.1,
+      "energy90ms": 21.07,
+      "energyAfter20ms": 0.1081,
+      "clippedSamples": 0,
+      "dcOffset": -6.31e-05
+    },
+    {
+      "file": "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_02.wav",
+      "surface": "metal",
+      "sha256": "baac98743f0d73642bde35f3961f813e669b979ebfc3920b7853d41c6697d705",
+      "previousSha256": "8cb5df6a1c966cc6ec3ea2f8c1dd7f7d7a944d877e511233528eef2efc98414f",
+      "previous": {
+        "seconds": 0.245,
+        "peakDbFS": -8.261,
+        "rmsDbFS": -23.5,
+        "energyCentroidHz": 1098.0,
+        "energy90ms": 66.21,
+        "energyAfter20ms": 0.548,
+        "clippedSamples": 0,
+        "dcOffset": -1.75e-05
+      },
+      "importerSha256": "923b0838c862d5db3bd988c3d8d2ccbcbb8038673bdf4cfe83877fd050e79d42",
+      "seconds": 0.16,
+      "peakDbFS": -10.7,
+      "rmsDbFS": -27.698,
+      "energyCentroidHz": 941.1,
+      "energy90ms": 21.75,
+      "energyAfter20ms": 0.1187,
+      "clippedSamples": 0,
+      "dcOffset": -6.15e-05
+    },
+    {
+      "file": "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_03.wav",
+      "surface": "metal",
+      "sha256": "bbd22f791e080494b81f3362805a7f590935fefc016d06aa1a4b0763c58e9332",
+      "previousSha256": "d08d96afd971ddf7a6b87f1df9212afcfc084d430edaf728c42e0cd21e720107",
+      "previous": {
+        "seconds": 0.245,
+        "peakDbFS": -8.32,
+        "rmsDbFS": -23.5,
+        "energyCentroidHz": 1064.0,
+        "energy90ms": 65.83,
+        "energyAfter20ms": 0.5354,
+        "clippedSamples": 0,
+        "dcOffset": -2.23e-05
+      },
+      "importerSha256": "f9b35e47d71756118e5982fd649564e02f44b3776a29b78906a61be9a155965a",
+      "seconds": 0.148,
+      "peakDbFS": -10.7,
+      "rmsDbFS": -27.657,
+      "energyCentroidHz": 870.9,
+      "energy90ms": 19.82,
+      "energyAfter20ms": 0.0976,
+      "clippedSamples": 0,
+      "dcOffset": -5.95e-05
+    }
+  ]
+}

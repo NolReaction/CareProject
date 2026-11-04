@@ -45,8 +45,9 @@ MonoBehaviour:
   flashScale: {x: 0.29, y: 0.29, z: 0.36}
   flashLifetime: 0.065
   ejectCasings: 1
+  casingEveryNthShot: 2
   casingMaterial: {fileID: 2100000, guid: c6274b7ab14a5aa7938d8799de2b6fe4, type: 2}
   casingMesh: {fileID: 0}
-  casingScale: {x: 0.045, y: 0.1, z: 0.045}
+  casingScale: {x: 0.05625, y: 0.125, z: 0.05625}
   casingLifetime: 2.5
   casingVelocityScale: 1

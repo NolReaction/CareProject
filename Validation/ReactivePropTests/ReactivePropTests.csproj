@@ -4,6 +4,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="UnityFakes.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/World/Props/IntercomTargetDummy.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs" />
   </ItemGroup>

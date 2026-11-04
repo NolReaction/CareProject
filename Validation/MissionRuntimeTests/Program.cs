@@ -42,10 +42,135 @@ internal static class Program
     }
     private static void Main()
     {
-        AllyFactory(); Recruitment(); Following(); AllyLifecycle();
-        MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
+        SpawnPointLifecycle(); AllyFactory(); Recruitment(); Following(); AllyLifecycle();
+        MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); AuthoredArrivals(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
     }
+    private static void SpawnPointLifecycle()
+    {
+        Time.timeScale=1;Time.deltaTime=.1f;Application.isFocused=true;
+        var point=new GameObject("Authored hatch point").AddComponent<IntercomEnemySpawnPoint>();
+        point.kind=IntercomEnemySpawnKind.Hatch;point.cooldownSeconds=4;
+        point.hatchLid=new GameObject("Hatch lid pivot").transform;
+        point.hatchLid.localRotation=Quaternion.Euler(4,8,2);
+        point.warningVisual=new GameObject("Arrival warning").transform;
+        point.warningVisual.localScale=new Vector3(1.2f,.25f,.8f);point.warningVisual.gameObject.SetActive(false);
+        Vector3 rest=point.hatchLid.localRotation*Vector3.forward;
+        Vector3 warningScale=point.warningVisual.localScale;
+        int objects=GameObject.Created.Count,materials=Material.Created;
+        Check(point.IsAvailable(0),"fresh authored marker is available");
+        point.BeginArrival(10,1.03f);
+        Check(point.IsAnimating&&!point.IsAvailable(10)&&point.warningVisual.gameObject.activeSelf,"arrival leases marker and reveals its warning");
+        Check(Math.Abs(point.ReadyAt-14)<.0001f,"marker cooldown starts at actual arrival time");
+        for(int i=0;i<5;i++)Send(point,"Update");
+        Check((point.hatchLid.localRotation*Vector3.forward-rest).sqrMagnitude>.1f,"authored hatch visibly opens while robot rises");
+        Vector3 open=point.hatchLid.localRotation*Vector3.forward;
+        Time.timeScale=0;for(int i=0;i<20;i++)Send(point,"Update");Time.timeScale=1;
+        Check(point.IsAnimating&&(point.hatchLid.localRotation*Vector3.forward-open).sqrMagnitude<.000001f,"zero timescale freezes hatch without skipping arrival");
+        Signal(point,"OnApplicationFocus",false);for(int i=0;i<20;i++)Send(point,"Update");
+        Check(point.IsAnimating&&(point.hatchLid.localRotation*Vector3.forward-open).sqrMagnitude<.000001f,"focus loss freezes marker alongside its emerging actor");
+        Signal(point,"OnApplicationFocus",true);Signal(point,"OnApplicationPause",true);for(int i=0;i<20;i++)Send(point,"Update");
+        Check(point.IsAnimating&&(point.hatchLid.localRotation*Vector3.forward-open).sqrMagnitude<.000001f,"application pause cannot close hatch over a frozen emergence");
+        Signal(point,"OnApplicationPause",false);for(int i=0;i<7;i++)Send(point,"Update");
+        Check(!point.IsAnimating&&!point.warningVisual.gameObject.activeSelf,"arrival ends with its temporary warning hidden");
+        Check((point.hatchLid.localRotation*Vector3.forward-rest).sqrMagnitude<.000001f&&(point.warningVisual.localScale-warningScale).sqrMagnitude==0,"hatch and warning restore authored transforms exactly");
+        Check(!point.IsAvailable(13.99f)&&point.IsAvailable(14),"marker is reused only after cooldown");
+        point.BeginArrival(20,1.03f);Send(point,"Update");point.enabled=false;
+        Check(!point.IsAnimating&&!point.warningVisual.gameObject.activeSelf&&(point.hatchLid.localRotation*Vector3.forward-rest).sqrMagnitude<.000001f,"disable cancels arrival without leaving hatch open");
+        Check(!point.IsAvailable(100),"disabled authored marker cannot spawn");
+        point.enabled=true;point.BeginArrival(30,1.03f);Send(point,"Update");point.ResetForMission();
+        Check(!point.IsAnimating&&point.ReadyAt==0&&point.IsAvailable(0)&&!point.warningVisual.gameObject.activeSelf,"new mission resets cooldown and temporary presentation");
+        point.kind=IntercomEnemySpawnKind.Ground;point.BeginArrival(40,1.03f);for(int i=0;i<5;i++)Send(point,"Update");
+        Check((point.hatchLid.localRotation*Vector3.forward-rest).sqrMagnitude<.000001f,"ordinary ground marker does not animate an unrelated optional lid");
+        point.ResetForMission();
+        for(int life=0;life<100;life++)
+        {
+            point.BeginArrival(life*5,1.03f);for(int i=0;i<12;i++)Send(point,"Update");point.ResetForMission();
+        }
+        Check(GameObject.Created.Count==objects&&Material.Created==materials,"100 marker arrival/reset cycles create no objects or material instances");
+    }
+
+    private static IntercomEnemySpawnPoint Arrival(float x,float z,IntercomEnemySpawnKind kind=IntercomEnemySpawnKind.Ground)
+    {
+        var point=MissionFixture.Marker(x,z).gameObject.AddComponent<IntercomEnemySpawnPoint>();
+        point.kind=kind;point.warningVisual=new GameObject("Authored warning").transform;point.warningVisual.gameObject.SetActive(false);
+        if(kind==IntercomEnemySpawnKind.Hatch)point.hatchLid=new GameObject("Authored lid").transform;
+        return point;
+    }
+    private static Camera SpawnCamera(Func<Vector3,Vector3> projection)
+    {
+        var camera=new GameObject("Spawn camera fixture").AddComponent<Camera>();camera.ProjectPoint=projection;Camera.main=camera;return camera;
+    }
+    private static void AuthoredArrivals()
+    {
+        var f=new MissionFixture();var ground=Arrival(0,8);f.Director.spawnPoints=Array.Empty<Transform>();
+        f.Director.authoredSpawnPoints=new[]{ground};
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"authored-only mission starts without any legacy perimeter markers");
+        f.Advance(.9f);
+        Check(f.Director.SpawnedEnemies==1&&f.Living.Length==1,"safe ground point remains a fallback when no camera/perimeter marker exists");
+        Check(f.Living[0].ArrivalWarning>=.2f&&ground.IsAnimating&&ground.warningVisual.gameObject.activeSelf,"ground arrival starts the real marker and grants additional actor warning");
+        Check((f.Living[0].transform.position-ground.transform.position).sqrMagnitude==0,"authored actor emerges from its actual hatch/floor point");
+        f.Director.ReturnToSelection();
+        Check(!ground.IsAnimating&&ground.ReadyAt==0&&!ground.warningVisual.gameObject.activeSelf,"return to menu releases authored marker lease and warning");
+
+        f=new MissionFixture();ground=Arrival(0,8);var hatch=Arrival(-8,0,IntercomEnemySpawnKind.Hatch);
+        f.Director.authoredSpawnPoints=new[]{ground,hatch};
+        f.Director.spawnPoints=new[]{MissionFixture.Marker(12,0),MissionFixture.Marker(-12,0),MissionFixture.Marker(0,-12),MissionFixture.Marker(12,-12)};
+        f.Elimination.maximumAlive=6;
+        SpawnCamera(p=>p.z>=0&&Math.Abs(p.x)<9?new Vector3(640,360,1):new Vector3(-100,360,1));
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"mixed perimeter and visible points start normally");f.Advance(3);
+        var order=f.Living.OrderBy(a=>a.ordinal).ToArray();
+        Check(order.Length==6,"mixed spawn cadence reaches bounded active count");
+        for(int i=0;i<order.Length;i++)
+        {
+            bool authored=order[i].ArrivalWarning>0;
+            Check(authored==(i==2||i==5),"every third activation gets the authored visible arrival; ordinary entries remain mixed in");
+            Check((order[i].transform.position-f.Hero.transform.position).sqrMagnitude>=25,"mixed arrival respects player minimum distance");
+        }
+        Check(order[2].transform.position.z==8&&order[5].transform.position.x==-8,"different available authored points rotate instead of stacking in one hatch");
+        int count=GameObject.Created.Count,materials=Material.Created;
+        f.Advance(1);Check(GameObject.Created.Count==count&&Material.Created==materials,"live arrival animations do not create objects/materials after pool warmup");
+
+        f=new MissionFixture();ground=Arrival(0,8);ground.cooldownSeconds=4;
+        f.Director.spawnPoints=null;f.Director.authoredSpawnPoints=new[]{ground};f.Elimination.maximumAlive=1;
+        f.Advance(.5f);count=GameObject.Created.Count;
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"single authored point starts with already prepared pool");f.Advance(.9f);
+        Check(f.Director.SpawnedEnemies==1,"first authored arrival consumes exactly one pool slot");
+        f.Living[0].Kill();f.Advance(1.5f);
+        Check(f.Director.SpawnedEnemies==1,"free pool slot does not bypass marker cooldown after a kill");
+        f.Advance(3);Check(f.Director.SpawnedEnemies==2,"same hatch can be reused after its cooldown");
+        Check(GameObject.Created.Count==count,"reuse of authored point does not construct new actors or marker objects");
+        f.Director.ReturnToSelection();Check(f.Director.StartMission(IntercomMissionMode.Elimination),"new run accepts existing authored pool");f.Advance(.9f);
+        Check(f.Director.SpawnedEnemies==1,"new run resets old run's marker cooldown");
+
+        f=new MissionFixture();ground=Arrival(0,3);f.Director.spawnPoints=Array.Empty<Transform>();f.Director.authoredSpawnPoints=new[]{ground};
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"near authored marker defers safely instead of resetting player during validation");f.Advance(4);
+        Check(f.Director.SpawnedEnemies==0&&!ground.IsAnimating,"ground marker cannot emerge within protected player radius");
+        f.Motor.transform.position=new Vector3(0,0,-10);f.Advance(.3f);
+        Check(f.Director.SpawnedEnemies==1,"moving away naturally frees a valid authored point");
+
+        f=new MissionFixture();ground=Arrival(0,7);f.Director.spawnPoints=Array.Empty<Transform>();f.Director.authoredSpawnPoints=new[]{ground};
+        Check(f.Director.StartMission(IntercomMissionMode.Rescue),"authored-only rescue setup starts");f.Advance(2);
+        Check(f.Director.SpawnedEnemies==0&&!ground.IsAnimating,"visible ground arrival cannot appear on the waiting ally's four-metre safety area");
+
+        f=new MissionFixture();ground=Arrival(0,8);f.Director.spawnPoints=Array.Empty<Transform>();f.Director.authoredSpawnPoints=new[]{ground};
+        f.Nav.NextResult=IntercomNavResult.Deferred;Check(f.Director.StartMission(IntercomMissionMode.Elimination),"deferred route budget does not refuse otherwise valid mission");f.Advance(2);
+        Check(f.Director.SpawnedEnemies==0&&!ground.IsAnimating,"deferred navigation never leases marker or spawns without a verified route");
+        f.Nav.NextResult=IntercomNavResult.Success;f.Advance(.3f);Check(f.Director.SpawnedEnemies==1,"authored spawn resumes once shared navigation budget succeeds");
+
+        f=new MissionFixture();var edge=Arrival(12,0,IntercomEnemySpawnKind.Perimeter);f.Director.spawnPoints=Array.Empty<Transform>();f.Director.authoredSpawnPoints=new[]{edge};
+        SpawnCamera(p=>new Vector3(32,360,1));
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"authored perimeter can wait for valid camera geometry");f.Advance(2);
+        Check(f.Director.SpawnedEnemies==0,"screen-edge point is visible even outside readable interior, so authored perimeter cannot pretend it is offscreen");
+        Camera.main.ProjectPoint=p=>new Vector3(-100,360,1);f.Advance(.3f);
+        Check(f.Director.SpawnedEnemies==1&&f.Living[0].ArrivalWarning==0,"offscreen authored perimeter uses ordinary short arrival after leaving view");
+
+        f=new MissionFixture();f.Director.spawnPoints=new[]{MissionFixture.Marker(12,0),MissionFixture.Marker(-12,0)};
+        SpawnCamera(p=>p.x>0?new Vector3(32,360,1):new Vector3(-100,360,1));
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"legacy perimeter setup remains supported");f.Advance(.9f);
+        Check(f.Living.Length==1&&f.Living[0].transform.position.x==-12,"perimeter search prefers genuinely offscreen point over visible HUD edge");
+    }
+
     private static void FreePlay()
     {
         var f=new MissionFixture();
@@ -170,7 +295,7 @@ internal static class Program
         public IntercomMissionDefinition Elimination,Rescue;
         public MissionFixture(Action<MissionFixture> beforeActivate=null)
         {
-            Time.timeScale=1;Time.time=0;Time.deltaTime=.01f;Application.isPlaying=true;Physics.Hits=null;
+            Time.timeScale=1;Time.time=0;Time.deltaTime=.01f;Application.isPlaying=true;Application.isFocused=true;Camera.main=null;Physics.Hits=null;
             IntercomNpcController.Created.Clear();UnityEngine.Object.Destroyed.Clear();GameObject.BeforeAwake=null;
             var hero=new GameObject("Hero");Hero=hero.AddComponent<IntercomHealth>();Hero.team=IntercomTeam.Player;
             Motor=hero.AddComponent<IntercomPlayerMotor>();Vitality=hero.AddComponent<IntercomPlayerVitality>();
@@ -192,6 +317,8 @@ internal static class Program
         {
             Time.deltaTime=dt;if(Time.timeScale>0)Time.time+=dt;
             Send(Director,"Update");
+            if(Director.authoredSpawnPoints!=null)
+                foreach(var point in Director.authoredSpawnPoints)if(point!=null&&point.isActiveAndEnabled)Send(point,"Update");
             var ally=Ally;if(updateAlly&&ally!=null&&ally.isActiveAndEnabled)Send(ally,"Update");
         }
         public void Advance(float seconds,bool updateAlly=true){for(int i=0;i<(int)Math.Ceiling(seconds/.05f);i++)Step(.05f,updateAlly);}

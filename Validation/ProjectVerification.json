@@ -1,74 +1,76 @@
 {
-  "version": "CareProject V14 Full",
+  "version": "CareProject V15",
   "status": "PASS",
-  "delivery": "Standalone complete Unity project; extract to a new folder and open through Unity Hub",
-  "pinnedEditor": "6000.3.26f1",
-  "pinnedURP": "17.3.0",
-  "requiresPreviousVersion": false,
-  "requiresInstaller": false,
-  "mainScene": "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity",
-  "projectInput": "Latest prepared project state. User message contained2screenshots; no current user ZIP was attached.",
+  "baseGitCommit": "ec1b5a5e0643339491cac3bb8403e61285589154",
+  "delivery": [
+    "Full standalone Unity project",
+    "Small overlay for exact V14/v0.2.6 base; close Unity and extract at project root"
+  ],
+  "editor": "6000.3.26f1",
+  "urp": "17.3.0",
   "checks": {
-    "standaloneTestProjects": 42,
-    "passedTestProjects": 42,
-    "syntaxFiles": 96,
-    "syntaxSymbolConfigurations": 3,
+    "logicProjects": 47,
+    "logicPassed": 47,
+    "syntaxFiles": 105,
+    "syntaxConfigurations": 3,
     "syntaxErrors": 0,
     "architecture": {
       "status": "PASS",
-      "checks": 2053,
-      "runtimeSources": 71,
+      "checks": 2218,
+      "runtimeSources": 80,
       "editorSources": 25,
-      "pureModels": 28,
-      "assetGuids": 354,
+      "pureModels": 32,
+      "assetGuids": 374,
       "failures": [],
       "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
     },
     "architectureValidatorRegressions": 10,
-    "assetLookupRegressions": 15,
-    "startupPolicyAssertions": 31,
-    "catalogAssertions": 1095,
-    "staticStartupAndPackageChecks": 542,
-    "compiledSourceFilesAvailable": 135,
-    "contentFilesAvailable": 7,
-    "allTestedInputsByteIdentical": true,
-    "runtimeSourcesUnchanged": 71,
-    "sceneBytesUnchanged": true,
-    "binaryGameResourcesUnchanged": 159,
-    "robotModelAndTexturePathsExist": 51,
-    "sceneYamlFiles": 103,
+    "gameplaySceneIntegrationChecks": 364,
+    "metalAudioChecks": 46,
     "sceneIdRegressionCases": 14,
+    "yamlAssets": 106,
     "surfaceColliderRoutes": 84,
-    "sceneRegenerationIdempotent": true,
-    "npcMissionAndCourtyardChecks": "PASS",
-    "audioAssetsReproducedFromIncludedSources": 6
+    "sourceHeroProtectedFiles": 32,
+    "heroAnimsModelAndBlendByteIdentical": true,
+    "sceneSetupIdempotent": true
   },
-  "cleanup": [
-    "No installer, patch payload or old version prerequisites",
-    "Removed obsolete V3/V4 migration code and manifests",
-    "No .git history, Unity caches, Logs, UserSettings, .NET build outputs, Python caches or Blender backups",
-    "Removed historical previews/reports and one-off authoring repair scripts",
-    "Included current25Action/28Texture cleaned Blender source and current authoring documentation"
-  ],
-  "sourceBlend": {
-    "path": "Source/Robot/intercom-armed.blend",
-    "actions": 25,
-    "exportGameActions": 13,
-    "additionalEditingStudies": 12,
-    "packedTextures": 28,
-    "sha256": "0277e76cc8a16f060ed28da0b4608d6c7d4b55cc0cfdffd74fbb913c0916c511"
+  "gameplay": {
+    "enemyMoveSpeed": 2.65,
+    "enemyTargetMemorySeconds": 6,
+    "visibleArrivalCadencePreference": 3,
+    "minimumVisibleArrivalDistance": 5.5,
+    "extraArrivalWarningSeconds": 0.35,
+    "authoredHatches": 2,
+    "authoredGroundPoints": 1,
+    "pooledEnemies": 8,
+    "casingEveryNthShotPerHand": 2,
+    "casingScaleFactor": 1.25,
+    "propFeedback": "Signed squash/stretch plus red flash, original property blocks restored",
+    "menu": [
+      "Home",
+      "Play",
+      "Robot",
+      "Armory"
+    ],
+    "modes": [
+      "Elimination50",
+      "Rescue",
+      "FreePlay"
+    ],
+    "futureHub": "Dedicated optional camera/anchor adapter; sofa/TV/rooms and economy not built yet"
   },
   "limits": [
-    "Actual Unity Editor import, type compilation, Play Mode and device build were not executed in this environment.",
-    "Logic and editor startup/catalog tests use .NET8 and minimal Unity API substitutes.",
-    "First open downloads pinned Unity packages; internet and the specified Editor version are required."
+    "Unity Editor import/type compilation/Play Mode and device testing were not run.",
+    "Logic/editor callback tests use .NET8 and minimal Unity API substitutes.",
+    "Menu preview is a raster of actual GUI draw commands, not a Unity capture.",
+    "Upgrade/new-weapon cards are future slots. No purchases, currency persistence or real-money flow."
   ],
   "reports": [
     "Validation/Reports/LogicTests.json",
-    "Validation/Reports/ProjectStartup.json",
-    "Validation/Reports/SceneIntegrity.json",
-    "Validation/Reports/NpcScene.json",
-    "Validation/Reports/MissionScene.json",
-    "Validation/Reports/Courtyard.json"
+    "Validation/Reports/GameplayIntegration.json",
+    "Validation/Reports/MetalImpactValidation.json",
+    "Validation/Reports/CombatFeedback.json",
+    "Validation/Reports/Frontend.json",
+    "Validation/Reports/Enemies.json"
   ]
 }

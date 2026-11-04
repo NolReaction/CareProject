@@ -6,12 +6,16 @@
 
 Рабочая сцена: Scenes/TutorialYard/IntercomMVP.unity.
 Ручное открытие: Tools → CareProject → Open Scene.
+После кнопки Play редактора откроется главное меню игры. Играть ведёт
+к режимам; Робот и Оружейная показывают действующие характеристики.
+Закрытые слоты пока обозначают будущее расширение.
 
 | Что ищешь | Папка |
 | --- | --- |
+| Главное меню | Runtime/Frontend |
 | Код героя | Runtime/Player |
 | Общая механика оружия и пуль | Runtime/Combat |
-| Враги и поиск пути | Runtime/Enemies |
+| Враги, поиск пути и точки появления | Runtime/Enemies |
 | Режимы и волны | Runtime/Missions |
 | Общие здоровье, урон и поверхности | Runtime/Shared |
 | Предметы двора | Runtime/World |
@@ -29,7 +33,7 @@ Blender находится вне Assets: Source/Robot/intercom-armed.blend, Ble
 Все 28 текстур упакованы внутрь.
 
 Текущие инструкции в корне: START_HERE.md, Docs/Architecture.md,
-Docs/DeveloperGuide.md и MOBILE_TESTING.md. Source/Robot/README.md описывает
+Docs/DeveloperGuide.md, Docs/Gameplay.md и MOBILE_TESTING.md. Source/Robot/README.md описывает
 анимации и экспорт. Validation/ProjectVerification.json фиксирует проверки.
 
 Карточки .asset задают числа и ссылки. Runtime выполняет поведение.

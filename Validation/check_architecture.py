@@ -10,6 +10,8 @@ import re
 import xml.etree.ElementTree as ET
 
 PURE_FILES = {
+    'IntercomEnemySpawnPolicy.cs', 'IntercomPropHitResponse.cs',
+    'IntercomFrontEndState.cs', 'IntercomFrontEndLayout.cs',
     'IntercomCameraTracking.cs', 'IntercomCharacterAnimationMath.cs',
     'IntercomFootstepClock.cs', 'IntercomFrameCapture.cs', 'IntercomGroundMath.cs',
     'IntercomHealthState.cs', 'IntercomHudLayout.cs', 'IntercomHurtResponse.cs',

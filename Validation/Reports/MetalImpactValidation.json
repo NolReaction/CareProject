@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "assertions": 46,
+  "allOtherAudioAndImportersByteIdentical": 87,
+  "changedAudioAssets": [
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_03.wav",
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_01.wav",
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_02.wav"
+  ],
+  "repeatGenerationAndReportIdempotent": true,
+  "enclosingGeneratorCLICompatible": true,
+  "gameplayBankGUIDOrderVerified": true,
+  "clips": [
+    {
+      "file": "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_01.wav",
+      "seconds": 0.152,
+      "peakDbFS": -10.7,
+      "rmsDbFS": -27.401,
+      "energyCentroidHz": 866.1,
+      "energy90ms": 21.07,
+      "energyAfter20ms": 0.1081,
+      "clippedSamples": 0,
+      "dcOffset": -6.31e-05,
+      "energyAfter60ms": 0.00017909854504738614,
+      "energyAbove3000Hz": 0.012453987544578398
+    },
+    {
+      "file": "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_02.wav",
+      "seconds": 0.16,
+      "peakDbFS": -10.7,
+      "rmsDbFS": -27.698,
+      "energyCentroidHz": 941.1,
+      "energy90ms": 21.75,
+      "energyAfter20ms": 0.1187,
+      "clippedSamples": 0,
+      "dcOffset": -6.15e-05,
+      "energyAfter60ms": 0.00016281784789284098,
+      "energyAbove3000Hz": 0.007520737347116594
+    },
+    {
+      "file": "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_03.wav",
+      "seconds": 0.148,
+      "peakDbFS": -10.7,
+      "rmsDbFS": -27.657,
+      "energyCentroidHz": 870.9,
+      "energy90ms": 19.82,
+      "energyAfter20ms": 0.0976,
+      "clippedSamples": 0,
+      "dcOffset": -5.95e-05,
+      "energyAfter60ms": 0.00012916484915731253,
+      "energyAbove3000Hz": 0.009514976951105038
+    }
+  ],
+  "limitations": [
+    "No Unity audio engine or phone speaker listening session was available."
+  ]
+}

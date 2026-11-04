@@ -15,6 +15,8 @@ namespace IntercomMvp
         public IntercomNpcNavigation navigation;
         public IntercomNpcDefinition enemyDefinition;
         public Transform[] spawnPoints;
+        [Header("Authored visible ground / hatch arrivals (optional)")]
+        public IntercomEnemySpawnPoint[] authoredSpawnPoints;
         public Transform allySpawn;
         public Transform extractionPoint;
         public IntercomMissionDefinition eliminationDefinition;
@@ -99,7 +101,7 @@ namespace IntercomMvp
         private IntercomHealth subscribedHero;
         private GameObject extractionVisual;
         private uint observedRespawn;
-        private int spawnCursor, wave = 1, waveLimit;
+        private int spawnCursor, authoredSpawnCursor, wave = 1, waveLimit;
         private float spawnTimer, waveRest = -1f, targetTimer, spawnBlockedTime;
         private bool focused = true, paused, transitioning;
         private Camera displayCamera;
@@ -207,7 +209,7 @@ namespace IntercomMvp
             state.Begin(mode,profile!=null ? Mathf.Clamp(profile.killTarget,1,500) : 0,
                 profile!=null ? Mathf.Clamp(profile.rescueEnemySupply,1,500) : 0);
             wave=profile!=null ? 1 : 0; waveLimit=profile!=null ? Mathf.Min(state.Supply,Mathf.Clamp(profile.waveSize,1,50)) : 0;
-            spawnCursor=0; spawnTimer=.8f; waveRest=-1f; targetTimer=0f; spawnBlockedTime=0f; ResultText="";
+            spawnCursor=authoredSpawnCursor=0; spawnTimer=.8f; waveRest=-1f; targetTimer=0f; spawnBlockedTime=0f; ResultText="";
             if(mode==IntercomMissionMode.Rescue)
             {
                 if(ally==null)
@@ -232,14 +234,21 @@ namespace IntercomMvp
                 ResultText="Не подключён герой для свободного режима"; return false;
             }
             if(candidate==null || candidate.mode!=mode || playerHealth==null || playerMotor==null || playerVitality==null
-                || navigation==null || !navigation.isActiveAndEnabled || enemyDefinition==null || spawnPoints==null || spawnPoints.Length==0
+                || navigation==null || !navigation.isActiveAndEnabled || enemyDefinition==null || ((spawnPoints==null || spawnPoints.Length==0)
+                    && (authoredSpawnPoints==null || authoredSpawnPoints.Length==0))
                 || enemyDefinition.bodyMaterial==null || enemyDefinition.detailMaterial==null || enemyDefinition.telegraphMaterial==null)
             { ResultText="Задание не настроено: проверьте ссылки Mission Director"; return false; }
             if(!navigation.IsReady) navigation.RebuildObstacleCache();
             if(!navigation.IsReady) { ResultText="Навигация двора ещё не готова"; return false; }
             bool usableSpawn=false;
-            for(int i=0;i<spawnPoints.Length;i++)
-                if(spawnPoints[i]!=null && navigation.TryProject(spawnPoints[i].position,out Vector3 unused)) { usableSpawn=true; break; }
+            if(spawnPoints!=null)
+                for(int i=0;i<spawnPoints.Length;i++)
+                    if(spawnPoints[i]!=null && navigation.TryProject(spawnPoints[i].position,out Vector3 unused)) { usableSpawn=true; break; }
+            if(!usableSpawn && authoredSpawnPoints!=null)
+                for(int i=0;i<authoredSpawnPoints.Length;i++)
+                    if(authoredSpawnPoints[i]!=null && authoredSpawnPoints[i].isActiveAndEnabled
+                        && navigation.TryProject(authoredSpawnPoints[i].transform.position,out Vector3 unused))
+                    { usableSpawn=true; break; }
             if(!usableSpawn) { ResultText="Нет доступных точек появления врагов"; return false; }
             if(mode==IntercomMissionMode.Rescue && (allySpawn==null || extractionPoint==null
                 || !navigation.TryProject(allySpawn.position,out rescuePosition)
@@ -323,24 +332,96 @@ namespace IntercomMvp
             int free=-1;
             for(int i=0;i<pool.Length;i++) if(!pool[i].living && pool[i].actor!=null && Time.time>=pool[i].reuseAfter) { free=i; break; }
             if(free<0) return false;
-            float minimum=Safe(profile.minimumSpawnDistance,5f,2.5f,12f);
-            for(int checkedPoints=0;checkedPoints<spawnPoints.Length;checkedPoints++)
+            bool wantsVisible=IntercomEnemySpawnPolicy.WantsVisible(state.Spawned,profile.visibleSpawnEvery);
+            bool deferred=false;
+            if(wantsVisible && TryAuthoredSpawn(free,true,out deferred)) return true;
+            if(wantsVisible && deferred) return false;
+            if(TryPerimeterSpawn(free,out deferred)) return true;
+            if(deferred) return false;
+            // A camped perimeter must not lock a wave forever. Authored floor
+            // entries remain a fair fallback, retaining all safety checks.
+            return TryAuthoredSpawn(free,false,out deferred);
+        }
+
+        private bool TryAuthoredSpawn(int free,bool readableVisibleOnly,out bool deferred)
+        {
+            deferred=false;
+            if(authoredSpawnPoints==null || authoredSpawnPoints.Length==0) return false;
+            for(int checkedPoints=0;checkedPoints<authoredSpawnPoints.Length;checkedPoints++)
             {
-                int marker=spawnCursor++%spawnPoints.Length;
-                if(spawnPoints[marker]==null || !navigation.TryProject(spawnPoints[marker].position,out Vector3 position)) continue;
-                if(Flat(position-playerHealth.transform.position).sqrMagnitude<minimum*minimum) continue;
-                if(ally!=null && ally.gameObject.activeInHierarchy && Flat(position-ally.transform.position).sqrMagnitude<16f) continue;
-                bool occupied=false;
-                for(int i=0;i<pool.Length;i++)
-                    if(pool[i].living && pool[i].actor!=null && Flat(position-pool[i].actor.transform.position).sqrMagnitude<1.44f)
-                    { occupied=true; break; }
-                if(occupied) continue;
+                int ordinal=authoredSpawnCursor++%authoredSpawnPoints.Length;
+                IntercomEnemySpawnPoint point=authoredSpawnPoints[ordinal];
+                if(point==null || !point.IsAvailable(Time.time)) continue;
+                bool perimeter=point.kind==IntercomEnemySpawnKind.Perimeter;
+                if(readableVisibleOnly && perimeter) continue;
+                if(!navigation.TryProject(point.transform.position,out Vector3 position)) continue;
+                // A hatch must emit from its own floor, not from a snapped point
+                // on the other side of an obstacle. Navigation also checks clearance.
+                if(Flat(position-point.transform.position).sqrMagnitude>.25f) continue;
+                if(perimeter && SpawnOnScreen(position,false)) continue;
+                if(readableVisibleOnly && !SpawnOnScreen(position,true)) continue;
+                float minimum=Mathf.Max(Safe(profile.minimumSpawnDistance,5f,2.5f,12f),
+                    Safe(point.minimumDistance,5.5f,2.5f,12f));
+                if(!perimeter) minimum=Mathf.Max(minimum,Safe(profile.minimumVisibleSpawnDistance,5.5f,2.5f,12f));
+                if(!SpawnSpaceClear(position,minimum)) continue;
                 IntercomNavResult route=navigation.TryFindPath(position,playerHealth.transform.position,spawnRoute);
-                if(route==IntercomNavResult.Deferred) return false;
+                if(route==IntercomNavResult.Deferred) { deferred=true; return false; }
                 if(route==IntercomNavResult.Unreachable) continue;
-                ActivateSlot(free,position); return true;
+                float warning=perimeter ? 0f : Safe(profile.visibleSpawnWarningSeconds,.35f,.2f,1.2f);
+                ActivateSlot(free,position,warning);
+                point.BeginArrival(Time.time,Safe(enemyDefinition.emergenceSeconds,.68f,.3f,2f)+warning);
+                return true;
             }
             return false;
+        }
+
+        private bool TryPerimeterSpawn(int free,out bool deferred)
+        {
+            deferred=false;
+            if(spawnPoints==null || spawnPoints.Length==0) return false;
+            float minimum=Safe(profile.minimumSpawnDistance,5f,2.5f,12f);
+            // Prefer genuinely offscreen perimeter markers. The second pass
+            // preserves legacy configurations whose complete yard is on screen.
+            for(int pass=0;pass<2;pass++)
+                for(int checkedPoints=0;checkedPoints<spawnPoints.Length;checkedPoints++)
+                {
+                    int marker=spawnCursor++%spawnPoints.Length;
+                    if(spawnPoints[marker]==null || !navigation.TryProject(spawnPoints[marker].position,out Vector3 position)) continue;
+                    if(pass==0 && SpawnOnScreen(position,false)) continue;
+                    if(!SpawnSpaceClear(position,minimum)) continue;
+                    IntercomNavResult route=navigation.TryFindPath(position,playerHealth.transform.position,spawnRoute);
+                    if(route==IntercomNavResult.Deferred) { deferred=true; return false; }
+                    if(route==IntercomNavResult.Unreachable) continue;
+                    ActivateSlot(free,position); return true;
+                }
+            return false;
+        }
+
+        private bool SpawnSpaceClear(Vector3 position,float minimum)
+        {
+            Vector3 player=position-playerHealth.transform.position;
+            if(!IntercomEnemySpawnPolicy.DistanceSafe(player.x,player.z,minimum)) return false;
+            if(ally!=null && ally.gameObject.activeInHierarchy)
+            {
+                Vector3 offset=position-ally.transform.position;
+                if(!IntercomEnemySpawnPolicy.DistanceSafe(offset.x,offset.z,4f)) return false;
+            }
+            for(int i=0;i<pool.Length;i++)
+                if(pool[i].living && pool[i].actor!=null)
+                {
+                    Vector3 offset=position-pool[i].actor.transform.position;
+                    if(!IntercomEnemySpawnPolicy.DistanceSafe(offset.x,offset.z,1.2f)) return false;
+                }
+            return true;
+        }
+
+        private bool SpawnOnScreen(Vector3 position,bool readable)
+        {
+            if(displayCamera==null) displayCamera=Camera.main;
+            if(displayCamera==null) return false;
+            Vector3 screen=displayCamera.WorldToScreenPoint(position+Vector3.up*.6f);
+            if(readable) return IntercomEnemySpawnPolicy.IsOnScreen(screen.x,screen.y,screen.z,Screen.width,Screen.height);
+            return screen.z>0f && screen.x>=0f && screen.x<=Screen.width && screen.y>=0f && screen.y<=Screen.height;
         }
         private void PrepareOneEnemy()
         {
@@ -363,7 +444,7 @@ namespace IntercomMvp
                 return; // At most one allocation-heavy actor in a frame.
             }
         }
-        private void ActivateSlot(int index,Vector3 position)
+        private void ActivateSlot(int index,Vector3 position,float additionalWarning=0f)
         {
             Slot slot=pool[index];
             if(slot.actor==null) return;
@@ -373,7 +454,8 @@ namespace IntercomMvp
             slot.epoch=state.Epoch;
             if(!state.RecordSpawn(index,slot.life,slot.epoch)) return;
             slot.living=true; slot.reuseAfter=0f; slot.targetChangedAt=Time.time;
-            slot.actor.BeginEmergence();
+            if(additionalWarning>0f) slot.actor.BeginEmergence(additionalWarning);
+            else slot.actor.BeginEmergence();
             slot.actor.gameObject.SetActive(true);
             // Spawn command reports a fixed known position; AI must see the hero to keep tracking it.
             slot.actor.Investigate(playerHealth.transform.position);
@@ -444,6 +526,9 @@ namespace IntercomMvp
         }
         private void StopActors()
         {
+            if(authoredSpawnPoints!=null)
+                for(int i=0;i<authoredSpawnPoints.Length;i++)
+                    if(authoredSpawnPoints[i]!=null) authoredSpawnPoints[i].ResetForMission();
             for(int i=0;i<pool.Length;i++)
             {
                 Slot slot=pool[i]; if(slot==null) continue;

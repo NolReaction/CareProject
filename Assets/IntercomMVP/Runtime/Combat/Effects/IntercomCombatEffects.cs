@@ -35,7 +35,7 @@ namespace IntercomMvp
             public int bornFrame;
         }
         private Piece[] shells, sparks;
-        private int nextShell, nextSpark;
+        private int nextShell, nextSpark, leftCasingShot, rightCasingShot;
         private GameObject root;
         private Mesh shellMesh, sparkMesh, chipMesh, puffMesh;
         private IntercomSimpleShooter subscribed;
@@ -92,15 +92,19 @@ namespace IntercomMvp
                 1, flashMaterial, weapon != null && weapon.flashMesh != null ? weapon.flashMesh : sparkMesh);
             flash.velocity = Vector3.zero;
             if (weapon != null && !weapon.ejectCasings) return;
+            int cadence = weapon != null ? weapon.CasingCadence : 2;
+            // Count each hand separately: alternating pistols must not eject only from one hand.
+            if (rightHand) { rightCasingShot = (rightCasingShot + 1) % cadence; if (rightCasingShot != 0) return; }
+            else { leftCasingShot = (leftCasingShot + 1) % cadence; if (leftCasingShot != 0) return; }
             ref Piece shell = ref shells[nextShell]; nextShell = (nextShell + 1) % shells.Length;
             // This is a visual ejection point near the chamber; marker itself remains the barrel tip.
             Vector3 outwards = muzzle.right * (rightHand ? 1f : -1f);
             Activate(ref shell, muzzle.position - muzzle.forward * 0.14f + Vector3.up * 0.035f,
-                Random.rotation, weapon != null ? weapon.casingScale : new Vector3(0.045f, 0.10f, 0.045f),
+                Random.rotation, weapon != null ? weapon.CasingScale : new Vector3(0.05625f, 0.125f, 0.05625f),
                 weapon != null ? IntercomWeaponBalance.Positive(weapon.casingLifetime,2.5f,0.2f) : Mathf.Max(0.2f, shellLifetime),
                 0, casingMaterial, weapon != null && weapon.casingMesh != null ? weapon.casingMesh : shellMesh);
             shell.velocity = outwards * Random.Range(0.8f, 1.4f) + Vector3.up * Random.Range(1.5f, 2.1f) - muzzle.forward * 0.35f;
-            if (weapon != null) shell.velocity *= Mathf.Max(0f, weapon.casingVelocityScale);
+            if (weapon != null) shell.velocity *= IntercomWeaponBalance.Positive(weapon.casingVelocityScale, 1f, 0f);
             shell.spin = new Vector3(Random.Range(-420f, 420f), Random.Range(220f, 650f), Random.Range(-420f, 420f));
         }
 
@@ -115,7 +119,16 @@ namespace IntercomMvp
             bool soft = hit.Surface == IntercomSurfaceKind.Soil || hit.Surface == IntercomSurfaceKind.Gravel;
             // A robot absorbs the hit with a compact chassis burst. Seven long
             // scenery-metal sparks per bullet hid silhouettes and cost overdraw.
-            int count = robot ? 3 : metal ? 7 : wood ? 5 : 4;
+            // A flat, quick pop reads as a comic impact without covering the target silhouette.
+            if (!soft)
+            {
+                ref Piece stamp = ref sparks[nextSpark]; nextSpark = (nextSpark + 1) % sparks.Length;
+                float width = robot ? .21f : metal ? .28f : .24f;
+                Activate(ref stamp, point + normal * .045f, facing * Quaternion.Euler(0f, 0f, Random.Range(-18f, 18f)),
+                    new Vector3(width, width, .055f), .12f, 6, impactMaterial, sparkMesh);
+                stamp.velocity = Vector3.zero;
+            }
+            int count = robot ? 2 : metal ? 4 : 3;
             byte kind = metal ? (byte)2 : wood ? (byte)3 : soft ? (byte)5 : (byte)4;
             Material material = metal ? impactMaterial : wood ? woodImpactMaterial : soft ? soilImpactMaterial : stoneImpactMaterial;
             if (material == null) material = impactMaterial;
@@ -124,10 +137,10 @@ namespace IntercomMvp
                 ref Piece spark = ref sparks[nextSpark]; nextSpark = (nextSpark + 1) % sparks.Length;
                 Vector3 radial = Quaternion.AngleAxis(i * (360f / count) + Random.Range(-12f, 12f), normal)
                     * (facing * Vector3.up);
-                Vector3 size = metal ? new Vector3(0.04f, 0.19f, 0.04f)
-                    : wood ? new Vector3(0.04f, 0.10f, 0.025f)
-                    : soft ? new Vector3(0.14f, 0.11f, 0.10f) : new Vector3(0.055f, 0.06f, 0.04f);
-                float speed = metal ? 1.8f : wood ? 1.1f : soft ? 0.35f : 0.8f;
+                Vector3 size = metal ? new Vector3(0.10f, 0.14f, 0.055f)
+                    : wood ? new Vector3(0.065f, 0.12f, 0.045f)
+                    : soft ? new Vector3(0.14f, 0.11f, 0.10f) : new Vector3(0.075f, 0.08f, 0.055f);
+                float speed = metal ? 1.25f : wood ? 1f : soft ? 0.35f : 0.75f;
                 Activate(ref spark, point + normal * 0.035f, Quaternion.LookRotation(normal, radial),
                     size * Random.Range(0.8f, 1.2f), Random.Range(0.16f, 0.26f), kind, material,
                     metal ? sparkMesh : soft ? puffMesh : chipMesh);
@@ -139,7 +152,7 @@ namespace IntercomMvp
         private void LateUpdate()
         {
             Subscribe();
-            if (root == null || !focused || paused || Time.deltaTime <= 0f) return;
+            if (root == null || !focused || paused || Time.deltaTime <= 0f || float.IsNaN(Time.deltaTime) || float.IsInfinity(Time.deltaTime)) return;
             float dt = Time.deltaTime;
             for (int i = 0; i < shells.Length; i++) Tick(ref shells[i], dt);
             for (int i = 0; i < sparks.Length; i++) Tick(ref sparks[i], dt);
@@ -181,7 +194,9 @@ namespace IntercomMvp
                 piece.visual.position += piece.velocity * dt;
                 if (piece.kind >= 3) piece.visual.Rotate(piece.spin * dt, Space.World);
                 float fraction = piece.remaining / piece.duration;
-                piece.visual.localScale = piece.size * (piece.kind == 1 ? fraction : Mathf.Sqrt(fraction));
+                float scale = piece.kind == 6 ? fraction * (1f + Mathf.Sin((1f - fraction) * Mathf.PI) * .5f)
+                    : piece.kind == 1 ? fraction : Mathf.Sqrt(fraction);
+                piece.visual.localScale = piece.size * scale;
             }
         }
 
@@ -297,6 +312,7 @@ namespace IntercomMvp
         private void Clear()
         {
             ActiveShellCount = ActiveEffectCount = 0;
+            leftCasingShot = rightCasingShot = 0;
             if (shells != null) for (int i = 0; i < shells.Length; i++) { shells[i].remaining = 0f; shells[i].visual.gameObject.SetActive(false); }
             if (sparks != null) for (int i = 0; i < sparks.Length; i++) { sparks[i].remaining = 0f; sparks[i].visual.gameObject.SetActive(false); }
         }

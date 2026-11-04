@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "checks": 364,
+  "frontend": 8800000015,
+  "authoredPoints": [
+    {
+      "name": "Spawn Hatch - Central Yard",
+      "position": [
+        4.0,
+        0.0,
+        -2.0
+      ],
+      "kind": 2
+    },
+    {
+      "name": "Spawn Hatch - Workshop Lane",
+      "position": [
+        -8.0,
+        0.0,
+        -5.0
+      ],
+      "kind": 2
+    },
+    {
+      "name": "Ground Arrival - North Yard",
+      "position": [
+        1.0,
+        0.0,
+        6.0
+      ],
+      "kind": 1
+    }
+  ],
+  "reactiveCounts": {
+    "IntercomReactiveProp": 3,
+    "IntercomTargetDummy": 3
+  },
+  "localIds": {
+    "objects": 1021,
+    "localReferences": 6464,
+    "externalReferences": 897
+  },
+  "scope": "Serialized current gameplay/visual setup and authored obstacle clearance. No Unity/PhysX execution."
+}

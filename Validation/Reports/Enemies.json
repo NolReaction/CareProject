@@ -1,0 +1,99 @@
+{
+  "status": "PASS",
+  "scope": "V15 enemy pacing, explicit safe floor/hatch arrivals and remembered-target reacquisition",
+  "tests": [
+    {
+      "project": "EnemySpawnPolicyTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Enemy spawn policy: 5324 assertions PASS. Pure production policy, not Unity visibility or PhysX.\n"
+    },
+    {
+      "project": "MissionRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission/rescue runtime: 848 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcBrainTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC brain and melee geometry: 969 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+    },
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 316 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    },
+    {
+      "project": "NpcRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 327 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    }
+  ],
+  "runtimeTuning": {
+    "moveSpeedBefore": 3,
+    "moveSpeedNow": 2.65,
+    "lostSightMemoryBefore": 4,
+    "lostSightMemoryNow": 6
+  },
+  "spawnContract": {
+    "pointScriptGUID": "3742717848525a97b58bdc48cb100c43",
+    "directorField": "authoredSpawnPoints",
+    "kinds": {
+      "Perimeter": 0,
+      "Ground": 1,
+      "Hatch": 2
+    },
+    "visibleEvery": 3,
+    "minimumVisibleDistance": 5.5,
+    "additionalVisibleWarningSeconds": 0.35,
+    "authoredArrivalDurationSeconds": 1.03,
+    "legacyArrivalDurationSeconds": 0.68,
+    "poolSlots": 8
+  },
+  "coverage": [
+    "actual Director mixedperimeter/visiblecadence",
+    "authored-only configuration",
+    "player/ally/actor clearance",
+    "nav projection snapping limit",
+    "path budget deferral",
+    "marker cooldown and full mission reset",
+    "pooled hatch and warning transforms",
+    "pause/focus/zero timescale",
+    "no per-spawn object/material allocation",
+    "new visible warning cannot inherit hidden strikes",
+    "actor reuse clears extended warning",
+    "visible target reacquired while returning only inside leash",
+    "lethal callback returns before stale collider move"
+  ],
+  "playerAnimationChanges": false,
+  "sceneEditedByThisOwner": false,
+  "fileSHA256": {
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcArena.cs": "251dc484d7d69c258e5246b7c33af3da0c33c552abf9ccd85ad6ccfeb74b9608",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": "d7c67215c769a04d0b126e6e5966b482930d15264e6be87ff88799628288161d",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "5c81477c8eb1f39c33b0cb1ee67701958382669b7f872e61531a9a157715c25b",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": "50a5fe166f08de66c805e831ac221134f490be0e28cd4412b93e07c376380a9c",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": "9a1534ca1bbd98a440c031648201d8848fd8bf429c8f25dea9ce8a9e22c269af",
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs": "500c658e2b043203c6cc72fea6b73f86a52a42bd18e51c272c133106ea518ebd",
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNpcNavigation.cs": "2cfc8606441e8935667511e2c26f59bad92aa347bf17a26cc58afd3e33244995",
+    "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs": "02d630b0b332ce6a36cfcb384532d0afd4a2ff5874510b4ec3c02a9a63de8151",
+    "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs": "5f4a189de26c1e9753d4c8e2e62cce4ea5292bb1e1adea824162b19be8cb4f44",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "5861320eb2926fcfd88caa95edcc146942a3ba22905154a304de9c2c0b854a6a",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs": "5b500c72a3ce6482abdd46f2a254ddd786808ed433c7d22802f2b10d3aae8bf3",
+    "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": "8c03ab330948de458675044caf26d95deb7398e4d045510ff24c470c39c17591",
+    "Tools/AuthorNpcScene.py": "5960d1b7c612542741c835cb62ac28bdf706c94b262023a172d53b90f27357f7",
+    "Tools/AuthorMissionScene.py": "17d09ef54ce39d89d0563ef34181e136e1c25272cec9d397b42ca0dd8d382e40",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "2a95f406033bb8917b70ae6ebf393595278c81c91a9ec7b652adecfe5b069f58",
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "0d0e20c5769d4a7a3900c76d6746614b3ce9a0d2b545f06a50c0d704c43a8298",
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "b4270a5c5341eb851c5d20b04719895033c36e7a07c312eaf65944f53c8881e9"
+  },
+  "limits": "No native Unity Editor, camera visibility or PhysX execution; production classes tested with narrow substitutes."
+}

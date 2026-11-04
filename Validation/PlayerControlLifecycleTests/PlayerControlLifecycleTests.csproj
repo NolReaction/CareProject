@@ -14,4 +14,4 @@
 <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs"/></ItemGroup></Project>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs"/></ItemGroup></Project>

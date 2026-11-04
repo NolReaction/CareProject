@@ -1,40 +1,13 @@
 {
-  "director": 8900000023,
-  "navigation": 8800000005,
-  "legacyArena": 8800000012,
-  "input": 413439362,
-  "spawnTransforms": [
-    8900000002,
-    8900000004,
-    8900000006,
-    8900000008,
-    8900000010,
-    8900000012,
-    8900000014,
-    8900000016,
-    8900000018
-  ],
-  "allyTransform": 8900000020,
-  "extractionTransform": 8900000022,
-  "existingBlocksChanged": [
-    413439362,
-    8800000003,
-    8800000004,
-    8800000005,
-    8800000012
-  ],
-  "unrelatedBlocksPreserved": 949,
-  "localIds": {
-    "objects": 979,
-    "localReferences": 6193,
-    "externalReferences": 868
-  },
   "revision": "missions-scene-v9",
   "status": "PASS",
-  "sceneSha256": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
-  "baselineSceneSha256": "9a29d3693166433c1a16cce6c195489a6219919979b6c22dbe28c5fd4a0c5f1d",
+  "sceneSha256": "832382431d8fb9fbac1dc489c9a3af8b6c438d85de9e3bbe82af8cf0d69c0bb8",
+  "localIds": {
+    "objects": 1021,
+    "localReferences": 6464,
+    "externalReferences": 897
+  },
   "repeatInstallIdempotent": true,
-  "scope": "Serialized links, profile limits, component ownership and repeated installation. Separate MissionSceneRouteTests execute production navigation on authored map. No Unity runtime.",
   "legacyInstallPreservesV9": true,
   "legacySandboxDisabled": true,
   "missionProfiles": [
@@ -109,9 +82,10 @@
   },
   "killGoal": 50,
   "sourceSha256": {
-    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
-    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "66b6794b8a6c340572c060580d76d1ea0c20b8b718b5d88b4da17b400e77fd8b",
-    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "be06416fb49af612a861299eb163b0eca795381c0097c77d0b109b8135372451",
-    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "0bebda18fb3160eeff7ab03a068238c4ed433120cc7a70757a3dc24b99d2fcff"
-  }
+    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": "832382431d8fb9fbac1dc489c9a3af8b6c438d85de9e3bbe82af8cf0d69c0bb8",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "2a95f406033bb8917b70ae6ebf393595278c81c91a9ec7b652adecfe5b069f58",
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "0d0e20c5769d4a7a3900c76d6746614b3ce9a0d2b545f06a50c0d704c43a8298",
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "b4270a5c5341eb851c5d20b04719895033c36e7a07c312eaf65944f53c8881e9"
+  },
+  "scope": "Serialized links, profile limits, component ownership and repeated installation. Separate MissionSceneRouteTests execute production navigation on authored map. No Unity runtime."
 }

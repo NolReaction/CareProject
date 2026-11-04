@@ -43,8 +43,10 @@ internal static class Program
         brain.Tick(.01f,Seen);
         Advance(brain,2.3f,Facts(detected:false,visible:false));Check(brain.Phase==IntercomNpcPhase.Chase,"seeing target refreshes memory");
         Advance(brain,.3f,Facts(detected:false,visible:false));Check(brain.Phase==IntercomNpcPhase.Return,"lost target eventually returns home");
-        brain.Tick(.1f,Near);Check(brain.Phase==IntercomNpcPhase.Return,"return does not reacquire before reaching home");
-        brain.Tick(.01f,Facts(home:true));Check(brain.Phase==IntercomNpcPhase.Idle,"home arrival rests");
+        brain.Tick(.1f,Facts(outside:true));Check(brain.Phase==IntercomNpcPhase.Return,"outside-leash target cannot cause return/chase oscillation");
+        brain.Tick(.1f,Near);Check(brain.Phase==IntercomNpcPhase.Chase,"returning robot reacquires a newly visible nearby victim inside its leash");
+        brain.Tick(.01f,Facts(outside:true));
+        brain.Tick(.01f,Facts(detected:false,visible:false,home:true));Check(brain.Phase==IntercomNpcPhase.Idle,"home arrival without visible victim rests");
         brain.Tick(.01f,Seen);Check(brain.Phase==IntercomNpcPhase.Chase,"can reacquire after returning home");
         brain.Tick(.01f,Facts(outside:true));Check(brain.Phase==IntercomNpcPhase.Return,"leash cancels pursuit");
         brain.Reset();brain.Alert();Check(brain.Phase==IntercomNpcPhase.Chase,"shot alert acquires even before ordinary detection");

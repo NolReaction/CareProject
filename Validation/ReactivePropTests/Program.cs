@@ -29,7 +29,7 @@ static class Program
         public IntercomReactiveProp Prop;
         public Transform Visual,Flap,ColliderTransform,Debris;
         public Collider Collider,DisabledCollider;
-        public Renderer Lamp;
+        public Renderer Lamp, VisualRenderer;
         public IntercomPlayerMotor Motor;
         public Vector3 Position,Scale;
         public Quaternion Rotation,FlapRotation;
@@ -48,6 +48,9 @@ static class Program
             OriginalColor=new Color(.4f,.7f,.3f,1);OriginalCustom=new Color(.1f,.2f,.3f,.4f);
             Lamp.sharedMaterial.Colors[BaseColor]=OriginalColor;
             Lamp.Colors[CustomProperty]=OriginalCustom;
+            VisualRenderer=Visual.gameObject.AddComponent<Renderer>();VisualRenderer.sharedMaterial=new Material();
+            VisualRenderer.sharedMaterial.Colors[BaseColor]=OriginalColor;
+            VisualRenderer.Colors[CustomProperty]=OriginalCustom;
             Motor=new GameObject().AddComponent<IntercomPlayerMotor>();
             Prop=owner.AddComponent<IntercomReactiveProp>();Prop.kind=kind;Prop.visual=Visual;
             if(withDebris)
@@ -219,5 +222,66 @@ static class Program
             safe.Prop.ResetProp();safe.CheckRest("invalid-lift reset");
         }
     }
-    static void Main() {PureState();Runtime();DebrisLifecycle();BollardClearance();Console.WriteLine("Reactive props: "+assertions+" assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.");}
+    static void CartoonFeedback()
+    {
+        var prop=new Fixture(IntercomPropKind.Crate);prop.Prop.maxHealth=10000;prop.Prop.ResetProp();
+        var original=new Color(.22f,.63f,.38f,.61f);
+        // Capture authored per-renderer overrides on a separate instance at Awake.
+        var owner=new GameObject();var solid=owner.AddComponent<Collider>();var mesh=new GameObject().transform;
+        var renderer=mesh.gameObject.AddComponent<Renderer>();renderer.sharedMaterial=new Material();
+        renderer.sharedMaterial.Colors[BaseColor]=new Color(.5f,.5f,.5f,1);
+        renderer.Colors[BaseColor]=original;renderer.Colors[CustomProperty]=new Color(.1f,.2f,.3f,.4f);
+        var feedback=owner.AddComponent<IntercomReactiveProp>();feedback.visual=mesh;feedback.maxHealth=10000;feedback.blockingColliders=new[]{solid};
+        mesh.localScale=new Vector3(.8f,.9f,.75f);Call(feedback,"Awake");
+        int materials=Material.Created,blocks=MaterialPropertyBlock.Created;
+        for(int cycle=0;cycle<24;cycle++)
+        {
+            Check(feedback.TakeDamage(Damage(1)),"feedback accepts valid hit");
+            Check(renderer.Colors[BaseColor].r>original.r&&renderer.Colors[BaseColor].g<original.g,"damage immediately flashes coral red");
+            Check(Near(renderer.Colors[BaseColor].a,original.a),"hit flash preserves authored alpha");
+            Time.deltaTime=.05f;Call(feedback,"Update");
+            Check(mesh.localScale.x>.8f&&mesh.localScale.y<.9f,"first lobe expands and squashes");
+            Time.deltaTime=.145f;Call(feedback,"Update");
+            Check(mesh.localScale.x<.8f&&mesh.localScale.y>.9f,"opposite lobe contracts and stretches");
+            Time.deltaTime=.1f;Call(feedback,"Update");
+            Check(Same(mesh.localScale,new Vector3(.8f,.9f,.75f)),"hit recovers exact scale without accumulation");
+            Check(renderer.Colors.Count==2&&Same(renderer.Colors[BaseColor],original),"finished flash restores exact authored override block");
+            Check(Same(renderer.Colors[CustomProperty],new Color(.1f,.2f,.3f,.4f)),"unrelated property survives hit");
+            Check(Same(owner.transform.localScale,Vector3.one)&&solid.enabled,"punch leaves collider owner unscaled and enabled");
+        }
+        Check(Material.Created==materials&&MaterialPropertyBlock.Created==blocks,"repeated feedback creates no materials or blocks");
+        Check(Same(renderer.sharedMaterial.GetColor(BaseColor),new Color(.5f,.5f,.5f,1)),"flash never modifies shared material");
+        feedback.TakeDamage(Damage(1));Time.deltaTime=.05f;Call(feedback,"Update");Call(feedback,"OnDisable");
+        Check(Same(mesh.localScale,new Vector3(.8f,.9f,.75f))&&Same(renderer.Colors[BaseColor],original),"disable during hit restores appearance");
+        var emptyOwner=new GameObject();var emptyVisual=new GameObject().transform;var emptyRenderer=emptyVisual.gameObject.AddComponent<Renderer>();emptyRenderer.sharedMaterial=new Material();
+        var empty=emptyOwner.AddComponent<IntercomReactiveProp>();empty.visual=emptyVisual;empty.blockingColliders=new Collider[0];Call(empty,"Awake");
+        empty.TakeDamage(Damage(1));Time.deltaTime=.03f;Call(empty,"Update");Check(emptyRenderer.Colors.Count==2,"empty-block visual receives transient tint");
+        Time.deltaTime=.4f;Call(empty,"Update");Check(emptyRenderer.Colors.Count==0,"empty original overrides are cleared after flash for normal batching");
+        foreach(float invalid in new[]{float.NaN,float.PositiveInfinity,float.NegativeInfinity})
+        {
+            feedback.hitDuration=invalid;feedback.hitShapeAmount=invalid;feedback.hitFlashStrength=invalid;
+            feedback.ResetProp();feedback.TakeDamage(Damage(1));Time.deltaTime=.05f;Call(feedback,"Update");
+            Check(float.IsFinite(mesh.localScale.x)&&float.IsFinite(mesh.localScale.y)&&float.IsFinite(renderer.Colors[BaseColor].r),"invalid feedback authoring uses finite defaults");
+        }
+    }
+    static void TargetFeedback()
+    {
+        var owner=new GameObject();var solid=owner.AddComponent<Collider>();var visual=new GameObject().transform;visual.parent=owner.transform;
+        var renderer=visual.gameObject.AddComponent<Renderer>();renderer.sharedMaterial=new Material();
+        var original=new Color(.25f,.7f,.6f,1);renderer.sharedMaterial.Colors[BaseColor]=original;renderer.Colors[CustomProperty]=new Color(.1f,.2f,.3f,.4f);
+        var target=owner.AddComponent<IntercomTargetDummy>();target.visual=visual;target.bodyRenderer=renderer;Call(target,"Awake");
+        Check(target.ApplyHit(15,Vector3.forward),"target accepts hit");Time.deltaTime=.05f;Call(target,"Update");
+        Check(visual.localScale.x>1&&visual.localScale.y<1&&renderer.Colors[BaseColor].r>original.r,"target has broad red first punch");
+        Time.deltaTime=.145f;Call(target,"Update");Check(visual.localScale.x<1&&visual.localScale.y>1,"target has opposing settling lobe");
+        Check(Same(owner.transform.localScale,Vector3.one)&&solid.enabled,"target feedback leaves collision owner unchanged");
+        target.ResetTarget();Check(Same(visual.localScale,Vector3.one)&&renderer.Colors.Count==1&&renderer.Colors.ContainsKey(CustomProperty),"target reset restores original appearance block");
+        Check(target.ApplyHit(100,Vector3.forward)&&!solid.enabled,"target knockout clears collision");
+        Time.deltaTime=3;Call(target,"Update");Check(!target.IsDown&&solid.enabled&&target.Health==100,"knocked down target recovers");
+        target.ApplyHit(15,Vector3.forward);Time.deltaTime=.05f;Call(target,"Update");Call(target,"OnDisable");
+        Check(Same(visual.localScale,Vector3.one)&&renderer.Colors.Count==1,"target disable cancels tint and scale");
+        var safeOwner=new GameObject();var safeSolid=safeOwner.AddComponent<Collider>();var safe=safeOwner.AddComponent<IntercomTargetDummy>();safe.visual=safeOwner.transform;Call(safe,"Awake");
+        Check(safe.visual==null,"target rejects collider owner as visual");
+        safe.ApplyHit(100,Vector3.forward);Time.deltaTime=3;Call(safe,"Update");Check(safe.Health==100&&safeSolid.enabled&&Same(safeOwner.transform.localScale,Vector3.one),"incomplete target safely resets without visual or scaling collider");
+    }
+    static void Main() {PureState();Runtime();DebrisLifecycle();BollardClearance();CartoonFeedback();TargetFeedback();Console.WriteLine("Reactive props: "+assertions+" assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.");}
 }

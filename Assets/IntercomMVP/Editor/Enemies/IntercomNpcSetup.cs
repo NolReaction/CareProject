@@ -25,6 +25,43 @@ namespace IntercomMvp.Editor
             Install(scene);
         }
 
+        [MenuItem("Tools/CareProject/NPC/Setup Ground and Hatch Points", false, 121)]
+        private static void SetupAuthoredPoints()
+        {
+            Scene scene=SceneManager.GetActiveScene();
+            if(EditorApplication.isPlayingOrWillChangePlaymode || scene.path!=IntercomMvpSceneBuilder.ScenePath)
+                throw new InvalidOperationException("Open the saved tutorial scene outside Play Mode.");
+            GameObject arena=scene.GetRootGameObjects().FirstOrDefault(item=>item.name==ArenaName);
+            IntercomMissionDirector director=arena!=null ? arena.GetComponent<IntercomMissionDirector>() : null;
+            if(director==null) throw new InvalidOperationException("The tutorial scene needs its existing Mission Director.");
+            string[] names={"Spawn Hatch - Central Yard","Spawn Hatch - Workshop Lane","Ground Arrival - North Yard"};
+            Vector3[] positions={new Vector3(4f,0f,-2f),new Vector3(-8f,0f,-5f),new Vector3(1f,0f,6f)};
+            var points=new IntercomEnemySpawnPoint[names.Length];
+            bool changed=false;
+            for(int index=0;index<names.Length;index++)
+            {
+                Transform marker=arena.transform.Find(names[index]);
+                if(marker==null)
+                {
+                    var point=new GameObject(names[index]);
+                    Undo.RegisterCreatedObjectUndo(point,"Create authored robot arrival");
+                    point.transform.SetParent(arena.transform,false);point.transform.localPosition=positions[index];
+                    marker=point.transform;changed=true;
+                }
+                points[index]=marker.GetComponent<IntercomEnemySpawnPoint>();
+                if(points[index]!=null) continue; // Preserve a designer's marker tuning and visual references.
+                points[index]=Undo.AddComponent<IntercomEnemySpawnPoint>(marker.gameObject);
+                points[index].kind=index<2 ? IntercomEnemySpawnKind.Hatch : IntercomEnemySpawnKind.Ground;
+                EditorUtility.SetDirty(points[index]);changed=true;
+            }
+            if(director.authoredSpawnPoints==null || director.authoredSpawnPoints.Length==0)
+            {
+                Undo.RecordObject(director,"Connect authored robot arrivals");
+                director.authoredSpawnPoints=points;EditorUtility.SetDirty(director);changed=true;
+            }
+            if(changed) EditorSceneManager.MarkSceneDirty(scene);
+        }
+
         internal static void Install(Scene scene)
         {
             GameObject robot = scene.GetRootGameObjects().FirstOrDefault(item => item.name == "Robot");

@@ -45,7 +45,7 @@ namespace IntercomMvp
         private Transform emergenceRing;
         private Renderer emergenceRenderer;
         private MaterialPropertyBlock emergenceProperties;
-        private float emergenceSeconds, sightRemaining;
+        private float emergenceSeconds, sightRemaining, arrivalDuration, arrivalWarningFraction=.17f;
         private bool emerging, emergenceSavedInvulnerability, emergenceSavedController;
         private bool cachedSight;
         private Vector3 sightPosition;
@@ -55,7 +55,7 @@ namespace IntercomMvp
         private static readonly int ColorId = Shader.PropertyToID("_Color");
 
         private float Range => Safe(definition.attackRange, 1.05f, .3f, 3f);
-        private float EmergenceDuration => Safe(definition.emergenceSeconds,.68f,.3f,2f);
+        private float EmergenceDuration => arrivalDuration>0f ? arrivalDuration : Safe(definition.emergenceSeconds,.68f,.3f,2f);
         private static float Safe(float v, float fallback, float min, float max) => IntercomNpcDefinition.Safe(v, fallback, min, max);
         private static Vector3 Flat(Vector3 v) => new Vector3(v.x, 0f, v.z);
         private bool TargetAlive => targetHealth != null && targetHealth.isActiveAndEnabled && !targetHealth.IsDead;
@@ -148,9 +148,16 @@ namespace IntercomMvp
         }
 
         /// <summary>Visual-only arrival. The capsule stays at the safe floor point and cannot hit or be hit underground.</summary>
-        public void BeginEmergence()
+        public void BeginEmergence() => BeginEmergence(0f);
+
+        /// <summary>Visible floor arrivals add a warning-only period before the same pooled rise starts.</summary>
+        public void BeginEmergence(float additionalWarningSeconds)
         {
             if(!initialized || health.IsDead || emerging) return;
+            float baseDuration=Safe(definition.emergenceSeconds,.68f,.3f,2f);
+            float warning=Safe(additionalWarningSeconds,0f,0f,1.2f);
+            arrivalDuration=baseDuration+warning;
+            arrivalWarningFraction=(baseDuration*.17f+warning)/arrivalDuration;
             emerging=true; emergenceSeconds=0f;
             emergenceSavedInvulnerability=health.invulnerable;
             emergenceSavedController=controller.enabled;
@@ -173,17 +180,18 @@ namespace IntercomMvp
                     visual.localPosition=Vector3.zero; visual.localRotation=Quaternion.identity; visual.localScale=Vector3.one;
                 }
             }
-            emergenceSeconds=0f;
+            emergenceSeconds=arrivalDuration=0f; arrivalWarningFraction=.17f;
             if(emergenceRing!=null) emergenceRing.gameObject.SetActive(false);
         }
 
         private void ApplyEmergencePresentation()
         {
             float p=Mathf.Clamp01(emergenceSeconds/EmergenceDuration);
-            float rise=Mathf.Clamp01((p-.17f)/.69f);
+            float afterWarning=Mathf.Clamp01((p-arrivalWarningFraction)/(1f-arrivalWarningFraction));
+            float rise=Mathf.Clamp01(afterWarning/(.69f/.83f));
             float eased=rise*rise*(3f-2f*rise);
             // A small soft overshoot reads as weight arriving, without moving the controller.
-            float settle=Mathf.Sin(Mathf.Clamp01((p-.65f)/.35f)*Mathf.PI)*.075f;
+            float settle=Mathf.Sin(Mathf.Clamp01((afterWarning-(.48f/.83f))/(.35f/.83f))*Mathf.PI)*.075f;
             if(visual!=null)
             {
                 visual.localPosition=Vector3.up*(-Safe(definition.emergenceDepth,1.48f,.5f,3f)*(1f-eased)+settle);
@@ -192,7 +200,7 @@ namespace IntercomMvp
             }
             if(emergenceRing!=null)
             {
-                float fade=1f-Mathf.Clamp01((p-.72f)/.28f);
+                float fade=1f-Mathf.Clamp01((afterWarning-(.55f/.83f))/(.28f/.83f));
                 float radius=.45f+.75f*p;
                 emergenceRing.localScale=new Vector3(radius,1f,radius);
                 emergenceRing.localRotation=Quaternion.Euler(0f,35f*p,0f);
@@ -348,9 +356,9 @@ namespace IntercomMvp
 
             Vector3 desired = Vector3.zero;
             if (brain.Phase == IntercomNpcPhase.Chase)
-                desired = Navigate(ApproachDestination(lastSeen,visible,distance), dt) * Safe(definition.moveSpeed, 3f, .1f, 8f);
+                desired = Navigate(ApproachDestination(lastSeen,visible,distance), dt) * Safe(definition.moveSpeed, 2.65f, .1f, 8f);
             else if (brain.Phase == IntercomNpcPhase.Return)
-                desired = Navigate(home, dt) * Safe(definition.moveSpeed, 3f, .1f, 8f);
+                desired = Navigate(home, dt) * Safe(definition.moveSpeed, 2.65f, .1f, 8f);
             else if (brain.Phase == IntercomNpcPhase.Patrol)
                 desired = Navigate(patrolGoal, dt) * Safe(definition.patrolSpeed, .9f, 0f, 4f);
             bool planted = brain.Phase == IntercomNpcPhase.Windup || brain.Phase == IntercomNpcPhase.Recovery;
@@ -358,7 +366,7 @@ namespace IntercomMvp
             {
                 recoveryRemaining=Mathf.Max(0f,recoveryRemaining-dt);
                 if(navigation!=null && navigation.SegmentClear(transform.position,transform.position+recoveryDirection*.45f))
-                    desired=recoveryDirection*Safe(definition.moveSpeed,3f,.1f,8f)*.65f;
+                    desired=recoveryDirection*Safe(definition.moveSpeed,2.65f,.1f,8f)*.65f;
                 else recoveryRemaining=0f;
             }
             velocity = planted ? Vector3.zero : Vector3.MoveTowards(velocity, desired,
