@@ -10,19 +10,15 @@ import re
 import xml.etree.ElementTree as ET
 
 PURE_FILES = {
-    'IntercomEnemySpawnPolicy.cs', 'IntercomPropHitResponse.cs',
-    'IntercomFrontEndState.cs', 'IntercomFrontEndLayout.cs',
-    'IntercomCameraTracking.cs', 'IntercomCharacterAnimationMath.cs',
-    'IntercomFootstepClock.cs', 'IntercomFrameCapture.cs', 'IntercomGroundMath.cs',
-    'IntercomHealthState.cs', 'IntercomHudLayout.cs', 'IntercomHurtResponse.cs',
-    'IntercomImpactAudio.cs', 'IntercomInputCancellation.cs',
+    'IntercomAudioModel.cs', 'IntercomCameraTracking.cs',
+    'IntercomCharacterAnimationMath.cs', 'IntercomEnemySpawnPolicy.cs',
+    'IntercomFrameCapture.cs', 'IntercomFrontEndModel.cs',
+    'IntercomGroundMath.cs', 'IntercomHealthModel.cs', 'IntercomHudLayout.cs',
+    'IntercomHurtResponse.cs', 'IntercomInputModel.cs',
     'IntercomLocomotionCadence.cs', 'IntercomLocomotionDirection.cs',
-    'IntercomMagazineState.cs', 'IntercomMissionState.cs', 'IntercomNavGrid.cs',
-    'IntercomNpcBrain.cs', 'IntercomOcclusionGeometry.cs', 'IntercomOcclusionMath.cs',
-    'IntercomOcclusionState.cs', 'IntercomProjectileHitChoice.cs',
-    'IntercomPropState.cs', 'IntercomReloadControl.cs', 'IntercomTeam.cs',
-    'IntercomTracerStyle.cs', 'IntercomTurnStepState.cs', 'IntercomTwinStickState.cs',
-    'IntercomWeaponBalance.cs', 'IntercomWeaponPoseClock.cs',
+    'IntercomMissionState.cs', 'IntercomNavGrid.cs', 'IntercomNpcBrain.cs',
+    'IntercomOcclusionModel.cs', 'IntercomProjectileModel.cs',
+    'IntercomPropModel.cs', 'IntercomTurnStepState.cs', 'IntercomWeaponModel.cs',
 }
 DECLARATION = re.compile(r'\b(?:class|struct|enum|interface)\s+(I?Intercom\w+)')
 REFERENCE = re.compile(r'\bI?Intercom\w+\b')

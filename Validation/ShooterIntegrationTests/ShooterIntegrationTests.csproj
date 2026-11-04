@@ -3,16 +3,16 @@
  <ItemGroup>
   <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
   <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomSimpleShooter.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs"/>
   <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs"/>
+  
   <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs"/>
+  
   <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileDirection.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs"/>
   <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs"/>
   <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs"/>
   <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs"/>
+  
  </ItemGroup>
 </Project>

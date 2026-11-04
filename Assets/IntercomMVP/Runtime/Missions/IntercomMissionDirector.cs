@@ -21,6 +21,8 @@ namespace IntercomMvp
         public Transform extractionPoint;
         public IntercomMissionDefinition eliminationDefinition;
         public IntercomMissionDefinition rescueDefinition;
+        [Header("Cosmetic robot breakup (optional)")]
+        public IntercomRobotDeathEffects deathEffects;
 
         public IntercomMissionPhase Phase => state.Phase;
         public IntercomMissionMode Mode => state.Mode;
@@ -31,6 +33,10 @@ namespace IntercomMvp
         public int AliveEnemies => state.Alive;
         public int SpawnedEnemies => state.Spawned;
         public int Wave => wave;
+        /// <summary>Changes only when a new run begins, so presentation can discard the previous run's state.</summary>
+        public uint RunRevision { get; private set; }
+        /// <summary>Active scaled play time; menus, results, focus loss and pause do not advance it.</summary>
+        public float ElapsedSeconds { get; private set; }
         /// <summary>Constructed reusable actors, including inactive slots. Never exceeds eight.</summary>
         public int PreparedEnemyCount
         {
@@ -86,6 +92,8 @@ namespace IntercomMvp
         private sealed class Slot
         {
             public IntercomNpcController actor;
+            // Retain ownership even if just the AI component is removed in Play.
+            public GameObject root;
             public uint life, epoch;
             public bool living;
             public float reuseAfter;
@@ -120,10 +128,15 @@ namespace IntercomMvp
         private void Awake()
         {
             for(int i=0;i<pool.Length;i++) pool[i]=new Slot();
+            if(deathEffects==null) deathEffects=GetComponent<IntercomRobotDeathEffects>();
+            if(deathEffects!=null && deathEffects.definition==null) deathEffects.definition=enemyDefinition;
             observedRespawn=playerMotor != null ? playerMotor.RespawnVersion : 0;
         }
         private void OnEnable()
         {
+            // A disabled scene component does not receive every application
+            // callback. An explicit re-enable starts a fresh selection session.
+            focused=Application.isFocused; paused=false;
             SubscribeHero(); ApplyBlock();
         }
         private void Start() { SubscribeHero(); ApplyBlock(); }
@@ -174,17 +187,17 @@ namespace IntercomMvp
         }
         public bool StartMission(IntercomMissionMode mode)
         {
-            if(!isActiveAndEnabled || !focused || paused || Time.timeScale<=0f || !Application.isPlaying) return false;
+            if(!isActiveAndEnabled || transitioning || !focused || !Application.isFocused || paused || Time.timeScale<=0f || !Application.isPlaying) return false;
             return BeginRun(mode,true);
         }
         public bool RetryMission() => StartMission(Mode);
         public void ReturnToSelection()
         {
-            if(!isActiveAndEnabled) return;
+            if(!isActiveAndEnabled || transitioning) return;
             transitioning=true; StopActors();
             if(ally!=null) ally.gameObject.SetActive(false);
             if(extractionVisual!=null) extractionVisual.SetActive(false);
-            state.Select(); ResultText=""; transitioning=false; ApplyBlock();
+            state.Select(); ElapsedSeconds=0f; ResultText=""; transitioning=false; ApplyBlock();
         }
         private bool BeginRun(IntercomMissionMode mode,bool resetPlayer)
         {
@@ -208,6 +221,8 @@ namespace IntercomMvp
             profile=candidate;
             state.Begin(mode,profile!=null ? Mathf.Clamp(profile.killTarget,1,500) : 0,
                 profile!=null ? Mathf.Clamp(profile.rescueEnemySupply,1,500) : 0);
+            unchecked { RunRevision++; }
+            ElapsedSeconds=0f;
             wave=profile!=null ? 1 : 0; waveLimit=profile!=null ? Mathf.Min(state.Supply,Mathf.Clamp(profile.waveSize,1,50)) : 0;
             spawnCursor=authoredSpawnCursor=0; spawnTimer=.8f; waveRest=-1f; targetTimer=0f; spawnBlockedTime=0f; ResultText="";
             if(mode==IntercomMissionMode.Rescue)
@@ -285,12 +300,30 @@ namespace IntercomMvp
             if(!focused || paused || Time.timeScale<=0f) return;
             float dt=Time.deltaTime;
             if(float.IsNaN(dt) || float.IsInfinity(dt) || dt<=0f) return;
-            dt=Mathf.Min(dt,.1f);
             if(playerHealth==null || playerHealth.IsDead) { OnHeroDied(); return; }
+            if(playerMotor==null || !playerMotor.isActiveAndEnabled || !playerHealth.isActiveAndEnabled)
+            { FailRun("Герой отключён — перезапустите задание"); return; }
+            ElapsedSeconds+=dt;
+            // Keep the HUD clock accurate during a hitch while retaining the
+            // bounded simulation step for wave/spawn/target scheduling below.
+            dt=Mathf.Min(dt,.1f);
             if(Mode==IntercomMissionMode.FreePlay) return;
+            // Runtime scene edits/unloads must not leave an active mission
+            // throwing every frame, or waiting forever for a missing pool life.
+            if(profile==null || navigation==null || !navigation.isActiveAndEnabled || !navigation.IsReady || enemyDefinition==null)
+            { FailRun("Потеряны данные задания — перезапустите его"); return; }
+            for(int i=0;i<pool.Length;i++)
+            {
+                Slot slot=pool[i];
+                if(slot.living && (slot.actor==null || !slot.actor.isActiveAndEnabled || slot.actor.Health==null
+                    || !slot.actor.Health.isActiveAndEnabled))
+                { FailRun("Противник отключён — перезапустите задание"); return; }
+            }
             if(Mode==IntercomMissionMode.Rescue)
             {
                 if(ally==null || ally.Health==null || ally.Health.IsDead) { OnAllyDied(); return; }
+                if(!ally.isActiveAndEnabled || extractionPoint==null)
+                { FailRun("Точка спасения недоступна — перезапустите задание"); return; }
                 float radius=Safe(profile.extractionRadius,2f,.75f,5f);
                 Vector3 exit=extractionPoint.position;
                 bool allyInside=Flat(ally.transform.position-exit).sqrMagnitude<=radius*radius;
@@ -368,8 +401,8 @@ namespace IntercomMvp
                 if(route==IntercomNavResult.Deferred) { deferred=true; return false; }
                 if(route==IntercomNavResult.Unreachable) continue;
                 float warning=perimeter ? 0f : Safe(profile.visibleSpawnWarningSeconds,.35f,.2f,1.2f);
-                ActivateSlot(free,position,warning);
-                point.BeginArrival(Time.time,Safe(enemyDefinition.emergenceSeconds,.68f,.3f,2f)+warning);
+                ActivateSlot(free,position,warning,point.kind);
+                point.BeginArrival(Time.time,pool[free].actor.ArrivalDuration);
                 return true;
             }
             return false;
@@ -417,8 +450,8 @@ namespace IntercomMvp
 
         private bool SpawnOnScreen(Vector3 position,bool readable)
         {
-            if(displayCamera==null) displayCamera=Camera.main;
-            if(displayCamera==null) return false;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) displayCamera=Camera.main;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) return false;
             Vector3 screen=displayCamera.WorldToScreenPoint(position+Vector3.up*.6f);
             if(readable) return IntercomEnemySpawnPolicy.IsOnScreen(screen.x,screen.y,screen.z,Screen.width,Screen.height);
             return screen.z>0f && screen.x>=0f && screen.x<=Screen.width && screen.y>=0f && screen.y<=Screen.height;
@@ -432,9 +465,12 @@ namespace IntercomMvp
             for(int i=0;i<pool.Length;i++)
             {
                 Slot slot=pool[i];
-                if(slot.actor!=null) continue;
+                if(slot.actor!=null && slot.actor.Health!=null) continue;
+                if(slot.root!=null) Destroy(slot.root);
+                slot.actor=null; slot.root=null;
                 slot.actor=IntercomNpcController.Create(enemyDefinition,navigation,playerHealth,playerMotor,
                     playerHealth.transform.position,i);
+                slot.root=slot.actor.gameObject;
                 // The factory activates synchronously to initialize Awake and
                 // subscriptions. No rendering/AI frame occurs before parking.
                 slot.actor.gameObject.SetActive(false);
@@ -444,18 +480,18 @@ namespace IntercomMvp
                 return; // At most one allocation-heavy actor in a frame.
             }
         }
-        private void ActivateSlot(int index,Vector3 position,float additionalWarning=0f)
+        private void ActivateSlot(int index,Vector3 position,float additionalWarning=0f,IntercomEnemySpawnKind kind=IntercomEnemySpawnKind.Perimeter)
         {
             Slot slot=pool[index];
             if(slot.actor==null) return;
             slot.actor.gameObject.SetActive(false);
+            slot.actor.enabled=true;
             slot.actor.PrepareForSpawn(position); slot.actor.SetTarget(playerHealth);
             unchecked { slot.life++; if(slot.life==0) slot.life++; }
             slot.epoch=state.Epoch;
             if(!state.RecordSpawn(index,slot.life,slot.epoch)) return;
             slot.living=true; slot.reuseAfter=0f; slot.targetChangedAt=Time.time;
-            if(additionalWarning>0f) slot.actor.BeginEmergence(additionalWarning);
-            else slot.actor.BeginEmergence();
+            slot.actor.BeginEmergence(additionalWarning,kind);
             slot.actor.gameObject.SetActive(true);
             // Spawn command reports a fixed known position; AI must see the hero to keep tracking it.
             slot.actor.Investigate(playerHealth.transform.position);
@@ -466,6 +502,8 @@ namespace IntercomMvp
             if(transitioning || !slot.living || slot.actor==null || slot.actor.Health==null
                 || !slot.actor.Health.IsDead || !state.RecordKill(index,slot.life,slot.epoch)) return;
             slot.living=false; slot.reuseAfter=Time.time+.85f;
+            if(deathEffects!=null && deathEffects.Emit(slot.actor.transform.position,slot.actor.transform.rotation,
+                slot.life ^ (slot.epoch*747796405u) ^ ((uint)index*2891336453u))) slot.actor.HideForDeathBurst();
             if(Phase==IntercomMissionPhase.Victory) { ResultText="Все "+Goal+" роботов отключены"; Finish(); }
         }
         private void RefreshTargets()
@@ -524,8 +562,9 @@ namespace IntercomMvp
             extractionVisual.transform.position=extractionPoint.position+Vector3.up*.018f;
             extractionVisual.transform.localScale=new Vector3(radius*2f,.009f,radius*2f);
         }
-        private void StopActors()
+        private void StopActors(bool clearEffects=true)
         {
+            if(clearEffects && deathEffects!=null) deathEffects.Clear();
             if(authoredSpawnPoints!=null)
                 for(int i=0;i<authoredSpawnPoints.Length;i++)
                     if(authoredSpawnPoints[i]!=null) authoredSpawnPoints[i].ResetForMission();
@@ -533,14 +572,22 @@ namespace IntercomMvp
             {
                 Slot slot=pool[i]; if(slot==null) continue;
                 slot.living=false; slot.reuseAfter=0f;
-                if(slot.actor!=null) slot.actor.gameObject.SetActive(false);
+                if(slot.root!=null) slot.root.SetActive(false);
+                else if(slot.actor!=null) slot.actor.gameObject.SetActive(false);
             }
         }
         private void Finish()
         {
-            StopActors();
+            // The last kill still gets its short cosmetic burst. Selection/retry/unload clear it explicitly.
+            StopActors(false);
             if(ally!=null) ally.Suspended=true;
             ApplyBlock();
+        }
+        private void FailRun(string reason)
+        {
+            if(transitioning || !state.Fail()) return;
+            ResultText=reason;
+            Finish();
         }
         private bool ApplyBlock()
         {
@@ -569,8 +616,8 @@ namespace IntercomMvp
         {
             if(Phase!=IntercomMissionPhase.Active || Mode!=IntercomMissionMode.Rescue || ally==null || extractionPoint==null
                 || playerHealth==null || Event.current==null || Event.current.type!=EventType.Repaint) return;
-            if(displayCamera==null) displayCamera=Camera.main;
-            if(displayCamera==null) return;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) displayCamera=Camera.main;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) return;
             Vector3 destination=ally.Recruited ? extractionPoint.position : ally.transform.position;
             Vector3 point=displayCamera.WorldToScreenPoint(destination+Vector3.up*1.75f);
             Rect safe=Screen.safeArea;
@@ -600,7 +647,7 @@ namespace IntercomMvp
             transitioning=true; StopActors();
             if(ally!=null) ally.gameObject.SetActive(false);
             if(extractionVisual!=null) extractionVisual.SetActive(false);
-            state.Select(); transitioning=false;
+            state.Select(); ElapsedSeconds=0f; ResultText=""; transitioning=false;
             if(subscribedHero!=null) subscribedHero.Died-=OnHeroDied; subscribedHero=null;
             ReleaseControlLock();
             if(connectedInput!=null && connectedInput.mission==this) connectedInput.mission=null;
@@ -612,10 +659,12 @@ namespace IntercomMvp
             for(int i=0;i<pool.Length;i++)
             {
                 Slot slot=pool[i];
-                if(slot==null || slot.actor==null) continue;
-                slot.actor.Health.Died-=slot.deathHandler; Destroy(slot.actor.gameObject);
+                if(slot==null) continue;
+                if(slot.actor!=null && slot.actor.Health!=null) slot.actor.Health.Died-=slot.deathHandler;
+                if(slot.root!=null) Destroy(slot.root);
+                else if(slot.actor!=null) Destroy(slot.actor.gameObject);
             }
-            if(ally!=null) { ally.Health.Died-=OnAllyDied; Destroy(ally.gameObject); }
+            if(ally!=null) { if(ally.Health!=null) ally.Health.Died-=OnAllyDied; Destroy(ally.gameObject); }
             if(extractionVisual!=null) Destroy(extractionVisual);
         }
     }

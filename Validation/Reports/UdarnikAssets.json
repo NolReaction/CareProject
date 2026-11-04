@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "checks": 438,
+  "actualFbxTakesSeconds": {
+    "Death": 0.18,
+    "Emerge": 0.68,
+    "EmergeGround": 0.95,
+    "EmergeHatch": 1.05,
+    "Hurt": 0.22,
+    "Idle": 1.6,
+    "Recover": 0.48,
+    "Strike": 0.16,
+    "Walk": 0.8,
+    "Windup": 0.3
+  },
+  "bones": 14,
+  "meshRenderers": 1,
+  "materials": 1,
+  "triangles": 7454,
+  "rootMotion": false,
+  "rootCurveMaxVariation": 0,
+  "breakup": {
+    "chunks": [
+      "Breakup_Body",
+      "Breakup_BootL",
+      "Breakup_BootR",
+      "Breakup_GloveL",
+      "Breakup_GloveR",
+      "Breakup_Helmet"
+    ],
+    "triangles": 7454,
+    "animation": false,
+    "bones": 0,
+    "materials": 1
+  },
+  "nativePrefabController": "Recognized generated V18 graph upgrades to ten native states with backups; custom assets preserved",
+  "scope": "Export bytes, actual FBX stacks/root curves/bones/triangle indices, static chunks and serialized import/material/registry links. Unity importer/Animator not run."
+}

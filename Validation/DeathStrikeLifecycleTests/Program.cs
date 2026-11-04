@@ -10,13 +10,15 @@ static class Program {
  static object Field(object value,string name)=>value.GetType().GetField(name,BindingFlags.Instance|BindingFlags.NonPublic).GetValue(value);
  sealed class Fixture {
   public IntercomHealth hero;public IntercomMissionDirector director;public IntercomNpcController npc;public CharacterController controller;public IntercomPlayerMotor motor;
-  public Fixture(){
+  public Fixture(bool authored=false){
    ((IList)typeof(IntercomNpcController).GetField("active",BindingFlags.Static|BindingFlags.NonPublic).GetValue(null)).Clear();
    Time.timeScale=1;Time.time=0;Time.deltaTime=.01f;Physics.Hits=null;
    var player=new GameObject("Hero");player.transform.position=new Vector3(0,0,1);
    hero=player.AddComponent<IntercomHealth>();hero.team=IntercomTeam.Player;hero.maximumHealth=10;hero.ResetHealth();motor=player.AddComponent<IntercomPlayerMotor>();
    var input=player.AddComponent<IntercomPlayerInput>();var vitality=player.AddComponent<IntercomPlayerVitality>();vitality.health=hero;vitality.motor=motor;vitality.input=input;input.vitality=vitality;
    var definition=new IntercomNpcDefinition{damage=12,bodyMaterial=new Material(),detailMaterial=new Material(),telegraphMaterial=new Material()};
+   if(authored){var model=new GameObject("Rigged model prefab");model.SetActive(false);var animator=model.AddComponent<Animator>();animator.runtimeAnimatorController=new RuntimeAnimatorController();model.AddComponent<MeshRenderer>().sharedMaterial=new Material();definition.visualPrefab=model;}
+
    var nav=new GameObject("Nav").AddComponent<IntercomNpcNavigation>();
    npc=IntercomNpcController.Create(definition,nav,hero,motor,Vector3.zero,0);controller=npc.GetComponent<CharacterController>();
    var arena=new GameObject("Mission");arena.SetActive(false);director=arena.AddComponent<IntercomMissionDirector>();director.playerHealth=hero;director.playerMotor=motor;director.playerVitality=vitality;director.enemyDefinition=definition;director.navigation=nav;
@@ -51,6 +53,13 @@ static class Program {
    Check(f.controller.MoveCalls==movesAtCallback,"old strike continuation cannot move changed source: "+mutation);
    Check((float)Field(f.npc,"strikeRemaining")==0,"old strike continuation cannot overwrite new/reset punch pose: "+mutation);
    if(mutation=="reuse")Check((f.npc.transform.position-new Vector3(4,0,4)).sqrMagnitude==0,"reused actor stays at new safe spawn");
+  }
+  {
+   var f=new Fixture(true);var animator=(Animator)Field(f.npc,"modelAnimator");int samplesAtCallback=-1;
+   f.hero.Damaged+=damage=>samplesAtCallback=animator.UpdateCalls;
+   for(int i=0;i<100&&!f.hero.IsDead;i++)f.Step();
+   Check(f.hero.IsDead&&!f.npc.gameObject.activeInHierarchy,"authored robot uses same real lethal mission parking boundary");
+   Check(samplesAtCallback>=0&&animator.UpdateCalls==samplesAtCallback,"old lethal strike continuation never samples parked authored Animator");
   }
   Console.WriteLine("Lethal strike completed without moving the parked CharacterController.");
   Console.WriteLine($"Death strike lifecycle: {checks} assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.");

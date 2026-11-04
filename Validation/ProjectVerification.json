@@ -1,76 +1,121 @@
 {
-  "version": "CareProject V15",
+  "version": "CareProject V19",
   "status": "PASS",
-  "baseGitCommit": "ec1b5a5e0643339491cac3bb8403e61285589154",
-  "delivery": [
-    "Full standalone Unity project",
-    "Small overlay for exact V14/v0.2.6 base; close Unity and extract at project root"
-  ],
+  "baseGitCommit": "755f75aecfa7194f945c633f8d8556b686d023b4",
   "editor": "6000.3.26f1",
   "urp": "17.3.0",
+  "delivery": [
+    "Clean standalone project in CareProject_V19/; open with Unity Hub",
+    "Cumulative installer intended for V15–V18; preflight verifies target before mutation",
+    "Packed editable Udarnik_Rigged_V19.blend"
+  ],
   "checks": {
-    "logicProjects": 47,
-    "logicPassed": 47,
-    "syntaxFiles": 105,
+    "logicProjects": 51,
+    "logicPassed": 51,
+    "syntaxFiles": 96,
     "syntaxConfigurations": 3,
     "syntaxErrors": 0,
+    "architectureValidatorRegressions": 10,
+    "protectedHeroFilesByteIdentical": 32,
+    "blenderAnimationAssertions": 12034,
+    "blenderGeometryAssertions": 641,
+    "neckCoverageRays": 1890,
+    "independentExportChecks": 33,
+    "fbxRoundtripClips": 10,
+    "installerFilesystemScenarios": 11,
+    "installerAssertions": 55,
+    "surfaceColliderRoutes": 84,
+    "udarnikAssetChecks": 438,
+    "fbxPoseRoundtripAssertions": 3896,
+    "fbxPoseSamples": 110,
     "architecture": {
       "status": "PASS",
-      "checks": 2218,
-      "runtimeSources": 80,
-      "editorSources": 25,
-      "pureModels": 32,
-      "assetGuids": 374,
+      "checks": 2249,
+      "runtimeSources": 70,
+      "editorSources": 26,
+      "pureModels": 21,
+      "assetGuids": 402,
       "failures": [],
       "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
-    },
-    "architectureValidatorRegressions": 10,
-    "gameplaySceneIntegrationChecks": 364,
-    "metalAudioChecks": 46,
-    "sceneIdRegressionCases": 14,
-    "yamlAssets": 106,
-    "surfaceColliderRoutes": 84,
-    "sourceHeroProtectedFiles": 32,
-    "heroAnimsModelAndBlendByteIdentical": true,
-    "sceneSetupIdempotent": true
+    }
   },
-  "gameplay": {
-    "enemyMoveSpeed": 2.65,
-    "enemyTargetMemorySeconds": 6,
-    "visibleArrivalCadencePreference": 3,
-    "minimumVisibleArrivalDistance": 5.5,
-    "extraArrivalWarningSeconds": 0.35,
-    "authoredHatches": 2,
-    "authoredGroundPoints": 1,
-    "pooledEnemies": 8,
-    "casingEveryNthShotPerHand": 2,
-    "casingScaleFactor": 1.25,
-    "propFeedback": "Signed squash/stretch plus red flash, original property blocks restored",
-    "menu": [
-      "Home",
-      "Play",
-      "Robot",
-      "Armory"
-    ],
-    "modes": [
-      "Elimination50",
-      "Rescue",
-      "FreePlay"
-    ],
-    "futureHub": "Dedicated optional camera/anchor adapter; sofa/TV/rooms and economy not built yet"
+  "architecture": {
+    "runtimeSources": 70,
+    "editorSources": 26,
+    "newUnityComponents": 1,
+    "newComponent": "IntercomRobotDeathEffects",
+    "platformToolsSeparate": true,
+    "serializedComponentGuidsPreserved": true,
+    "retiredCanonicalFilesIncludingMetadata": 38,
+    "historicalRetirementManifestPreserved": true
+  },
+  "robot": {
+    "repair": "HeadCore and helmet follow Head; capped body/head and overlapping solid ribbed neck. Original source GLB and atlas unchanged.",
+    "editableParts": 12,
+    "bones": 14,
+    "vertices": 3751,
+    "triangles": 7454,
+    "gameSkinnedMeshes": 1,
+    "materials": 1,
+    "clips": {
+      "Idle": 1.6,
+      "Walk": 0.8,
+      "Windup": 0.3,
+      "Strike": 0.16,
+      "Recover": 0.48,
+      "Hurt": 0.22,
+      "Death": 0.18,
+      "Emerge": 0.68,
+      "EmergeGround": 0.95,
+      "EmergeHatch": 1.05
+    },
+    "rootMotion": false,
+    "boneScaleAnimation": false,
+    "walkReferenceMetresPerSecond": 0.6034482758620691,
+    "maximumPlantedSoleFloorErrorMetres": 5.295311287045485e-05,
+    "maximumMeasuredSupportSlipMetresPerSecond": 0.0007686648389459982,
+    "groundArrivalSeconds": 0.95,
+    "hatchArrivalSeconds": 1.05,
+    "visibleWarningSeconds": 0.35,
+    "breakupStaticChunks": 6
+  },
+  "deathEffects": {
+    "genericGearsPerBurst": 5,
+    "boundedBurstPool": 8,
+    "occasionalActualPartBursts": 2,
+    "breakupEveryAcceptedDeath": 3,
+    "maximumActivePieces": 52,
+    "genericLifetimeSeconds": 1.45,
+    "chunkLifetimeSeconds": 1.3,
+    "ownedProceduralSharedMeshes": 6,
+    "runtimeNativeAllocationOnDeath": false,
+    "physicsBodies": false,
+    "noNewAudio": true
+  },
+  "recovery": {
+    "buildStamp": "V19 in menu, HUD and repair window",
+    "externalInstaller": "Hash/GUID preflight, backups, persisted restore, known duplicate source quarantine; no cache or git deletion",
+    "unityCommand": "Tools / CareProject / Проверить и восстановить проект",
+    "nativeAssetUpgrade": "Recognized generated V18 graphs migrate to 10 states with backups, state identity and controller GUID retained; custom graphs preserved",
+    "sceneRepair": "Missing-only references/components, lazy backup; optional model setup failure cannot block unrelated link repair"
   },
   "limits": [
-    "Unity Editor import/type compilation/Play Mode and device testing were not run.",
-    "Logic/editor callback tests use .NET8 and minimal Unity API substitutes.",
-    "Menu preview is a raster of actual GUI draw commands, not a Unity capture.",
-    "Upgrade/new-weapon cards are future slots. No purchases, currency persistence or real-money flow."
+    "Unity Editor type compilation, native FBX import/Animator, shader compilation, Play Mode and mobile device testing were not run.",
+    "Blender evaluated geometry, rig/animation and FBX roundtrip checks do not replace native Unity playback. Repair resegments/caps the existing mechanical mesh; it is not a complete manual retopology.",
+    "Windows PowerShell5.1, folder picker and .NET Framework execution were not available. Installer core executed on .NET8 against real temporary directories and compiled as C#5.",
+    "Menu/HUD previews are offline rasters of actual GUI commands. Death previews use exact production geometry/transforms with approximate offline shading."
   ],
   "reports": [
     "Validation/Reports/LogicTests.json",
-    "Validation/Reports/GameplayIntegration.json",
-    "Validation/Reports/MetalImpactValidation.json",
-    "Validation/Reports/CombatFeedback.json",
-    "Validation/Reports/Frontend.json",
-    "Validation/Reports/Enemies.json"
-  ]
+    "Validation/Reports/UdarnikGeometry.json",
+    "Validation/Reports/UdarnikRig.json",
+    "Validation/Reports/UdarnikFinalExports.json",
+    "Validation/Reports/UdarnikAssets.json",
+    "Validation/Reports/RobotDeathEffects.json",
+    "Validation/Reports/RobotDeathVisual.json",
+    "Validation/Reports/EnemyVisual.json",
+    "Validation/Reports/Installer.json",
+    "Validation/Reports/UdarnikAnimation.json"
+  ],
+  "noGitHubWrites": true
 }

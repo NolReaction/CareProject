@@ -13,7 +13,7 @@ namespace IntercomMvp
         private static readonly Color Rust = new Color(.67f,.34f,.25f);
         private static readonly Color Quiet = new Color(.69f,.71f,.65f);
         private GUIStyle title, heading, body, small, centered;
-        private Texture2D plate, tag, disc;
+        private Texture2D plate, tag, disc, paperCard;
         private int healthValue = -1, magazineValue = -1;
         private float speedValue = -1f, damageValue = -1f, intervalValue = -1f, reloadValue = -1f;
         private string health = "100", speed = "3,3", damage = "15", magazine = "24", interval = "0,12", reload = "1,15";
@@ -21,20 +21,23 @@ namespace IntercomMvp
         public void Draw(IntercomFrontEnd menu,IntercomFrontEndLayout layout)
         {
             EnsureResources(); UpdateStats(menu);
-            Fill(new Rect(0f,0f,Screen.width,Screen.height),Ink,.94f);
-            Rect panel=R(layout.Panel);Card(panel,Paper);
-            Header(menu,layout);Tabs(menu,layout);Preview(menu,layout);
+            // Keep the actual room visible. The paper belongs to the controls, not to a full-screen curtain.
+            Rect panel=R(layout.Content);Card(panel,Paper);
+            Header(menu,layout);Tabs(menu,layout);
+            // Portrait windows use the already packed model portrait instead of cropping the wide room camera.
+            if(menu.HasRoomScene && !layout.IsPortrait) RoomCaption(menu,layout); else Preview(menu,layout);
             if(menu.IsResult) Result(menu,layout);
             else if(menu.Section==IntercomFrontEndSection.Play) Modes(menu,layout);
             else if(menu.Section==IntercomFrontEndSection.Robot) Robot(layout);
             else if(menu.Section==IntercomFrontEndSection.Armory) Armory(menu,layout);
-            else Home(layout);
+            else Home(menu,layout);
             Rect footer=R(layout.Footer);
+            Fill(footer,Ink,.78f);
             Text(new Rect(footer.x+14f*layout.Scale,footer.y,footer.width*.74f,footer.height),
                 string.IsNullOrEmpty(menu.Notice) ? "БОЛЬШЕ ЗАБОТЫ. МЕНЬШЕ ПОЛОМОК." : menu.Notice,
-                small,Mathf.Max(7f,12f*layout.Scale),Ink,.8f);
+                small,Mathf.Max(7f,12f*layout.Scale),LightPaper,.85f);
             Text(new Rect(footer.x+footer.width*.76f,footer.y,footer.width*.22f,footer.height),
-                "УЧАСТОК / 01",centered,Mathf.Max(7f,11f*layout.Scale),Ink,.55f);
+                IntercomFrontEnd.BuildVersion + " · УЧАСТОК / 01",centered,Mathf.Max(7f,11f*layout.Scale),LightPaper,.65f);
         }
         private void UpdateStats(IntercomFrontEnd menu)
         {
@@ -53,6 +56,7 @@ namespace IntercomMvp
         private void Header(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
             Rect r=R(l.Header);float s=l.Scale;
+            DrawTexture(new Rect(r.x,r.y,l.IsPortrait?r.width:r.width*.56f,r.height),plate,Paper);
             float badge=Mathf.Min(r.height*.63f,52f*s);
             Rect mark=new Rect(r.x+18f*s,r.y+(r.height-badge)*.45f,badge,badge);
             DrawTexture(mark,tag,Petrol);
@@ -63,10 +67,12 @@ namespace IntercomMvp
             Text(new Rect(left,r.y+6f*s,r.width*.52f,r.height-12f*s),string.IsNullOrEmpty(menu.gameTitle)?"ЗАБОТА":menu.gameTitle,title,Mathf.Max(12f,43f*s),Ink);
             if(!l.IsPortrait)
             {
-                Text(new Rect(r.x+r.width*.69f,r.y+19f*s,r.width*.27f,22f*s),"СЕРВИСНЫЙ ДВОР",heading,14f*s,Ink);
-                Text(new Rect(r.x+r.width*.69f,r.y+41f*s,r.width*.27f,20f*s),"РАБОТА НАЙДЁТСЯ КАЖДОМУ",small,9f*s,Ink,.65f);
+                Rect note=new Rect(r.x+r.width*.65f,r.y+15f*s,r.width*.35f,52f*s);
+                DrawTexture(note,tag,Ink,.86f);
+                Text(new Rect(note.x+12f*s,note.y+5f*s,note.width-24f*s,22f*s),"СЕРВИСНЫЙ ДВОР",heading,13f*s,LightPaper);
+                Text(new Rect(note.x+12f*s,note.y+28f*s,note.width-24f*s,18f*s),"ДОМА МОЖНО ПОЧИНИТЬСЯ",small,9f*s,Paper,.8f);
             }
-            Bolt(r.xMax-13f*s,r.y+16f*s,3f*s);Bolt(r.x+9f*s,r.yMax-8f*s,2f*s);
+            Bolt(r.x+9f*s,r.yMax-8f*s,2f*s);
         }
         private void Tabs(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
@@ -105,22 +111,41 @@ namespace IntercomMvp
                 centered,Mathf.Max(7f,10f*s),Paper,.85f);
             Bolt(r.x+12f*s,r.y+12f*s,2.5f*s);Bolt(r.xMax-12f*s,r.yMax-12f*s,2.5f*s);
         }
-        private void Home(IntercomFrontEndLayout l)
+        private void RoomCaption(IntercomFrontEnd menu,IntercomFrontEndLayout l)
+        {
+            Rect r=R(l.HeroPreview);float s=l.Scale;
+            float h=Mathf.Min(r.height*.26f,78f*s);
+            Rect label=new Rect(r.x+8f*s,r.yMax-h-10f*s,r.width-16f*s,h);
+            DrawTexture(label,tag,Ink,.82f);
+            string title=menu.Section==IntercomFrontEndSection.Robot?"МАСТЕРСКАЯ / 02":
+                menu.Section==IntercomFrontEndSection.Armory?"ОРУЖЕЙНАЯ / 03":
+                menu.Section==IntercomFrontEndSection.Play?"ДИСПЕТЧЕРСКАЯ / 01":"КОМНАТА ОТДЫХА / 01";
+            string detail=menu.Section==IntercomFrontEndSection.Robot?"Детали и улучшения появятся здесь.":
+                menu.Section==IntercomFrontEndSection.Armory?"Рабочее место для будущего арсенала.":
+                menu.Section==IntercomFrontEndSection.Play?"Выбери задание. Во дворе уже ждут.":"Пять минут на диване — и снова на работу.";
+            Text(new Rect(label.x+14f*s,label.y+8f*s,label.width-28f*s,label.height*.34f),title,heading,Mathf.Max(7f,15f*s),LightPaper);
+            Text(new Rect(label.x+14f*s,label.y+label.height*.47f,label.width-28f*s,label.height*.34f),detail,body,Mathf.Max(7f,12f*s),Paper,.85f);
+        }
+        private void Home(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
             Rect r=R(l.Content);float s=l.Scale;
-            Text(new Rect(r.x+18f*s,r.y+10f*s,r.width-36f*s,r.height*.17f),"ДВОР САМ СЕБЯ\nНЕ ПОЧИНИТ.",title,Mathf.Max(10f,30f*s),Ink);
-            Text(new Rect(r.x+18f*s,r.y+r.height*.22f,r.width-36f*s,r.height*.13f),
-                "Ударники снова безобразничают.\nПора выйти и вернуть порядок.",body,Mathf.Max(8f,16f*s),Ink,.82f);
-            float top=r.y+r.height*.40f,row=r.height*.14f;
-            Feature(new Rect(r.x+18f*s,top,r.width-36f*s,row),"01","ВЫБЕРИ РАБОТУ","Очистка двора, спасение или тренировка.",Petrol,s);
-            Feature(new Rect(r.x+18f*s,top+row*1.12f,r.width-36f*s,row),"02","СОБЕРИ СВОЕГО РОБОТА","Здесь будет твоя мастерская и оружейная.",Mustard,s);
+            Text(new Rect(r.x+28f*s,r.y+13f*s,r.width-56f*s,r.height*.17f),"ДВОР САМ СЕБЯ\nНЕ ПОЧИНИТ.",title,Mathf.Max(10f,30f*s),Ink);
+            Rect art=new Rect(r.x+20f*s,r.y+r.height*.20f,r.width-40f*s,r.height*.39f);
+            // One quiet illustration, with its own space. It never obscures a button or a room camera.
+            if(menu.homeDoodle!=null) FitArt(art,menu.homeDoodle);
+            else RobotSketch(new Rect(art.x+art.width*.24f,art.y,art.width*.52f,art.height));
+            Rect note=new Rect(r.x+22f*s,r.y+r.height*.61f,r.width-44f*s,r.height*.16f);
+            DrawTexture(note,tag,LightPaper,.92f);
+            Tape(new Rect(note.x+note.width*.07f,note.y-4f*s,note.width*.18f,9f*s));
+            Text(new Rect(note.x+12f*s,note.y+3f*s,note.width-24f*s,note.height-6f*s),
+                "ПЕРЕРЫВ ЗАКОНЧИЛСЯ.\nУдарники опять отвинтили тишину.",body,Mathf.Max(8f,14f*s),Ink,.86f);
             Button(l.ActionPrimary,"НА ВЫЕЗД  →",Petrol,s);Button(l.ActionSecondary,"МОЙ РОБОТ",Quiet,s);
         }
         private void Modes(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
-            Mode(l.ModeFirst,"01","50 РОБОТОВ","ОЧИСТКА ДВОРА","Волны ударников. Отключи всех и верни тишину.",Petrol,l.Scale);
-            Mode(l.ModeSecond,"02","СПАСЕНИЕ","ВЫВЕСТИ СВОЕГО","Найди союзника и доведи его до выхода.",Mustard,l.Scale);
-            Mode(l.ModeThird,"∞","СВОБОДНЫЙ РЕЖИМ","БЕЗ ВРАГОВ","Проверь движение, оружие и предметы двора.",Quiet,l.Scale);
+            Mode(l.ModeFirst,"01","50 РОБОТОВ","НАРЯД / 01","Отключи ударников. Верни двору тишину.",Petrol,l.Scale,null);
+            Mode(l.ModeSecond,"02","СПАСЕНИЕ","СВОИХ НЕ ОСТАВЛЯЕМ","Найди союзника и доведи его до выхода.",Mustard,l.Scale,menu.rescueDoodle);
+            Mode(l.ModeThird,"∞","СВОБОДНЫЙ РЕЖИМ","БЕЗ ВРАГОВ","Осмотр двора. Можно пошуметь.",Quiet,l.Scale,null);
         }
         private void Robot(IntercomFrontEndLayout l)
         {
@@ -161,25 +186,21 @@ namespace IntercomMvp
         }
         private void PageTitle(Rect r,string text,string caption,float s)
         {
-            Text(new Rect(r.x+15f*s,r.y+8f*s,r.width-30f*s,r.height*.12f),text,title,Mathf.Max(10f,26f*s),Ink);
-            Text(new Rect(r.x+16f*s,r.y+r.height*.13f,r.width-32f*s,r.height*.07f),caption,small,Mathf.Max(7f,12f*s),Ink,.7f);
+            Text(new Rect(r.x+26f*s,r.y+12f*s,r.width-52f*s,r.height*.12f),text,title,Mathf.Max(10f,26f*s),Ink);
+            Text(new Rect(r.x+26f*s,r.y+r.height*.13f,r.width-52f*s,r.height*.07f),caption,small,Mathf.Max(7f,12f*s),Ink,.7f);
         }
-        private void Mode(IntercomHudLayout.Box box,string badge,string name,string category,string detail,Color accent,float s)
+        private void Mode(IntercomHudLayout.Box box,string badge,string name,string category,string detail,Color accent,float s,Texture2D doodle)
         {
             Rect r=R(box);DrawTexture(r,tag,accent);
-            float stamp=Mathf.Min(r.height*.62f,r.width*.12f),left=r.x+stamp+27f*s;
-            Rect mark=new Rect(r.x+13f*s,r.y+(r.height-stamp)*.5f,stamp,stamp);DrawTexture(mark,plate,Paper);
-            Text(mark,badge,centered,Mathf.Max(8f,25f*s),Ink);
+            float stamp=doodle!=null?r.width*.30f:Mathf.Min(r.height*.66f,r.width*.12f);
+            float artHeight=doodle!=null?r.height*.84f:stamp,left=r.x+stamp+27f*s;
+            Rect mark=new Rect(r.x+13f*s,r.y+(r.height-artHeight)*.5f,stamp,artHeight);
+            if(doodle!=null) FitArt(mark,doodle);
+            else {DrawTexture(mark,plate,Paper);Text(mark,badge,centered,Mathf.Max(8f,25f*s),Ink);}
             Text(new Rect(left,r.y+12f*s,r.width-(left-r.x)-14f*s,r.height*.17f),category,small,Mathf.Max(7f,9f*s),Ink,.7f);
             Text(new Rect(left,r.y+r.height*.25f,r.width-(left-r.x)-14f*s,r.height*.29f),name,heading,Mathf.Max(8f,24f*s),Ink);
             Text(new Rect(left,r.y+r.height*.62f,r.width-(left-r.x)-18f*s,r.height*.24f),detail,body,Mathf.Max(7f,12f*s),Ink,.82f);
-        }
-        private void Feature(Rect r,string badge,string name,string detail,Color accent,float s)
-        {
-            float size=Mathf.Min(r.height*.85f,42f*s);Rect b=new Rect(r.x,r.y+2f*s,size,size);
-            DrawTexture(b,tag,accent);Text(b,badge,centered,Mathf.Max(8f,16f*s),Ink);
-            Text(new Rect(b.xMax+12f*s,r.y,r.width-size-14f*s,r.height*.45f),name,heading,Mathf.Max(8f,15f*s),Ink);
-            Text(new Rect(b.xMax+12f*s,r.y+r.height*.48f,r.width-size-14f*s,r.height*.45f),detail,body,Mathf.Max(7f,11f*s),Ink,.7f);
+            Tape(new Rect(r.xMax-50f*s,r.y+2f*s,31f*s,8f*s));
         }
         private void StatPair(Rect r,string first,string a,string second,string b,float s)
         {
@@ -221,11 +242,22 @@ namespace IntercomMvp
             }
         }
         private static Rect R(IntercomHudLayout.Box b)=>new Rect(b.X,Screen.height-b.Y-b.Height,b.Width,b.Height);
+        private static void FitArt(Rect r,Texture2D artwork)
+        {
+            if(artwork==null || artwork.width<=0 || artwork.height<=0)return;
+            float scale=Mathf.Min(r.width/artwork.width,r.height/artwork.height);
+            float width=artwork.width*scale,height=artwork.height*scale;
+            DrawTexture(new Rect(r.x+(r.width-width)*.5f,r.y+(r.height-height)*.5f,width,height),artwork,Color.white);
+        }
+        private static void Tape(Rect r)
+        {
+            Fill(r,Paper,.58f);
+            Fill(new Rect(r.x+2f,r.y+1f,r.width-4f,1f),LightPaper,.35f);
+        }
         private void Card(Rect r,Color color)
         {
-            Fill(r,Ink,.85f);
-            Fill(new Rect(r.x+2f,r.y+2f,r.width-4f,r.height-4f),color);
-            Fill(new Rect(r.x+7f,r.y+3f,r.width-15f,2f),LightPaper,.65f);
+            DrawTexture(new Rect(r.x+2f,r.y+4f,r.width,r.height),paperCard,Ink,.3f);
+            DrawTexture(r,paperCard,color);
         }
         private static void Fill(Rect r,Color c,float alpha=1f)=>DrawTexture(r,Texture2D.whiteTexture,c,alpha);
         private static void DrawTexture(Rect r,Texture texture,Color c,float alpha=1f)
@@ -240,7 +272,7 @@ namespace IntercomMvp
         {DrawTexture(new Rect(x-size,y-size,size*2f,size*2f),disc,Ink,.55f);Fill(new Rect(x-size*.65f,y-size*.12f,size*1.3f,size*.24f),Paper,.65f);}
         private void EnsureResources()
         {
-            if(plate==null){plate=MakeTexture("Front end paper",256,128,0);tag=MakeTexture("Front end cut label",256,128,1);disc=MakeTexture("Front end screw",32,32,2);}
+            if(plate==null){plate=MakeTexture("Front end paper",256,128,0);paperCard=MakeTexture("Front end job paper",128,256,0);tag=MakeTexture("Front end cut label",256,128,1);disc=MakeTexture("Front end screw",32,32,2);}
             if(title!=null)return;
             body=new GUIStyle(GUI.skin.label){alignment=TextAnchor.MiddleLeft,wordWrap=true,richText=false};
             small=new GUIStyle(body);heading=new GUIStyle(body){fontStyle=FontStyle.Bold};title=new GUIStyle(heading);
@@ -257,15 +289,21 @@ namespace IntercomMvp
                 {float dx=(x+.5f-w*.5f)/(w*.5f),dy=(y+.5f-h*.5f)/(h*.5f);edge=(1f-Mathf.Sqrt(dx*dx+dy*dy))*w*.5f;}
                 else
                 {
-                    float left=kind==0?3f:1.5f,right=w-(kind==0?4f:2f),bottom=kind==0?4f:4f+x*.008f,top=h-(kind==0?3f:4f-x*.006f);
+                    // A few deliberate uneven cuts read as a sketched workshop ticket.
+                    // The texture is cached once; edges never jitter while the player reads.
+                    float cut=(float)(System.Math.Sin(x*.17)*.35+System.Math.Sin(x*.051)*.35),
+                        side=(float)(System.Math.Sin(y*.071)*.35);
+                    float left=(kind==0?3f:1.5f)+side,right=w-(kind==0?4f:2f)-side,
+                        bottom=(kind==0?4f:4f+x*.008f)+cut,top=h-(kind==0?3f:4f-x*.006f)-cut;
                     edge=Mathf.Min(Mathf.Min(x-left,right-x),Mathf.Min(y-bottom,top-y));edge=Mathf.Min(edge,x+y-(kind==0?14f:8f));edge=Mathf.Min(edge,w-x+h-y-(kind==0?11f:7f));
-                    if(kind==0){if(edge<2f)shade=.2f;else if(y<8f)shade=.75f;}
+                    if(edge<1.5f)shade=kind==0?.22f:.42f;
+                    else if(kind==0 && y<8f)shade=.78f;
                 }
                 byte c=(byte)(Mathf.Clamp01(shade)*255f);pixels[y*w+x]=new Color32(c,c,c,(byte)(Mathf.Clamp01(edge)*255f));
             }
             t.SetPixels32(pixels);t.Apply(false,true);return t;
         }
         public void Dispose()
-        {if(plate!=null)Object.Destroy(plate);if(tag!=null)Object.Destroy(tag);if(disc!=null)Object.Destroy(disc);plate=tag=disc=null;}
+        {if(plate!=null)Object.Destroy(plate);if(tag!=null)Object.Destroy(tag);if(disc!=null)Object.Destroy(disc);if(paperCard!=null)Object.Destroy(paperCard);plate=tag=disc=paperCard=null;}
     }
 }

@@ -23,3 +23,5 @@ location rather than reading later movement through a wall.
 The stand-ins provide deterministic callbacks and ray results. This validates
 the controller's use of those results, not actual Unity lifecycle ordering,
 Physics raycasting, CharacterController contact resolution or rendered output.
+
+V18 также исполняет реальный адаптер импортированной модели: один prefab на слот пула, точные часы замаха/удара, шаг от фактически пройденного пути, неподвижный collider root, безопасный неактивный reset, hurt/death/emerge и восстановление исходного MaterialPropertyBlock. Animator API заменён счётчиком выборки поз: воспроизведение FBX и skinning проверяются отдельно в Blender и Unity.

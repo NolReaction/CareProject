@@ -952,11 +952,6 @@
       "guid": "bc9b5016de6c571ab55210ea6eb2d5b8"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomFootstepClock.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs",
-      "guid": "c112cb0de6304573a321eff489893d04"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomFootstepSurface.cs",
       "destination": "Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs",
       "guid": "56abaa00f8fa571183c64ee1b967dc08"
@@ -1002,11 +997,6 @@
       "guid": "bcd9607eb0944f6182bbd30a25640c45"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomHealthState.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs",
-      "guid": "3c125b9c704e4c6cbc6e85b2f6fc158d"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomHudLayout.cs",
       "destination": "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs",
       "guid": "eb767b7096fb5766925089a9505d8595"
@@ -1017,16 +1007,6 @@
       "guid": "8a800893ce01488291afee60aeea2478"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomImpactAudio.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs",
-      "guid": "70c8949a4bee4d0781bb09573c1d972d"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomInputCancellation.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs",
-      "guid": "d1e09016df342df47a8a8d2ef80145f9"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs",
       "destination": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs",
       "guid": "1c12885057525317966f676a9b506b3c"
@@ -1035,11 +1015,6 @@
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs",
       "destination": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs",
       "guid": "7639da391055f4c40a254d160087abd1"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomMagazineState.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs",
-      "guid": "750f0b4a224f422f8935ff7897e86224"
     },
     {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomMissionDefinition.cs",
@@ -1107,21 +1082,6 @@
       "guid": "10ec9286f5f55a60ba16a9f445192273"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomOcclusionGeometry.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs",
-      "guid": "318677f78ded4a75ad5e4a840907145b"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs",
-      "guid": "16236891db5467f439b0e9caedc13ccb"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomOcclusionState.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs",
-      "guid": "69eb8cd56edd4b858b7032296aaabb68"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomPerformanceCapture.cs",
       "destination": "Assets/IntercomMVP/Runtime/Diagnostics/IntercomPerformanceCapture.cs",
       "guid": "452c227872f2591692622eb627a7eadf"
@@ -1157,29 +1117,14 @@
       "guid": "914fe14e4e284b55bcaca0fb4b90ee69"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomProjectileHitChoice.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs",
-      "guid": "94d811aa2c5e5413bcfee78f2ad4ecd5"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomProjectileImpact.cs",
       "destination": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs",
       "guid": "b6bf66ce1ddf5b85ac6103b94b06e827"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomPropState.cs",
-      "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs",
-      "guid": "3ff571cf6ec55f729ce35bd17de2d135"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomReactiveProp.cs",
       "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs",
       "guid": "3bc9f371b56d526ea42f3a8c3e6db9a2"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomReloadControl.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs",
-      "guid": "d13118f101cf481c91d1cf72bf136a8c"
     },
     {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomRescueAlly.cs",
@@ -1197,34 +1142,14 @@
       "guid": "0af7c8fd4f835ac4b2fe096ed4288621"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomTeam.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs",
-      "guid": "32c45c933b86549a8adfa128887832be"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomTracerGeometry.cs",
       "destination": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerGeometry.cs",
       "guid": "ad47df4c22255411815aeff10eefb459"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomTracerStyle.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs",
-      "guid": "e4547ab354ad52aa9292661dbaae7085"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs",
       "destination": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs",
       "guid": "59eadda366a248919c055f56227eb8d7"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs",
-      "guid": "4a4cb5f79e8fc3441a1266402f6753d8"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomWeaponBalance.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs",
-      "guid": "377ddad06b934ed28d3a4c1cb4ec0825"
     },
     {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomWeaponDefinition.cs",
@@ -1240,11 +1165,6 @@
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomWeaponPose.cs",
       "destination": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPose.cs",
       "guid": "885ed501ed22dce4ebea767c7b7df7f2"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs",
-      "guid": "267e58807adad3140a4c2945043bfdaa"
     },
     {
       "legacyPath": "Assets/IntercomMVP/Runtime/IntercomWeaponPoseProfile.cs",
@@ -1382,16 +1302,6 @@
       "guid": "6b12fbaa757754679ff7ddef990f7639"
     },
     {
-      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs",
-      "guid": "8d27f998ef5c53379dbd8dcb49903939"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs",
-      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs",
-      "guid": "59514f3f6edd5db0aa18b8107a96ed1b"
-    },
-    {
       "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs",
       "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs",
       "guid": "c09fc317f8e456df9177cdbcdb2c80bb"
@@ -1400,11 +1310,6 @@
       "legacyPath": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs",
       "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs",
       "guid": "4d838105dbfd5fefbd274cb595175dcd"
-    },
-    {
-      "legacyPath": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs",
-      "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs",
-      "guid": "e7ae18cdc6245ed98d14be219d959aff"
     },
     {
       "legacyPath": "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs",
@@ -1420,6 +1325,206 @@
       "legacyPath": "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs",
       "destination": "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs",
       "guid": "94c5b38a97b9582fa83bee98ffa89636"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubBrass.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubBrass.mat",
+      "guid": "c9d17f06781759f3aba7077a41fb7c6d"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubCushion.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubCushion.mat",
+      "guid": "2647a95ffa6458f498412afb5cc88bd3"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubFloor.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubFloor.mat",
+      "guid": "7c7a98caefbb548ab1558b132b78408b"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubPaper.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubPaper.mat",
+      "guid": "8229c27dd3b55ca6bb86e3f491bd1421"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubPlaster.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubPlaster.mat",
+      "guid": "9c5883af138d5e8294b931694a4b8a47"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubRust.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubRust.mat",
+      "guid": "9e6db773c5c45119a0ff4af36f66f356"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubScreen.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubScreen.mat",
+      "guid": "78d91c6e20825b6fb68aede338be17c2"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubTrim.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubTrim.mat",
+      "guid": "7d9ccfda87565ad983884c5e6a5d1bae"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Materials/HubWood.mat",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Materials/HubWood.mat",
+      "guid": "d90496fe11cc59a1b9fe55ba0ea8fbe9"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubCoffeeTable.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubCoffeeTable.mesh",
+      "guid": "00d8e9d3797c5ac0a4370939b1830b5d"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubDispatchBoard.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubDispatchBoard.mesh",
+      "guid": "5e95e1bf25a15f5ea0745ab0d9f1e5a8"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubLocker.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubLocker.mesh",
+      "guid": "00558aebe8265f46af53a7f779397e79"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubPartsTrolley.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubPartsTrolley.mesh",
+      "guid": "f64bb56f9c575e68999176c0d6ad5327"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubPlant.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubPlant.mesh",
+      "guid": "d485aba572cf500f8667592864b0f36b"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubRoomShell.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubRoomShell.mesh",
+      "guid": "2ec23e0089135b4ca3173ae3cf1e439d"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubServiceRobot.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubServiceRobot.mesh",
+      "guid": "0d9c318ca6f45a1489975600f2f961d3"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubSofa.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubSofa.mesh",
+      "guid": "02605731e458576090c133317cbbc3a7"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubTelevision.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubTelevision.mesh",
+      "guid": "4f68f94293f25a31a786be8649ee79ea"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubWeaponBoard.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubWeaponBoard.mesh",
+      "guid": "7a6cdec4c4e7522bbc11c4c644cc0790"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Meshes/HubWorkbench.mesh",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Meshes/HubWorkbench.mesh",
+      "guid": "6dee4aa1bfaf5a4fb4ede1a10fe65e57"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Shaders/WorkshopPreview.shader",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Shaders/WorkshopPreview.shader",
+      "guid": "c57ec9e425d15a5ea6abe4ab02d74ec3"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Artwork/HomeDoodle.png",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Artwork/HomeDoodle.png",
+      "guid": "0ff01427557a5c358daea6a697ce39cb"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Frontend/Artwork/RescueDoodle.png",
+      "destination": "Assets/IntercomMVP/Content/Frontend/Artwork/RescueDoodle.png",
+      "guid": "fcf3447c8a535d2385cfb0b8086b8e6d"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "guid": "612d4f7f62f150a1aaa59f1afe47938c"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "guid": "078e2b512d515df38e34248be8ce7337"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "guid": "122f7a4efe7a56398870bd893758d926"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+      "guid": "52a4dee06c695ab59ce40b7550eaf93a"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "guid": "5d04662eda705bcaad721eba1996a047"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "guid": "d4be5f41d8bd508d896880854bf69b2a"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "guid": "25114e56b03652d3bec6dda0ef5b34a5"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs",
+      "guid": "720081d2ae2557a1af42653f539b29b5"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "guid": "90a41a60098c5277a597492496604030"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png",
+      "guid": "b4716fd1372257e6ba1c021bb886633c"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikAtlas.mat",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikAtlas.mat",
+      "guid": "88b7eefab5c45eb9bd6b2a5e1fceeca8"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs",
+      "destination": "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs",
+      "guid": "22aad2c1978a50a2a9df96ea4a83540d"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx",
+      "guid": "621ceaf352f5503abeac8763f3ef6487"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikPop.mat",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikPop.mat",
+      "guid": "6bd6116b63c5557aa6e52c330e362bc4"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrap.mat",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrap.mat",
+      "guid": "49bea61217ce5da5817878518d6dee57"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrapInk.mat",
+      "destination": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrapInk.mat",
+      "guid": "e92760ecb48556b5a79ea1ad20cf9bcc"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
+      "guid": "3a0378430d93536fb81ffab553e430f9"
     }
   ]
 }

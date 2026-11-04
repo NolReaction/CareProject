@@ -1,0 +1,141 @@
+{
+  "status": "PASS",
+  "runtimeTests": [
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    },
+    {
+      "project": "MissionRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcNativeSetupTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC native setup: 88 assertions passed; actual editor builder and real backup files with narrow AssetDatabase/Prefab/AnimatorController stand-ins. Not native Unity import/serialization.\n"
+    },
+    {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+    }
+  ],
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs",
+      "sha256": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs",
+      "sha256": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs",
+      "sha256": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs",
+      "sha256": "815be144cc5d18df00db83078680e9f73839e057fbc88935cdd9cdc2b55bcc6f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs",
+      "sha256": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset",
+      "sha256": "bc5c688c32c0227c9e036a7f3d584c0a2d9a879a715a53f996e6503d6b7730fd"
+    },
+    {
+      "path": "Validation/NpcRuntimeTests/Program.cs",
+      "sha256": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7"
+    },
+    {
+      "path": "Validation/NpcRuntimeTests/UnityFakes.cs",
+      "sha256": "4d1db49600a37ee1e96cd33c08bb7877facb90d148c23d58dfaeb3f677f04f55"
+    },
+    {
+      "path": "Validation/NpcRuntimeTests/README.md",
+      "sha256": "5dc55566f0fa107480149e663fce6ad32456ddfac87b72ea6decc36cdfc1b75a"
+    },
+    {
+      "path": "Validation/DeathStrikeLifecycleTests/Program.cs",
+      "sha256": "b778061470d1799d4d1d4547f32170f910341628fffd70abea9e433bc985b8a9"
+    },
+    {
+      "path": "Validation/DeathStrikeLifecycleTests/UnityFakes.cs",
+      "sha256": "6397bfc8dc73d8aee34ae39f18483f7dead7cd4beea8eff84ab8acf98ead3b18"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
+      "sha256": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106"
+    },
+    {
+      "path": "Validation/NpcNativeSetupTests/Program.cs",
+      "sha256": "5ff56a37d02cbadcd30304e338cbab31c1f880c5d7ef7106493ee60d7c463f14"
+    }
+  ],
+  "contract": {
+    "optionalPrefabField": "IntercomNpcDefinition.visualPrefab",
+    "walkAnimationMetresPerSecond": 0.603,
+    "controllerStates": [
+      "Idle",
+      "Walk",
+      "Windup",
+      "Strike",
+      "Recover",
+      "Hurt",
+      "Death",
+      "Emerge",
+      "EmergeGround",
+      "EmergeHatch"
+    ],
+    "clipDurationSeconds": [
+      1.6,
+      0.8,
+      0.3,
+      0.16,
+      0.48,
+      0.22,
+      0.18,
+      0.68,
+      0.95,
+      1.05
+    ],
+    "poolVisualAllocation": "Once per pool slot only",
+    "poseSource": "Frozen Animator speed0; normalized phase from live AI, measured travel and warning/arrival/death clocks. Bone TRS is cached and republished in LateUpdate after Mecanim; .08second Idle/Walk blend.",
+    "rootMotion": false,
+    "capsuleFallback": true,
+    "newMonoBehaviourScripts": 1,
+    "initialEditorAssetPreparation": "Missing assets and recognized generated8/10-state assets prepared natively after import. Generated upgrade backs up controller/prefab/definition plus .meta, keeps original state objects and GUIDs. Different/custom visual graphs are preserved and warned.",
+    "authoredFeedback": "Captured/restored original renderer property block, retained alpha/unrelated overrides; no capsule squash on model",
+    "authoredWalkReferenceMetresPerSecond": 0.6034482758620691,
+    "newMonoBehaviourScript": "IntercomRobotDeathEffects",
+    "arrivalCompatibility": "Typed Ground/Hatch selects new states if present, otherwise legacy Emerge stretched to chosen duration.",
+    "sourceGeometry": "12 separately editable closed parts; face and helmet rigid Head; capped ribbed mechanical neck; one temporary joined game skin.",
+    "breakupGeometry": "Six static centered-pivot chunks sharing original atlas; no runtime BakeMesh.",
+    "deathPresentation": "Immediate pooled gear burst / occasional coarse breakup; authored body hidden immediately, .18second Death remains safe fallback."
+  },
+  "limitations": [
+    "No native Unity FBX import, shader compilation, prefab serialization, Animator/Play Mode or device execution in this environment.",
+    "Production runtime and actual native asset builder compile/execute against narrow deterministic Unity/Editor substitutes; this is not native import proof.",
+    "Blender source, repair and FBX reimport reviews are separately recorded in UdarnikGeometry.json, UdarnikRig.json and UdarnikFinalExports.json; art hashes are finalized by the art owner."
+  ],
+  "version": "V19"
+}

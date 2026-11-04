@@ -3,9 +3,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" /><Compile Include="UnityFakes.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomCameraOcclusion.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs" />
+    
+    
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOccluder.cs" />
   </ItemGroup>
 </Project>

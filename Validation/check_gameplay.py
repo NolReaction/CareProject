@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that the shipped scene actually wires V15 menu, hatch and cosmetic data.
+"""Check that the shipped scene actually wires menu, hatch and cosmetic data.
 Serialized-data check only; does not execute Unity, PhysX or rendering.
 """
 from pathlib import Path
@@ -27,7 +27,9 @@ def main():
         path=ROOT/'Assets/IntercomMVP/Content/Frontend/Textures'/name
         check(path.is_file(),'portrait missing');check(setup.guid(path.relative_to(ROOT).as_posix()) in field(scene.blocks[menu],key),'portrait reference')
         check('alphaIsTransparency: 1' in Path(str(path)+'.meta').read_text(),'portrait alpha')
-    check(local(scene.blocks[menu],'roomCamera')==0,'future room camera must remain unassigned in yard')
+    room_camera=local(scene.blocks[menu],'roomCamera')
+    check(room_camera in scene.blocks,'menu room camera missing')
+    check('IntercomFrontEndRoomCamera' in scene.blocks[room_camera],'menu room camera adapter type')
     points=re.search(r'^  authoredSpawnPoints:\n((?:  - \{fileID: \d+\}\n)+)',scene.blocks[director],re.M);check(points is not None,'authored points missing')
     ids=[int(v) for v in re.findall(r'fileID: (\d+)',points[1])];check(len(ids)==3 and len(set(ids))==3,'authored point count')
     observed=[]

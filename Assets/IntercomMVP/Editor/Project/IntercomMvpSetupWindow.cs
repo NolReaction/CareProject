@@ -9,7 +9,7 @@ namespace IntercomMvp.Editor
         private Vector2 scroll;
         private string result;
 
-        [MenuItem("Tools/CareProject/Texture Setup")]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Texture Setup")]
         internal static void ShowWindow()
         {
             var window = GetWindow<IntercomMvpSetupWindow>("Intercom MVP");

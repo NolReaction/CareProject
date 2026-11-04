@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "menu": "Tools/CareProject/Проверить и восстановить проект",
+  "compiledVersion": "IntercomFrontEnd.BuildVersion",
+  "diagnostics": "Read-only source-version/nested-package/duplicate-script/scene-link audit",
+  "sceneRepair": "Missing-only FrontEnd and room-camera components/references; preserves existing refs, transforms and tuning; refused in Play/import/compilation/dirty scene",
+  "backup": "ProjectBackups/date_GUID/Scene.unity + .meta before first scene mutation; no-op does not make backup",
+  "nativeVisualSetup": "Calls idempotent IntercomNpcSetup.EnsureRobotVisualAssets(false); native asset setup may write missing assets/profile while scene is unchanged",
+  "legacyGeneratorRemoved": true,
+  "menuSections": [
+    "Start Here / Open Scene / Repair",
+    "Mobile",
+    "Development/Performance",
+    "Advanced/Authoring"
+  ],
+  "tests": [
+    {
+      "project": "ProjectRepairTests",
+      "status": "PASS",
+      "assertions": 24,
+      "scope": "Production read-only file audit; current and old source, nested ZIPs under root/Assets, duplicate GUID, missing serialized links, no writes."
+    }
+  ],
+  "changedEditorSources": [
+    {
+      "path": "Assets/IntercomMVP/Editor/Player/IntercomCharacterAnimationSetup.cs",
+      "sha256": "883223a7b39fa2584d11b904f75686f1f4f4297af3727742596698c74a542494",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Player/IntercomMovementSetup.cs",
+      "sha256": "f3b56c19c37f7bb50be025efd6f2373cb516bdac982b9a430a03c87cb8ff3b11",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Platform/IntercomMobileSetup.cs",
+      "sha256": "77e359c789ab4a6af5c25010e55cb103e1833c266b7ffd68f64686976148ed2e",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Project/IntercomMvpSetupWindow.cs",
+      "sha256": "fe39cee91b05cdd2409b23dfb452391f5fcbdf4e2ca2055f550de7895949075d",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs",
+      "sha256": "8739b5e78c5b7d39d533614d0c909861b0a02f171545f6bbf446e26f5c460b1d",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs",
+      "sha256": "c714b50d818e9999d90f4f46ccc225d079f035252d575dbd33bae81bb57d1fef",
+      "new": true
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Project/IntercomMvpSceneBuilder.cs",
+      "sha256": "ed640d6b4b6d7a90256ba5f4090bc6ebeadaf6dd0a946f88d4fb8f7afb44a87b",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Diagnostics/IntercomPerformanceTools.cs",
+      "sha256": "5d79b8c1121bf3b009802e5233d49cd19ab276422c5f94af8da140bcf37328ef",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Rendering/IntercomDaylightSetup.cs",
+      "sha256": "831faf95947de65ebacdc797dc89c7bdc79ab9e8794eb4138c20c151ba2bb425",
+      "new": false
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs",
+      "sha256": "ec7b9098491c3133380234c2a2df35aaa19781bb9feba25c919c0c533c475d6e",
+      "new": false
+    }
+  ],
+  "limits": [
+    "Unity Editor imports, native scene callbacks, Undo and SaveScene not executed.",
+    "Syntax parser reports syntax only, not Unity type/shader compilation.",
+    "ProjectRepairTests execute production disk policy against actual filesystem fixtures."
+  ]
+}

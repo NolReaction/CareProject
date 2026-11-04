@@ -1,0 +1,408 @@
+{
+  "status": "PASS",
+  "build": {
+    "clips": {
+      "Idle": 1.6,
+      "Walk": 0.8,
+      "Windup": 0.3,
+      "Strike": 0.16,
+      "Recover": 0.48,
+      "Hurt": 0.22,
+      "Death": 0.18,
+      "Emerge": 0.68,
+      "EmergeGround": 0.95,
+      "EmergeHatch": 1.05
+    },
+    "fps": 100,
+    "walkStanceTravel": 0.28,
+    "walkStanceDuty": 0.58,
+    "walkReferenceMetresPerSecond": 0.6034482758620691,
+    "ikClampedTargetsDuringAuthoring": 0,
+    "earlyEmergenceArmReachClamps": 178,
+    "status": "PREPARED",
+    "editableMeshObjects": [
+      "BodyShell",
+      "UpperArm.L",
+      "UpperArm.R",
+      "Helmet",
+      "Boot.L",
+      "Boot.R",
+      "Glove.R",
+      "Glove.L",
+      "Leg.R",
+      "Leg.L",
+      "HeadCore",
+      "NeckJoint"
+    ],
+    "gameMeshObjects": 1,
+    "sourceRig": "UdarnikRig",
+    "sourcePackedImages": [
+      "UdarnikAtlas"
+    ],
+    "rootMotion": false,
+    "boneScaleCurves": false,
+    "actions": [
+      "Idle",
+      "Walk",
+      "Windup",
+      "Strike",
+      "Recover",
+      "Hurt",
+      "Death",
+      "Emerge",
+      "EmergeGround",
+      "EmergeHatch"
+    ],
+    "breakupChunks": [
+      {
+        "name": "Breakup_Helmet",
+        "parts": [
+          "Helmet"
+        ],
+        "pivotBlender": [
+          -0.022898897528648376,
+          -0.0526571124792099,
+          1.1210618019104004
+        ],
+        "triangles": 658
+      },
+      {
+        "name": "Breakup_Body",
+        "parts": [
+          "BodyShell",
+          "HeadCore",
+          "NeckJoint"
+        ],
+        "pivotBlender": [
+          -0.0005403012037277222,
+          0.052013084292411804,
+          0.7622043490409851
+        ],
+        "triangles": 2666
+      },
+      {
+        "name": "Breakup_GloveL",
+        "parts": [
+          "UpperArm.L",
+          "Glove.L"
+        ],
+        "pivotBlender": [
+          0.43900352716445923,
+          -0.047760412096977234,
+          0.6549069285392761
+        ],
+        "triangles": 1058
+      },
+      {
+        "name": "Breakup_GloveR",
+        "parts": [
+          "UpperArm.R",
+          "Glove.R"
+        ],
+        "pivotBlender": [
+          -0.43933069705963135,
+          -0.0487419068813324,
+          0.6552340984344482
+        ],
+        "triangles": 1060
+      },
+      {
+        "name": "Breakup_BootL",
+        "parts": [
+          "Leg.L",
+          "Boot.L"
+        ],
+        "pivotBlender": [
+          0.24403619766235352,
+          -0.008178159594535828,
+          0.2705385982990265
+        ],
+        "triangles": 1004
+      },
+      {
+        "name": "Breakup_BootR",
+        "parts": [
+          "Leg.R",
+          "Boot.R"
+        ],
+        "pivotBlender": [
+          -0.24272902309894562,
+          -0.00817824900150299,
+          0.2705334722995758
+        ],
+        "triangles": 1008
+      }
+    ],
+    "input": "Source/Enemies/Udarnik/Original.glb",
+    "triangles": 7454,
+    "vertices": 3751,
+    "materials": 1,
+    "bones": [
+      "Root",
+      "Pelvis",
+      "Body",
+      "Head",
+      "UpperArm.L",
+      "Forearm.L",
+      "UpperArm.R",
+      "Forearm.R",
+      "Thigh.L",
+      "Shin.L",
+      "Foot.L",
+      "Thigh.R",
+      "Shin.R",
+      "Foot.R"
+    ],
+    "oneAtlas": [
+      2048,
+      2048
+    ],
+    "mesh": "UdarnikBody",
+    "armature": "UdarnikRig",
+    "forwardInBlender": "-Y",
+    "retainedAllOriginalTriangleSurfaces": true,
+    "editableCollection": "01 Editable Robot Parts",
+    "exports": [
+      "Source/Enemies/Udarnik/Udarnik_Rigged.blend",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png"
+    ]
+  },
+  "poseQA": {
+    "status": "PASS",
+    "checks": 12034,
+    "editableMeshes": 12,
+    "weightedVertices": 3751,
+    "bones": 14,
+    "clips": {
+      "Idle": 1.6,
+      "Walk": 0.8,
+      "Windup": 0.3,
+      "Strike": 0.16,
+      "Recover": 0.48,
+      "Hurt": 0.22,
+      "Death": 0.18,
+      "Emerge": 0.68,
+      "EmergeGround": 0.95,
+      "EmergeHatch": 1.05
+    },
+    "walkReferenceMetresPerSecond": 0.6034482758620691,
+    "maximumPlantedSoleFloorError": 5.295311287045485e-05,
+    "maximumMidStanceWorldSlipMetresPerSecond": 0.0007686648389459982,
+    "scope": "Actual Blender evaluated skin, complete weight sums, 101samples peraction, stationaryRoot, bonecontacts and planted soles; not Unity playback."
+  },
+  "fbxRoundtrip": {
+    "status": "PASS",
+    "checks": 3896,
+    "game": {
+      "mesh": "UdarnikBody",
+      "vertices": 3751,
+      "sourceVertices": 3751,
+      "triangles": 7454,
+      "bones": [
+        "Root",
+        "Pelvis",
+        "Body",
+        "Head",
+        "UpperArm.L",
+        "Forearm.L",
+        "UpperArm.R",
+        "Forearm.R",
+        "Thigh.L",
+        "Shin.L",
+        "Foot.L",
+        "Thigh.R",
+        "Shin.R",
+        "Foot.R"
+      ],
+      "materials": 1,
+      "blenderImporterInferredConnectionsCleared": [
+        "Pelvis",
+        "Forearm.L",
+        "Forearm.R",
+        "Foot.L",
+        "Foot.R"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "durationSeconds": 1.6,
+          "frames": [
+            1.0,
+            161.0
+          ]
+        },
+        {
+          "name": "Walk",
+          "durationSeconds": 0.8,
+          "frames": [
+            1.0,
+            81.0
+          ]
+        },
+        {
+          "name": "Windup",
+          "durationSeconds": 0.3,
+          "frames": [
+            1.0,
+            31.0
+          ]
+        },
+        {
+          "name": "Strike",
+          "durationSeconds": 0.16,
+          "frames": [
+            1.0,
+            17.0
+          ]
+        },
+        {
+          "name": "Recover",
+          "durationSeconds": 0.48,
+          "frames": [
+            1.0,
+            49.0
+          ]
+        },
+        {
+          "name": "Hurt",
+          "durationSeconds": 0.22,
+          "frames": [
+            1.0,
+            23.0
+          ]
+        },
+        {
+          "name": "Death",
+          "durationSeconds": 0.18,
+          "frames": [
+            1.0,
+            19.0
+          ]
+        },
+        {
+          "name": "Emerge",
+          "durationSeconds": 0.68,
+          "frames": [
+            1.0,
+            69.0
+          ]
+        },
+        {
+          "name": "EmergeGround",
+          "durationSeconds": 0.95,
+          "frames": [
+            1.0,
+            96.0
+          ]
+        },
+        {
+          "name": "EmergeHatch",
+          "durationSeconds": 1.05,
+          "frames": [
+            1.0,
+            106.0
+          ]
+        }
+      ],
+      "maximumSourceVsRoundtripBoundsErrorMetres": 5.960464477539062e-07
+    },
+    "breakup": [
+      {
+        "name": "Breakup_Body",
+        "triangles": 2666,
+        "pivotBlender": [
+          -0.0005403012037277222,
+          0.052013084292411804,
+          0.7622043490409851
+        ],
+        "localCenterErrorMetres": 1.4901161193847656e-08
+      },
+      {
+        "name": "Breakup_BootL",
+        "triangles": 1004,
+        "pivotBlender": [
+          0.24403619766235352,
+          -0.008178159594535828,
+          0.2705385982990265
+        ],
+        "localCenterErrorMetres": 0.0
+      },
+      {
+        "name": "Breakup_BootR",
+        "triangles": 1008,
+        "pivotBlender": [
+          -0.24272902309894562,
+          -0.00817824900150299,
+          0.2705334722995758
+        ],
+        "localCenterErrorMetres": 7.450580596923828e-09
+      },
+      {
+        "name": "Breakup_GloveL",
+        "triangles": 1058,
+        "pivotBlender": [
+          0.43900352716445923,
+          -0.047760412096977234,
+          0.6549069285392761
+        ],
+        "localCenterErrorMetres": 1.666000468656264e-08
+      },
+      {
+        "name": "Breakup_GloveR",
+        "triangles": 1060,
+        "pivotBlender": [
+          -0.43933069705963135,
+          -0.0487419068813324,
+          0.6552340984344482
+        ],
+        "localCenterErrorMetres": 2.1073424255447017e-08
+      },
+      {
+        "name": "Breakup_Helmet",
+        "triangles": 658,
+        "pivotBlender": [
+          -0.022898897528648376,
+          -0.0526571124792099,
+          1.1210618019104004
+        ],
+        "localCenterErrorMetres": 5.960464477539063e-08
+      }
+    ],
+    "scope": "Blender FBX roundtrip against evaluated source at 11 poses per action; not native Unity import/Animator."
+  },
+  "workspace": {
+    "openingWorkspace": "Layout",
+    "activeObject": "UdarnikRig",
+    "mode": "POSE",
+    "action": "Idle",
+    "actionSlot": "OBUdarnikRig",
+    "largeActionEditorWorkspace": "Animation",
+    "largeActionEditorHeightPixels": 436,
+    "allViewportsFramed": true,
+    "packedFileImages": [
+      "UdarnikAtlas"
+    ]
+  },
+  "visualReview": {
+    "localPoseRenders": 17,
+    "runtimeWrapperRenders": 6,
+    "preview": "Source/Enemies/Udarnik/Poses_Preview.jpg",
+    "groundRiseNormalized": [
+      0.12,
+      0.86
+    ],
+    "hatchRiseNormalized": [
+      0.04,
+      0.9
+    ]
+  },
+  "limits": [
+    "FBX roundtrip normalizes Blender importer-inferred connected-bone flags; FBX joint transforms and rest matrices are unchanged.",
+    "Native Unity importer/Animator, gameplay collision contact and device performance were not run in Blender.",
+    "No individual finger rig; forearm and glove remain one mechanical section.",
+    "Ground pull-up arms clamp early unreachable hand targets without stretching; leg IK never clamps.",
+    "Atlas is unchanged from V18; original high resolution maps remain in Original.glb."
+  ]
+}

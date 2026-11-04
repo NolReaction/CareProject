@@ -32,11 +32,17 @@ namespace IntercomMvp
         [Min(.1f)] public float idleSeconds = 1.1f;
         [Header("Shared presentation assets")]
         [Min(.3f)] public float emergenceSeconds = .68f;
+        [Min(.3f)] public float groundEmergenceSeconds = .95f;
+        [Min(.3f)] public float hatchEmergenceSeconds = 1.05f;
         [Min(.5f)] public float emergenceDepth = 1.48f;
         public Material bodyMaterial;
         public Material detailMaterial;
         public Material telegraphMaterial;
         public Color bodyColor = new Color(.68f, .53f, .28f, 1f);
+        [Header("Robot model (optional; capsule fallback)")]
+        public GameObject visualPrefab;
+        public GameObject breakupPrefab;
+        [Min(.1f)] public float walkAnimationMetresPerSecond = .603f;
 
         public IntercomNpcRules Rules => new IntercomNpcRules(
             windupSeconds, recoverySeconds, loseTargetSeconds, idleSeconds);

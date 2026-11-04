@@ -8,7 +8,7 @@ namespace UnityEngine {
  public class Camera{public static Camera main=new Camera();public Transform transform=new Transform();public Ray ScreenPointToRay(Vector2 p)=>new Ray(new Vector3(p.x/100,10,p.y/100),new Vector3(0,-1,1));}
  public class DefaultExecutionOrder:Attribute{public DefaultExecutionOrder(int x){}}public class DisallowMultipleComponent:Attribute{}
  public class HeaderAttribute:Attribute{public HeaderAttribute(string x){}}public class RangeAttribute:Attribute{public RangeAttribute(float x,float y){}}
- public static class Application{public static bool isMobilePlatform;}
+ public static class Application{public static bool isMobilePlatform,isFocused=true;}
  public static class Time{public static float timeScale=1;}
  public enum ScreenOrientation{LandscapeLeft,Portrait}
  public static class Screen{public static int width=1920,height=1080;public static Rect safeArea=new Rect(0,0,1920,1080);public static ScreenOrientation orientation;}
@@ -67,6 +67,7 @@ namespace IntercomMvp {
  public enum IntercomMissionPhase { Selection, Active, Victory, Defeat }
  public class IntercomMissionDirector {
   public bool isActiveAndEnabled=true;
+  public uint RunRevision;public float ElapsedSeconds;
   public IntercomMissionPhase Phase=IntercomMissionPhase.Selection;
   public IntercomMissionMode Mode;
   public bool BlocksGameplay=>Phase!=IntercomMissionPhase.Active;
@@ -75,8 +76,8 @@ namespace IntercomMvp {
   public IntercomHealth AllyHealth;
   public string ObjectiveText="Задание",ResultText="Двор снова работает.",HudHint="";
   public int Starts,Retries,Selections;
-  public bool StartMission(IntercomMissionMode mode){Starts++;Mode=mode;Phase=IntercomMissionPhase.Active;return true;}
-  public bool RetryMission(){Retries++;Phase=IntercomMissionPhase.Active;return true;}
+  public bool StartMission(IntercomMissionMode mode){Starts++;RunRevision++;ElapsedSeconds=0;Mode=mode;Phase=IntercomMissionPhase.Active;return true;}
+  public bool RetryMission(){Retries++;RunRevision++;ElapsedSeconds=0;Phase=IntercomMissionPhase.Active;return true;}
   public void ReturnToSelection(){Selections++;Phase=IntercomMissionPhase.Selection;}
  }
 }

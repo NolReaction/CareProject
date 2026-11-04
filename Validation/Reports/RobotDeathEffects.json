@@ -1,0 +1,79 @@
+{
+  "component": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
+  "componentGuid": "3a0378430d93536fb81ffab553e430f9",
+  "settings": {
+    "maximumBursts": 8,
+    "gearsPerBurst": 5,
+    "maximumChunkBursts": 2,
+    "breakupEvery": 3,
+    "scrapLifetime": 1.45,
+    "chunkLifetime": 1.3
+  },
+  "caps": {
+    "genericPieces": 40,
+    "actualChunks": 12,
+    "totalActivePieces": 52,
+    "ownedProceduralMeshes": 6
+  },
+  "warmup": "One generic burst in Awake; one additional burst or actual chunk set per eligible Update; no native Emit allocations.",
+  "actualPieces": "Explicit breakupTemplate overrides definition.breakupPrefab. Editor builder creates six static direct-child MeshFilter/MeshRenderer chunks using authored shared atlas. No runtime mesh bake.",
+  "pause": "Scaled pause freezes lifetime/motion. Focus loss or application pause clears stale pieces. A long active frame ages by its full finite scaled delta but integrates at most .05 seconds of motion.",
+  "cleanup": "Selection/retry/disable/mission reset clear. Victory preserves final short burst until normal expiry or explicit navigation. Owned pool root and six meshes destroyed at component teardown; shared meshes/materials retained.",
+  "cosmeticOnly": true,
+  "newAudio": false,
+  "nativeUnityVerified": false,
+  "tests": [
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    },
+    {
+      "project": "MissionRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "PlayerControlLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 44 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+    },
+    {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+    }
+  ],
+  "status": "PASS",
+  "version": "V19",
+  "caseSummary": [
+    "At most8 generic bursts×5 gears and2 actual chunk bursts×6chunks:52activepieces.",
+    "Pools warm incrementally; ordinary Emit performs no Instantiate/material/mesh allocation.",
+    "No runtime mesh bake, colliders or Rigidbody debris; cosmetic cached ballistics.",
+    "Retry/selection/disable/focus loss clear scrap; scaled pause freezes ages/motion.",
+    "Actual chunks share imported atlas, source pivots and immutable meshes; no hero changes."
+  ],
+  "broadResult": {
+    "projects": 51,
+    "passed": 51,
+    "source": "LogicTests.json"
+  },
+  "fileSHA256": {
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de",
+    "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf",
+    "Validation/RobotDeathEffectsTests/Program.cs": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781",
+    "Validation/RobotDeathEffectsTests/README.md": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b",
+    "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj": "4efe1fed998e48997aed5cc6053c43c6b7bc8ac3f1d38b45a8181514df55b116",
+    "Validation/RobotDeathEffectsTests/UnityFakes.cs": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463"
+  }
+}

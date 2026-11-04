@@ -29,6 +29,8 @@ MonoBehaviour:
   patrolRadius: 1.5
   idleSeconds: 1.1
   emergenceSeconds: 0.68
+  groundEmergenceSeconds: 0.95
+  hatchEmergenceSeconds: 1.05
   emergenceDepth: 1.48
   bodyMaterial: {fileID: 2100000, guid: 83dc6f75d0005b7187d27665ea11fecf, type: 2}
   detailMaterial: {fileID: 2100000, guid: 6628c933b7765ef384bdf1856109195f, type: 2}
@@ -38,3 +40,6 @@ MonoBehaviour:
   attackTrackingTurnSpeed: 900
   separationStrength: 0.9
   stuckRecoverySeconds: 0.4
+  visualPrefab: {fileID: 0}
+  breakupPrefab: {fileID: 0}
+  walkAnimationMetresPerSecond: 0.603

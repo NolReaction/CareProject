@@ -1,20 +1,20 @@
 {
   "status": "PASS",
-  "projects": 47,
-  "passed": 47,
-  "engine": ".NET8 and minimal Unity API doubles",
+  "projects": 51,
+  "passed": 51,
+  "engine": ".NET8 Roslyn compilation and production C# with narrow Unity API doubles; package core uses real temporary filesystem",
   "results": [
     {
       "project": "AnimationGroundingIntegrationTests",
       "compileExit": 0,
-      "compileOutput": "Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+      "compileOutput": "CareProject_V19/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
       "runExit": 0,
       "output": "PASS 5023 combined production GroundFeedback/Character restore assertions, 1000 frames, both disable orders, external pose and controller removal. Scene component registration checked from YAML; narrow Unity doubles, no engine execution.\n"
     },
     {
       "project": "AssetCatalogTests",
       "compileExit": 0,
-      "compileOutput": "Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(18,39): warning CS0649: Field 'IntercomAssetCatalog.Entry.destination' is never assigned to, and will always have its default value null\nAssets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(18,27): warning CS0649: Field 'IntercomAssetCatalog.Entry.legacyPath' is never assigned to, and will always have its default value null\nAssets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(15,96): warning CS0649: Field 'IntercomAssetCatalog.Registry.files' is never assigned to, and will always have its default value null\nAssets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(18,52): warning CS0649: Field 'IntercomAssetCatalog.Entry.guid' is never assigned to, and will always have its default value null\nAssets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(15,71): warning CS0649: Field 'IntercomAssetCatalog.Registry.revision' is never assigned to, and will always have its default value null\n",
+      "compileOutput": "CareProject_V19/Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(18,52): warning CS0649: Field 'IntercomAssetCatalog.Entry.guid' is never assigned to, and will always have its default value null\nCareProject_V19/Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(18,39): warning CS0649: Field 'IntercomAssetCatalog.Entry.destination' is never assigned to, and will always have its default value null\nCareProject_V19/Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(18,27): warning CS0649: Field 'IntercomAssetCatalog.Entry.legacyPath' is never assigned to, and will always have its default value null\nCareProject_V19/Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(15,71): warning CS0649: Field 'IntercomAssetCatalog.Registry.revision' is never assigned to, and will always have its default value null\nCareProject_V19/Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs(15,96): warning CS0649: Field 'IntercomAssetCatalog.Registry.files' is never assigned to, and will always have its default value null\n",
       "runExit": 0,
       "output": "PASS: 1095 production asset catalog checks in 7 groups; real registry implementation, filesystem Unity API stubs.\n"
     },
@@ -51,7 +51,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 316 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
     },
     {
       "project": "DirectionalLocomotionTests",
@@ -79,14 +79,14 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 14 real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.\n"
+      "output": "PASS 20 real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.\n"
     },
     {
       "project": "FrontEndRuntimeTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 34 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+      "output": "PASS 66 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
     },
     {
       "project": "GroundContactTests",
@@ -98,7 +98,7 @@
     {
       "project": "GroundFeedbackLifecycleTests",
       "compileExit": 0,
-      "compileOutput": "Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+      "compileOutput": "CareProject_V19/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
       "runExit": 0,
       "output": "V10 expressive torso peak-to-peak at60fps: walk=0.029850151m run=0.041363504m; actual production spring, not captured Unity.\nV11 chassis at30fps shoulder-yaw-range=4.0745516 -> 10.299561deg; additional brace=3.5deg\nV11 chassis at60fps shoulder-yaw-range=4.2229342 -> 10.67464deg; additional brace=3.5deg\nV11 chassis at120fps shoulder-yaw-range=4.2222795 -> 10.672983deg; additional brace=3.5deg\nGroundFeedback lifecycle and Motor ellipse: 46871 assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.\n"
     },
@@ -107,7 +107,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 931 safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.\n"
+      "output": "PASS 78998 safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.\n"
     },
     {
       "project": "InputCancellationTests",
@@ -128,7 +128,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Mission/rescue runtime: 848 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "MissionSceneRouteTests",
@@ -149,7 +149,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 202 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+      "output": "PASS 287 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
     },
     {
       "project": "MobileInputTests",
@@ -173,6 +173,13 @@
       "output": "NPC brain and melee geometry: 969 assertions passed. Pure production logic; no Unity physics or rendering.\n"
     },
     {
+      "project": "NpcNativeSetupTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC native setup: 88 assertions passed; actual editor builder and real backup files with narrow AssetDatabase/Prefab/AnimatorController stand-ins. Not native Unity import/serialization.\n"
+    },
+    {
       "project": "NpcNavigationTests",
       "compileExit": 0,
       "compileOutput": "",
@@ -184,7 +191,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 327 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "OcclusionLeaseTests",
@@ -203,9 +210,16 @@
     {
       "project": "OcclusionRuntimeTests",
       "compileExit": 0,
-      "compileOutput": "Validation/OcclusionRuntimeTests/UnityFakes.cs(150,89): warning CS0067: The event 'SceneManager.sceneLoaded' is never used\nValidation/OcclusionRuntimeTests/UnityFakes.cs(155,121): warning CS0067: The event 'RenderPipelineManager.beginCameraRendering' is never used\nValidation/OcclusionRuntimeTests/UnityFakes.cs(150,136): warning CS0067: The event 'SceneManager.sceneUnloaded' is never used\nValidation/OcclusionRuntimeTests/UnityFakes.cs(114,44): warning CS0067: The event 'Camera.onPreCull' is never used\nValidation/OcclusionRuntimeTests/UnityFakes.cs(162,30): warning CS0649: Field 'IntercomOcclusionFade.Epoch' is never assigned to, and will always have its default value 0\n",
+      "compileOutput": "CareProject_V19/Validation/OcclusionRuntimeTests/UnityFakes.cs(162,30): warning CS0649: Field 'IntercomOcclusionFade.Epoch' is never assigned to, and will always have its default value 0\nCareProject_V19/Validation/OcclusionRuntimeTests/UnityFakes.cs(150,136): warning CS0067: The event 'SceneManager.sceneUnloaded' is never used\nCareProject_V19/Validation/OcclusionRuntimeTests/UnityFakes.cs(155,121): warning CS0067: The event 'RenderPipelineManager.beginCameraRendering' is never used\nCareProject_V19/Validation/OcclusionRuntimeTests/UnityFakes.cs(114,44): warning CS0067: The event 'Camera.onPreCull' is never used\nCareProject_V19/Validation/OcclusionRuntimeTests/UnityFakes.cs(150,89): warning CS0067: The event 'SceneManager.sceneLoaded' is never used\n",
       "runExit": 0,
       "output": "PASS 27 camera integration assertions against Unity fakes. Complete production component compiled; not a Unity renderer or Play Mode test.\n"
+    },
+    {
+      "project": "PackageInstallerTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Package installer: 11 real filesystem scenarios, 55 assertions PASS. Production C#5-compatible transaction core; PowerShell/Windows GUI and Unity were not executed.\n"
     },
     {
       "project": "PerformanceCaptureTests",
@@ -240,7 +254,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 8 actual PlayerInput/GUI call-path cases, 23 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
+      "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS authored weapon portrait is passed through actual input HUD path\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 9 actual PlayerInput/GUI call-path cases, 24 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
     },
     {
       "project": "PlayerVitalityTests",
@@ -254,7 +268,14 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS tap waits for full raise, survives early release\nPASS held fire repeats only after interval\nPASS release does not invent another queued automatic shot\nPASS new tap during cooldown is queued\nPASS combat hold is counted from the latest shot\nPASS tap halfway down reverses and is not discarded\nPASS held trigger immediately interrupts lowering\nPASS large frame never creates a catch-up shot burst\nPASS paused time consumes neither queued request nor timers\nPASS reset clears queued shots and posture\nPASS external shot renews hold and requires raised weapons\nPASS rates 30/60/144 FPS all return to relaxed after one tap\nPASS V5 .18 second pistols keep their cadence at 30/60/120 FPS\nPASS tap after release starts a fresh cooldown without cadence debt\nPASS medium hitch cannot compress the next shot into a burst\nPASS ordinary frame jitter does not accumulate cadence drift\nPASS: 16 cases, 1874 assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8.\n"
+      "output": "PASS tap waits for full raise, survives early release\nPASS held fire repeats only after interval\nPASS release does not invent another queued automatic shot\nPASS new tap during cooldown is queued\nPASS combat hold is counted from the latest shot\nPASS tap halfway down reverses and is not discarded\nPASS held trigger immediately interrupts lowering\nPASS large frame never creates a catch-up shot burst\nPASS paused time consumes neither queued request nor timers\nPASS reset clears queued shots and posture\nPASS external shot renews hold and requires raised weapons\nPASS rates 30/60/144 FPS all return to relaxed after one tap\nPASS V5 .18 second pistols keep their cadence at 30/60/120 FPS\nPASS tap after release starts a fresh cooldown without cadence debt\nPASS medium hitch cannot compress the next shot into a burst\nPASS ordinary frame jitter does not accumulate cadence drift\nPASS: 16 cases, 1874 assertions. Production IntercomWeaponPoseClock in IntercomWeaponModel.cs executed on .NET 8.\n"
+    },
+    {
+      "project": "ProjectRepairTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Project repair diagnostics: 24 assertions PASS; production read-only disk policy, actual filesystem fixtures. No Unity Editor scene-repair execution.\n"
     },
     {
       "project": "ProjectStartupTests",
@@ -285,16 +306,23 @@
       "output": "Reactive props: 1275 assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
     },
     {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+    },
+    {
       "project": "RunningContactTests",
       "compileExit": 0,
-      "compileOutput": "Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+      "compileOutput": "CareProject_V19/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
       "runExit": 0,
       "output": "Running contact: 1136331 assertions, 432 measured cases. Flat floor 0.002999..0.003000m; mean slip baseline 0.16818 -> corrected 0.00002m/s; diagonal 0.50296->0.00002m/s; Body 0.05496m; calf 39.373deg; contact phase 0.109; cloud interpolation 0.001123m.\n"
     },
     {
       "project": "RunningWaistTests",
       "compileExit": 0,
-      "compileOutput": "Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+      "compileOutput": "CareProject_V19/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
       "runExit": 0,
       "output": "Running waist: 5400 production Motor/Ground assertions passed at30/60/120fps with narrow transform/engine stand-ins. No Unity animation playback claim.\n"
     },
@@ -322,7 +350,7 @@
     {
       "project": "TurningRigTests",
       "compileExit": 0,
-      "compileOutput": "Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+      "compileOutput": "CareProject_V19/Validation/GroundFeedbackLifecycleTests/UnityFakes.cs(63,267): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
       "runExit": 0,
       "output": "Quarter turn 30 FPS: 1.133 -> 0.833 seconds including final gather.\nQuarter turn 60 FPS: 1.117 -> 0.817 seconds including final gather.\nQuarter turn 120 FPS: 1.117 -> 0.817 seconds including final gather.\nTurn rig: 463762 assertions; random verified landings 2286; max Body offset 0.04943m; stance drift 5.97E-008m; wrapper/lower twist 35.001deg; final torso twist 34.118deg; max swing speed 3.138m/s; swing sole min 0.00081m; landing gap max 0.00300m. Real production transform math + measured Idle geometry, not Unity skinning/physics.\n"
     },
@@ -333,5 +361,9 @@
       "runExit": 0,
       "output": "Weapon foundation: 43 assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution.\n"
     }
-  ]
+  ],
+  "version": "V19",
+  "resultSource": "Validation/Results/V19/DirectResults.json",
+  "resultSourceSha256": "204430ec1dbeaa1c2ae3448e94a15abb238b62228b462fd9a8c4c456be78e040",
+  "limits": "No native Unity Editor, PhysX, shader, Animator/Play Mode, Windows PowerShell or device execution."
 }

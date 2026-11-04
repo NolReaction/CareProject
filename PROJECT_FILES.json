@@ -1,13 +1,13 @@
 {
-  "version": "CareProject V15",
+  "version": "CareProject V19",
   "files": {
     ".gitattributes": {
       "sha256": "1a1dbe176bc233b499d35a57db7513f2941c99ab9759f177830c9149be99005b",
       "bytes": 66
     },
     ".gitignore": {
-      "sha256": "c3adc81ce42c6484f69d76232520d0dba628c6c6d7588336d64ec1a9263ba3e3",
-      "bytes": 357
+      "sha256": "bcd093a3363a81e98b58b220a0c4f6f10aa26419889947ad51ff2b8c99d9a26e",
+      "bytes": 374
     },
     "Assets/DefaultVolumeProfile.asset": {
       "sha256": "70e9ed4656132bf185009cb47db521fdeece0b1f4d464a73cb9d0bd04fe3bda5",
@@ -514,24 +514,24 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchLid.mesh": {
-      "sha256": "04fbf63d2de91a2551b7d3bab640723d921e517eb540a029b992a2388e99a9f6",
-      "bytes": 53974
+      "sha256": "91c9ca097b540f0d0fd60b4b69b404eaba52ab624ead054b7a77f9d6c8090384",
+      "bytes": 53975
     },
     "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchLid.mesh.meta": {
       "sha256": "d5f0370606ae7e4e896627474a620b1ba9e79f360c7908478210c5655b5f64ba",
       "bytes": 185
     },
     "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchRim.mesh": {
-      "sha256": "f39a1cb22fcf8a8691b8ec10ec0952d0b58982a9f997c8adda3eb23365fb91ea",
-      "bytes": 60678
+      "sha256": "0db18b36eab315eb20af2cac76b6a75c748cbbc7ce4d90c99d7c6e19d3164d63",
+      "bytes": 60686
     },
     "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/HatchRim.mesh.meta": {
       "sha256": "b8f241092ca15f40dd1f7319b2eabf30635222cc6b281ad746ceac51032554c3",
       "bytes": 185
     },
     "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/SpawnWarningRing.mesh": {
-      "sha256": "962ce6bca8b724336ff990f5f46ea2010d220d505fcff70f802a0700837795e5",
-      "bytes": 9838
+      "sha256": "f5a3b674e4b64e47ccf9e07fe362a6b680d7b2f1e86d67c77caa4a7609d4b997",
+      "bytes": 9842
     },
     "Assets/IntercomMVP/Content/Enemies/Spawns/Meshes/SpawnWarningRing.mesh.meta": {
       "sha256": "7577d505accbc127b83371716ff31ad8956f59a6dd13bf1fd713ae58657cadae",
@@ -544,6 +544,14 @@
     "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials.meta": {
       "sha256": "ce3d1423b94fb5ce9b92be8abd936e2f200f55cec0a4f28bf061bafd2f5429d7",
       "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikAtlas.mat": {
+      "sha256": "e0e1b48f143611ebd92f98a4df99e4c079f4a178cfe57aaed4bbe29798ba903b",
+      "bytes": 3863
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikAtlas.mat.meta": {
+      "sha256": "1c886f91bb7ea0377974313b2e5cb71e17863bf1cea4a4b15bce35b226361bf5",
+      "bytes": 132
     },
     "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat": {
       "sha256": "ac962522d3e2d610139a5da8ed9f7bdf133f34dcac56e124f95d7f8417a209af",
@@ -561,6 +569,30 @@
       "sha256": "0231d9a1eb0a571d7799b3b0d27bfdd5982776e8268b134a728a35d503039df2",
       "bytes": 132
     },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikPop.mat": {
+      "sha256": "5b43e66db6f96811e01a4d7aad164e3c79da7b5d57ba28d17cebabe7098004da",
+      "bytes": 3824
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikPop.mat.meta": {
+      "sha256": "44cfd5737c96423186d9452cb1ae59111c6c56312c36174c2dbd66c2fd401b11",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrap.mat": {
+      "sha256": "da0edb2332278dc7afc717e8d6385110148a5d3add8c4e003b11a971da07a3d0",
+      "bytes": 3826
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrap.mat.meta": {
+      "sha256": "9595df9b36f2d722b995e0f467a1aef50aaa43b420eeeede91db001c7993c721",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrapInk.mat": {
+      "sha256": "c52179e3d281f33fab34ccd187ad6b034f8a2a63b7dca653c6b7a6de31c2e1b3",
+      "bytes": 3829
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikScrapInk.mat.meta": {
+      "sha256": "f738b07623a7143629f613e7e128eabdf54aa1dd7bf1572367b8e43f3f62d38a",
+      "bytes": 132
+    },
     "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikTelegraph.mat": {
       "sha256": "d58e7548e7aa971956d441cd7cc205cdfed73bfddb1f67fffb494f63fee8cb20",
       "bytes": 1936
@@ -569,17 +601,49 @@
       "sha256": "7bd5d648b6b7477547561f873ebf78f83f4ac5c0d46f56c406078b41c6e663a5",
       "bytes": 132
     },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model.meta": {
+      "sha256": "007347622bdf9eea54b4a1bdc9e1bbf4d509f1bac76ac848f6ccee92ff1b6f3f",
+      "bytes": 116
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx": {
+      "sha256": "f466b63845c3ccf30f5100f2be34c7db2c48da43a40c2be82d402ba6e4c018d1",
+      "bytes": 1616988
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx.meta": {
+      "sha256": "f9863909c7087ea7cc7be80e9415b172972a66d8246fb70463e8c367c867d4f0",
+      "bytes": 3091
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx": {
+      "sha256": "4a79a08c8d8b245fc92a39a487c5c2c751e5e389cfb8d3fe2361ac1fb13079c4",
+      "bytes": 246956
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx.meta": {
+      "sha256": "aea1a6b73901d11cd047a7c6223d940ec3d3d4d9c2fd1ed67716371cf736dfae",
+      "bytes": 3091
+    },
     "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings.meta": {
       "sha256": "a6a0864ca15e7c3848e724654f5164048b2f1083f36211656088c47cda5115f9",
       "bytes": 169
     },
     "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": {
-      "sha256": "2a95f406033bb8917b70ae6ebf393595278c81c91a9ec7b652adecfe5b069f58",
-      "bytes": 1234
+      "sha256": "bc5c688c32c0227c9e036a7f3d584c0a2d9a879a715a53f996e6503d6b7730fd",
+      "bytes": 1390
     },
     "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset.meta": {
       "sha256": "863b8da0817306d4b55a48869060f572807ad565794ec21210da603d864bdf7a",
       "bytes": 133
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures.meta": {
+      "sha256": "4e3803f3cf75339d0988a88791f159cab036523e0ed34519b53bcaa1c0dfded5",
+      "bytes": 116
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png": {
+      "sha256": "320cde2a62d837e5a43b35a66e3c5599e32e0c0ca59558b164413e5ab74264f1",
+      "bytes": 2666778
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png.meta": {
+      "sha256": "7610c5ff82fbb446b876c3785ff7b48ef383123ff2b6fbd3607578e3bc53b3e0",
+      "bytes": 4076
     },
     "Assets/IntercomMVP/Content/Environments.meta": {
       "sha256": "2460d1e4b1ce1cbdd4118314d9b9c73a0d5698d74ed49a2c8e11630cfeb9aa2a",
@@ -984,6 +1048,206 @@
     "Assets/IntercomMVP/Content/Frontend.meta": {
       "sha256": "b6a43ce7c69ce541a18aa0d2c6084a507058c1b0e169714c31a72af9cd9173c9",
       "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Frontend/Artwork.meta": {
+      "sha256": "09fae8d21691f4bd68017e059d79ba40921465178f94f4c19e77df93124e5bd4",
+      "bytes": 116
+    },
+    "Assets/IntercomMVP/Content/Frontend/Artwork/HomeDoodle.png": {
+      "sha256": "5ee0dce05099d1fc2b2e38be66b94fe21b520cd2fe55a056f4007f0c81e0d392",
+      "bytes": 2335285
+    },
+    "Assets/IntercomMVP/Content/Frontend/Artwork/HomeDoodle.png.meta": {
+      "sha256": "ef725a3b97c04b3b7ed711d6a52e2513ce5b4cf39a7a75e424b7174459b2317a",
+      "bytes": 4076
+    },
+    "Assets/IntercomMVP/Content/Frontend/Artwork/RescueDoodle.png": {
+      "sha256": "7baff1ad301c8e550167d01913f05bb43ed191b1978bf438438a38690da6232c",
+      "bytes": 1775963
+    },
+    "Assets/IntercomMVP/Content/Frontend/Artwork/RescueDoodle.png.meta": {
+      "sha256": "9bcc0f8f9c3744327924b64a8513f54be38940c380b26de1111c904122e6f6f3",
+      "bytes": 4076
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials.meta": {
+      "sha256": "3aebbcb6a80c7755fafe6b34651252e9fe45a9506b441ea1e5a5ff3b5e2fa097",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubBrass.mat": {
+      "sha256": "64e73a1fa524b60d81ec7a394e27e658673dc55ed631c1d083c3beb6806651b1",
+      "bytes": 3827
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubBrass.mat.meta": {
+      "sha256": "104482f0cfa3ba27bf48298a5d79dc742d9d32ff9b890055fa553aac824c8479",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubCushion.mat": {
+      "sha256": "f29948acd37b22ae9a47380271ae8d039dc9d63bebd0f224c334456cb4650811",
+      "bytes": 3833
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubCushion.mat.meta": {
+      "sha256": "ee1c2760fa1be2514152229a8ddbf74253ec5704ba336ff9fe75bd24c2c71c8d",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubFloor.mat": {
+      "sha256": "67f8b22544d992578b7be193bafda18a1a5101d75ab5bf4dc3c68c64a4948114",
+      "bytes": 3829
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubFloor.mat.meta": {
+      "sha256": "1c2e0e771cad47f1c3e0380911b1b5e29f2965514c70a26155a0b9629c3f50d8",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubPaper.mat": {
+      "sha256": "b1074207fd668b3649fe9c75b9dbc57053dd52cebbc8af9ec7d6b1f77503c170",
+      "bytes": 3829
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubPaper.mat.meta": {
+      "sha256": "05826b1c73f13dc7fa416e52da2b458436b1348e74337247bcf9cf980510f9cd",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubPlaster.mat": {
+      "sha256": "18bdf2b4257c776f78be94792a654f7ed5f99a5c418740f8cd7b9646c4d043cf",
+      "bytes": 3831
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubPlaster.mat.meta": {
+      "sha256": "2e62324bb8c1a13bd483a1ad78a750073fefa7b03939a766875ae9ade27002db",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubRust.mat": {
+      "sha256": "0004405f744455cbfa649ea579a6fd2888c4a638efe71c49eebb71025ba32335",
+      "bytes": 3827
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubRust.mat.meta": {
+      "sha256": "f31bcd24ff02ddb4bf0949dda9b9d0e7f129f8b029b3f1a79e69cedfbb99bd25",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubScreen.mat": {
+      "sha256": "e713d1f7280dc6f9563931bb263f0277808f83fdbb58524c52664ac1f0acf122",
+      "bytes": 3831
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubScreen.mat.meta": {
+      "sha256": "be534f46a75bb2bbb90a31f68a75314adad9a9ea8040674159c0b72e69268b57",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubTrim.mat": {
+      "sha256": "5b8806301c53ec764e4338e1c429de956ee07a0fb4022fe269b767678ecf56c6",
+      "bytes": 3825
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubTrim.mat.meta": {
+      "sha256": "99c27d0a76eaffb8fabbbbd3b2b5ef432ccfc642b797452c84839846ace4e987",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubWood.mat": {
+      "sha256": "8bb1647fc27a09727716d8e6cfd9630a0514afc10eaa7b5aff4e3d8bc0c7eb61",
+      "bytes": 3827
+    },
+    "Assets/IntercomMVP/Content/Frontend/Materials/HubWood.mat.meta": {
+      "sha256": "4b12c7fef701ad040057e8b5f264719d75b36085bb2fef3b83777e8d651c49e2",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes.meta": {
+      "sha256": "d2942b5a13df872f11c7f6060efbf27095c6c4ecfa3b8ee436a16c46e318b316",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubCoffeeTable.mesh": {
+      "sha256": "95959528ee09abe173286376be2457ea1f1502ad6f98f52d47f44b8afb16a09f",
+      "bytes": 47282
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubCoffeeTable.mesh.meta": {
+      "sha256": "c2d781f3fe7ea5da5305d8c3ddc11cef7272a694ab9106dc4e9c5e0143b32e40",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubDispatchBoard.mesh": {
+      "sha256": "b66f44bca3f77fd52dc318e0fb9195ff30f4a5e430b5c5858132178d4219ae06",
+      "bytes": 70610
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubDispatchBoard.mesh.meta": {
+      "sha256": "daac1ce055afe74ef1f94a5f332c81278aa656a4db2466671e2fe55e66e23546",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubLocker.mesh": {
+      "sha256": "3eccc220810638f238c8b7af0b2c10a803a0600a79bb01e853385b23c49fba72",
+      "bytes": 83694
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubLocker.mesh.meta": {
+      "sha256": "50445c5b60881717dbd88e1bdf6bd1eee83dce45e4ecf72aa856069c8d3f5054",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubPartsTrolley.mesh": {
+      "sha256": "bc57fccc9ac4689f762b9e69155f2b1e9a322cc894dd781e36eb62da8fa35967",
+      "bytes": 80069
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubPartsTrolley.mesh.meta": {
+      "sha256": "843ba4958d57b4a64a40bd2245ff9a7251bff007eaee7d47c39e89f114ed5b82",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubPlant.mesh": {
+      "sha256": "32921956b828a113f36b4ab9e756c7b2169ebb680501af60c6af4afb9120414d",
+      "bytes": 45954
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubPlant.mesh.meta": {
+      "sha256": "42065729520f249a1a022a5f8e69abde0b7c7b4f655b0ea9278cd4831f9f293d",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubRoomShell.mesh": {
+      "sha256": "36c3f08a2613e902548286728dd6706d4f56574e4099acc2d37321e4596bce58",
+      "bytes": 110988
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubRoomShell.mesh.meta": {
+      "sha256": "4398bbc66faac3021962d22139bf7ccf967d6176ffd13190758e5b1bb5db760e",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubServiceRobot.mesh": {
+      "sha256": "0f54c8fcd18b1b346c3b85cb3389bae667d8fe2cf3d024802041b27b291d11c8",
+      "bytes": 116332
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubServiceRobot.mesh.meta": {
+      "sha256": "a5c8e106701589081023ed517c86e86d20e92d51a5c2a78d6269b1709e4c0fd9",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubSofa.mesh": {
+      "sha256": "0eaa66bb530af0b6b25cb35a52ed0bb9c36012516e83b5d4695510eb1ebe53ef",
+      "bytes": 71139
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubSofa.mesh.meta": {
+      "sha256": "d517e39084f99f6304a490aeca27b25b92d7566a6989d38e46f823f4ef5f5701",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubTelevision.mesh": {
+      "sha256": "3aa384bf9e67ecf66eda91b92e4932d1df20f0b802d3123fa2ea53e25e76d1d2",
+      "bytes": 74438
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubTelevision.mesh.meta": {
+      "sha256": "b56bded71783c9e3a85b832546df7c75f4992f4e1f69a4f2266a644ee89e383c",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubWeaponBoard.mesh": {
+      "sha256": "a2d949a36e4f0ea4528357663ae11cd7caa9fc27e410930b796268b7b7ff9842",
+      "bytes": 83937
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubWeaponBoard.mesh.meta": {
+      "sha256": "244c679d0144214e6bca37f2e8bffcacfe04bf1e201e3cf99f2016c7f262be7a",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubWorkbench.mesh": {
+      "sha256": "eb6e867ce97e66ea53d534c546f8f358bb3aea4ec3c38aa06c242c6fcce0e4eb",
+      "bytes": 109579
+    },
+    "Assets/IntercomMVP/Content/Frontend/Meshes/HubWorkbench.mesh.meta": {
+      "sha256": "b21a7c27ada6894f1016d67ff701fc3a43a9c86e2ace5c6a64b59eb942d043ec",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Frontend/Shaders.meta": {
+      "sha256": "674b1155095adb1e859a843e8681b35928b4f565e5ba576d37805b4f94837906",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Frontend/Shaders/WorkshopPreview.shader": {
+      "sha256": "9ed0d008ad6c400c53b9dddd8f8d0faf1fbe6899f5b765351f2a85868c4860d0",
+      "bytes": 1625
+    },
+    "Assets/IntercomMVP/Content/Frontend/Shaders/WorkshopPreview.shader.meta": {
+      "sha256": "d4615df541dc073eec8d2d80a6c2982bae6e99f57f840f53a9deebbf67fc07a2",
+      "bytes": 179
     },
     "Assets/IntercomMVP/Content/Frontend/Textures.meta": {
       "sha256": "6d425ae078b4a088e9e0a1782855dd9c0b6260001d1674c878352f75ba590834",
@@ -1586,8 +1850,8 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Editor/Diagnostics/IntercomPerformanceTools.cs": {
-      "sha256": "7ce2d11bc195c6ad17cdc684e6bb38b3dcaccccb362004ccdf12cae81694bfe3",
-      "bytes": 1639
+      "sha256": "5d79b8c1121bf3b009802e5233d49cd19ab276422c5f94af8da140bcf37328ef",
+      "bytes": 1651
     },
     "Assets/IntercomMVP/Editor/Diagnostics/IntercomPerformanceTools.cs.meta": {
       "sha256": "8a202c24b1bcaf6cef2cfc29231e56d7fb4cf3b2ab195c9432a8744e1d500cd4",
@@ -1598,8 +1862,8 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": {
-      "sha256": "8c03ab330948de458675044caf26d95deb7398e4d045510ff24c470c39c17591",
-      "bytes": 10435
+      "sha256": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf",
+      "bytes": 30579
     },
     "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs.meta": {
       "sha256": "b8bbc9298883f94b0a6c19c4be8e4ce48e670a1af679ee37cf773082b154bade",
@@ -1610,8 +1874,8 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Editor/Platform/IntercomMobileSetup.cs": {
-      "sha256": "4507135d840144c21d021fb8744a386d32802b386102c30fb705fc5905ed0aaf",
-      "bytes": 11109
+      "sha256": "77e359c789ab4a6af5c25010e55cb103e1833c266b7ffd68f64686976148ed2e",
+      "bytes": 11565
     },
     "Assets/IntercomMVP/Editor/Platform/IntercomMobileSetup.cs.meta": {
       "sha256": "a945a8457ab2ce6e6cba5532846aa9080189e485849d12462c0af35dbd3418a3",
@@ -1622,8 +1886,8 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Editor/Player/IntercomCharacterAnimationSetup.cs": {
-      "sha256": "811271ead2918f2293b13f42f2d221cd4825b34bf9df9efc9f942db857cffa7c",
-      "bytes": 2600
+      "sha256": "883223a7b39fa2584d11b904f75686f1f4f4297af3727742596698c74a542494",
+      "bytes": 2638
     },
     "Assets/IntercomMVP/Editor/Player/IntercomCharacterAnimationSetup.cs.meta": {
       "sha256": "67118505d5e83ac936e046b8ef55493789f9f1bb3216cc06ba18192570ac3485",
@@ -1638,8 +1902,8 @@
       "bytes": 60
     },
     "Assets/IntercomMVP/Editor/Player/IntercomMovementSetup.cs": {
-      "sha256": "cb5777a000a6bd29f5f9bbe55aa03bff7bab5840e7020b51ab3ac05556feb705",
-      "bytes": 41602
+      "sha256": "f3b56c19c37f7bb50be025efd6f2373cb516bdac982b9a430a03c87cb8ff3b11",
+      "bytes": 41702
     },
     "Assets/IntercomMVP/Editor/Player/IntercomMovementSetup.cs.meta": {
       "sha256": "c7d5dbb9be444e8e391b24df5ea75665ad568d112a92750223ad6c4e77e27f91",
@@ -1682,24 +1946,24 @@
       "bytes": 60
     },
     "Assets/IntercomMVP/Editor/Project/IntercomMvpSceneBuilder.cs": {
-      "sha256": "340dc4869428ff626986ba5d7596fc77c995752677ad423d07092b93c0e46e77",
-      "bytes": 14736
+      "sha256": "ed640d6b4b6d7a90256ba5f4090bc6ebeadaf6dd0a946f88d4fb8f7afb44a87b",
+      "bytes": 5770
     },
     "Assets/IntercomMVP/Editor/Project/IntercomMvpSceneBuilder.cs.meta": {
       "sha256": "ab26b3f0da3db927f3eca364c2f54c752732fe282f6285fa2ebcf242d4391891",
       "bytes": 59
     },
     "Assets/IntercomMVP/Editor/Project/IntercomMvpSetupWindow.cs": {
-      "sha256": "e3c01fd284fcdcbedd854e843a8d394b05f3c2405d1cebad1f1cdad55bccfdfb",
-      "bytes": 4256
+      "sha256": "fe39cee91b05cdd2409b23dfb452391f5fcbdf4e2ca2055f550de7895949075d",
+      "bytes": 4281
     },
     "Assets/IntercomMVP/Editor/Project/IntercomMvpSetupWindow.cs.meta": {
       "sha256": "1720afd8bad0f934b50189dcf965eb7b0966d9bea2ff54a7b9d5203706d57491",
       "bytes": 59
     },
     "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs": {
-      "sha256": "9620dd8eec06166cb989da256779d7a009c5f2f50d76de855770d45915d2c5ca",
-      "bytes": 6124
+      "sha256": "8739b5e78c5b7d39d533614d0c909861b0a02f171545f6bbf446e26f5c460b1d",
+      "bytes": 7313
     },
     "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs.meta": {
       "sha256": "955c7e637570721b6c67d4369e2979d5dbdda887f34ba86016274d0a127a2a3e",
@@ -1713,6 +1977,14 @@
       "sha256": "54a205b5253d580af4831f32f46936c68e18630020081878bd9035e00731f549",
       "bytes": 240
     },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs": {
+      "sha256": "b8777919709221fb498df6e4ab4acc9762f5eb5d4e653ef288180360c00c375d",
+      "bytes": 26187
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs.meta": {
+      "sha256": "966920faac5ff59dce4f031376193352740a5436179040030e172eac193b173e",
+      "bytes": 60
+    },
     "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs": {
       "sha256": "edbafabba6aa0f2930461876aefd1262592525d614415ef826b0e6de0870013f",
       "bytes": 5631
@@ -1722,8 +1994,8 @@
       "bytes": 60
     },
     "Assets/IntercomMVP/Editor/Project/ProjectAssetsV13.json": {
-      "sha256": "5c36e4047f38e0c88017bfe756f6425665a55acc64fef7ca74bc9d4c3569c897",
-      "bytes": 67257
+      "sha256": "a23da2de4e6c8d2f5c2715313af89dbcb0aecaf97b9187024ea81bff1f203982",
+      "bytes": 72311
     },
     "Assets/IntercomMVP/Editor/Project/ProjectAssetsV13.json.meta": {
       "sha256": "2572eb8a04459f9c9e2d421b62933ebe8140def60077a0b8e44641b8abde8598",
@@ -1734,8 +2006,8 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Editor/Rendering/IntercomDaylightSetup.cs": {
-      "sha256": "ef1dc7fb12672ef2735ee3c0f9c490ea32216ee522802628eba72047cb4a203a",
-      "bytes": 7275
+      "sha256": "831faf95947de65ebacdc797dc89c7bdc79ab9e8794eb4138c20c151ba2bb425",
+      "bytes": 7331
     },
     "Assets/IntercomMVP/Editor/Rendering/IntercomDaylightSetup.cs.meta": {
       "sha256": "f40f6304429299691296262404ea7a57b536c42e69b6f230bddf82c09531f966",
@@ -1801,20 +2073,20 @@
       "sha256": "12758fc016598d6d5a4b3bd9b3879c7aadff868bcb752ff55d7295162adc74dd",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs": {
-      "sha256": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
-      "bytes": 945
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs.meta": {
-      "sha256": "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e",
-      "bytes": 60
-    },
     "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs": {
       "sha256": "9bbc603d8a5e63381b6007fbd6ec9323474c93648db2b7e420f448f43b4fc26a",
       "bytes": 2092
     },
     "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs.meta": {
       "sha256": "73c0578c67de02fa87e5ef139680b0395f6995a18ed7870165ad4b63b1e0381b",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs": {
+      "sha256": "993d0130def4df0f4efc2c1032cf014a7a258049f886affc980237f04121e017",
+      "bytes": 1969
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs.meta": {
+      "sha256": "e765469a7ea5dd8d774e88a2d755cb2038bd4861800c9a2a55c5c205cedb67c5",
       "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomSimpleShooter.cs": {
@@ -1833,41 +2105,9 @@
       "sha256": "2fa6122cb23a492c138dc89f2178dbd69fa3509a6ed245a225e88b6f1524c0ed",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs": {
-      "sha256": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c",
-      "bytes": 862
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs.meta": {
-      "sha256": "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924",
-      "bytes": 60
-    },
     "Assets/IntercomMVP/Runtime/Combat/Weapons.meta": {
       "sha256": "b146edfb65640fe3f17aa036241027aa14f89ab53888d461b2ce5eeaa3464c1a",
       "bytes": 169
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs": {
-      "sha256": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
-      "bytes": 2149
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs.meta": {
-      "sha256": "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e",
-      "bytes": 243
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs": {
-      "sha256": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
-      "bytes": 895
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs.meta": {
-      "sha256": "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2",
-      "bytes": 243
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs": {
-      "sha256": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707",
-      "bytes": 2309
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs.meta": {
-      "sha256": "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43",
-      "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs": {
       "sha256": "8b856c52b3cd0bfec37c95550a82d9579190ea8b0fba551412c51b3acd845401",
@@ -1885,20 +2125,20 @@
       "sha256": "f074da2b8f182d8d40c8aff0a857b556879c7422ab0a711ad1590c79955d3b99",
       "bytes": 243
     },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs": {
+      "sha256": "05f9366298a6702d3d26227d6a2358b3c0a64d6fc78dadef27616ae5151744e8",
+      "bytes": 11356
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs.meta": {
+      "sha256": "8beae6d9e946918d8d7ec8e027af2e12dce6f3ad824f3f57f7eec969d27115ba",
+      "bytes": 60
+    },
     "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPose.cs": {
       "sha256": "64d2f233a8709755a046bf0df8d418cc4a272219ca8334fa20ef4e549368becb",
       "bytes": 14386
     },
     "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPose.cs.meta": {
       "sha256": "9d2b0dbf2081b040b0fe7e26f5ba0bf098a11f607de91eaf640cfe40e7610a3d",
-      "bytes": 59
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs": {
-      "sha256": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
-      "bytes": 5825
-    },
-    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs.meta": {
-      "sha256": "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6",
       "bytes": 59
     },
     "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseProfile.cs": {
@@ -1946,32 +2186,32 @@
       "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": {
-      "sha256": "d7c67215c769a04d0b126e6e5966b482930d15264e6be87ff88799628288161d",
-      "bytes": 6188
+      "sha256": "815be144cc5d18df00db83078680e9f73839e057fbc88935cdd9cdc2b55bcc6f",
+      "bytes": 6311
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs.meta": {
       "sha256": "7ce385668b032bc7427a7d0b5e89bd04613dda9c7c3730b4e56fb2ac76bba420",
       "bytes": 240
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": {
-      "sha256": "5c81477c8eb1f39c33b0cb1ee67701958382669b7f872e61531a9a157715c25b",
-      "bytes": 33455
+      "sha256": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc",
+      "bytes": 37163
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs.meta": {
       "sha256": "9c88f465232e16fd1cf23533cb5bb5a06aa0259cb6072fd6b671a8a4c6df7645",
       "bytes": 240
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": {
-      "sha256": "50a5fe166f08de66c805e831ac221134f490be0e28cd4412b93e07c376380a9c",
-      "bytes": 2239
+      "sha256": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f",
+      "bytes": 2577
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs.meta": {
       "sha256": "2fa7d23ec5ec5204ceb96e244f729134e6caef7fa55c5c8711b39c944f07c931",
       "bytes": 240
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": {
-      "sha256": "9a1534ca1bbd98a440c031648201d8848fd8bf429c8f25dea9ce8a9e22c269af",
-      "bytes": 7968
+      "sha256": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e",
+      "bytes": 18648
     },
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs.meta": {
       "sha256": "c797b2bcd57e6208a3ebb86dda428cf31d0b9c6b61b54064101758906198479b",
@@ -1997,13 +2237,25 @@
       "sha256": "c948b86aab5fc8751b04848bbb7fc0ef888d4e937fc2d4b1af3e53e46842f641",
       "bytes": 243
     },
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation.meta": {
+      "sha256": "d6f30d5fdfb6e69b5ea7c83f9f3ca2b749ecaf919481e4a483b3c237e7fa24d9",
+      "bytes": 116
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": {
+      "sha256": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106",
+      "bytes": 21126
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs.meta": {
+      "sha256": "775e2c4cbacdb79b3a5b69e5a47a5da8c20238e1a47958822510efa81e06d171",
+      "bytes": 240
+    },
     "Assets/IntercomMVP/Runtime/Enemies/Spawning.meta": {
       "sha256": "ff8c62ae3e0ba7d24ebef2c0d64030195d003b377ba5e6fc2281d30284bce385",
       "bytes": 172
     },
     "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs": {
-      "sha256": "02d630b0b332ce6a36cfcb384532d0afd4a2ff5874510b4ec3c02a9a63de8151",
-      "bytes": 3705
+      "sha256": "c945e7366ffc27701560552e44ceebc0a35448ed9781428009328f3edd187168",
+      "bytes": 3964
     },
     "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs.meta": {
       "sha256": "6ea81f900bcda4ddc92f3b5741ca87edcc17d85dac5ab7f88cbf1a05e9b8936d",
@@ -2022,40 +2274,32 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs": {
-      "sha256": "4c9447b72ad72b8591a2271b4fb6e42cb7a68c6b61243f1183e77ab983220385",
-      "bytes": 6925
+      "sha256": "ea5a796d9d3f39976055ba22a9f268855a2483c51bbaefad3816e20431b4e42c",
+      "bytes": 7855
     },
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs.meta": {
       "sha256": "f176ff4c6da83a362a83fcd4a821e3b2e9b13d913d73f58f9f637bb758a70299",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs": {
-      "sha256": "41d6ec80ff63ee0163d1fd606d8744dbd0f6819f4cd2ff8f325ada3c87617510",
-      "bytes": 6739
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs": {
+      "sha256": "2476e42df3cddb30e74d0ab73faadc994784dd00fa51dd4c8ee28a68cc7729b6",
+      "bytes": 7837
     },
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs.meta": {
-      "sha256": "e1aabc6bff1339e39bb93e228b0144017e50ba3bad287e31fd3479eb960bf062",
-      "bytes": 240
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs.meta": {
+      "sha256": "e9b6938cf39070c69b66546c48d94522872e85c3ee7a592a521fefb436f9b31a",
+      "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs": {
-      "sha256": "29ea460616430253f394ac823caea675ea68d4a75aa7713b47817c15a13b83a6",
-      "bytes": 3341
+      "sha256": "98d1cfce87a465f386378f7d1c82bfe485e26c05be56450feb091377703abee4",
+      "bytes": 4118
     },
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs.meta": {
       "sha256": "2afce3a3398fa24b8cbb9e4d3d803e3112e086a9b56e3ee12597c3ddf88a5af1",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs": {
-      "sha256": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4",
-      "bytes": 875
-    },
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs.meta": {
-      "sha256": "074f3ab956337e6272c00faf97833118d232c74390fa036dc221d29752520709",
-      "bytes": 240
-    },
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs": {
-      "sha256": "cb30b579c8ecd4bb5d83ebfad21f0db3393aa94252d99d5c87d239c9877e7e54",
-      "bytes": 19953
+      "sha256": "fcd317e2f5f8a31ba8cd157c66a1cae34d869b481caacec06e1f0f82cbcff509",
+      "bytes": 22801
     },
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs.meta": {
       "sha256": "57ab0f0ee0a21e92165b18b55d41d0a62b22087443bfdf851ef2f6b67008126d",
@@ -2074,8 +2318,8 @@
       "bytes": 243
     },
     "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": {
-      "sha256": "5861320eb2926fcfd88caa95edcc146942a3ba22905154a304de9c2c0b854a6a",
-      "bytes": 35195
+      "sha256": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de",
+      "bytes": 38963
     },
     "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs.meta": {
       "sha256": "ff836dfdced4e8d2a1a04ca1fc02fb3b00ade76256a9dd577d2b9660a3254ebb",
@@ -2090,8 +2334,8 @@
       "bytes": 243
     },
     "Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs": {
-      "sha256": "b9c7d31a6316d708c15acc53346ebddcd68689872c187f858500e1cac7478467",
-      "bytes": 11679
+      "sha256": "94adc07c72a407fa9e888322c121308e4f8f90a2b5f1478b0ea178d9d50ecc9e",
+      "bytes": 11753
     },
     "Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs.meta": {
       "sha256": "77640e26c7a85d6019e791561c279edfce936024e05cefcb52f6154064e444c6",
@@ -2213,28 +2457,20 @@
       "sha256": "0a31871f19c2ab71dc61f72b57f83b5908292effd71e7565bce83b17478209ca",
       "bytes": 169
     },
-    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs": {
-      "sha256": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
-      "bytes": 835
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs": {
+      "sha256": "41d8de53cc85cd210ab10045396a047fa47d9c2590ca570cdf0e6bb0156f5d9c",
+      "bytes": 6886
     },
-    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs.meta": {
-      "sha256": "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3",
-      "bytes": 59
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs.meta": {
+      "sha256": "10aea72b37671d1d161f70479819f582ab9941608b7273b04a94bbd6f47f83b1",
+      "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs": {
-      "sha256": "2e5caba666359d5414e94eb368cb12b19475e820cf0b6b55e4bfab064679a7a4",
-      "bytes": 24725
+      "sha256": "8e2f9ec4191754f7bbecd4979fb59a4102ee847a1092fbb1a505bf1c6820a8dd",
+      "bytes": 30492
     },
     "Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs.meta": {
       "sha256": "65afb64dac1b2291acf33f59a420248571bea3cf4ec96c189adb69f28f40546f",
-      "bytes": 59
-    },
-    "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs": {
-      "sha256": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
-      "bytes": 5888
-    },
-    "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs.meta": {
-      "sha256": "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881",
       "bytes": 59
     },
     "Assets/IntercomMVP/Runtime/Player/Life.meta": {
@@ -2285,28 +2521,20 @@
       "sha256": "f14eddc8efcc12702a90820355a89c407538c2b226caa07cb0b168b416d5847d",
       "bytes": 169
     },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs": {
+      "sha256": "cec1a7b779c8071239498ce9704b728eddec6ae91c01f7f724ae910ccc462493",
+      "bytes": 4517
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs.meta": {
+      "sha256": "ba097d8b4c9077bc2567a39412f2c1b6fb8de691fe2a7a87ddd0c3a29cd7688e",
+      "bytes": 60
+    },
     "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioProfile.cs": {
       "sha256": "46f6a8f244a86d94de323c036c7fa78b5b408a7c92876294ae747a3b44261995",
       "bytes": 3339
     },
     "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioProfile.cs.meta": {
       "sha256": "61f64d0f79f09cdd3741ddb6ef863e5e488cdc3d4083cc0e66673992f45d32bd",
-      "bytes": 60
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs": {
-      "sha256": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
-      "bytes": 1379
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs.meta": {
-      "sha256": "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb",
-      "bytes": 60
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs": {
-      "sha256": "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626",
-      "bytes": 2997
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs.meta": {
-      "sha256": "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11",
       "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomPlayerAudio.cs": {
@@ -2365,28 +2593,12 @@
       "sha256": "ff689ecb217bf21c6901d76f4f807f56cfb2ac1a9cf84706e04e0e11e153fb9b",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs": {
-      "sha256": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
-      "bytes": 7009
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs": {
+      "sha256": "028cf864bf85c2db2ca8c822cab21206c61e6dd70532f6768d8856cfb3baad95",
+      "bytes": 12651
     },
-    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs.meta": {
-      "sha256": "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8",
-      "bytes": 60
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs": {
-      "sha256": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7",
-      "bytes": 4096
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs.meta": {
-      "sha256": "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11",
-      "bytes": 59
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs": {
-      "sha256": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
-      "bytes": 1389
-    },
-    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs.meta": {
-      "sha256": "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d",
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs.meta": {
+      "sha256": "785f0ac2715d345e8fde1d2d047fe543a2d9ed900555eecf55c45d3b1912044d",
       "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/Presentation/UI.meta": {
@@ -2394,16 +2606,16 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs": {
-      "sha256": "c3bd8ce5425b48048f25aefc96ebe18026d83cf849954eab50fcdbed54faa12f",
-      "bytes": 6590
+      "sha256": "9cd9adec23ebd9d502ca299890baaf161b6debce064e8f470b18591acd3227e3",
+      "bytes": 8992
     },
     "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs.meta": {
       "sha256": "b174dc4942a852fc55cafb3cb39429a7d6c2c003ded2dd8324f43b64f300627a",
       "bytes": 243
     },
     "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs": {
-      "sha256": "150afa4a447319bca8752adfceee6adcbefee8a3a683de7df95cd0411ee55a0a",
-      "bytes": 20104
+      "sha256": "4e364cd22be6c55cc29b5106ef29d92c4ca649d4fd04d443ff838f951d0747ac",
+      "bytes": 28419
     },
     "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs.meta": {
       "sha256": "1b35c41c7580a0c89aed9065d7cc256a8dc9a6d6fba53dcf2df2f4f6dd56be15",
@@ -2433,21 +2645,13 @@
       "sha256": "6c9e47b378a3ce7925d97e109819b3bf3f677dbbe609ed920d0c75cca2e27269",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs": {
-      "sha256": "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
-      "bytes": 968
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs": {
+      "sha256": "10490df1a01bebd7764a557b1cf2ca2f5be3d1281c09fc61a71ca5dbef5d53ed",
+      "bytes": 1306
     },
-    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs.meta": {
-      "sha256": "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576",
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs.meta": {
+      "sha256": "e71a59b323ec22939bf78f65ec1bae672646c60154a19e1318b0276da48165a5",
       "bytes": 60
-    },
-    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs": {
-      "sha256": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e",
-      "bytes": 190
-    },
-    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs.meta": {
-      "sha256": "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06",
-      "bytes": 243
     },
     "Assets/IntercomMVP/Runtime/Shared/Surfaces.meta": {
       "sha256": "f9e1ba97f134d46d8463d043f696ac85b67da1568bbd0e183f87820a4d6bcd99",
@@ -2489,14 +2693,6 @@
       "sha256": "78e2bc999dddf0b4d01bab850512362786e0d98c509e6a983e34e8cd092d2bc1",
       "bytes": 169
     },
-    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs": {
-      "sha256": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61",
-      "bytes": 1227
-    },
-    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs.meta": {
-      "sha256": "afbfff9285b811ca1caebac5e5c2f28c131e62e5546f0532ebf91147a2cfae77",
-      "bytes": 60
-    },
     "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs": {
       "sha256": "73bbaec0a1f740cb0f8403cdde1b98bc49ce240d16ff13a4566110704a1558d6",
       "bytes": 2862
@@ -2505,12 +2701,12 @@
       "sha256": "8119c59e05cd4e569e66230ae7a1bde01037587bdf9626a93b9ba92e70c33552",
       "bytes": 60
     },
-    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs": {
-      "sha256": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d",
-      "bytes": 2603
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs": {
+      "sha256": "49ac6a2278bc06c4be5fd06df2629c2e909a33eab734a40d3b212dd8fa771cc5",
+      "bytes": 3971
     },
-    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs.meta": {
-      "sha256": "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs.meta": {
+      "sha256": "ad577b885db6b122c8521dbc4c736fe266b40cf11d413f35ebf6c8f9f8724491",
       "bytes": 60
     },
     "Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs": {
@@ -2538,8 +2734,8 @@
       "bytes": 169
     },
     "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": {
-      "sha256": "fa04707d509475c0b2f20ea1dd8730c76244e405413305191cbea1ad8f8dbd6c",
-      "bytes": 653066
+      "sha256": "4432d0d31a986d666861da44c5f99bbe9622279b0f18d0b039ab45e65df9a53a",
+      "bytes": 710599
     },
     "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity.meta": {
       "sha256": "c20e8a920d7db69f58300269f57a8a7bf40c28509b65837cee5b9edd56533cb3",
@@ -2621,53 +2817,77 @@
       "sha256": "24873b15a9953a413a45c419480e9d66e24932d49c80220fb392ef626725b8ad",
       "bytes": 189
     },
+    "BlenderTools/AnimateUdarnik.py": {
+      "sha256": "d56b6f104eee62f3ae2c04548f7dfea53052f19ef68ebd4bb90c391e4b4eab2b",
+      "bytes": 21506
+    },
     "BlenderTools/Export_To_Unity.py": {
       "sha256": "e93237a3d6c418ccc4c97b389530611ebd9eb5201a79faafa4a18d426e741fab",
       "bytes": 5821
+    },
+    "BlenderTools/PrepareUdarnik.py": {
+      "sha256": "2c77761349e0e1cb9e2249d1fa0735bb9e8a8355f47bf3996faa2b282e079e52",
+      "bytes": 489
     },
     "BlenderTools/PreviewRun.py": {
       "sha256": "bd8c03173d7caac147853063073c9b5e4479d430f6b9ec2aacc169885a6a8c26",
       "bytes": 2344
     },
+    "BlenderTools/RepairUdarnik.py": {
+      "sha256": "e194ab92c65ee7e78bdfad1a942f958268e536698253dbadb4ab708509de3216",
+      "bytes": 14515
+    },
     "BlenderTools/ValidateRun.py": {
       "sha256": "dcd3d9460ec9b58362b4f22b3903249b44f4d11511c1c91994f9dc7f4ce18438",
       "bytes": 4949
+    },
+    "BlenderTools/ValidateUdarnik.py": {
+      "sha256": "38af665f741e98d12c955c5dd1c5eded5d298d5b530f53e579b910b71473cfa2",
+      "bytes": 8034
+    },
+    "BlenderTools/ValidateUdarnikFbx.py": {
+      "sha256": "383b7de4eb74bf9161d7dcea7f4f2db7f70f671500980a219ec156ca81845f9f",
+      "bytes": 6158
     },
     "BlenderTools/ValidateWaist.py": {
       "sha256": "2d4683998fcb827a42dcae5152f5c3a3e6d912189c6d982fb2e995a2a5aa1e41",
       "bytes": 2278
     },
     "Docs/Architecture.md": {
-      "sha256": "f21638e6e24e8cb9d3cc9795aa34b0776872ad42eb656a372d5c4085a0f3379a",
-      "bytes": 17132
+      "sha256": "ace34e97708b952f97872dd978c90a290e0e7112e14984ef34919653ec70dda5",
+      "bytes": 24474
     },
     "Docs/ArtDirection.md": {
-      "sha256": "262d0427c7d2cd65ecd8dfa20061b1668154ce62d56c25eb2865988743ae7f75",
-      "bytes": 4386
+      "sha256": "6f3c71575e8f6ad71d0abd7ca1f2dd255d3010b8c7af3d735ef889a23e362244",
+      "bytes": 9275
     },
     "Docs/DeveloperGuide.md": {
-      "sha256": "78147d84c7870c27e80817b74d3e0d03b577030a86ca04760f67638ecf940c8e",
-      "bytes": 20212
+      "sha256": "4b942e5bdb01675055f7ca775b0f81d96cc7338d222fb00fe0a82117b796e2c4",
+      "bytes": 33713
     },
     "Docs/Gameplay.md": {
-      "sha256": "ff478d4caa1303ef449efdae0517aede9f5f314b8e6acde5edce0d2819f8dbae",
-      "bytes": 8125
+      "sha256": "5f9436cb00fa8c1ed8659123380c01bd007dd9b2a3da024133c76764e3f9c544",
+      "bytes": 14091
+    },
+    "Docs/HUD_Preview.jpg": {
+      "sha256": "210eec7310cb490810694c128c7351accd047846afa6e942eb27b56cfe46ec0e",
+      "bytes": 37433
     },
     "Docs/Menu_Preview.jpg": {
-      "sha256": "a0c6a972a7b101bd2327cb726d5428ef13432e903dc9ef56119d0641a490f868",
-      "bytes": 163022
+      "sha256": "e1bddd2369bd7d79e9d84688b42daa8dcf6e0a0268ffbaca8b800d8cef94d354",
+      "bytes": 203806
     },
     "Docs/ProjectNavigator.md": {
-      "sha256": "fbef71fca03f1918b4bee6238611fa6dd55a53e6e18cd012f291ed2dcfc31709",
-      "bytes": 2851
+      "sha256": "170f476f9b458ea833d07a0639ced279f5cb327d5dcba6efa197a2fc98245ae6",
+      "bytes": 7654
     },
     "Docs/Robot_Run_Poses.jpg": {
       "sha256": "2a4963016863bd66278de06250be3d4e5d72f3396b0b7d78309f93fa6029113c",
       "bytes": 246605
     },
     "MOBILE_TESTING.md": {
-      "sha256": "1f8392c8dc214a49ec803a7846b55ce04e30d8cd9e46522631397eebcf7d3933",
-      "bytes": 8709
+      "sha256": "c8d7bab28664d2873a9d4ec39433d347aa959f96a0cf874a878982611b967caa",
+      "bytes": 15646
     },
     "Packages/manifest.json": {
       "sha256": "d31cb896735fb2e3097b078192d76215f3518ff112e5faf6b7ce6d81520ade75",
@@ -2738,8 +2958,8 @@
       "bytes": 146
     },
     "ProjectSettings/ProjectSettings.asset": {
-      "sha256": "6757c7ff50ba0ba05e927cc962b192de5e391a1eeb966d9318cea299327a9749",
-      "bytes": 24167
+      "sha256": "5f3618a72ce2ec9a48e4e331aa6237f9f8aef163cd0428c2c85f7d9a341df1a4",
+      "bytes": 24169
     },
     "ProjectSettings/ProjectVersion.txt": {
       "sha256": "1ba9ef2a17d110f732474ce61ba26e26395986dfcd828200cb53f29cab2c944c",
@@ -2758,8 +2978,8 @@
       "bytes": 633
     },
     "ProjectSettings/TagManager.asset": {
-      "sha256": "da4b5eefc927f8b91bcf9e56a186d2b852f49d9cbe91d466638d26c79d6a83ce",
-      "bytes": 411
+      "sha256": "c348fdec841a85d20cf9c0953499830ed258a7cc0af12ca8a444cdb8037aa898",
+      "bytes": 422
     },
     "ProjectSettings/TimeManager.asset": {
       "sha256": "3396f52fdc16d445024e01d7a2d99db6f0a37569d1d73c0302e9ffb857d90287",
@@ -2782,12 +3002,20 @@
       "bytes": 172
     },
     "README.md": {
-      "sha256": "fa13f941eebb45a3046e3af60b0db1d2cc634b62e04c30566420d5ebf13427e5",
-      "bytes": 4887
+      "sha256": "68bbae3984a820179c1934b74deba75462f9ddef6b123795d6c7db50e68f143c",
+      "bytes": 10618
+    },
+    "RepairProject.cmd": {
+      "sha256": "493b8a2afb2962bda5b1e22ecf731e36236c3cc2a62b54be6f0af4fea9e6750a",
+      "bytes": 267
+    },
+    "RepairProject.ps1": {
+      "sha256": "1469cae7c5b51dec32f494517adebca89f4f38141597820f058f8c26cf5311f4",
+      "bytes": 9130
     },
     "START_HERE.md": {
-      "sha256": "872566d2ea03ce56a8f7898c3fc8b73b6dda111c8319ccdf7a1c44f6227cde5f",
-      "bytes": 6117
+      "sha256": "6ff0be696432dc4a3005da3a39b416c63efa229763645646900be445a9865cbd",
+      "bytes": 13400
     },
     "Source/Audio/1911_near_1.flac": {
       "sha256": "01b810fc34cf98131faf3af133a6d02263f6e06ad2c4fed2e9b73cf6f11a7cb8",
@@ -2989,6 +3217,38 @@
       "sha256": "0a001a008f52f4579fa3c095430ae69d6f4db75816767d51e0a665747ae84f0d",
       "bytes": 34857
     },
+    "Source/Enemies/Udarnik/Breakup_Preview.jpg": {
+      "sha256": "e40f59ce1b00e7a30e7630a46d1fda1a583b4ac824857fe5c3b1ec06a9542c17",
+      "bytes": 149639
+    },
+    "Source/Enemies/Udarnik/Geometry_Notes.md": {
+      "sha256": "d0c6645357f8b5a68cc7f9bdd55f6e7cd896ac79cd5db12bc073734ce749ffb7",
+      "bytes": 4765
+    },
+    "Source/Enemies/Udarnik/Original.glb": {
+      "sha256": "b5df680278091fef2ed954325075935ec1e2cac499faa15376ca9160857eb77e",
+      "bytes": 1072228
+    },
+    "Source/Enemies/Udarnik/Poses_Preview.jpg": {
+      "sha256": "bd8037246000015793fc9e0657d3f791a760595b818ed212fe73f9b6be564724",
+      "bytes": 231592
+    },
+    "Source/Enemies/Udarnik/README.md": {
+      "sha256": "8b5d72af7b90041c019066e6987f683088f63d596018ba0be5a8a703e5954994",
+      "bytes": 6737
+    },
+    "Source/Enemies/Udarnik/Seam_Repair_Comparison.jpg": {
+      "sha256": "249a12f787f403c94500352c3e41c2098855bd0b7f05e3f5b27786ea8b633060",
+      "bytes": 126705
+    },
+    "Source/Enemies/Udarnik/Udarnik_Rigged.blend": {
+      "sha256": "f911f28733f35c590348c4bd4f0f7602747ba77101815c244e6bd4f95c28eb32",
+      "bytes": 3501727
+    },
+    "Source/Frontend/ArtPrompts.json": {
+      "sha256": "6b19a1897eb456d4f0a582fb52bdf5ad9a06b3471161d543a9680e5b3d7e1cea",
+      "bytes": 4519
+    },
     "Source/Robot/README.md": {
       "sha256": "8e3923e32f6066ec17324fb8a46aa997689dc269ccce8eeddda82e13b0130ac5",
       "bytes": 4440
@@ -3013,17 +3273,21 @@
       "sha256": "066a81545278409361755613cd1ddc9fc92bd8190edd7cafb3d2aef1f22dd275",
       "bytes": 669
     },
+    "Tools/BuildMenuHub.py": {
+      "sha256": "9a23d4c27cb2a88d4f1486e2505a67eac594d09267f71bc4a285f118fadb0ce1",
+      "bytes": 15610
+    },
     "Tools/BuildSpawnHatches.py": {
-      "sha256": "3c9dd5e2c1cafe753753e2f5e6246893c9b51396303b950b2d2a35d8aa3fb423",
-      "bytes": 1734
+      "sha256": "b4ca592211f2f26f9bd230fda49d5fca23e484db0ac1a18c9eb618b2bc68175f",
+      "bytes": 2265
     },
     "Tools/BuildTutorialDistrict.py": {
       "sha256": "d811de92af327e93af232adf6e5eff84f57ea3e6cce82c29140cc1e0cfb48b85",
       "bytes": 47705
     },
     "Tools/ConfigureGameplay.py": {
-      "sha256": "7b62eb1e4897cabfab35ad4cf0a24fd51971b9bfd4fe701f4152bffaf0e106a9",
-      "bytes": 7426
+      "sha256": "c4c7389d4c1f56579cf1a23b4bd2e3ad5ea774a54b484793c22f5cffd0685871",
+      "bytes": 8522
     },
     "Tools/GenerateCombatAudio.py": {
       "sha256": "1335f9972e4e98996c21face15a1f7691d6740ebc1682e0150e5600241df9a3e",
@@ -3049,9 +3313,29 @@
       "sha256": "e113281149b6d46ce5906a1849af1b1455fd9de2daa7aa6f96b7a0815e9a9a68",
       "bytes": 5560
     },
+    "Tools/Project/KnownScriptsV18.json": {
+      "sha256": "97e3589b3fff6d2486f9c2591907a15cc19ea8e047405cb28e983697a6952ef3",
+      "bytes": 39731
+    },
+    "Tools/Project/KnownScriptsV19.json": {
+      "sha256": "f57e80b8555c78bd52577ea7bf0196bbdb3407e9d7950b970974b45fde638617",
+      "bytes": 40678
+    },
+    "Tools/Project/PackageInstaller.cs": {
+      "sha256": "b5c03032a2b285ec6f0c1c8caa7571b8eb0776be1275d81d97988d1b68110459",
+      "bytes": 22657
+    },
+    "Tools/Project/README.md": {
+      "sha256": "4854cb704a93dba66099bfbfe5ecfee91ab82a5f56254d79f53d132d13bac0a8",
+      "bytes": 2133
+    },
     "Tools/RenderTutorialDistrict.py": {
       "sha256": "c0799dd58e56ca246c0e75e0bf26d06852225d48868eaf9a11ef20270271ec67",
       "bytes": 6406
+    },
+    "Tools/RetirementManifestV18.json": {
+      "sha256": "41eeff3e8ab7efd9a3765ca80c6897fc5fb8c8071402c87b50c7041cc2f6afdf",
+      "bytes": 47342
     },
     "Tools/UnitySceneIds.py": {
       "sha256": "579c45847db6c6dd22ce5b036222b2e7e3a05dc67d736d058a55d97192f32c50",
@@ -3074,8 +3358,8 @@
       "bytes": 986
     },
     "Validation/ArchitectureTests/test_architecture.py": {
-      "sha256": "2a7c86bea0c2cfcb7604b44225a11c34871402f43c52a4191822fc8941123067",
-      "bytes": 5878
+      "sha256": "58451187a3c5f38e69172850db97b5a79c4a0d2d59598960e30138d07bef74c2",
+      "bytes": 5876
     },
     "Validation/AssetCatalogTests/AssetCatalogTests.csproj": {
       "sha256": "7016a86b8246fa61f7641db1cc378cde4151dd3a9a795b2f8cde21baaba3ca95",
@@ -3094,8 +3378,8 @@
       "bytes": 2147
     },
     "Validation/AudioTimingTests/AudioTimingTests.csproj": {
-      "sha256": "164d997e5cec696ae12556cf81cb2c78908c539c3ef81599be98ec16f5dcca92",
-      "bytes": 377
+      "sha256": "dcd2761f07ebcfeb2512dc092f773d5daab21768305959db7761bf001b72e87f",
+      "bytes": 374
     },
     "Validation/AudioTimingTests/Program.cs": {
       "sha256": "65f49ca66c5025172dd62168d2d2c264d9f1ff296ff0f9ff8421c39f265fdbe9",
@@ -3130,8 +3414,8 @@
       "bytes": 13999
     },
     "Validation/CombatEffectsTests/CombatEffectsTests.csproj": {
-      "sha256": "7e5b81d88d4bdb4a16efc1a50d439f58a9c5df3a7a0642fe2aa2d6baea06375e",
-      "bytes": 777
+      "sha256": "0c8a386738a183a5dbe6478b9eb40a508a1d7bbf854fbbe59b692e3aeefb9e56",
+      "bytes": 775
     },
     "Validation/CombatEffectsTests/Program.cs": {
       "sha256": "3b3ba2701416f804eb7c552cb016870fca43058c5c8f05bc684a1e0f763841fb",
@@ -3146,20 +3430,20 @@
       "bytes": 15566
     },
     "Validation/DeathStrikeLifecycleTests/DeathStrikeLifecycleTests.csproj": {
-      "sha256": "e0709f7564e9fc7a0d09bb7f9027c574aaeca9bf2944e404611ad3ae543d189d",
-      "bytes": 1565
+      "sha256": "13875d453e7739913b43abced469b89c0da987ffffc823a1c4faed4fd1c2a3ad",
+      "bytes": 1480
     },
     "Validation/DeathStrikeLifecycleTests/Program.cs": {
-      "sha256": "5eadb1704ef4124aebe10c21c33305fd377328fa67157418ead42eee5c5053ae",
-      "bytes": 4458
+      "sha256": "b778061470d1799d4d1d4547f32170f910341628fffd70abea9e433bc985b8a9",
+      "bytes": 5275
     },
     "Validation/DeathStrikeLifecycleTests/README.md": {
       "sha256": "e6f0488512f87fd4422991f86b40707edd2ed480488a583eed15e82e70b50061",
       "bytes": 735
     },
     "Validation/DeathStrikeLifecycleTests/UnityFakes.cs": {
-      "sha256": "d8b8ca45b202a75674ee118fc6241ab7c016a9e64b2effc2d34b7eb76daf8370",
-      "bytes": 16662
+      "sha256": "6397bfc8dc73d8aee34ae39f18483f7dead7cd4beea8eff84ab8acf98ead3b18",
+      "bytes": 20382
     },
     "Validation/DirectionalLocomotionTests/DirectionalLocomotionTests.csproj": {
       "sha256": "a4c5cd5def5aed39be5fc0a7631b01b94af24c142d5fa753abd0d43ad9edc193",
@@ -3182,8 +3466,8 @@
       "bytes": 342
     },
     "Validation/FrontEndModelTests/FrontEndModelTests.csproj": {
-      "sha256": "28e56dd20e6d5c91d5b62c61472550d3cc49a03fcb7ddcbe8ca1f3b48952b07b",
-      "bytes": 557
+      "sha256": "d515ecbca2f8a593cc066e70999e1785638de3edcf6cc6d0dbcf7d47b769cc3e",
+      "bytes": 468
     },
     "Validation/FrontEndModelTests/Program.cs": {
       "sha256": "ac76006a3229e8fa739cdee9b3ed5b83948524c8b4531215fc9cbf1919f01d94",
@@ -3194,28 +3478,28 @@
       "bytes": 764
     },
     "Validation/FrontEndRoomCameraTests/FrontEndRoomCameraTests.csproj": {
-      "sha256": "9af2c42911a8f4f627cb281bab1aaeae86fda0c55c5dbf9042b02871929ac09a",
-      "bytes": 475
+      "sha256": "aee4fcd12f8feaf0d0ecfcd7f6cf6acd695af0bdc6220e507f89b5f5fc9db88a",
+      "bytes": 566
     },
     "Validation/FrontEndRoomCameraTests/Program.cs": {
-      "sha256": "da6bd02cbc0363f467b6b11d0a68ea8f0f1d68e67302b9bb95237b82c80a4518",
-      "bytes": 3285
+      "sha256": "97faed5855f6a85c1f93ac080bd2050e50fd6cf72450bf260d90a1d9a1c4fbb9",
+      "bytes": 4687
     },
     "Validation/FrontEndRoomCameraTests/UnityFakes.cs": {
       "sha256": "fc2fff704c1b1893fd212441871970cd0437ad8585055f09baafc40265fee51e",
       "bytes": 1269
     },
     "Validation/FrontEndRuntimeTests/FrontEndRuntimeTests.csproj": {
-      "sha256": "43060697c08d20a984b173a3d4a2f967227a49d2dad94e87a51022ca6978e127",
-      "bytes": 1213
+      "sha256": "8fc8bf222f099396cbd0a45e1a8fd39c0308719468e856147ef1185b551d8653",
+      "bytes": 1119
     },
     "Validation/FrontEndRuntimeTests/Program.cs": {
-      "sha256": "d8c68138e81297b1431de3ed60f56b428c7ee020efb3d1307099081e5b4c3dac",
-      "bytes": 10378
+      "sha256": "c99bd12fcdfbbd78a5e85658b7e6c33080b2814082057263431bc6ab59a3fc01",
+      "bytes": 14373
     },
     "Validation/FrontEndRuntimeTests/UnityFakes.cs": {
-      "sha256": "03379ec73561d58b0706c2adaeb41f842de7ecc876c07f996a02ef684d43c541",
-      "bytes": 10828
+      "sha256": "6679e87c16749602fac5bf9e871bce5a7d8338390ecbdb8c44605ca50734290c",
+      "bytes": 11010
     },
     "Validation/GroundContactTests/GroundContactTests.csproj": {
       "sha256": "414172609c7574c0467704c4ffd20456e52ce3547029bb72c3f85d6a9a2b1aff",
@@ -3242,20 +3526,20 @@
       "bytes": 14335
     },
     "Validation/HudLayoutTests/HudLayoutTests.csproj": {
-      "sha256": "4d7ce6349311a8098a59f8fbcdeed9ea53eec7cf6b450bba9bb68f9a4668e03c",
-      "bytes": 726
+      "sha256": "f85b0326afb56d3d1c252620835ea12320b3b45ae9edef8e9b0a2f50081f7057",
+      "bytes": 720
     },
     "Validation/HudLayoutTests/Program.cs": {
-      "sha256": "d86fc987c57defb89b34dcf958d9969c26c2a029a153aca08ca7903a5528a671",
-      "bytes": 6256
+      "sha256": "22dff84ad9114b0dd246098260cdde902a76463308c36498658fbf0374e36851",
+      "bytes": 10935
     },
     "Validation/HudLayoutTests/README.md": {
-      "sha256": "c1314ddfd9f94eca610a3817a63812dbf967f276aa41adac9e6733da7458a129",
-      "bytes": 795
+      "sha256": "aedcbc94d820dcba55e81f330032d453548e87cacf20936e5024a525e4e45b10",
+      "bytes": 1194
     },
     "Validation/InputCancellationTests/InputCancellationTests.csproj": {
-      "sha256": "7c09331ed15e4784d9f79387469e37c889ac5c854ffd91dba748d1eb600cf9f6",
-      "bytes": 692
+      "sha256": "806f5a95e149d41749043013af90807f6d637b67d2477f683e78944483de0064",
+      "bytes": 588
     },
     "Validation/InputCancellationTests/Program.cs": {
       "sha256": "d5e4a9d26a0b3d7047fbc1816df7213917dd9cb685699a89538a201f57f9689c",
@@ -3266,8 +3550,8 @@
       "bytes": 3328
     },
     "Validation/MagazineTests/MagazineTests.csproj": {
-      "sha256": "ac5a306eb167c51e222c766ada42eb5ff3362e4c29176951ae0797d259c29466",
-      "bytes": 1106
+      "sha256": "bea8aaaa6488687785e1f88de858ce38dc708694a907a126376da5b738075fb4",
+      "bytes": 819
     },
     "Validation/MagazineTests/Program.cs": {
       "sha256": "5ec16ac3b058b694b2baa7e10a528987487c0a08e625af2aa1dd3d5b2cf268ff",
@@ -3286,16 +3570,16 @@
       "bytes": 1184
     },
     "Validation/MissionRuntimeTests/Program.cs": {
-      "sha256": "d98423553de59e676c7e37b08c1a68a9e29d2ba2efc36214344556eadc00087b",
-      "bytes": 48713
+      "sha256": "c9b84d38eb65c2ebb7ebbee9250c75c898fd512e81783ab3d5685274b1067da6",
+      "bytes": 59259
     },
     "Validation/MissionRuntimeTests/README.md": {
-      "sha256": "41fcfc1f024d11c9b86eba02ff0011bd035c2906bd65a7889e07ae6694cfa42a",
-      "bytes": 1030
+      "sha256": "3f8398679a984a076821f7ed710e26922e97ab8f02bd44853e5c4e0fa731856c",
+      "bytes": 1575
     },
     "Validation/MissionRuntimeTests/UnityFakes.cs": {
-      "sha256": "e4a2196f95aac9c524d65fa79be3c8c3a3296d925e7b8bb82a59961f916c8000",
-      "bytes": 19225
+      "sha256": "b746f26c992811eff6827cf2a8a0e8e1c72d58837cc3ceea050b3941f3639cc7",
+      "bytes": 20019
     },
     "Validation/MissionSceneRouteTests/MissionSceneRouteTests.csproj": {
       "sha256": "d7f853c8a38cb1818d89198728a5f15e9bdb62bfbf3762abecccb60ec43efac7",
@@ -3322,20 +3606,20 @@
       "bytes": 336
     },
     "Validation/MissionUiTests/MissionUiTests.csproj": {
-      "sha256": "7dbdd5b674712266bfa6de4d40ea83bdb0eb97a394a677e414f6c10c675ce184",
-      "bytes": 865
+      "sha256": "edde29471f0451c0df2ca23e55d7c6877ec93d8147b07bd1a636dee96fdf7c37",
+      "bytes": 859
     },
     "Validation/MissionUiTests/Program.cs": {
-      "sha256": "3c588545dd8b11ad840830bf783de05da8113e4112015d6db0bcdc9910be47c7",
-      "bytes": 17337
+      "sha256": "8764ab3d7fac80cd93b67c8ce954dc009d5e6c792643bc2f2f8425edc6e780eb",
+      "bytes": 31381
     },
     "Validation/MissionUiTests/README.md": {
-      "sha256": "84c7e8409c21e3221bac88837b861c53939477d4029b7e2ea596e8bd8b846a2a",
-      "bytes": 616
+      "sha256": "2ba9e201b664702c784787bf937fff81da01f2d3106644f638c7f30d3377f164",
+      "bytes": 1413
     },
     "Validation/MobileInputTests/MobileInputTests.csproj": {
-      "sha256": "b78ebb5b55cc8f530def43fbc584b9c50085588ee0de000217da8debd2cc66ea",
-      "bytes": 372
+      "sha256": "4660ea89fbcf9423048d7441883b536a4874f3977265fd93b922107b5d16c126",
+      "bytes": 368
     },
     "Validation/MobileInputTests/Program.cs": {
       "sha256": "3d18b98cd5e761483f939da1daee0c677ab7f80d483018797bdea5a989b28b99",
@@ -3365,6 +3649,18 @@
       "sha256": "63c8913949784f9a0f7b482751107df4e55956ece1a62a61c90df6cb5177a4b0",
       "bytes": 923
     },
+    "Validation/NpcNativeSetupTests/NpcNativeSetupTests.csproj": {
+      "sha256": "90bf8d5bd233aece1a24ef9a0249c3d6872be63aad4a8643a225d72a10ddc9db",
+      "bytes": 400
+    },
+    "Validation/NpcNativeSetupTests/Program.cs": {
+      "sha256": "5ff56a37d02cbadcd30304e338cbab31c1f880c5d7ef7106493ee60d7c463f14",
+      "bytes": 16047
+    },
+    "Validation/NpcNativeSetupTests/UnityFakes.cs": {
+      "sha256": "8f413752dfc51c0f7c295a426b5d121fdce3173d69eb78bb99e6da9854cbdf56",
+      "bytes": 14466
+    },
     "Validation/NpcNavigationTests/NpcNavigationTests.csproj": {
       "sha256": "3b67683618db8db848072bf97f19d6af4bed8655bd5d342f5e7295b0b7d562e8",
       "bytes": 695
@@ -3382,20 +3678,20 @@
       "bytes": 3133
     },
     "Validation/NpcRuntimeTests/NpcRuntimeTests.csproj": {
-      "sha256": "fed7e1a78d434c326f94771cbf24de39dedec23be5e8bc2956cf2266dd509cef",
-      "bytes": 798
+      "sha256": "ce296ad3a690726f5ff6a2d047e6109313cba8cba84e14e5b5f85090f3b6c0eb",
+      "bytes": 902
     },
     "Validation/NpcRuntimeTests/Program.cs": {
-      "sha256": "5ed953a553a07991cc7f50cc8443a109be6e353b79f24b6078b67f81bdc5734f",
-      "bytes": 33698
+      "sha256": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7",
+      "bytes": 50647
     },
     "Validation/NpcRuntimeTests/README.md": {
-      "sha256": "fbd255e28748c42d81691488c0b0f8aaa27351c8326d430361f8a7ae56f6057c",
-      "bytes": 1545
+      "sha256": "5dc55566f0fa107480149e663fce6ad32456ddfac87b72ea6decc36cdfc1b75a",
+      "bytes": 2167
     },
     "Validation/NpcRuntimeTests/UnityFakes.cs": {
-      "sha256": "9a7760146796b1e7906c1aef4abcb3dc2c2ae4ca4b7ec8f52b5f3e395806a578",
-      "bytes": 14922
+      "sha256": "4d1db49600a37ee1e96cd33c08bb7877facb90d148c23d58dfaeb3f677f04f55",
+      "bytes": 18305
     },
     "Validation/OcclusionLeaseTests/OcclusionLeaseTests.csproj": {
       "sha256": "e5d0a439d68668e256b1d4e61fca65ee314cd1582bf5634447f1c0c685171e93",
@@ -3414,16 +3710,16 @@
       "bytes": 10656
     },
     "Validation/OcclusionMathTests/OcclusionMathTests.csproj": {
-      "sha256": "bb54fef66f1e324a5eb8f54f7c60a670fc3ad94a743241c69333f457f5f0c821",
-      "bytes": 615
+      "sha256": "8084f8cb424a644bf6b22fcf4f2981808cea67c098a3110af1c8cca862177ab5",
+      "bytes": 407
     },
     "Validation/OcclusionMathTests/Program.cs": {
       "sha256": "245071de6b7d55e3821376a25b15cf4637e7dd80221377224064f43be2323cde",
       "bytes": 5418
     },
     "Validation/OcclusionRuntimeTests/OcclusionRuntimeTests.csproj": {
-      "sha256": "6380c0e0586e3fd6c4c572ee7954046839bed67bb679007c5150d1c8e4dba6bd",
-      "bytes": 846
+      "sha256": "d6b1553595264f1f331e473b71b824c0fc4eb815ba33238aff080cd8060d4f19",
+      "bytes": 638
     },
     "Validation/OcclusionRuntimeTests/Program.cs": {
       "sha256": "39becfbf4008fdb4d6aba98f23e555f1c31dd24538217c98dbcf02f4525546f6",
@@ -3432,6 +3728,18 @@
     "Validation/OcclusionRuntimeTests/UnityFakes.cs": {
       "sha256": "5ba248f2114366fe973ee7e10f3332d01a01e1c8a64027de2f7495d80df5fc6e",
       "bytes": 10657
+    },
+    "Validation/PackageInstallerTests/PackageInstallerTests.csproj": {
+      "sha256": "50a9a449d0ac3dff8ff85ffa674f060f38f09a837b95f867b258a81f22f459c3",
+      "bytes": 325
+    },
+    "Validation/PackageInstallerTests/Program.cs": {
+      "sha256": "e62e294e7e30cf34cc3a8d1d9d4ca151c8a6a576e068d289762b5454960960e5",
+      "bytes": 15238
+    },
+    "Validation/PackageInstallerTests/README.md": {
+      "sha256": "b11179b2570b0ca0b37eb94df9db180c73a96ba653f0005628b93ae0b8efeb42",
+      "bytes": 814
     },
     "Validation/PerformanceCaptureTests/PerformanceCaptureTests.csproj": {
       "sha256": "fd25e963e75afd10c95db21ebfbe9e16b866c4144c1986469b251487383d2012",
@@ -3446,8 +3754,8 @@
       "bytes": 1627
     },
     "Validation/PlayerAudioLifecycleTests/PlayerAudioLifecycleTests.csproj": {
-      "sha256": "56b4327d77bd6331e69b4e35fd31f61f68eb3ae6b0546a37ef78a150335b2b5f",
-      "bytes": 947
+      "sha256": "7a2ae20ec19a1d8c5f5ae9a119774ff08afb60200f376a3b10536eaa30e82238",
+      "bytes": 848
     },
     "Validation/PlayerAudioLifecycleTests/Program.cs": {
       "sha256": "252ab067f28d7f2ca1673b4b3fa710d8808e32d843b0c97b1282996ad41c9f9a",
@@ -3462,8 +3770,8 @@
       "bytes": 6890
     },
     "Validation/PlayerControlLifecycleTests/PlayerControlLifecycleTests.csproj": {
-      "sha256": "cddff1f665b4e2d0de2c4b50b47e554ae13bfd6a7839b51babdf035a572ad0ae",
-      "bytes": 2109
+      "sha256": "97745bac2e8ea946e3923ac0d15afb1327e3b856386643ecabb0fb9f9b210361",
+      "bytes": 1927
     },
     "Validation/PlayerControlLifecycleTests/Program.cs": {
       "sha256": "606d1a897ba764737891d3cd4b6196a65a443769f0b08f433824b8fbe21536c1",
@@ -3474,12 +3782,12 @@
       "bytes": 1581
     },
     "Validation/PlayerControlLifecycleTests/UnityFakes.cs": {
-      "sha256": "954839a77a929f1bf4dfa9f50e5a83be2a898ce73c51b08d786f2da3633b2aac",
-      "bytes": 23898
+      "sha256": "21b8ed40b8c22edbc669b01aa0e25e68e11408f1faf475cd2d5cecf06a572d7f",
+      "bytes": 24306
     },
     "Validation/PlayerHurtFeedbackTests/PlayerHurtFeedbackTests.csproj": {
-      "sha256": "19e58ec15a22aee64d6b0e620473adee75fd4b7630642f4f95fea44dfbf8efb6",
-      "bytes": 989
+      "sha256": "f18ea27ef7fef112bca60bc6a55bfb1f9155569df7f592c8fda96044b3c1b448",
+      "bytes": 903
     },
     "Validation/PlayerHurtFeedbackTests/Program.cs": {
       "sha256": "c8cad3dffbf11c1d707f6f4266743da5e368985451ef4033907bae1f28997bed",
@@ -3494,24 +3802,24 @@
       "bytes": 6359
     },
     "Validation/PlayerInputRuntimeTests/PlayerInputRuntimeTests.csproj": {
-      "sha256": "c6e7a34f084c6f85776b95ad2ed2e0b259f3c6fc8bd00e2fcd5e4e4fe373ca83",
-      "bytes": 827
+      "sha256": "9b23d1d4681d5c382c4f515b9c6e3331c17aad9624f7ecaa736b48139a77f18d",
+      "bytes": 821
     },
     "Validation/PlayerInputRuntimeTests/Program.cs": {
-      "sha256": "97b2b899d5c7f079155c7e84a841a48a9ead2680102088c7051e73fd520c5cfb",
-      "bytes": 6299
+      "sha256": "37d96a7a17dc3eb1fdb33f1013511e28eeea3c3e438d77165e313d3f23e4a254",
+      "bytes": 7065
     },
     "Validation/PlayerInputRuntimeTests/README.md": {
-      "sha256": "1afb4bad0cd747af4476f75c0de931c00a149d586b0eb9eb1c1ec11b0178d2bf",
-      "bytes": 556
+      "sha256": "566b43ee0a883818cfbadb9269324f9dca59b7140b439e71a2655be262745617",
+      "bytes": 665
     },
     "Validation/PlayerInputRuntimeTests/UnityFakes.cs": {
-      "sha256": "daf7c2ef4dd6ca4fe688160643dcda646349827230b5323f123179650bd42bcd",
-      "bytes": 9945
+      "sha256": "4269ea7fc3b9074bcb82190686cd0c807c494de48f4ce44eacbf2b7f4b2ce898",
+      "bytes": 10077
     },
     "Validation/PlayerVitalityTests/PlayerVitalityTests.csproj": {
-      "sha256": "258517cf900597a10395f84fcee47816b0a488c301aa4f2d7adab3cf6cbed3a0",
-      "bytes": 882
+      "sha256": "6fe23a454e7ce879e8bcd67860351fbf44bc48e65e43bd24adbf44f00e5b21de",
+      "bytes": 796
     },
     "Validation/PlayerVitalityTests/Program.cs": {
       "sha256": "2cb286492a195f9768877ec2c7c085a19f5e8a1a93600213a6459a78fee733b9",
@@ -3526,12 +3834,24 @@
       "bytes": 5299
     },
     "Validation/PoseClockTests/PoseClockTests.csproj": {
-      "sha256": "6cd136745125d4fe0a383a1186c47b6c9e78f54782acd8a0bb35543db69af403",
-      "bytes": 375
+      "sha256": "48fdde8b70e962205f721b6ed825dca1b43e27b2609aedcadf2cc26859ae1500",
+      "bytes": 371
     },
     "Validation/PoseClockTests/Program.cs": {
-      "sha256": "91141754cd96549e891eea244280dee67e5ffca6de771a520a60d529ed5fab2a",
-      "bytes": 7694
+      "sha256": "46dc72a6ce52fb2b7a8e3f051da548d77f837b6409782b685ed0d1b05062887c",
+      "bytes": 7717
+    },
+    "Validation/ProjectRepairTests/Program.cs": {
+      "sha256": "e3a89a9163e9108790018742e4a40950a9a2d140005fc63dfff0e3713635bffb",
+      "bytes": 8072
+    },
+    "Validation/ProjectRepairTests/ProjectRepairTests.csproj": {
+      "sha256": "1871c81a9669caf1268dc3675fbd73edd69901ebfbd225877c3ea3740b16898a",
+      "bytes": 350
+    },
+    "Validation/ProjectRepairTests/README.md": {
+      "sha256": "92043e8e0319e37575ddf10e6d29b3e1932ed6c4382274d7559b431c47d9b175",
+      "bytes": 453
     },
     "Validation/ProjectStartupTests/Program.cs": {
       "sha256": "494b572886b5d36a7e1589ad2d043283cb8dddd1d612be23013b0a6bb6d98a66",
@@ -3550,16 +3870,16 @@
       "bytes": 4494
     },
     "Validation/ProjectVerification.json": {
-      "sha256": "ae891026ccf98325514b39b1fbb2b2144e2518abfbd40d00999d68b03e0c3f50",
-      "bytes": 2461
+      "sha256": "94deb3357e13f6fad60fd0b37a31856ecbc90cbc9923f0514919c8c50cf54ffe",
+      "bytes": 4783
     },
     "Validation/ProjectileCollisionTests/Program.cs": {
       "sha256": "5ec9c0c0a3be8d93ad44291a890cc4fbb65e3e9f7ed9a5c4506442b22aa41aa3",
       "bytes": 3224
     },
     "Validation/ProjectileCollisionTests/ProjectileCollisionTests.csproj": {
-      "sha256": "1952c584c58433c509f03379de4cab560a067abf4ed64494a745f9cc7ef052b4",
-      "bytes": 466
+      "sha256": "80150a91579a8c89f85bb1352b7a24c8880530351b7461df089cb8155d21e9b1",
+      "bytes": 366
     },
     "Validation/ProjectileSurfaceTests/Program.cs": {
       "sha256": "0a23693ef31a42d1ae095dc384fd244b59e18214bad4b9ada9f6c3704380a10a",
@@ -3578,8 +3898,8 @@
       "bytes": 1583
     },
     "Validation/README.md": {
-      "sha256": "6edaebebdc3c1b79e1df788c5a85c3c508ad183424606dc9468a2928c66413ef",
-      "bytes": 2043
+      "sha256": "1f7c52cf948cc9ad898c0408d69077673b635d8de6bfcbf14cb37e9b97d6c6b0",
+      "bytes": 5834
     },
     "Validation/ReactivePropTests/Program.cs": {
       "sha256": "8bf6577d4f6be91155719dabc32534ea05b5422c7d9f6f263f1b8db20f8fc007",
@@ -3590,12 +3910,16 @@
       "bytes": 1788
     },
     "Validation/ReactivePropTests/ReactivePropTests.csproj": {
-      "sha256": "11e3aac66752f16c0c1180f6c6bfd33fc5940a3e36b7942ca347705c61d89ec7",
-      "bytes": 883
+      "sha256": "0ca5afc9c827e4f24f6ef9befd7fd5eae736a7963be3d7061e881a1d2ee95c6f",
+      "bytes": 790
     },
     "Validation/ReactivePropTests/UnityFakes.cs": {
       "sha256": "b8286f2a99b23bdf644fc4deca697439eaf4db75200a55968be96b7dc3f7e618",
       "bytes": 8082
+    },
+    "Validation/Reports/Artwork.json": {
+      "sha256": "7b7e50291d73e73864f628ede39d61634aa3d1d005741953970ed12e7b275914",
+      "bytes": 1171
     },
     "Validation/Reports/CombatFeedback.json": {
       "sha256": "2bae4fada3fc935da89b59c9d681576b1338366012b4285fcaf049c8fb9d64ab",
@@ -3606,24 +3930,48 @@
       "bytes": 1486
     },
     "Validation/Reports/Enemies.json": {
-      "sha256": "bae8efa58606fc06f14245b7bfba6417dce26af1297fd3d6bdf4c6976bc0d7e1",
-      "bytes": 5323
+      "sha256": "18b2311dd474dde740ea205849757d361bd779cc345f2f3273972ee75dbbe87b",
+      "bytes": 11026
+    },
+    "Validation/Reports/EnemyVisual.json": {
+      "sha256": "a069c0efc5de0a69c490aa199e90b8d7992aa827cf3e6a978cdb5136a3df28e8",
+      "bytes": 6402
     },
     "Validation/Reports/Frontend.json": {
-      "sha256": "74b04440e4167b4f897bea5d1b6aee0b73639b32db4d51acd87c339889ebc750",
-      "bytes": 4441
+      "sha256": "714f87bd62474156d70f9cef1cfddae9973eae6536a56cba1388cabfa6ae8def",
+      "bytes": 6208
+    },
+    "Validation/Reports/FrontendArt.json": {
+      "sha256": "d4122fe1e5e97fe7af82e07f3749b593bbccbe1a66f29c3027c62954d5e7de6e",
+      "bytes": 2188
     },
     "Validation/Reports/GameplayIntegration.json": {
-      "sha256": "17821de4e0d60639e888734a274b730fdf0bb1ba2d8da0618aa2351566e337de",
+      "sha256": "48c9afb8e7a68b2b91e3911d8ada01a60fc048c63e7bfdffd628e88d65e88729",
       "bytes": 819
     },
     "Validation/Reports/GameplayScene.json": {
       "sha256": "a397338c29e0f29bc21f06674710096769d19719619d74210ab5babf454566a1",
       "bytes": 579
     },
+    "Validation/Reports/InstallationDiagnosis.json": {
+      "sha256": "b06e133e42e0a91dbac60436a4de2d557040ed127d3376d507490cf5e0699545",
+      "bytes": 979
+    },
+    "Validation/Reports/Installer.json": {
+      "sha256": "52a36d0861c083773109ce186b73c902948f86b0941b254ef83345340541f2c8",
+      "bytes": 2256
+    },
     "Validation/Reports/LogicTests.json": {
-      "sha256": "d3e17a32da5df65dde2b64f868c51e3877ef1014e141143aef63cb79a7a6b148",
-      "bytes": 25484
+      "sha256": "9ec4d204d8c8aac93196f3bb9f34745326c191098a2a9a74d349823af3216e30",
+      "bytes": 27429
+    },
+    "Validation/Reports/MenuHubReview.json": {
+      "sha256": "bf5d10bd3f800d2ddf0811cd652f87dfbd0c3736586939ac58b1fadfc47a14a1",
+      "bytes": 881
+    },
+    "Validation/Reports/MenuHubScene.json": {
+      "sha256": "c2ba6b020b2fe9ad73153e2f2a045732caa9c7779a3c6bb3686b776748390ff3",
+      "bytes": 461
     },
     "Validation/Reports/MetalImpactAudio.json": {
       "sha256": "83c84dd78335e7d5090c224c2900e1087bf2fca20be685564d315238e5a6c688",
@@ -3645,9 +3993,73 @@
       "sha256": "3bf02e53c2056a7f81ce8abad6072ab763355ad1ead9542fb0600599f841eaa8",
       "bytes": 1242
     },
+    "Validation/Reports/RepairTools.json": {
+      "sha256": "62e66d788341b8b2a54e163e2ceaacbfb35372d6da09c244b8688875a2990639",
+      "bytes": 3403
+    },
+    "Validation/Reports/RobotDeathEffects.json": {
+      "sha256": "e9d3a21fbb33c4ad7347b1c328a6a4290dd30aff44e6b144b5ceb1f20ba71fa0",
+      "bytes": 4409
+    },
+    "Validation/Reports/RobotDeathVisual.json": {
+      "sha256": "b206b457618e5d0bbf849311dc52ad66ad1bc90bc2027cfdd9dcb119e015bf84",
+      "bytes": 3834
+    },
     "Validation/Reports/SceneIntegrity.json": {
-      "sha256": "18a81f949fd0157b47c5bcc4a4ba9ccd4321c030a5064eda8b70399f66835b29",
-      "bytes": 32031
+      "sha256": "6578a1ceeeddce43d7213dced077fe3beea245947c00711c51f61481bb38967f",
+      "bytes": 35586
+    },
+    "Validation/Reports/ScriptConsolidation.json": {
+      "sha256": "7c2da8bff8ab0c3a7e47f05f8f90e2e78b33c8169b940f80c9c6ca04997b8ff9",
+      "bytes": 1748
+    },
+    "Validation/Reports/Stability.json": {
+      "sha256": "08e8385cea93925b7de72812995edea206ec218d09f8fa8c945c2b4de4593744",
+      "bytes": 8645
+    },
+    "Validation/Reports/UdarnikAnimation.json": {
+      "sha256": "0732964646a9b9477be7acda104c3a1016bbef6383e8ba5e1452dcab63f7b501",
+      "bytes": 9585
+    },
+    "Validation/Reports/UdarnikAssets.json": {
+      "sha256": "66096d3f78498c9725946c1194118cfe508d0a39db1e311b75afd4ca5e0b8fd3",
+      "bytes": 974
+    },
+    "Validation/Reports/UdarnikFinalExports.json": {
+      "sha256": "3b3b79fa376dc9cf8865295f615acdc57a6fadd88cad7f36d984a21e4540ad52",
+      "bytes": 5079
+    },
+    "Validation/Reports/UdarnikGeometry.json": {
+      "sha256": "846c8d7ee3b2b5c1cb34adc056a88df739d5fbbac90b08e29b03bbf7a7160418",
+      "bytes": 14746
+    },
+    "Validation/Reports/UdarnikRig.json": {
+      "sha256": "a2de7a1dc2d7720098afd1fc715fb8c04ad0d82900bf1fe50afdc10d3aabe9d1",
+      "bytes": 42553
+    },
+    "Validation/Reports/UiScene.json": {
+      "sha256": "374067e881511052774da47d3ea815d2bdc173d7eab4355f0701b8ca896f6d0c",
+      "bytes": 583
+    },
+    "Validation/ReviewMenuHub.py": {
+      "sha256": "b691a6f713b7da5c9231999d7242310ed182e61d47b59f4c500e0b4bbce82009",
+      "bytes": 3769
+    },
+    "Validation/RobotDeathEffectsTests/Program.cs": {
+      "sha256": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781",
+      "bytes": 8990
+    },
+    "Validation/RobotDeathEffectsTests/README.md": {
+      "sha256": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b",
+      "bytes": 1274
+    },
+    "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj": {
+      "sha256": "4efe1fed998e48997aed5cc6053c43c6b7bc8ac3f1d38b45a8181514df55b116",
+      "bytes": 397
+    },
+    "Validation/RobotDeathEffectsTests/UnityFakes.cs": {
+      "sha256": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463",
+      "bytes": 14930
     },
     "Validation/RunningContactTests/Fixture.json": {
       "sha256": "2945d5055e1027faaa36ce20754cb2f1a3951abddfe7a21f8850f304c9954478",
@@ -3694,8 +4106,8 @@
       "bytes": 1020
     },
     "Validation/ShooterIntegrationTests/ShooterIntegrationTests.csproj": {
-      "sha256": "29e2a4390ae05da7f380c67be6811947d8d4d8e258cafa7afe5d8a2f337d2bef",
-      "bytes": 1493
+      "sha256": "1e8ed3d079e532113a7bfa2cdc4b1df49f799984df3da44cf3c89f117f3ffdae",
+      "bytes": 1204
     },
     "Validation/ShooterIntegrationTests/UnityFakes.cs": {
       "sha256": "d232bba55d65dfae8a67e7ce99623e6ed479c82e191f82f620c42947fe6f6bfd",
@@ -3710,8 +4122,8 @@
       "bytes": 411
     },
     "Validation/TracerGeometryTests/TracerGeometryTests.csproj": {
-      "sha256": "4b9a1742b593afbd17c8b05af94c557423802578e1601332bcdcf958d77a7a72",
-      "bytes": 496
+      "sha256": "7c246b747fd30079861a88eed2b60b9184812bee12041c30733c77f8130fcee3",
+      "bytes": 500
     },
     "Validation/TracerGeometryTests/UnityFakes.cs": {
       "sha256": "eb530d283e0a0067b60cdf7f02a872548a2504ad5ad34d940b225a3a74485259",
@@ -3758,12 +4170,12 @@
       "bytes": 2074
     },
     "Validation/WeaponFoundationTests/WeaponFoundationTests.csproj": {
-      "sha256": "316ca4af56ab71bbdf8d39e5d5685ce13eee6c96f8ed90016134738086296c36",
-      "bytes": 1026
+      "sha256": "f4141524fd5b33716d10f2f789810e37d972abed04bcb1ca0a5f10cf96573aab",
+      "bytes": 846
     },
     "Validation/check_architecture.py": {
-      "sha256": "04966dad2414b72c3cd190e8f4faab459547f505f5b94367d5aa05b4ff0a63db",
-      "bytes": 10819
+      "sha256": "761c95983c5bb06c06e89c7bcccb30fb4846717e671558b89171061543df964f",
+      "bytes": 10482
     },
     "Validation/check_asset_paths.py": {
       "sha256": "fe263d1902f28029d62a8a809fb455b7863ebfc2d8939f26ce07f755c3e813dd",
@@ -3774,8 +4186,8 @@
       "bytes": 5007
     },
     "Validation/check_gameplay.py": {
-      "sha256": "15cd2d544d8a14b1893483e3b121c260228ace3bc21e56e2e48dc03592cb64dd",
-      "bytes": 6268
+      "sha256": "a78ebba3960c46343a7e0e0471893e8308bf05a41e0ba85ee382393798d58f00",
+      "bytes": 6381
     },
     "Validation/check_metal_audio.py": {
       "sha256": "03f8638940546aa51d7bf7f4bb54e1538e5ebc18cbcb21d24cf2c03e105b0987",
@@ -3792,6 +4204,18 @@
     "Validation/check_scene_integrity.py": {
       "sha256": "4e9ad57706ceca0f03993d468a3f42f700de65745882f2ee977bb44fbe78c1f6",
       "bytes": 8769
+    },
+    "Validation/check_udarnik_assets.py": {
+      "sha256": "4edd57d5daafe2b6280bf37d52b7f2c83053afb05aa9fa178993dd8cbc2dac53",
+      "bytes": 10202
+    },
+    "Validation/check_ui_scene.py": {
+      "sha256": "01ed37d6714b6e19f65a964f340921ab55a26798aa30ed95778320c4e9c78a1e",
+      "bytes": 8223
+    },
+    "Validation/render_gameplay_hud.py": {
+      "sha256": "806ca49f271e4bb28ce4a212f722526f80522a37f37f90843451ca94fcd2c093",
+      "bytes": 2898
     },
     "Validation/run_checks.py": {
       "sha256": "03b59e45045009525fc7b5712f62492651d05527c11433543bd5b8f1aa59caaf",

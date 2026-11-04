@@ -6,11 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs" />
     <Compile Include="UnityFakes.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomPlayerAudio.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioProfile.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs" />
+    
     <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs" />
   </ItemGroup>

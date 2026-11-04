@@ -18,6 +18,22 @@ namespace UnityEngine
             if(item is Component componentItem)componentItem.gameObject.components.Remove(componentItem);
             Destroyed.Add(item);
         }
+        public static int InstantiateCalls;
+        public static GameObject Instantiate(GameObject original,Transform parent,bool worldPositionStays)
+        {
+            InstantiateCalls++;
+            var copy=new GameObject(original.name+" clone");copy.SetActive(false);
+            copy.transform.SetParent(parent,worldPositionStays);
+            copy.transform.localPosition=original.transform.localPosition;copy.transform.localRotation=original.transform.localRotation;copy.transform.localScale=original.transform.localScale;
+            foreach(var c in original.components)
+            {
+                if(c is Animator a){var n=copy.AddComponent<Animator>();n.runtimeAnimatorController=a.runtimeAnimatorController;n.isInitialized=a.isInitialized;n.applyRootMotion=a.applyRootMotion;n.speed=a.speed;}
+                else if(c is Renderer r){var n=copy.AddComponent<MeshRenderer>();n.sharedMaterial=r.sharedMaterial;var block=new MaterialPropertyBlock();r.GetPropertyBlock(block);n.SetPropertyBlock(block);}
+                else if(c is Collider collider){var n=copy.AddComponent<Collider>();n.enabled=collider.enabled;}
+            }
+            foreach(var child in original.transform.children)Instantiate(child.gameObject,copy.transform,false);
+            copy.SetActive(original.activeSelf);return copy;
+        }
         internal static void Lifecycle(object item,string name)
         {
             var method=item.GetType().GetMethod(name,BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Instance);
@@ -37,6 +53,14 @@ namespace UnityEngine
         public T AddComponent<T>() where T:Component,new()
         {var c=new T{gameObject=this};components.Add(c);if(activeInHierarchy)Activate(c);return c;}
         public T GetComponent<T>() =>components.OfType<T>().FirstOrDefault();
+        public T GetComponentInChildren<T>(bool includeInactive=false)
+        {
+            if(!includeInactive&&!activeInHierarchy)return default;
+            var own=GetComponent<T>();if(own is not null)return own;
+            foreach(var child in transform.children){var found=child.gameObject.GetComponentInChildren<T>(includeInactive);if(found is not null)return found;}
+            return default;
+        }
+
         public T GetComponentInParent<T>()=>transform.GetComponentInParent<T>();
         public void SetActive(bool value)
         {
@@ -76,6 +100,22 @@ namespace UnityEngine
         public bool isActiveAndEnabled=>enabled&&gameObject.activeInHierarchy;
     }
     public class MonoBehaviour:Behaviour { }
+    public enum AnimatorCullingMode {AlwaysAnimate}
+    public class RuntimeAnimatorController:Object {}
+    public class Animator:Behaviour
+    {
+        public RuntimeAnimatorController runtimeAnimatorController;
+        public bool applyRootMotion,isInitialized=true;public float speed=1f;
+        public AnimatorCullingMode cullingMode;public int LastState,PlayCalls,UpdateCalls;public float LastTime;
+        public readonly List<(int state,float time)> Samples=new List<(int,float)>();
+        public static int StringToHash(string s)=>s.GetHashCode();
+        public readonly HashSet<int> MissingStates=new HashSet<int>();
+        public Action<Animator> OnSample;
+        public bool HasState(int layer,int hash)=>!MissingStates.Contains(hash);
+        public void Play(int state,int layer,float time){LastState=state;LastTime=time;PlayCalls++;Samples.Add((state,time));}
+        public void Update(float delta){if(!isActiveAndEnabled||!isInitialized)throw new Exception("Uninitialized/inactive Animator evaluation");UpdateCalls++;OnSample?.Invoke(this);}
+    }
+
     public class Transform:Component
     {
         public Transform parent; public readonly List<Transform> children=new List<Transform>();
@@ -96,6 +136,7 @@ namespace UnityEngine
         public static Vector3 operator -(Vector3 a)=>From(-a.Value);
         public static Vector3 operator +(Vector3 a,Vector3 b)=>From(a.Value+b.Value);public static Vector3 operator -(Vector3 a,Vector3 b)=>From(a.Value-b.Value);
         public static Vector3 operator *(Vector3 a,float b)=>From(a.Value*b);public static Vector3 operator /(Vector3 a,float b)=>From(a.Value/b);
+        public static Vector3 Lerp(Vector3 a,Vector3 b,float t)=>a+(b-a)*Math.Clamp(t,0,1);
         public static Vector3 ClampMagnitude(Vector3 a,float b)=>a.magnitude>b?a.normalized*b:a;
         public static Vector3 MoveTowards(Vector3 a,Vector3 b,float d){var delta=b-a;return delta.magnitude<=d?b:a+delta.normalized*d;}
     }
@@ -105,6 +146,7 @@ namespace UnityEngine
         public static Quaternion identity=>From(N.Quaternion.Identity);
         public static Quaternion operator *(Quaternion a,Quaternion b)=>From(a.value*b.value);
         public static Vector3 operator *(Quaternion a,Vector3 b)=>Vector3.From(N.Vector3.Transform(b.Value,a.value));
+        public static Quaternion Slerp(Quaternion a,Quaternion b,float t)=>From(N.Quaternion.Slerp(a.value,b.value,Math.Clamp(t,0,1)));
         public static Quaternion Inverse(Quaternion q)=>From(N.Quaternion.Inverse(q.value));
         public static Quaternion Euler(float x,float y,float z)=>From(N.Quaternion.CreateFromYawPitchRoll(y*Mathf.Deg2Rad,x*Mathf.Deg2Rad,z*Mathf.Deg2Rad));
         public static Quaternion LookRotation(Vector3 forward,Vector3 up)=>Euler(0,(float)Math.Atan2(forward.x,forward.z)/Mathf.Deg2Rad,0);
@@ -129,7 +171,7 @@ namespace UnityEngine
         public static int RaycastNonAlloc(Vector3 origin,Vector3 direction,RaycastHit[] buffer,float length,int mask,QueryTriggerInteraction triggers)
         {RayCalls++;var hits=Hits?.Invoke(origin,direction,length)??Array.Empty<Collider>();int count=Math.Min(hits.Length,buffer.Length);for(int i=0;i<count;i++)buffer[i]=new RaycastHit{collider=hits[i]};return count;}
     }
-    public class Material:Object {public static int Created;public Material(){Created++;}}
+    public class Material:Object {public static int Created;public Material(){Created++;}public bool HasProperty(int id)=>false;public Color GetColor(int id)=>new Color(1,1,1,1);}
     public struct Color
     {
         public float r,g,b,a;public Color(float r,float g,float b,float a=1){this.r=r;this.g=g;this.b=b;this.a=a;}
@@ -137,7 +179,7 @@ namespace UnityEngine
     }
     public class MaterialPropertyBlock
     {
-        public readonly Dictionary<int,Color> Colors=new Dictionary<int,Color>();public void SetColor(int id,Color color){Colors[id]=color;}
+        public readonly Dictionary<int,Color> Colors=new Dictionary<int,Color>();public bool isEmpty=>Colors.Count==0;public bool HasColor(int id)=>Colors.ContainsKey(id);public Color GetColor(int id)=>Colors.TryGetValue(id,out var c)?c:default;public void SetColor(int id,Color color){Colors[id]=color;}
     }
     public class Renderer:Component
     {
@@ -145,9 +187,10 @@ namespace UnityEngine
         public Material sharedMaterial;public Rendering.ShadowCastingMode shadowCastingMode;public bool receiveShadows;
         private readonly Dictionary<int,Color> colors=new Dictionary<int,Color>();
         public void GetPropertyBlock(MaterialPropertyBlock p){PropertyReads++;p.Colors.Clear();foreach(var x in colors)p.Colors[x.Key]=x.Value;}
-        public void SetPropertyBlock(MaterialPropertyBlock p){PropertyWrites++;colors.Clear();foreach(var x in p.Colors)colors[x.Key]=x.Value;}
+        public void SetPropertyBlock(MaterialPropertyBlock p){PropertyWrites++;colors.Clear();if(p!=null)foreach(var x in p.Colors)colors[x.Key]=x.Value;}
     }
     public class MeshRenderer:Renderer{}
+    public class SkinnedMeshRenderer:Renderer {public Transform[] bones;}
     public class MeshFilter:Component {public Mesh sharedMesh;}
     public class Mesh:Object {public Vector3[] vertices;public int[] triangles;public void RecalculateNormals(){}public void RecalculateBounds(){}}
     public enum PrimitiveType {Capsule,Cube,Cylinder}
@@ -204,4 +247,12 @@ namespace IntercomMvp {
  public class IntercomPlayerInput:UnityEngine.MonoBehaviour {public IntercomMissionDirector mission;public IntercomPlayerVitality vitality;public int cancellations;public void CancelUntilRelease(){cancellations++;}}
  public class IntercomPlayerVitality:UnityEngine.MonoBehaviour {public IntercomHealth health;public IntercomPlayerMotor motor;public IntercomPlayerInput input;public bool MissionBlocked;object owner;public bool CanSetMissionBlocked(object next)=>owner==null||ReferenceEquals(owner,next);public bool SetMissionBlocked(object next,bool blocked){if(!CanSetMissionBlocked(next))return false;owner=blocked?next:null;MissionBlocked=blocked;return true;}public bool Retry(){motor.RespawnVersion++;health.ResetHealth();return true;}}
  public class IntercomRescueAlly:UnityEngine.MonoBehaviour {public bool Recruited,WaitingForPlayer,Suspended;public IntercomHealth Health;public static IntercomRescueAlly Create(IntercomNpcNavigation n,IntercomHealth h,IntercomNpcDefinition d,IntercomMissionDefinition m,UnityEngine.Vector3 p)=>throw new System.NotImplementedException();public void ResetForMission(IntercomMissionDefinition d,UnityEngine.Vector3 p){}}
+}
+
+namespace IntercomMvp {
+ public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {
+  public IntercomNpcDefinition definition;public int EmitCalls,ClearCalls;public bool Ready=true;
+  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){EmitCalls++;return Ready;}
+  public void Clear(){ClearCalls++;}
+ }
 }

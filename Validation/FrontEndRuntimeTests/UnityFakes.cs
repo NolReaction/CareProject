@@ -8,7 +8,7 @@ namespace UnityEngine {
  public class Camera{public static Camera main=new Camera();public Transform transform=new Transform();public Ray ScreenPointToRay(Vector2 p)=>new Ray(new Vector3(p.x/100,10,p.y/100),new Vector3(0,-1,1));}
  public class DefaultExecutionOrder:Attribute{public DefaultExecutionOrder(int x){}}public class DisallowMultipleComponent:Attribute{}
  public class TooltipAttribute:Attribute{public TooltipAttribute(string x){}}public class MinAttribute:Attribute{public MinAttribute(float v){}}public class HeaderAttribute:Attribute{public HeaderAttribute(string x){}}public class RangeAttribute:Attribute{public RangeAttribute(float x,float y){}}
- public static class Application{public static bool isMobilePlatform,isPlaying=true;}
+ public static class Application{public static bool isMobilePlatform,isPlaying=true,isFocused=true;}
  public static class Time{public static float timeScale=1,unscaledDeltaTime=.016f;}
  public enum ScreenOrientation{LandscapeLeft,Portrait}
  public static class Screen{public static int width=1920,height=1080;public static Rect safeArea=new Rect(0,0,1920,1080);public static ScreenOrientation orientation;}
@@ -54,7 +54,7 @@ namespace UnityEngine {
   static object Bounds(Rect r)=>new[]{r.x,r.y,r.width,r.height};static float[] Rgba(Color c)=>new[]{c.r,c.g,c.b,c.a};
   public static void DrawTexture(Rect r,Texture t){if(!Record)return;var texture=(Texture2D)t;textures[texture.name]=texture;commands.Add(new{kind="texture",rect=Bounds(r),texture=texture.name,color=Rgba(color)});}
   public static void Label(Rect r,string s,GUIStyle style){labels.Add(s);if(Record)commands.Add(new{kind="text",rect=Bounds(r),text=s,fontSize=style.fontSize,bold=style.fontStyle==FontStyle.Bold,align=style.alignment.ToString(),wrap=style.wordWrap,color=Rgba(style.normal.textColor)});}
-  public static void Save(string path){var images=new List<object>();foreach(var pair in textures){var t=pair.Value;if(pair.Key=="RobotPortrait"||pair.Key=="PistolPortrait")continue;var bytes=new byte[t.pixels.Length*4];for(int i=0;i<t.pixels.Length;i++){bytes[i*4]=t.pixels[i].r;bytes[i*4+1]=t.pixels[i].g;bytes[i*4+2]=t.pixels[i].b;bytes[i*4+3]=t.pixels[i].a;}images.Add(new{name=pair.Key,width=t.width,height=t.height,rgba=Convert.ToBase64String(bytes)});}System.IO.File.WriteAllText(path,System.Text.Json.JsonSerializer.Serialize(new{width=Screen.width,height=Screen.height,textures=images,commands=commands}));}
+  public static void Save(string path){var images=new List<object>();foreach(var pair in textures){var t=pair.Value;if(pair.Key=="RobotPortrait"||pair.Key=="PistolPortrait"||pair.Key=="HomeDoodle"||pair.Key=="RescueDoodle")continue;var bytes=new byte[t.pixels.Length*4];for(int i=0;i<t.pixels.Length;i++){bytes[i*4]=t.pixels[i].r;bytes[i*4+1]=t.pixels[i].g;bytes[i*4+2]=t.pixels[i].b;bytes[i*4+3]=t.pixels[i].a;}images.Add(new{name=pair.Key,width=t.width,height=t.height,rgba=Convert.ToBase64String(bytes)});}System.IO.File.WriteAllText(path,System.Text.Json.JsonSerializer.Serialize(new{width=Screen.width,height=Screen.height,textures=images,commands=commands}));}
  }
 
 }
@@ -75,8 +75,9 @@ namespace IntercomMvp {
   public IntercomHealth AllyHealth;
   public string ObjectiveText="Задание",ResultText="Двор снова работает.",HudHint="";
   public int Starts,Retries,Selections;
-  public bool StartMission(IntercomMissionMode mode){Starts++;Mode=mode;Phase=IntercomMissionPhase.Active;return true;}
-  public bool RetryMission(){Retries++;Phase=IntercomMissionPhase.Active;return true;}
+  public uint RunRevision;public float ElapsedSeconds;
+  public bool StartMission(IntercomMissionMode mode){Starts++;RunRevision++;ElapsedSeconds=0;Mode=mode;Phase=IntercomMissionPhase.Active;return true;}
+  public bool RetryMission(){Retries++;RunRevision++;ElapsedSeconds=0;Phase=IntercomMissionPhase.Active;return true;}
   public void ReturnToSelection(){Selections++;Phase=IntercomMissionPhase.Selection;}
  }
 }

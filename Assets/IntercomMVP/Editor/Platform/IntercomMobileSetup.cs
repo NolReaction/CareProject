@@ -42,7 +42,7 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Setup Mobile Prototype", false, 22)]
+        [MenuItem("Tools/CareProject/Mobile/01 Configure Controls", false, 22)]
         private static void SetupMobilePrototype()
         {
             try
@@ -53,7 +53,7 @@ namespace IntercomMvp.Editor
                     .SelectMany(root => root.GetComponentsInChildren<Camera>(true))
                     .OrderByDescending(item => item.CompareTag("MainCamera")).FirstOrDefault();
                 if (camera == null)
-                    throw new InvalidOperationException("В активной сцене не найдена игровая Camera. Сначала открой Tools > Intercom MVP > Open Scene.");
+                    throw new InvalidOperationException("В активной сцене не найдена игровая Camera. Сначала открой Tools > CareProject > Open Scene.");
 
                 IntercomMovementSetup.Setup(robot, camera);
                 IntercomMvpSceneBuilder.ConfigureMobilePresentation(robot, camera);
@@ -68,9 +68,9 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Setup Mobile Prototype", true)]
-        [MenuItem("Tools/CareProject/Configure Android Test Settings", true)]
-        [MenuItem("Tools/CareProject/Configure iPhone Test Settings", true)]
+        [MenuItem("Tools/CareProject/Mobile/01 Configure Controls", true)]
+        [MenuItem("Tools/CareProject/Mobile/02 Android Test Settings", true)]
+        [MenuItem("Tools/CareProject/Mobile/03 iPhone Test Settings", true)]
         private static bool CanSetup()
         {
             return !EditorApplication.isCompiling && !EditorApplication.isUpdating
@@ -103,7 +103,7 @@ namespace IntercomMvp.Editor
                 PrefabUtility.RecordPrefabInstancePropertyModifications(settings);
         }
 
-        [MenuItem("Tools/CareProject/Configure Android Test Settings", false, 40)]
+        [MenuItem("Tools/CareProject/Mobile/02 Android Test Settings", false, 40)]
         private static void ConfigureAndroidTestSettings()
         {
             try
@@ -135,7 +135,7 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Configure iPhone Test Settings", false, 41)]
+        [MenuItem("Tools/CareProject/Mobile/03 iPhone Test Settings", false, 41)]
         private static void ConfigureIPhoneTestSettings()
         {
             try
@@ -160,6 +160,14 @@ namespace IntercomMvp.Editor
             EditorUserBuildSettings.allowDebugging = false;
             EditorUserBuildSettings.connectProfiler = false;
             EditorUserBuildSettings.buildWithDeepProfilingSupport = false;
+        }
+
+        [MenuItem("Tools/CareProject/Mobile/04 Device Checklist", false, 42)]
+        private static void OpenDeviceChecklist()
+        {
+            string path = Path.GetFullPath(Path.Combine(Application.dataPath,"..","MOBILE_TESTING.md"));
+            if(File.Exists(path)) EditorUtility.OpenWithDefaultApp(path);
+            else Debug.LogWarning("CareProject: MOBILE_TESTING.md не найден в корне проекта.");
         }
 
         private static void SetIdentifierOnlyIfDefault(NamedBuildTarget target)

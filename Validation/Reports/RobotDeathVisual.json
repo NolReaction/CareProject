@@ -1,0 +1,134 @@
+{
+  "kind": "Offline actual production geometry/transform visual review; not Unity native rendering",
+  "source": "IntercomRobotDeathEffects production Awake, Emit and Update compiled with existing narrow Unity contracts; no production changes",
+  "snapshotsSeconds": [
+    0,
+    0.07,
+    0.15,
+    0.45,
+    1,
+    1.5
+  ],
+  "camera": {
+    "pitch": 35,
+    "yaw": 10,
+    "unityOrthographicSize": 4.6,
+    "pixelDensityAt720p": 78.26086956521739
+  },
+  "renderer": "Private Pillow indexed-triangle depth rasterizer with opaque backface culling and approximate diffuse lighting, using exact shared material RGB and authored chunk atlas UVs. No anti-aliasing, Unity smooth normals, URP lighting or platform timing claim. Hierarchical TRS composed explicitly to correct fake parent-scale omissions.",
+  "proceduralMeshes": [
+    {
+      "name": "Scrap cog",
+      "triangles": 384
+    },
+    {
+      "name": "Scrap nut",
+      "triangles": 192
+    },
+    {
+      "name": "Scrap bolt",
+      "triangles": 120
+    },
+    {
+      "name": "Mechanical pop ring",
+      "triangles": 256
+    },
+    {
+      "name": "Comic mechanical pop",
+      "triangles": 12
+    },
+    {
+      "name": "Mechanical puff",
+      "triangles": 8
+    }
+  ],
+  "authoredChunks": [
+    {
+      "name": "Breakup_Body",
+      "triangles": 2666,
+      "restPivotUnityAxis": [
+        -0.0005403012037277222,
+        0.7622043490409851,
+        -0.052013084292411804
+      ]
+    },
+    {
+      "name": "Breakup_BootL",
+      "triangles": 1004,
+      "restPivotUnityAxis": [
+        0.24403619766235352,
+        0.2705385982990265,
+        0.008178159594535828
+      ]
+    },
+    {
+      "name": "Breakup_BootR",
+      "triangles": 1008,
+      "restPivotUnityAxis": [
+        -0.24272902309894562,
+        0.2705334722995758,
+        0.00817824900150299
+      ]
+    },
+    {
+      "name": "Breakup_GloveL",
+      "triangles": 1058,
+      "restPivotUnityAxis": [
+        0.43900352716445923,
+        0.6549069285392761,
+        0.047760412096977234
+      ]
+    },
+    {
+      "name": "Breakup_GloveR",
+      "triangles": 1060,
+      "restPivotUnityAxis": [
+        -0.43933069705963135,
+        0.6552340984344482,
+        0.0487419068813324
+      ]
+    },
+    {
+      "name": "Breakup_Helmet",
+      "triangles": 658,
+      "restPivotUnityAxis": [
+        -0.022898897528648376,
+        1.1210618019104004,
+        0.0526571124792099
+      ]
+    }
+  ],
+  "activeGeneric": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    0
+  ],
+  "activeActual": [
+    11,
+    11,
+    11,
+    11,
+    11,
+    0
+  ],
+  "inspectedImages": [
+    "mesh_shapes_contact.png",
+    "burst_game_scale_contact.png",
+    "burst_closeup_contact.png",
+    "burst_game_scale_contact_actual.png",
+    "burst_closeup_contact_actual.png"
+  ],
+  "findings": [
+    "Cog teeth and hole, nut hex silhouette and bolt head/thread collars are present and readable; no winding or index defect observed.",
+    "Cream star is clear at .07s in generic burst; expanding ring reads at .15s. Generic parts occupy approximately10\u201320 pixels at720p saved game-camera density.",
+    "Some random rotations expose dark ink undersides; silhouette remains legible. This is expected with paired thicker outlines.",
+    "Authored static six-part roundtrip retains atlas UVs and rest pivots, begins at coherent robot rest pose, separates/spins into rigid parts, reaches floor without a persistent corpse, and disappears by1.50s.",
+    "On actual-part bursts the source body occludes most of the short star; the expanding ring remains visible. This is a presentation tradeoff, not a topology defect.",
+    "No production change indicated by this offline review. Native Unity import, shader response and motion readability still require Play Mode/device review."
+  ],
+  "nativeUnityVerified": false,
+  "productionEdits": false
+}

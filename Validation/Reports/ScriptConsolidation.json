@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "beforeCSharpFiles": 105,
+  "sourceFilesRetired": 19,
+  "newCohesiveModelFiles": 8,
+  "netSourceReduction": 11,
+  "afterBeforeOtherV18Features": 94,
+  "pureFileGroups": 21,
+  "unchangedPureTypeBodies": true,
+  "serializedComponentOrScriptableObjectFilesRetired": 0,
+  "retiredScriptGuidSerializedReferences": 0,
+  "protectedHeroFilesByteIdentical": 32,
+  "legacyFlatSourceAliases": 16,
+  "testCompileIncludesUpdated": 24,
+  "focusedProjects": [
+    {
+      "name": "AudioTimingTests",
+      "result": "PASS"
+    },
+    {
+      "name": "FrontEndModelTests",
+      "result": "PASS"
+    },
+    {
+      "name": "FrontEndRoomCameraTests",
+      "result": "PASS"
+    },
+    {
+      "name": "InputCancellationTests",
+      "result": "PASS"
+    },
+    {
+      "name": "MagazineTests",
+      "result": "PASS"
+    },
+    {
+      "name": "MobileInputTests",
+      "result": "PASS"
+    },
+    {
+      "name": "OcclusionMathTests",
+      "result": "PASS"
+    },
+    {
+      "name": "PoseClockTests",
+      "result": "PASS"
+    },
+    {
+      "name": "ProjectileCollisionTests",
+      "result": "PASS"
+    },
+    {
+      "name": "ReactivePropTests",
+      "result": "PASS"
+    },
+    {
+      "name": "TracerGeometryTests",
+      "result": "PASS"
+    },
+    {
+      "name": "WeaponFoundationTests",
+      "result": "PASS"
+    },
+    {
+      "name": "PlayerControlLifecycleTests",
+      "result": "PASS"
+    }
+  ],
+  "architectureValidatorRegressionCases": 10,
+  "offlineAssetPathChecks": 15,
+  "manifest": "Tools/RetirementManifestV18.json",
+  "limits": "Compilation/tests use .NET8 and narrow Unity substitutes; no Unity importer or device execution.",
+  "finalUnitySources": 96,
+  "finalRuntimeSources": 70,
+  "finalEditorSources": 26
+}

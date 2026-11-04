@@ -36,6 +36,7 @@ namespace IntercomMvp
         public IntercomNpcPhase Phase { get; private set; }
         public float WindupProgress => Phase == IntercomNpcPhase.Windup ? Math.Min(1f, elapsed / rules.Windup) : 0f;
         public float WindupRemaining => Phase == IntercomNpcPhase.Windup ? Math.Max(0f, rules.Windup-elapsed) : 0f;
+        public float RecoveryProgress => Phase == IntercomNpcPhase.Recovery ? Math.Min(1f, elapsed / rules.Recovery) : 0f;
         private IntercomNpcRules rules = new IntercomNpcRules(.45f,.65f,2.5f,1.1f);
         private float elapsed, unseen;
 

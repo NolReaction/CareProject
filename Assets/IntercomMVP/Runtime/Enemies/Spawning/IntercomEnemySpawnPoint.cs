@@ -14,7 +14,7 @@ namespace IntercomMvp
 
         public bool IsAnimating => animating;
         public float ReadyAt => readyAt;
-        private float readyAt, elapsed, duration;
+        private float readyAt, elapsed, duration, robotClearAt;
         private bool animating, captured, focused=true, paused;
         private Quaternion lidRest;
         private Vector3 warningRest;
@@ -25,7 +25,9 @@ namespace IntercomMvp
         public void BeginArrival(float now, float seconds)
         {
             CaptureRest(); RestoreVisual();
-            duration = IntercomNpcDefinition.Safe(seconds, 1.03f, .3f, 4f);
+            robotClearAt = IntercomNpcDefinition.Safe(seconds, 1.03f, .3f, 4f);
+            // The robot owns its rise clock. The lid closes only after the boots have cleared the opening.
+            duration = robotClearAt + (kind==IntercomEnemySpawnKind.Hatch ? .30f : 0f);
             elapsed = 0f; animating = true; focused=Application.isFocused; paused=false;
             readyAt = IntercomEnemySpawnPolicy.NextReadyAt(now,
                 Mathf.Max(duration, IntercomNpcDefinition.Safe(cooldownSeconds, 4f, 0f, 60f)));
@@ -62,8 +64,8 @@ namespace IntercomMvp
             float p = Mathf.Clamp01(elapsed / duration);
             if (kind == IntercomEnemySpawnKind.Hatch && hatchLid != null)
             {
-                float opening = Mathf.Clamp01(p / .22f);
-                float closing = Mathf.Clamp01((p - .88f) / .12f);
+                float opening = Mathf.Clamp01(elapsed / Mathf.Min(.22f,robotClearAt*.25f));
+                float closing = Mathf.Clamp01((elapsed-robotClearAt)/.30f);
                 float open = opening * opening * (3f - 2f * opening) * (1f - closing * closing * (3f - 2f * closing));
                 hatchLid.localRotation = lidRest * Quaternion.Euler(-76f * open, 0f, 0f);
             }

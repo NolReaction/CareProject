@@ -108,7 +108,6 @@ namespace UnityEngine.Events {public class UnityEvent {private event Action list
 namespace IntercomMvp {
  public class IntercomGroundFeedback:UnityEngine.Behaviour {public bool CanAdjustRunningStride;public bool TryGetLocomotionFacing(out UnityEngine.Vector3 f){f=UnityEngine.Vector3.forward;return false;}public bool TryConstrainStationaryHeading(UnityEngine.Vector3 a,float speed,out UnityEngine.Vector3 b){b=a;return false;}}
  public class IntercomSimpleShooter:UnityEngine.Behaviour {}
- public enum IntercomWeaponPosture{Relaxed,Raising,Combat,Lowering}
  public class IntercomWeaponPose:UnityEngine.Behaviour {public IntercomWeaponPosture Posture; public void ResetPosture(){Posture=IntercomWeaponPosture.Relaxed;}private void OnDisable(){ResetPosture();}}
  public class IntercomWeaponMagazine:UnityEngine.Behaviour {public bool IsReloading;public float ReloadProgress;public int CurrentAmmo=24,Capacity=24;}
 }
@@ -118,6 +117,14 @@ namespace IntercomMvp {
  public class IntercomNpcNavigation:UnityEngine.Behaviour{public bool IsReady=true;public void RebuildObstacleCache(){IsReady=true;}public bool TryProject(UnityEngine.Vector3 p,out UnityEngine.Vector3 point){point=p;return true;}public IntercomNavResult TryFindPath(UnityEngine.Vector3 a,UnityEngine.Vector3 b,System.Collections.Generic.List<UnityEngine.Vector3> path){path.Clear();path.Add(b);return IntercomNavResult.Success;}}
  public class IntercomNpcDefinition:UnityEngine.ScriptableObject{public float emergenceSeconds=.68f;public UnityEngine.Material bodyMaterial=new UnityEngine.Material(),detailMaterial=new UnityEngine.Material(),telegraphMaterial=new UnityEngine.Material();public static float Safe(float v,float fallback,float min,float max)=>float.IsNaN(v)||float.IsInfinity(v)?fallback:UnityEngine.Mathf.Clamp(v,min,max);}
  public enum IntercomNpcPhase{Idle,Chase,Windup,Recovery,Dead}
- public class IntercomNpcController:UnityEngine.Behaviour{public IntercomHealth Health;public IntercomHealth targetHealth;public IntercomNpcPhase Phase;public static IntercomNpcController Create(IntercomNpcDefinition d,IntercomNpcNavigation n,IntercomHealth p,IntercomPlayerMotor m,UnityEngine.Vector3 pos,int i){var g=new UnityEngine.GameObject();g.transform.position=pos;var actor=g.AddComponent<IntercomNpcController>();actor.Health=g.AddComponent<IntercomHealth>();return actor;}public void SetTarget(IntercomHealth h){targetHealth=h;}public void PrepareForSpawn(UnityEngine.Vector3 p){transform.position=p;Health.ResetHealth();}public void Investigate(UnityEngine.Vector3 p){}public void BeginEmergence(){}public void BeginEmergence(float seconds){}}
+ public class IntercomNpcController:UnityEngine.Behaviour{public IntercomHealth Health;public IntercomHealth targetHealth;public IntercomNpcPhase Phase;public static IntercomNpcController Create(IntercomNpcDefinition d,IntercomNpcNavigation n,IntercomHealth p,IntercomPlayerMotor m,UnityEngine.Vector3 pos,int i){var g=new UnityEngine.GameObject();g.transform.position=pos;var actor=g.AddComponent<IntercomNpcController>();actor.Health=g.AddComponent<IntercomHealth>();return actor;}public void SetTarget(IntercomHealth h){targetHealth=h;}public void PrepareForSpawn(UnityEngine.Vector3 p){transform.position=p;Health.ResetHealth();}public void Investigate(UnityEngine.Vector3 p){}public float ArrivalDuration=>.68f;public void HideForDeathBurst(){}public void BeginEmergence(){}public void BeginEmergence(float seconds){}public void BeginEmergence(float seconds,IntercomEnemySpawnKind kind){}}
  public class IntercomRescueAlly:UnityEngine.Behaviour{public IntercomHealth Health;public bool Recruited,WaitingForPlayer,Suspended;public static IntercomRescueAlly Create(IntercomNpcNavigation n,IntercomHealth h,IntercomNpcDefinition d,IntercomMissionDefinition m,UnityEngine.Vector3 pos){var g=new UnityEngine.GameObject();var a=g.AddComponent<IntercomRescueAlly>();a.Health=g.AddComponent<IntercomHealth>();g.transform.position=pos;return a;}public void ResetForMission(IntercomMissionDefinition m,UnityEngine.Vector3 pos){transform.position=pos;Health.maximumHealth=m.allyHealth;Health.ResetHealth();Recruited=false;}}
+}
+
+namespace IntercomMvp {
+ public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {
+  public IntercomNpcDefinition definition;public int EmitCalls,ClearCalls;public bool Ready=true;
+  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){EmitCalls++;return Ready;}
+  public void Clear(){ClearCalls++;}
+ }
 }

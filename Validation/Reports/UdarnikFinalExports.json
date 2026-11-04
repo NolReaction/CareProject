@@ -1,0 +1,242 @@
+{
+  "source": {
+    "active": "UdarnikRig",
+    "mode": "POSE",
+    "action": "Idle",
+    "slot": "OBUdarnikRig",
+    "parts": [
+      "BodyShell",
+      "UpperArm.L",
+      "UpperArm.R",
+      "Helmet",
+      "Boot.L",
+      "Boot.R",
+      "Glove.R",
+      "Glove.L",
+      "Leg.R",
+      "Leg.L",
+      "HeadCore",
+      "NeckJoint"
+    ],
+    "bones": 14,
+    "actions": [
+      "Death",
+      "Emerge",
+      "EmergeGround",
+      "EmergeHatch",
+      "Hurt",
+      "Idle",
+      "Recover",
+      "Strike",
+      "Walk",
+      "Windup"
+    ],
+    "images": [
+      {
+        "name": "UdarnikAtlas",
+        "packed": true,
+        "size": [
+          2048,
+          2048
+        ]
+      }
+    ],
+    "triangles": 7454,
+    "workspaces": [
+      "Animation",
+      "Compositing",
+      "Geometry Nodes",
+      "Layout",
+      "Modeling",
+      "Rendering",
+      "Scripting",
+      "Sculpting",
+      "Shading",
+      "Texture Paint",
+      "UV Editing"
+    ],
+    "viewerBuffersIgnored": [
+      "Render Result",
+      "Viewer Node"
+    ]
+  },
+  "gameFBX": {
+    "meshes": [
+      "UdarnikBody"
+    ],
+    "rigs": [
+      [
+        "UdarnikRig",
+        14
+      ]
+    ],
+    "actions": [
+      {
+        "name": "UdarnikRig|UdarnikRig|Death",
+        "frames": [
+          1.0,
+          19.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Emerge",
+        "frames": [
+          1.0,
+          69.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|EmergeGround",
+        "frames": [
+          1.0,
+          96.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|EmergeHatch",
+        "frames": [
+          1.0,
+          106.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Hurt",
+        "frames": [
+          1.0,
+          23.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Idle",
+        "frames": [
+          1.0,
+          161.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Recover",
+        "frames": [
+          1.0,
+          49.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Strike",
+        "frames": [
+          1.0,
+          17.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Walk",
+        "frames": [
+          1.0,
+          81.0
+        ]
+      },
+      {
+        "name": "UdarnikRig|UdarnikRig|Windup",
+        "frames": [
+          1.0,
+          31.0
+        ]
+      }
+    ],
+    "triangles": 7454,
+    "materials": [
+      "UdarnikAtlas"
+    ]
+  },
+  "breakupFBX": {
+    "chunks": [
+      {
+        "name": "Breakup_Body",
+        "pivot": [
+          -0.0005403012037277222,
+          0.052013084292411804,
+          0.7622043490409851
+        ],
+        "localBoundCenterError": 1.4901161193847656e-08,
+        "triangles": 2666,
+        "materials": [
+          "UdarnikAtlas"
+        ]
+      },
+      {
+        "name": "Breakup_BootL",
+        "pivot": [
+          0.24403619766235352,
+          -0.008178159594535828,
+          0.2705385982990265
+        ],
+        "localBoundCenterError": 0.0,
+        "triangles": 1004,
+        "materials": [
+          "UdarnikAtlas"
+        ]
+      },
+      {
+        "name": "Breakup_BootR",
+        "pivot": [
+          -0.24272902309894562,
+          -0.00817824900150299,
+          0.2705334722995758
+        ],
+        "localBoundCenterError": 7.450580596923828e-09,
+        "triangles": 1008,
+        "materials": [
+          "UdarnikAtlas"
+        ]
+      },
+      {
+        "name": "Breakup_GloveL",
+        "pivot": [
+          0.43900352716445923,
+          -0.047760412096977234,
+          0.6549069285392761
+        ],
+        "localBoundCenterError": 1.666000468656264e-08,
+        "triangles": 1058,
+        "materials": [
+          "UdarnikAtlas"
+        ]
+      },
+      {
+        "name": "Breakup_GloveR",
+        "pivot": [
+          -0.43933069705963135,
+          -0.0487419068813324,
+          0.6552340984344482
+        ],
+        "localBoundCenterError": 1.862645149230957e-08,
+        "triangles": 1060,
+        "materials": [
+          "UdarnikAtlas"
+        ]
+      },
+      {
+        "name": "Breakup_Helmet",
+        "pivot": [
+          -0.022898897528648376,
+          -0.0526571124792099,
+          1.1210618019104004
+        ],
+        "localBoundCenterError": 5.960464477539063e-08,
+        "triangles": 658,
+        "materials": [
+          "UdarnikAtlas"
+        ]
+      }
+    ],
+    "totalTriangles": 7454
+  },
+  "status": "PASS",
+  "checks": 33,
+  "failures": [],
+  "sha256": {
+    "Source/Enemies/Udarnik/Udarnik_Rigged.blend": "f911f28733f35c590348c4bd4f0f7602747ba77101815c244e6bd4f95c28eb32",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx": "f466b63845c3ccf30f5100f2be34c7db2c48da43a40c2be82d402ba6e4c018d1",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx": "4a79a08c8d8b245fc92a39a487c5c2c751e5e389cfb8d3fe2361ac1fb13079c4"
+  },
+  "scope": "Separate Blender process opens saved source and reimports both FBX files; no source mutation, not Unity import/playback."
+}

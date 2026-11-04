@@ -1,0 +1,650 @@
+{
+  "status": "PASS",
+  "repair": {
+    "source": "Source/Enemies/Udarnik/Original.glb",
+    "heightMeters": 1.3,
+    "neckPlane": 0.87,
+    "headPivot": [
+      0.0,
+      0.04689683020114899,
+      0.8700000643730164
+    ],
+    "parts": [
+      "HeadCore",
+      "BodyShell",
+      "UpperArm.L",
+      "UpperArm.R",
+      "Helmet",
+      "Boot.L",
+      "Boot.R",
+      "Glove.R",
+      "Glove.L",
+      "Leg.R",
+      "Leg.L",
+      "NeckJoint"
+    ],
+    "boneNames": [
+      "Root",
+      "Pelvis",
+      "Body",
+      "Head",
+      "UpperArm.L",
+      "Forearm.L",
+      "UpperArm.R",
+      "Forearm.R",
+      "Thigh.L",
+      "Shin.L",
+      "Foot.L",
+      "Thigh.R",
+      "Shin.R",
+      "Foot.R"
+    ],
+    "atlas": "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png",
+    "repair": "Original face was Body while helmet was Head. Upper face is now a rigid HeadCore, both neck cut surfaces are capped and an overlapping mechanical joint closes the pivot.",
+    "weldingPolicy": "Coincident UV-split vertices within each original component only; separate articulated components are never welded together.",
+    "partTopology": {
+      "HeadCore": {
+        "weldedCoincidentUvVertices": 197,
+        "openEdgesBeforeCap": 123,
+        "capFaces": 2,
+        "openEdgesAfterCap": 0
+      },
+      "BodyShell": {
+        "weldedCoincidentUvVertices": 197,
+        "openEdgesBeforeCap": 91,
+        "capFaces": 1,
+        "openEdgesAfterCap": 0
+      },
+      "UpperArm.L": {
+        "weldedCoincidentUvVertices": 111,
+        "openEdgesBeforeCap": 30,
+        "capFaces": 4,
+        "openEdgesAfterCap": 0
+      },
+      "UpperArm.R": {
+        "weldedCoincidentUvVertices": 105,
+        "openEdgesBeforeCap": 30,
+        "capFaces": 3,
+        "openEdgesAfterCap": 0
+      },
+      "Helmet": {
+        "weldedCoincidentUvVertices": 70,
+        "openEdgesBeforeCap": 32,
+        "capFaces": 1,
+        "openEdgesAfterCap": 0
+      },
+      "Boot.L": {
+        "weldedCoincidentUvVertices": 102,
+        "openEdgesBeforeCap": 26,
+        "capFaces": 3,
+        "openEdgesAfterCap": 0
+      },
+      "Boot.R": {
+        "weldedCoincidentUvVertices": 99,
+        "openEdgesBeforeCap": 22,
+        "capFaces": 22,
+        "openEdgesAfterCap": 0
+      },
+      "Glove.R": {
+        "weldedCoincidentUvVertices": 40,
+        "openEdgesBeforeCap": 18,
+        "capFaces": 1,
+        "openEdgesAfterCap": 0
+      },
+      "Glove.L": {
+        "weldedCoincidentUvVertices": 67,
+        "openEdgesBeforeCap": 18,
+        "capFaces": 2,
+        "openEdgesAfterCap": 0
+      },
+      "Leg.R": {
+        "weldedCoincidentUvVertices": 70,
+        "openEdgesBeforeCap": 18,
+        "capFaces": 1,
+        "openEdgesAfterCap": 0
+      },
+      "Leg.L": {
+        "weldedCoincidentUvVertices": 91,
+        "openEdgesBeforeCap": 18,
+        "capFaces": 1,
+        "openEdgesAfterCap": 0
+      }
+    },
+    "breakupGroups": {
+      "Helmet": [
+        "Helmet"
+      ],
+      "Body": [
+        "BodyShell",
+        "HeadCore",
+        "NeckJoint"
+      ],
+      "GloveL": [
+        "UpperArm.L",
+        "Glove.L"
+      ],
+      "GloveR": [
+        "UpperArm.R",
+        "Glove.R"
+      ],
+      "BootL": [
+        "Leg.L",
+        "Boot.L"
+      ],
+      "BootR": [
+        "Leg.R",
+        "Boot.R"
+      ]
+    },
+    "darkAtlasUv": [
+      0.172607421875,
+      0.387939453125
+    ],
+    "neckFootprintMin": [
+      -0.3016510605812073,
+      -0.32582157850265503,
+      0.8700000047683716
+    ],
+    "neckFootprintMax": [
+      0.30068305134773254,
+      0.4364810287952423,
+      0.8700000047683716
+    ],
+    "triangles": 7454,
+    "vertices": 3751
+  },
+  "independentSkinAndCoverageReview": {
+    "status": "PASS",
+    "assertions": 641,
+    "failures": [],
+    "baseline": {
+      "seamPairs": 21,
+      "stress": [
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": -25,
+          "maxHelmetFacePairDistanceChange": 0.12241081812283681
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": -12,
+          "maxHelmetFacePairDistanceChange": 0.05911774186625177
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": 0,
+          "maxHelmetFacePairDistanceChange": 3.517664715069202e-09
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": 12,
+          "maxHelmetFacePairDistanceChange": 0.05965328916686846
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": 25,
+          "maxHelmetFacePairDistanceChange": 0.12392355687709541
+        },
+        {
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "degrees": -12,
+          "maxHelmetFacePairDistanceChange": 0.056813469348543554
+        },
+        {
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "degrees": 12,
+          "maxHelmetFacePairDistanceChange": 0.05681355710671361
+        },
+        {
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "degrees": -12,
+          "maxHelmetFacePairDistanceChange": 0.03529345705742686
+        },
+        {
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "degrees": 12,
+          "maxHelmetFacePairDistanceChange": 0.035293632495739136
+        }
+      ],
+      "maxDrift": 0.12392355687709541,
+      "weightedVerticesChecked": 0,
+      "unweighted": [],
+      "nonNormalizedWeights": [],
+      "topology": [],
+      "nonManifold": [],
+      "neckRayStress": [],
+      "sourceSurfaceCoverage": {}
+    },
+    "repaired": {
+      "seamPairs": 19,
+      "stress": [
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": -25,
+          "maxHelmetFacePairDistanceChange": 2.1922239759608608e-08
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": -12,
+          "maxHelmetFacePairDistanceChange": 2.5113197008042043e-08
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": 0,
+          "maxHelmetFacePairDistanceChange": 3.517664715069202e-09
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": 12,
+          "maxHelmetFacePairDistanceChange": 1.5006111173110348e-08
+        },
+        {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "degrees": 25,
+          "maxHelmetFacePairDistanceChange": 1.6191428642287065e-08
+        },
+        {
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "degrees": -12,
+          "maxHelmetFacePairDistanceChange": 1.818931789077105e-07
+        },
+        {
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "degrees": 12,
+          "maxHelmetFacePairDistanceChange": 1.825331000029906e-07
+        },
+        {
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "degrees": -12,
+          "maxHelmetFacePairDistanceChange": 1.6063039810776392e-07
+        },
+        {
+          "axis": [
+            0,
+            1,
+            0
+          ],
+          "degrees": 12,
+          "maxHelmetFacePairDistanceChange": 1.7904311652716665e-07
+        }
+      ],
+      "maxDrift": 1.825331000029906e-07,
+      "weightedVerticesChecked": 3751,
+      "unweighted": [],
+      "nonNormalizedWeights": [],
+      "topology": [
+        {
+          "part": "BodyShell",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 434
+        },
+        {
+          "part": "Boot.L",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 306
+        },
+        {
+          "part": "Boot.R",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 305
+        },
+        {
+          "part": "Glove.L",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 201
+        },
+        {
+          "part": "Glove.R",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 210
+        },
+        {
+          "part": "HeadCore",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 263
+        },
+        {
+          "part": "Helmet",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 331
+        },
+        {
+          "part": "Leg.L",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 200
+        },
+        {
+          "part": "Leg.R",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 203
+        },
+        {
+          "part": "NeckJoint",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 642
+        },
+        {
+          "part": "UpperArm.L",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 332
+        },
+        {
+          "part": "UpperArm.R",
+          "boundaryEdges": 0,
+          "nonManifoldEdges": 0,
+          "vertices": 324
+        }
+      ],
+      "nonManifold": [],
+      "neckRayStress": [
+        {
+          "bodyPitch": -15,
+          "headAxis": [
+            0,
+            0,
+            1
+          ],
+          "headDegrees": -25,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7287811040878296
+        },
+        {
+          "bodyPitch": -15,
+          "headAxis": [
+            0,
+            0,
+            1
+          ],
+          "headDegrees": 25,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.727932095527649
+        },
+        {
+          "bodyPitch": -15,
+          "headAxis": [
+            1,
+            0,
+            0
+          ],
+          "headDegrees": -12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7324442863464355
+        },
+        {
+          "bodyPitch": -15,
+          "headAxis": [
+            1,
+            0,
+            0
+          ],
+          "headDegrees": 12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.709297776222229
+        },
+        {
+          "bodyPitch": -15,
+          "headAxis": [
+            0,
+            1,
+            0
+          ],
+          "headDegrees": -12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7166467905044556
+        },
+        {
+          "bodyPitch": -15,
+          "headAxis": [
+            0,
+            1,
+            0
+          ],
+          "headDegrees": 12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.718015432357788
+        },
+        {
+          "bodyPitch": 0,
+          "headAxis": [
+            0,
+            0,
+            1
+          ],
+          "headDegrees": -25,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7287811040878296
+        },
+        {
+          "bodyPitch": 0,
+          "headAxis": [
+            0,
+            0,
+            1
+          ],
+          "headDegrees": 25,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7279316186904907
+        },
+        {
+          "bodyPitch": 0,
+          "headAxis": [
+            1,
+            0,
+            0
+          ],
+          "headDegrees": -12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.732444167137146
+        },
+        {
+          "bodyPitch": 0,
+          "headAxis": [
+            1,
+            0,
+            0
+          ],
+          "headDegrees": 12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.70929753780365
+        },
+        {
+          "bodyPitch": 0,
+          "headAxis": [
+            0,
+            1,
+            0
+          ],
+          "headDegrees": -12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7166475057601929
+        },
+        {
+          "bodyPitch": 0,
+          "headAxis": [
+            0,
+            1,
+            0
+          ],
+          "headDegrees": 12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.718016266822815
+        },
+        {
+          "bodyPitch": 15,
+          "headAxis": [
+            0,
+            0,
+            1
+          ],
+          "headDegrees": -25,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7287812232971191
+        },
+        {
+          "bodyPitch": 15,
+          "headAxis": [
+            0,
+            0,
+            1
+          ],
+          "headDegrees": 25,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7279318571090698
+        },
+        {
+          "bodyPitch": 15,
+          "headAxis": [
+            1,
+            0,
+            0
+          ],
+          "headDegrees": -12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.732444405555725
+        },
+        {
+          "bodyPitch": 15,
+          "headAxis": [
+            1,
+            0,
+            0
+          ],
+          "headDegrees": 12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.70929753780365
+        },
+        {
+          "bodyPitch": 15,
+          "headAxis": [
+            0,
+            1,
+            0
+          ],
+          "headDegrees": -12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.716646432876587
+        },
+        {
+          "bodyPitch": 15,
+          "headAxis": [
+            0,
+            1,
+            0
+          ],
+          "headDegrees": 12,
+          "rays": 105,
+          "misses": [],
+          "maxFrontDepth": 1.7180155515670776
+        }
+      ],
+      "sourceSurfaceCoverage": {
+        "originalTriangleCenters": 5604,
+        "maxDistanceToRepairedRestSurface": 3.111453850124235e-07
+      }
+    },
+    "scope": "Actual Blender evaluated skin, pair-distance regression reproduces old helmet-only weighting, closed component boundaries and Body-frame ray grids through the new neck. Not Unity rendering."
+  },
+  "atlasByteIdenticalV18": true,
+  "comparison": "Source/Enemies/Udarnik/Seam_Repair_Comparison.jpg",
+  "limits": [
+    "Mechanical surface closure and face/head segmentation, not a full manual retopology.",
+    "Stress QA verifies skin/coverage in actual Blender; Unity importer/rendering were not run.",
+    "Headroll25 degrees is a stresspose; normal clip motion is deliberately modest."
+  ]
+}

@@ -17,7 +17,7 @@ namespace IntercomMvp.Editor
         private const string PipelinePath = "Assets/IntercomMVP/Settings/Rendering/URP/IntercomPipeline.asset";
         private const string VolumeName = "Tutorial Daylight";
 
-        [MenuItem("Tools/CareProject/Apply Tutorial Daylight", false, 30)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Lighting/Apply Tutorial Daylight", false, 30)]
         internal static void ApplyToActiveScene()
         {
             try
@@ -113,7 +113,7 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Apply Tutorial Daylight", true)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Lighting/Apply Tutorial Daylight", true)]
         private static bool CanApply() => !EditorApplication.isCompiling && !EditorApplication.isUpdating
             && !EditorApplication.isPlayingOrWillChangePlaymode;
     }

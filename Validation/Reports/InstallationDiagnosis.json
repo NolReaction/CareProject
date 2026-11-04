@@ -1,0 +1,25 @@
+{
+  "scope": "Installation diagnosis from supplied screenshot and read-onlyGit; user machine files/Unity cache not inspected",
+  "observedGitHead": "755f75aecfa7194f945c633f8d8556b686d023b4",
+  "observedGitVersion": "v0.2.7",
+  "gitMatchesPublishedBase": "V15",
+  "screenshotShows": [
+    "Old large upperleft hull panel",
+    "Old large centered objective",
+    "Old upperright MENU button",
+    "Old lower-right ammo panel"
+  ],
+  "expectedV17": [
+    "Pause+redhealth upperleft",
+    "Objective belowhealth",
+    "Weapon/ammo upperright",
+    "No large lower-right ammo panel"
+  ],
+  "inference": "New HUD source is not running in screenshot; exact local install path/cause remains unverified",
+  "recovery": [
+    "VersionV18 marker incompiledmenu/HUD/StartHere",
+    "ExternalhashverifiedinstallerwithbackupandretiredsourcecleanupbeforeUnitycompile",
+    "Unity disk/source/scene-linkauditandmissing-reference repair",
+    "Legacyprototype scene regeneration removed"
+  ]
+}

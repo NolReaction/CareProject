@@ -53,12 +53,22 @@ def configure(text,meshdata):
     scene=author.Scene(text);root=scene.find_go('MVP_NpcSandbox');hero=scene.find_go('Robot')
     if root is None or hero is None:raise ValueError('Expected configured tutorial mission and hero')
     root_tr=scene.transform(root);director=scene.component(root,'IntercomMissionDirector');input_id=scene.component(hero,'IntercomPlayerInput')
+    death_fields='  definition: '+asset('Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset',11400000)+'\n'
+    for key,name in [('gearMaterial','UdarnikScrap'),('outlineMaterial','UdarnikScrapInk'),('flashMaterial','UdarnikPop')]:
+        death_fields+='  '+key+': '+asset('Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/'+name+'.mat',2100000)+'\n'
+    death_fields+='  breakupTemplate: {fileID: 0}\n  maximumBursts: 8\n  gearsPerBurst: 5\n  maximumChunkBursts: 2\n  breakupEvery: 3\n  scrapLifetime: 1.45\n  chunkLifetime: 1.3\n'
+    death_fx=scene.add_component(root,'IntercomRobotDeathEffects',death_fields)
+    fill_if_empty(scene,director,'deathEffects',local(death_fx))
     health=scene.component(hero,'IntercomHealth');motor=scene.component(hero,'IntercomPlayerMotor');assert all([director,input_id,health,motor])
     fields=''.join('  '+key+': '+local(value)+'\n' for key,value in [('mission',director),('input',input_id),('playerHealth',health),('playerMotor',motor)])
     fields+='  weapon: '+asset('Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset',11400000)+'\n  gameTitle: ЗАБОТА\n'
     fields+='  heroPortrait: '+asset('Assets/IntercomMVP/Content/Frontend/Textures/RobotPortrait.png',2800000)+'\n'
     fields+='  weaponPortrait: '+asset('Assets/IntercomMVP/Content/Frontend/Textures/PistolPortrait.png',2800000)+'\n  roomCamera: {fileID: 0}\n'
+    for key,name in [('homeDoodle','HomeDoodle'),('rescueDoodle','RescueDoodle')]:
+        fields+='  '+key+': '+asset('Assets/IntercomMVP/Content/Frontend/Artwork/'+name+'.png',2800000)+'\n'
     frontend=scene.add_component(root,'IntercomFrontEnd',fields)
+    for key,name in [('homeDoodle','HomeDoodle'),('rescueDoodle','RescueDoodle')]:
+        fill_if_empty(scene,frontend,key,asset('Assets/IntercomMVP/Content/Frontend/Artwork/'+name+'.png',2800000))
     for key,value in [('mission',local(director)),('input',local(input_id)),('playerHealth',local(health)),('playerMotor',local(motor)),('weapon',asset('Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset',11400000)),('heroPortrait',asset('Assets/IntercomMVP/Content/Frontend/Textures/RobotPortrait.png',2800000)),('weaponPortrait',asset('Assets/IntercomMVP/Content/Frontend/Textures/PistolPortrait.png',2800000))]:fill_if_empty(scene,frontend,key,value)
     arrivals=[]
     for name,position,kind in POINTS:
@@ -68,7 +78,7 @@ def configure(text,meshdata):
         hinge_tr=0
         if kind==2:
             rim,_=scene.add_object(name+' rim',point_tr);add_renderer(scene,rim,'HatchRim',meshdata['HatchRim']['materials'])
-            hinge,hinge_tr=scene.add_object(name+' hinge',point_tr,(0,0,-.5))
+            hinge,hinge_tr=scene.add_object(name+' hinge',point_tr,(0,0,-.7))
             lid,_=scene.add_object(name+' lid',hinge_tr);add_renderer(scene,lid,'HatchLid',meshdata['HatchLid']['materials'])
         fields=f'  kind: {kind}\n  minimumDistance: 5.5\n  cooldownSeconds: 4\n  hatchLid: '+local(hinge_tr)+'\n  warningVisual: '+local(warning_tr)+'\n'
         point_id=scene.add_component(point,'IntercomEnemySpawnPoint',fields);arrivals.append(point_id)

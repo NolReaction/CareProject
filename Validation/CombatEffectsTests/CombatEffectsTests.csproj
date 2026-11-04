@@ -2,7 +2,7 @@
 <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs"/>
 </ItemGroup></Project>

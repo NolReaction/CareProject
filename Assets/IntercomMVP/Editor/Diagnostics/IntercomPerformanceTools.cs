@@ -19,7 +19,7 @@ namespace IntercomMvp.Editor
                 capture.occlusion = motor.movementCamera.GetComponent<IntercomCameraOcclusion>();
             EditorUtility.SetDirty(capture);
         }
-        [MenuItem("Tools/CareProject/Performance/Open Last Capture")]
+        [MenuItem("Tools/CareProject/Development/Performance/Open Last Capture")]
         private static void OpenCapture()
         {
             string path = IntercomPerformanceCapture.CapturePath;

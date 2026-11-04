@@ -1,0 +1,1606 @@
+{
+  "status": "PASS",
+  "build": {
+    "clips": {
+      "Idle": 1.6,
+      "Walk": 0.8,
+      "Windup": 0.3,
+      "Strike": 0.16,
+      "Recover": 0.48,
+      "Hurt": 0.22,
+      "Death": 0.18,
+      "Emerge": 0.68,
+      "EmergeGround": 0.95,
+      "EmergeHatch": 1.05
+    },
+    "fps": 100,
+    "walkStanceTravel": 0.28,
+    "walkStanceDuty": 0.58,
+    "walkReferenceMetresPerSecond": 0.6034482758620691,
+    "ikClampedTargetsDuringAuthoring": 0,
+    "earlyEmergenceArmReachClamps": 178,
+    "status": "PREPARED",
+    "editableMeshObjects": [
+      "BodyShell",
+      "UpperArm.L",
+      "UpperArm.R",
+      "Helmet",
+      "Boot.L",
+      "Boot.R",
+      "Glove.R",
+      "Glove.L",
+      "Leg.R",
+      "Leg.L",
+      "HeadCore",
+      "NeckJoint"
+    ],
+    "gameMeshObjects": 1,
+    "sourceRig": "UdarnikRig",
+    "sourcePackedImages": [
+      "UdarnikAtlas"
+    ],
+    "rootMotion": false,
+    "boneScaleCurves": false,
+    "actions": [
+      "Idle",
+      "Walk",
+      "Windup",
+      "Strike",
+      "Recover",
+      "Hurt",
+      "Death",
+      "Emerge",
+      "EmergeGround",
+      "EmergeHatch"
+    ],
+    "breakupChunks": [
+      {
+        "name": "Breakup_Helmet",
+        "parts": [
+          "Helmet"
+        ],
+        "pivotBlender": [
+          -0.022898897528648376,
+          -0.0526571124792099,
+          1.1210618019104004
+        ],
+        "triangles": 658
+      },
+      {
+        "name": "Breakup_Body",
+        "parts": [
+          "BodyShell",
+          "HeadCore",
+          "NeckJoint"
+        ],
+        "pivotBlender": [
+          -0.0005403012037277222,
+          0.052013084292411804,
+          0.7622043490409851
+        ],
+        "triangles": 2666
+      },
+      {
+        "name": "Breakup_GloveL",
+        "parts": [
+          "UpperArm.L",
+          "Glove.L"
+        ],
+        "pivotBlender": [
+          0.43900352716445923,
+          -0.047760412096977234,
+          0.6549069285392761
+        ],
+        "triangles": 1058
+      },
+      {
+        "name": "Breakup_GloveR",
+        "parts": [
+          "UpperArm.R",
+          "Glove.R"
+        ],
+        "pivotBlender": [
+          -0.43933069705963135,
+          -0.0487419068813324,
+          0.6552340984344482
+        ],
+        "triangles": 1060
+      },
+      {
+        "name": "Breakup_BootL",
+        "parts": [
+          "Leg.L",
+          "Boot.L"
+        ],
+        "pivotBlender": [
+          0.24403619766235352,
+          -0.008178159594535828,
+          0.2705385982990265
+        ],
+        "triangles": 1004
+      },
+      {
+        "name": "Breakup_BootR",
+        "parts": [
+          "Leg.R",
+          "Boot.R"
+        ],
+        "pivotBlender": [
+          -0.24272902309894562,
+          -0.00817824900150299,
+          0.2705334722995758
+        ],
+        "triangles": 1008
+      }
+    ],
+    "input": "Source/Enemies/Udarnik/Original.glb",
+    "triangles": 7454,
+    "vertices": 3751,
+    "materials": 1,
+    "bones": [
+      "Root",
+      "Pelvis",
+      "Body",
+      "Head",
+      "UpperArm.L",
+      "Forearm.L",
+      "UpperArm.R",
+      "Forearm.R",
+      "Thigh.L",
+      "Shin.L",
+      "Foot.L",
+      "Thigh.R",
+      "Shin.R",
+      "Foot.R"
+    ],
+    "oneAtlas": [
+      2048,
+      2048
+    ],
+    "mesh": "UdarnikBody",
+    "armature": "UdarnikRig",
+    "forwardInBlender": "-Y",
+    "retainedAllOriginalTriangleSurfaces": true,
+    "editableCollection": "01 Editable Robot Parts",
+    "exports": [
+      "Source/Enemies/Udarnik/Udarnik_Rigged.blend",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png"
+    ]
+  },
+  "independentBlenderSkinReview": {
+    "status": "PASS",
+    "checks": 12034,
+    "editableMeshes": 12,
+    "weightedVertices": 3751,
+    "bones": 14,
+    "clips": {
+      "Idle": 1.6,
+      "Walk": 0.8,
+      "Windup": 0.3,
+      "Strike": 0.16,
+      "Recover": 0.48,
+      "Hurt": 0.22,
+      "Death": 0.18,
+      "Emerge": 0.68,
+      "EmergeGround": 0.95,
+      "EmergeHatch": 1.05
+    },
+    "walkReferenceMetresPerSecond": 0.6034482758620691,
+    "maximumPlantedSoleFloorError": 5.295311287045485e-05,
+    "maximumMidStanceWorldSlipMetresPerSecond": 0.0007686648389459982,
+    "scope": "Actual Blender evaluated skin, complete weight sums, 101samples peraction, stationaryRoot, bonecontacts and planted soles; not Unity playback.",
+    "samples": [
+      {
+        "clip": "Idle",
+        "t": 0.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999571561813354,
+        "maxWidth": 1.3670788407325745,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.1,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.3006536960601807,
+        "maxWidth": 1.3667284846305847,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.2,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.3010308742523193,
+        "maxWidth": 1.366432011127472,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.3,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.3010703325271606,
+        "maxWidth": 1.366528034210205,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.4,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.3007389307022095,
+        "maxWidth": 1.367011845111847,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.5,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.300026297569275,
+        "maxWidth": 1.367352306842804,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.6,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2991394996643066,
+        "maxWidth": 1.3674028515815735,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.7,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.298512578010559,
+        "maxWidth": 1.367325782775879,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.8,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2985087633132935,
+        "maxWidth": 1.3673600554466248,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 0.9,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.29911208152771,
+        "maxWidth": 1.3674466013908386,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Idle",
+        "t": 1.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999571561813354,
+        "maxWidth": 1.3670788407325745,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.0,
+        "minZ": 0.0029999897815287113,
+        "maxZ": 1.253287434577942,
+        "maxWidth": 1.325543761253357,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.1,
+        "minZ": 0.002999975811690092,
+        "maxZ": 1.2485617399215698,
+        "maxWidth": 1.315392017364502,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.2,
+        "minZ": 0.0030000191181898117,
+        "maxZ": 1.2416859865188599,
+        "maxWidth": 1.3195756077766418,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.3,
+        "minZ": 0.0029999816324561834,
+        "maxZ": 1.2419744729995728,
+        "maxWidth": 1.332426905632019,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.4,
+        "minZ": 0.0029999567195773125,
+        "maxZ": 1.2490049600601196,
+        "maxWidth": 1.3358643651008606,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.5,
+        "minZ": 0.0029999902471899986,
+        "maxZ": 1.253287434577942,
+        "maxWidth": 1.3254653215408325,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.6,
+        "minZ": 0.0029999851249158382,
+        "maxZ": 1.2488044500350952,
+        "maxWidth": 1.3152940273284912,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.7,
+        "minZ": 0.0030000198166817427,
+        "maxZ": 1.2420735359191895,
+        "maxWidth": 1.3194960951805115,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.8,
+        "minZ": 0.0029999823309481144,
+        "maxZ": 1.2423465251922607,
+        "maxWidth": 1.332400918006897,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 0.9,
+        "minZ": 0.0029999574180692434,
+        "maxZ": 1.2492321729660034,
+        "maxWidth": 1.3358983397483826,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Walk",
+        "t": 1.0,
+        "minZ": 0.0029999897815287113,
+        "maxZ": 1.253287434577942,
+        "maxWidth": 1.325543761253357,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.1,
+        "minZ": 0.003000101773068309,
+        "maxZ": 1.2974741458892822,
+        "maxWidth": 1.3648014068603516,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.2,
+        "minZ": 0.003000045195221901,
+        "maxZ": 1.2909504175186157,
+        "maxWidth": 1.3596383929252625,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.3,
+        "minZ": 0.0030000756960362196,
+        "maxZ": 1.2832139730453491,
+        "maxWidth": 1.352652907371521,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.4,
+        "minZ": 0.0030000421684235334,
+        "maxZ": 1.2752851247787476,
+        "maxWidth": 1.346769630908966,
+        "boneScaleError": 2.086162567138672e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.5,
+        "minZ": 0.0030000214464962482,
+        "maxZ": 1.268833875656128,
+        "maxWidth": 1.3455443978309631,
+        "boneScaleError": 2.3245811462402344e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.6,
+        "minZ": 0.0029999648686498404,
+        "maxZ": 1.266167163848877,
+        "maxWidth": 1.3452163338661194,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.7,
+        "minZ": 0.0029999648686498404,
+        "maxZ": 1.266167163848877,
+        "maxWidth": 1.3452163338661194,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.8,
+        "minZ": 0.0029999271500855684,
+        "maxZ": 1.2727068662643433,
+        "maxWidth": 1.344945251941681,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 0.9,
+        "minZ": 0.0029999827966094017,
+        "maxZ": 1.292799472808838,
+        "maxWidth": 1.3701355457305908,
+        "boneScaleError": 2.086162567138672e-06
+      },
+      {
+        "clip": "Windup",
+        "t": 1.0,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2941054105758667,
+        "maxWidth": 1.3676931858062744,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.0,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2941054105758667,
+        "maxWidth": 1.3676931858062744,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.1,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2931256294250488,
+        "maxWidth": 1.3673501014709473,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.2,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2925570011138916,
+        "maxWidth": 1.3670409321784973,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.3,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2920538187026978,
+        "maxWidth": 1.3667963147163391,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.4,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2917109727859497,
+        "maxWidth": 1.3666411638259888,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.5,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2915751934051514,
+        "maxWidth": 1.3665825128555298,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.6,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2917109727859497,
+        "maxWidth": 1.3666411638259888,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.7,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2920538187026978,
+        "maxWidth": 1.3667963147163391,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.8,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2925570011138916,
+        "maxWidth": 1.3670409321784973,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 0.9,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2931256294250488,
+        "maxWidth": 1.3673501014709473,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Strike",
+        "t": 1.0,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2941054105758667,
+        "maxWidth": 1.3676931858062744,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.0,
+        "minZ": 0.003000041004270315,
+        "maxZ": 1.2941054105758667,
+        "maxWidth": 1.3676931858062744,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.1,
+        "minZ": 0.0029999820981174707,
+        "maxZ": 1.2949753999710083,
+        "maxWidth": 1.3687964081764221,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.2,
+        "minZ": 0.0029999094549566507,
+        "maxZ": 1.2970713376998901,
+        "maxWidth": 1.3712708950042725,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.3,
+        "minZ": 0.002999862190335989,
+        "maxZ": 1.2994884252548218,
+        "maxWidth": 1.3736181259155273,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.4,
+        "minZ": 0.0029998512472957373,
+        "maxZ": 1.3013508319854736,
+        "maxWidth": 1.3745169043540955,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.5,
+        "minZ": 0.0030000614933669567,
+        "maxZ": 1.3020415306091309,
+        "maxWidth": 1.374910593032837,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.6,
+        "minZ": 0.0029998663812875748,
+        "maxZ": 1.3013406991958618,
+        "maxWidth": 1.3739794492721558,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.7,
+        "minZ": 0.002999851480126381,
+        "maxZ": 1.301740288734436,
+        "maxWidth": 1.3717901110649109,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.8,
+        "minZ": 0.002999900607392192,
+        "maxZ": 1.3012070655822754,
+        "maxWidth": 1.3692805171012878,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 0.9,
+        "minZ": 0.0030000503174960613,
+        "maxZ": 1.300394058227539,
+        "maxWidth": 1.3675655126571655,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Recover",
+        "t": 1.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.1,
+        "minZ": 0.0029941757675260305,
+        "maxZ": 1.293243646621704,
+        "maxWidth": 1.3596830368041992,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.2,
+        "minZ": 0.0029953636694699526,
+        "maxZ": 1.286370038986206,
+        "maxWidth": 1.3512921929359436,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.3,
+        "minZ": 0.002998140174895525,
+        "maxZ": 1.2813078165054321,
+        "maxWidth": 1.3438630104064941,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.4,
+        "minZ": 0.0029999208636581898,
+        "maxZ": 1.2784503698349,
+        "maxWidth": 1.3394305109977722,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.5,
+        "minZ": 0.00299996230751276,
+        "maxZ": 1.2781723737716675,
+        "maxWidth": 1.3390143513679504,
+        "boneScaleError": 2.0265579223632812e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.6,
+        "minZ": 0.0029992233030498028,
+        "maxZ": 1.2804944515228271,
+        "maxWidth": 1.3425720930099487,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.7,
+        "minZ": 0.002997180912643671,
+        "maxZ": 1.2841898202896118,
+        "maxWidth": 1.3487119674682617,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.8,
+        "minZ": 0.0029953881166875362,
+        "maxZ": 1.2900938987731934,
+        "maxWidth": 1.3557353019714355,
+        "boneScaleError": 2.086162567138672e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 0.9,
+        "minZ": 0.0029959194362163544,
+        "maxZ": 1.2950115203857422,
+        "maxWidth": 1.362033188343048,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Hurt",
+        "t": 1.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.1,
+        "minZ": 0.0029247375205159187,
+        "maxZ": 1.2846465110778809,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.2,
+        "minZ": 0.0029949420131742954,
+        "maxZ": 1.2810842990875244,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.3,
+        "minZ": 0.00276952818967402,
+        "maxZ": 1.291445255279541,
+        "maxWidth": 1.3662575483322144,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.4,
+        "minZ": 0.0029989751055836678,
+        "maxZ": 1.2984375953674316,
+        "maxWidth": 1.3535733222961426,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.5,
+        "minZ": 0.0030000857077538967,
+        "maxZ": 1.2965351343154907,
+        "maxWidth": 1.31223863363266,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.6,
+        "minZ": 0.002998566487804055,
+        "maxZ": 1.2934049367904663,
+        "maxWidth": 1.24176824092865,
+        "boneScaleError": 2.0265579223632812e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.7,
+        "minZ": 0.0029992908239364624,
+        "maxZ": 1.2902368307113647,
+        "maxWidth": 1.182007372379303,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.8,
+        "minZ": 0.00300009036436677,
+        "maxZ": 1.2894892692565918,
+        "maxWidth": 1.1634408235549927,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Death",
+        "t": 0.9,
+        "minZ": 0.003000079421326518,
+        "maxZ": 1.2894892692565918,
+        "maxWidth": 1.1634323596954346,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Death",
+        "t": 1.0,
+        "minZ": 0.003000079421326518,
+        "maxZ": 1.2894892692565918,
+        "maxWidth": 1.1634323596954346,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.0,
+        "minZ": 0.03499989211559296,
+        "maxZ": 1.4203097820281982,
+        "maxWidth": 1.1360377669334412,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.1,
+        "minZ": 0.03499989211559296,
+        "maxZ": 1.420612096786499,
+        "maxWidth": 1.1359874606132507,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.2,
+        "minZ": 0.03499989211559296,
+        "maxZ": 1.420762538909912,
+        "maxWidth": 1.1359111070632935,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.3,
+        "minZ": 0.03217218816280365,
+        "maxZ": 1.4258701801300049,
+        "maxWidth": 1.1730310916900635,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.4,
+        "minZ": 0.023103268817067146,
+        "maxZ": 1.2449455261230469,
+        "maxWidth": 1.2466645240783691,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.5,
+        "minZ": 0.011883371509611607,
+        "maxZ": 1.2769793272018433,
+        "maxWidth": 1.1670534014701843,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.6,
+        "minZ": 0.004398615099489689,
+        "maxZ": 1.2953602075576782,
+        "maxWidth": 1.2377049922943115,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.7,
+        "minZ": 0.01413047593086958,
+        "maxZ": 1.3037570714950562,
+        "maxWidth": 1.2057672142982483,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.8,
+        "minZ": 0.0029861193615943193,
+        "maxZ": 1.3066619634628296,
+        "maxWidth": 1.3319059610366821,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 0.9,
+        "minZ": 0.0029906982090324163,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3416591882705688,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "Emerge",
+        "t": 1.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.0,
+        "minZ": 0.03499989211559296,
+        "maxZ": 1.4203097820281982,
+        "maxWidth": 1.1360377669334412,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.1,
+        "minZ": 0.03499989211559296,
+        "maxZ": 1.420612096786499,
+        "maxWidth": 1.1359875202178955,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.2,
+        "minZ": 0.03499989211559296,
+        "maxZ": 1.4207630157470703,
+        "maxWidth": 1.135910153388977,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.3,
+        "minZ": 0.032181743532419205,
+        "maxZ": 1.4258801937103271,
+        "maxWidth": 1.172849178314209,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.4,
+        "minZ": 0.02311663143336773,
+        "maxZ": 1.2449350357055664,
+        "maxWidth": 1.2449437975883484,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.5,
+        "minZ": 0.01187149342149496,
+        "maxZ": 1.276972770690918,
+        "maxWidth": 1.1847072839736938,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.6,
+        "minZ": 0.004411929752677679,
+        "maxZ": 1.2953803539276123,
+        "maxWidth": 1.2370126247406006,
+        "boneScaleError": 2.3245811462402344e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.7,
+        "minZ": 0.014235434122383595,
+        "maxZ": 1.3037683963775635,
+        "maxWidth": 1.2055619359016418,
+        "boneScaleError": 2.1457672119140625e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.8,
+        "minZ": 0.003000047290697694,
+        "maxZ": 1.306694746017456,
+        "maxWidth": 1.3324010968208313,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 0.9,
+        "minZ": 0.0029927489813417196,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3416577577590942,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeGround",
+        "t": 1.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.0,
+        "minZ": 0.025000011548399925,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.1,
+        "minZ": 0.025000011548399925,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.2,
+        "minZ": 0.025000011548399925,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.3,
+        "minZ": 0.02486661821603775,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.4,
+        "minZ": 0.021093744784593582,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.5,
+        "minZ": 0.014057999476790428,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.2649765014648438e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.6,
+        "minZ": 0.02786281146109104,
+        "maxZ": 1.217025637626648,
+        "maxWidth": 1.302688717842102,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.7,
+        "minZ": 0.002996241208165884,
+        "maxZ": 1.2320404052734375,
+        "maxWidth": 1.3098615407943726,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.8,
+        "minZ": 0.0029999837279319763,
+        "maxZ": 1.2765769958496094,
+        "maxWidth": 1.3332334160804749,
+        "boneScaleError": 2.086162567138672e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 0.9,
+        "minZ": 0.002995692426338792,
+        "maxZ": 1.2992788553237915,
+        "maxWidth": 1.3651062846183777,
+        "boneScaleError": 2.205371856689453e-06
+      },
+      {
+        "clip": "EmergeHatch",
+        "t": 1.0,
+        "minZ": 0.0030000447295606136,
+        "maxZ": 1.2999999523162842,
+        "maxWidth": 1.3672000169754028,
+        "boneScaleError": 2.205371856689453e-06
+      }
+    ]
+  },
+  "fbxRoundtrip": {
+    "status": "PASS",
+    "checks": 3896,
+    "game": {
+      "mesh": "UdarnikBody",
+      "vertices": 3751,
+      "sourceVertices": 3751,
+      "triangles": 7454,
+      "bones": [
+        "Root",
+        "Pelvis",
+        "Body",
+        "Head",
+        "UpperArm.L",
+        "Forearm.L",
+        "UpperArm.R",
+        "Forearm.R",
+        "Thigh.L",
+        "Shin.L",
+        "Foot.L",
+        "Thigh.R",
+        "Shin.R",
+        "Foot.R"
+      ],
+      "materials": 1,
+      "blenderImporterInferredConnectionsCleared": [
+        "Pelvis",
+        "Forearm.L",
+        "Forearm.R",
+        "Foot.L",
+        "Foot.R"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "durationSeconds": 1.6,
+          "frames": [
+            1.0,
+            161.0
+          ]
+        },
+        {
+          "name": "Walk",
+          "durationSeconds": 0.8,
+          "frames": [
+            1.0,
+            81.0
+          ]
+        },
+        {
+          "name": "Windup",
+          "durationSeconds": 0.3,
+          "frames": [
+            1.0,
+            31.0
+          ]
+        },
+        {
+          "name": "Strike",
+          "durationSeconds": 0.16,
+          "frames": [
+            1.0,
+            17.0
+          ]
+        },
+        {
+          "name": "Recover",
+          "durationSeconds": 0.48,
+          "frames": [
+            1.0,
+            49.0
+          ]
+        },
+        {
+          "name": "Hurt",
+          "durationSeconds": 0.22,
+          "frames": [
+            1.0,
+            23.0
+          ]
+        },
+        {
+          "name": "Death",
+          "durationSeconds": 0.18,
+          "frames": [
+            1.0,
+            19.0
+          ]
+        },
+        {
+          "name": "Emerge",
+          "durationSeconds": 0.68,
+          "frames": [
+            1.0,
+            69.0
+          ]
+        },
+        {
+          "name": "EmergeGround",
+          "durationSeconds": 0.95,
+          "frames": [
+            1.0,
+            96.0
+          ]
+        },
+        {
+          "name": "EmergeHatch",
+          "durationSeconds": 1.05,
+          "frames": [
+            1.0,
+            106.0
+          ]
+        }
+      ],
+      "maximumSourceVsRoundtripBoundsErrorMetres": 5.960464477539062e-07
+    },
+    "breakup": [
+      {
+        "name": "Breakup_Body",
+        "triangles": 2666,
+        "pivotBlender": [
+          -0.0005403012037277222,
+          0.052013084292411804,
+          0.7622043490409851
+        ],
+        "localCenterErrorMetres": 1.4901161193847656e-08
+      },
+      {
+        "name": "Breakup_BootL",
+        "triangles": 1004,
+        "pivotBlender": [
+          0.24403619766235352,
+          -0.008178159594535828,
+          0.2705385982990265
+        ],
+        "localCenterErrorMetres": 0.0
+      },
+      {
+        "name": "Breakup_BootR",
+        "triangles": 1008,
+        "pivotBlender": [
+          -0.24272902309894562,
+          -0.00817824900150299,
+          0.2705334722995758
+        ],
+        "localCenterErrorMetres": 7.450580596923828e-09
+      },
+      {
+        "name": "Breakup_GloveL",
+        "triangles": 1058,
+        "pivotBlender": [
+          0.43900352716445923,
+          -0.047760412096977234,
+          0.6549069285392761
+        ],
+        "localCenterErrorMetres": 1.666000468656264e-08
+      },
+      {
+        "name": "Breakup_GloveR",
+        "triangles": 1060,
+        "pivotBlender": [
+          -0.43933069705963135,
+          -0.0487419068813324,
+          0.6552340984344482
+        ],
+        "localCenterErrorMetres": 2.1073424255447017e-08
+      },
+      {
+        "name": "Breakup_Helmet",
+        "triangles": 658,
+        "pivotBlender": [
+          -0.022898897528648376,
+          -0.0526571124792099,
+          1.1210618019104004
+        ],
+        "localCenterErrorMetres": 5.960464477539063e-08
+      }
+    ],
+    "scope": "Blender FBX roundtrip against evaluated source at 11 poses per action; not native Unity import/Animator."
+  },
+  "independentSourceExportReview": {
+    "source": {
+      "active": "UdarnikRig",
+      "mode": "POSE",
+      "action": "Idle",
+      "slot": "OBUdarnikRig",
+      "parts": [
+        "BodyShell",
+        "UpperArm.L",
+        "UpperArm.R",
+        "Helmet",
+        "Boot.L",
+        "Boot.R",
+        "Glove.R",
+        "Glove.L",
+        "Leg.R",
+        "Leg.L",
+        "HeadCore",
+        "NeckJoint"
+      ],
+      "bones": 14,
+      "actions": [
+        "Death",
+        "Emerge",
+        "EmergeGround",
+        "EmergeHatch",
+        "Hurt",
+        "Idle",
+        "Recover",
+        "Strike",
+        "Walk",
+        "Windup"
+      ],
+      "images": [
+        {
+          "name": "UdarnikAtlas",
+          "packed": true,
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "triangles": 7454,
+      "workspaces": [
+        "Animation",
+        "Compositing",
+        "Geometry Nodes",
+        "Layout",
+        "Modeling",
+        "Rendering",
+        "Scripting",
+        "Sculpting",
+        "Shading",
+        "Texture Paint",
+        "UV Editing"
+      ],
+      "viewerBuffersIgnored": [
+        "Render Result",
+        "Viewer Node"
+      ]
+    },
+    "gameFBX": {
+      "meshes": [
+        "UdarnikBody"
+      ],
+      "rigs": [
+        [
+          "UdarnikRig",
+          14
+        ]
+      ],
+      "actions": [
+        {
+          "name": "UdarnikRig|UdarnikRig|Death",
+          "frames": [
+            1.0,
+            19.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Emerge",
+          "frames": [
+            1.0,
+            69.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|EmergeGround",
+          "frames": [
+            1.0,
+            96.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|EmergeHatch",
+          "frames": [
+            1.0,
+            106.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Hurt",
+          "frames": [
+            1.0,
+            23.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Idle",
+          "frames": [
+            1.0,
+            161.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Recover",
+          "frames": [
+            1.0,
+            49.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Strike",
+          "frames": [
+            1.0,
+            17.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Walk",
+          "frames": [
+            1.0,
+            81.0
+          ]
+        },
+        {
+          "name": "UdarnikRig|UdarnikRig|Windup",
+          "frames": [
+            1.0,
+            31.0
+          ]
+        }
+      ],
+      "triangles": 7454,
+      "materials": [
+        "UdarnikAtlas"
+      ]
+    },
+    "breakupFBX": {
+      "chunks": [
+        {
+          "name": "Breakup_Body",
+          "pivot": [
+            -0.0005403012037277222,
+            0.052013084292411804,
+            0.7622043490409851
+          ],
+          "localBoundCenterError": 1.4901161193847656e-08,
+          "triangles": 2666,
+          "materials": [
+            "UdarnikAtlas"
+          ]
+        },
+        {
+          "name": "Breakup_BootL",
+          "pivot": [
+            0.24403619766235352,
+            -0.008178159594535828,
+            0.2705385982990265
+          ],
+          "localBoundCenterError": 0.0,
+          "triangles": 1004,
+          "materials": [
+            "UdarnikAtlas"
+          ]
+        },
+        {
+          "name": "Breakup_BootR",
+          "pivot": [
+            -0.24272902309894562,
+            -0.00817824900150299,
+            0.2705334722995758
+          ],
+          "localBoundCenterError": 7.450580596923828e-09,
+          "triangles": 1008,
+          "materials": [
+            "UdarnikAtlas"
+          ]
+        },
+        {
+          "name": "Breakup_GloveL",
+          "pivot": [
+            0.43900352716445923,
+            -0.047760412096977234,
+            0.6549069285392761
+          ],
+          "localBoundCenterError": 1.666000468656264e-08,
+          "triangles": 1058,
+          "materials": [
+            "UdarnikAtlas"
+          ]
+        },
+        {
+          "name": "Breakup_GloveR",
+          "pivot": [
+            -0.43933069705963135,
+            -0.0487419068813324,
+            0.6552340984344482
+          ],
+          "localBoundCenterError": 1.862645149230957e-08,
+          "triangles": 1060,
+          "materials": [
+            "UdarnikAtlas"
+          ]
+        },
+        {
+          "name": "Breakup_Helmet",
+          "pivot": [
+            -0.022898897528648376,
+            -0.0526571124792099,
+            1.1210618019104004
+          ],
+          "localBoundCenterError": 5.960464477539063e-08,
+          "triangles": 658,
+          "materials": [
+            "UdarnikAtlas"
+          ]
+        }
+      ],
+      "totalTriangles": 7454
+    },
+    "status": "PASS",
+    "checks": 33,
+    "failures": [],
+    "sha256": {
+      "Source/Enemies/Udarnik/Udarnik_Rigged.blend": "f911f28733f35c590348c4bd4f0f7602747ba77101815c244e6bd4f95c28eb32",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx": "f466b63845c3ccf30f5100f2be34c7db2c48da43a40c2be82d402ba6e4c018d1",
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx": "4a79a08c8d8b245fc92a39a487c5c2c751e5e389cfb8d3fe2361ac1fb13079c4"
+    },
+    "scope": "Separate Blender process opens saved source and reimports both FBX files; no source mutation, not Unity import/playback.",
+    "workspaceHelpOnlyResave": "Source resave changed editing help text only; final source hash to be independently reconfirmed."
+  },
+  "nominalWalkReferenceMetresPerSecond": 0.6034482758620691,
+  "workspace": {
+    "openingWorkspace": "Layout",
+    "activeObject": "UdarnikRig",
+    "mode": "POSE",
+    "action": "Idle",
+    "actionSlot": "OBUdarnikRig",
+    "largeActionEditorWorkspace": "Animation",
+    "largeActionEditorHeightPixels": 436,
+    "allViewportsFramed": true,
+    "packedFileImages": [
+      "UdarnikAtlas"
+    ]
+  },
+  "visualReview": {
+    "localPoseRenders": 17,
+    "runtimeWrapperRenders": 6,
+    "preview": "Source/Enemies/Udarnik/Poses_Preview.jpg",
+    "groundRiseNormalized": [
+      0.12,
+      0.86
+    ],
+    "hatchRiseNormalized": [
+      0.04,
+      0.9
+    ]
+  },
+  "files": [
+    {
+      "path": "Source/Enemies/Udarnik/Udarnik_Rigged.blend",
+      "bytes": 3501727,
+      "sha256": "f911f28733f35c590348c4bd4f0f7602747ba77101815c244e6bd4f95c28eb32"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "bytes": 1616988,
+      "sha256": "f466b63845c3ccf30f5100f2be34c7db2c48da43a40c2be82d402ba6e4c018d1"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/UdarnikBreakup.fbx",
+      "bytes": 246956,
+      "sha256": "4a79a08c8d8b245fc92a39a487c5c2c751e5e389cfb8d3fe2361ac1fb13079c4"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png",
+      "bytes": 2666778,
+      "sha256": "320cde2a62d837e5a43b35a66e3c5599e32e0c0ca59558b164413e5ab74264f1"
+    },
+    {
+      "path": "Source/Enemies/Udarnik/Original.glb",
+      "bytes": 1072228,
+      "sha256": "b5df680278091fef2ed954325075935ec1e2cac499faa15376ca9160857eb77e"
+    },
+    {
+      "path": "Source/Enemies/Udarnik/README.md",
+      "bytes": 6737,
+      "sha256": "8b5d72af7b90041c019066e6987f683088f63d596018ba0be5a8a703e5954994"
+    },
+    {
+      "path": "Source/Enemies/Udarnik/Geometry_Notes.md",
+      "bytes": 4765,
+      "sha256": "d0c6645357f8b5a68cc7f9bdd55f6e7cd896ac79cd5db12bc073734ce749ffb7"
+    },
+    {
+      "path": "Source/Enemies/Udarnik/Poses_Preview.jpg",
+      "bytes": 231592,
+      "sha256": "bd8037246000015793fc9e0657d3f791a760595b818ed212fe73f9b6be564724"
+    },
+    {
+      "path": "Source/Enemies/Udarnik/Seam_Repair_Comparison.jpg",
+      "bytes": 126705,
+      "sha256": "249a12f787f403c94500352c3e41c2098855bd0b7f05e3f5b27786ea8b633060"
+    },
+    {
+      "path": "BlenderTools/PrepareUdarnik.py",
+      "bytes": 489,
+      "sha256": "2c77761349e0e1cb9e2249d1fa0735bb9e8a8355f47bf3996faa2b282e079e52"
+    },
+    {
+      "path": "BlenderTools/RepairUdarnik.py",
+      "bytes": 14515,
+      "sha256": "e194ab92c65ee7e78bdfad1a942f958268e536698253dbadb4ab708509de3216"
+    },
+    {
+      "path": "BlenderTools/AnimateUdarnik.py",
+      "bytes": 21506,
+      "sha256": "d56b6f104eee62f3ae2c04548f7dfea53052f19ef68ebd4bb90c391e4b4eab2b"
+    },
+    {
+      "path": "BlenderTools/ValidateUdarnik.py",
+      "bytes": 8034,
+      "sha256": "38af665f741e98d12c955c5dd1c5eded5d298d5b530f53e579b910b71473cfa2"
+    },
+    {
+      "path": "BlenderTools/ValidateUdarnikFbx.py",
+      "bytes": 6158,
+      "sha256": "383b7de4eb74bf9161d7dcea7f4f2db7f70f671500980a219ec156ca81845f9f"
+    }
+  ],
+  "limits": [
+    "FBX roundtrip normalizes Blender importer-inferred connected-bone flags; FBX joint transforms and rest matrices are unchanged.",
+    "Native Unity importer/Animator, gameplay collision contact and device performance were not run in Blender.",
+    "No individual finger rig; forearm and glove remain one mechanical section.",
+    "Ground pull-up arms clamp early unreachable hand targets without stretching; leg IK never clamps.",
+    "Atlas is unchanged from V18; original high resolution maps remain in Original.glb."
+  ]
+}

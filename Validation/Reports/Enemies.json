@@ -1,7 +1,14 @@
 {
   "status": "PASS",
-  "scope": "V15 enemy pacing, explicit safe floor/hatch arrivals and remembered-target reacquisition",
+  "scope": "V19 typed arrivals, sampled mechanical animation, generated asset upgrade, bounded robot death pool and retained mission/NPC regressions",
   "tests": [
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    },
     {
       "project": "EnemySpawnPolicyTests",
       "compileExit": 0,
@@ -14,7 +21,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Mission/rescue runtime: 848 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "NpcBrainTests",
@@ -24,18 +31,32 @@
       "output": "NPC brain and melee geometry: 969 assertions passed. Pure production logic; no Unity physics or rendering.\n"
     },
     {
-      "project": "DeathStrikeLifecycleTests",
+      "project": "NpcNavigationTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 316 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+      "output": "NPC navigation: 4557 assertions passed. Production grid/service, 1200 independent BFS comparisons, authored V7 courtyard geometry. Narrow Unity stand-ins; not Unity physics.\n"
     },
     {
       "project": "NpcRuntimeTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 327 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcNativeSetupTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC native setup: 88 assertions passed; actual editor builder and real backup files with narrow AssetDatabase/Prefab/AnimatorController stand-ins. Not native Unity import/serialization.\n"
+    },
+    {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
     }
   ],
   "runtimeTuning": {
@@ -55,9 +76,15 @@
     "visibleEvery": 3,
     "minimumVisibleDistance": 5.5,
     "additionalVisibleWarningSeconds": 0.35,
-    "authoredArrivalDurationSeconds": 1.03,
     "legacyArrivalDurationSeconds": 0.68,
-    "poolSlots": 8
+    "poolSlots": 8,
+    "groundClipSeconds": 0.95,
+    "hatchClipSeconds": 1.05,
+    "authoredGroundArrivalSecondsWithDefaultWarning": 1.3,
+    "authoredHatchArrivalSecondsWithDefaultWarning": 1.4,
+    "warningPolicy": "Additional warning holds clip at phase0; selected source duration follows warning. Perimeter retains its internal .17 anticipation fraction.",
+    "hatchCloseTailSeconds": 0.3,
+    "collisionPolicy": "Gameplay capsule stays on validated floor point; controller disabled and health invulnerable only for arrival; restored on cancellation/reuse."
   },
   "coverage": [
     "actual Director mixedperimeter/visiblecadence",
@@ -72,28 +99,65 @@
     "new visible warning cannot inherit hidden strikes",
     "actor reuse clears extended warning",
     "visible target reacquired while returning only inside leash",
-    "lethal callback returns before stale collider move"
+    "lethal callback returns before stale collider move",
+    "Ground/Hatch independently timed source clips and legacy Emerge fallback",
+    "arrival visual scale stays rigid; monotonic wrapper rise and warning phase0",
+    "hatch lid remains open until robot clears, then closes over .30seconds",
+    "generated eight-state assets upgrade to ten with real backup files; custom assets preserved",
+    "sampled pose cached and published in LateUpdate after Mecanim",
+    "bounded pooled gears/coarse breakup chunks and immediate dead-renderer hiding"
   ],
   "playerAnimationChanges": false,
   "sceneEditedByThisOwner": false,
   "fileSHA256": {
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcArena.cs": "251dc484d7d69c258e5246b7c33af3da0c33c552abf9ccd85ad6ccfeb74b9608",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": "d7c67215c769a04d0b126e6e5966b482930d15264e6be87ff88799628288161d",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "5c81477c8eb1f39c33b0cb1ee67701958382669b7f872e61531a9a157715c25b",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": "50a5fe166f08de66c805e831ac221134f490be0e28cd4412b93e07c376380a9c",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": "9a1534ca1bbd98a440c031648201d8848fd8bf429c8f25dea9ce8a9e22c269af",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": "815be144cc5d18df00db83078680e9f73839e057fbc88935cdd9cdc2b55bcc6f",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e",
     "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs": "500c658e2b043203c6cc72fea6b73f86a52a42bd18e51c272c133106ea518ebd",
     "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNpcNavigation.cs": "2cfc8606441e8935667511e2c26f59bad92aa347bf17a26cc58afd3e33244995",
-    "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs": "02d630b0b332ce6a36cfcb384532d0afd4a2ff5874510b4ec3c02a9a63de8151",
+    "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs": "c945e7366ffc27701560552e44ceebc0a35448ed9781428009328f3edd187168",
     "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs": "5f4a189de26c1e9753d4c8e2e62cce4ea5292bb1e1adea824162b19be8cb4f44",
-    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "5861320eb2926fcfd88caa95edcc146942a3ba22905154a304de9c2c0b854a6a",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de",
     "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs": "5b500c72a3ce6482abdd46f2a254ddd786808ed433c7d22802f2b10d3aae8bf3",
-    "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": "8c03ab330948de458675044caf26d95deb7398e4d045510ff24c470c39c17591",
+    "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf",
     "Tools/AuthorNpcScene.py": "5960d1b7c612542741c835cb62ac28bdf706c94b262023a172d53b90f27357f7",
     "Tools/AuthorMissionScene.py": "17d09ef54ce39d89d0563ef34181e136e1c25272cec9d397b42ca0dd8d382e40",
-    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "2a95f406033bb8917b70ae6ebf393595278c81c91a9ec7b652adecfe5b069f58",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "bc5c688c32c0227c9e036a7f3d584c0a2d9a879a715a53f996e6503d6b7730fd",
     "Assets/IntercomMVP/Content/Missions/Kill50.asset": "0d0e20c5769d4a7a3900c76d6746614b3ce9a0d2b545f06a50c0d704c43a8298",
-    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "b4270a5c5341eb851c5d20b04719895033c36e7a07c312eaf65944f53c8881e9"
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "b4270a5c5341eb851c5d20b04719895033c36e7a07c312eaf65944f53c8881e9",
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106",
+    "Validation/DeathStrikeLifecycleTests/DeathStrikeLifecycleTests.csproj": "13875d453e7739913b43abced469b89c0da987ffffc823a1c4faed4fd1c2a3ad",
+    "Validation/DeathStrikeLifecycleTests/Program.cs": "b778061470d1799d4d1d4547f32170f910341628fffd70abea9e433bc985b8a9",
+    "Validation/DeathStrikeLifecycleTests/README.md": "e6f0488512f87fd4422991f86b40707edd2ed480488a583eed15e82e70b50061",
+    "Validation/DeathStrikeLifecycleTests/UnityFakes.cs": "6397bfc8dc73d8aee34ae39f18483f7dead7cd4beea8eff84ab8acf98ead3b18",
+    "Validation/EnemySpawnPolicyTests/EnemySpawnPolicyTests.csproj": "f4e451d8d325c531b9582d740692adfe7e5d5544694f98a80ead6a0a4e7851be",
+    "Validation/EnemySpawnPolicyTests/Program.cs": "af85c1c28c32b6ed2183f47b08a984c9eb95b70ccaca96d771ef4266343395c7",
+    "Validation/EnemySpawnPolicyTests/README.md": "b1a88bd796c40bc15b8194868d2c8269e8805be2ad908db5fe5be9d8bfce83df",
+    "Validation/MissionRuntimeTests/MissionRuntimeTests.csproj": "08a048f0078df3e1e1997b1a8cbdec06518a84a5e4faa4f71deea78d027208d2",
+    "Validation/MissionRuntimeTests/Program.cs": "c9b84d38eb65c2ebb7ebbee9250c75c898fd512e81783ab3d5685274b1067da6",
+    "Validation/MissionRuntimeTests/README.md": "3f8398679a984a076821f7ed710e26922e97ab8f02bd44853e5c4e0fa731856c",
+    "Validation/MissionRuntimeTests/UnityFakes.cs": "b746f26c992811eff6827cf2a8a0e8e1c72d58837cc3ceea050b3941f3639cc7",
+    "Validation/NpcBrainTests/NpcBrainTests.csproj": "f997475b625cea54a7b455d4729fbbefd371c91e751826c278de2a52d878f765",
+    "Validation/NpcBrainTests/Program.cs": "6968f4d01b7e108dd17de053e4000e0e52b326b60e23bdc2e6b9471f677a27d7",
+    "Validation/NpcBrainTests/README.md": "63c8913949784f9a0f7b482751107df4e55956ece1a62a61c90df6cb5177a4b0",
+    "Validation/NpcNavigationTests/NpcNavigationTests.csproj": "3b67683618db8db848072bf97f19d6af4bed8655bd5d342f5e7295b0b7d562e8",
+    "Validation/NpcNavigationTests/Program.cs": "7455e232083cad1a35e8fbb5e5cdf3fbb11c83ed32b448fe89523f99d6c71102",
+    "Validation/NpcNavigationTests/README.md": "91839793d0c66e6e831c2184c474ba27780695a85053fff5f35a633ec38dbbdb",
+    "Validation/NpcNavigationTests/UnityFakes.cs": "bf75ef78a35d4edc38f8594edcb3336a6618a1cbb9af48d57ce8ba5be2e1b2e7",
+    "Validation/NpcRuntimeTests/NpcRuntimeTests.csproj": "ce296ad3a690726f5ff6a2d047e6109313cba8cba84e14e5b5f85090f3b6c0eb",
+    "Validation/NpcRuntimeTests/Program.cs": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7",
+    "Validation/NpcRuntimeTests/README.md": "5dc55566f0fa107480149e663fce6ad32456ddfac87b72ea6decc36cdfc1b75a",
+    "Validation/NpcRuntimeTests/UnityFakes.cs": "4d1db49600a37ee1e96cd33c08bb7877facb90d148c23d58dfaeb3f677f04f55",
+    "Validation/NpcNativeSetupTests/NpcNativeSetupTests.csproj": "90bf8d5bd233aece1a24ef9a0249c3d6872be63aad4a8643a225d72a10ddc9db",
+    "Validation/NpcNativeSetupTests/Program.cs": "5ff56a37d02cbadcd30304e338cbab31c1f880c5d7ef7106493ee60d7c463f14",
+    "Validation/NpcNativeSetupTests/UnityFakes.cs": "8f413752dfc51c0f7c295a426b5d121fdce3173d69eb78bb99e6da9854cbdf56",
+    "Validation/RobotDeathEffectsTests/Program.cs": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781",
+    "Validation/RobotDeathEffectsTests/README.md": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b",
+    "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj": "4efe1fed998e48997aed5cc6053c43c6b7bc8ac3f1d38b45a8181514df55b116",
+    "Validation/RobotDeathEffectsTests/UnityFakes.cs": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463"
   },
-  "limits": "No native Unity Editor, camera visibility or PhysX execution; production classes tested with narrow substitutes."
+  "limits": "No native Unity Editor, camera visibility or PhysX execution; production classes tested with narrow substitutes.",
+  "version": "V19"
 }

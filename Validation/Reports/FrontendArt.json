@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs",
+      "sha256": "6459790b839f61cfd9b3e4fd7a6013d084b52fb245dc81acc4ba043728acd801"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs",
+      "sha256": "b3b14ed87bb967dff0c9699923f8f6210b6027ae262001ec7a5efef6350a5c69"
+    },
+    {
+      "path": "Validation/FrontEndRuntimeTests/Program.cs",
+      "sha256": "9bed7047af788169ea11288e8e76dc1abae99f64f5e9edb2a23969847e84facc"
+    },
+    {
+      "path": "Validation/FrontEndRuntimeTests/UnityFakes.cs",
+      "sha256": "6679e87c16749602fac5bf9e871bce5a7d8338390ecbdb8c44605ca50734290c"
+    }
+  ],
+  "focusedResults": [
+    {
+      "project": "FrontEndModelTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Front end models: 8384 assertions PASS; navigation, safe areas and shared pointer bounds. Pure production models, no Unity execution.\n"
+    },
+    {
+      "project": "FrontEndRoomCameraTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 20 real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.\n"
+    },
+    {
+      "project": "FrontEndRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 66 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+    }
+  ],
+  "artFields": [
+    "homeDoodle",
+    "rescueDoodle"
+  ],
+  "artPlacement": "Home content central illustration plus taped note, rescue mode card spacious inset, original interactive rectangles retained",
+  "validation": "Production GUI capture checks artwork bounds/aspect/no CTA overlap and decorative click cancellation on1280x720,640x360,480x900. Narrow Unity substitutes, no Unity Editor rendering.",
+  "visualReview": [
+    "Home",
+    "Play",
+    "Robot",
+    "Armory",
+    "portraitHome",
+    "compactPlay"
+  ],
+  "exports": "Validation/Results/V17UI/FrontEnd",
+  "sceneEdited": false,
+  "heroOrBalanceEdited": false
+}

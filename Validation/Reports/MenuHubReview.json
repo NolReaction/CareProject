@@ -1,0 +1,35 @@
+{
+  "root": 8800000057,
+  "rootTransform": 8800000058,
+  "roomCameraComponent": 8800000140,
+  "menuCamera": 8800000139,
+  "gameplayCamera": 34441814,
+  "anchors": {
+    "homeAnchor": 8800000130,
+    "playAnchor": 8800000132,
+    "robotAnchor": 8800000134,
+    "armoryAnchor": 8800000136
+  },
+  "layer": 30,
+  "origin": [
+    0,
+    -80,
+    0
+  ],
+  "modules": 11,
+  "triangles": 5872,
+  "status": "PASS",
+  "uniqueSourceTriangles": 5872,
+  "authoredObjects": 25,
+  "idempotent": true,
+  "checks": [
+    "finite indexed geometry",
+    "positive face winding",
+    "bounded vertex/index counts",
+    "dedicated camera culling and tag",
+    "no physics/audio listener",
+    "authored anchor edits preserved",
+    "fixed studio materials"
+  ],
+  "limitation": "Native mesh/scene data and Python adapter validation only; Unity import, shader compilation and Play Mode were not run."
+}

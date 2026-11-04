@@ -106,7 +106,7 @@ internal static class Program
             }
             Eq(volleys,(int)Math.Floor(time/.18));
         });
-        Console.WriteLine("PASS: " + cases + " cases, " + assertions + " assertions. Production IntercomWeaponPoseClock.cs executed on .NET 8.");
+        Console.WriteLine("PASS: " + cases + " cases, " + assertions + " assertions. Production IntercomWeaponPoseClock in IntercomWeaponModel.cs executed on .NET 8.");
     }
     private static IntercomWeaponPoseClock Clock() => new IntercomWeaponPoseClock(8f / 24f, 12f / 24f, .4f, 2f);
     private static IntercomWeaponPoseClock Raised() { var c = Clock(); c.RequestFire(); UntilShot(c); return c; }

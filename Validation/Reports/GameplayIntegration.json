@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "checks": 364,
+  "checks": 365,
   "frontend": 8800000015,
   "authoredPoints": [
     {
@@ -36,9 +36,9 @@
     "IntercomTargetDummy": 3
   },
   "localIds": {
-    "objects": 1021,
-    "localReferences": 6464,
-    "externalReferences": 897
+    "objects": 1107,
+    "localReferences": 7009,
+    "externalReferences": 998
   },
   "scope": "Serialized current gameplay/visual setup and authored obstacle clearance. No Unity/PhysX execution."
 }

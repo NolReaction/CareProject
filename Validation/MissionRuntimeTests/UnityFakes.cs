@@ -237,7 +237,7 @@ namespace IntercomMvp
     {
         public static readonly List<IntercomNpcController> Created=new List<IntercomNpcController>();
         public IntercomHealth Health;public IntercomHealth targetHealth;public IntercomNpcPhase Phase;
-        public int PrepareCalls,InvestigateCalls,EmergenceCalls;public float ArrivalWarning;public Vector3 Investigation;public int ordinal;
+        public int PrepareCalls,InvestigateCalls,EmergenceCalls,HiddenBursts;public float ArrivalWarning;public float ArrivalDuration {get;private set;}=.68f;public IntercomEnemySpawnKind EmergenceKind;public Vector3 Investigation;public int ordinal;
         public static IntercomNpcController Create(IntercomNpcDefinition definition,IntercomNpcNavigation navigation,
             IntercomHealth target,IntercomPlayerMotor motor,Vector3 position,int ordinal)
         {
@@ -249,7 +249,9 @@ namespace IntercomMvp
         public void PrepareForSpawn(Vector3 position){PrepareCalls++;transform.position=position;Health.ResetHealth();Phase=IntercomNpcPhase.Idle;}
         public void SetTarget(IntercomHealth health){targetHealth=health;}
         public void BeginEmergence(){BeginEmergence(0f);}
-        public void BeginEmergence(float warningSeconds){EmergenceCalls++;ArrivalWarning=warningSeconds;}
+        public void BeginEmergence(float warningSeconds){BeginEmergence(warningSeconds,IntercomEnemySpawnKind.Perimeter);}
+        public void BeginEmergence(float warningSeconds,IntercomEnemySpawnKind kind){EmergenceCalls++;ArrivalWarning=warningSeconds;EmergenceKind=kind;ArrivalDuration=warningSeconds+(kind==IntercomEnemySpawnKind.Ground?.95f:kind==IntercomEnemySpawnKind.Hatch?1.05f:.68f);}
+        public void HideForDeathBurst(){HiddenBursts++;}
         public void Investigate(Vector3 point){InvestigateCalls++;Investigation=point;}
         public void Kill(){Health.TakeDamage(new IntercomDamage(10000,Vector3.zero,Vector3.forward,null));}
     }
@@ -268,4 +270,12 @@ namespace IntercomMvp
         public bool SegmentClear(Vector3 start,Vector3 end){SegmentRequests++;return CheckSegment?.Invoke(start,end)??true;}
         public bool TryProject(Vector3 point,out Vector3 projected){projected=point;return ProjectAllowed?.Invoke(point)??true;}
     }
+}
+
+namespace IntercomMvp {
+ public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {
+  public IntercomNpcDefinition definition;public int EmitCalls,ClearCalls;public bool Ready=true;
+  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){EmitCalls++;return Ready;}
+  public void Clear(){ClearCalls++;}
+ }
 }

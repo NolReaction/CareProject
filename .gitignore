@@ -28,3 +28,4 @@ __pycache__/
 /Validation/**/bin/
 /Validation/**/obj/
 /Validation/Results/
+/ProjectBackups/

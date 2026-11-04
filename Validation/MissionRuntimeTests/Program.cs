@@ -43,7 +43,8 @@ internal static class Program
     private static void Main()
     {
         SpawnPointLifecycle(); AllyFactory(); Recruitment(); Following(); AllyLifecycle();
-        MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); AuthoredArrivals(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
+        MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); AuthoredArrivals(); EliminationPoolAndWaves(); DeathBurstConnection(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
+        MissionSessionClock(); MissingRuntimeDependencies(); MissionCameraLifecycle();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
     }
     private static void SpawnPointLifecycle()
@@ -72,6 +73,8 @@ internal static class Program
         Signal(point,"OnApplicationFocus",true);Signal(point,"OnApplicationPause",true);for(int i=0;i<20;i++)Send(point,"Update");
         Check(point.IsAnimating&&(point.hatchLid.localRotation*Vector3.forward-open).sqrMagnitude<.000001f,"application pause cannot close hatch over a frozen emergence");
         Signal(point,"OnApplicationPause",false);for(int i=0;i<7;i++)Send(point,"Update");
+        Check(point.IsAnimating,"hatch remains open until the complete robot clears the authored duration");
+        for(int i=0;i<3;i++)Send(point,"Update");
         Check(!point.IsAnimating&&!point.warningVisual.gameObject.activeSelf,"arrival ends with its temporary warning hidden");
         Check((point.hatchLid.localRotation*Vector3.forward-rest).sqrMagnitude<.000001f&&(point.warningVisual.localScale-warningScale).sqrMagnitude==0,"hatch and warning restore authored transforms exactly");
         Check(!point.IsAvailable(13.99f)&&point.IsAvailable(14),"marker is reused only after cooldown");
@@ -498,6 +501,32 @@ internal static class Program
         int total=IntercomNpcController.Created.Count;f.Advance(20);
         Check(f.Director.SpawnedEnemies==50&&IntercomNpcController.Created.Count==total,"terminal victory does not create more enemies");
     }
+    private static void DeathBurstConnection()
+    {
+        var f=new MissionFixture(x=>x.Director.gameObject.AddComponent<IntercomRobotDeathEffects>());
+        var fx=f.Director.deathEffects;
+        Check(fx!=null&&fx.definition==f.Director.enemyDefinition,"Director discovers local death presentation and connects its NPC definition before prewarm");
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"death presentation fixture starts through normal mission route");f.Advance(1);
+        var actor=f.Living[0];int clears=fx.ClearCalls;actor.Kill();
+        Check(f.Director.Kills==1&&fx.EmitCalls==1&&actor.HiddenBursts==1,"accepted death scores once and replaces the visual with one burst");
+        Check(actor.gameObject.activeInHierarchy,"ordinary lethal callback leaves pooled actor root active until normal recycle");
+        actor.Kill();typeof(IntercomMissionDirector).GetMethod("OnEnemyDied",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(f.Director,new object[]{actor.ordinal});
+        Check(f.Director.Kills==1&&fx.EmitCalls==1&&actor.HiddenBursts==1,"duplicate death callback cannot emit or hide twice within one life");
+        Check(f.Director.RetryMission()&&fx.ClearCalls>clears,"retry clears old cosmetic pieces before accepting a new life");
+        int calls=fx.EmitCalls;typeof(IntercomMissionDirector).GetMethod("OnEnemyDied",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(f.Director,new object[]{actor.ordinal});
+        Check(f.Director.Kills==0&&fx.EmitCalls==calls,"stale prior-run callback cannot emit a fresh cosmetic burst");
+        f.Advance(1);actor=f.Living[0];int hidden=actor.HiddenBursts;fx.Ready=false;actor.Kill();
+        Check(f.Director.Kills==1&&fx.EmitCalls==calls+1&&actor.HiddenBursts==hidden,"unready optional presentation keeps actor fallback while preserving gameplay score");
+        clears=fx.ClearCalls;f.Director.ReturnToSelection();Check(fx.ClearCalls>clears,"return to menu clears pooled death pieces");
+        f.Director.StartMission(IntercomMissionMode.Elimination);f.Advance(1);clears=fx.ClearCalls;f.Director.enabled=false;
+        Check(fx.ClearCalls>clears,"Director disable clears presentation even if FX remains enabled");
+
+        f=new MissionFixture(x=>{x.Elimination.killTarget=1;x.Director.deathEffects=x.Director.gameObject.AddComponent<IntercomRobotDeathEffects>();});
+        fx=f.Director.deathEffects;f.Director.StartMission(IntercomMissionMode.Elimination);f.Advance(1);clears=fx.ClearCalls;
+        f.Living[0].Kill();
+        Check(f.Director.Phase==IntercomMissionPhase.Victory&&fx.EmitCalls==1&&fx.ClearCalls==clears,"final kill's short burst survives synchronous mission victory cleanup");
+        f.Director.ReturnToSelection();Check(fx.ClearCalls>clears,"leaving victory explicitly clears its remaining short presentation");
+    }
     private static void MissionResetAndCleanup()
     {
         var f=new MissionFixture();f.Director.StartMission(IntercomMissionMode.Elimination);f.Advance(2);
@@ -548,6 +577,104 @@ internal static class Program
         Check(!f.Ally.gameObject.activeSelf&&!exit.activeSelf,"elimination hides ally and extraction marker");
         f=new MissionFixture();f.Director.allySpawn=null;
         Check(!f.Director.StartMission(IntercomMissionMode.Rescue)&&f.Ally==null,"missing ally marker rejects partial mission");
+    }
+    private static void MissionSessionClock()
+    {
+        var f=new MissionFixture();
+        f.Advance(1);
+        Check(f.Director.ElapsedSeconds==0f&&f.Director.RunRevision==0,"menu prewarm cannot start the run timer");
+        Check(f.Director.StartMission(IntercomMissionMode.FreePlay),"clock fixture starts free play");
+        uint revision=f.Director.RunRevision;
+        Check(revision!=0&&f.Director.ElapsedSeconds==0,"successful start creates a new empty clock session");
+        f.Step(.25f);
+        Check(Math.Abs(f.Director.ElapsedSeconds-.25f)<.00001f,"timer retains the complete active frame duration during a hitch");
+        foreach(string interruption in new[]{"focus","pause","timescale"})
+        {
+            if(interruption=="focus")Signal(f.Director,"OnApplicationFocus",false);
+            if(interruption=="pause")Signal(f.Director,"OnApplicationPause",true);
+            if(interruption=="timescale")Time.timeScale=0;
+            float elapsed=f.Director.ElapsedSeconds;f.Advance(2);
+            Check(f.Director.ElapsedSeconds==elapsed&&f.Director.RunRevision==revision,"suspension freezes the same run clock: "+interruption);
+            if(interruption=="focus")Signal(f.Director,"OnApplicationFocus",true);
+            if(interruption=="pause")Signal(f.Director,"OnApplicationPause",false);
+            if(interruption=="timescale")Time.timeScale=1;
+        }
+        f.Step();float atDeath=f.Director.ElapsedSeconds;
+        f.Hero.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,null));f.Advance(1);
+        Check(f.Director.ElapsedSeconds==atDeath&&f.Director.Phase==IntercomMissionPhase.Defeat,"result retains the final active timer value");
+        Check(f.Director.RetryMission()&&f.Director.RunRevision!=revision&&f.Director.ElapsedSeconds==0,"retry gets a fresh session clock");
+        revision=f.Director.RunRevision;
+        Check(!f.Director.StartMission((IntercomMissionMode)999)&&f.Director.RunRevision==revision,"invalid selection cannot manufacture a run revision");
+        f.Step();f.Director.ReturnToSelection();
+        Check(f.Director.ElapsedSeconds==0&&f.Director.RunRevision==revision,"return clears clock without inventing another run");
+        Signal(f.Director,"OnApplicationFocus",false);Signal(f.Director,"OnApplicationPause",true);
+        f.Director.enabled=false;Application.isFocused=true;f.Director.enabled=true;
+        Check(f.Director.StartMission(IntercomMissionMode.FreePlay),"explicit re-enable recovers application callbacks missed while disabled");
+        f.Step();f.Director.enabled=false;
+        Check(f.Director.ElapsedSeconds==0&&f.Director.ResultText=="","disable clears prior session presentation");
+        f=new MissionFixture(_=>Application.isFocused=false);
+        Check(!f.Director.StartMission(IntercomMissionMode.FreePlay),"component enabled without application focus cannot begin gameplay");
+        Application.isFocused=true;Signal(f.Director,"OnApplicationFocus",true);
+        Check(f.Director.StartMission(IntercomMissionMode.FreePlay),"focused selection recovers naturally after initial background activation");
+        f=new MissionFixture();f.Advance(1);
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination)&&f.Director.PreparedEnemyCount==8,"long-frame fixture has a fully prepared enemy pool");
+        f.Step(1.5f);
+        Check(Math.Abs(f.Director.ElapsedSeconds-1.5f)<.00001f&&f.Director.SpawnedEnemies==0,
+            "long active frame advances the full HUD clock but only a bounded spawn simulation step");
+        f.Advance(.75f);
+        Check(f.Director.SpawnedEnemies>0,"spawn grace continues normally after the isolated long frame");
+    }
+    private static void MissingRuntimeDependencies()
+    {
+        foreach(string mutation in new[]{"disable-ai","inactive-root","missing-health","missing-actor"})
+        {
+            var f=new MissionFixture();Check(f.Director.StartMission(IntercomMissionMode.Elimination),"pool fault fixture starts");f.Advance(1);
+            var actor=f.Living[0];GameObject owned=actor.gameObject;
+            if(mutation=="disable-ai")actor.enabled=false;
+            else if(mutation=="inactive-root")owned.SetActive(false);
+            else if(mutation=="missing-health")actor.Health=null;
+            else
+            {
+                // Unity's destroyed-component null semantics, represented
+                // explicitly here without pretending to simulate native objects.
+                Array pool=Field<Array>(f.Director,"pool");object slot=pool.GetValue(actor.ordinal);
+                slot.GetType().GetField("actor").SetValue(slot,null);
+            }
+            f.Step();
+            Check(f.Director.Phase==IntercomMissionPhase.Defeat&&f.Director.ResultText.Length>0&&f.Vitality.Blocked,
+                "lost pool life fails clearly rather than leaving an unwinnable wave: "+mutation);
+            Check(!owned.activeInHierarchy,"mission retains ownership and parks the old root: "+mutation);
+            Check(f.Director.RetryMission(),"broken pool can enter an explicit retry: "+mutation);f.Advance(1);
+            Check(f.Director.Phase==IntercomMissionPhase.Active&&f.Director.SpawnedEnemies>0&&f.Living.All(n=>n.isActiveAndEnabled),
+                "retry repairs or re-enables the owned pooled life: "+mutation);
+            UnityEngine.Object.Destroy(f.Director.gameObject);
+            Check(UnityEngine.Object.Destroyed.Contains(owned),"cleanup removes retained root even without an AI component: "+mutation);
+        }
+        foreach(string mutation in new[]{"profile","navigation","exit","ally","motor"})
+        {
+            var f=new MissionFixture();f.Director.StartMission(IntercomMissionMode.Rescue);
+            if(mutation=="profile")typeof(IntercomMissionDirector).GetField("profile",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Director,null);
+            else if(mutation=="navigation")f.Nav.enabled=false;
+            else if(mutation=="exit")f.Director.extractionPoint=null;
+            else if(mutation=="ally")f.Ally.enabled=false;
+            else f.Motor.enabled=false;
+            f.Step();
+            Check(f.Director.Phase==IntercomMissionPhase.Defeat&&f.Vitality.Blocked,
+                "missing active mission dependency produces a stable recoverable result: "+mutation);
+            float elapsed=f.Director.ElapsedSeconds;f.Advance(.5f);
+            Check(f.Director.ElapsedSeconds==elapsed&&f.Living.Length==0,"failed dependency stops simulation and spawning: "+mutation);
+        }
+    }
+    private static void MissionCameraLifecycle()
+    {
+        var f=new MissionFixture();var old=SpawnCamera(_=>new Vector3(-100,360,1));
+        typeof(IntercomMissionDirector).GetField("displayCamera",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Director,old);
+        old.enabled=false;var current=SpawnCamera(_=>new Vector3(640,360,1));
+        var method=typeof(IntercomMissionDirector).GetMethod("SpawnOnScreen",BindingFlags.Instance|BindingFlags.NonPublic);
+        Check((bool)method.Invoke(f.Director,new object[]{Vector3.zero,true})&&Field<Camera>(f.Director,"displayCamera")==current,
+            "spawn visibility replaces an inactive cached camera after a menu/scene transition");
+        current.enabled=false;
+        Check(!(bool)method.Invoke(f.Director,new object[]{Vector3.zero,true}),"disabled tagged camera cannot classify an on-screen arrival");
     }
     private static void MissionPauseAndTargets()
     {

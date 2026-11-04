@@ -22,9 +22,11 @@ namespace IntercomMvp.Editor
         {
             scroll = EditorGUILayout.BeginScrollView(scroll);
             EditorGUILayout.LabelField("CareProject — Start Here", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Скомпилированная версия: " + IntercomFrontEnd.BuildVersion, EditorStyles.boldLabel);
             EditorGUILayout.HelpBox("Ресурсы сгруппированы по системам. Кнопки ниже находят важные карточки по GUID: их можно перемещать, сохраняя .meta. Настройки оружия, модель героя и режимы игры редактируются отдельно.", MessageType.Info);
 
             Section("Начало работы");
+            if (GUILayout.Button("Проверить / восстановить проект")) IntercomProjectRepair.Open();
             if (GUILayout.Button("Открыть учебную сцену")) OpenScene();
             if (GUILayout.Button("Открыть START_HERE.md")) OpenDocument(IntercomProjectPaths.StartGuide);
             if (GUILayout.Button("Архитектура и карта папок")) OpenDocument(IntercomProjectPaths.ArchitectureGuide);
@@ -50,6 +52,12 @@ namespace IntercomMvp.Editor
             AssetButton(IntercomProjectPaths.YardLayout);
             AssetButton(IntercomProjectPaths.Lighting);
             AssetButton(IntercomProjectPaths.RenderPipeline);
+
+            Section("Мобильная разработка");
+            if (GUILayout.Button("Настроить управление и ориентацию")) EditorApplication.ExecuteMenuItem("Tools/CareProject/Mobile/01 Configure Controls");
+            if (GUILayout.Button("Настройки тестовой сборки Android")) EditorApplication.ExecuteMenuItem("Tools/CareProject/Mobile/02 Android Test Settings");
+            if (GUILayout.Button("Проверка на устройстве")) OpenDocument("MOBILE_TESTING.md");
+            EditorGUILayout.HelpBox("Верхнее меню Mobile содержит только инструменты телефона. Изменение модели, материалов и карты находится в Advanced → Authoring; обычное обновление проекта не требует этих команд.", MessageType.None);
 
             Section("Проверка структуры");
             if (GUILayout.Button("Проверить ссылки разделов")) ValidateEntryPoints();

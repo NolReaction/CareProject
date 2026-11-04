@@ -6,6 +6,7 @@ import BuildTutorialDistrict as build
 
 ROOT=Path(__file__).resolve().parents[1]
 MESHES=ROOT/'Assets/IntercomMVP/Content/Enemies/Spawns/Meshes'
+HORIZONTAL_SCALE=1.4 # A 1.54m opening clears the authored robot's helmet and tucked shoulders.
 
 def annulus(mesh,outer,inner,y,material,sides=24):
     for i in range(sides):
@@ -29,6 +30,13 @@ def generate():
             lid.box((x,.096,.50),(.037,.014,length),'Roof',.004)
         lid.box((0,.125,.75),(.25,.05,.065),'Trim',.012)
         warning=build.Mesh('SpawnWarningRing');annulus(warning,.79,.72,.018,'Warning',24)
+        for mesh in [rim,lid,warning]:
+            for vertex in mesh.vertices:
+                vertex[0]*=HORIZONTAL_SCALE;vertex[2]*=HORIZONTAL_SCALE
+                # Non-uniform position scaling uses the inverse transpose for normals.
+                vertex[3]/=HORIZONTAL_SCALE;vertex[5]/=HORIZONTAL_SCALE
+                length=math.sqrt(sum(v*v for v in vertex[3:6]))
+                vertex[3:6]=[v/length for v in vertex[3:6]]
         meshes={m.name:m.export() for m in [rim,lid,warning]}
         print('Built shared spawn meshes:',', '.join(meshes))
         return meshes

@@ -17,14 +17,14 @@ internal static class Program
     {
         public IntercomNpcController Npc;public IntercomNpcDefinition Definition;public IntercomNpcNavigation Nav;
         public IntercomHealth Player;public IntercomPlayerMotor Motor;public CharacterController Capsule;
-        public Fixture(Vector3 target)
+        public Fixture(Vector3 target,GameObject visualPrefab=null)
         {
             var active=(IList)typeof(IntercomNpcController).GetField("active",BindingFlags.NonPublic|BindingFlags.Static).GetValue(null);active.Clear();
             Physics.Hits=null;Time.timeScale=1;Time.deltaTime=.01f;Application.isFocused=true;GameObject.BeforeAwake=null;
             UnityEngine.Object.Destroyed.Clear();UnityEngine.Object.DestroyedColliderWasEnabled.Clear();
             var player=new GameObject("Player");Player=player.AddComponent<IntercomHealth>();Player.team=IntercomTeam.Player;Motor=player.AddComponent<IntercomPlayerMotor>();player.transform.position=target;
             Nav=new GameObject("Navigation").AddComponent<IntercomNpcNavigation>();
-            Definition=new IntercomNpcDefinition{bodyMaterial=new Material(),detailMaterial=new Material(),telegraphMaterial=new Material()};
+            Definition=new IntercomNpcDefinition{bodyMaterial=new Material(),detailMaterial=new Material(),telegraphMaterial=new Material(),visualPrefab=visualPrefab};
             bool properAwake=false;
             GameObject.BeforeAwake=component=>{if(component is IntercomNpcController n){properAwake=n.definition==Definition&&n.navigation==Nav&&n.targetHealth==Player&&n.resetMotor==Motor&&n.visual!=null&&n.telegraph!=null;}};
             Npc=IntercomNpcController.Create(Definition,Nav,Player,Motor,Vector3.zero,0);Capsule=Npc.GetComponent<CharacterController>();
@@ -36,7 +36,178 @@ internal static class Program
         public Collider Obstacle()=>new GameObject("Wall or low cover").AddComponent<Collider>();
     }
     private static void Main()
-    {Factory();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    {Factory();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    private static GameObject ModelPrefab(bool controller=true,bool collider=false)
+    {
+        var prefab=new GameObject("Authored robot source");prefab.SetActive(false);
+        var animator=prefab.AddComponent<Animator>();animator.runtimeAnimatorController=controller?new RuntimeAnimatorController():null;
+        var renderer=prefab.AddComponent<MeshRenderer>();renderer.sharedMaterial=new Material();
+        var overrides=new MaterialPropertyBlock();overrides.SetColor(Shader.PropertyToID("_BaseColor"),new Color(.8f,.9f,.7f,.6f));
+        overrides.SetColor(12345,new Color(.2f,.3f,.4f,.5f));renderer.SetPropertyBlock(overrides);
+        if(collider)prefab.AddComponent<Collider>();
+        return prefab;
+    }
+    private static void AuthoredRobotVisual()
+    {
+        int clones=UnityEngine.Object.InstantiateCalls;
+        var f=new Fixture(new Vector3(0,0,10),ModelPrefab());
+        var animator=Field<Animator>(f.Npc,"modelAnimator");
+        Check(animator!=null&&animator!=f.Definition.visualPrefab.GetComponent<Animator>(),"authored model cloned once, never modifies prefab animator");
+        Check(UnityEngine.Object.InstantiateCalls==clones+1,"one authored model instance per prewarmed actor");
+        Check(!animator.applyRootMotion&&animator.speed==0f,"model root motion disabled and phase clock frozen");
+        Check(animator.transform.IsChildOf(f.Npc.visual)&&f.Npc.visual.IsChildOf(f.Npc.transform),"animation is below visual wrapper and collision root");
+        Check(!f.Npc.visual.children.Any(t=>t.gameObject.name=="Body"),"authored model replaces capsule geometry");
+        int objects=GameObject.Created.Count,materials=Material.Created;
+        Vector3 previous=f.Npc.transform.position;float distance=0;
+        for(int i=0;i<40;i++){f.Step();distance+=(f.Npc.transform.position-previous).magnitude;previous=f.Npc.transform.position;}
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Walk"),"real chase presents walking state");
+        Check(Math.Abs(Field<float>(f.Npc,"modelLoopSeconds")-distance/f.Definition.walkAnimationMetresPerSecond)<.0001f,"walk phase follows real travelled distance, not desired velocity");
+        f.Capsule.BlockHorizontal=true;f.Step();
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Idle"),"blocked controller stops walking in place");
+        f.Capsule.BlockHorizontal=false;
+        int samples=animator.UpdateCalls;Time.timeScale=0;f.Step();
+        Check(animator.UpdateCalls==samples,"paused simulation never samples or advances authored model");Time.timeScale=1;
+        f.Npc.gameObject.SetActive(false);samples=animator.UpdateCalls;f.Npc.PrepareForSpawn(new Vector3(2,0,3));
+        Check(animator.UpdateCalls==samples,"inactive pooled reset does not evaluate uninitialized native Animator");
+        f.Npc.gameObject.SetActive(true);Call(f.Npc,"ApplyPresentation",0f);
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Idle")&&animator.LastTime==0,"pooled life discards prior walk/hurt/death pose clocks");
+        Check(GameObject.Created.Count==objects&&Material.Created==materials&&UnityEngine.Object.InstantiateCalls==clones+1,"pool reuse creates no models, geometry or materials");
+        f.Npc.BeginEmergence(.35f);f.For(.35f);
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Emerge")&&animator.LastTime==0,"extended arrival warning freezes emerge anticipation");
+        f.For(.25f);Check(animator.LastTime>0&&animator.LastTime<1&&f.Player.DamageCalls==0,"rise unfolds model while no hidden attack is possible");
+        Check(f.Npc.visual.localScale.x==1&&f.Npc.visual.localScale.y==1,"mechanical emergence does not stretch rig wrapper");
+        f.For(.5f);
+        f=new Fixture(new Vector3(0,0,1),ModelPrefab());animator=Field<Animator>(f.Npc,"modelAnimator");f.BeginWindup();
+        for(int i=0;i<15;i++)f.Step();
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Windup")&&animator.LastTime>0&&f.Player.DamageCalls==0,"authored windup stays aligned with readable no-damage preparation");
+        while(f.Player.DamageCalls==0)f.Step();
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Strike")&&animator.LastTime==0,"first strike pose samples at exact real damage boundary");
+        f.For(.22f);Check(animator.LastState==Animator.StringToHash("Base Layer.Recover")&&f.Player.DamageCalls==1,"recovery pose cannot issue animation-event extra hits");
+        f=new Fixture(new Vector3(0,0,10),ModelPrefab());animator=Field<Animator>(f.Npc,"modelAnimator");
+        var initial=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(initial);
+        f.Npc.Health.TakeDamage(new IntercomDamage(3,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Hurt")&&animator.LastTime==0,"accepted damage begins authored hurt pose");
+        var flashed=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(flashed);
+        Check(flashed.GetColor(Shader.PropertyToID("_BaseColor")).a==.6f&&flashed.HasColor(12345),"damage feedback retains alpha and unrelated authored renderer overrides");
+        f.For(.25f);var restored=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(restored);
+        Check(restored.GetColor(Shader.PropertyToID("_BaseColor")).r==initial.GetColor(Shader.PropertyToID("_BaseColor")).r&&restored.GetColor(12345).a==.5f,"settled model restores exact authored property block");
+        f.Npc.Health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,f.Player.gameObject));f.Step();
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Death")&&!f.Capsule.enabled,"death presents short authored pop fallback without collision");
+        f.For(.19f);Check(animator.LastTime==1&&f.Npc.visual.localScale.y==1&&f.Npc.visual.localPosition.y==0,"short .18 second pop fallback finishes without floor collapse or wrapper flattening");
+        samples=animator.UpdateCalls;f.For(.2f);Check(animator.UpdateCalls==samples,"finished corpse has no repeated Animator evaluations");
+        f=new Fixture(new Vector3(0,0,1),ModelPrefab(false));
+        Check(Field<Animator>(f.Npc,"modelAnimator")==null&&f.Npc.visual.children.Any(t=>t.gameObject.name=="Body"),"invalid missing-controller model falls back to capsule before activation");
+        f=new Fixture(new Vector3(0,0,1),ModelPrefab(true,true));
+        Check(Field<Animator>(f.Npc,"modelAnimator")==null,"prefab collider cannot create duplicate gameplay collision");
+    }
+    private static void SourceKindEmergence()
+    {
+        foreach(var kind in new[]{IntercomEnemySpawnKind.Ground,IntercomEnemySpawnKind.Hatch})
+        {
+            var f=new Fixture(new Vector3(0,0,1),ModelPrefab());
+            var animator=Field<Animator>(f.Npc,"modelAnimator");
+            float rise=kind==IntercomEnemySpawnKind.Ground?.95f:1.05f;
+            int objects=GameObject.Created.Count,materials=Material.Created,clones=UnityEngine.Object.InstantiateCalls;
+            Vector3 root=f.Npc.transform.position;
+            f.Npc.BeginEmergence(.35f,kind);
+            Check(Math.Abs(f.Npc.ArrivalDuration-(rise+.35f))<.00001f&&f.Npc.EmergenceKind==kind,"arrival total follows selected source clip and warning: "+kind);
+            Check(animator.LastState==Animator.StringToHash("Base Layer."+(kind==IntercomEnemySpawnKind.Ground?"EmergeGround":"EmergeHatch")),"source chooses its own native pose clip: "+kind);
+            f.For(.35f);
+            Check(animator.LastTime<.00001f&&f.Npc.visual.localPosition.y<-1.4f&&f.Player.DamageCalls==0,"source warning stays underground without hidden strikes: "+kind);
+            float previous=f.Npc.visual.localPosition.y;
+            for(int i=0;i<(int)Math.Round((rise-.01f)/.01f);i++)
+            {
+                f.Step();float y=f.Npc.visual.localPosition.y;
+                Check(y>=previous-.00001f&&y<=.00001f,"source chassis rises monotonically with no floor dip: "+kind);previous=y;
+            }
+            Check(f.Npc.IsEmerging&&!f.Capsule.enabled&&f.Npc.Health.invulnerable,"source retains arrival protection through its own pose: "+kind);
+            Check((f.Npc.transform.position-root).sqrMagnitude==0&&f.Player.DamageCalls==0,"source animation never moves collider or punches while hidden: "+kind);
+            f.For(.02f);
+            Check(!f.Npc.IsEmerging&&f.Capsule.enabled&&!f.Npc.Health.invulnerable&&f.Npc.visual.localPosition.sqrMagnitude==0,"source settles at exact floor and releases collision: "+kind);
+            Check(objects==GameObject.Created.Count&&materials==Material.Created&&clones==UnityEngine.Object.InstantiateCalls,"distinct source arrival reuses cached model and warning: "+kind);
+            f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(root);
+            Check(f.Npc.EmergenceKind==IntercomEnemySpawnKind.Perimeter,"reuse discards prior source kind: "+kind);
+        }
+        var legacy=new Fixture(new Vector3(0,0,1),ModelPrefab());
+        var oldAnimator=Field<Animator>(legacy.Npc,"modelAnimator");
+        oldAnimator.MissingStates.Add(Animator.StringToHash("Base Layer.EmergeGround"));
+        oldAnimator.MissingStates.Add(Animator.StringToHash("Base Layer.EmergeHatch"));
+        Call(legacy.Npc,"ResetModelClock");legacy.Npc.BeginEmergence(0,IntercomEnemySpawnKind.Hatch);
+        Check(oldAnimator.LastState==Animator.StringToHash("Base Layer.Emerge"),"custom older controller retains compatible legacy arrival state");
+        legacy.Npc.gameObject.SetActive(false);legacy.Npc.PrepareForSpawn(Vector3.zero);legacy.Npc.gameObject.SetActive(true);
+        legacy.Npc.BeginEmergence();
+        Check(Math.Abs(legacy.Npc.ArrivalDuration-.68f)<.00001f,"zero-argument API retains perimeter arrival contract");
+    }
+    private static void BurstVisualLifecycle()
+    {
+        var f=new Fixture(new Vector3(0,0,1),ModelPrefab());
+        var animator=Field<Animator>(f.Npc,"modelAnimator");
+        f.Npc.HideForDeathBurst();Check(!f.Npc.IsHiddenForDeathBurst&&f.Npc.visual.gameObject.activeSelf,"live victim cannot be hidden by stale burst callback");
+        f.Npc.Health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,f.Player.gameObject));
+        f.Npc.HideForDeathBurst();
+        Check(f.Npc.IsHiddenForDeathBurst&&!f.Npc.visual.gameObject.activeSelf&&f.Npc.gameObject.activeInHierarchy&&f.Npc.enabled,"burst hides visual only, never disables actor during lethal callback");
+        Check(!f.Capsule.enabled&&!f.Npc.telegraph.gameObject.activeSelf,"lethal burst retains authoritative disabled collision and warning");
+        int samples=animator.UpdateCalls,writes=f.Npc.bodyRenderer.PropertyWrites,objects=GameObject.Created.Count;
+        f.Npc.HideForDeathBurst();f.For(1f);Call(f.Npc,"ApplyPresentation",.01f);
+        Check(animator.UpdateCalls==samples&&f.Npc.bodyRenderer.PropertyWrites==writes&&GameObject.Created.Count==objects,"hidden burst corpse skips animator/tint work and duplicate hide allocates nothing");
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(new Vector3(2,0,3));
+        Check(!f.Npc.IsHiddenForDeathBurst&&f.Npc.visual.gameObject.activeSelf&&!f.Npc.Health.IsDead&&f.Capsule.enabled,"inactive pooled reset restores model and healthy gameplay flags");
+        Check(animator.UpdateCalls==samples,"reset under inactive root never evaluates native Animator");
+        f.Npc.gameObject.SetActive(true);Call(f.Npc,"ApplyPresentation",0f);
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Idle")&&animator.LastTime==0,"next life starts at clean idle instead of hidden/death pose");
+    }
+    private static void BonePoseBlend()
+    {
+        var f=new Fixture(new Vector3(0,0,10),ModelPrefab());
+        var animator=Field<Animator>(f.Npc,"modelAnimator");
+        var bone=new GameObject("Cached rigid Head bone").transform;bone.SetParent(animator.transform,false);
+        var skin=animator.gameObject.AddComponent<SkinnedMeshRenderer>();skin.bones=new[]{bone};skin.sharedMaterial=f.Npc.bodyRenderer.sharedMaterial;f.Npc.bodyRenderer=skin;
+        animator.OnSample=a=>{bone.localPosition=a.LastState==Animator.StringToHash("Base Layer.Walk")?new Vector3(1,0,0):Vector3.zero;bone.localRotation=Quaternion.identity;};
+        Call(f.Npc,"ResetModelClock");Call(f.Npc,"ApplyPresentation",0f);
+        var cached=Field<Vector3[]>(f.Npc,"modelBlendPositions");int objects=GameObject.Created.Count;
+        typeof(IntercomNpcController).GetField("presentedMoveSpeed",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,1f);
+        Call(f.Npc,"ApplyPresentation",.01f);
+        Check(bone.localPosition.x>0&&bone.localPosition.x<.1f,"walking begins with bounded cached bone blend instead of a one-frame pose pop");
+        float published=bone.localPosition.x;
+        bone.localPosition=new Vector3(99,2,3);bone.localRotation=Quaternion.Euler(0,90,0);bone.localScale=new Vector3(2,2,2);
+        Call(f.Npc,"LateUpdate");
+        Check(bone.localPosition.x==published&&bone.localPosition.y==0&&bone.localScale.x==1
+            &&((bone.localRotation*Vector3.forward)-Vector3.forward).sqrMagnitude<.00001f,"LateUpdate republishes cached blended TRS after automatic Mecanim overwrites Update edits");
+        Time.timeScale=0;f.Step();bone.localPosition=new Vector3(99,0,0);Call(f.Npc,"LateUpdate");
+        Check(bone.localPosition.x==published,"paused late publication preserves frozen final pose without advancing sampling clock");Time.timeScale=1;
+        typeof(IntercomNpcController).GetField("suspended",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,false);
+        for(int i=0;i<8;i++)Call(f.Npc,"ApplyPresentation",.01f);
+        Check(Math.Abs(bone.localPosition.x-1f)<.00001f,"walk blend completes in .08 seconds without lingering pose lag");
+        typeof(IntercomNpcController).GetField("presentedMoveSpeed",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,0f);
+        Call(f.Npc,"ApplyPresentation",.01f);
+        Check(bone.localPosition.x>.9f&&bone.localPosition.x<1f,"stop eases cached rigid bone back into idle");
+        Check(ReferenceEquals(cached,Field<Vector3[]>(f.Npc,"modelBlendPositions"))&&objects==GameObject.Created.Count,"transition reuses pose arrays and does not create transforms or materials");
+        f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Hurt")&&bone.localPosition.x==0,"hurt pose samples immediately, outside locomotion blend");
+        f.Npc.Health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,f.Player.gameObject));f.Npc.HideForDeathBurst();
+        bone.localPosition=new Vector3(42,0,0);Call(f.Npc,"LateUpdate");
+        Check(bone.localPosition.x==42,"late publisher performs no bone writes for hidden burst victims");
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero);f.Npc.gameObject.SetActive(true);Call(f.Npc,"LateUpdate");
+        Check(bone.localPosition.x==42,"reuse invalidates old cached late pose before first native sample");
+        Call(f.Npc,"ApplyPresentation",0f);bone.localPosition=new Vector3(99,0,0);Call(f.Npc,"LateUpdate");
+        Check(bone.localPosition.x==0&&ReferenceEquals(cached,Field<Vector3[]>(f.Npc,"modelBlendPositions")),"new life publishes clean idle using same prewarmed arrays");
+    }
+    private static void MissingReferencesAndCamera()
+    {
+        var f=new Fixture(new Vector3(0,0,1));f.BeginWindup();int moves=f.Capsule.MoveCalls;
+        f.Npc.definition=null;f.Step();
+        Check(f.Capsule.MoveCalls==moves&&f.Player.DamageCalls==0,"lost runtime definition suspends AI without throwing or completing a stale strike");
+        typeof(IntercomNpcController).GetField("health",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,null);
+        f.Step();Call(f.Npc,"OnGUI");
+        Check(f.Capsule.MoveCalls==moves,"destroyed health reference is safe for simulation and GUI teardown");
+        f=new Fixture(new Vector3(0,0,10));
+        var old=new GameObject("Prior camera").AddComponent<Camera>();old.enabled=false;
+        typeof(IntercomNpcController).GetField("displayCamera",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,old);
+        var current=new GameObject("Current gameplay camera").AddComponent<Camera>();Camera.main=current;
+        f.Npc.Health.TakeDamage(new IntercomDamage(5,Vector3.zero,Vector3.forward,f.Player.gameObject));
+        Call(f.Npc,"OnGUI");
+        Check(Field<Camera>(f.Npc,"displayCamera")==current,"overhead health UI replaces inactive cached camera after menu transitions");
+    }
     private static void Emergence()
     {
         var visibleArrival=new Fixture(new Vector3(0,0,1));

@@ -1,7 +1,7 @@
 {
   "revision": "scene-integrity-v9",
   "status": "PASS",
-  "yamlFiles": 106,
+  "yamlFiles": 127,
   "files": [
     {
       "path": "Assets/DefaultVolumeProfile.asset",
@@ -142,6 +142,12 @@
       "externalReferences": 0
     },
     {
+      "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikAtlas.mat",
+      "objects": 2,
+      "localReferences": 21,
+      "externalReferences": 3
+    },
+    {
       "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat",
       "objects": 2,
       "localReferences": 22,
@@ -162,7 +168,7 @@
     {
       "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset",
       "objects": 1,
-      "localReferences": 4,
+      "localReferences": 5,
       "externalReferences": 4
     },
     {
@@ -400,6 +406,126 @@
       "externalReferences": 0
     },
     {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubBrass.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubCushion.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubFloor.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubPaper.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubPlaster.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubRust.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubScreen.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubTrim.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Materials/HubWood.mat",
+      "objects": 2,
+      "localReferences": 22,
+      "externalReferences": 2
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubCoffeeTable.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubDispatchBoard.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubLocker.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubPartsTrolley.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubPlant.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubRoomShell.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubServiceRobot.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubSofa.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubTelevision.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubWeaponBoard.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Frontend/Meshes/HubWorkbench.mesh",
+      "objects": 1,
+      "localReferences": 3,
+      "externalReferences": 0
+    },
+    {
       "path": "Assets/IntercomMVP/Content/Missions/Kill50.asset",
       "objects": 1,
       "localReferences": 4,
@@ -473,9 +599,9 @@
     },
     {
       "path": "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity",
-      "objects": 1021,
-      "localReferences": 6464,
-      "externalReferences": 897
+      "objects": 1106,
+      "localReferences": 7002,
+      "externalReferences": 993
     },
     {
       "path": "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight.asset",
@@ -641,7 +767,7 @@
     }
   ],
   "regressionCases": 14,
-  "sceneSHA256": "fa04707d509475c0b2f20ea1dd8730c76244e405413305191cbea1ad8f8dbd6c",
+  "sceneSHA256": "0967c0f8155c83f939cd4b0adab7c3ef31a22ecf3d21d2303389cc56d30320e7",
   "surfaceCount": 84,
   "surfaceCounts": {
     "Asphalt": 1,
@@ -1160,9 +1286,9 @@
     "checkedInTemporaryFile": true,
     "regenerationIdempotent": true,
     "localIDs": {
-      "objects": 1021,
-      "localReferences": 6464,
-      "externalReferences": 897
+      "objects": 1106,
+      "localReferences": 7002,
+      "externalReferences": 993
     },
     "surfaceCount": 84,
     "environmentObjects": 226

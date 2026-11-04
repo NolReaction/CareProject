@@ -162,8 +162,8 @@ namespace IntercomMvp
         private void OnGUI()
         {
             if(Health==null || Health.IsDead || Event.current==null || Event.current.type!=EventType.Repaint) return;
-            if(displayCamera==null) displayCamera=Camera.main;
-            if(displayCamera==null) return;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) displayCamera=Camera.main;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) return;
             Vector3 p=displayCamera.WorldToScreenPoint(transform.position+Vector3.up*1.5f);
             if(p.z<=0f || p.x<0 || p.x>Screen.width || p.y<0 || p.y>Screen.height) return;
             float w=Mathf.Clamp(Screen.height/720f*64f,46f,92f), h=7f;

@@ -8,6 +8,7 @@ namespace IntercomMvp
     [DefaultExecutionOrder(-180)]
     public sealed class IntercomFrontEnd : MonoBehaviour, IIntercomMenuInput
     {
+        public const string BuildVersion = "V19";
         [Header("Current game")]
         public IntercomMissionDirector mission;
         public IntercomPlayerInput input;
@@ -18,8 +19,14 @@ namespace IntercomMvp
         public string gameTitle = "ЗАБОТА";
         public Texture2D heroPortrait;
         public Texture2D weaponPortrait;
+        [Tooltip("Optional transparent cartoon illustration for the home job card.")]
+        public Texture2D homeDoodle;
+        [Tooltip("Optional transparent cartoon illustration for the rescue job ticket.")]
+        public Texture2D rescueDoodle;
         [Tooltip("Optional dedicated room camera. Leave empty to use the tutorial yard as the menu backdrop.")]
         public IntercomFrontEndRoomCamera roomCamera;
+
+        public bool HasRoomScene => roomCamera != null && roomCamera.IsShown;
 
         public bool IsVisible => isActiveAndEnabled && mission != null && mission.isActiveAndEnabled && mission.BlocksGameplay;
         public IntercomFrontEndSection Section => state.CurrentSection;
@@ -29,6 +36,7 @@ namespace IntercomMvp
         private readonly IntercomFrontEndState state = new IntercomFrontEndState();
         private readonly IntercomFrontEndView view = new IntercomFrontEndView();
         private IntercomPlayerInput registeredInput;
+        private IntercomFrontEndRoomCamera registeredRoomCamera;
         private IntercomMissionPhase observedPhase;
         private bool observedVisible, observedPhaseReady;
         private string notice = "";
@@ -40,7 +48,7 @@ namespace IntercomMvp
         {
             if (registeredInput != null) registeredInput.UnregisterFrontEnd(this);
             registeredInput = null;
-            if (roomCamera != null) roomCamera.Hide();
+            ReleaseRoomCamera();
             observedVisible = false;
         }
         private void OnDestroy() { view.Dispose(); }
@@ -54,8 +62,8 @@ namespace IntercomMvp
         }
         private void SyncState()
         {
-            if (mission == null) return;
-            if (!observedPhaseReady || observedPhase != mission.Phase)
+            if (mission == null) observedPhaseReady = false;
+            else if (!observedPhaseReady || observedPhase != mission.Phase)
             {
                 observedPhaseReady = true; observedPhase = mission.Phase;
                 if (mission.Phase != IntercomMissionPhase.Active)
@@ -66,12 +74,25 @@ namespace IntercomMvp
             {
                 observedVisible = visible;
                 if (input != null) input.CancelUntilRelease();
-                if (roomCamera != null)
-                {
-                    if (visible) roomCamera.Show(Section);
-                    else roomCamera.Hide();
-                }
             }
+            if (!visible) ReleaseRoomCamera();
+            else if (registeredRoomCamera != roomCamera || (registeredRoomCamera != null && !registeredRoomCamera.IsShown)) ShowRoom(Section);
+        }
+
+        private void ShowRoom(IntercomFrontEndSection section)
+        {
+            if (registeredRoomCamera != roomCamera)
+            {
+                ReleaseRoomCamera();
+                registeredRoomCamera = roomCamera;
+            }
+            if (registeredRoomCamera != null) registeredRoomCamera.Show(section);
+        }
+
+        private void ReleaseRoomCamera()
+        {
+            if (registeredRoomCamera != null) registeredRoomCamera.Hide();
+            registeredRoomCamera = null;
         }
 
         public bool Navigate(IntercomFrontEndSection section)
@@ -80,7 +101,7 @@ namespace IntercomMvp
             if (IsResult) { mission.ReturnToSelection(); observedPhase=mission.Phase; observedPhaseReady=true; }
             bool changed = state.Select(section);
             notice = "";
-            if (roomCamera != null) roomCamera.Show(section);
+            ShowRoom(section);
             if (changed) SectionChanged?.Invoke(section);
             return true;
         }
@@ -90,7 +111,7 @@ namespace IntercomMvp
             if (!IsVisible) return;
             if (IsResult) { mission.ReturnToSelection(); observedPhase=mission.Phase; observedPhaseReady=true; }
             bool changed = state.Back(); notice = "";
-            if (roomCamera != null) roomCamera.Show(Section);
+            ShowRoom(Section);
             if (changed) SectionChanged?.Invoke(Section);
         }
 
@@ -138,8 +159,8 @@ namespace IntercomMvp
             if (!IsVisible || Event.current == null || Event.current.type != EventType.Repaint) return;
             Color previousColor = GUI.color; Matrix4x4 previousMatrix = GUI.matrix; int previousDepth = GUI.depth;
             GUI.matrix = Matrix4x4.identity; GUI.depth = -80;
-            view.Draw(this,CurrentLayout());
-            GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth;
+            try { view.Draw(this,CurrentLayout()); }
+            finally { GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth; }
         }
     }
 }

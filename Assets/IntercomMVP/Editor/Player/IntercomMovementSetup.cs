@@ -21,7 +21,7 @@ namespace IntercomMvp.Editor
             "IdleRelaxed", "RunRelaxed", "RunBackwardRelaxed", "RunLeftRelaxed", "RunRightRelaxed",
             "RaiseWeapons", "LowerWeapons", "Shoot" };
 
-        [MenuItem("Tools/CareProject/Setup Robot", false, 20)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Setup Robot", false, 20)]
         private static void SetupActiveScene()
         {
             try
@@ -38,7 +38,7 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Setup Robot", true)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Setup Robot", true)]
         private static bool CanSetup()
         {
             return !EditorApplication.isCompiling && !EditorApplication.isUpdating
@@ -581,7 +581,7 @@ namespace IntercomMvp.Editor
             capsule.minMoveDistance = 0f;
         }
 
-        [MenuItem("Tools/CareProject/Fit Capsule To Idle Feet", false, 23)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Fit Capsule To Idle Feet", false, 23)]
         private static void FitActiveCapsuleToIdleFeet()
         {
             try
@@ -602,7 +602,7 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Fit Capsule To Idle Feet", true)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Fit Capsule To Idle Feet", true)]
         private static bool CanFitActiveCapsule() { return CanSetup(); }
 
         private static void AlignCapsuleToIdleFeet(CharacterController capsule, Animator animator, AnimationClip idle)

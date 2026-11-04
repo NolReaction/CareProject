@@ -66,8 +66,8 @@ class ArchitectureContracts(unittest.TestCase):
     def test_shared_health_cannot_depend_on_weapon_feature(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
-            shared = root / 'Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs'
-            combat = root / 'Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs'
+            shared = root / 'Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs'
+            combat = root / 'Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs'
             for path in (shared, combat): path.parent.mkdir(parents=True, exist_ok=True)
             shared.write_text('namespace IntercomMvp { public class IntercomHealthState { float x=IntercomWeaponBalance.Positive(1); } }')
             combat.write_text('namespace IntercomMvp { public class IntercomWeaponBalance {} }')

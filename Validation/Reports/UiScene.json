@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "checks": 989,
+  "rooms": 3,
+  "moduleInstances": 16,
+  "sharedMeshes": 11,
+  "sharedTriangles": 5872,
+  "illustrations": [
+    {
+      "name": "HomeDoodle",
+      "width": 1283,
+      "height": 1226
+    },
+    {
+      "name": "RescueDoodle",
+      "width": 1254,
+      "height": 1254
+    }
+  ],
+  "isolatedLayer": 30,
+  "noPhysicsOrAudio": true,
+  "localIds": {
+    "objects": 1107,
+    "localReferences": 7009,
+    "externalReferences": 998
+  },
+  "scope": "Real serialized links/mesh buffers/isolation/transparent PNGs, no Unity rendering or Play Mode."
+}

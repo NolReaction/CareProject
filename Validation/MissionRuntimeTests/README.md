@@ -17,3 +17,12 @@ The same test harness compiled with the V9.1 Director fails at startup reverse
 linking. These tests execute production Director/Ally code against narrow
 input/vitality/navigation stand-ins; the Unity scheduler and rendering remain
 outside their scope.
+
+V16 adds session clock/revision checks, focus/pause recovery after an explicit
+component re-enable, camera replacement, missing active scene dependencies,
+and damaged pool ownership. A disabled/removed living enemy must produce a
+recoverable result instead of an unfinishable wave; retry repairs missing
+owned actors and re-enables a parked AI component. Removing an AI component
+must not leave its owned collider/root behind. The tests represent destroyed
+component null references explicitly; native Unity destruction order is not
+simulated.

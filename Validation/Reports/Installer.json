@@ -1,0 +1,69 @@
+{
+  "status": "PASS",
+  "csharp5CompileExit": 0,
+  "csharp5CompileOutput": "",
+  "filesystemTests": {
+    "project": "PackageInstallerTests",
+    "compileExit": 0,
+    "compileOutput": "",
+    "runExit": 0,
+    "output": "Package installer: 11 real filesystem scenarios, 55 assertions PASS. Production C#5-compatible transaction core; PowerShell/Windows GUI and Unity were not executed.\n"
+  },
+  "wrapper": {
+    "utf8Bom": true,
+    "cmdAscii": true,
+    "powershell51Executed": false,
+    "folderPickerExecuted": false,
+    "scope": "Read-only source inspection; no PowerShell executable installed."
+  },
+  "files": [
+    {
+      "path": "RepairProject.ps1",
+      "sha256": "1469cae7c5b51dec32f494517adebca89f4f38141597820f058f8c26cf5311f4"
+    },
+    {
+      "path": "RepairProject.cmd",
+      "sha256": "493b8a2afb2962bda5b1e22ecf731e36236c3cc2a62b54be6f0af4fea9e6750a"
+    },
+    {
+      "path": "Tools/Project/PackageInstaller.cs",
+      "sha256": "b5c03032a2b285ec6f0c1c8caa7571b8eb0776be1275d81d97988d1b68110459"
+    },
+    {
+      "path": "Tools/Project/README.md",
+      "sha256": "4854cb704a93dba66099bfbfe5ecfee91ab82a5f56254d79f53d132d13bac0a8"
+    },
+    {
+      "path": "Validation/PackageInstallerTests/PackageInstallerTests.csproj",
+      "sha256": "50a9a449d0ac3dff8ff85ffa674f060f38f09a837b95f867b258a81f22f459c3"
+    },
+    {
+      "path": "Validation/PackageInstallerTests/Program.cs",
+      "sha256": "e62e294e7e30cf34cc3a8d1d9d4ca151c8a6a576e068d289762b5454960960e5"
+    },
+    {
+      "path": "Validation/PackageInstallerTests/README.md",
+      "sha256": "b11179b2570b0ca0b37eb94df9db180c73a96ba653f0005628b93ae0b8efeb42"
+    }
+  ],
+  "limits": [
+    "C#5 syntax checked against .NET8 reference assemblies, not actual .NETFramework4.8 assembly references.",
+    "Windows PowerShell5.1/GUI, actual Windows ACLs/locking and Unity Editor were not executed."
+  ],
+  "version": "V19",
+  "packageContract": {
+    "manifestSchema": 1,
+    "packageVersion": "V19",
+    "inventoryVersion": "CareProject V19",
+    "restoreReceiptVersions": [
+      "V18",
+      "V19"
+    ],
+    "preferredKnownScripts": "Tools/Project/KnownScriptsV19.json"
+  },
+  "broadResult": {
+    "projects": 51,
+    "passed": 51,
+    "source": "LogicTests.json"
+  }
+}

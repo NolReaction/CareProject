@@ -1,0 +1,945 @@
+{
+  "schema": 1,
+  "version": "V18",
+  "reason": "Group pure feature models only; no serialized component/type/behavior changes.",
+  "unityMustBeClosed": true,
+  "retiredFiles": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "kind": "pure-source",
+      "guid": "377ddad06b934ed28d3a4c1cb4ec0825",
+      "knownSha256": [
+        "46bbd212cc46b50b9ae392bf1b31985dc3d80f102854163d5feda033c6d705cb",
+        "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707"
+      ],
+      "sha256ByVersion": {
+        "V15": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707",
+        "V16": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707",
+        "V17": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707",
+        "WorkingV17": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs.meta",
+      "kind": "metadata",
+      "guid": "377ddad06b934ed28d3a4c1cb4ec0825",
+      "knownSha256": [
+        "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43"
+      ],
+      "sha256ByVersion": {
+        "V15": "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43",
+        "V16": "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43",
+        "V17": "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43",
+        "WorkingV17": "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "kind": "pure-source",
+      "guid": "267e58807adad3140a4c2945043bfdaa",
+      "knownSha256": [
+        "29a370f41040e3dc2e6c8d4e76963b76504bf19d5603b7cb3862481dbff44e52",
+        "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be"
+      ],
+      "sha256ByVersion": {
+        "V15": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+        "V16": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+        "V17": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+        "WorkingV17": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs.meta",
+      "kind": "metadata",
+      "guid": "267e58807adad3140a4c2945043bfdaa",
+      "knownSha256": [
+        "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6"
+      ],
+      "sha256ByVersion": {
+        "V15": "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6",
+        "V16": "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6",
+        "V17": "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6",
+        "WorkingV17": "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "kind": "pure-source",
+      "guid": "750f0b4a224f422f8935ff7897e86224",
+      "knownSha256": [
+        "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808"
+      ],
+      "sha256ByVersion": {
+        "V15": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+        "V16": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+        "V17": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+        "WorkingV17": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs.meta",
+      "kind": "metadata",
+      "guid": "750f0b4a224f422f8935ff7897e86224",
+      "knownSha256": [
+        "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e"
+      ],
+      "sha256ByVersion": {
+        "V15": "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e",
+        "V16": "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e",
+        "V17": "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e",
+        "WorkingV17": "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "kind": "pure-source",
+      "guid": "d13118f101cf481c91d1cf72bf136a8c",
+      "knownSha256": [
+        "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7"
+      ],
+      "sha256ByVersion": {
+        "V15": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
+        "V16": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
+        "V17": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
+        "WorkingV17": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs.meta",
+      "kind": "metadata",
+      "guid": "d13118f101cf481c91d1cf72bf136a8c",
+      "knownSha256": [
+        "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2"
+      ],
+      "sha256ByVersion": {
+        "V15": "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2",
+        "V16": "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2",
+        "V17": "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2",
+        "WorkingV17": "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "kind": "pure-source",
+      "guid": "e4547ab354ad52aa9292661dbaae7085",
+      "knownSha256": [
+        "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c"
+      ],
+      "sha256ByVersion": {
+        "V15": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c",
+        "V16": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c",
+        "V17": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c",
+        "WorkingV17": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs.meta",
+      "kind": "metadata",
+      "guid": "e4547ab354ad52aa9292661dbaae7085",
+      "knownSha256": [
+        "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924"
+      ],
+      "sha256ByVersion": {
+        "V15": "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924",
+        "V16": "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924",
+        "V17": "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924",
+        "WorkingV17": "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "kind": "pure-source",
+      "guid": "94d811aa2c5e5413bcfee78f2ad4ecd5",
+      "knownSha256": [
+        "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5"
+      ],
+      "sha256ByVersion": {
+        "V15": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
+        "V16": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
+        "V17": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
+        "WorkingV17": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs.meta",
+      "kind": "metadata",
+      "guid": "94d811aa2c5e5413bcfee78f2ad4ecd5",
+      "knownSha256": [
+        "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e"
+      ],
+      "sha256ByVersion": {
+        "V15": "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e",
+        "V16": "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e",
+        "V17": "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e",
+        "WorkingV17": "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "kind": "pure-source",
+      "guid": "318677f78ded4a75ad5e4a840907145b",
+      "knownSha256": [
+        "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058"
+      ],
+      "sha256ByVersion": {
+        "V15": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
+        "V16": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
+        "V17": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
+        "WorkingV17": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs.meta",
+      "kind": "metadata",
+      "guid": "318677f78ded4a75ad5e4a840907145b",
+      "knownSha256": [
+        "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8"
+      ],
+      "sha256ByVersion": {
+        "V15": "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8",
+        "V16": "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8",
+        "V17": "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8",
+        "WorkingV17": "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "kind": "pure-source",
+      "guid": "16236891db5467f439b0e9caedc13ccb",
+      "knownSha256": [
+        "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7"
+      ],
+      "sha256ByVersion": {
+        "V15": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7",
+        "V16": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7",
+        "V17": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7",
+        "WorkingV17": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs.meta",
+      "kind": "metadata",
+      "guid": "16236891db5467f439b0e9caedc13ccb",
+      "knownSha256": [
+        "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11"
+      ],
+      "sha256ByVersion": {
+        "V15": "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11",
+        "V16": "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11",
+        "V17": "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11",
+        "WorkingV17": "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "kind": "pure-source",
+      "guid": "69eb8cd56edd4b858b7032296aaabb68",
+      "knownSha256": [
+        "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f"
+      ],
+      "sha256ByVersion": {
+        "V15": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
+        "V16": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
+        "V17": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
+        "WorkingV17": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs.meta",
+      "kind": "metadata",
+      "guid": "69eb8cd56edd4b858b7032296aaabb68",
+      "knownSha256": [
+        "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d"
+      ],
+      "sha256ByVersion": {
+        "V15": "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d",
+        "V16": "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d",
+        "V17": "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d",
+        "WorkingV17": "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+      "kind": "pure-source",
+      "guid": "3ff571cf6ec55f729ce35bd17de2d135",
+      "knownSha256": [
+        "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d"
+      ],
+      "sha256ByVersion": {
+        "V15": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d",
+        "V16": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d",
+        "V17": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d",
+        "WorkingV17": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs.meta",
+      "kind": "metadata",
+      "guid": "3ff571cf6ec55f729ce35bd17de2d135",
+      "knownSha256": [
+        "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8"
+      ],
+      "sha256ByVersion": {
+        "V15": "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8",
+        "V16": "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8",
+        "V17": "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8",
+        "WorkingV17": "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+      "kind": "pure-source",
+      "guid": "e7ae18cdc6245ed98d14be219d959aff",
+      "knownSha256": [
+        "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61"
+      ],
+      "sha256ByVersion": {
+        "V15": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61",
+        "V16": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61",
+        "V17": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61",
+        "WorkingV17": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs.meta",
+      "kind": "metadata",
+      "guid": "e7ae18cdc6245ed98d14be219d959aff",
+      "knownSha256": [
+        "afbfff9285b811ca1caebac5e5c2f28c131e62e5546f0532ebf91147a2cfae77"
+      ],
+      "sha256ByVersion": {
+        "V15": "afbfff9285b811ca1caebac5e5c2f28c131e62e5546f0532ebf91147a2cfae77",
+        "V16": "afbfff9285b811ca1caebac5e5c2f28c131e62e5546f0532ebf91147a2cfae77",
+        "V17": "afbfff9285b811ca1caebac5e5c2f28c131e62e5546f0532ebf91147a2cfae77",
+        "WorkingV17": "afbfff9285b811ca1caebac5e5c2f28c131e62e5546f0532ebf91147a2cfae77"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "kind": "pure-source",
+      "guid": "3c125b9c704e4c6cbc6e85b2f6fc158d",
+      "knownSha256": [
+        "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
+        "09a9d644e8c1501941441782660d28d9250ac9b500f67c90bbb83da901936038"
+      ],
+      "sha256ByVersion": {
+        "V15": "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
+        "V16": "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
+        "V17": "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
+        "WorkingV17": "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs.meta",
+      "kind": "metadata",
+      "guid": "3c125b9c704e4c6cbc6e85b2f6fc158d",
+      "knownSha256": [
+        "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576"
+      ],
+      "sha256ByVersion": {
+        "V15": "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576",
+        "V16": "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576",
+        "V17": "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576",
+        "WorkingV17": "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "kind": "pure-source",
+      "guid": "32c45c933b86549a8adfa128887832be",
+      "knownSha256": [
+        "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e"
+      ],
+      "sha256ByVersion": {
+        "V15": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e",
+        "V16": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e",
+        "V17": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e",
+        "WorkingV17": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs.meta",
+      "kind": "metadata",
+      "guid": "32c45c933b86549a8adfa128887832be",
+      "knownSha256": [
+        "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06"
+      ],
+      "sha256ByVersion": {
+        "V15": "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06",
+        "V16": "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06",
+        "V17": "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06",
+        "WorkingV17": "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "kind": "pure-source",
+      "guid": "4a4cb5f79e8fc3441a1266402f6753d8",
+      "knownSha256": [
+        "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb"
+      ],
+      "sha256ByVersion": {
+        "V15": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+        "V16": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+        "V17": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+        "WorkingV17": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs.meta",
+      "kind": "metadata",
+      "guid": "4a4cb5f79e8fc3441a1266402f6753d8",
+      "knownSha256": [
+        "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881"
+      ],
+      "sha256ByVersion": {
+        "V15": "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881",
+        "V16": "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881",
+        "V17": "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881",
+        "WorkingV17": "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "kind": "pure-source",
+      "guid": "d1e09016df342df47a8a8d2ef80145f9",
+      "knownSha256": [
+        "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706"
+      ],
+      "sha256ByVersion": {
+        "V15": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+        "V16": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+        "V17": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+        "WorkingV17": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs.meta",
+      "kind": "metadata",
+      "guid": "d1e09016df342df47a8a8d2ef80145f9",
+      "knownSha256": [
+        "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3"
+      ],
+      "sha256ByVersion": {
+        "V15": "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3",
+        "V16": "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3",
+        "V17": "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3",
+        "WorkingV17": "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "kind": "pure-source",
+      "guid": "c112cb0de6304573a321eff489893d04",
+      "knownSha256": [
+        "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324"
+      ],
+      "sha256ByVersion": {
+        "V15": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
+        "V16": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
+        "V17": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
+        "WorkingV17": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs.meta",
+      "kind": "metadata",
+      "guid": "c112cb0de6304573a321eff489893d04",
+      "knownSha256": [
+        "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb"
+      ],
+      "sha256ByVersion": {
+        "V15": "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb",
+        "V16": "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb",
+        "V17": "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb",
+        "WorkingV17": "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "kind": "pure-source",
+      "guid": "70c8949a4bee4d0781bb09573c1d972d",
+      "knownSha256": [
+        "18496ae3829ab86b3cda8a920f436b8a1c2424fccc9661fc09399ec8ac571933",
+        "e51877d29c5fdb06ed9045969ec90b80e44e45177878787018f2e194ba8b3ffb",
+        "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626"
+      ],
+      "sha256ByVersion": {
+        "V15": "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626",
+        "V16": "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626",
+        "V17": "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626",
+        "WorkingV17": "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs.meta",
+      "kind": "metadata",
+      "guid": "70c8949a4bee4d0781bb09573c1d972d",
+      "knownSha256": [
+        "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11"
+      ],
+      "sha256ByVersion": {
+        "V15": "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11",
+        "V16": "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11",
+        "V17": "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11",
+        "WorkingV17": "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs",
+      "kind": "pure-source",
+      "guid": "59514f3f6edd5db0aa18b8107a96ed1b",
+      "knownSha256": [
+        "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4"
+      ],
+      "sha256ByVersion": {
+        "V15": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4",
+        "V16": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4",
+        "V17": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4",
+        "WorkingV17": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs.meta",
+      "kind": "metadata",
+      "guid": "59514f3f6edd5db0aa18b8107a96ed1b",
+      "knownSha256": [
+        "074f3ab956337e6272c00faf97833118d232c74390fa036dc221d29752520709"
+      ],
+      "sha256ByVersion": {
+        "V15": "074f3ab956337e6272c00faf97833118d232c74390fa036dc221d29752520709",
+        "V16": "074f3ab956337e6272c00faf97833118d232c74390fa036dc221d29752520709",
+        "V17": "074f3ab956337e6272c00faf97833118d232c74390fa036dc221d29752520709",
+        "WorkingV17": "074f3ab956337e6272c00faf97833118d232c74390fa036dc221d29752520709"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs",
+      "kind": "pure-source",
+      "guid": "8d27f998ef5c53379dbd8dcb49903939",
+      "knownSha256": [
+        "336e30f0aba1062e5b558d699916de8f26f13a483babdea83b97585b58d36dd7",
+        "41d6ec80ff63ee0163d1fd606d8744dbd0f6819f4cd2ff8f325ada3c87617510"
+      ],
+      "sha256ByVersion": {
+        "V15": "41d6ec80ff63ee0163d1fd606d8744dbd0f6819f4cd2ff8f325ada3c87617510",
+        "V16": "336e30f0aba1062e5b558d699916de8f26f13a483babdea83b97585b58d36dd7",
+        "V17": "336e30f0aba1062e5b558d699916de8f26f13a483babdea83b97585b58d36dd7",
+        "WorkingV17": "336e30f0aba1062e5b558d699916de8f26f13a483babdea83b97585b58d36dd7"
+      }
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs.meta",
+      "replacement": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs.meta",
+      "kind": "metadata",
+      "guid": "8d27f998ef5c53379dbd8dcb49903939",
+      "knownSha256": [
+        "e1aabc6bff1339e39bb93e228b0144017e50ba3bad287e31fd3479eb960bf062"
+      ],
+      "sha256ByVersion": {
+        "V15": "e1aabc6bff1339e39bb93e228b0144017e50ba3bad287e31fd3479eb960bf062",
+        "V16": "e1aabc6bff1339e39bb93e228b0144017e50ba3bad287e31fd3479eb960bf062",
+        "V17": "e1aabc6bff1339e39bb93e228b0144017e50ba3bad287e31fd3479eb960bf062",
+        "WorkingV17": "e1aabc6bff1339e39bb93e228b0144017e50ba3bad287e31fd3479eb960bf062"
+      }
+    }
+  ],
+  "newFiles": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "guid": "612d4f7f62f150a1aaa59f1afe47938c",
+      "sha256": "05f9366298a6702d3d26227d6a2358b3c0a64d6fc78dadef27616ae5151744e8",
+      "classes": [
+        "IntercomWeaponBalance",
+        "IntercomWeaponPoseClock",
+        "IntercomMagazineState",
+        "IntercomReloadControl"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "guid": "078e2b512d515df38e34248be8ce7337",
+      "sha256": "993d0130def4df0f4efc2c1032cf014a7a258049f886affc980237f04121e017",
+      "classes": [
+        "IntercomTracerStyle",
+        "IntercomProjectileHitChoice"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "guid": "122f7a4efe7a56398870bd893758d926",
+      "sha256": "028cf864bf85c2db2ca8c822cab21206c61e6dd70532f6768d8856cfb3baad95",
+      "classes": [
+        "IntercomOcclusionGeometry",
+        "IntercomOcclusionMath",
+        "IntercomOcclusionState"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+      "guid": "52a4dee06c695ab59ce40b7550eaf93a",
+      "sha256": "49ac6a2278bc06c4be5fd06df2629c2e909a33eab734a40d3b212dd8fa771cc5",
+      "classes": [
+        "IntercomPropState",
+        "IntercomPropHitResponse"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "guid": "5d04662eda705bcaad721eba1996a047",
+      "sha256": "10490df1a01bebd7764a557b1cf2ca2f5be3d1281c09fc61a71ca5dbef5d53ed",
+      "classes": [
+        "IntercomHealthState",
+        "IntercomTeam"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "guid": "d4be5f41d8bd508d896880854bf69b2a",
+      "sha256": "41d8de53cc85cd210ab10045396a047fa47d9c2590ca570cdf0e6bb0156f5d9c",
+      "classes": [
+        "IntercomTwinStickState",
+        "IntercomInputCancellation"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "guid": "25114e56b03652d3bec6dda0ef5b34a5",
+      "sha256": "cec1a7b779c8071239498ce9704b728eddec6ae91c01f7f724ae910ccc462493",
+      "classes": [
+        "IntercomFootstepClock",
+        "IntercomImpactAudio"
+      ]
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs",
+      "guid": "720081d2ae2557a1af42653f539b29b5",
+      "sha256": "2476e42df3cddb30e74d0ab73faadc994784dd00fa51dd4c8ee28a68cc7729b6",
+      "classes": [
+        "IntercomFrontEndState",
+        "IntercomFrontEndLayout"
+      ]
+    }
+  ],
+  "sourceMapping": {
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs"
+  },
+  "safety": {
+    "retiredSourceCount": 19,
+    "newSourceCount": 8,
+    "netCSharpReduction": 11,
+    "allClassBodiesPreserved": true,
+    "serializedGuidReferencesToRetiredSources": 0,
+    "protectedHeroFilesMoved": 0
+  },
+  "changedTestProjects": [
+    "Validation/FrontEndRuntimeTests/FrontEndRuntimeTests.csproj",
+    "Validation/PlayerControlLifecycleTests/PlayerControlLifecycleTests.csproj",
+    "Validation/ReactivePropTests/ReactivePropTests.csproj",
+    "Validation/InputCancellationTests/InputCancellationTests.csproj",
+    "Validation/TracerGeometryTests/TracerGeometryTests.csproj",
+    "Validation/MagazineTests/MagazineTests.csproj",
+    "Validation/HudLayoutTests/HudLayoutTests.csproj",
+    "Validation/ProjectileCollisionTests/ProjectileCollisionTests.csproj",
+    "Validation/ShooterIntegrationTests/ShooterIntegrationTests.csproj",
+    "Validation/AudioTimingTests/AudioTimingTests.csproj",
+    "Validation/WeaponFoundationTests/WeaponFoundationTests.csproj",
+    "Validation/OcclusionMathTests/OcclusionMathTests.csproj",
+    "Validation/PlayerInputRuntimeTests/PlayerInputRuntimeTests.csproj",
+    "Validation/PoseClockTests/PoseClockTests.csproj",
+    "Validation/FrontEndRoomCameraTests/FrontEndRoomCameraTests.csproj",
+    "Validation/PlayerAudioLifecycleTests/PlayerAudioLifecycleTests.csproj",
+    "Validation/FrontEndModelTests/FrontEndModelTests.csproj",
+    "Validation/CombatEffectsTests/CombatEffectsTests.csproj",
+    "Validation/PlayerHurtFeedbackTests/PlayerHurtFeedbackTests.csproj",
+    "Validation/PlayerVitalityTests/PlayerVitalityTests.csproj",
+    "Validation/MissionUiTests/MissionUiTests.csproj",
+    "Validation/MobileInputTests/MobileInputTests.csproj",
+    "Validation/OcclusionRuntimeTests/OcclusionRuntimeTests.csproj",
+    "Validation/DeathStrikeLifecycleTests/DeathStrikeLifecycleTests.csproj"
+  ],
+  "legacyAliases": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomFootstepClock.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "guid": "c112cb0de6304573a321eff489893d04",
+      "knownSha256": [
+        "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomHealthState.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "guid": "3c125b9c704e4c6cbc6e85b2f6fc158d",
+      "knownSha256": [
+        "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
+        "09a9d644e8c1501941441782660d28d9250ac9b500f67c90bbb83da901936038"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomImpactAudio.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioModel.cs",
+      "guid": "70c8949a4bee4d0781bb09573c1d972d",
+      "knownSha256": [
+        "18496ae3829ab86b3cda8a920f436b8a1c2424fccc9661fc09399ec8ac571933",
+        "e51877d29c5fdb06ed9045969ec90b80e44e45177878787018f2e194ba8b3ffb",
+        "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomInputCancellation.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "guid": "d1e09016df342df47a8a8d2ef80145f9",
+      "knownSha256": [
+        "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomMagazineState.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "guid": "750f0b4a224f422f8935ff7897e86224",
+      "knownSha256": [
+        "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomOcclusionGeometry.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "guid": "318677f78ded4a75ad5e4a840907145b",
+      "knownSha256": [
+        "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomOcclusionMath.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "guid": "16236891db5467f439b0e9caedc13ccb",
+      "knownSha256": [
+        "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomOcclusionState.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionModel.cs",
+      "guid": "69eb8cd56edd4b858b7032296aaabb68",
+      "knownSha256": [
+        "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomProjectileHitChoice.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "guid": "94d811aa2c5e5413bcfee78f2ad4ecd5",
+      "knownSha256": [
+        "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomPropState.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs",
+      "guid": "3ff571cf6ec55f729ce35bd17de2d135",
+      "knownSha256": [
+        "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomReloadControl.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "guid": "d13118f101cf481c91d1cf72bf136a8c",
+      "knownSha256": [
+        "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomTeam.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs",
+      "guid": "32c45c933b86549a8adfa128887832be",
+      "knownSha256": [
+        "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomTracerStyle.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileModel.cs",
+      "guid": "e4547ab354ad52aa9292661dbaae7085",
+      "knownSha256": [
+        "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs",
+      "guid": "4a4cb5f79e8fc3441a1266402f6753d8",
+      "knownSha256": [
+        "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomWeaponBalance.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "guid": "377ddad06b934ed28d3a4c1cb4ec0825",
+      "knownSha256": [
+        "46bbd212cc46b50b9ae392bf1b31985dc3d80f102854163d5feda033c6d705cb",
+        "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs",
+      "canonicalRetiredSource": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs",
+      "replacement": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "guid": "267e58807adad3140a4c2945043bfdaa",
+      "knownSha256": [
+        "29a370f41040e3dc2e6c8d4e76963b76504bf19d5603b7cb3862481dbff44e52",
+        "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be"
+      ],
+      "policy": "Quarantine only when sidecar GUID and a known published content hash both match; original bytes backed up."
+    }
+  ],
+  "publishedHashSources": [
+    {
+      "archive": "CareProject_Full_V14_2026-11-04.zip",
+      "matchedFiles": 32
+    },
+    {
+      "archive": "CareProject_Motion_Camera_Performance_V10_2026-11-04.zip",
+      "matchedFiles": 2
+    },
+    {
+      "archive": "CareProject_Combat_Motion_Performance_V11_2026-11-04.zip",
+      "matchedFiles": 4
+    },
+    {
+      "archive": "CareProject_V12_2026-11-04.zip",
+      "matchedFiles": 4
+    },
+    {
+      "archive": "CareProject_V13_Folders_2026-11-04.zip",
+      "matchedFiles": 1
+    },
+    {
+      "archive": "CareProject_Full_V15_2026-11-04.zip",
+      "matchedFiles": 38
+    },
+    {
+      "archive": "CareProject_Update_V15_2026-11-04.zip",
+      "matchedFiles": 6
+    },
+    {
+      "archive": "CareProject_Full_V16_2026-11-04.zip",
+      "matchedFiles": 38
+    },
+    {
+      "archive": "CareProject_Update_V16_2026-11-04.zip",
+      "matchedFiles": 1
+    },
+    {
+      "archive": "CareProject_Full_V17_2026-11-04.zip",
+      "matchedFiles": 38
+    },
+    {
+      "archive": "CareProject_Update_V17_2026-11-04.zip",
+      "matchedFiles": 1
+    },
+    {
+      "archive": "CareProject_Gameplay_V5_2026-11-02.zip",
+      "matchedFiles": 24
+    },
+    {
+      "archive": "CareProject_Gameplay_V6_2026-11-02.zip",
+      "matchedFiles": 28
+    },
+    {
+      "archive": "CareProject_Courtyard_UI_V7_2026-11-02.zip",
+      "matchedFiles": 2
+    },
+    {
+      "archive": "CareProject_NPC_V8_2026-11-02.zip",
+      "matchedFiles": 2
+    }
+  ]
+}

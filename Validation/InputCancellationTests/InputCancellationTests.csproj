@@ -3,8 +3,8 @@
  <ItemGroup>
   <Compile Include="Program.cs" /><Compile Include="UnityFakes.cs" />
   <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPose.cs" />
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs" />
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs" />
-  <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs" />
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs" />
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs" />
+  
  </ItemGroup>
 </Project>

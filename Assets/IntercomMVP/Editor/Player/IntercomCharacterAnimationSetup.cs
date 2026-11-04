@@ -9,7 +9,7 @@ namespace IntercomMvp.Editor
 {
     internal static class IntercomCharacterAnimationSetup
     {
-        [MenuItem("Tools/CareProject/Setup Character Gestures", false, 26)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Character Gestures", false, 26)]
         private static void SetupActiveScene()
         {
             try
@@ -24,7 +24,7 @@ namespace IntercomMvp.Editor
             catch (Exception exception) { Debug.LogException(exception); }
         }
 
-        [MenuItem("Tools/CareProject/Setup Character Gestures", true)]
+        [MenuItem("Tools/CareProject/Advanced/Authoring/Robot/Character Gestures", true)]
         private static bool CanSetup() => !EditorApplication.isPlayingOrWillChangePlaymode
             && !EditorApplication.isCompiling && !EditorApplication.isUpdating;
 

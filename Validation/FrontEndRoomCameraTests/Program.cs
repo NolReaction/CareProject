@@ -15,6 +15,11 @@ class Program {
   r=Rig();originalGame=r.gameplayCamera;r.Show(IntercomFrontEndSection.Home);r.gameplayCamera=new Camera();Call(r,"LateUpdate");Check(!r.IsShown&&originalGame.enabled,"rebind during transition releases old camera");
   r=Rig();r.Show((IntercomFrontEndSection)999);Check(!r.IsShown&&r.gameplayCamera.enabled,"invalid section ignored");
   r=Rig();r.Show(IntercomFrontEndSection.Home);r.travelSharpness=float.NaN;r.Show(IntercomFrontEndSection.Armory);Call(r,"LateUpdate");Check(!float.IsNaN(r.roomCamera.transform.position.x),"invalid sharpness safe fallback");
+  r=Rig();r.Show(IntercomFrontEndSection.Home);r.Show(IntercomFrontEndSection.Armory);Time.unscaledDeltaTime=float.NaN;Call(r,"LateUpdate");Check(At(r.roomCamera.transform.position,10),"invalid delta cannot corrupt camera transform");Time.unscaledDeltaTime=20;Call(r,"LateUpdate");Check(r.roomCamera.transform.position.x>10&&r.roomCamera.transform.position.x<16,"long focus hitch is bounded instead of snapping to far room");Time.unscaledDeltaTime=1f/60;
+  r=Rig();r.homeAnchor.position=new Vector3(float.NaN,0,0);r.Show(IntercomFrontEndSection.Home);Check(!r.IsShown&&r.gameplayCamera.enabled,"invalid initial anchor cannot blank or corrupt game view");
+  r=Rig();r.Show(IntercomFrontEndSection.Home);r.homeAnchor.position=new Vector3(float.PositiveInfinity,0,0);Call(r,"LateUpdate");Check(!r.IsShown&&r.gameplayCamera.enabled&&At(r.roomCamera.transform.position,1),"invalidated live anchor restores camera owner");
+  r=Rig();r.Show(IntercomFrontEndSection.Home);r.homeAnchor=null;r.robotAnchor=null;r.Show(IntercomFrontEndSection.Robot);Check(!r.IsShown&&r.gameplayCamera.enabled,"missing replacement anchors release menu camera");
+  r=Rig();originalRoom=r.roomCamera;originalGame=r.gameplayCamera;r.Show(IntercomFrontEndSection.Home);r.roomCamera=null;Call(r,"LateUpdate");Check(!r.IsShown&&!originalRoom.enabled&&originalGame.enabled,"lost room camera reference restores original gameplay owner");
   Console.WriteLine($"PASS {count} real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.");
  }
 }

@@ -13,21 +13,28 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 14 real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.\n"
+      "output": "PASS 20 real optional room-camera ownership/lifecycle assertions; stand-in transform interpolation, no Unity engine.\n"
     },
     {
       "project": "FrontEndRuntimeTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 34 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+      "output": "PASS 66 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+    },
+    {
+      "project": "HudLayoutTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 78998 safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.\n"
     },
     {
       "project": "MissionUiTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 202 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+      "output": "PASS 287 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
     },
     {
       "project": "PlayerControlLifecycleTests",
@@ -41,7 +48,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 8 actual PlayerInput/GUI call-path cases, 23 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
+      "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS authored weapon portrait is passed through actual input HUD path\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 9 actual PlayerInput/GUI call-path cases, 24 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
     }
   ],
   "menu": "Full initial home, mode selection, robot workshop and armory with live current stats; locked future upgrade slots, no purchases or economy",
@@ -57,21 +64,33 @@
     "weaponPortrait",
     "roomCamera"
   ],
-  "rootComposition": "One controller on MVP_NpcSandbox; optional roomCamera left null",
-  "input": "Frontend interface registered with real Input; all held presses released before game controls resume; fallback HUD retained without registered frontend",
-  "viewPreviews": "Validation/Results/V15UI/Previews",
-  "previewScope": "Exact production OnGUI draw commands rasterized with Pillow and included portrait assets; not Unity render",
-  "roomCamera": "Optional dedicated camera +4 room anchors; no gameplay camera transform edits; original state restored on disable/hide/rebind",
+  "rootComposition": "FrontEnd on MVP_NpcSandbox wired to authored MVP_MenuHub with 3 visual-only rooms and 4 anchors",
+  "input": "Shared draw/hit rectangles. Held pause/reload/passive instrument presses remain UI-owned through drag until release; no accidental shot. V16 pause confirmation/restoration retained.",
+  "viewPreviews": "Docs/Menu_Preview.jpg and Docs/HUD_Preview.jpg",
+  "previewScope": "Exact production GUI commands; menu background is an offline Blender framing render of shipped mesh geometry. Not Unity rendering/shader/Play Mode.",
+  "roomCamera": "Dedicated untagged camera, layer30 MenuPreview; isolated studio shader; game camera enabled state restored on hide/disable/lost reference/rebind; pose preserved",
   "sourceSha256": {
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs": "4c9447b72ad72b8591a2271b4fb6e42cb7a68c6b61243f1183e77ab983220385",
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs": "cb30b579c8ecd4bb5d83ebfad21f0db3393aa94252d99d5c87d239c9877e7e54",
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs": "41d6ec80ff63ee0163d1fd606d8744dbd0f6819f4cd2ff8f325ada3c87617510",
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs": "c3434ac91df74fd7be3bd775800d083475dbba22af6a69b047042c89681e24b4",
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs": "29ea460616430253f394ac823caea675ea68d4a75aa7713b47817c15a13b83a6"
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs": "ea5a796d9d3f39976055ba22a9f268855a2483c51bbaefad3816e20431b4e42c",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs": "fcd317e2f5f8a31ba8cd157c66a1cae34d869b481caacec06e1f0f82cbcff509",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs": "98d1cfce87a465f386378f7d1c82bfe485e26c05be56450feb091377703abee4",
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs": "9cd9adec23ebd9d502ca299890baaf161b6debce064e8f470b18591acd3227e3",
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs": "4e364cd22be6c55cc29b5106ef29d92c4ca649d4fd04d443ff838f951d0747ac",
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs": "8e2f9ec4191754f7bbecd4979fb59a4102ee847a1092fbb1a505bf1c6820a8dd",
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs": "b8777919709221fb498df6e4ab4acc9762f5eb5d4e653ef288180360c00c375d",
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs": "8739b5e78c5b7d39d533614d0c909861b0a02f171545f6bbf446e26f5c460b1d"
   },
   "limitations": [
-    "No Unity Editor/Play Mode available.",
-    "Garage and armory future upgrade/new-weapon cards are deliberately locked; no real purchases or server currency persistence.",
-    "3D room camera adapter is implemented but no sofa/TV room scene is built in this iteration."
-  ]
+    "Unity Editor import, type/shader compilation, Play Mode and device testing were not run.",
+    "Upgrade/weapon slots remain future items; no purchases, currency, equipment switching or progression persistence.",
+    "The hub is an authored placeholder stage in the tutorial scene, not a separate scene-loading system."
+  ],
+  "hud": "Phone hierarchy: pause and red repair-heart/health top-left, objective below, timer center, equipped pistols/ammo/reload upper-right, two bottom sticks; cached hand-drawn contours",
+  "pause": "Owned Time.timeScale lease, Resume primary, Retry/Exit confirmation, input release gate, run revision/death/disable restore",
+  "version": "V19",
+  "illustrations": [
+    "HomeDoodle: resting intercom robot and mug in patched chair",
+    "RescueDoodle: intercom robot hauling capsule buddy on handcart"
+  ],
+  "illustrationSource": "Content/Frontend/Artwork PNGs with genuine alpha, import max1024/NPOTNone, aspect-preserving GUI fit. Full prompts Source/Frontend/ArtPrompts.json.",
+  "buildStamp": "V19 read from IntercomFrontEnd.BuildVersion; visible in menu/HUD, project hub and repair window"
 }

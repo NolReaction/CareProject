@@ -32,6 +32,8 @@ namespace IntercomMvp
         [Range(16f, 80f)] public float edgeMarginAt720p = 32f;
         public bool showOnDesktop = true;
         [Range(0.2f, 1f)] public float controlsOpacity = 0.85f;
+        [Header("HUD")]
+        public Texture2D weaponHudPortrait;
 
         public Vector2 Move { get; private set; }
         public Vector2 Aim { get; private set; }
@@ -45,6 +47,31 @@ namespace IntercomMvp
         public uint CancellationVersion { get; private set; }
         public bool ControlsVisible => Application.isMobilePlatform || showOnDesktop;
         public IIntercomMenuInput FrontEnd { get; private set; }
+        public bool GameplayPaused { get; private set; }
+        public bool ConfirmingExit { get; private set; }
+        public bool ConfirmingRestart { get; private set; }
+        private float savedTimeScale = 1f;
+        private uint pausedRunRevision;
+
+        /// <summary>Owns only the scale it stopped. External pause owners are never resumed here.</summary>
+        public bool Pause()
+        {
+            if (GameplayPaused || ActiveMission == null || ActiveMission.Phase != IntercomMissionPhase.Active
+                || (vitality != null && vitality.IsDead) || !focused || paused
+                || Time.timeScale <= 0f || float.IsNaN(Time.timeScale) || float.IsInfinity(Time.timeScale)) return false;
+            savedTimeScale = Time.timeScale;
+            pausedRunRevision = ActiveMission.RunRevision;
+            GameplayPaused = true; ConfirmingExit = ConfirmingRestart = false; Time.timeScale = 0f;
+            CancelUntilRelease(); return true;
+        }
+
+        public void Resume()
+        {
+            if (!GameplayPaused) return;
+            GameplayPaused = false; ConfirmingExit = ConfirmingRestart = false;
+            if (Time.timeScale == 0f) Time.timeScale = savedTimeScale;
+            CancelUntilRelease();
+        }
 
         public bool RegisterFrontEnd(IIntercomMenuInput menu)
         {
@@ -71,7 +98,7 @@ namespace IntercomMvp
         private IntercomMissionDirector ActiveMission => mission != null && mission.isActiveAndEnabled ? mission : null;
         private Vector2 leftCenter, rightCenter;
         private float radius;
-        private bool focused = true, paused, requireRelease, wasFireHeld, hasLayout, observedFrontEndVisible;
+        private bool focused = true, paused, requireRelease, wasFireHeld, hasLayout, observedFrontEndVisible, mouseHudPointer;
         private ScreenOrientation layoutOrientation;
         private Rect layoutSafeArea;
         private int layoutWidth, layoutHeight;
@@ -90,6 +117,8 @@ namespace IntercomMvp
 
         private void OnEnable()
         {
+            // A disabled component can miss the OS resume callback.
+            focused = Application.isFocused; paused = false;
 #if ENABLE_INPUT_SYSTEM
             EnhancedTouchSupport.Enable();
             enhancedTouchEnabled = true;
@@ -101,6 +130,7 @@ namespace IntercomMvp
 
         private void OnDisable()
         {
+            Resume();
             CancelUntilRelease();
 #if ENABLE_INPUT_SYSTEM
             if (enhancedTouchEnabled) EnhancedTouchSupport.Disable();
@@ -128,7 +158,7 @@ namespace IntercomMvp
             reloadControl.Reset();
             retryControl.Reset();
             Move = Aim = Vector2.zero;
-            AimActive = FireHeld = FirePressed = ResetPressed = ReloadPressed = TouchActive = wasFireHeld = false;
+            AimActive = FireHeld = FirePressed = ResetPressed = ReloadPressed = TouchActive = wasFireHeld = mouseHudPointer = false;
         }
 
         /// <summary>Respawn/pause gate: held firing controls must be released before shots resume.</summary>
@@ -144,16 +174,22 @@ namespace IntercomMvp
             RefreshLayout();
             if(observedMission != ActiveMission)
             {
+                Resume();
                 observedMission=ActiveMission;
                 CancelUntilRelease();
             }
+            if (GameplayPaused && (ActiveMission == null || ActiveMission.Phase != IntercomMissionPhase.Active
+                || ActiveMission.RunRevision != pausedRunRevision || (vitality != null && vitality.IsDead))) Resume();
             ReloadPressed = false;
-            if (!focused || paused || Time.timeScale <= 0f) { CancelUntilRelease(); return; }
+            if (!focused || paused) { CancelUntilRelease(); return; }
+            if (Time.timeScale <= 0f && !GameplayPaused) { CancelUntilRelease(); return; }
             Vector2 keyboard = ReadKeyboard();
             ReadMouse(out Vector2 mousePosition, out bool mouseHeld, out bool mouseDown, out bool mouseUp);
             bool spaceHeld = SpaceHeld();
             int touchCount = TouchCount();
             TouchActive = touchCount > 0;
+            if (GameplayPaused)
+            { UpdatePauseInput(touchCount,mousePosition,mouseHeld,mouseDown,spaceHeld); return; }
             bool menuVisible = FrontEnd != null && FrontEnd.IsVisible;
             if (menuVisible != observedFrontEndVisible)
             { observedFrontEndVisible = menuVisible; CancelUntilRelease(); }
@@ -184,11 +220,13 @@ namespace IntercomMvp
             {
                 if (mouseDown)
                 {
-                    if (magazine != null && reloadControl.PointerDown(MousePointerId, mousePosition.x, mousePosition.y)) ReloadPressed = true;
+                    mouseHudPointer=PassiveHudContains(mousePosition.x,mousePosition.y);
+                    if(mouseHudPointer) sticks.PointerUp(MousePointerId);
+                    else if (magazine != null && reloadControl.PointerDown(MousePointerId, mousePosition.x, mousePosition.y)) ReloadPressed = true;
                     else if (ControlsVisible) sticks.PointerDown(MousePointerId, mousePosition.x, mousePosition.y);
                 }
-                if (mouseHeld && !reloadControl.Owns(MousePointerId)) sticks.PointerMove(MousePointerId, mousePosition.x, mousePosition.y);
-                if (mouseUp || !mouseHeld) { sticks.PointerUp(MousePointerId); reloadControl.PointerUp(MousePointerId); }
+                if (mouseHeld && !mouseHudPointer && !reloadControl.Owns(MousePointerId)) sticks.PointerMove(MousePointerId, mousePosition.x, mousePosition.y);
+                if (mouseUp || !mouseHeld) { sticks.PointerUp(MousePointerId); reloadControl.PointerUp(MousePointerId); mouseHudPointer=false; }
             }
             else sticks.PointerUp(MousePointerId);
             if (sticks.EndFrame()) { CancelUntilRelease(); return; }
@@ -197,7 +235,7 @@ namespace IntercomMvp
             Aim = new Vector2(sticks.Right.X, sticks.Right.Y);
             AimActive = Aim.sqrMagnitude > 0.000001f;
             bool mouseOwnsStick = sticks.Owns(MousePointerId);
-            bool desktopFire = allowMouse && !mouseOwnsStick && !reloadControl.Owns(MousePointerId) && (mouseHeld || spaceHeld);
+            bool desktopFire = allowMouse && !mouseHudPointer && !mouseOwnsStick && !reloadControl.Owns(MousePointerId) && (mouseHeld || spaceHeld);
             if (!AimActive && desktopFire)
             {
                 Aim = MouseAim(mousePosition);
@@ -209,6 +247,74 @@ namespace IntercomMvp
             wasFireHeld = FireHeld;
             ResetPressed = ReadResetPressed();
             ReloadPressed |= ReadReloadPressed();
+        }
+
+        private bool PassiveHudContains(float x,float y)
+        {
+            // A press that starts on an instrument belongs to the UI for its
+            // whole lifetime, even when dragged over the playable world.
+            if(vitality!=null && vitality.Health!=null)
+            { if(hudLayout.Health.Contains(x,y)) return true; }
+            else if(hudLayout.ShowAreaBadge && hudLayout.AreaBadge.Contains(x,y)) return true;
+            IntercomMissionDirector active=ActiveMission;
+            return active!=null && !active.BlocksGameplay
+                && (hudLayout.MissionObjective.Contains(x,y) || hudLayout.Timer.Contains(x,y)
+                    || (hudLayout.Toast.Contains(x,y) && !string.IsNullOrEmpty(hud.SessionToast(active))));
+        }
+
+        private void UpdatePauseInput(int touchCount, Vector2 mousePosition, bool mouseHeld,
+            bool mouseDown, bool spaceHeld)
+        {
+            ClearInput();
+            if (requireRelease)
+            {
+                if (touchCount == 0 && !mouseHeld && !spaceHeld) requireRelease = false;
+                return;
+            }
+            if (ReadModesPressed())
+            {
+                if (ConfirmingExit || ConfirmingRestart) { ConfirmingExit = ConfirmingRestart = false; CancelUntilRelease(); }
+                else Resume();
+                return;
+            }
+            if (!Application.isMobilePlatform && touchCount == 0 && mouseDown)
+            { ApplyPausePress(mousePosition.x,mousePosition.y); return; }
+#if ENABLE_INPUT_SYSTEM
+            var touches = EnhancedTouch.activeTouches;
+            for (int i=0;i<touches.Count;i++)
+            {
+                var touch=touches[i];
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Canceled) { CancelUntilRelease(); return; }
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+                { ApplyPausePress(touch.screenPosition.x,touch.screenPosition.y); return; }
+            }
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            for (int i=0;i<Input.touchCount;i++)
+            {
+                Touch touch=Input.GetTouch(i);
+                if (touch.phase == TouchPhase.Canceled) { CancelUntilRelease(); return; }
+                if (touch.phase == TouchPhase.Began)
+                { ApplyPausePress(touch.position.x,touch.position.y); return; }
+            }
+#endif
+        }
+
+        private void ApplyPausePress(float x,float y)
+        {
+            if (ConfirmingExit || ConfirmingRestart)
+            {
+                if (hudLayout.PauseConfirm.Contains(x,y))
+                {
+                    bool restart=ConfirmingRestart;Resume();
+                    if (ActiveMission != null) { if (restart) mission.RetryMission(); else mission.ReturnToSelection(); }
+                }
+                else if (hudLayout.PauseCancel.Contains(x,y)) ConfirmingExit = ConfirmingRestart = false;
+            }
+            else if (hudLayout.PauseResume.Contains(x,y)) Resume();
+            else if (hudLayout.PauseRetry.Contains(x,y))
+                ConfirmingRestart = true;
+            else if (hudLayout.PauseExit.Contains(x,y)) ConfirmingExit = true;
+            CancelUntilRelease();
         }
 
         private void UpdateFrontEndInput(int touchCount, Vector2 mousePosition, bool mouseHeld,
@@ -260,9 +366,18 @@ namespace IntercomMvp
                 return modal;
             }
             if(ReadModesPressed() && mission.Phase != IntercomMissionPhase.Selection)
-            { mission.ReturnToSelection(); CancelUntilRelease(); return true; }
+            {
+                if (mission.Phase == IntercomMissionPhase.Active) Pause();
+                else mission.ReturnToSelection();
+                CancelUntilRelease(); return true;
+            }
             if(ReadResetPressed() && mission.Phase != IntercomMissionPhase.Selection)
-            { mission.RetryMission(); CancelUntilRelease(); return true; }
+            {
+                if (mission.Phase == IntercomMissionPhase.Active)
+                { if (Pause()) ConfirmingRestart = true; }
+                else mission.RetryMission();
+                CancelUntilRelease(); return true;
+            }
             if(!Application.isMobilePlatform && touchCount == 0 && mouseDown
                 && ApplyMissionPress(mousePosition.x,mousePosition.y)) return true;
 #if ENABLE_INPUT_SYSTEM
@@ -295,7 +410,7 @@ namespace IntercomMvp
             if(mission.Phase == IntercomMissionPhase.Active)
             {
                 if(!hudLayout.Modes.Contains(x,y)) return false;
-                mission.ReturnToSelection();
+                Pause();
             }
             else if(mission.Phase == IntercomMissionPhase.Selection)
             {
@@ -517,10 +632,11 @@ namespace IntercomMvp
                 || (FrontEnd != null && FrontEnd.IsVisible)) return;
             Color previousColor = GUI.color; Matrix4x4 previousMatrix = GUI.matrix; int previousDepth = GUI.depth;
             GUI.matrix = Matrix4x4.identity; GUI.depth = -50;
-            hud.Draw(hudLayout, sticks, magazine, ControlsVisible, controlsOpacity, vitality, ActiveMission, FrontEnd != null);
+            hud.Draw(hudLayout, sticks, magazine, ControlsVisible, controlsOpacity, vitality, ActiveMission, FrontEnd != null,
+                GameplayPaused, ConfirmingExit, ConfirmingRestart, weaponHudPortrait);
             GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth;
         }
 
-        private void OnDestroy() => hud.Dispose();
+        private void OnDestroy() { Resume(); hud.Dispose(); }
     }
 }

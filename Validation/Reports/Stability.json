@@ -1,0 +1,174 @@
+{
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs",
+      "sha256": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs",
+      "sha256": "94adc07c72a407fa9e888322c121308e4f8f90a2b5f1478b0ea178d9d50ecc9e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs",
+      "sha256": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc"
+    },
+    {
+      "path": "Validation/MissionRuntimeTests/Program.cs",
+      "sha256": "c9b84d38eb65c2ebb7ebbee9250c75c898fd512e81783ab3d5685274b1067da6"
+    },
+    {
+      "path": "Validation/MissionRuntimeTests/README.md",
+      "sha256": "3f8398679a984a076821f7ed710e26922e97ab8f02bd44853e5c4e0fa731856c"
+    },
+    {
+      "path": "Validation/NpcRuntimeTests/Program.cs",
+      "sha256": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs",
+      "sha256": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs",
+      "sha256": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
+      "sha256": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106"
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs",
+      "sha256": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf"
+    },
+    {
+      "path": "Validation/NpcNativeSetupTests/NpcNativeSetupTests.csproj",
+      "sha256": "90bf8d5bd233aece1a24ef9a0249c3d6872be63aad4a8643a225d72a10ddc9db"
+    },
+    {
+      "path": "Validation/NpcNativeSetupTests/Program.cs",
+      "sha256": "5ff56a37d02cbadcd30304e338cbab31c1f880c5d7ef7106493ee60d7c463f14"
+    },
+    {
+      "path": "Validation/NpcNativeSetupTests/UnityFakes.cs",
+      "sha256": "8f413752dfc51c0f7c295a426b5d121fdce3173d69eb78bb99e6da9854cbdf56"
+    },
+    {
+      "path": "Validation/RobotDeathEffectsTests/Program.cs",
+      "sha256": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781"
+    },
+    {
+      "path": "Validation/RobotDeathEffectsTests/README.md",
+      "sha256": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b"
+    },
+    {
+      "path": "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj",
+      "sha256": "4efe1fed998e48997aed5cc6053c43c6b7bc8ac3f1d38b45a8181514df55b116"
+    },
+    {
+      "path": "Validation/RobotDeathEffectsTests/UnityFakes.cs",
+      "sha256": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463"
+    }
+  ],
+  "focusedResults": [
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    },
+    {
+      "project": "MissionRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcNativeSetupTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC native setup: 88 assertions passed; actual editor builder and real backup files with narrow AssetDatabase/Prefab/AnimatorController stand-ins. Not native Unity import/serialization.\n"
+    },
+    {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+    },
+    {
+      "project": "PlayerControlLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 44 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+    }
+  ],
+  "baselineRegressions": [
+    {
+      "probe": "DisabledCachedSpawnCamera",
+      "baselineCompileExit": 0,
+      "baselineCompileOutput": "",
+      "compatibility": "Clock-only assertions disabled because V15 has no ElapsedSeconds API; all fault assertions retained.",
+      "baselineRunExit": -6,
+      "output": "Unhandled exception. System.Exception: spawn visibility replaces an inactive cached camera after a menu/scene transition\n   at Program.Check(Boolean ok, String reason)\n   at Program.MissionCameraLifecycle()\n   at Program.Main()\n"
+    },
+    {
+      "probe": "LostLivingPoolLife",
+      "baselineCompileExit": 0,
+      "baselineCompileOutput": "",
+      "compatibility": "Clock-only assertions disabled because V15 has no ElapsedSeconds API; all fault assertions retained.",
+      "baselineRunExit": -6,
+      "output": "Unhandled exception. System.Exception: lost pool life fails clearly rather than leaving an unwinnable wave: disable-ai\n   at Program.Check(Boolean ok, String reason)\n   at Program.MissingRuntimeDependencies()\n   at Program.Main()\n"
+    },
+    {
+      "probe": "LostNpcDefinition",
+      "baselineCompileExit": 0,
+      "baselineCompileOutput": "",
+      "compatibility": "Clock-only assertions disabled because V15 has no ElapsedSeconds API; all fault assertions retained.",
+      "baselineRunExit": -6,
+      "output": "Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.\n   at Program.Call(Object value, String method, Object[] arguments)\n   at Program.Fixture.Step(Single dt)\n   at Program.MissingReferencesAndCamera()\n   at Program.Main()\n"
+    },
+    {
+      "probe": "MissedApplicationResume",
+      "baselineCompileExit": 0,
+      "baselineCompileOutput": "",
+      "compatibility": "Clock-only assertions disabled because V15 has no ElapsedSeconds API; all fault assertions retained.",
+      "baselineRunExit": -6,
+      "output": "Unhandled exception. System.Exception: explicit re-enable recovers application callbacks missed while disabled\n   at Program.Check(Boolean ok, String reason)\n   at Program.Main()\n"
+    },
+    {
+      "probe": "MissingRescueExit",
+      "baselineCompileExit": 0,
+      "baselineCompileOutput": "",
+      "compatibility": "Clock-only assertions disabled because V15 has no ElapsedSeconds API; all fault assertions retained.",
+      "baselineRunExit": -6,
+      "output": "Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.\n   at Program.Send(Object target, String method)\n   at Program.MissionFixture.Step(Single dt, Boolean updateAlly)\n   at Program.MissingRuntimeDependencies()\n   at Program.Main()\n"
+    }
+  ],
+  "limits": "Compiles and executes production C# against narrow deterministic stand-ins. Does not run Unity, PhysX, visual GUI layout, actual camera rendering, or native destruction order.",
+  "timerContract": "ElapsedSeconds accumulates full valid scaled Time.deltaTime only during active play; scheduling dt remains capped at .1 to avoid hitch catch-up spawning.",
+  "status": "PASS",
+  "version": "V19",
+  "broadResult": {
+    "projects": 51,
+    "passed": 51,
+    "source": "LogicTests.json"
+  },
+  "v19Contract": [
+    "Death callbacks cannot move an inactive CharacterController.",
+    "Arrival cancellation/retry restores controller/invulnerability and visual transforms.",
+    "Dead body hides when pooled burst emits; retry/disable/focus loss clears transient scrap.",
+    "Final victory burst may finish briefly; cosmetic pieces never gate mission completion.",
+    "Typed arrivals and cached final pose preserve single gameplay-root ownership."
+  ]
+}

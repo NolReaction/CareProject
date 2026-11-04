@@ -3,12 +3,12 @@
   <ItemGroup>
     <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndState.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndLayout.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs"/>
+    
     <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs"/>
   </ItemGroup>

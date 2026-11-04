@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup><ItemGroup>
 <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealth.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealth.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs"/>

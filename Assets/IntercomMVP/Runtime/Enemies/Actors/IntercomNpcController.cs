@@ -21,6 +21,9 @@ namespace IntercomMvp
         public IntercomHealth Health => health;
         public bool IsEmerging => emerging;
         public float EmergenceProgress => emerging ? Mathf.Clamp01(emergenceSeconds / EmergenceDuration) : 1f;
+        public float ArrivalDuration => EmergenceDuration;
+        public IntercomEnemySpawnKind EmergenceKind => emergenceKind;
+        public bool IsHiddenForDeathBurst => deathBurstHidden;
 
         private static readonly List<IntercomNpcController> active = new List<IntercomNpcController>(16);
         private readonly IntercomNpcBrain brain = new IntercomNpcBrain();
@@ -47,6 +50,8 @@ namespace IntercomMvp
         private MaterialPropertyBlock emergenceProperties;
         private float emergenceSeconds, sightRemaining, arrivalDuration, arrivalWarningFraction=.17f;
         private bool emerging, emergenceSavedInvulnerability, emergenceSavedController;
+        private bool deathBurstHidden;
+        private IntercomEnemySpawnKind emergenceKind;
         private bool cachedSight;
         private Vector3 sightPosition;
         private IntercomHealth sightTarget;
@@ -54,6 +59,7 @@ namespace IntercomMvp
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorId = Shader.PropertyToID("_Color");
 
+        private float HurtDuration => modelAnimator!=null?.22f:.18f;
         private float Range => Safe(definition.attackRange, 1.05f, .3f, 3f);
         private float EmergenceDuration => arrivalDuration>0f ? arrivalDuration : Safe(definition.emergenceSeconds,.68f,.3f,2f);
         private static float Safe(float v, float fallback, float min, float max) => IntercomNpcDefinition.Safe(v, fallback, min, max);
@@ -77,7 +83,8 @@ namespace IntercomMvp
             health.maximumHealth = Safe(definition.maximumHealth, 75f, 1f, 100000f);
             health.team = IntercomTeam.Enemy; health.postHitInvulnerability = 0f;
             baseColor = definition.bodyColor;
-            if (variant % 3 == 1) baseColor = Color.Lerp(baseColor, new Color(.35f,.56f,.53f,1f), .75f);
+            if(modelAnimator!=null && bodyRenderer!=null) baseColor=CaptureModelTint(); // Preserve atlas paint and authored overrides.
+            else if (variant % 3 == 1) baseColor = Color.Lerp(baseColor, new Color(.35f,.56f,.53f,1f), .75f);
             else if (variant % 3 == 2) baseColor = Color.Lerp(baseColor, new Color(.65f,.39f,.3f,1f), .65f);
             ResetToHome();
         }
@@ -105,10 +112,12 @@ namespace IntercomMvp
             // Health remains authoritative even when only AI is disabled.
             // A disabled brain killed by a projectile must still release its collider.
             active.Remove(this); Suspend(); CancelEmergence();
+            RestoreModelTint();
         }
         private void OnDestroy()
         {
             active.Remove(this); Unsubscribe();
+            RestoreModelTint();
             if (ownedTelegraphMesh != null) Destroy(ownedTelegraphMesh);
             if (ownedEmergenceMesh != null) Destroy(ownedEmergenceMesh);
         }
@@ -119,12 +128,16 @@ namespace IntercomMvp
             if (!initialized) return;
             unchecked { activityVersion++; }
             CancelEmergence();
+            deathBurstHidden=false;
+            emergenceKind=IntercomEnemySpawnKind.Perimeter;
+            if(visual!=null && !visual.gameObject.activeSelf) visual.gameObject.SetActive(true);
             controller.enabled = false;
             transform.SetPositionAndRotation(home, homeRotation);
             controller.enabled = true;
             health.maximumHealth = Safe(definition.maximumHealth,75f,1f,100000f);
             health.ResetHealth(); brain.Configure(definition.Rules);
             velocity = Vector3.zero; verticalVelocity = -2f;
+            ResetModelClock();
             repathRemaining = hitRemaining = strikeRemaining = deathSeconds = stuckSeconds = recoveryRemaining = investigateRemaining = 0f;
             waypoint = patrolLeg = 0; route.Clear(); pathVersion = uint.MaxValue;
             sightRemaining=0f; sightTarget=null;
@@ -148,16 +161,19 @@ namespace IntercomMvp
         }
 
         /// <summary>Visual-only arrival. The capsule stays at the safe floor point and cannot hit or be hit underground.</summary>
-        public void BeginEmergence() => BeginEmergence(0f);
+        public void BeginEmergence() => BeginEmergence(0f,IntercomEnemySpawnKind.Perimeter);
 
         /// <summary>Visible floor arrivals add a warning-only period before the same pooled rise starts.</summary>
-        public void BeginEmergence(float additionalWarningSeconds)
+        public void BeginEmergence(float additionalWarningSeconds) => BeginEmergence(additionalWarningSeconds,IntercomEnemySpawnKind.Perimeter);
+
+        public void BeginEmergence(float additionalWarningSeconds,IntercomEnemySpawnKind kind)
         {
             if(!initialized || health.IsDead || emerging) return;
-            float baseDuration=Safe(definition.emergenceSeconds,.68f,.3f,2f);
+            emergenceKind=kind==IntercomEnemySpawnKind.Ground || kind==IntercomEnemySpawnKind.Hatch ? kind : IntercomEnemySpawnKind.Perimeter;
+            float baseDuration=EmergenceSecondsFor(emergenceKind);
             float warning=Safe(additionalWarningSeconds,0f,0f,1.2f);
             arrivalDuration=baseDuration+warning;
-            arrivalWarningFraction=(baseDuration*.17f+warning)/arrivalDuration;
+            arrivalWarningFraction=(baseDuration*(emergenceKind==IntercomEnemySpawnKind.Perimeter?.17f:0f)+warning)/arrivalDuration;
             emerging=true; emergenceSeconds=0f;
             emergenceSavedInvulnerability=health.invulnerable;
             emergenceSavedController=controller.enabled;
@@ -166,6 +182,20 @@ namespace IntercomMvp
             if(telegraph!=null) telegraph.gameObject.SetActive(false);
             if(emergenceRing!=null) emergenceRing.gameObject.SetActive(true);
             ApplyEmergencePresentation();
+        }
+
+        public float EmergenceSecondsFor(IntercomEnemySpawnKind kind)
+            => kind==IntercomEnemySpawnKind.Hatch ? Safe(definition.hatchEmergenceSeconds,1.05f,.3f,2f)
+                :kind==IntercomEnemySpawnKind.Ground ? Safe(definition.groundEmergenceSeconds,.95f,.3f,2f)
+                :Safe(definition.emergenceSeconds,.68f,.3f,2f);
+
+        /// <summary>Called after a validated lethal life event. Gameplay root/collider ownership stays with the actor.</summary>
+        public void HideForDeathBurst()
+        {
+            if(!initialized || health==null || !health.IsDead || deathBurstHidden)return;
+            deathBurstHidden=true;RestoreModelTint();
+            if(visual!=null)visual.gameObject.SetActive(false);
+            if(telegraph!=null)telegraph.gameObject.SetActive(false);
         }
 
         private void CancelEmergence()
@@ -188,25 +218,30 @@ namespace IntercomMvp
         {
             float p=Mathf.Clamp01(emergenceSeconds/EmergenceDuration);
             float afterWarning=Mathf.Clamp01((p-arrivalWarningFraction)/(1f-arrivalWarningFraction));
-            float rise=Mathf.Clamp01(afterWarning/(.69f/.83f));
+            bool hatch=emergenceKind==IntercomEnemySpawnKind.Hatch;
+            bool ground=emergenceKind==IntercomEnemySpawnKind.Ground;
+            float rise=Mathf.Clamp01((afterWarning-(hatch?.04f:ground?.12f:0f))/(hatch?.86f:ground?.74f:(.69f/.83f)));
             float eased=rise*rise*(3f-2f*rise);
             // A small soft overshoot reads as weight arriving, without moving the controller.
-            float settle=Mathf.Sin(Mathf.Clamp01((afterWarning-(.48f/.83f))/(.35f/.83f))*Mathf.PI)*.075f;
+            float settle=emergenceKind==IntercomEnemySpawnKind.Perimeter
+                ?Mathf.Sin(Mathf.Clamp01((afterWarning-(.48f/.83f))/(.35f/.83f))*Mathf.PI)*.075f:0f;
             if(visual!=null)
             {
                 visual.localPosition=Vector3.up*(-Safe(definition.emergenceDepth,1.48f,.5f,3f)*(1f-eased)+settle);
-                visual.localRotation=Quaternion.Euler(-12f*(1f-eased),28f*(1f-eased),0f);
-                visual.localScale=new Vector3(1f+.07f*(1f-eased),.88f+.12f*eased,1f+.07f*(1f-eased));
+                visual.localRotation=modelAnimator!=null ? Quaternion.Euler(0f,(hatch?-12f:ground?6f:28f)*(1f-eased),0f)
+                    :Quaternion.Euler(-12f*(1f-eased),28f*(1f-eased),0f);
+                visual.localScale=modelAnimator!=null?Vector3.one:new Vector3(1f+.07f*(1f-eased),.88f+.12f*eased,1f+.07f*(1f-eased));
             }
+            ApplyModelPresentation(0f);
             if(emergenceRing!=null)
             {
                 float fade=1f-Mathf.Clamp01((afterWarning-(.55f/.83f))/(.28f/.83f));
-                float radius=.45f+.75f*p;
+                float radius=hatch?.87f+.08f*Mathf.Sin(p*Mathf.PI):.45f+.75f*p;
                 emergenceRing.localScale=new Vector3(radius,1f,radius);
                 emergenceRing.localRotation=Quaternion.Euler(0f,35f*p,0f);
                 if(emergenceRenderer!=null)
                 {
-                    Color tint=new Color(.95f,.67f,.22f,.38f*fade);
+                    Color tint=hatch?new Color(.59f,.76f,.66f,.32f*fade):new Color(.95f,.67f,.22f,.38f*fade);
                     emergenceProperties.SetColor(BaseColorId,tint); emergenceProperties.SetColor(ColorId,tint);
                     emergenceRenderer.SetPropertyBlock(emergenceProperties);
                 }
@@ -248,6 +283,8 @@ namespace IntercomMvp
         private void Update()
         {
             if (!initialized) return;
+            if(definition==null || controller==null || health==null)
+            { Suspend(); return; }
             Subscribe();
             if (ObserveRespawn()) return;
             if (!hasFocus || paused || Time.timeScale <= 0f)
@@ -274,11 +311,13 @@ namespace IntercomMvp
             if (health.IsDead)
             {
                 brain.Kill(); controller.enabled = false;
-                // The collapse ends at .45 s; parked corpses need no repeated
+                if(deathBurstHidden)return;
+                // Capsule fallback ends at .45 s, authored pop fallback at .18 s; hidden burst victims need no repeated
                 // transform/property-block writes while awaiting pool reuse.
-                if(deathSeconds<.45f)
+                float deathDuration=modelAnimator!=null?.18f:.45f;
+                if(deathSeconds<deathDuration)
                 {
-                    deathSeconds=Mathf.Min(.45f,deathSeconds+dt);
+                    deathSeconds=Mathf.Min(deathDuration,deathSeconds+dt);
                     ApplyPresentation(dt);
                 }
                 return;
@@ -385,6 +424,7 @@ namespace IntercomMvp
             CollisionFlags flags = controller.Move((velocity+Vector3.up*verticalVelocity)*dt);
             if ((flags & CollisionFlags.Above)!=0 && verticalVelocity>0f) verticalVelocity=0f;
             float travelled = Flat(transform.position-previous).magnitude;
+            presentedMoveSpeed=travelled/dt;
             stuckSeconds = desired.sqrMagnitude>.1f && travelled<.005f ? stuckSeconds+dt : 0f;
             if(stuckSeconds>Safe(definition.stuckRecoverySeconds,.4f,.2f,2f))
             {
@@ -528,7 +568,7 @@ namespace IntercomMvp
 
         private void OnDamaged(IntercomDamage hit)
         {
-            hitRemaining=.18f;
+            hitRemaining=HurtDuration;
             // Damage triggers an alert using remembered information. It does
             // not reveal an unseen victim's current coordinates.
             // Health has already applied the damage before this callback. A
@@ -557,21 +597,33 @@ namespace IntercomMvp
 
         private void ApplyPresentation(float dt)
         {
-            if(visual!=null)
+            if(deathBurstHidden)return;
+            if(visual!=null && modelAnimator==null)
             {
                 float dead=health.IsDead ? Mathf.Clamp01(deathSeconds/.45f) : 0f;
                 float windup=brain.WindupProgress;
                 float punch=strikeRemaining/.16f;
-                float hit=Mathf.Sin(Mathf.Clamp01(hitRemaining/.18f)*Mathf.PI);
+                float hit=Mathf.Sin(Mathf.Clamp01(hitRemaining/HurtDuration)*Mathf.PI);
                 visual.localScale=new Vector3(1f+dead*.2f+hit*.06f,1f-dead*.85f-hit*.06f,1f+dead*.2f+hit*.06f);
                 visual.localRotation=Quaternion.Euler(-windup*13f+punch*21f,0f,dead*8f);
                 visual.localPosition=Vector3.up*(dead*.055f);
             }
+            else if(visual!=null)
+            {
+                // Mechanical joints stay rigid. The authored bones provide recoil and the short pop fallback.
+                visual.localScale=Vector3.one; visual.localRotation=Quaternion.identity; visual.localPosition=Vector3.zero;
+            }
+            ApplyModelPresentation(dt);
             if(bodyRenderer!=null)
             {
+                bool modelAtRest=modelAnimator!=null && !health.IsDead && brain.Phase!=IntercomNpcPhase.Windup && hitRemaining<=0f;
+                if(modelAtRest) RestoreModelTint();
+                else
+                {
                 Color tint=health.IsDead ? Color.Lerp(baseColor,new Color(.24f,.27f,.26f,1f),.75f) : baseColor;
                 if(brain.Phase==IntercomNpcPhase.Windup) tint=Color.Lerp(tint,new Color(.95f,.75f,.32f,1f),.5f+.3f*brain.WindupProgress);
-                if(hitRemaining>0f) tint=Color.Lerp(tint,new Color(1f,.92f,.7f,1f),hitRemaining/.18f);
+                if(hitRemaining>0f) tint=Color.Lerp(tint,new Color(1f,.92f,.7f,1f),hitRemaining/HurtDuration);
+                if(modelAnimator!=null)tint.a=baseColor.a;
                 if(!colorApplied || presentedRenderer!=bodyRenderer || tint.r!=presentedColor.r || tint.g!=presentedColor.g
                     || tint.b!=presentedColor.b || tint.a!=presentedColor.a)
                 {
@@ -579,6 +631,8 @@ namespace IntercomMvp
                     bodyProperties.SetColor(BaseColorId,tint); bodyProperties.SetColor(ColorId,tint);
                     bodyRenderer.SetPropertyBlock(bodyProperties);
                     presentedColor=tint; presentedRenderer=bodyRenderer; colorApplied=true;
+                    if(modelAnimator!=null)modelTintApplied=true;
+                }
                 }
             }
             if(telegraph!=null)
@@ -591,10 +645,10 @@ namespace IntercomMvp
 
         private void OnGUI()
         {
-            if(!initialized || emerging || health.IsDead || Event.current==null || Event.current.type!=EventType.Repaint) return;
+            if(!initialized || health==null || emerging || health.IsDead || Event.current==null || Event.current.type!=EventType.Repaint) return;
             if(health.Current>=health.Maximum && (brain.Phase==IntercomNpcPhase.Idle || brain.Phase==IntercomNpcPhase.Patrol)) return;
-            if(displayCamera==null) displayCamera=Camera.main;
-            if(displayCamera==null) return;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) displayCamera=Camera.main;
+            if(displayCamera==null || !displayCamera.isActiveAndEnabled) return;
             Vector3 point=displayCamera.WorldToScreenPoint(transform.position+Vector3.up*1.55f);
             if(point.z<=0f || point.x<0f || point.x>Screen.width || point.y<0f || point.y>Screen.height) return;
             float width=Mathf.Clamp(Screen.height/720f*54f,38f,88f), height=Mathf.Max(4f,width*.105f);

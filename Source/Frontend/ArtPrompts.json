@@ -1,0 +1,42 @@
+{
+  "version": "V17",
+  "reference": "Current project RobotPortrait.png, character design only",
+  "illustrations": [
+    {
+      "name": "HomeDoodle",
+      "asset": "Assets/IntercomMVP/Content/Frontend/Artwork/HomeDoodle.png",
+      "guid": "0ff01427557a5c358daea6a697ce39cb",
+      "size": [
+        1283,
+        1226
+      ],
+      "bytes": 2335285,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentCorners": true,
+      "sha256": "5ee0dce05099d1fc2b2e38be66b94fe21b520cd2fe55a056f4007f0c81e0d392",
+      "generation": "Built-in image_gen; unmodified transparent output",
+      "prompt": "Use case: illustration-story. Asset type: production transparent spot illustration for the home job card of a humorous mobile robot shooter called ЗАБОТА. Input image role: character-design reference only, NOT an edit target and NOT a background to retain. Create a NEW hand-drawn cartoon illustration of this same mint-green intercom robot. Preserve its recognisable rounded rectangular phone/intercom body, front speaker grille over numeric keypad, coiled spring arms, tiny bearing legs and oversized work boots; it has no separate human head. Reinterpret into expressive bold ink outlines and rough dry-gouache color fills, with charming imperfect line weight and a few pencil construction marks. The robot is dozing in a shabby small mustard workshop armchair, one boot kicked out toward camera, holding a tiny chipped enamel mug in one spring hand, with a cordless screwdriver slipped beside the cushion and a loose bolt as a silly footrest. Mild dry visual humour, cosy exhausted handyman, no guns visible. Three-quarter front view, compact asymmetric composition, clear silhouette readable at 250 pixels wide. Muted mint, aged cream, warm mustard, rust orange and very dark petrol ink, broad shapes, sparse hatching; warm midtones so it reads on a cream UI card. A few floating curved snore/doodle lines, no letters or words. Full subject including chair, boots and small props inside frame, 8 percent empty transparent margin. TRUE transparent background; no background room, no rectangular paper sheet, no floor plane, no cast-shadow rectangle, no text, no numbers, no logos, no collage, no photograph, no 3D render, no human face."
+    },
+    {
+      "name": "RescueDoodle",
+      "asset": "Assets/IntercomMVP/Content/Frontend/Artwork/RescueDoodle.png",
+      "guid": "fcf3447c8a535d2385cfb0b8086b8e6d",
+      "size": [
+        1254,
+        1254
+      ],
+      "bytes": 1775963,
+      "alphaExtrema": [
+        0,
+        255
+      ],
+      "transparentCorners": true,
+      "sha256": "7baff1ad301c8e550167d01913f05bb43ed191b1978bf438438a38690da6232c",
+      "generation": "Built-in image_gen; unmodified transparent output",
+      "prompt": "Use case: illustration-story. Asset type: production transparent rescue-mission spot illustration for a handmade mobile robot shooter interface. Input image role: character-design reference only, NOT an edit target, no existing image background to retain. Make a NEW expressive 2D ink-and-gouache cartoon of this mint-green intercom robot: rounded rectangular intercom body, front speaker grille above a simple numeric-keypad arrangement, spring-coil arms, tiny bearing legs, oversized worn work boots, no human head. This time the robot is determinedly hauling an absurdly small two-wheel workshop handcart; on it sits a rescued little dented capsule-shaped robot buddy with a crooked aerial and an oversized cream adhesive repair patch. The little buddy holds one tiny victory bolt aloft. Friendly mechanical slapstick and clumsy heroic energy, no human injury, no blood. Clear single triangular composition, dynamic walking lean but no motion blur, boots remain attached to legs. The main robot on the left pulls the cart on the right; both entirely inside the frame with eight percent margin, landscape-shaped silhouette inside a square canvas. Bold dark-petrol irregular ink contours, rough dry-gouache fills, sparse pencil hatching, muted mint, mustard, aged cream and restrained rusty coral accents. Broad readable forms, must read as an expressive sketch at 160 pixels wide. A few loose comic motion strokes connect the composition. TRUE transparent background; no scene, no rectangular paper sheet, no floor plane, no outer shadow rectangle, no title, no lettering or numbers, no logo, no photographic texture, no 3D render, no contact sheet. Match a cosy industrial cartoon service-workshop game, not glossy toy art."
+    }
+  ]
+}

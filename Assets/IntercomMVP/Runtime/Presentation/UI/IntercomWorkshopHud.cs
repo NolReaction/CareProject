@@ -10,7 +10,8 @@ namespace IntercomMvp
         private static readonly Color Petrol = new Color(.38f, .57f, .55f, 1f);
         private static readonly Color Mustard = new Color(.78f, .62f, .32f, 1f);
         private static readonly Color Warning = new Color(.77f, .42f, .28f, 1f);
-        private Texture2D plate, label, disc, ring;
+        private static readonly Color HeartRed = new Color(.76f, .28f, .23f, 1f);
+        private Texture2D plate, label, disc, ring, heart;
         private GUIStyle small, bold, number;
         private int lastAmmo = -1, lastCapacity = -1;
         private string ammoText = "", capacityText = "";
@@ -19,15 +20,22 @@ namespace IntercomMvp
         private bool progressReady, progressRescue, progressHasAlly;
         private int progressCurrent, progressMaximum;
         private string missionProgressText = "";
+        private IntercomMissionDirector clockMission;
+        private uint clockRun;
+        private int lastElapsedSecond = -1;
+        private string elapsedText = "00:00:00", lastHint = "";
+        private float hintBegan;
 
         public void Draw(IntercomHudLayout layout, IntercomTwinStickState sticks,
             IntercomWeaponMagazine magazine, bool showSticks, float controlsOpacity, IntercomPlayerVitality vitality = null,
-            IntercomMissionDirector mission = null, bool hasFrontEnd = false)
+            IntercomMissionDirector mission = null, bool hasFrontEnd = false,
+            bool gameplayPaused = false, bool confirmingExit = false, bool confirmingRestart = false,
+            Texture2D weaponPortrait = null)
         {
             EnsureResources();
             if(mission != null && mission.BlocksGameplay) { DrawMissionMenu(layout,mission); return; }
             bool dead = vitality != null && vitality.IsDead;
-            if (showSticks && !dead)
+            if (showSticks && !dead && !gameplayPaused)
             {
                 DrawStick(layout.LeftX, layout.LeftY, layout.Radius, sticks.Left, Petrol, false, controlsOpacity);
                 DrawStick(layout.RightX, layout.RightY, layout.Radius, sticks.Right, Mustard, true, controlsOpacity);
@@ -35,8 +43,14 @@ namespace IntercomMvp
             if(vitality != null && vitality.Health != null) DrawHealth(layout.Health,vitality);
             else if (layout.ShowAreaBadge) DrawArea(layout.AreaBadge);
             if(dead && mission == null) DrawDefeat(layout);
-            else if (!dead && magazine != null && magazine.isActiveAndEnabled) DrawMagazine(layout.Reload, magazine);
+            else if (!dead && magazine != null && magazine.isActiveAndEnabled) DrawMagazine(layout.Reload, magazine, weaponPortrait);
             if(mission != null) DrawMissionObjective(layout,mission,hasFrontEnd);
+            // A tiny source-build stamp makes a stale/nested installation visible in a screenshot.
+            Rect safe = Screen.safeArea;
+            float stampWidth = Mathf.Min(110f, safe.width*.25f), stampHeight = 14f;
+            Text(new Rect(safe.x+(safe.width-stampWidth)*.5f, Screen.height-safe.y-18f, stampWidth, stampHeight),
+                "ЗАБОТА · V19", small, 8f, Paper, .55f);
+            if (gameplayPaused) DrawPause(layout,confirmingExit,confirmingRestart,hasFrontEnd);
         }
 
         private void DrawMissionMenu(IntercomHudLayout layout, IntercomMissionDirector mission)
@@ -81,18 +95,95 @@ namespace IntercomMvp
         private void DrawMissionObjective(IntercomHudLayout layout,IntercomMissionDirector mission,bool hasFrontEnd)
         {
             Rect r=GuiRect(layout.MissionObjective);
-            float sx=r.width/370f, sy=r.height/66f, s=Mathf.Min(sx,sy);
-            Texture(r,label,Paper,.95f);
+            float sx=r.width/254f, sy=r.height/61f, s=Mathf.Min(sx,sy);
+            PaintedLabel(r,Paper,.94f);
             bool rescue=mission.Mode == IntercomMissionMode.Rescue;
             string title=mission.Mode == IntercomMissionMode.FreePlay ? "СВОБОДНАЯ ТРЕНИРОВКА"
                 : rescue ? (mission.IsAllyRecruited ? "ДОВЕДИ ДО ВЫХОДА" : "НАЙДИ СОЮЗНИКА") : "УДАРНИКИ";
-            if(!string.IsNullOrEmpty(mission.HudHint)) title=mission.HudHint;
-            Text(new Rect(r.x+10f*sx,r.y+6f*sy,r.width-20f*sx,19f*sy),title,bold,Mathf.Max(10f,12f*s),Ink,.8f);
+            if (r.width < 180f && mission.Mode == IntercomMissionMode.FreePlay) title="ТРЕНИРОВКА";
+            else if (r.width < 180f && rescue) title=mission.IsAllyRecruited ? "К ВЫХОДУ" : "СОЮЗНИК";
+            RobotStamp(new Rect(r.x+7f*sx,r.y+7f*sy,36f*sx,43f*sy),rescue ? Petrol : Mustard);
+            Text(new Rect(r.x+48f*sx,r.y+6f*sy,r.width-60f*sx,18f*sy),title,bold,11f*s,Ink,.8f);
             string progress=MissionProgress(mission);
-            Text(new Rect(r.x+10f*sx,r.y+25f*sy,r.width-20f*sx,30f*sy),progress,number,Mathf.Max(rescue ? 13f : 18f,(rescue ? 18f : 25f)*s),Ink);
+            Text(new Rect(r.x+45f*sx,r.y+24f*sy,r.width-57f*sx,28f*sy),progress,number,(rescue ? 15f : 24f)*s,Ink);
+            Rect timer=GuiRect(layout.Timer);
+            Texture(timer,label,Ink,.72f);
+            Text(timer,TimerText(mission),number,Mathf.Min(timer.width*.16f,timer.height*.48f),Paper);
             Rect menu=GuiRect(layout.Modes);
-            Texture(menu,plate,Paper,.96f);
-            Text(menu,hasFrontEnd ? "МЕНЮ" : "РЕЖИМЫ",bold,Mathf.Min(menu.width/8f,menu.height*.3f),Ink);
+            PaintedLabel(menu,HeartRed,.98f);
+            // Two chunky enamel bars form a readable thumb target, even on a small phone.
+            Fill(new Rect(menu.x+menu.width*.27f,menu.y+menu.height*.20f,menu.width*.19f,menu.height*.59f),Ink);
+            Fill(new Rect(menu.x+menu.width*.54f,menu.y+menu.height*.24f,menu.width*.19f,menu.height*.56f),Ink);
+            Fill(new Rect(menu.x+menu.width*.30f,menu.y+menu.height*.23f,menu.width*.12f,menu.height*.50f),Paper);
+            Fill(new Rect(menu.x+menu.width*.57f,menu.y+menu.height*.27f,menu.width*.12f,menu.height*.47f),Paper);
+            string toast=SessionToast(mission);
+            if (!string.IsNullOrEmpty(toast))
+            {
+                Rect t=GuiRect(layout.Toast);
+                PaintedLabel(t,Paper,.95f);
+                Fill(new Rect(t.x+t.width*.025f,t.y+t.height*.20f,t.width*.008f,t.height*.60f),Mustard);
+                Text(new Rect(t.x+t.width*.05f,t.y+t.height*.12f,t.width*.90f,t.height*.76f),toast,bold,
+                    Mathf.Min(t.width/32f,t.height*.28f),Ink);
+            }
+        }
+
+        internal string TimerText(IntercomMissionDirector mission)
+        {
+            ObserveSession(mission);
+            float elapsed=mission.ElapsedSeconds;
+            int second=float.IsNaN(elapsed) || elapsed < 0f ? 0 : (int)Mathf.Min(359999f,elapsed);
+            if (lastElapsedSecond != second)
+            {
+                lastElapsedSecond=second;
+                elapsedText=(second/3600).ToString("00")+":"+(second/60%60).ToString("00")+":"+(second%60).ToString("00");
+            }
+            return elapsedText;
+        }
+
+        private void ObserveSession(IntercomMissionDirector mission)
+        {
+            if (ReferenceEquals(clockMission,mission) && clockRun == mission.RunRevision) return;
+            clockMission=mission;clockRun=mission.RunRevision;lastElapsedSecond=-1;lastHint="";hintBegan=0f;
+        }
+
+        internal string SessionToast(IntercomMissionDirector mission)
+        {
+            ObserveSession(mission);
+            string hint=mission.HudHint ?? "";
+            if (hint != lastHint) { lastHint=hint;hintBegan=mission.ElapsedSeconds; }
+            if (hint.Length>0 && mission.ElapsedSeconds-hintBegan < 5f) return hint;
+            if (mission.ElapsedSeconds >= 5f) return "";
+            if (mission.Mode == IntercomMissionMode.FreePlay) return "ОСМОТРИ ДВОР · ДВИГАЙСЯ И СТРЕЛЯЙ";
+            if (mission.Mode == IntercomMissionMode.Rescue) return "НАЙДИ СОЮЗНИКА И ДОВЕДИ ДО ВЫХОДА";
+            return "ОЧИСТИ ДВОР ОТ УДАРНИКОВ";
+        }
+
+        private void DrawPause(IntercomHudLayout layout,bool confirmingExit,bool confirmingRestart,bool hasFrontEnd)
+        {
+            Fill(new Rect(0f,0f,Screen.width,Screen.height),Ink,.72f);
+            Rect r=GuiRect(layout.PausePanel);
+            Texture(r,plate,Paper);
+            Text(new Rect(r.x+r.width*.07f,r.y+r.height*.06f,r.width*.86f,r.height*.14f),
+                confirmingRestart ? "НАЧАТЬ ВЫЕЗД ЗАНОВО?" : confirmingExit ? (hasFrontEnd ? "ВЕРНУТЬСЯ В МАСТЕРСКУЮ?" : "ВЕРНУТЬСЯ К РЕЖИМАМ?") : "НЕБОЛЬШОЙ ПЕРЕКУР",bold,r.width*.045f,Ink);
+            Text(new Rect(r.x+r.width*.07f,r.y+r.height*.21f,r.width*.86f,r.height*.13f),
+                confirmingRestart || confirmingExit ? "Текущий прогресс выезда будет потерян." : "Двор подождёт. Робот тоже.",small,r.width*.031f,Ink,.78f);
+            if (confirmingExit || confirmingRestart)
+            {
+                DrawPauseButton(layout.PauseConfirm,confirmingRestart ? "ЗАНОВО" : hasFrontEnd ? "В МАСТЕРСКУЮ" : "К РЕЖИМАМ",Warning);
+                DrawPauseButton(layout.PauseCancel,"ОСТАТЬСЯ",Petrol);
+            }
+            else
+            {
+                DrawPauseButton(layout.PauseResume,"ПРОДОЛЖИТЬ",Petrol);
+                DrawPauseButton(layout.PauseRetry,"НАЧАТЬ ЗАНОВО",Mustard);
+                DrawPauseButton(layout.PauseExit,hasFrontEnd ? "В МАСТЕРСКУЮ" : "ВЫБРАТЬ РЕЖИМ",Paper);
+            }
+        }
+
+        private void DrawPauseButton(IntercomHudLayout.Box box,string text,Color accent)
+        {
+            Rect r=GuiRect(box);Texture(r,label,accent);
+            Text(r,text,bold,Mathf.Min(r.height*.32f,r.width*.09f),Ink);
         }
 
         // OnGUI is called for layout/input/repaint. Stable scores and ally HP
@@ -118,32 +209,37 @@ namespace IntercomMvp
 
         private void DrawHealth(IntercomHudLayout.Box box, IntercomPlayerVitality vitality)
         {
-            Rect r = GuiRect(box);
-            float sx=r.width/260f, sy=r.height/76f, s=Mathf.Min(sx,sy);
+            Rect r=GuiRect(box);
             IntercomHealth health=vitality.Health;
             int value=Mathf.Max(0,Mathf.CeilToInt(health.Current));
             int maximum=Mathf.Max(1,Mathf.CeilToInt(health.Maximum));
             if(value!=lastHealth || maximum!=lastMaximum)
             {lastHealth=value;lastMaximum=maximum;healthText=value+" / "+maximum;}
-            Color accent=health.Current/health.Maximum <= .3f || vitality.ShowHitRemaining > 0f ? Warning : Petrol;
-            Texture(r,plate,Paper);
-            Texture(new Rect(r.x+10f*sx,r.y+9f*sy,48f*sx,52f*sy),label,accent);
-            // Two mismatched eyes echo the robot's small service display.
-            Fill(new Rect(r.x+20f*sx,r.y+27f*sy,9f*sx,12f*sy),Ink);
-            Fill(new Rect(r.x+37f*sx,r.y+30f*sy,10f*sx,8f*sy),Ink);
-            Fill(new Rect(r.x+22f*sx,r.y+48f*sy,23f*sx,3f*sy),Ink,.65f);
-            Text(new Rect(r.x+66f*sx,r.y+6f*sy,174f*sx,18f*sy),"КОРПУС",bold,11f*s,Ink,.75f);
-            Text(new Rect(r.x+65f*sx,r.y+22f*sy,176f*sx,27f*sy),healthText,number,23f*s,Ink);
-            float progress=Mathf.Clamp01(health.Current/health.Maximum);
-            for(int i=0;i<10;i++)
+            float progress=Mathf.Clamp01(health.Current/Mathf.Max(1f,health.Maximum));
+            Color accent=vitality.ShowHitRemaining>0f ? Warning : HeartRed;
+            float icon=Mathf.Min(r.height,r.width*.19f), stroke=Mathf.Max(1f,r.height*.065f);
+            Rect gauge=new Rect(r.x+icon*.70f,r.y+r.height*.13f,r.width-icon*.72f,r.height*.76f);
+            Texture(gauge,label,Ink,.96f);
+            Rect inner=new Rect(gauge.x+stroke,gauge.y+stroke,gauge.width-stroke*2f,gauge.height-stroke*2f);
+            Texture(inner,label,HeartRed,.28f);
+            if(progress>0f)Texture(new Rect(inner.x,inner.y,inner.width*progress,inner.height),label,accent);
+            // Five rubbed divider marks keep the continuous health bar easy to judge at a glance.
+            for(int i=1;i<5;i++)
             {
-                Rect cell=new Rect(r.x+(68f+i*17f)*sx,r.y+56f*sy,13f*sx,8f*sy);
-                Fill(cell,Ink,.18f);
-                float portion=Mathf.Clamp01(progress*10f-i);
-                if(portion>0f)Fill(new Rect(cell.x,cell.y,cell.width*portion,cell.height),accent);
+                float x=inner.x+inner.width*i/5f;
+                Fill(new Rect(x,inner.y+inner.height*.12f,stroke*.60f,inner.height*.20f),Paper,.33f);
             }
-            Bolt(r.x+248f*sx,r.y+12f*sy,2.5f*s);
-            Bolt(r.x+12f*sx,r.y+67f*sy,2.5f*s);
+            Text(new Rect(gauge.x+icon*.20f,gauge.y,gauge.width-icon*.20f,gauge.height),healthText,bold,
+                Mathf.Min(r.height*.40f,gauge.width*.10f),Paper);
+            Rect badge=new Rect(r.x,r.y,icon,icon);
+            Texture(badge,heart,Ink);
+            float inset=stroke*1.2f;
+            Texture(new Rect(badge.x+inset,badge.y+inset,badge.width-inset*2f,badge.height-inset*2f),heart,accent);
+            // A tiny lightning seam turns a heart into the robot's repairable power core.
+            Fill(new Rect(badge.x+icon*.45f,badge.y+icon*.25f,icon*.10f,icon*.23f),Paper,.86f);
+            Fill(new Rect(badge.x+icon*.37f,badge.y+icon*.44f,icon*.17f,icon*.08f),Paper,.86f);
+            Fill(new Rect(badge.x+icon*.40f,badge.y+icon*.49f,icon*.08f,icon*.20f),Paper,.86f);
+            if(progress<=.3f)Fill(new Rect(gauge.xMax-stroke*4f,gauge.y+stroke*2f,stroke*2f,gauge.height-stroke*4f),Paper,.9f);
         }
 
         private void DrawDefeat(IntercomHudLayout layout)
@@ -173,40 +269,70 @@ namespace IntercomMvp
             Text(new Rect(r.x + 46f*s, r.y + 32f*s, r.width - 59f*s, 17f*s), "УЧЕБНЫЙ УЧАСТОК · 01", small, 10f*s, Ink, .77f);
         }
 
-        private void DrawMagazine(IntercomHudLayout.Box box, IntercomWeaponMagazine magazine)
+        private void DrawMagazine(IntercomHudLayout.Box box, IntercomWeaponMagazine magazine, Texture2D weaponPortrait)
         {
-            Rect r = GuiRect(box);
-            float sx = r.width / 188f, sy = r.height / 84f, s = Mathf.Min(sx, sy);
-            bool loading = magazine.IsReloading;
-            bool low = magazine.CurrentAmmo <= Mathf.Max(2, magazine.Capacity / 4);
-            Color accent = loading ? Mustard : low ? Warning : Petrol;
-            Texture(r, plate, Paper);
-            // Dark inset is deliberately off-centre; the actual button stays rectangular.
-            Texture(new Rect(r.x + 9f*sx, r.y + 8f*sy, 116f*sx, 45f*sy), label, Ink);
-            if (lastAmmo != magazine.CurrentAmmo)
-            { lastAmmo = magazine.CurrentAmmo; ammoText = lastAmmo.ToString("00"); }
-            if (lastCapacity != magazine.Capacity)
-            { lastCapacity = magazine.Capacity; capacityText = "/ " + lastCapacity; }
-            Text(new Rect(r.x + 17f*sx, r.y + 4f*sy, 65f*sx, 48f*sy), ammoText, number, 36f*s, Paper);
-            Text(new Rect(r.x + 77f*sx, r.y + 13f*sy, 43f*sx, 28f*sy), capacityText, bold, 14f*s, Paper, .7f);
-            Text(new Rect(r.x + 127f*sx, r.y + 8f*sy, 48f*sx, 16f*sy), "ЗАПАС", small, 9f*s, Ink, .72f);
-            Text(new Rect(r.x + 127f*sx, r.y + 20f*sy, 48f*sx, 28f*sy), "∞", number, 27f*s, Ink);
-            Bolt(r.x + 176f*sx, r.y + 10f*sy, 2.3f*s);
-            Bolt(r.x + 11f*sx, r.y + 74f*sy, 2.3f*s);
-
-            const int slots = 12;
-            float progress = loading ? magazine.ReloadProgress : magazine.CurrentAmmo / (float)Mathf.Max(1, magazine.Capacity);
-            progress = Mathf.Clamp01(progress);
-            for (int i = 0; i < slots; i++)
+            Rect r=GuiRect(box);
+            float sx=r.width/230f, sy=r.height/82f, s=Mathf.Min(sx,sy);
+            bool loading=magazine.IsReloading;
+            bool low=magazine.CurrentAmmo <= Mathf.Max(2,magazine.Capacity/4);
+            Color accent=loading ? Mustard : low ? Warning : Petrol;
+            PaintedLabel(r,Ink,.90f);
+            Rect sticker=new Rect(r.x+6f*sx,r.y+8f*sy,67f*sx,61f*sy);
+            Texture(sticker,label,Paper);
+            if (weaponPortrait != null)
+                Texture(new Rect(r.x+8f*sx,r.y+7f*sy,63f*sx,63f*sy),weaponPortrait,Color.white);
+            else
             {
-                Rect slot = new Rect(r.x + (12f + i*13.7f)*sx, r.y + 55f*sy, 10.4f*sx, 5f*sy);
-                Fill(slot, Ink, .18f);
-                float portion = Mathf.Clamp01(progress * slots - i);
-                if (portion > 0f) Fill(new Rect(slot.x, slot.y, slot.width*portion, slot.height), accent);
+                // A readable fallback for a weapon with no authored UI portrait.
+                Pistol(new Rect(r.x+12f*sx,r.y+18f*sy,42f*sx,27f*sy),Petrol);
+                Pistol(new Rect(r.x+23f*sx,r.y+33f*sy,42f*sx,27f*sy),Ink);
             }
-            string action = loading ? "ПЕРЕЗАРЯДКА" : Application.isMobilePlatform ? "ПЕРЕЗАРЯДИТЬ" : "R · ПЕРЕЗАРЯДИТЬ";
-            Text(new Rect(r.x + 20f*sx, r.y + 62f*sy, r.width - 40f*sx, 17f*sy), action, bold, 10.5f*s, Ink);
-            Fill(new Rect(r.x + 158f*sx, r.y + 74f*sy, 16f*sx, 1.2f*sy), Ink, .24f);
+            if (lastAmmo != magazine.CurrentAmmo)
+            { lastAmmo=magazine.CurrentAmmo;ammoText=lastAmmo.ToString("00"); }
+            if (lastCapacity != magazine.Capacity)
+            { lastCapacity=magazine.Capacity;capacityText="/ "+lastCapacity; }
+            Text(new Rect(r.x+78f*sx,r.y+4f*sy,59f*sx,43f*sy),ammoText,number,37f*s,low ? Warning : Paper);
+            Text(new Rect(r.x+135f*sx,r.y+15f*sy,44f*sx,27f*sy),capacityText,bold,14f*s,Paper,.82f);
+            Text(new Rect(r.x+184f*sx,r.y+10f*sy,35f*sx,31f*sy),"∞",number,24f*s,Paper,.72f);
+            const int slots=12;
+            float progress=Mathf.Clamp01(loading ? magazine.ReloadProgress : magazine.CurrentAmmo/(float)Mathf.Max(1,magazine.Capacity));
+            for (int i=0;i<slots;i++)
+            {
+                Rect slot=new Rect(r.x+(80f+i*11.5f)*sx,r.y+49f*sy,8.5f*sx,7f*sy);
+                Fill(slot,Paper,.18f);
+                float portion=Mathf.Clamp01(progress*slots-i);
+                if(portion>0f) Fill(new Rect(slot.x,slot.y,slot.width*portion,slot.height),accent);
+            }
+            string action=loading ? "ПЕРЕЗАРЯДКА" : Application.isMobilePlatform ? "ПЕРЕЗАРЯДИТЬ" : "R · ПЕРЕЗАРЯДИТЬ";
+            Text(new Rect(r.x+78f*sx,r.y+60f*sy,145f*sx,15f*sy),action,bold,9f*s,Paper,.88f);
+        }
+
+        private void PaintedLabel(Rect r,Color color,float alpha=1f)
+        {
+            float line=Mathf.Max(1f,Mathf.Min(r.width,r.height)*.035f);
+            Texture(new Rect(r.x,r.y+line,r.width,r.height-line),label,Ink,alpha*.78f);
+            Texture(new Rect(r.x+line,r.y,r.width-line*2f,r.height-line*2f),label,color,alpha);
+        }
+
+        private void RobotStamp(Rect r,Color color)
+        {
+            // An uneven ink-drawn tin head, rather than a generic warning glyph.
+            float line=Mathf.Max(1f,r.width*.065f);
+            Fill(new Rect(r.x+r.width*.45f,r.y,line,r.height*.19f),Ink);
+            Texture(new Rect(r.x+r.width*.39f,r.y,r.width*.18f,r.width*.18f),disc,color);
+            PaintedLabel(new Rect(r.x,r.y+r.height*.16f,r.width,r.height*.71f),color);
+            Fill(new Rect(r.x+r.width*.18f,r.y+r.height*.37f,r.width*.15f,r.height*.14f),Ink);
+            Fill(new Rect(r.x+r.width*.60f,r.y+r.height*.39f,r.width*.16f,r.height*.12f),Ink);
+            Fill(new Rect(r.x+r.width*.26f,r.y+r.height*.65f,r.width*.40f,line),Ink);
+            Fill(new Rect(r.x+r.width*.10f,r.y+r.height*.85f,r.width*.24f,line),Ink);
+            Fill(new Rect(r.x+r.width*.64f,r.y+r.height*.83f,r.width*.22f,line),Ink);
+        }
+
+        private static void Pistol(Rect r,Color color)
+        {
+            Fill(new Rect(r.x,r.y,r.width,r.height*.31f),color);
+            Fill(new Rect(r.x+r.width*.60f,r.y+r.height*.26f,r.width*.27f,r.height*.71f),color);
+            Fill(new Rect(r.x+r.width*.26f,r.y+r.height*.29f,r.width*.38f,r.height*.15f),color,.8f);
         }
 
         private void DrawStick(float x, float y, float radius, IntercomTwinStickState.Stick stick,
@@ -268,6 +394,7 @@ namespace IntercomMvp
                 label = MakeTexture("Uneven painted label", 384, 160, 1);
                 disc = MakeTexture("Workshop stick disc", 128, 128, 2);
                 ring = MakeTexture("Workshop stick ring", 128, 128, 3);
+                heart = MakeTexture("Ink heart power core", 96, 96, 4);
             }
             if (small != null) return;
             small = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
@@ -284,7 +411,13 @@ namespace IntercomMvp
                 for (int x = 0; x < width; x++)
                 {
                     float alpha, tone = 1f;
-                    if (kind >= 2)
+                    if(kind == 4)
+                    {
+                        float hx=(x+.5f-width*.5f)/(width*.40f), hy=(y+.5f-height*.47f)/(height*.40f);
+                        float edge=hx*hx+hy*hy-1f;
+                        alpha=edge*edge*edge-hx*hx*hy*hy*hy <= 0f ? 1f : 0f;
+                    }
+                    else if (kind >= 2)
                     {
                         float dx = (x+.5f-width*.5f)/(width*.5f), dy = (y+.5f-height*.5f)/(height*.5f);
                         float distance = Mathf.Sqrt(dx*dx+dy*dy);
@@ -325,7 +458,8 @@ namespace IntercomMvp
             if (label != null) Object.Destroy(label);
             if (disc != null) Object.Destroy(disc);
             if (ring != null) Object.Destroy(ring);
-            plate = label = disc = ring = null;
+            if (heart != null) Object.Destroy(heart);
+            plate = label = disc = ring = heart = null;
         }
     }
 }

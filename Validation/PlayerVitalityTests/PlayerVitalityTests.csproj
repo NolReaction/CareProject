@@ -4,9 +4,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="UnityFakes.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealth.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthModel.cs" />
+    
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs" />
     <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Life/IntercomPlayerVitality.cs" />
   </ItemGroup>
