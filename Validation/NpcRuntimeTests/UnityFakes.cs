@@ -185,18 +185,19 @@ namespace IntercomMvp
     public enum IntercomTeam{Neutral,Player,Enemy}
     public class IntercomHealth:MonoBehaviour,IIntercomDamageable
     {
-        public float maximumHealth=100,postHitInvulnerability;public IntercomTeam team;
+        public float maximumHealth=100,postHitInvulnerability;public bool invulnerable;public IntercomTeam team;
         public float Current{get;private set;}=100;public float Maximum=>maximumHealth;public bool IsDead=>Current<=0;
         public event Action<IntercomDamage> Damaged;public event Action Died;
         public int DamageCalls;public IntercomDamage LastDamage;
         private void Awake()=>ResetHealth();
         public void ResetHealth(){Current=maximumHealth;}
         public bool TakeDamage(IntercomDamage damage)
-        {if(!isActiveAndEnabled||IsDead||damage.Amount<=0)return false;Current=Math.Max(0,Current-damage.Amount);DamageCalls++;LastDamage=damage;Damaged?.Invoke(damage);if(IsDead)Died?.Invoke();return true;}
+        {if(!isActiveAndEnabled||invulnerable||IsDead||damage.Amount<=0)return false;Current=Math.Max(0,Current-damage.Amount);DamageCalls++;LastDamage=damage;Damaged?.Invoke(damage);if(IsDead)Died?.Invoke();return true;}
     }
     public class IntercomPlayerMotor:MonoBehaviour {public uint RespawnVersion;}
     public enum IntercomSurfaceKind{Asphalt,Concrete,Metal}
-    public class IntercomFootstepSurface:MonoBehaviour {public IntercomSurfaceKind kind;public float impactVolume,impactPitch;}
+    public enum IntercomImpactKind{Surface,Robot}
+    public class IntercomFootstepSurface:MonoBehaviour {public IntercomSurfaceKind kind;public IntercomImpactKind impactKind;public float impactVolume,impactPitch;}
     public enum IntercomNavResult{Success,Unreachable,Deferred}
     public class IntercomNpcNavigation:MonoBehaviour
     {

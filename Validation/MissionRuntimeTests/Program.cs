@@ -43,8 +43,38 @@ internal static class Program
     private static void Main()
     {
         AllyFactory(); Recruitment(); Following(); AllyLifecycle();
-        MissionConnection(); MissionSelection(); WarmPoolBudget(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
+        MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); EliminationPoolAndWaves(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
+    }
+    private static void FreePlay()
+    {
+        var f=new MissionFixture();
+        // Free play does not depend on AI profiles, materials, navigation or spawn markers.
+        f.Director.navigation=null;f.Director.enemyDefinition=null;f.Director.spawnPoints=null;
+        f.Director.eliminationDefinition=f.Director.rescueDefinition=null;
+        f.Director.allySpawn=f.Director.extractionPoint=null;
+        Check(f.Director.StartMission(IntercomMissionMode.FreePlay),"free mode starts with only hero/control links");
+        Check(f.Director.Mode==IntercomMissionMode.FreePlay&&!f.Director.BlocksGameplay&&!f.Vitality.Blocked,"free mode releases hero controls");
+        f.Advance(120);
+        Check(f.Director.Phase==IntercomMissionPhase.Active&&f.Director.Goal==0,"free mode does not win on empty arena");
+        Check(f.Director.SpawnedEnemies==0&&f.Director.AliveEnemies==0&&f.Director.PreparedEnemyCount==0,"free mode neither constructs nor spawns AI");
+        Check(f.Ally==null && f.Living.Length==0,"no rescue ally or enemy is created");
+        Check(f.Director.ObjectiveText.Contains("без врагов"),"free mode has distinct objective text");
+        int retries=f.Vitality.RetryCalls;
+        Check(f.Director.RetryMission()&&f.Vitality.RetryCalls==retries+1,"free retry goes through normal hero/ammo/prop reset epoch");
+        f.Advance(2);Check(f.Director.Mode==IntercomMissionMode.FreePlay&&f.Director.SpawnedEnemies==0,"free retry retains no-AI mode");
+        f.Director.ReturnToSelection();Check(f.Director.Phase==IntercomMissionPhase.Selection&&f.Vitality.Blocked,"return to selection restores visible menu lock");
+
+        f=new MissionFixture();f.Director.StartMission(IntercomMissionMode.Rescue);f.Advance(3);
+        Check(f.Ally!=null&&f.Living.Length>0,"combat-to-free fixture contains active actors");
+        var ally=f.Ally;
+        Check(f.Director.StartMission(IntercomMissionMode.FreePlay),"switch from live rescue to free succeeds");
+        int prepared=f.Director.PreparedEnemyCount;
+        f.Advance(10);
+        Check(f.Living.Length==0&&!ally.gameObject.activeSelf,"switch to free removes prior enemy and ally actors");
+        Check(f.Director.PreparedEnemyCount==prepared&&f.Director.SpawnedEnemies==0&&f.Director.Kills==0,"retained inactive pool does not grow or simulate");
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"free mode can switch back to combat");
+        f.Advance(2);Check(f.Living.Length>0,"combat still spawns after free mode");
     }
     private static void AllyFactory()
     {
@@ -263,6 +293,7 @@ internal static class Program
         Check(f.Motor.ResetCalls==1&&f.Vitality.RetryCalls==1,"mode start resets hero exactly once");
         f.Advance(.6f);Check(f.Director.SpawnedEnemies==0,"initial spawn grace period respected");
         f.Advance(.3f);Check(f.Director.SpawnedEnemies==1,"initial grace period eventually spawns");
+        Check(f.Living[0].EmergenceCalls==1,"mission activation explicitly starts ground arrival exactly once");
         f.Director.ReturnToSelection();
         Check(f.Director.Phase==IntercomMissionPhase.Selection&&f.Vitality.Blocked&&f.Living.Length==0,"return to menu cancels active enemies and controls");
     }

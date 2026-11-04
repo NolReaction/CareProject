@@ -1,42 +1,33 @@
-# Исходники звука
+# Исходные записи звука
 
-Короткие записи для воспроизводимого звукового дизайна и музыкальные исходники.
-Это записи указанных авторов, а не записи, сделанные автором кода.
-Все исходники опубликованы под CC0 1.0; текст посвящения — `CC0-1.0.txt`.
-Имена, ссылки, изменения и SHA-256 — в `manifest.json`; отдельные исходники нового
-трека и их манифест — в `MusicV3`.
+Здесь сохранены записи, из которых собираются игровые звуки и музыка,
+а также лицензии и контрольные суммы. Они нужны для дальнейшего редактирования
+и воспроизводимости генераторов. Для обычного запуска игры генерация не нужна:
+все готовые банки уже находятся в Assets.
 
-| Источник | Автор | Использование |
-| --- | --- | --- |
-| [Fantozzi’s Footsteps](https://opengameart.org/content/fantozzis-footsteps-grasssand-stone) | Fantozzi, нарезка qubodup | Подошва, каменная и сыпучая фактура |
-| [Free Firearm Sound Library](https://opengameart.org/content/the-free-firearm-sound-library) | Ben Jaszczak, Brian Nelson, Kevin Heras, Matthew Nanney | Близкие выстрелы .45 ACP 1911 и атака Walther PPQ |
-| [VCSL](https://github.com/sgossner/VCSL) | Versilian Studios / Sam Gossner и участники | Металл, деревянный блок и slapstick |
-| [Karoryfer](https://www.karoryfer.com/) | Подробности по каждому набору в `MusicV3/manifest.json` | Электрогитара, бас-гитара и ударная установка нового трека |
+## Текущие ресурсы
 
-**Iron Pulse** — оригинальные ноты, ритм и аранжировка CareProject;
-код композиции находится в `Tools/GenerateMainMusic.py`. Готовая песня или чужая
-мелодия не заимствуется. Прежние записи клавишных не используются в новом треке.
+- Пистолеты и перезарядка: Assets/IntercomMVP/Content/Weapons/Pistols/Audio.
+- Попадания по роботам: Assets/IntercomMVP/Content/Enemies/Shared/Audio.
+- Реакции героя: Assets/IntercomMVP/Content/Characters/Robot/Audio.
+- Шаги, материалы попаданий и музыка: Assets/IntercomMVP/Content/Shared/Audio.
+- Промышленный фон: Assets/IntercomMVP/Content/Environments/TutorialYard/Audio.
+- Микс: Assets/IntercomMVP/Content/Shared/Audio/Settings/GameAudio.asset.
 
-Из корня проекта: `python Tools/GeneratePrototypeAudio.py`.
-Нужны Python 3, NumPy, SciPy и ffmpeg в PATH. Генерация офлайн проверяет контрольные
-суммы, собирает WAV/OGG и сохраняет GUID существующих файлов. `--sfx-only` обновляет
-только эффекты/фон. Для обычного запуска игры генерация не нужна.
+Tools/GenerateCombatAudio.py собирает текущие выстрелы и попадания по роботам.
+Tools/GenerateMainMusic.py содержит композицию Iron Pulse.
+Остальные Generate*.py рядом содержат подготовку записей, синтез, музыку,
+шаги и вспомогательные слои. Для ручной генерации нужны Python3, NumPy, SciPy
+и ffmpeg. Перед запуском сохраняй свои правки ресурсов.
 
-## Попадания V5
+## Источники и условия
 
-Новые `Impact_*.wav` сделаны собственным детерминированным синтезом в
-`Tools/GenerateImpactAudio.py`. Для них не используются перечисленные выше записи;
-материалы VCSL сохранены для резонансов шагов и воспроизводимости предыдущих версий.
-Металл, дерево, бетон и земля имеют разные тембры и огибающие.
-Команда `python Tools/GeneratePrototypeAudio.py --impacts-only` пересоздаёт только
-эти WAV, сохраняя музыку, шаги и записи пистолетов. Уже готовые WAV входят в проект.
+CC0-1.0.txt и manifest.json содержат условия, авторов, источники и SHA256
+исходных коротких записей. Подпапка MusicV3 содержит действующие инструментальные
+записи, отдельный manifest.json и исходные тексты лицензий.
 
-## Пистолеты и перезарядка V6
-
-`python Tools/GenerateWeaponAudio.py` пересобирает только активные ресурсы в
-`Assets/IntercomMVP/Game/Weapons/Pistols/Audio`. Три выстрела используют уже
-проверенные записи 1911/PPQ и металл; две механические реплики перезарядки созданы
-детерминированным синтезом. Новых внешних записей не добавлено. Исторические копии
-пистолетов по старым путям служат миграции и остаются без изменений. Музыка, шаги
-и банки попаданий сохранены. Отчёты — `Validation/WeaponAudioV6Review.json` и
-`Validation/AudioV6Review.json`.
+Записи: Fantozzi’s Footsteps; Free Firearm Sound Library;
+VCSL Versilian Studios / Sam Gossner; инструменты Karoryfer / D. Smolken.
+Точные авторы и ссылки перечислены в манифестах. Музыкальные ноты и аранжировка
+Iron Pulse написаны для CareProject; сэмплы инструментов взяты из указанных наборов.
+Исторические записи для сравнения старой и новой версии в поставку не входят.

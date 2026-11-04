@@ -61,6 +61,7 @@ namespace UnityEngine {
 namespace UnityEngine.Rendering {public enum ShadowCastingMode{Off}public enum LightProbeUsage{Off}public enum ReflectionProbeUsage{Off}}
 
 namespace IntercomMvp {
+ public class IntercomSimpleShooter:UnityEngine.Behaviour {public bool AlternatingFire=true; public event System.Action<UnityEngine.Transform,bool> BarrelFired;public void Fire(bool right)=>BarrelFired?.Invoke(null,right);public int ListenerCount=>BarrelFired?.GetInvocationList().Length ?? 0;}
  public enum IntercomWeaponPosture {Relaxed,Raising,Combat,Lowering}
  public class IntercomWeaponPose:UnityEngine.Behaviour {public IntercomWeaponPosture Posture;}
  public class IntercomPlayerInput:UnityEngine.Behaviour {public bool FireHeld,FirePressed;}

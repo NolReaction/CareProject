@@ -27,7 +27,7 @@ static class Program
 
     static void Main()
     {
-        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();DrawPreviews();
+        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();FreePlayUi();DrawPreviews();
         Console.WriteLine($"PASS {checks} mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.");
     }
     static void MissionProgressCache()
@@ -56,7 +56,7 @@ static class Program
         foreach(var safe in new[]{new Rect(0,0,1280,720),new Rect(94,21,2152,1038),new Rect(20,12,600,336),new Rect(0,0,320,180),new Rect(0,0,480,900)})
         {
             var l=IntercomHudLayout.Calculate(safe.x,safe.y,safe.width,safe.height,70,32);
-            foreach(var b in new[]{l.MissionPanel,l.MissionFirst,l.MissionSecond,l.MissionObjective,l.Modes})
+            foreach(var b in new[]{l.MissionPanel,l.MissionFirst,l.MissionSecond,l.MissionThird,l.MissionObjective,l.Modes})
             {
                 Check(Inside(b,safe),"mission control outside safe area");
                 var centre=Centre(b);Check(b.Contains(centre.x,centre.y),"visible centre must hit");
@@ -64,8 +64,25 @@ static class Program
                 Check(!b.Contains(float.NaN,centre.y),"invalid coordinate accepted");
             }
             Check(l.MissionFirst.Y>l.MissionSecond.Y+l.MissionSecond.Height,"mode cards overlap");
+            Check(l.MissionSecond.Y>l.MissionThird.Y+l.MissionThird.Height,"free mode card overlaps rescue");
             Check(l.Modes.X>l.Health.X+l.Health.Width,"mode button overlaps health");
         }
+    }
+    static void FreePlayUi()
+    {
+        var p=Fresh();GUI.labels.Clear();Call(p,"OnGUI");
+        Check(GUI.labels.Contains("СВОБОДНЫЙ РЕЖИМ"),"free card is visible in actual HUD");
+        Click(p,Layout().MissionThird);
+        Check(p.mission.Mode==IntercomMissionMode.FreePlay&&p.mission.Starts==1&&NoGameplay(p),"third card starts free without firing");
+        Release(p);GUI.labels.Clear();Call(p,"OnGUI");
+        Check(GUI.labels.Contains("СВОБОДНАЯ ТРЕНИРОВКА")&&GUI.labels.Contains("БЕЗ ВРАГОВ"),"free HUD contains no fake kill objective");
+        Check(!GUI.labels.Contains("0 / 50"),"free HUD does not show kill count");
+        Release(p);Click(p,Layout().Modes);
+        Check(p.mission.Phase==IntercomMissionPhase.Selection,"free mode has normal return-to-modes button");
+        p=Fresh(true);var l=Layout();Input.touches=new[]{Touch(81,Centre(l.MissionThird),TouchPhase.Began)};Call(p,"Update");
+        Check(p.mission.Mode==IntercomMissionMode.FreePlay&&NoGameplay(p),"touch selects free mode with no shot leakage");
+        p=Fresh();p.mission.Phase=IntercomMissionPhase.Defeat;Click(p,Layout().MissionThird);
+        Check(p.mission.Mode==IntercomMissionMode.FreePlay&&p.mission.Starts==1,"result menu offers direct free play");
     }
     static void PointerTransitions()
     {
@@ -167,6 +184,7 @@ static class Program
         Preview(output,"selection",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Selection,IntercomMissionMode.Elimination);
         Preview(output,"elimination",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination);
         Preview(output,"rescue",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Rescue);
+        Preview(output,"free",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.FreePlay);
         Preview(output,"waiting",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Rescue,"Союзник ждёт — вернись к нему");
         Preview(output,"victory",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Victory,IntercomMissionMode.Elimination);
         Preview(output,"defeat",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Defeat,IntercomMissionMode.Rescue);
@@ -183,7 +201,7 @@ static class Program
         GUI.commands.Clear();GUI.textures.Clear();GUI.labels.Clear();GUI.Record=true;
         var hud=new IntercomWorkshopHud();hud.Draw(l,sticks,new IntercomWeaponMagazine(),true,.85f,vitality,mission);
         if(phase==IntercomMissionPhase.Selection)Check(GUI.labels.Contains("50 РОБОТОВ")&&GUI.labels.Contains("СПАСЕНИЕ")&&!GUI.labels.Contains("24"),"selection did not replace gameplay HUD");
-        if(phase==IntercomMissionPhase.Active)Check(GUI.labels.Contains("РЕЖИМЫ")&&GUI.labels.Contains(mode==IntercomMissionMode.Elimination?"12 / 50":"КОРПУС  42 / 60"),"actual mission objective missing");
+        if(phase==IntercomMissionPhase.Active)Check(GUI.labels.Contains("РЕЖИМЫ")&&GUI.labels.Contains(mode==IntercomMissionMode.FreePlay?"БЕЗ ВРАГОВ":mode==IntercomMissionMode.Elimination?"12 / 50":"КОРПУС  42 / 60"),"actual mission objective missing");
         if(phase==IntercomMissionPhase.Defeat)Check(!GUI.labels.Contains("СИСТЕМА ОТКЛЮЧЕНА")&&GUI.labels.Contains("ВЫЕЗД НЕ УДАЛСЯ"),"duplicate legacy defeat overlay");
         Check(GUI.labels.Contains("ВЫБРАТЬ РЕЖИМ")==(phase==IntercomMissionPhase.Victory||phase==IntercomMissionPhase.Defeat),"result selection action missing");
         GUI.Save(Path.Combine(output,name+".json"));GUI.Record=false;hud.Dispose();

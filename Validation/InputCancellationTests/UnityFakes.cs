@@ -27,7 +27,7 @@ namespace UnityEngine {
 namespace UnityEngine.Events {public class UnityEvent {public void Invoke(){}}}
 namespace IntercomMvp {
  public class IntercomWeaponMagazine {public bool CanFire=true,IsReloading;}
- public class IntercomSimpleShooter {public IntercomWeaponDefinition Weapon;}
+ public class IntercomSimpleShooter {public IntercomWeaponDefinition Weapon;public bool AlternatingFire;}
  public class IntercomWeaponDefinition {public IntercomWeaponPoseProfile poseProfile;public float Interval=.3f;}
  public class IntercomPlayerInput {public uint CancellationVersion;public bool FireHeld,FirePressed;}
  public class IntercomWeaponPoseProfile {

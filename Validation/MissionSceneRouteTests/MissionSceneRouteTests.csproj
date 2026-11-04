@@ -2,8 +2,8 @@
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomNavGrid.cs" />
-    <Content Include="../../Assets/IntercomMVP/World/DistrictLayout.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
-    <Content Include="../../Assets/IntercomMVP/Scenes/IntercomMVP.unity"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs" />
+    <Content Include="../../Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="../../Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
   </ItemGroup>
 </Project>

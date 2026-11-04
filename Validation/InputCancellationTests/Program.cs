@@ -57,6 +57,15 @@ internal static class Program {
    h.Pose.ConfirmShotVisual();Check(h.Pose.animator.RecoilCalls==1,"Confirmed visual did not play");
    int shots=h.Shots;h.Frame();Check(h.Shots==shots,"Visual confirmation registered another shot");
   });
+  Case("alternating confirmation retains Combat instead of recoiling both arms",()=>{
+   var h=new Harness(false);var shooter=new IntercomSimpleShooter{AlternatingFire=true};h.Pose.attachedComponent=shooter;Call(h.Pose,"Start");
+   h.StartTap();h.Release();h.Advance();Check(h.Pose.Posture==IntercomWeaponPosture.Combat,"Alternating request lost combat gate");
+   int before=h.Shots;h.Pose.ConfirmShotVisual();h.Pose.ConfirmShotVisual();
+   Check(h.Pose.animator.RecoilCalls==0,"Alternating gun played legacy both-arm clip");
+   Check(h.Shots==before,"Alternating visual confirmation scheduled more bullets");
+   shooter.AlternatingFire=false;h.Pose.ConfirmShotVisual();
+   Check(h.Pose.animator.RecoilCalls==1,"Legacy simultaneous weapon lost authored recoil");
+  });
   Console.WriteLine("PASS "+cases+" cases / "+assertions+" assertions. Executed production WeaponPose.Update + clock + cancellation gate + TwinStickState with narrow Unity test doubles; NOT Unity compilation or playback.");
  }
  static void Call(object target,string method,params object[] args){typeof(IntercomWeaponPose).GetMethod(method,BindingFlags.Instance|BindingFlags.NonPublic).Invoke(target,args);}

@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "component": "IntercomProjectStartup",
+  "firstOpenBehavior": "One pristine untitled/default scene only; canonical scene opened after import; Start Here shown. Existing or dirty work is preserved.",
+  "fixtureAssertions": 31,
+  "actualClassCompiledAndExecuted": true,
+  "runner": ".NET8 with minimal Unity API doubles",
+  "sourceSHA256": "edbafabba6aa0f2930461876aefd1262592525d614415ef826b0e6de0870013f",
+  "markerScene": "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity",
+  "persistentScope": "EditorPrefs key SHA256 of normalized project path; no scene rebuild/migration",
+  "timeoutSeconds": 180,
+  "guardCoverage": [
+    "fresh empty scene",
+    "default built-in and URP Camera+Light",
+    "existing saved scene",
+    "dirty scene",
+    "custom untitled content",
+    "custom camera component",
+    "missing script",
+    "children",
+    "multi-scene workspace",
+    "batch mode",
+    "Play transition",
+    "compile/import deferral",
+    "missing scene import timeout",
+    "handled open error",
+    "repeat preference",
+    "normalized and distinct project paths"
+  ],
+  "limits": [
+    "No Unity Editor executable or engine assemblies available. Real import/Editor UI and Player build not run."
+  ]
+}

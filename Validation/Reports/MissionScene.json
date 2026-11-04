@@ -1,0 +1,117 @@
+{
+  "director": 8900000023,
+  "navigation": 8800000005,
+  "legacyArena": 8800000012,
+  "input": 413439362,
+  "spawnTransforms": [
+    8900000002,
+    8900000004,
+    8900000006,
+    8900000008,
+    8900000010,
+    8900000012,
+    8900000014,
+    8900000016,
+    8900000018
+  ],
+  "allyTransform": 8900000020,
+  "extractionTransform": 8900000022,
+  "existingBlocksChanged": [
+    413439362,
+    8800000003,
+    8800000004,
+    8800000005,
+    8800000012
+  ],
+  "unrelatedBlocksPreserved": 949,
+  "localIds": {
+    "objects": 979,
+    "localReferences": 6193,
+    "externalReferences": 868
+  },
+  "revision": "missions-scene-v9",
+  "status": "PASS",
+  "sceneSha256": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
+  "baselineSceneSha256": "9a29d3693166433c1a16cce6c195489a6219919979b6c22dbe28c5fd4a0c5f1d",
+  "repeatInstallIdempotent": true,
+  "scope": "Serialized links, profile limits, component ownership and repeated installation. Separate MissionSceneRouteTests execute production navigation on authored map. No Unity runtime.",
+  "legacyInstallPreservesV9": true,
+  "legacySandboxDisabled": true,
+  "missionProfiles": [
+    "Kill50",
+    "Rescue"
+  ],
+  "spawnMarkers": [
+    [
+      -14.5,
+      0.0,
+      1.0
+    ],
+    [
+      -11.0,
+      0.0,
+      7.0
+    ],
+    [
+      -6.0,
+      0.0,
+      8.0
+    ],
+    [
+      0.0,
+      0.0,
+      12.0
+    ],
+    [
+      7.5,
+      0.0,
+      8.0
+    ],
+    [
+      13.5,
+      0.0,
+      0.0
+    ],
+    [
+      12.0,
+      0.0,
+      -7.0
+    ],
+    [
+      2.0,
+      0.0,
+      -12.0
+    ],
+    [
+      -11.0,
+      0.0,
+      -12.0
+    ]
+  ],
+  "allySpawn": [
+    2.0,
+    0.0,
+    11.0
+  ],
+  "extraction": [
+    -7.0,
+    0.0,
+    -12.0
+  ],
+  "heroStart": [
+    -7,
+    0,
+    -12
+  ],
+  "maximumActiveEnemies": {
+    "Elimination": 6,
+    "Rescue": 5
+  },
+  "killGoal": 50,
+  "sourceSha256": {
+    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "66b6794b8a6c340572c060580d76d1ea0c20b8b718b5d88b4da17b400e77fd8b",
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "be06416fb49af612a861299eb163b0eca795381c0097c77d0b109b8135372451",
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "0bebda18fb3160eeff7ab03a068238c4ed433120cc7a70757a3dc24b99d2fcff"
+  }
+}

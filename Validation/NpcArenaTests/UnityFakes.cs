@@ -66,6 +66,8 @@ namespace IntercomMvp
         public IntercomHealth targetHealth;
         public IntercomPlayerMotor resetMotor;
         public int ordinal;
+        public int EmergenceCalls;
+        public void BeginEmergence(){EmergenceCalls++;}
         public static IntercomNpcController Create(IntercomNpcDefinition definition,
             IntercomNpcNavigation navigation, IntercomHealth targetHealth,
             IntercomPlayerMotor resetMotor, Vector3 spawn, int ordinal)

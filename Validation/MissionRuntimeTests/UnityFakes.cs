@@ -237,7 +237,7 @@ namespace IntercomMvp
     {
         public static readonly List<IntercomNpcController> Created=new List<IntercomNpcController>();
         public IntercomHealth Health;public IntercomHealth targetHealth;public IntercomNpcPhase Phase;
-        public int PrepareCalls,InvestigateCalls;public Vector3 Investigation;public int ordinal;
+        public int PrepareCalls,InvestigateCalls,EmergenceCalls;public Vector3 Investigation;public int ordinal;
         public static IntercomNpcController Create(IntercomNpcDefinition definition,IntercomNpcNavigation navigation,
             IntercomHealth target,IntercomPlayerMotor motor,Vector3 position,int ordinal)
         {
@@ -248,11 +248,13 @@ namespace IntercomMvp
         }
         public void PrepareForSpawn(Vector3 position){PrepareCalls++;transform.position=position;Health.ResetHealth();Phase=IntercomNpcPhase.Idle;}
         public void SetTarget(IntercomHealth health){targetHealth=health;}
+        public void BeginEmergence(){EmergenceCalls++;}
         public void Investigate(Vector3 point){InvestigateCalls++;Investigation=point;}
         public void Kill(){Health.TakeDamage(new IntercomDamage(10000,Vector3.zero,Vector3.forward,null));}
     }
     public enum IntercomSurfaceKind{Asphalt,Concrete,Metal}
-    public class IntercomFootstepSurface:MonoBehaviour {public IntercomSurfaceKind kind;public float impactVolume,impactPitch;}
+    public enum IntercomImpactKind{Surface,Robot}
+    public class IntercomFootstepSurface:MonoBehaviour {public IntercomSurfaceKind kind;public IntercomImpactKind impactKind;public float impactVolume,impactPitch;}
     public enum IntercomNavResult{Success,Unreachable,Deferred}
     public class IntercomNpcNavigation:MonoBehaviour
     {

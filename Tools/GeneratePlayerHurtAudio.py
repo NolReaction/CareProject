@@ -6,7 +6,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 RATE = 44100
-OUT = ROOT / "Assets/IntercomMVP/Audio/Player"
+OUT = ROOT / "Assets/IntercomMVP/Content/Characters/Robot/Audio"
 
 
 def make_hit(index):

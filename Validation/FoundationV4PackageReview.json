@@ -1,8 +1,0 @@
-{
-  "baseCommit": "c0f3ef82077151c3a28945e25e5bc04103411e9d",
-  "status": "PASS",
-  "firstAndRepeatedOverwriteInstall": "PASS",
-  "uniqueGuidsBeforeAndAfterCleanup": true,
-  "members": 700,
-  "scope": "Offline ZIP overwrite/hash/GUID and cleanup simulation; actual Unity import not executed."
-}

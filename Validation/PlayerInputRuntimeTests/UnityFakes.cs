@@ -63,7 +63,7 @@ namespace IntercomMvp {public class IntercomWeaponMagazine{public bool isActiveA
 namespace IntercomMvp { public class IntercomHealth{public float Current=100,Maximum=100;} public class IntercomPlayerVitality{public IntercomHealth Health=new IntercomHealth();public bool IsDead;public float ShowHitRemaining;public int Retries;public bool Retry(){Retries++;IsDead=false;Health.Current=Health.Maximum;return true;}}}
 
 namespace IntercomMvp {
- public enum IntercomMissionMode { Elimination, Rescue }
+ public enum IntercomMissionMode { Elimination, Rescue, FreePlay }
  public enum IntercomMissionPhase { Selection, Active, Victory, Defeat }
  public class IntercomMissionDirector {
   public bool isActiveAndEnabled=true;

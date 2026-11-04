@@ -1,0 +1,1220 @@
+{
+  "version": 1,
+  "modelAssetPath": "Assets/IntercomMVP/Content/Characters/Robot/Model/IntercomRobot.fbx",
+  "sourceFile": "intercom-armed.blend",
+  "rigType": "Generic",
+  "clipName": "Shoot",
+  "clipLoop": false,
+  "staticScenePoseTimeSeconds": 0.0,
+  "sourceFrames": [
+    1,
+    10
+  ],
+  "framesPerSecond": 24.0,
+  "materials": [
+    {
+      "sourceName": "M_Arms",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "T_M_Arms_BaseColor.png",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_BaseColor.png",
+        "originalSourcePath": "//textures/T_M_Arms_BaseColor.png",
+        "originalImageName": "T_M_Arms_BaseColor.png",
+        "available": true,
+        "width": 1024,
+        "height": 1024,
+        "colorSpace": "sRGB",
+        "sourcePacked": true,
+        "sha256": "fae00f1d2fbd06ab4a62433d0baef55bd330e66004975426ff8d925b72f90e88",
+        "sizeBytes": 1080648
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "T_M_Arms_Normal_GL.png",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_Normal_GL.png",
+        "originalSourcePath": "//textures/T_M_Arms_Normal_GL.png",
+        "originalImageName": "T_M_Arms_Normal_GL.png",
+        "available": true,
+        "width": 1024,
+        "height": 1024,
+        "colorSpace": "Non-Color",
+        "sourcePacked": true,
+        "sha256": "30ed2d8be69c0a38b816f7314dbe4c50b13c2c75c961ba0e49667a2c6f3cd20e",
+        "sizeBytes": 2113687
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_0_material",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg",
+        "originalSourcePath": "",
+        "originalImageName": "rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg",
+        "available": true,
+        "width": 1024,
+        "height": 1024,
+        "colorSpace": "sRGB",
+        "sourcePacked": true,
+        "sha256": "fd755a2aa635d1c4a475bc3b4b227e3c7e7a7123f6ef9527fe0572461d575462",
+        "sizeBytes": 319731
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.8999999761581421,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": null,
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_0_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_0_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_0_base_color.jpg",
+        "originalImageName": "tripo_part_0_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_0_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_0_normal.jpg",
+        "originalImageName": "tripo_part_0_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_10_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_10_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_10_base_color.jpg",
+        "originalImageName": "tripo_part_10_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_10_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_10_normal.jpg",
+        "originalImageName": "tripo_part_10_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_11_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_11_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_11_base_color.jpg",
+        "originalImageName": "tripo_part_11_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_11_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_11_normal.jpg",
+        "originalImageName": "tripo_part_11_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_12_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_12_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_12_base_color.jpg",
+        "originalImageName": "tripo_part_12_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_12_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_12_normal.jpg",
+        "originalImageName": "tripo_part_12_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_1_material",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg",
+        "originalSourcePath": "",
+        "originalImageName": "rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg",
+        "available": true,
+        "width": 1024,
+        "height": 1024,
+        "colorSpace": "sRGB",
+        "sourcePacked": true,
+        "sha256": "868b2cf39d140e339a6b282d1022f1cd4659505906d615726a1e4f4446f60bfa",
+        "sizeBytes": 384632
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.8999999761581421,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": null,
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_24_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_24_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_24_base_color.jpg",
+        "originalImageName": "tripo_part_24_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_24_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_24_normal.jpg",
+        "originalImageName": "tripo_part_24_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_2_material",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg",
+        "originalSourcePath": "",
+        "originalImageName": "rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg",
+        "available": true,
+        "width": 512,
+        "height": 512,
+        "colorSpace": "sRGB",
+        "sourcePacked": true,
+        "sha256": "29921ce968ca99a7961e36fc529f7ccb74af1429730cbe22f5dbd8ed70aace9d",
+        "sizeBytes": 78570
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.8999999761581421,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": null,
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_2_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_2_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_2_base_color.jpg",
+        "originalImageName": "tripo_part_2_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_2_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_2_normal.jpg",
+        "originalImageName": "tripo_part_2_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_3_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_3_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_3_base_color.jpg",
+        "originalImageName": "tripo_part_3_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_3_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_3_normal.jpg",
+        "originalImageName": "tripo_part_3_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_4_material",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg",
+        "originalSourcePath": "",
+        "originalImageName": "rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg",
+        "available": true,
+        "width": 256,
+        "height": 256,
+        "colorSpace": "sRGB",
+        "sourcePacked": true,
+        "sha256": "853f88fc9ef6f4629bb547f98e5155ed470704f054078ec0373bc02a9f0c3c36",
+        "sizeBytes": 21304
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.8999999761581421,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": null,
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_6_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_6_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_6_base_color.jpg",
+        "originalImageName": "tripo_part_6_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_6_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_6_normal.jpg",
+        "originalImageName": "tripo_part_6_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_7_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_7_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_7_base_color.jpg",
+        "originalImageName": "tripo_part_7_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_7_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_7_normal.jpg",
+        "originalImageName": "tripo_part_7_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_8_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_8_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_8_base_color.jpg",
+        "originalImageName": "tripo_part_8_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_8_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_8_normal.jpg",
+        "originalImageName": "tripo_part_8_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    },
+    {
+      "sourceName": "tripo_part_9_material.001",
+      "baseColorRGBA": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "baseColorTexture": {
+        "filename": "tripo_part_9_base_color.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_base_color.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_9_base_color.jpg",
+        "originalImageName": "tripo_part_9_base_color.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "sRGB",
+        "sourcePacked": false
+      },
+      "baseColorUsesTextureDirectly": true,
+      "baseColorMultiplierRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "metallic": 0.0,
+      "roughness": 0.5,
+      "metallicTexture": null,
+      "roughnessTexture": null,
+      "normalTexture": {
+        "filename": "tripo_part_9_normal.jpg",
+        "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_normal.jpg",
+        "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_9_normal.jpg",
+        "originalImageName": "tripo_part_9_normal.jpg",
+        "available": false,
+        "width": 0,
+        "height": 0,
+        "colorSpace": "Non-Color",
+        "sourcePacked": false
+      },
+      "normalStrength": 1.0,
+      "emissionRGBA": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emissionStrength": 0.0,
+      "emissionTexture": null,
+      "ormTexture": null
+    }
+  ],
+  "missingTextures": [
+    {
+      "filename": "tripo_part_0_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_0_base_color.jpg",
+      "originalImageName": "tripo_part_0_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_0_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_0_normal.jpg",
+      "originalImageName": "tripo_part_0_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_10_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_10_base_color.jpg",
+      "originalImageName": "tripo_part_10_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_10_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_10_normal.jpg",
+      "originalImageName": "tripo_part_10_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_11_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_11_base_color.jpg",
+      "originalImageName": "tripo_part_11_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_11_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_11_normal.jpg",
+      "originalImageName": "tripo_part_11_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_12_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_12_base_color.jpg",
+      "originalImageName": "tripo_part_12_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_12_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_12_normal.jpg",
+      "originalImageName": "tripo_part_12_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_24_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_24_base_color.jpg",
+      "originalImageName": "tripo_part_24_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_24_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_24_normal.jpg",
+      "originalImageName": "tripo_part_24_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_2_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_2_base_color.jpg",
+      "originalImageName": "tripo_part_2_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_2_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_2_normal.jpg",
+      "originalImageName": "tripo_part_2_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_3_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_3_base_color.jpg",
+      "originalImageName": "tripo_part_3_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_3_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_3_normal.jpg",
+      "originalImageName": "tripo_part_3_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_6_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_6_base_color.jpg",
+      "originalImageName": "tripo_part_6_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_6_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_6_normal.jpg",
+      "originalImageName": "tripo_part_6_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_7_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_7_base_color.jpg",
+      "originalImageName": "tripo_part_7_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_7_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_7_normal.jpg",
+      "originalImageName": "tripo_part_7_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_8_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_8_base_color.jpg",
+      "originalImageName": "tripo_part_8_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_8_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_8_normal.jpg",
+      "originalImageName": "tripo_part_8_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_9_base_color.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_base_color.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_9_base_color.jpg",
+      "originalImageName": "tripo_part_9_base_color.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "sRGB",
+      "sourcePacked": false
+    },
+    {
+      "filename": "tripo_part_9_normal.jpg",
+      "assetPath": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_normal.jpg",
+      "originalSourcePath": "C:/Users/slomo/Desktop/Tripo Modeling/Models/tripo_convert_6e2477e0-f031-4ec7-b5df-1a59c0c24e69.fbm/tripo_part_9_normal.jpg",
+      "originalImageName": "tripo_part_9_normal.jpg",
+      "available": false,
+      "width": 0,
+      "height": 0,
+      "colorSpace": "Non-Color",
+      "sourcePacked": false
+    }
+  ],
+  "auxiliaryTextures": [],
+  "scaleInfo": {
+    "units": "meters",
+    "characterHeightMeters": 1.4999998755022697,
+    "feetGroundZBlender": 5.288440796391569e-09,
+    "blenderUpAxis": "Z",
+    "unityUpAxis": "Y",
+    "blenderForwardAxis": "-Y",
+    "unityForwardAxis": "Z",
+    "normalizationScale": 1.5325275453123122,
+    "sourceFeetAnchor": [
+      0.0009665787220001221,
+      -0.021876394748687744,
+      -2.635152540619856e-08
+    ],
+    "characterBoundsBlender": {
+      "min": [
+        -0.5465971231460571,
+        -0.7361143827438354,
+        5.288440796391569e-09
+      ],
+      "max": [
+        0.5279179215431213,
+        0.33846646547317505,
+        1.4999998807907104
+      ]
+    },
+    "allMeshesBoundsBlender": {
+      "min": [
+        -0.5465971231460571,
+        -0.8937637209892273,
+        5.288440796391569e-09
+      ],
+      "max": [
+        0.5279179215431213,
+        0.33846646547317505,
+        1.4999998807907104
+      ]
+    },
+    "rootName": "IntercomRobot",
+    "armatureName": "Intercom_Armature_Fixed",
+    "boneCount": 39,
+    "meshObjectCount": 24,
+    "sourceVisibleObjects": [
+      "Intercom_Armature_Fixed",
+      "BézierCurve",
+      "Hand_L_Symmetric",
+      "Pistol_L",
+      "Pistol_L_tripo_part_0.001",
+      "Pistol_L_tripo_part_1.001",
+      "Pistol_L_tripo_part_2.001",
+      "Pistol_L_tripo_part_4.001",
+      "Pistol_R",
+      "Shoulder_L_Symmetric",
+      "Spring_L_Symmetric",
+      "tripo_part_0.001",
+      "tripo_part_0_fixed",
+      "tripo_part_1.001",
+      "tripo_part_10_fixed",
+      "tripo_part_11_fixed",
+      "tripo_part_12_fixed",
+      "tripo_part_2.001",
+      "tripo_part_24_fixed",
+      "tripo_part_2_fixed",
+      "tripo_part_3_fixed",
+      "tripo_part_4.001",
+      "tripo_part_4_fixed",
+      "tripo_part_6_fixed",
+      "tripo_part_7_fixed",
+      "tripo_part_8_fixed",
+      "tripo_part_9_fixed"
+    ],
+    "excludedHiddenPrototypeObjects": [
+      "tripo_part_1_fixed"
+    ]
+  },
+  "fbxExport": {
+    "settings": {
+      "use_selection": true,
+      "object_types": [
+        "EMPTY",
+        "MESH",
+        "ARMATURE"
+      ],
+      "global_scale": 1.0,
+      "apply_unit_scale": true,
+      "apply_scale_options": "FBX_SCALE_UNITS",
+      "use_space_transform": true,
+      "bake_space_transform": false,
+      "axis_forward": "-Z",
+      "axis_up": "Y",
+      "use_mesh_modifiers": true,
+      "mesh_smooth_type": "FACE",
+      "use_tspace": true,
+      "use_custom_props": false,
+      "add_leaf_bones": false,
+      "primary_bone_axis": "Y",
+      "secondary_bone_axis": "X",
+      "use_armature_deform_only": false,
+      "armature_nodetype": "NULL",
+      "bake_anim": true,
+      "bake_anim_use_all_bones": true,
+      "bake_anim_use_nla_strips": false,
+      "bake_anim_use_all_actions": false,
+      "bake_anim_force_startend_keying": true,
+      "bake_anim_step": 0.25,
+      "bake_anim_simplify_factor": 0.0,
+      "path_mode": "COPY",
+      "embed_textures": true
+    },
+    "sourceBoneViewportHide": {
+      "Body": true,
+      "L_Calf": false,
+      "L_Foot": false,
+      "R_Calf": false,
+      "R_Foot": false,
+      "R_Upperarm": false,
+      "R_Forearm_A": false,
+      "R_Forearm_B": false,
+      "R_Forearm_C": false,
+      "R_Hand": false,
+      "R_Mid1": false,
+      "R_Mid2": false,
+      "R_Mid3": false,
+      "R_Thumb1": false,
+      "R_Thumb2": false,
+      "R_Thumb3": false,
+      "R_Index1": false,
+      "R_Index2": false,
+      "R_Index3": false,
+      "R_Pinky1": false,
+      "R_Pinky2": false,
+      "R_Pinky3": false,
+      "L_Upperarm": false,
+      "L_Forearm_A": false,
+      "L_Forearm_B": false,
+      "L_Forearm_C": false,
+      "L_Hand": false,
+      "L_Mid1": false,
+      "L_Mid2": false,
+      "L_Mid3": false,
+      "L_Thumb1": false,
+      "L_Thumb2": false,
+      "L_Thumb3": false,
+      "L_Index1": false,
+      "L_Index2": false,
+      "L_Index3": false,
+      "L_Pinky1": false,
+      "L_Pinky2": false,
+      "L_Pinky3": false
+    },
+    "allExportedBoneVisibilityEnabled": true,
+    "sizeBytes": 8243868,
+    "sha256": "6f7b64bb723cefdabcf86039889b376918542ff1c951a0ba5080c6170a4ff547",
+    "note": "Sample the single Shoot clip at time 0 once, then keep Animator disabled for the static MVP scene."
+  }
+}

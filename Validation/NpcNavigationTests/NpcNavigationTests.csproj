@@ -3,8 +3,8 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="UnityFakes.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomNavGrid.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomNpcNavigation.cs" />
-    <Content Include="../../Assets/IntercomMVP/World/DistrictLayout.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNpcNavigation.cs" />
+    <Content Include="../../Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
   </ItemGroup>
 </Project>

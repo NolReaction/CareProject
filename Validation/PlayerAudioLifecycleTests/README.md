@@ -24,5 +24,9 @@ and contact feedback when no step clip is assigned. Added coverage includes:
 - Two independent faded background loops, pause/resume, toggles and profile changes.
 - Bounded contact voices, no per-contact GameObjects and exactly one subscription.
 
+V11 additionally covers an explicit robot category, an independent quiet chassis bank,
+65 ms robot cooldown with world surfaces still audible, absent bank safety, armour contacts,
+300 impacts at 10.53 Hz, and zero managed bytes from 10,000 warm hit/shot report calls.
+
 They do **not** run Unity, PhysX, Animator evaluation, clip import or real audio output. Unity Editor and
 device checks are still required.

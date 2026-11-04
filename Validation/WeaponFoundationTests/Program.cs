@@ -3,8 +3,8 @@ class Program{
  static int checks;static void Check(bool x,string s){checks++;if(!x)throw new Exception(s);}
  static void Near(double x,double y,double eps,string s)=>Check(Math.Abs(x-y)<eps,s+": "+x+" vs "+y);
  static void Main(){
- var w=new IntercomWeaponDefinition();Check(w.ProjectilesPerVolley==2,"dual default");Check(w.IdealVolleys==4,"100HP takes4dual volleys");Near(w.IdealTtk,.54,1e-6,"first shot t0, 4volleys TTK.54");Near(w.IdealDps,500d/3d,1e-4,"dual DPS");
- w.barrelMode=IntercomBarrelMode.SingleAlternating;Check(w.IdealVolleys==7,"single takes7 shots");Near(w.IdealTtk,1.08,1e-6,"singleTTK");w.referenceTargetHealth=15;Near(w.IdealTtk,0,1e-6,"one-hit TTKzero");w.referenceTargetHealth=15.01f;Check(w.IdealVolleys==2,"fractionalHP secondhit");
+ var w=new IntercomWeaponDefinition();Check(w.ProjectilesPerVolley==1,"alternating default");Check(w.IdealVolleys==7,"100HP takes7alternating shots");Near(w.IdealTtk,.72,1e-6,"first shot t0, 7shots TTK.72");Near(w.IdealDps,15d/.12d,1e-4,"alternating DPS");
+ w.fireInterval=.18f;w.barrelMode=IntercomBarrelMode.DualSimultaneous;Check(w.IdealVolleys==4,"legacy simultaneous takes4 volleys");Near(w.IdealTtk,.54,1e-6,"legacy dualTTK");w.barrelMode=IntercomBarrelMode.SingleAlternating;Check(w.IdealVolleys==7,"single takes7 shots");Near(w.IdealTtk,1.08,1e-6,"singleTTK");w.referenceTargetHealth=15;Near(w.IdealTtk,0,1e-6,"one-hit TTKzero");w.referenceTargetHealth=15.01f;Check(w.IdealVolleys==2,"fractionalHP secondhit");
  foreach(float bad in new[]{float.NaN,float.PositiveInfinity,float.NegativeInfinity}){w.damagePerProjectile=bad;w.fireInterval=bad;Check(w.Damage==15&&w.Interval==.18f,"invalid balance safely defaults");}
  w.damagePerProjectile=15;w.fireInterval=.18f;w.referenceTargetHealth=100;w.barrelMode=IntercomBarrelMode.DualSimultaneous;
  foreach(float frame in new[]{1f/30,1f/60,1f/120}){

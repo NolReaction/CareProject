@@ -3,12 +3,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="UnityFakes.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IIntercomDamageable.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMissionState.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMissionDefinition.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomRescueAlly.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomNpcDefinition.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomNpcBrain.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs" />
   </ItemGroup>
 </Project>

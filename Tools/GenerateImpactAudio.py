@@ -114,7 +114,7 @@ def main():
     history = {r["file"]: r for r in json.loads(dest.read_text()).get("assets", [])} if dest.exists() else {}
     for surface in SURFACES:
         for index in range(3):
-            path = ROOT / f"Assets/IntercomMVP/Audio/Impact_{surface.title()}_{index+1:02d}.wav"
+            path = ROOT / f"Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_{surface.title()}_{index+1:02d}.wav"
             assert path.with_suffix(".wav.meta").exists(), "This generator preserves existing imported assets."
             before = path.read_bytes()
             with wave.open(str(path), "rb") as old:
@@ -126,7 +126,7 @@ def main():
                             "previous": history.get(path.relative_to(ROOT).as_posix(), {}).get("previous", inspect_wave(previous)), **inspect_wave(x)})
     # Keep the generic fallback consistent with the authored concrete bank.
     for index in range(2):
-        write_wave(ROOT / f"Assets/IntercomMVP/Audio/Impact_{index+1:02d}.wav", impact(index))
+        write_wave(ROOT / f"Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_{index+1:02d}.wav", impact(index))
     report = {"revision": "V5-original-material-impacts", "source": "Original deterministic synthesis in Tools/GenerateImpactAudio.py; no external samples.",
               "mix": {"previousImpactGain": .70, "impactGain": .42, "gainChangeDb": round(20*math.log10(.42/.70), 2)},
               "scope": "PCM analysis, not Unity/device listening approval.", "assets": results}

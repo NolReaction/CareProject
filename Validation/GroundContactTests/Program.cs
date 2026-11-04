@@ -32,12 +32,12 @@ class Program
             Check(l>=0f&&l<=1f&&r>=0f&&r<=1f,"Support weights bounded");
             Check(l==0f||r==0f,"Only one foot owns running support at a time");
             Check(Math.Abs(l-IntercomGroundMath.StanceWeight(phase+.5f,false))<.00001f,"Left/right stance symmetric");
-            if(phase>=.40f&&phase<=.5f)Check(l<.000001f,"Left releases before swing");
-            if(phase>=.90f)Check(r<.000001f,"Right releases before swing");
+            if(phase>=.32f&&phase<=.5f)Check(l<.000001f,"Left releases before swing");
+            if(phase>=.82f)Check(r<.000001f,"Right releases before swing");
             float friction=IntercomGroundMath.PlantLockWeight(phase,true);
             Check(friction>=0f&&friction<=1f,"Friction lock bounded");
-            if(phase<=.12f||phase>=.28f)Check(friction<.000001f,"Heel strike and toe-off retain source roll");
-            if(phase>=.1351f&&phase<=.2649f)Check(friction>.999f,"Flat support owns planted sole marker");
+            if(phase<=.10f||phase>=.22f)Check(friction<.000001f,"Heel strike and toe-off retain source roll");
+            if(phase>=.1151f&&phase<=.2049f)Check(friction>.999f,"Flat support owns planted sole marker");
         }
         for(int i=0;i<985;i++)
         {

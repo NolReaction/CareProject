@@ -8,8 +8,23 @@ internal static class Program
     { checks++; if(!value) throw new Exception(label); }
     private static void Main()
     {
-        SelectionAndLimits(); ExactElimination(); PoolIdentity(); TerminalOutcomes(); Rescue(); RandomizedAccounting();
+        SelectionAndLimits(); ExactElimination(); PoolIdentity(); TerminalOutcomes(); Rescue(); FreePlay(); RandomizedAccounting();
         Console.WriteLine($"Mission state: {checks} assertions passed. Production mission accounting; no Unity runtime or rendering.");
+    }
+    private static void FreePlay()
+    {
+        Check((int)IntercomMissionMode.Elimination==0 && (int)IntercomMissionMode.Rescue==1 && (int)IntercomMissionMode.FreePlay==2,
+            "serialized modes remain stable");
+        var state=new IntercomMissionState();state.Begin(IntercomMissionMode.FreePlay,500,500);
+        Check(state.Mode==IntercomMissionMode.FreePlay && state.Phase==IntercomMissionPhase.Active,"free mode starts active");
+        Check(state.Goal==0 && state.Supply==0,"free mode has neither kill objective nor enemy supply");
+        for(int i=0;i<16;i++)Check(!state.RecordSpawn(i,1,state.Epoch),"free mode cannot record enemies");
+        Check(!state.RecordKill(0,1,state.Epoch) && !state.CompleteRescue(true,true,true),"combat objectives cannot complete free mode");
+        Check(state.Phase==IntercomMissionPhase.Active && state.Kills==0,"free mode stays open-ended");
+        uint epoch=state.Epoch;state.Select();state.Begin(IntercomMissionMode.FreePlay,0,0);
+        Check(state.Epoch!=epoch && state.Alive==0,"free retry isolates run epoch");
+        state.Begin(IntercomMissionMode.Elimination,50);
+        Check(state.Supply==50 && state.RecordSpawn(0,1,state.Epoch),"switching back to combat restores spawn accounting");
     }
 
     private static void SelectionAndLimits()

@@ -2,13 +2,13 @@
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMagazineState.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWeaponMagazine.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWeaponPoseClock.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWeaponBalance.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWeaponDefinition.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomProjectileDirection.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomReloadControl.cs"/>
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileDirection.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs"/>
   </ItemGroup>
 </Project>

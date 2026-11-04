@@ -21,7 +21,7 @@ internal static class GeometryCases
     }
     private static (Point[], int[]) Load(string name)
     {
-        string data = File.ReadAllText(Path.Combine(Root(), "Assets/IntercomMVP/Art/PrototypeEnvironment/Modules", name + ".mesh"));
+        string data = File.ReadAllText(Path.Combine(Root(), "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes", name + ".mesh"));
         byte[] vertices = Convert.FromHexString(Regex.Match(data, @"_typelessdata: (\w+)").Groups[1].Value);
         byte[] indices = Convert.FromHexString(Regex.Match(data, @"m_IndexBuffer: (\w+)").Groups[1].Value);
         int count = int.Parse(Regex.Match(data, @"m_VertexCount: (\d+)").Groups[1].Value);

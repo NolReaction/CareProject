@@ -20,14 +20,16 @@ namespace UnityEngine {
   public readonly Dictionary<string,Color> colors=new Dictionary<string,Color>();
   public readonly HashSet<string> keywords=new HashSet<string>();
   public Material(Shader shader){this.shader=shader;colors["_BaseColor"]=new Color(.2f,.4f,.6f,1);colors["_Color"]=colors["_BaseColor"];}
-  public Material(Material original){shader=original.shader;name=original.name;foreach(var p in original.colors)colors[p.Key]=p.Value;foreach(var p in original.floats)floats[p.Key]=p.Value;foreach(var k in original.keywords)keywords.Add(k);}
+  public static int copies;
+  public Material(Material original){copies++;shader=original.shader;name=original.name;CopyPropertiesFromMaterial(original);}
+  public void CopyPropertiesFromMaterial(Material original){colors.Clear();floats.Clear();keywords.Clear();foreach(var p in original.colors)colors[p.Key]=p.Value;foreach(var p in original.floats)floats[p.Key]=p.Value;foreach(var k in original.keywords)keywords.Add(k);}
   public bool HasProperty(string key)=>colors.ContainsKey(key)||floats.ContainsKey(key);
   public Color GetColor(string key)=>colors[key]; public void SetColor(string key,Color c)=>colors[key]=c;
   public void SetFloat(string key,float f)=>floats[key]=f;
   public void EnableKeyword(string s)=>keywords.Add(s); public void DisableKeyword(string s)=>keywords.Remove(s);
   public void SetOverrideTag(string a,string b){}
  }
- public class Renderer : Object { public bool forceRenderingOff;public bool hasBlock;private Material[] materials=new Material[0]; public Material[] sharedMaterials {get=>(Material[])materials.Clone();set=>materials=(Material[])value.Clone();}public bool HasPropertyBlock()=>hasBlock; }
+ public class Renderer : Object { public bool forceRenderingOff;public bool hasBlock;public int materialReads,materialWrites;private Material[] materials=new Material[0]; public Material[] sharedMaterials {get {materialReads++;return (Material[])materials.Clone();}set {materialWrites++;materials=(Material[])value.Clone();}}public bool HasPropertyBlock()=>hasBlock; }
  public static class Mathf { public static float Clamp01(float f)=>Math.Max(0,Math.Min(1,f));public static float Min(float a,float b)=>Math.Min(a,b); }
  public enum RuntimeInitializeLoadType { SubsystemRegistration }
  [AttributeUsage(AttributeTargets.Method)] public sealed class RuntimeInitializeOnLoadMethodAttribute:Attribute {public RuntimeInitializeOnLoadMethodAttribute(RuntimeInitializeLoadType t){}}

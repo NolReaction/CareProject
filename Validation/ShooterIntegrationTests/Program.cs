@@ -13,7 +13,7 @@ class Program {
   public Rig(int capacity=24,int pool=32){
    Physics.Overlap=null;Physics.Sweep=null;Time.timeScale=1;Time.deltaTime=.001f;
    root=new GameObject("Robot");root.AddComponent<CharacterController>();root.AddComponent<IntercomPlayerMotor>();root.AddComponent<IntercomPlayerInput>();pose=root.AddComponent<IntercomWeaponPose>();
-   shooter=root.AddComponent<IntercomSimpleShooter>();weapon=new IntercomWeaponDefinition{magazineSize=capacity};shooter.weapon=weapon;shooter.poolSize=pool;shooter.weaponPose=pose;
+   shooter=root.AddComponent<IntercomSimpleShooter>();weapon=new IntercomWeaponDefinition{magazineSize=capacity,barrelMode=IntercomBarrelMode.DualSimultaneous};shooter.weapon=weapon;shooter.poolSize=pool;shooter.weaponPose=pose;
    shooter.muzzleRight=new GameObject("Right muzzle").transform;shooter.muzzleRight.SetParent(root.transform,false);shooter.muzzleRight.localPosition=new Vector3(.12f,1,.5f);shooter.muzzleRight.localRotation=Quaternion.Euler(0,-8,0);
    shooter.muzzleLeft=new GameObject("Left muzzle").transform;shooter.muzzleLeft.SetParent(root.transform,false);shooter.muzzleLeft.localPosition=new Vector3(-.12f,1,.5f);shooter.muzzleLeft.localRotation=Quaternion.Euler(0,8,0);
    mag=root.AddComponent<IntercomWeaponMagazine>();mag.shooter=shooter;Call(mag,"Awake");Call(shooter,"Awake");Call(shooter,"OnEnable");
@@ -32,6 +32,44 @@ class Program {
    Near(Field<Vector3>(p[0],"position").x,ro.x,"right actual origin");Near(Field<Vector3>(p[1],"position").x,lo.x,"left actual origin");
    Near(Field<Vector3>(p[0],"direction").x,0,"right parallel heading");Near(Field<Vector3>(p[1],"direction").x,0,"left parallel heading");
    for(int i=0;i<10;i++)Call(r.shooter,"LateUpdate");p=r.Active();Near((Field<Vector3>(p[0],"position")-Field<Vector3>(p[1],"position")).x,.24f,"actual advanced bullets keep separation");r.Clear();
+  });
+  Case("alternating pistols lead left and commit one round before each per-hand callback",()=>{
+   var r=new Rig();r.weapon.barrelMode=IntercomBarrelMode.SingleAlternating;
+   var hands=new List<bool>();r.shooter.BarrelFired+=(m,right)=>{hands.Add(right);Check(m==(right?r.shooter.muzzleRight:r.shooter.muzzleLeft),"reported hand matches actual muzzle");Check(r.mag.CurrentAmmo==24-hands.Count,"one round is committed before hand recoil");};
+   for(int i=0;i<10;i++)r.Shot();
+   Check(r.shooter.AlternatingFire&&r.mag.CurrentAmmo==14&&r.volleys==10&&r.barrels==10&&r.reportedRounds==10,"one report/one projectile per shot");
+   for(int i=0;i<hands.Count;i++)Check(hands[i]==(i%2==1),"strict left/right alternating order");
+   var p=r.Active();Check(p.Length==10,"all confirmed projectiles exist");
+   foreach(var bullet in p)Near(Field<Vector3>(bullet,"direction").x,0,"alternating shots share common non-crossing heading");
+   Check(r.order.All(x=>!x.EndsWith(":24")),"no callback before first ammo consumption");r.Clear();
+  });
+  Case("alternating selected muzzle obstruction consumes no ammo and does not skip a hand",()=>{
+   var r=new Rig();r.weapon.barrelMode=IntercomBarrelMode.SingleAlternating;var hands=new List<bool>();r.shooter.BarrelFired+=(m,right)=>hands.Add(right);
+   var wall=new GameObject("Left wall").AddComponent<Collider>();Physics.Overlap=p=>p.x<-.05f?new[]{wall}:Array.Empty<Collider>();
+   r.Shot();r.Shot();Check(r.volleys==0&&r.mag.CurrentAmmo==24&&r.pose.Recoils==0,"blocked selected hand emitted no report or visual");
+   Physics.Overlap=null;r.Shot();r.Shot();Check(hands.Count==2&&!hands[0]&&hands[1],"blocked attempt preserves next successful left/right order");
+   Call(r.shooter,"OnDisable");Call(r.shooter,"OnEnable");r.Shot();Check(hands.Count==3&&!hands[2],"new enabled life starts left");r.Clear();
+  });
+  Case("alternating magazine reloads after exactly twenty-four real shots",()=>{
+   var r=new Rig();r.weapon.barrelMode=IntercomBarrelMode.SingleAlternating;
+   for(int i=0;i<24;i++)r.Shot();Check(r.mag.CurrentAmmo==0&&r.reloads==1&&r.volleys==24&&r.barrels==24,"twenty-four single rounds exhaust magazine once");
+   r.Shot();Check(r.volleys==24,"reload cannot replay another alternating shot");
+   Time.deltaTime=1.15f;Call(r.mag,"Update");Time.deltaTime=.001f;r.Shot();Check(r.mag.CurrentAmmo==23&&r.volleys==25,"reload finishes into one round only");r.Clear();
+  });
+  Case("production clock drives actual alternating projectiles at V12 and prior cadence",()=>{
+   foreach(float interval in new[]{.095f,.12f})foreach(int fps in new[]{30,60,120}){
+    var r=new Rig(999);r.weapon.barrelMode=IntercomBarrelMode.SingleAlternating;r.weapon.fireInterval=interval;
+    var c=new IntercomWeaponPoseClock(.001f,.001f,r.weapon.Interval,2);var hands=new List<bool>();r.shooter.BarrelFired+=(m,right)=>hands.Add(right);
+    c.Tick(.001f,true);c.Tick(.001f,true);Check(c.ShotThisTick,"initial clock gate");r.Shot();
+    int previous=r.volleys;Time.deltaTime=1f/fps;
+    for(int i=0;i<fps*60;i++) {c.Tick(Time.deltaTime,true);if(c.ShotThisTick)r.pose.EmitShot();Call(r.shooter,"LateUpdate");}
+    Check(Math.Abs((r.volleys-previous)-(int)Math.Floor(60/interval))<=1,"real projectile cadence must not drift at "+fps+"fps interval"+interval);
+    for(int i=0;i<hands.Count;i++)Check(hands[i]==(i%2==1),"clock output alternates real hands at "+fps+"fps");
+    Check(r.mag.CurrentAmmo==999-r.volleys,"clock/actual bullet count matches magazine");
+    int before=r.volleys;Time.deltaTime=2;c.Tick(Time.deltaTime,true);if(c.ShotThisTick)r.pose.EmitShot();Call(r.shooter,"LateUpdate");
+    Check(r.volleys==before+1,"hitch must not create catch-up volley burst");
+    Time.deltaTime=.01f;c.Tick(Time.deltaTime,true);if(c.ShotThisTick)r.pose.EmitShot();Call(r.shooter,"LateUpdate");Check(r.volleys==before+1,"hitch debt cannot compress following report");r.Clear();
+   }
   });
   Case("both muzzle overlaps block bullets ammo reports and recoil",()=>{
    var r=new Rig();var wall=new GameObject("Wall").AddComponent<Collider>();Physics.Overlap=p=>Math.Abs(p.x)>.05f?new[]{wall}:Array.Empty<Collider>();r.Shot();

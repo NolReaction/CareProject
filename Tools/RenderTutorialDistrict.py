@@ -19,7 +19,7 @@ for name,(color,metal,smooth,texture) in data['materials'].items():
  m=bpy.data.materials.new(name);m.use_nodes=True;n=m.node_tree.nodes;p=n.get('Principled BSDF');p.inputs['Base Color'].default_value=(*color,1);p.inputs['Metallic'].default_value=metal;p.inputs['Roughness'].default_value=1-smooth
  if name=='Lamp':p.inputs['Emission Color'].default_value=(.5,.29,.08,1);p.inputs['Emission Strength'].default_value=.6
  if texture:
-  img=n.new('ShaderNodeTexImage');img.image=bpy.data.images.load(str(root/'Assets/IntercomMVP/Art/PrototypeEnvironment/Surfaces'/(texture+'.png')));img.extension='REPEAT'
+  img=n.new('ShaderNodeTexImage');img.image=bpy.data.images.load(str(root/'Assets/IntercomMVP/Content/Environments/TutorialYard/Textures'/(texture+'.png')));img.extension='REPEAT'
   mix=n.new('ShaderNodeMixRGB');mix.blend_type='MULTIPLY';mix.inputs[0].default_value=1;mix.inputs[1].default_value=(*color,1);m.node_tree.links.new(img.outputs['Color'],mix.inputs[2]);m.node_tree.links.new(mix.outputs[0],p.inputs['Base Color'])
   if name in ['Asphalt','Backdrop','Concrete','Gravel']:
    uv=n.new('ShaderNodeTexCoord');scale=n.new('ShaderNodeVectorMath');scale.operation='SCALE';scale.inputs[3].default_value={'Asphalt':18,'Backdrop':18,'Concrete':2,'Gravel':5}[name];m.node_tree.links.new(uv.outputs['UV'],scale.inputs[0]);m.node_tree.links.new(scale.outputs[0],img.inputs['Vector'])
@@ -58,7 +58,7 @@ cube('Context ground',(0,-.11,0),(40,.12,36),'Backdrop')
 # Use the project's actual robot in the preview, not an AI replacement.
 try:
  before=set(bpy.data.objects)
- bpy.ops.import_scene.fbx(filepath=str(root/'Assets/IntercomMVP/Art/Robot/IntercomRobot.fbx'))
+ bpy.ops.import_scene.fbx(filepath=str(root/'Assets/IntercomMVP/Content/Characters/Robot/Model/IntercomRobot.fbx'))
  imported=set(bpy.data.objects)-before
  for o in imported:
   if o.type=='ARMATURE' and o.animation_data:

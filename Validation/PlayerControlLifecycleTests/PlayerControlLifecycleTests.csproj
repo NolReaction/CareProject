@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems><DefineConstants>ENABLE_LEGACY_INPUT_MANAGER</DefineConstants></PropertyGroup><ItemGroup>
 <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerVitality.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomHealth.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomHealthState.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTeam.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IIntercomDamageable.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWeaponBalance.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWorkshopHud.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomHudLayout.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomReloadControl.cs"/>
-<Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMissionDirector.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMissionState.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/IntercomMissionDefinition.cs"/></ItemGroup></Project>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Player/Life/IntercomPlayerVitality.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealth.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs"/></ItemGroup></Project>

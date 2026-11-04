@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../GroundFeedbackLifecycleTests/UnityFakes.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs" />
+  </ItemGroup>
+</Project>

@@ -8,7 +8,7 @@ class P {
  static void Check(bool b,string s){checks++;if(!b)throw new Exception(s);}
  static void Call(object obj,string method,params object[] args)=>obj.GetType().GetMethod(method,BindingFlags.Instance|BindingFlags.NonPublic).Invoke(obj,args);
  static T Field<T>(object obj,string n)=>(T)obj.GetType().GetField(n,BindingFlags.Instance|BindingFlags.NonPublic).GetValue(obj);
- static IntercomAudioProfile Profile()=>new IntercomAudioProfile {pistolShots=new[]{new AudioClip(),new AudioClip(),new AudioClip()},footsteps=new[]{new AudioClip(),new AudioClip()},impactHits=new[]{new AudioClip(),new AudioClip()},ambience=new AudioClip(),musicLoop=new AudioClip(),metalSteps=new[]{new AudioClip(),new AudioClip()},gravelSteps=new[]{new AudioClip(),new AudioClip()},concreteSteps=new[]{new AudioClip(),new AudioClip()},woodSteps=new[]{new AudioClip(),new AudioClip()},soilSteps=new[]{new AudioClip(),new AudioClip()},metalImpacts=new[]{new AudioClip(),new AudioClip()},woodImpacts=new[]{new AudioClip(),new AudioClip()},concreteImpacts=new[]{new AudioClip(),new AudioClip()},soilImpacts=new[]{new AudioClip(),new AudioClip()}};
+ static IntercomAudioProfile Profile()=>new IntercomAudioProfile {pistolShots=new[]{new AudioClip(),new AudioClip(),new AudioClip()},footsteps=new[]{new AudioClip(),new AudioClip()},impactHits=new[]{new AudioClip(),new AudioClip()},ambience=new AudioClip(),musicLoop=new AudioClip(),metalSteps=new[]{new AudioClip(),new AudioClip()},gravelSteps=new[]{new AudioClip(),new AudioClip()},concreteSteps=new[]{new AudioClip(),new AudioClip()},woodSteps=new[]{new AudioClip(),new AudioClip()},soilSteps=new[]{new AudioClip(),new AudioClip()},metalImpacts=new[]{new AudioClip(),new AudioClip()},woodImpacts=new[]{new AudioClip(),new AudioClip()},concreteImpacts=new[]{new AudioClip(),new AudioClip()},soilImpacts=new[]{new AudioClip(),new AudioClip()},robotImpacts=new[]{new AudioClip(),new AudioClip(),new AudioClip()}};
  static int Playing(AudioSource[] sources)=>sources.Count(s=>s.isPlaying);
  static int Plays(AudioSource[] sources)=>sources.Sum(s=>s.playCalls);
  static int Main(){
@@ -29,7 +29,7 @@ class P {
  int initialObjects=GameObject.Created;for(int i=0;i<100;i++)shooter.Emit();Check(GameObject.Created==initialObjects,"no shot allocations");Check(Playing(shots)==6&&Plays(shots)==100,"pool bounded during burst");
  int before=Plays(shots);shooter.Emit(0);Check(Plays(shots)==before,"no empty volley report");
  audio.profile=Profile();shooter.Emit();Call(audio,"LateUpdate");Check(Playing(shots)==1,"replacement profile first shot survives LateUpdate");Check(shots.Single(s=>s.isPlaying).clip!=null,"new shot has clip");
- Time.unscaledTime=1f;shooter.Hit(true);Check(Plays(impacts)==1,"one impact report");Check(audio.profile.metalImpacts.Contains(impacts.Single(s=>s.isPlaying).clip),"untagged robot target selects metal bank");Check(Math.Abs(impacts.Single(s=>s.isPlaying).pitch-1f)<.019f,"target impacts preserve natural pitch");shooter.Hit(true);Check(Plays(impacts)==1,"same-material paired impacts coalesce");Time.unscaledTime=1.02f;shooter.Hit(true);Check(Plays(impacts)==1,"same-material impact rate cap");Time.unscaledTime=1.1f;shooter.Hit(false,100);Check(Plays(impacts)==1,"far impact inaudible");shooter.Hit(false,9);Check(Plays(impacts)==2,"near impact audible");Check(impacts.Where(s=>s.isPlaying).Min(s=>s.volume)<audio.profile.masterVolume*audio.profile.impactsVolume,"impact fades with distance");for(int i=0;i<100;i++){Time.unscaledTime+=.04f;shooter.Hit();}Check(GameObject.Created==initialObjects,"no impact allocations");Check(Playing(impacts)==4,"impact voices bounded");
+ Time.unscaledTime=1f;shooter.Hit(true);Check(Plays(impacts)==1,"one impact report");Check(audio.profile.concreteImpacts.Contains(impacts.Single(s=>s.isPlaying).clip),"accepted damage without robot tag does not imply a metal or robot report");Check(Math.Abs(impacts.Single(s=>s.isPlaying).pitch-1f)<.019f,"target impacts preserve natural pitch");shooter.Hit(true);Check(Plays(impacts)==1,"same-material paired impacts coalesce");Time.unscaledTime=1.02f;shooter.Hit(true);Check(Plays(impacts)==1,"same-material impact rate cap");Time.unscaledTime=1.1f;shooter.Hit(false,100);Check(Plays(impacts)==1,"far impact inaudible");shooter.Hit(false,9);Check(Plays(impacts)==2,"near impact audible");Check(impacts.Where(s=>s.isPlaying).Min(s=>s.volume)<audio.profile.masterVolume*audio.profile.impactsVolume,"impact fades with distance");for(int i=0;i<100;i++){Time.unscaledTime+=.04f;shooter.Hit();}Check(GameObject.Created==initialObjects,"no impact allocations");Check(Playing(impacts)==4,"impact voices bounded");
  Call(audio,"OnApplicationFocus",false);Check(Playing(shots)==0&&Playing(impacts)==0&&ambient.paused&&music.paused,"focus loss stops shots and impacts and pauses ambience");int impactBefore=Plays(impacts);Time.unscaledTime+=1;shooter.Hit();Check(Plays(impacts)==impactBefore,"focus loss suppresses impacts");before=Plays(shots);shooter.Emit();Check(Plays(shots)==before,"focus loss suppresses newshots");Call(audio,"OnApplicationFocus",true);Call(audio,"LateUpdate");Check(ambient.isPlaying&&ambient.unpauseCalls==1&&music.isPlaying&&music.unpauseCalls==1,"focus return resumes both loops");Check(Playing(shots)==0,"oldshots not resumed");
  Time.timeScale=0;Call(audio,"LateUpdate");Check(ambient.paused&&music.paused,"timeScale pause");before=Plays(shots);shooter.Emit();Check(Plays(shots)==before,"timescale shot suppression");Time.timeScale=1;Call(audio,"LateUpdate");Check(ambient.isPlaying&&music.isPlaying,"timescale resume");
  Call(audio,"OnApplicationPause",true);Call(audio,"LateUpdate");Check(ambient.paused&&music.paused,"OSpause");Call(audio,"OnApplicationPause",false);Call(audio,"LateUpdate");Check(ambient.isPlaying&&music.isPlaying,"OSresume");
@@ -101,6 +101,34 @@ class P {
  Time.unscaledTime+=.14f;Call(audio,"LateUpdate");Check(Math.Abs(ducked.volume-audio.profile.masterVolume*shooter.Weapon.shotVolume)<1e-6,"pistol tail gain fully recovers after material focus");
  var fallbackClip=new AudioClip();audio.profile.pistolShots=new[]{fallbackClip};audio.profile.shotsVolume=.61f;audio.profile.shotPitchVariation=0f;shooter.Weapon=null;shooter.Emit();var fallbackVoice=shots.Single(v=>v.clip==fallbackClip);Check(fallbackVoice.clip==fallbackClip,"no weapon definition uses legacy profile bank");Check(Math.Abs(fallbackVoice.volume-audio.profile.masterVolume*.61f)<1e-6&&fallbackVoice.pitch==1f,"no weapon definition uses legacy gain and pitch");Call(audio,"LateUpdate");Check(Math.Abs(fallbackVoice.volume-audio.profile.masterVolume*.61f)<1e-6,"legacy gain persists after mix update");
  audio.profile.pistolShots=new AudioClip[]{null};before=Plays(shots);shooter.Emit();Check(Plays(shots)==before,"nullclip safe");audio.profile=null;Call(audio,"LateUpdate");Check(!ambient.isPlaying&&!music.isPlaying&&Playing(shots)==0,"nullprofile suspends");
+ // V11: actor identity is explicit, independent from material and damage acceptance.
+ audio.profile=Profile();Call(audio,"LateUpdate");
+ var robotRoot=new GameObject("future robot model");var robotTag=robotRoot.AddComponent<IntercomFootstepSurface>();
+ robotTag.kind=IntercomSurfaceKind.Metal;robotTag.impactKind=IntercomImpactKind.Robot;robotTag.impactVolume=.85f;
+ var robotChild=new GameObject("new skinned body collision");robotChild.transform.SetParent(robotRoot.transform,false);var robot=robotChild.AddComponent<Collider>();
+ Time.unscaledTime+=1;int robotBefore=Plays(impacts);shooter.HitSurface(robot,true);
+ var robotVoice=impacts.Single(v=>audio.profile.robotImpacts.Contains(v.clip));
+ Check(Plays(impacts)==robotBefore+1&&robotVoice!=null,"explicit robot tag selects new chassis bank");
+ Check(Math.Abs(robotVoice.volume-.8f*.32f*.85f)<1e-6,"robot impacts have their own quieter mix");
+ float robotGain=robotVoice.volume;Call(audio,"LateUpdate");Check(Math.Abs(robotVoice.volume-robotGain)<1e-6,"robot-specific mix survives LateUpdate");
+ shooter.HitSurface(robot,false);Check(Plays(impacts)==robotBefore+1,"same-frame robot hit coalesces even if damage declined");
+ Time.unscaledTime+=.04f;shooter.HitSurface(robot,true);Check(Plays(impacts)==robotBefore+1,"robot impacts obey independent 65ms cadence cap");
+ shooter.HitSurface(metal,false);Check(Plays(impacts)==robotBefore+2,"robot hit cooldown does not suppress a world metal hit");
+ Time.unscaledTime+=.03f;shooter.HitSurface(robot,false);Check(Plays(impacts)==robotBefore+3,"armour contact uses robot character without requiring accepted damage");
+ int robotObjects=GameObject.Created;int hitsBefore=Plays(impacts);
+ for(int i=0;i<300;i++){Time.unscaledTime+=.12f;shooter.HitSurface(robot,true);}
+ Check(Plays(impacts)==hitsBefore+300&&Playing(impacts)<=4&&GameObject.Created==robotObjects,"8.33Hz robot hit burst reuses bounded voices without GameObjects");
+ long allocatedBefore=GC.GetAllocatedBytesForCurrentThread();
+ for(int i=0;i<10000;i++){Time.unscaledTime+=.12f;shooter.HitSurface(robot,true);shooter.Emit(1);}
+ long allocatedDuring=GC.GetAllocatedBytesForCurrentThread()-allocatedBefore;
+ Check(allocatedDuring==0,"warm projectile-hit and shot-report handlers allocate no managed bytes in harness");
+ for(int i=0;i<4;i++)impacts[i].Stop();
+ audio.profile.robotImpacts=new AudioClip[]{null};Time.unscaledTime+=1;hitsBefore=Plays(impacts);shooter.HitSurface(robot,true);
+ Check(Plays(impacts)==hitsBefore,"missing robot bank never substitutes metal/default scenery bank");
+ audio.profile.robotImpacts=new[]{new AudioClip()};shooter.HitSurface(robot,true);
+ Check(Plays(impacts)==hitsBefore+1,"missing robot clip did not consume hit cooldown");
+ robotTag.impactVolume=0;Time.unscaledTime+=1;hitsBefore=Plays(impacts);shooter.HitSurface(robot,true);Check(Plays(impacts)==hitsBefore,"muted robot contact silent");
+ robotTag.impactVolume=.85f;shooter.HitSurface(robot,true);Check(Plays(impacts)==hitsBefore+1,"muted robot contact did not consume cooldown");
  Call(audio,"OnDestroy");Console.WriteLine("PlayerAudio fake-Unity lifecycle: "+checks+" assertions passed. Not a Unity Editor test.");return 0;
  }
 }

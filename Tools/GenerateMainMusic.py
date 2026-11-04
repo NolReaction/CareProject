@@ -266,7 +266,7 @@ def encode(path,samples,codec_args):
 
 def main():
     x=generate_music()
-    target=ROOT/'Assets/IntercomMVP/Audio/Music_IndustrialGroove.ogg'
+    target=ROOT/'Assets/IntercomMVP/Content/Shared/Audio/Music/Music_IndustrialGroove.ogg'
     encode(target,x,['-c:a','libvorbis','-q:a','5','-fflags','+bitexact','-flags:a','+bitexact','-map_metadata','-1','-metadata','title='+TITLE,'-metadata','artist=CareProject'])
     # Start on the full groove; a short fade makes this a standalone preview only.
     first=round(8*4*60/BPM*RATE);preview=x[first:first+45*RATE].copy()

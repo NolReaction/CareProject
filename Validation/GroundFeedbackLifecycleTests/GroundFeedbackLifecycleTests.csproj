@@ -3,15 +3,15 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="UnityFakes.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedback.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundMath.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackTurning.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackSoles.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackRunning.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackSoleProfile.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs" />
   </ItemGroup>
 </Project>

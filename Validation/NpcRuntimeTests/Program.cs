@@ -36,7 +36,97 @@ internal static class Program
         public Collider Obstacle()=>new GameObject("Wall or low cover").AddComponent<Collider>();
     }
     private static void Main()
-    {Factory();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    {Factory();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    private static void Emergence()
+    {
+        var f=new Fixture(new Vector3(0,0,1));
+        int objects=GameObject.Created.Count, materials=Material.Created;
+        Vector3 root=f.Npc.transform.position;
+        var ring=Field<Transform>(f.Npc,"emergenceRing");
+        f.Npc.BeginEmergence();
+        Check(f.Npc.IsEmerging&&!f.Capsule.enabled&&f.Npc.Health.invulnerable,"arrival disables collision and rejects damage while underground");
+        Check(ring.gameObject.activeSelf&&f.Npc.visual.localPosition.y<=-1.4f,"arrival warning precedes emergence above ground");
+        Check(!f.Npc.Health.TakeDamage(new IntercomDamage(10,Vector3.zero,Vector3.forward,f.Player.gameObject))&&f.Npc.Health.Current==75,
+            "hidden arrival cannot lose health or count as a kill");
+        f.For(.1f);
+        Check(f.Npc.visual.localPosition.y<-1.4f&&f.Player.DamageCalls==0,"initial ground warning gives readable anticipation");
+        f.For(.3f);
+        Check(f.Npc.visual.localPosition.y>-.9f&&f.Npc.visual.localPosition.y<0&&f.Player.DamageCalls==0,
+            "chassis rises over time without an underground melee attack");
+        Check((f.Npc.transform.position-root).sqrMagnitude==0,"arrival never displaces the collision root");
+        var arrivalProperties=Field<MaterialPropertyBlock>(f.Npc,"emergenceProperties");
+        float initialAlpha=arrivalProperties.Colors[Shader.PropertyToID("_BaseColor")].a;
+        f.For(.2f);
+        Check(arrivalProperties.Colors[Shader.PropertyToID("_BaseColor")].a<initialAlpha*.6f,
+            "arrival warning really fades by property-block alpha, including its flat annulus");
+        f.For(.09f);
+        Check(!f.Npc.IsEmerging&&f.Capsule.enabled&&!f.Npc.Health.invulnerable&&!ring.gameObject.activeSelf,"arrival completion restores live collider and authored vulnerability");
+        Check(f.Npc.visual.localPosition.sqrMagnitude==0&&f.Npc.visual.localScale.y==1&&f.Player.DamageCalls==0,"settle ends at exact original pose before a fresh attack");
+        f.BeginWindup();f.For(.2f);Check(f.Player.DamageCalls==0,"arrival cannot carry a hidden prepared strike into live play");
+        f.For(.11f);Check(f.Player.DamageCalls==1,"visible emerged enemy eventually performs its normal punch");
+        Check(GameObject.Created.Count==objects&&Material.Created==materials,"arrival and attack construct no objects or materials");
+        foreach(string stop in new[]{"focus","pause","timescale"})
+        {
+            f=new Fixture(new Vector3(0,0,1));f.Npc.BeginEmergence();f.For(.2f);float p=f.Npc.EmergenceProgress;
+            if(stop=="focus")Call(f.Npc,"OnApplicationFocus",false);
+            if(stop=="pause")Call(f.Npc,"OnApplicationPause",true);
+            if(stop=="timescale")Time.timeScale=0;
+            f.For(.6f);
+            Check(f.Npc.IsEmerging&&f.Npc.EmergenceProgress==p&&!f.Capsule.enabled&&f.Player.DamageCalls==0,"suspension freezes arrival without live invisible collision");
+            if(stop=="focus")Call(f.Npc,"OnApplicationFocus",true);
+            if(stop=="pause")Call(f.Npc,"OnApplicationPause",false);
+            if(stop=="timescale")Time.timeScale=1;
+            f.For(.5f);Check(!f.Npc.IsEmerging&&f.Capsule.enabled&&!f.Npc.Health.invulnerable,"resume completes rather than bypasses arrival");
+        }
+        foreach(bool aiOnly in new[]{false,true})
+        {
+            f=new Fixture(new Vector3(0,0,10));f.Npc.BeginEmergence();f.For(.25f);
+            if(aiOnly)f.Npc.enabled=false;else f.Npc.gameObject.SetActive(false);
+            Check(!f.Npc.IsEmerging&&!f.Npc.Health.invulnerable&&f.Npc.visual.localPosition.sqrMagnitude==0,
+                "deactivate restores flags and exact visual instead of leaving a hidden invulnerable actor");
+            Check(!Field<Transform>(f.Npc,"emergenceRing").gameObject.activeSelf,"deactivate clears arrival warning");
+            if(aiOnly)f.Npc.enabled=true;else f.Npc.gameObject.SetActive(true);
+            Check(f.Capsule.enabled,"reenable remains a valid live actor");
+        }
+        f=new Fixture(new Vector3(0,0,10));f.Npc.Health.invulnerable=true;f.Npc.BeginEmergence();f.For(.7f);
+        Check(f.Npc.Health.invulnerable,"arrival preserves authored invulnerability rather than unconditionally clearing it");
+        f.Npc.BeginEmergence();f.Npc.gameObject.SetActive(false);Check(f.Npc.Health.invulnerable,"cancellation preserves preexisting invulnerability");
+        f=new Fixture(new Vector3(0,0,10));f.Npc.BeginEmergence();f.For(.2f);f.Motor.RespawnVersion++;Time.timeScale=0;f.Step();
+        Check(!f.Npc.IsEmerging&&f.Capsule.enabled&&!f.Npc.Health.invulnerable&&f.Npc.visual.localPosition.sqrMagnitude==0,
+            "respawn epoch restores pose and collision even while paused");Time.timeScale=1;
+        f.Npc.BeginEmergence();f.Npc.Health.invulnerable=false;
+        f.Npc.Health.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,f.Player.gameObject));
+        Check(!f.Npc.IsEmerging&&!f.Capsule.enabled&&f.Npc.Health.IsDead,"external forced death cancels arrival without re-enabling dead collision");
+        f=new Fixture(new Vector3(0,0,30));objects=GameObject.Created.Count;materials=Material.Created;
+        int destroys=UnityEngine.Object.Destroyed.Count;
+        for(int life=0;life<100;life++)
+        {
+            f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(new Vector3(life%4,0,life%7));
+            f.Npc.BeginEmergence();f.Npc.gameObject.SetActive(true);f.For(.7f);
+            Check(!f.Npc.IsEmerging&&f.Capsule.enabled&&!f.Npc.Health.invulnerable,"each reused arrival restores its own health/collision lease");
+            f.Npc.Health.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,f.Player.gameObject));
+        }
+        Check(GameObject.Created.Count==objects&&Material.Created==materials&&UnityEngine.Object.Destroyed.Count==destroys,
+            "100 pooled arrival/death cycles allocate no GameObjects, materials or destruction work");
+    }
+    private static void SightWorkBudget()
+    {
+        var f=new Fixture(new Vector3(0,0,12));f.Capsule.BlockHorizontal=true;
+        int rays=Physics.RayCalls;f.For(1f);int actual=Physics.RayCalls-rays;
+        Console.WriteLine($"Distant eye-ray sampling: {actual} queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.");
+        Check(actual>=10&&actual<=15,"distant pursuit samples line of sight about13 times per second rather than every frame");
+        f.Player.transform.position=new Vector3(0,0,1);rays=Physics.RayCalls;f.BeginWindup();
+        Check(Physics.RayCalls-rays>=6,"close melee keeps immediate eye and two-height contact rays");
+        var blocker=f.Obstacle();Physics.Hits=(a,b,c)=>new[]{blocker};f.For(.4f);
+        Check(f.Player.DamageCalls==0,"cached long-range visibility never allows a close strike through newly placed cover");
+        f=new Fixture(new Vector3(0,0,12));f.Capsule.BlockHorizontal=true;f.Step();
+        rays=Physics.RayCalls;f.Nav.Version++;f.Step();
+        Check(Physics.RayCalls==rays+1,"changed navigation geometry invalidates distant visibility immediately");
+        Vector3 remembered=Field<Vector3>(f.Npc,"lastSeen");
+        blocker=f.Obstacle();Physics.Hits=(a,b,c)=>new[]{blocker};f.Player.transform.position=new Vector3(12,0,0);f.Step();
+        Check((Field<Vector3>(f.Npc,"lastSeen")-remembered).sqrMagnitude==0,
+            "cached visibility retains last measured location rather than reading live motion behind a new wall");
+    }
     private static void PresentationWorkBudget()
     {
         var f=new Fixture(new Vector3(0,0,30));
@@ -79,7 +169,9 @@ internal static class Program
         Check(f.Capsule.enabled&&f.Capsule.height==1.35f&&f.Capsule.radius==.32f,"one enabled body controller at intended capsule dimensions");
         Check(UnityEngine.Object.DestroyedColliderWasEnabled.Count==5&&UnityEngine.Object.DestroyedColliderWasEnabled.All(x=>!x),"every visual primitive collider disabled before deferred destruction");
         Check(f.Npc.bodyRenderer.sharedMaterial==f.Definition.bodyMaterial,"body uses authored shared material");
-        Check(f.Npc.GetComponent<IntercomFootstepSurface>().kind==IntercomSurfaceKind.Metal,"capsule impacts route as metal");
+        Check(f.Npc.GetComponent<IntercomFootstepSurface>().kind==IntercomSurfaceKind.Metal
+            && f.Npc.GetComponent<IntercomFootstepSurface>().impactKind==IntercomImpactKind.Robot,
+            "robot impact character is explicit and independent from metal contact material");
         int created=GameObject.Created.Count;
         try{IntercomNpcController.Create(new IntercomNpcDefinition(),f.Nav,f.Player,f.Motor,Vector3.zero,0);throw new Exception("missing materials accepted");}catch(InvalidOperationException){checks++;}
         Check(GameObject.Created.Count==created,"invalid factory inputs create no partial enemy");
@@ -280,6 +372,9 @@ internal static class Program
             Vector3 a=wedge.vertices[wedge.triangles[i+1]],b=wedge.vertices[wedge.triangles[i+2]];
             Check(a.z*b.x-a.x*b.z>0,"warning fan faces upward");
         }
+        Mesh arrival=Field<Mesh>(f.Npc,"ownedEmergenceMesh");
+        Check(arrival!=null&&arrival.vertices.Length==114&&arrival.triangles.Length==162,"arrival geometry is one small bounded reused mesh");
         UnityEngine.Object.Destroy(f.Npc.gameObject);Check(UnityEngine.Object.Destroyed.Contains(wedge),"owned temporary warning mesh disposed with actor");
+        Check(UnityEngine.Object.Destroyed.Contains(arrival),"owned arrival warning mesh disposed with actor");
     }
 }

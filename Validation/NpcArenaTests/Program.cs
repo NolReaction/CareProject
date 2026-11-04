@@ -34,6 +34,7 @@ static class Program
                 && actor.targetHealth == arena.playerHealth && actor.resetMotor == arena.playerMotor,
                 "Factory gets explicit dependencies");
             Expect(actor.transform.parent == arena.transform, "Ownership stays under sandbox, outside static environment");
+            Expect(actor.EmergenceCalls==1,"sandbox starts one arrival presentation on a new actor");
             Expect(Math.Abs(actor.transform.position.x - (actor.ordinal + .1f)) < .001f,
                 "Factory uses projected safe spawn");
         }

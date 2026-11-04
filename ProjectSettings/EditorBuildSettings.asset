@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/IntercomMVP/Scenes/IntercomMVP.unity
+    path: Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity
     guid: 7012dfc77afc7c84cb7ba39f79f3538b
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

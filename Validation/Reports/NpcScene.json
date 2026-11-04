@@ -1,0 +1,72 @@
+{
+  "health": 8800000001,
+  "vitality": 8800000002,
+  "navigation": 8800000005,
+  "arena": 8800000012,
+  "spawnTransforms": [
+    8800000007,
+    8800000009,
+    8800000011
+  ],
+  "existingBlocksChanged": [
+    413439358,
+    413439362,
+    9223372036854775807
+  ],
+  "unrelatedBlocksPreserved": 939,
+  "localIds": {
+    "objects": 979,
+    "localReferences": 6193,
+    "externalReferences": 868
+  },
+  "revision": "npc-sandbox-v8",
+  "status": "PASS",
+  "sceneSha256": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
+  "repeatInstallIdempotent": true,
+  "spawnMarkers": [
+    [
+      -6.0,
+      0.0,
+      -3.0
+    ],
+    [
+      3.5,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      9.0
+    ]
+  ],
+  "profile": "Assets/IntercomMVP/Game/Enemies/Udarnik/UdarnikCapsule.asset",
+  "scope": "Serialized component links, asset dependencies, safe spawn footprints and installer idempotence. No Unity runtime/PhysX execution.",
+  "spawnPointsOutsideInflatedObstacles": true,
+  "checkedObstacleCount": 74,
+  "heroHealth": 100.0,
+  "heroInvulnerability": 0.6,
+  "npcParameters": {
+    "maximumHealth": 75.0,
+    "damage": 12.0,
+    "moveSpeed": 3.0,
+    "attackRange": 1.05,
+    "attackHalfAngle": 40.0,
+    "windupSeconds": 0.3,
+    "recoverySeconds": 0.48,
+    "detectionRadius": 14.0,
+    "leashRadius": 40.0
+  },
+  "sharedMaterials": [
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikDetail.mat",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikTelegraph.mat"
+  ],
+  "contracts": {
+    "explicitNavObstacleRoot": true,
+    "explicitPlayerAndResetRefs": true,
+    "inputVitalityRef": true,
+    "boundedActors": 3
+  },
+  "baselineSceneSha256": "f64b3ab6cc6af615fa2173d03d92de0fecd43004f77e549fdcf08d09df719f6a"
+}

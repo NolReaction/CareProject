@@ -34,7 +34,7 @@ class Program {
    input=root.AddComponent<IntercomPlayerInput>();input.AimActive=true;input.Aim=Vector2.up;
    animator=root.AddComponent<Animator>();animator.runtimeAnimatorController=Rig.Controller(new AnimationClip{name="Idle"});
    motor=root.AddComponent<IntercomPlayerMotor>();motor.inputSource=input;motor.animator=animator;
-   if(!arcade){motor.moveSpeed=2.1f;motor.acceleration=8f;motor.deceleration=12f;}
+   if(!arcade){motor.moveSpeed=2.1f;motor.runReferenceSpeed=1f;motor.acceleration=8f;motor.deceleration=12f;}
    else {
     feedback=root.AddComponent<IntercomGroundFeedback>();feedback.body=root.transform;feedback.animator=animator;
     feedback.leftCalf=new GameObject("calf L").transform;feedback.rightCalf=new GameObject("calf R").transform;
@@ -73,7 +73,7 @@ class Program {
    Check(Math.Abs(r.motor.RuntimeStrideScale-1.32f)<1e-6f,"ready rigid rig enables measured longer stroke");
    while(r.motor.ActualPlanarSpeed<3.2999f&&steps<fps){r.Step(dt);steps++;}
    Check(steps*dt<=.15f+dt+.0001f,"V5 reaches full forward speed in 150 ms plus one frame");
-   Check(Math.Abs(r.animator.GetFloat("RunRate")-2.5f)<.0001f,"V5 full-speed cadence accounts for longer stroke");
+   Check(Math.Abs(r.animator.GetFloat("RunRate")-3.3f/(1.3f*1.32f))<.0001f,"V12 full-speed cadence uses1.3mps authored stride and rigid stroke");
    r.input.Move=Vector2.zero;steps=0;Vector3 begin=r.motor.transform.position;
    while(r.motor.ActualPlanarSpeed>.0001f&&steps<fps){r.Step(dt);steps++;}
    Check(steps*dt<=.11f+dt+.0001f,"V5 brakes within 110 ms plus one frame");
@@ -84,7 +84,7 @@ class Program {
    Check(steps*dt<=.3f+dt+.0001f,"V5 can reverse full-speed travel within 300 ms plus one frame");
    r.feedback.enabled=false;r.Step(dt);
    Check(r.motor.RuntimeStrideScale==1f,"disabled solver cannot retain a longer cadence reference without the stroke");
-   Check(Math.Abs(r.animator.GetFloat("RunRate")-3.3f)<.0002f,"disabled solver returns to the authored stride cadence");
+   Check(Math.Abs(r.animator.GetFloat("RunRate")-3.3f/1.3f)<.0002f,"disabled solver returns to the V12 authored stride cadence");
   }
  }
  static void CheckMotorEllipse(){
@@ -151,7 +151,7 @@ class Program {
     last=lift;
    }
    Check(maximum-minimum>.008f,"walk and run have a readable broad suspension arc");
-   Check(largestStep<.014f,"broad gait pulse does not step the shell abruptly");
+   Check(largestStep<.026f,"larger broad gait pulse remains under26mm per sampled frame");
    r.Restored(pose);
    if(fps==60){if(speed<1)walkHeight=maximum-minimum;else runHeight=maximum-minimum;}
    for(int i=0;i<fps;i++)Call(r.feedback,"UpdateExpressiveGait",0f,false,1f/fps);
@@ -172,6 +172,31 @@ class Program {
    Check(IntercomGroundMath.GaitLift(bad)==0&&IntercomGroundMath.GaitCounterSwing(bad)==0,"invalid animation phase gives neutral gesture");
   Console.WriteLine("V10 expressive torso peak-to-peak at60fps: walk="+walkHeight+"m run="+runHeight+"m; actual production spring, not captured Unity.");
  }
+ static void CheckAthleticChassis(){
+  foreach(int fps in new[]{30,60,120}){
+   float[] yawRanges=new float[2];float[] braces=new float[2];
+   for(int mode=0;mode<2;mode++){
+    var r=new Rig();Call(r.motor,"Awake");r.motor.enabled=true;
+    typeof(IntercomPlayerMotor).GetField("<ActualPlanarSpeed>k__BackingField",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(r.motor,3.3f);
+    typeof(IntercomPlayerMotor).GetField("<ActualPlanarVelocity>k__BackingField",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(r.motor,r.motor.FacingDirection*3.3f);
+    if(mode==0){r.feedback.runningShoulderTwist=0;r.feedback.runningAthleticBrace=0;}
+    var pose=r.Snapshot();float min=99,max=-99;
+    for(int i=0;i<fps*2;i++){
+     Time.deltaTime=1f/fps;Call(r.feedback,"SavePose");
+     Call(r.feedback,"UpdateExpressiveGait",i/(float)fps*3.75f,true,1f/fps);
+     Call(r.feedback,"ApplyTorso",i/(float)fps*3.75f,true,1f/fps,true);
+     if(i>fps){float yaw=Field<float>(r.feedback,"yaw");min=Math.Min(min,yaw);max=Math.Max(max,yaw);}
+     braces[mode]=Field<float>(r.feedback,"pitch");
+     for(int b=2;b<=7;b++){Check(r.bones[b].localPosition.Equals(pose[b].Item1),"athletic upper-shell rotation preserves bearing/boot positions");Check(r.bones[b].localRotation.Equals(pose[b].Item2),"athletic upper-shell rotation preserves calf/foot rotations");}
+     Call(r.feedback,"Update");r.Restored(pose);
+    }
+    yawRanges[mode]=max-min;
+   }
+   Check(yawRanges[1]>yawRanges[0]*2.4f,"full running shoulder counter-rotation is visibly broader than V10");
+   Check(braces[1]-braces[0]>3.4f&&braces[1]-braces[0]<3.6f,"athletic running shell braces forward rather than bobbing upright");
+   Console.WriteLine("V11 chassis at"+fps+"fps shoulder-yaw-range="+yawRanges[0]+" -> "+yawRanges[1]+"deg; additional brace="+(braces[1]-braces[0])+"deg");
+  }
+ }
  static void Main(){
   var r=new Rig(true,true);Check(!r.feedback.NeedsSoleCalibration&&r.feedback.ProvidesFootContacts,"Awake resolves rig and calibrates both boots");Check(r.idle.samples==1,"one-shot initial calibration");var pose=r.Snapshot();r.feedback.CalibrateSoles();r.Restored(pose);Check(Field<int>(r.feedback,"soleCalibrationVersion")==1,"successful current geometry version");
   Call(r.motor,"Awake");Check(Math.Abs(r.motor.RuntimeStrideScale-1.32f)<1e-6f,"valid calibrated feedback enables V5 stride reference");
@@ -183,7 +208,7 @@ class Program {
   r=new Rig();r.animator.runtimeAnimatorController=null;Call(r.feedback,"LateUpdate");Check(!r.feedback.ProvidesFootContacts,"controller removal advertises no contact provider");r.animator.runtimeAnimatorController=Rig.Controller(r.idle);Call(r.feedback,"LateUpdate");Check(r.feedback.ProvidesFootContacts&&r.idle.samples==1,"same geometry reuses valid calibration after teardown");
   r=new Rig();pose=r.Snapshot();Call(r.feedback,"SavePose");foreach(var b in r.bones)b.localPosition=new Vector3(7,8,9);Call(r.feedback,"OnDisable");for(int i=0;i<r.bones.Length;i++){if(i==6||i==7)continue;Check(r.bones[i].localPosition.Equals(pose[i].Item1),"disable restores bones mutated by feedback");}Check(Field<int>(r.feedback,"savedPoseCount")==0,"disable empties pose cache");
   r=new Rig();var measured=new IntercomGroundFeedbackSoleProfile{left=new[]{new IntercomGroundFeedbackSoleProfile.Point()},right=new[]{new IntercomGroundFeedbackSoleProfile.Point()}};r.feedback.soleProfile=measured;pose=r.Snapshot();Call(r.feedback,"LateUpdate");r.Restored(pose);Check(r.idle.samples==2&&Field<IntercomGroundFeedbackSoleProfile>(r.feedback,"calibratedSoleProfile")==measured,"late assigned contour is calibrated once in Idle and restores the pose");for(int i=0;i<5;i++)Call(r.feedback,"LateUpdate");Check(r.idle.samples==2,"contour does not trigger per-frame mesh baking");r.feedback.soleProfile=null;Call(r.feedback,"LateUpdate");Check(r.idle.samples==3&&r.feedback.ProvidesFootContacts,"removing contour restores the legacy contact provider once");
-  CheckMotorEllipse();CheckArcadeMotor();CheckRespawnAndSuspensionLifecycle();CheckExpressiveGait();CheckHurtTorsoOwnership();
+  CheckMotorEllipse();CheckArcadeMotor();CheckRespawnAndSuspensionLifecycle();CheckExpressiveGait();CheckHurtTorsoOwnership();CheckAthleticChassis();
   Console.WriteLine("GroundFeedback lifecycle and Motor ellipse: "+checks+" assertions passed. Real GroundFeedback + Motor + GroundMath compile together against narrow engine stand-ins. No Unity rendering/physics/skin deformation claim.");
  }
 }

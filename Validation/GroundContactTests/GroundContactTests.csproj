@@ -2,6 +2,6 @@
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundMath.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs" />
   </ItemGroup>
 </Project>

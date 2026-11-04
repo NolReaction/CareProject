@@ -17,7 +17,7 @@ from scipy.signal import butter, sosfilt
 import GeneratePrototypeAudio as source
 
 ROOT = Path(__file__).resolve().parents[1]
-DEST = ROOT / 'Assets/IntercomMVP/Game/Weapons/Pistols/Audio'
+DEST = ROOT / 'Assets/IntercomMVP/Content/Weapons/Pistols/Audio'
 RATE = source.FX_RATE
 
 

@@ -1,0 +1,3550 @@
+{
+  "version": "CareProject V14 Full",
+  "files": {
+    ".gitattributes": {
+      "sha256": "1a1dbe176bc233b499d35a57db7513f2941c99ab9759f177830c9149be99005b",
+      "bytes": 66
+    },
+    ".gitignore": {
+      "sha256": "c3adc81ce42c6484f69d76232520d0dba628c6c6d7588336d64ec1a9263ba3e3",
+      "bytes": 357
+    },
+    "Assets/DefaultVolumeProfile.asset": {
+      "sha256": "70e9ed4656132bf185009cb47db521fdeece0b1f4d464a73cb9d0bd04fe3bda5",
+      "bytes": 497
+    },
+    "Assets/DefaultVolumeProfile.asset.meta": {
+      "sha256": "afb257d10399945fbe0c018ef27b82ad4d914f42a292ea2cfe0ab8ead9a8aa27",
+      "bytes": 189
+    },
+    "Assets/IntercomMVP.meta": {
+      "sha256": "b1de4fa1c271b3522dccbde6bee237f1c6b7f75dc8aa6557ab96480ba3abe204",
+      "bytes": 172
+    },
+    "Assets/IntercomMVP/Content.meta": {
+      "sha256": "b555f10c79a261a4ee2f38972bdb13f1808fb164714d1253a859cd3833baf5ee",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters.meta": {
+      "sha256": "59846e2ffac9352c322c8bb660a60a72d5dfbe0fa85205c9e271a02d9f802713",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot.meta": {
+      "sha256": "aa272765e61ec349bbeb1b7e1bb19ec1abb97234b45819ddda6cebfcd9a8221c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Animation.meta": {
+      "sha256": "476b636355925555f7b2b27bc6450d1837013b85d6e345a6009621862da27a36",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomDirectional.controller": {
+      "sha256": "f2ff1e0590c2b54e22a714f2d518a265b5f66850a1e255d53d372a907e1a97ff",
+      "bytes": 22643
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomDirectional.controller.meta": {
+      "sha256": "6df28a9ba6362ded74c9212b417b5b64651eda1956d668bfe79ade7856251426",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomSoleContact.asset": {
+      "sha256": "21fffd25532c6d9f877b8ef0fe487afbd81de1529c8ac2c81bb76725e6778c2e",
+      "bytes": 30441
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomSoleContact.asset.meta": {
+      "sha256": "f24020c6cbb2283c8c6d381c11369efa6d6c29673e7b99ce69c1e000edd56275",
+      "bytes": 189
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Audio.meta": {
+      "sha256": "f37ad43288a94324c969f039901ac050bbc536f8f54b1462f769264087bf2800",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_01.wav": {
+      "sha256": "42a7bef83b39dad0a3d69641fe5e9adb3e0858955af5a1c953d705f16ee7fa84",
+      "bytes": 30032
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_01.wav.meta": {
+      "sha256": "c32f3a4799a8e1a89821258da066d34e1c10ea1c527c6160cd91304307936459",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_02.wav": {
+      "sha256": "634946a07464872929048d9eefc2f52383bc2d4361f02307401dca78ebf7485b",
+      "bytes": 30032
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_02.wav.meta": {
+      "sha256": "e06adaadf973ad6ee228226d7b162a3306e95cf99020f7bb3f533377a95def61",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Effects.meta": {
+      "sha256": "15a7014398a57ba094718562e9e0a2c8e792180d93a3905b3a93ced8d05ce309",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Effects/Materials.meta": {
+      "sha256": "5feaff3cd5fd3fec9a52db503eb4b9006b2d6e772c20913e7e6d4db685949c42",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Effects/Materials/MVP_SoftContact.mat": {
+      "sha256": "3cb284334162efbf8473e91d5906b38b79e89414fadf138bd3d5ae1c70b8c091",
+      "bytes": 738
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Effects/Materials/MVP_SoftContact.mat.meta": {
+      "sha256": "d9a71edf38221f2e685df1f9479e619301712d89dacefde09d21fee262b191f0",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials.meta": {
+      "sha256": "75f5c88ae92d45469ddc9d5cab16de00dd5572fefde4dbffad384eb9e9764b26",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/M_Arms.mat": {
+      "sha256": "0bbb7d8aa2f5d2a31102730f659a4acb027ff46951d969f0d1bb5118d3ed7262",
+      "bytes": 3976
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/M_Arms.mat.meta": {
+      "sha256": "9469abcff09dbbab3e56e048a7bc27a17e4ef1fab0c1c1e6c0de8da9a19be9bd",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.001.mat": {
+      "sha256": "4b70e61c104874373f65c6b9d6a84f143eb6bd7d191438dbfc51f915029a0126",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.001.mat.meta": {
+      "sha256": "e37869d2599659f0d638a7da4b9049580e7be49cd9e95afd4c1bf81dd92b1cd7",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.mat": {
+      "sha256": "7e4820a9d18c579a6db72b49c46e4b130633aa1789e5d5ffd6039a1dda47106b",
+      "bytes": 3933
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.mat.meta": {
+      "sha256": "98d8162a476effcd03ac9e48d22a2dfb36443b27729f8bb7205002a6fdd18864",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_10_material.001.mat": {
+      "sha256": "9bc33a8fefff54ba9c3683513bab17bb257fd41706ebacd8eb41a72e8156b163",
+      "bytes": 3997
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_10_material.001.mat.meta": {
+      "sha256": "e52b51e9ed2984ed303f73d2434e0f13e88b40236c76ef71da467155c67e3445",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_11_material.001.mat": {
+      "sha256": "ac199c610a59bce1e76e28fb44107a40fa335fe636927602a4638edbad98228f",
+      "bytes": 3997
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_11_material.001.mat.meta": {
+      "sha256": "77085cea6c86a716fa0a9608bea9f3c7640162e3474ffcb7d8aaefc1cadf0e49",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_12_material.001.mat": {
+      "sha256": "c9169b4f983412096933ce656b502545b19b3f8335f092dd6f62657b50bf4528",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_12_material.001.mat.meta": {
+      "sha256": "091a93d5c616332bbb1af21eb06f41794cdab21779b55320b7030dc9458bc8eb",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_1_material.mat": {
+      "sha256": "b5aa8598d9e53adc9e9e96f3340d3b8111d8b85035052db558e6241cb5fb6ffe",
+      "bytes": 3933
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_1_material.mat.meta": {
+      "sha256": "b467a9a53b74169b559bd8ad0d54a6b9bf276f57cfe8df2b005ec4d2a412f2ec",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_24_material.001.mat": {
+      "sha256": "0a4c853ede2b8354f8ea67d93df11fd669f6a07e533c2f5ad05b669fc258b8eb",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_24_material.001.mat.meta": {
+      "sha256": "49e2c780d559d717da28dae42f72eabd9ac542ea755a351103e995c1eef4f242",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.001.mat": {
+      "sha256": "6e7cd99a61ca5db4c809d07e666082cc85518a639e5a5267d172a017758eaa4d",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.001.mat.meta": {
+      "sha256": "b7324676807ffc0da56077f2247e6d6e330b255922787c4fdc01f52e8c45896e",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.mat": {
+      "sha256": "106e64d38a87e602c0aaf5e6ae919ebf7804bf2e432098317ffb3ba675d4cd95",
+      "bytes": 3933
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.mat.meta": {
+      "sha256": "74180e2cec197c59db135b547100743cf778fbc8f87b9f0703d3b0167eab0165",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_3_material.001.mat": {
+      "sha256": "baab62e90908ca05e9c4cfca4e510227cbad0a1a5f6b31a21250af181b3fe1dc",
+      "bytes": 3995
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_3_material.001.mat.meta": {
+      "sha256": "9187f5cde3677f454de18bd5228ea33e2e13050063ef7810e278066eaf1b1bb2",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_4_material.mat": {
+      "sha256": "006113f83f3c3ef40e93088b4e82dc31ce03045e1c5fb9c7e6519afe06a04b85",
+      "bytes": 3932
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_4_material.mat.meta": {
+      "sha256": "33cf24ac14c147664b911a17771570837665d69c597f7dacf983f0a31f53528d",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_6_material.001.mat": {
+      "sha256": "7d61bd5795921c58cb3d7020f529ebae8af944f2d4049d43e5d600183b9c0a12",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_6_material.001.mat.meta": {
+      "sha256": "59d08ace4f314eb9c5f6ce5ea73964e23f84fee8bcfa46706ef968a985c63499",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_7_material.001.mat": {
+      "sha256": "9c7fd8e382fb265a86ea9f69b50e2c920599512ed65263db35bbc60e82887619",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_7_material.001.mat.meta": {
+      "sha256": "2c2ac856e5c1488971808c94dc38ccc9a4d6c2d736bcbe54fea5fb2eb477c3d2",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_8_material.001.mat": {
+      "sha256": "d9a07abad2450f0aef5677a10dfdd24ad63098ffc8ce2b2941c9c697f1acd739",
+      "bytes": 3996
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_8_material.001.mat.meta": {
+      "sha256": "de86fec26dc0f10e127a749c72d3ca60d4b3709471b137c7592a9d7dc8e87881",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_9_material.001.mat": {
+      "sha256": "d06f094a0a57b801cd31aa08ae0df112f362376593ceeefcecc81f24b830955c",
+      "bytes": 3995
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_9_material.001.mat.meta": {
+      "sha256": "e629787fae238e3ac21f1ab12ae24063096e0e488d446217eb860e242c2bfe83",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Model.meta": {
+      "sha256": "8d9c2718be9f44aebbf33d335b051b6761b2d0412475b8cb84257c4730707999",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Model/IntercomRobot.fbx": {
+      "sha256": "26794097cf151f01fc6d788a3e770373945558263be1cc96a94f826d603bcfb8",
+      "bytes": 21494508
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Model/IntercomRobot.fbx.meta": {
+      "sha256": "5dde165e67f7512db5d9c520b857c29b6015368b20ca4c7b583e7e425d3095f4",
+      "bytes": 16940
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/RobotMaterials.json": {
+      "sha256": "c93818e2f7c58c7fef0fbaf15636477b0f5bdf7f290dbcea31d42412acdf0a7c",
+      "bytes": 41300
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/RobotMaterials.json.meta": {
+      "sha256": "12d7d80a9ef180cd73298ffc6c9de9561d12af20136169a5f972b1adbd5617d8",
+      "bytes": 158
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures.meta": {
+      "sha256": "6dfd030c05a68cf4b3cf4e379e7301612a591fa62b53c3f8e78e7703dda27a4c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_BaseColor.png": {
+      "sha256": "fae00f1d2fbd06ab4a62433d0baef55bd330e66004975426ff8d925b72f90e88",
+      "bytes": 1080648
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_BaseColor.png.meta": {
+      "sha256": "ac92ff6313ffe72980bf4df0c716ebcba5e40496425a0c2fa78509ebd7edb112",
+      "bytes": 4083
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_Normal_GL.png": {
+      "sha256": "30ed2d8be69c0a38b816f7314dbe4c50b13c2c75c961ba0e49667a2c6f3cd20e",
+      "bytes": 2113687
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_Normal_GL.png.meta": {
+      "sha256": "9467583c0e0025255e9a68a586d854ed78da44501292c512e020312e8f8ab9f0",
+      "bytes": 4083
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg": {
+      "sha256": "fd755a2aa635d1c4a475bc3b4b227e3c7e7a7123f6ef9527fe0572461d575462",
+      "bytes": 319731
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg.meta": {
+      "sha256": "61b1be23cb05bf41f43632ad427b2a118cf4c77ba57ca3d25f677839e568ac1b",
+      "bytes": 4083
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg": {
+      "sha256": "868b2cf39d140e339a6b282d1022f1cd4659505906d615726a1e4f4446f60bfa",
+      "bytes": 384632
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg.meta": {
+      "sha256": "883390995f3fb1f589e62e0920425854e87df57ee842d76bdcfecf1de817c850",
+      "bytes": 4083
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg": {
+      "sha256": "29921ce968ca99a7961e36fc529f7ccb74af1429730cbe22f5dbd8ed70aace9d",
+      "bytes": 78570
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg.meta": {
+      "sha256": "89c1783831e809325362e30730f3d6dd44ff49effa4fb3ae620036648a7d2b61",
+      "bytes": 4083
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg": {
+      "sha256": "853f88fc9ef6f4629bb547f98e5155ed470704f054078ec0373bc02a9f0c3c36",
+      "bytes": 21304
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg.meta": {
+      "sha256": "77d602a961aae527cf44f32a24b226fb8573b803edcc65e4ec53ed25f76547e8",
+      "bytes": 4083
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg": {
+      "sha256": "03ed0ee4e7cf848ccefdaa247c29acceed1c37aeeb30e5f359771e3926aa0aa0",
+      "bytes": 338724
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg.meta": {
+      "sha256": "fb6d7c8323d1878f932352daf9ced6eaef1547f21988771c1af431e7a176b406",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_normal.jpg": {
+      "sha256": "020e5c1f76cfa07f7e89763ff134e2f784c3eea9d724012b8bfe995a619e414f",
+      "bytes": 149008
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_normal.jpg.meta": {
+      "sha256": "94598066f5b3005871855b21f9efde2c5bac1af64c1d8bbb7ae05167b6a7dafa",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_base_color.jpg": {
+      "sha256": "6828fe769352d1b67331e696d6729c4c63720c7109f4db78a2b6dcfb26fa06f6",
+      "bytes": 29572
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_base_color.jpg.meta": {
+      "sha256": "218bf317a17c8a3d602210180a9efa8552e9648c5dd1f083987f17d36ba298d9",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_normal.jpg": {
+      "sha256": "717dece785173a681ff4d5e22777f1eccab70b5277cb058ad55b13d380613ccf",
+      "bytes": 18981
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_normal.jpg.meta": {
+      "sha256": "fe1be5c1e6f9b3bb76ab5bd4f9a99637ff1cca64d93c6e6c71ec2f22e7da7554",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_base_color.jpg": {
+      "sha256": "8a839294ad96ad3ff2ba221e76cc19e5427527ddfca7b9df23b14ee646d0360d",
+      "bytes": 32233
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_base_color.jpg.meta": {
+      "sha256": "99ab324cca8cdb4d0623fd8b30ec164a919aabc84807d82e30d77b532e4ca9bb",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_normal.jpg": {
+      "sha256": "6f3810d8c1ab30502161f4b353ddbedb7b065d5de16b0f0066a6218f2c88210e",
+      "bytes": 21413
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_normal.jpg.meta": {
+      "sha256": "e6a504ab38e4755c096193059901329db6bcda3e73da9e97ee84b974fa48c08a",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_base_color.jpg": {
+      "sha256": "5577a36232cc5f5882698f3755340e9607a2e8492ac6f5016701aeaaac40225f",
+      "bytes": 7468
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_base_color.jpg.meta": {
+      "sha256": "c8238013b6ea4381d3ebaa394a9acb641070a36631d2d7009bba25f9c8ec1371",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_normal.jpg": {
+      "sha256": "3e20b409e905493fb88dcc0fb66753bdfd2676f00f4807d6efdeddb6a87dc384",
+      "bytes": 7119
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_normal.jpg.meta": {
+      "sha256": "39a577a1a8f869da8c3d240ac24de8b6ae901b333acacc2342685b45e95bc019",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_base_color.jpg": {
+      "sha256": "3c534dbb24d0a3a0e9a588ecf37eed285457ec1f3c765ee5dca86ec9459c4983",
+      "bytes": 6394
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_base_color.jpg.meta": {
+      "sha256": "eb9d573e540d93cdb91dd2c429277845fd7b936fdc6d3948e22bf6e44801851f",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_normal.jpg": {
+      "sha256": "661ee7f89626833c2e19c4195144f4d0afee0fc9ae62df3b0b15fbbd8e098ca2",
+      "bytes": 7951
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_normal.jpg.meta": {
+      "sha256": "4f32454bf11d3c92077057731ee7f74c3e8f489422c51f7b83dd1d561efc3e57",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_base_color.jpg": {
+      "sha256": "0070208fad32f94ceedb92fbd9a0486fb99ee3aa27437932c6615c99e6189f93",
+      "bytes": 94358
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_base_color.jpg.meta": {
+      "sha256": "e27bca49b43ed01c2f5e74a211e87827149bdf18ada3743c1b0a01ab5bae82d5",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_normal.jpg": {
+      "sha256": "54c86a00b01800dcdd78774d9438f5b29ff8b6d0e781202f77c387242c7d534b",
+      "bytes": 61718
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_normal.jpg.meta": {
+      "sha256": "23f0df5e5aec0cac2256d68b814eb47ea7473e6af922d8e893f0c89a3d618031",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_base_color.jpg": {
+      "sha256": "d03bb9884cc284c79e4c4e06203ef25cfa3627cb76b0ec536241abc6394b2b9a",
+      "bytes": 90804
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_base_color.jpg.meta": {
+      "sha256": "e9caed23a97ce9ecf3f13d9ec96fcf1a5bc5898443c56448b20da0035d344484",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_normal.jpg": {
+      "sha256": "484d588ae928920246463de655e2fd8ea268383335b5d5cd808734b456b4b53a",
+      "bytes": 57359
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_normal.jpg.meta": {
+      "sha256": "c95e740b896c163859260b49165ac3c7610a58261ae2a3c2067e57e0bd4b9c4f",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_base_color.jpg": {
+      "sha256": "8bf41e83ebbc61e6eef38f928f8664ac0e4e42f1b3141016185ccec90cac6346",
+      "bytes": 125237
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_base_color.jpg.meta": {
+      "sha256": "f60babdf3ab869256a3ad5bf4ee7cf86f1291087cc79e6e858d0ef99dd0ee59d",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_normal.jpg": {
+      "sha256": "c76099fd08a0524c36be2a94ffdb3d897cd98b0af77308f223cf18d46e37efed",
+      "bytes": 54743
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_normal.jpg.meta": {
+      "sha256": "5438cd65540cce103ab20562ef4360f441b3ab1e2ccd1f30fb00511f05679a9c",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_base_color.jpg": {
+      "sha256": "1482a1f4c50603fbb3050795a27f76aa511c370b8c02867219b5cb220bc827c0",
+      "bytes": 78567
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_base_color.jpg.meta": {
+      "sha256": "c42c053d936c61da103acd862cbd082867aef9c7b2cc5528566ab7e1f02791b1",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_normal.jpg": {
+      "sha256": "d4683dd1d4ca7c17d970fb92a0509a3b481145e6bc61a97494177af9c175be4e",
+      "bytes": 56927
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_normal.jpg.meta": {
+      "sha256": "489fc3a5a7ccb55395751e5a01a436ab6e837f3bab487070df4764ef325591b6",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_base_color.jpg": {
+      "sha256": "3f500a64a3adfac51ccba577039d3354bac7527a38c5a97ed71f08ed711454ab",
+      "bytes": 64109
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_base_color.jpg.meta": {
+      "sha256": "a0e14363576d4c19dcde1b8b4f1c73f80f8a05bdc3df173dee85cd58d9b1cf09",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_normal.jpg": {
+      "sha256": "43e235cba3b12ba4581eb436418322c55d3b917cb4b7fe446c4aa1d5912b50a8",
+      "bytes": 60569
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_normal.jpg.meta": {
+      "sha256": "e1dc5442ee6d234ad81209c6b47c408f997c88b17aaad14fe92066ec0aeb43de",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_base_color.jpg": {
+      "sha256": "0fb6d3ebf73bba4a988387c1db57888f005e0571e140f9c95680796960b78dde",
+      "bytes": 29483
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_base_color.jpg.meta": {
+      "sha256": "0145fe4544124cffab2302397b47873caa02637bcb1ccf48ae9c196f03b9dec6",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_normal.jpg": {
+      "sha256": "1a146f2d4e5dc3ddea4c285430effa3ebfe33a0734660be7343d963bfb5a2dd0",
+      "bytes": 18666
+    },
+    "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_normal.jpg.meta": {
+      "sha256": "b748d72e19eb7d9b645dabaa6af48024c8f4e8e36a343b9f3177947f70e1b18f",
+      "bytes": 4084
+    },
+    "Assets/IntercomMVP/Content/Enemies.meta": {
+      "sha256": "3de3d61d4141950caef722622af81bdde14c766a14439ad843e95c9ec7257adb",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared.meta": {
+      "sha256": "4babd2ed56f5e046430bf1db70493c5fae4d72138cdf0d08641b2b22fee2dc82",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio.meta": {
+      "sha256": "cc2d52e1818aef57e165eacbd02bea87bfb24a2044331856f69e0dc807ba312f",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio/ChassisHit_01.wav": {
+      "sha256": "2633c16b27e1ef32613584c9dcbd4ad136209d4825cee9971a47dbb920b3644f",
+      "bytes": 16362
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio/ChassisHit_01.wav.meta": {
+      "sha256": "eeb209d0ba39359c6afd84dbef12ee803b610d55fc883b58c7a486201c27d8fc",
+      "bytes": 480
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio/ChassisHit_02.wav": {
+      "sha256": "147c6574e72cc8e0636f95252d20df61a6862254298c9be3c440992136bb36cb",
+      "bytes": 18566
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio/ChassisHit_02.wav.meta": {
+      "sha256": "e0d01e47bce2296d217f370a203f142985ae5b34bc6ec3aee8ef7342a873f4a9",
+      "bytes": 480
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio/ChassisHit_03.wav": {
+      "sha256": "8b3347b7996ad66437003291eb211dcb9756a20ec6874e1905fb0c2a1d57076b",
+      "bytes": 17244
+    },
+    "Assets/IntercomMVP/Content/Enemies/Shared/Audio/ChassisHit_03.wav.meta": {
+      "sha256": "3690177a59dfae4c5796a8b538da07ce2f89ffde692b3b41f57c055e5d257243",
+      "bytes": 480
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik.meta": {
+      "sha256": "5248a2cc13f64811b7571d7a29ee152d9463ccec6457853a4d180411a1c64e70",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials.meta": {
+      "sha256": "ce3d1423b94fb5ce9b92be8abd936e2f200f55cec0a4f28bf061bafd2f5429d7",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat": {
+      "sha256": "ac962522d3e2d610139a5da8ed9f7bdf133f34dcac56e124f95d7f8417a209af",
+      "bytes": 3825
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat.meta": {
+      "sha256": "af6d6c76bd1a70a914044599d0ca5a16b1994aaf17660489be2a916a479a5ee5",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikDetail.mat": {
+      "sha256": "f631576236b226882b3d9bb67de725dc4f682e5260a17342798d79e457ef7bf5",
+      "bytes": 3825
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikDetail.mat.meta": {
+      "sha256": "0231d9a1eb0a571d7799b3b0d27bfdd5982776e8268b134a728a35d503039df2",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikTelegraph.mat": {
+      "sha256": "d58e7548e7aa971956d441cd7cc205cdfed73bfddb1f67fffb494f63fee8cb20",
+      "bytes": 1936
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikTelegraph.mat.meta": {
+      "sha256": "7bd5d648b6b7477547561f873ebf78f83f4ac5c0d46f56c406078b41c6e663a5",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings.meta": {
+      "sha256": "a6a0864ca15e7c3848e724654f5164048b2f1083f36211656088c47cda5115f9",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": {
+      "sha256": "66b6794b8a6c340572c060580d76d1ea0c20b8b718b5d88b4da17b400e77fd8b",
+      "bytes": 1231
+    },
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset.meta": {
+      "sha256": "863b8da0817306d4b55a48869060f572807ad565794ec21210da603d864bdf7a",
+      "bytes": 133
+    },
+    "Assets/IntercomMVP/Content/Environments.meta": {
+      "sha256": "2460d1e4b1ce1cbdd4118314d9b9c73a0d5698d74ed49a2c8e11630cfeb9aa2a",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard.meta": {
+      "sha256": "5e1e8cd1d361139f7e0f332e15832c2b688824b990b27d115d9c2e09fec12696",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Audio.meta": {
+      "sha256": "e3b6efeaf98b060f803cf91fa89f8b97e8c2a349724b2df0c2e1fe63aa4f5916",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Audio/Ambience_IndustrialYard.wav": {
+      "sha256": "722c49b3637b680826ac7c6efc11ba85f4605fa2901175c37b144989b595e863",
+      "bytes": 1920044
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Audio/Ambience_IndustrialYard.wav.meta": {
+      "sha256": "9dd11e353009aa6d681ae02aa8f9ac2f6782e03519381014f85283968344fab4",
+      "bytes": 484
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Ground.meta": {
+      "sha256": "1a2f03963e29ba95752c713f107bf0c4f7978d7924b16abc6b7a6a1417d17bee",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Ground/GroundMap.mat": {
+      "sha256": "d1579ec40b5a81967627ba3c94f58279d8095611e6a7a0e78a4c89a0bb101ae3",
+      "bytes": 3838
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Ground/GroundMap.mat.meta": {
+      "sha256": "ae6f838521393a0b2a0879ebdad4b4b09a714f1fb8738aaa1caa1576d0146e48",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout.meta": {
+      "sha256": "35d83162d0d6d4bf986152e259c645e34fc1f5cf859cdd7e261cc0ab923f789c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json": {
+      "sha256": "28d4af0810adb1f540c10e137978f8dc4a69bbf17c763f3195f89f5ac58af5f5",
+      "bytes": 84057
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json.meta": {
+      "sha256": "3b85ee3fe334a9f1b6393674d8064868433f887e6b52d54a41103521e8c83a66",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/README.md": {
+      "sha256": "9f45a38bb6d43fc8d5647a853c1b4a91e216c4d1c9eb15094b64253e14955911",
+      "bytes": 1787
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/README.md.meta": {
+      "sha256": "5846edbdc8c22deca8e4089a99f811fb9e39bd4591358e059058aee527e698ad",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials.meta": {
+      "sha256": "8b71717a44c30f52a76334b46f15707cf24c52221306a75204b4ce9ce9b0d44f",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Asphalt.mat": {
+      "sha256": "3be6c0523ad3e0b7779bdd0467a2a8a4eccd07113bf108fbc80f12a2312b94cf",
+      "bytes": 3951
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Asphalt.mat.meta": {
+      "sha256": "8ec0824a357b0828bf111839aeb5de21b78a032d7afa7cf0444dc8ec7233987e",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Backdrop.mat": {
+      "sha256": "af3b5d8bc142baf5badb66cde68f28bd36785f5328bd02e64f198b7ee5d40327",
+      "bytes": 3932
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Backdrop.mat.meta": {
+      "sha256": "5b5b27b1595c318cb535f0007c84281f4a40bd40cd07f383e77a54553359f6c4",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/BlueGrey.mat": {
+      "sha256": "c8afe9a85731aa70ee1fa9c9e2bad141b9920783b6b79d62458f7162b6f21a31",
+      "bytes": 3952
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/BlueGrey.mat.meta": {
+      "sha256": "669de71c7088fe7b7c6586076f92f27ea48b176e705c9fc1bb8b1c849e2a3478",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Concrete.mat": {
+      "sha256": "8c2a0ff1b6059544ea2d05c068cb806efaddaef27af8e8156eb4d27e82c423ff",
+      "bytes": 3927
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Concrete.mat.meta": {
+      "sha256": "2c775410da516cf58236a22454936f712587213633a3c76e60404419ffe28edd",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Crate.mat": {
+      "sha256": "702df6e47fbd04e15586a38c379a1f51dca6c9b28cfaea5cb8b2cbb6d213dca4",
+      "bytes": 3940
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Crate.mat.meta": {
+      "sha256": "eb006fb6e6fc2415b2e27ba99f5a2ad697484c3ecacf0fcc534ebf2eb198deff",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Door.mat": {
+      "sha256": "16b3d595975ef238f0cdb1002241bc764befae22ef460d91cbbe7df52c495dcb",
+      "bytes": 3947
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Door.mat.meta": {
+      "sha256": "af0633fd3dc983a2b4331f6ef624ad337cff88e9d399910a6a3a5af3684f0fbf",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Gravel.mat": {
+      "sha256": "a54dad204cf7283ad60b65e72da4b3150ead83afea644ba2ec2a0aabd02e482d",
+      "bytes": 3941
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Gravel.mat.meta": {
+      "sha256": "06fea6497f3b82f83a501ab4e1be0c82ba1e88f16d1092b2c3f06f1f9552c35f",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Lamp.mat": {
+      "sha256": "cb081f924df9c3c637696562b5ff548c063a9662b90e001638f463949abaf28f",
+      "bytes": 3827
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Lamp.mat.meta": {
+      "sha256": "ceb542962b49d46d3eab02b2a06a7db3bdb52cd88d106e20c49087301880b6e8",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Moss.mat": {
+      "sha256": "efa7c1b285f8880dc99427482369a9eee739cd4ded305ee5c7b46e7527d33a4d",
+      "bytes": 3835
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Moss.mat.meta": {
+      "sha256": "63cd38425e6662d68a25abd84135ee4cfa40640e2ad85f1f58923b5f96d5b4a9",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Orange.mat": {
+      "sha256": "a557c73be70a314189a189270e7758ceedb92f3e85e57aeef61467da58fb9b12",
+      "bytes": 3944
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Orange.mat.meta": {
+      "sha256": "50ec78b16d13f992a70b06fa495ac2d8b013d22d0b36798afd3d2966965e304e",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Paint.mat": {
+      "sha256": "c708fc08321d138e0d7608d5797ff16201a04ebf1c410a4b6b707c6cc2397974",
+      "bytes": 3822
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Paint.mat.meta": {
+      "sha256": "3dc66f128cd67425f93afcfaef3a54d2f5baac816b5326ce3ef9ca8d55f9ac28",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Roof.mat": {
+      "sha256": "a49d388f6a0c751e52348d44f6f1214cf379526d36f1e1196509d0d8d08336b1",
+      "bytes": 3947
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Roof.mat.meta": {
+      "sha256": "5d6795b520bae61d4b8dff2bc95be885dd28175413bbd15a2c10f1a585f43290",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Rubber.mat": {
+      "sha256": "4fb08653967436cc720d580e446f3b62c5f032cd7f1af01e961b9de208c40f5c",
+      "bytes": 3837
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Rubber.mat.meta": {
+      "sha256": "d27e773dcbe95e1022c0675eecaf6ed730fc1c3f473904240dbe63cd3035c2c1",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/TargetCoral.mat": {
+      "sha256": "71aa7d081ad6fbfee95c5ff332b8b48014aa0a8fc17140daaed64d475791f5b0",
+      "bytes": 3839
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/TargetCoral.mat.meta": {
+      "sha256": "b22f993b55f66315cf9cdb29e0bbbf480bbacd04505ec0e5890d3179e5527fe5",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/TargetMint.mat": {
+      "sha256": "c52efbdd2e8d85cfbb282865cf364ac2885f2e18c51eceb00ef821c2a1e5c0bf",
+      "bytes": 3824
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/TargetMint.mat.meta": {
+      "sha256": "c463050331502265c744c137906901f63bedc6b0416e1bcaa2d1795cce527756",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Trim.mat": {
+      "sha256": "1596b90fb844c5e31db70ad74d386301da4c3420ec095b1e708dc603481244ef",
+      "bytes": 3936
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Materials/Trim.mat.meta": {
+      "sha256": "96b7b92830d1873e1075675ac2ba40dd1377bb62c970828839421a0c87a753aa",
+      "bytes": 132
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes.meta": {
+      "sha256": "0c55b693afef327cb5b8952ca0c2d5c471f2d12b6328ac21aca78915d3179fe9",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Bollard.mesh": {
+      "sha256": "4b722778a66101ec45eea050a68d2cd2fbdf04fec4fa62b10f371365770df2aa",
+      "bytes": 20704
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Bollard.mesh.meta": {
+      "sha256": "c37137020a648e96a77f8c3c16caf3aac8cf9faf28e22113089081fd75244557",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/BrokenSupplyCrate.mesh": {
+      "sha256": "ecfe66ad2ad8ce61e3cd43a6c3795588f2a79f8d33de6908e75cfb3134b75c9c",
+      "bytes": 36813
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/BrokenSupplyCrate.mesh.meta": {
+      "sha256": "e1a416f28bb70900f8df650a640c2579f335abcbdfbb5faca6752d623004cd62",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/CableSpool.mesh": {
+      "sha256": "c8c6f62887df8019de400f6f98d07d1f8c35916d62327bf6bc3cf6e064aa6f4c",
+      "bytes": 27591
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/CableSpool.mesh.meta": {
+      "sha256": "d3663116aa9162ca462501837cbc1c03048ee60c866ec654742c6604dce43ff4",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/CargoContainer.mesh": {
+      "sha256": "20b77feec6c07962705d55b7a03a211010fef1d721c2dd5a3e83722d2bc33c9e",
+      "bytes": 403727
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/CargoContainer.mesh.meta": {
+      "sha256": "a20beab4b495300f302c5a473af914e1b99d1da6517ff902dbeb5cd8e065b086",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/CargoCrate.mesh": {
+      "sha256": "042b5007c55b0f1b174d24db38ccd3b06e16f37aa03a412730a1884c475bd7d6",
+      "bytes": 90098
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/CargoCrate.mesh.meta": {
+      "sha256": "de1b007dd2c4c3093f9a4c02939d9084b14e48c39973ae7900c62b75e3704011",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/FencePanel.mesh": {
+      "sha256": "ba84dfa6a0f059521b25c340767ea0b02a816b71e549c36eecc31be26fb6ca9a",
+      "bytes": 55245
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/FencePanel.mesh.meta": {
+      "sha256": "22498c650495c4e41f5f7a1d94c7aa80f01e6289c5d7ef2c574916e87738eb28",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/GatePanel.mesh": {
+      "sha256": "ce33a749807cc60f662ff27fc0db30ae7fb47d1ad44165e34a30fb7a36dd42ca",
+      "bytes": 53566
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/GatePanel.mesh.meta": {
+      "sha256": "8222e0333abcd121d63a1d2add0ef396414aad7b699e07cfd37719624a0ae732",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/JerseyBarrier.mesh": {
+      "sha256": "234bb2f71b9247b80ece76b65e0ec411a7c3bc3ac7af9bab5c5b74acc7dff579",
+      "bytes": 63644
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/JerseyBarrier.mesh.meta": {
+      "sha256": "020741628947b1c141e2d64ab45a7fbda68c13ee777318da233c781773e7662c",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Planter.mesh": {
+      "sha256": "389967964d69b51615ddd97ca5cc3ac5fa98cc1179ffa4948c1e5e14b5a49ee8",
+      "bytes": 43655
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Planter.mesh.meta": {
+      "sha256": "c45a19e9a6d94542e72a6b842457e5d42a178d485622593c003bb5f8bfe92764",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/SafetyPunchPost.mesh": {
+      "sha256": "87911030330b8dc33aad0c03d4d06e521bdc1048469e8753a0d1a3b7a6cd743c",
+      "bytes": 37152
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/SafetyPunchPost.mesh.meta": {
+      "sha256": "a5d95ad6236b7040eea84eff3ddabd4451f45572b4b64d82b95260c9909ab2cb",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/ServiceRelayBody.mesh": {
+      "sha256": "120d5e207ef6f41e64962252d6ce862e508f4e9ae7586ef1b39650be22e935ca",
+      "bytes": 37205
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/ServiceRelayBody.mesh.meta": {
+      "sha256": "056d27633a3b3c86dc102c08befa938c6cea6078c97558ed99059db813a9480e",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/ServiceRelayDoor.mesh": {
+      "sha256": "825e383ad04a8e336e66ee12eee573566681a8a08c1e1c104a37969b61b82a94",
+      "bytes": 16727
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/ServiceRelayDoor.mesh.meta": {
+      "sha256": "b6ce5b33e8fdfc93c4239f2fc4abc6bd6da11b91c9f607b11fd2882425d48df8",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/ServiceRelayLamp.mesh": {
+      "sha256": "aada4acc7d88f915f8d7a3440b94e716984bc31ff3c97fa96df7fd3b2a18f6fc",
+      "bytes": 8256
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/ServiceRelayLamp.mesh.meta": {
+      "sha256": "608676c6fdef0ef9c31ed8c0ec0555685d3fff62e9dfe132cf6236a5652cf672",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/SteelDrum.mesh": {
+      "sha256": "2d11d4175cbed22ed298c991ee4582d7b42cca8b1d470b839036674c6d1d5e6d",
+      "bytes": 34468
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/SteelDrum.mesh.meta": {
+      "sha256": "dff8c3bd3d4a3ddf163081002a9138824c1fcc07c37857562b6d336970197a97",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/TrainingStand.mesh": {
+      "sha256": "8235ffe6c5379fa6da5bd7a2b275e1126b94482cbb3025b78e19dc6562b6630e",
+      "bytes": 16889
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/TrainingStand.mesh.meta": {
+      "sha256": "ecb3bea997398c69ca703b586669e747f70dc7d0e10e66d58fd1a3021ec7d6c2",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/TrainingTarget.mesh": {
+      "sha256": "386eaeb77fcc2ccfd31386f352d9b37691470115f85641531e73da8eb505d5f8",
+      "bytes": 29152
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/TrainingTarget.mesh.meta": {
+      "sha256": "7fab667e238b9b3f2d05712779778b34e8e8c4f6137c81c1b7db8788321912cd",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Transformer.mesh": {
+      "sha256": "5e81e6ba03406993b67297eb61b919581b2f36356ed9b41b5426de5d611c38e0",
+      "bytes": 195711
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Transformer.mesh.meta": {
+      "sha256": "ad59eb5442be909d2a3cf22021e8f8b75a5a9d48b897ed86d3449f7ce66a5fbb",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/UtilityPipes.mesh": {
+      "sha256": "97ad47104af4f20305de36e4d04a54395440cb4b43d97ebe371266717ab4ff0e",
+      "bytes": 103079
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/UtilityPipes.mesh.meta": {
+      "sha256": "6865ec49a852c5c737778bc865bf4ecf946175640cd5e8c420da317bf34362a2",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/WallPanel.mesh": {
+      "sha256": "b00a8f017859521f73e9c93323b7593ccda7e4da2260adebdd1d739840a92ce7",
+      "bytes": 16694
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/WallPanel.mesh.meta": {
+      "sha256": "4c25f9eff15d0db2242d5f614851e49677adc21c4aeee30b44406a7a3b1721f9",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Warehouse.mesh": {
+      "sha256": "5c5242e31533846514d2ec705250d21772cba9341b0f8b3818948ebeb2f74ed5",
+      "bytes": 527301
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Warehouse.mesh.meta": {
+      "sha256": "25d4227300270f1b3379accc491817e2b5b1d375e48aa789ba4e3e99072bc2f8",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Workshop.mesh": {
+      "sha256": "6b43c984e62e65e550bd17129b5a465fdaf9e868b357833dd74170afa09acfe9",
+      "bytes": 353834
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/Workshop.mesh.meta": {
+      "sha256": "b036d1e81aa49c2e52a17b7d0351be08de64502e98b6b692a0309647ffedcfa6",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/YardMarkings.mesh": {
+      "sha256": "8dd9d8c1a01b9d4625649cc85800fc3b4afc230ed3127ff3d5dbba2438a6c963",
+      "bytes": 178386
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Meshes/YardMarkings.mesh.meta": {
+      "sha256": "5d24fcad850a37658dc2cb8667a40cc107515c061bbdd973d056e75f392a528d",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures.meta": {
+      "sha256": "e31bd98182431e07e7b441d419993404a89dc087560644a859b06bfde8f11f41",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/AsphaltGrain.png": {
+      "sha256": "6b8ab5dcb9c90f0826db17a3a00ae26de93fd256ef0f79ea8e3bdfa23d514961",
+      "bytes": 7722
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/AsphaltGrain.png.meta": {
+      "sha256": "fec162c08196fd054dac7968137bb82a744419379c2a2fe9d15f2921a5450885",
+      "bytes": 4069
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/ConcreteGrain.png": {
+      "sha256": "6a70ef41bef0a6de26ab016e7b059f360f71423403f6d1a46b9b23f1ccd74eb9",
+      "bytes": 5513
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/ConcreteGrain.png.meta": {
+      "sha256": "522885dc0397682ae672d098fdd68197dc68f7edd685b92eaa58da842322be4e",
+      "bytes": 4069
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/MetalWeathering.png": {
+      "sha256": "1b9937f93b390ce2063634f3d132d6fca10c676f73bb00006211528bc6207695",
+      "bytes": 5188
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/MetalWeathering.png.meta": {
+      "sha256": "ecbebe63626efdfdf2fec7baa6d8088192a957697bf6508d2e628593aa7fffee",
+      "bytes": 4069
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/WoodGrain.png": {
+      "sha256": "8663bf988da635dee74edfb608dc68bcb2e7912c7e169fd43cc264cda1ba646a",
+      "bytes": 7427
+    },
+    "Assets/IntercomMVP/Content/Environments/TutorialYard/Textures/WoodGrain.png.meta": {
+      "sha256": "b7d450e3fc1059c466a4260420560cd3f7b125b26778709dd071216a9c647415",
+      "bytes": 4069
+    },
+    "Assets/IntercomMVP/Content/Missions.meta": {
+      "sha256": "bcad7740280b9ed9eae322ef4fe7da8db62051eabe003ac1cbdb9f4158621a55",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset": {
+      "sha256": "be06416fb49af612a861299eb163b0eca795381c0097c77d0b109b8135372451",
+      "bytes": 784
+    },
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset.meta": {
+      "sha256": "3a4cef356b50899071613bee171f63312a5b65a12fd0d0cd08332868cd8ba702",
+      "bytes": 133
+    },
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": {
+      "sha256": "0bebda18fb3160eeff7ab03a068238c4ed433120cc7a70757a3dc24b99d2fcff",
+      "bytes": 759
+    },
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset.meta": {
+      "sha256": "9a999823c5018041dcf570163b8a0d778d23891c649f0016da34400eeac40210",
+      "bytes": 133
+    },
+    "Assets/IntercomMVP/Content/Shared.meta": {
+      "sha256": "70570eb4e721e8977da585d01df935ca7f7b8f8b56f277555623dfecd4caf472",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio.meta": {
+      "sha256": "4fa3d95ae2e53fefba3e0cf7ebaa52ca42f81e0e62e4f4c4363227f3fb0a369b",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps.meta": {
+      "sha256": "977e07ca5ec5be1d7fc9f72e2ad2f19bc74977db8da557fe252a20daac165579",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_01.wav": {
+      "sha256": "807ad8fb09779c068be3428fee3eeb745683a1681085011281bd18e3bde0e1f9",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_01.wav.meta": {
+      "sha256": "12d47045d67f41b6b7be379af00fb63d173d4a07b2bd9b8f476d8aae67f56409",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_02.wav": {
+      "sha256": "57e40ba03cd9e60eca324853af653028d02647a819469fc14c9b1e188833d34d",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_02.wav.meta": {
+      "sha256": "a566c22a5acbbbb34c9da02d379bed24d9701f0ba124b0fa6f57edd7b7cd38af",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_03.wav": {
+      "sha256": "6e9dd2a9d7f20d88fd163120b6f205610ac08d18ecd6103358bc841087457c76",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_03.wav.meta": {
+      "sha256": "b4b97e078701f00e25edee0c1d099961d5e84a3cfcf58351fe5433eee728faff",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_04.wav": {
+      "sha256": "d6f03d1505e0340115750a13285cee86798e06a26521d905dbd08f54919005e2",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_04.wav.meta": {
+      "sha256": "4a42bd342eb68435eccb7aa112c8939890499d3cda3d8dd0e12d28dead97df0c",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Concrete_01.wav": {
+      "sha256": "8abbc8b26ca1d5c4c1bd8b9e254a8d86dbb29796ff08ec6058e54512eea60166",
+      "bytes": 16360
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Concrete_01.wav.meta": {
+      "sha256": "b39f28db0fd956b196accefcfcca90cd13ea34106ce46b588114f20c6d4f35dc",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Concrete_02.wav": {
+      "sha256": "6778fb45ab38bfad900ea6265fe4a151aaa9d10657650008cfa7c121c94d164c",
+      "bytes": 16360
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Concrete_02.wav.meta": {
+      "sha256": "acb797ca0012bc1d085595cbcfa1c6f77225e318d67a3bde179ed2bb1883a0dc",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Concrete_03.wav": {
+      "sha256": "ecac6166e97c229d408b47a4f0443d2632a384853699d0ec2a00802538ff56e6",
+      "bytes": 16360
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Concrete_03.wav.meta": {
+      "sha256": "6a2a35391b39af6c6a160f7405faa5d71cb81b70319c63c282c78a4ffa97d996",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Gravel_01.wav": {
+      "sha256": "b6fa896d04ca96a03ba1ab6c458bdd5ca39c9e158dbe2285e4c1b818cf12edcd",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Gravel_01.wav.meta": {
+      "sha256": "7835ae17da8f1a5b6b936e6595b5ffb1327b09df805d16116fe366dcffc7cabb",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Gravel_02.wav": {
+      "sha256": "23fd38bf497875070a3cf42e56dca17b6147e4cdf3d529978edc725f85d146ea",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Gravel_02.wav.meta": {
+      "sha256": "037849fa95c3d0bf197e669cf2f32c78462cfe54e290559d1c6e689d8dae4097",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Gravel_03.wav": {
+      "sha256": "1796a8e3c5f85622aefafc32c3804d8248d72dd048d984cffbebc4f6539ad835",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Gravel_03.wav.meta": {
+      "sha256": "e89d93f0dddfe76f63bee2cafb4207a159501c0dc0f0211d7ce53547efc2adbd",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Metal_01.wav": {
+      "sha256": "68cc2b7213ad664e9a55fcc82ad77437cb946c9da7902d83ecb77ff86985725e",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Metal_01.wav.meta": {
+      "sha256": "663d8f430aadfa0c5ecd31c0ef8aa485d05d91fb341240f2d467d6654f153d3b",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Metal_02.wav": {
+      "sha256": "5e6d5491c4bb719eb4dc4d3cc7486e72bb13fbc783b64c4bc35026a9c3c10405",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Metal_02.wav.meta": {
+      "sha256": "cef2141139ad686da4cd2fecc5bda90b3fcbff640578386fbaa4dbf863195600",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Metal_03.wav": {
+      "sha256": "b03c41b856af330468131e88a4cdf4dc8b1f115d453b3975cd51d519825165ae",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Metal_03.wav.meta": {
+      "sha256": "b10fa59f401f67c1bd43e833ba5a51e37f242b1d4e10195b9b88138802bb9f66",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Soil_01.wav": {
+      "sha256": "c414e51741f82e4194c1016a2942d65f0cdc1843a30ed92ee4914ddea7d939cd",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Soil_01.wav.meta": {
+      "sha256": "ce6a939619a72dd0c88b3dc193f136dc66d54502a017aa8a59812fa8c7b9d9bf",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Soil_02.wav": {
+      "sha256": "eb18ee8e9a7044b53a439e0b8cdeff2e480cf19f4ab28c49f0f25f599d6a96b3",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Soil_02.wav.meta": {
+      "sha256": "cecb9f4fe1b1b25d5fdd27c24facf2c0e89bd727b321dc7f71def8b678b553ec",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Soil_03.wav": {
+      "sha256": "93c9ee20153db001976aa3a9c7d62a4ade5a602917263e2bddd99f7a441db0c1",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Soil_03.wav.meta": {
+      "sha256": "b39dae89038404b1b7e026774644c656bcde36f6ba1220f231c4e63471563978",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Wood_01.wav": {
+      "sha256": "6eb0833384c0a4226128b0d6a24c4184b0c11f3c999015eea787932741435f7b",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Wood_01.wav.meta": {
+      "sha256": "67129cc9f4b08995a28a3f3a02952b12d82026fbb33d3ce5064010f759d1d9cf",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Wood_02.wav": {
+      "sha256": "5c27ad6c891d94c0d2bad789f8097e7cd8499d462a9d0655e20a4c382fcdad86",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Wood_02.wav.meta": {
+      "sha256": "6e3c438e90975c219ffdceddc419522f2c5e4640c7a02dee58320ea1112c8b1c",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Wood_03.wav": {
+      "sha256": "d66dfc005ccf5d30c2343fe51bb85be906e2252be0cf72fa083fbb220c989787",
+      "bytes": 19888
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Footsteps/BootStep_Wood_03.wav.meta": {
+      "sha256": "09ce16e02faaf32e712f27c04aba1223049a7d1e964c0ea42f9cd0952a8acbd8",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts.meta": {
+      "sha256": "6ce818b3b260ac58e216311fd78e0dcf74a1752ff31ee6c3238cb7af7e9da197",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_01.wav": {
+      "sha256": "106c75eee7c8074c14444b83bac302ec109ebd346f4ef093a7775815becd0bab",
+      "bytes": 12832
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_01.wav.meta": {
+      "sha256": "5fdcc3239f4e6a55af228a3d6821cf2d63419cb61d46080a3a78f5fbb2b3e290",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_02.wav": {
+      "sha256": "debe442a52560d3c241b6676e08f1fdd37336e5addc6d0724b71c5aa3a0b9bba",
+      "bytes": 12832
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_02.wav.meta": {
+      "sha256": "d34853b134b619264e642b562bc744623aaaf24d719fcdc4ebed58145a5b1658",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Concrete_01.wav": {
+      "sha256": "106c75eee7c8074c14444b83bac302ec109ebd346f4ef093a7775815becd0bab",
+      "bytes": 12832
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Concrete_01.wav.meta": {
+      "sha256": "682a85a7b8c069cbb45129306256aee5245fe9b6bd589de84f4aa8ff5162fb18",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Concrete_02.wav": {
+      "sha256": "debe442a52560d3c241b6676e08f1fdd37336e5addc6d0724b71c5aa3a0b9bba",
+      "bytes": 12832
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Concrete_02.wav.meta": {
+      "sha256": "af708103ca786c3acad24ef0e7a16ca2d900fbd63dd653c0a03325451fb3d689",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Concrete_03.wav": {
+      "sha256": "2f88ed593f1b2ee11e22348867d8f94f71712ec8067610ca68d496b30163bb3d",
+      "bytes": 12832
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Concrete_03.wav.meta": {
+      "sha256": "8db58ac317fef4b6eee0aa8d82f6cf081e5a84469585e42ab9f3dfd4e4bde23c",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_01.wav": {
+      "sha256": "572652f58ffeca50da3b737a44f4753f263daf6dab89aa62fdc3890d545313df",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_01.wav.meta": {
+      "sha256": "d473e7e918ba48ececf300975353c5cf2bd564891af9ba1444ef76e0bed4be7d",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_02.wav": {
+      "sha256": "8cb5df6a1c966cc6ec3ea2f8c1dd7f7d7a944d877e511233528eef2efc98414f",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_02.wav.meta": {
+      "sha256": "923b0838c862d5db3bd988c3d8d2ccbcbb8038673bdf4cfe83877fd050e79d42",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_03.wav": {
+      "sha256": "d08d96afd971ddf7a6b87f1df9212afcfc084d430edaf728c42e0cd21e720107",
+      "bytes": 21652
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Metal_03.wav.meta": {
+      "sha256": "f9b35e47d71756118e5982fd649564e02f44b3776a29b78906a61be9a155965a",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Soil_01.wav": {
+      "sha256": "b6846adfb6ca8878b26aeb41cb06265026ecfea3ca5ad188364fd3cd35baf0a8",
+      "bytes": 15038
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Soil_01.wav.meta": {
+      "sha256": "5ff2d0d8f2dffacd1a0e203e19ca7f80b87d0a5ce26b5944232669ed528243ce",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Soil_02.wav": {
+      "sha256": "9c74de3be4c4e9ae9a9ced8b9966c8ac317e3ed656ce979d4ded4cf5e8eb670e",
+      "bytes": 15038
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Soil_02.wav.meta": {
+      "sha256": "5291e424316488b0b6c49a12cebe9567f6937ab58f0f52af65ddd59a5fd8d8c9",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Soil_03.wav": {
+      "sha256": "9a78702df0426ed426464d1dcbe3b82bc1c80943ca3098a8accddd85d93c7410",
+      "bytes": 15038
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Soil_03.wav.meta": {
+      "sha256": "81d4a3fdf7977ab949a95f805242cecb08a36323dd98dee64aefb170764b329a",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Wood_01.wav": {
+      "sha256": "c1612370ef7bd4bbf6095c0c5e4f7c3dd182c07a7f216b2466e783a43f084e46",
+      "bytes": 13716
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Wood_01.wav.meta": {
+      "sha256": "3023d83e814c41ed043d9d2998abbe7b0ea142d583cf848e7e4328326094b5bc",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Wood_02.wav": {
+      "sha256": "2f3453fbbd30c8a6934ec0b7aaa062cc91a94a263e6cae4c7bb1ec4a32ab9ff6",
+      "bytes": 13716
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Wood_02.wav.meta": {
+      "sha256": "553709724ec70aec89a91ee2d609d43849e788dfd1d0e8476db5780afb92b1d0",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Wood_03.wav": {
+      "sha256": "3989361423570618373e5197a1908d549e5f16ef64526820aff1d8c88f8026b6",
+      "bytes": 13716
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Impacts/Impact_Wood_03.wav.meta": {
+      "sha256": "09ede884b307ac49bd531cbd4037c1d4661c9a2d95a44c1091660a1408e788d3",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Music.meta": {
+      "sha256": "49a0e5893d90f8c98e4a421e89e82113f25bf9e2d6af5735b307df0843fce3fa",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Music/Music_IndustrialGroove.ogg": {
+      "sha256": "bde4edb6171d4b04827fbd51664e45fcad8ace6634a809d8f3d248d7bc1840f3",
+      "bytes": 1228326
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Music/Music_IndustrialGroove.ogg.meta": {
+      "sha256": "7e0c189f857745a18161dd2e1edb08347c0293c5b3888887e912598fff9b1d08",
+      "bytes": 484
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/README.md": {
+      "sha256": "9fe31be301830ba5cbcea541e465b64ab0c537f57a0f4b656a6495395b06d713",
+      "bytes": 1701
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/README.md.meta": {
+      "sha256": "0752c25d1f18174cd576109dc7507f63e079341363d87ad4abd7683a8c83f3d8",
+      "bytes": 152
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Settings.meta": {
+      "sha256": "fd1e993f92c66ab04045c3ccd21da3308fe7f2e3a55d6bc92b3ffa553e70f781",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Settings/GameAudio.asset": {
+      "sha256": "963dd3dd63087a05202897f9b0c0717c29c42a80d29203df41f52fb6d5f14cc3",
+      "bytes": 4004
+    },
+    "Assets/IntercomMVP/Content/Shared/Audio/Settings/GameAudio.asset.meta": {
+      "sha256": "b561e25e5c3e347dcd4a061979e7ab6ac1c12df0352d89336b09ecabd4db2011",
+      "bytes": 186
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects.meta": {
+      "sha256": "518bbca837e871e9fefc23981253a0270974238f841bedf98cabd27f2df66b55",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials.meta": {
+      "sha256": "bf53673af4eec6ed54caa8242b727c3f2250700a70bad073d653821ade06113f",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_Impact.mat": {
+      "sha256": "e4a96b7006fa310131619cdb8e1331395671ddc6ad4a5a4100fed9fadd7f618b",
+      "bytes": 1890
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_Impact.mat.meta": {
+      "sha256": "a7c3e8aa323031912ddead5a4d80c74b74f5611569b6540e334a9d583f2a42d8",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_SoilImpact.mat": {
+      "sha256": "83c99f808c359e95dc7b18d844c0c2c82301052da0c47834bbd3f192cce4a7f9",
+      "bytes": 1892
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_SoilImpact.mat.meta": {
+      "sha256": "3080052a379acbd8002d8f320afebe22b26d1da078f8344a6ea18a78957a24e0",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_StoneImpact.mat": {
+      "sha256": "1f00a26a132a58c878a76a282acbc85786ceb41dfb126c6cb9381af71a80f001",
+      "bytes": 1891
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_StoneImpact.mat.meta": {
+      "sha256": "09f027ea77e0b571a3c921757c880cc9089f38158246d8940a127c937b41a563",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_WoodImpact.mat": {
+      "sha256": "2426b75f0d3d141c36f25289cbee72a210d68a2be15ce44d0813e311bfc58832",
+      "bytes": 1911
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Materials/MVP_WoodImpact.mat.meta": {
+      "sha256": "621cbe1b90da110800c520930fffcbe444ae990c83a9908082896931c06da465",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Shaders.meta": {
+      "sha256": "6fa99b8f30d88a35f4e14d728afe5635135d295603ce04e76710e93c6aa1c689",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Shaders/IntercomSoftContact.shader": {
+      "sha256": "88a4526cc9e7369bbce795a737b6fb4a50755cb0d594b8f396b2906bf0ac392c",
+      "bytes": 1442
+    },
+    "Assets/IntercomMVP/Content/Shared/Effects/Shaders/IntercomSoftContact.shader.meta": {
+      "sha256": "383eeeaaf2948a6f807ab30f3806468cba0845855de1922783e063bf5516515c",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Content/Weapons.meta": {
+      "sha256": "656dc0ab1131b38e2e4ccc9cecbf0c652f7f794ab411c268cbe8cfd87d8517d7",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols.meta": {
+      "sha256": "89849ac85a8914153f5a34cc9282b86fd727583b8b3a4e5712605c5ee4d5fbd6",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Animation.meta": {
+      "sha256": "ee0adc2b25aa5fdfc4a9e40796bea99a1db7c78c4f0c870cd1b9c19ab4f3b937",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Animation/DualPistolsPose.asset": {
+      "sha256": "96e796998b35da0d585b543c6a279d646886d00f7852574ea5cc08793f1b1978",
+      "bytes": 825
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Animation/DualPistolsPose.asset.meta": {
+      "sha256": "9061fbc651db7eba6a0579adbebc7fa96f83022444986f31357ae147e14c9693",
+      "bytes": 189
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio.meta": {
+      "sha256": "df3c2dfc2c02f3ea937bde61523020fb6f4ca31c4b1c7588684fde63d5eca90e",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Pistol_01.wav": {
+      "sha256": "5a6dc2b5392d358c326de1a6e96ea38fda0b8e1b864c1fadd0f6c8e92588d69b",
+      "bytes": 20772
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Pistol_01.wav.meta": {
+      "sha256": "0620a6690249649d8d044d299267f6cc341de5333e5903398cdf756b18fc0bee",
+      "bytes": 480
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Pistol_02.wav": {
+      "sha256": "47fbd4a1f27064fe1a74fbe4a9e20f3fdbae28a234c220a70f2ca66a187fa077",
+      "bytes": 20772
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Pistol_02.wav.meta": {
+      "sha256": "7ba60cd90b78646eb6df574ca808e2d8fb3b56446d534ebc1457ae6c610bb08f",
+      "bytes": 480
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Pistol_03.wav": {
+      "sha256": "249e8a4d6516427cc39e48c49a27dfdf54273603097ea14b851d34977eecf65f",
+      "bytes": 20772
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Pistol_03.wav.meta": {
+      "sha256": "244acff0d1b1eb0e409477da62c58b039ea60dd37ef7425fa66b844469b70ca6",
+      "bytes": 480
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Reload_Finish.wav": {
+      "sha256": "933c7a3f6a0ba5a9fdd75f62a4648d176f783a38db01ee21ae78dc87903e6222",
+      "bytes": 16802
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Reload_Finish.wav.meta": {
+      "sha256": "387e9a1cced31089b382c219241325605f730bc49d2f4ef5c3360858adc0002b",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Reload_Start.wav": {
+      "sha256": "00b6c36aafc78085559ae16805b08e66c2804d92fc317160bb56bb9172d8aac3",
+      "bytes": 23858
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Audio/Reload_Start.wav.meta": {
+      "sha256": "561c1651087e199d5b35af5ae5fda5582dfd5afc9f7ccefb928288504fd67536",
+      "bytes": 482
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects.meta": {
+      "sha256": "83780817e3c29a47f249fe92fa992731c87f7b229c5f7f7380072c2a888a0969",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials.meta": {
+      "sha256": "a3c774390d95d4fd93da1ba4c8bd270477607391d85e2702e4676b36d2079e32",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials/MVP_Casing.mat": {
+      "sha256": "e3377eae5a4a004723a97edb970d68b0f41cffce61e42174d69b47a0d485276a",
+      "bytes": 3835
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials/MVP_Casing.mat.meta": {
+      "sha256": "91f9b778692bf6c796df11295a9ab2ef3c6466318a027249b9319c1ae49b7d05",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials/MVP_Flash.mat": {
+      "sha256": "f4fceddb30389e23c8d12e478a5b99caf07deab3b2ec52e116b546d29ff8ec87",
+      "bytes": 1888
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials/MVP_Flash.mat.meta": {
+      "sha256": "3820c2a8488531f050bfa552edf042b2c4787a3198b53a09a2c6d06878c0e781",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials/MVP_Projectile.mat": {
+      "sha256": "0cac6379d9c6ae15394224c6993ccc16eeb801e7ab3f079127fad0aadb31cbb9",
+      "bytes": 1894
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Effects/Materials/MVP_Projectile.mat.meta": {
+      "sha256": "78851082a132ca8ef7c12c772554e2f939e808077a55550d86efeb9486a0f730",
+      "bytes": 188
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/README.md": {
+      "sha256": "c4739a361718f3d21774293a1e08cecad7d4405697f217edaafe404313380a39",
+      "bytes": 1342
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/README.md.meta": {
+      "sha256": "39a010aab6d526a4f842f42f34c3cd942b693a1cac7e9dbf1d3c4c7e4b4de9d8",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Settings.meta": {
+      "sha256": "e47f97306dbc7a92104b657f826a995515f9c377878f3494394fd16a479b0902",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset": {
+      "sha256": "c2fc9f3aa02b176ab391c5af9ac04d70885993a16027a60ce79bfdbc99f25367",
+      "bytes": 2004
+    },
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset.meta": {
+      "sha256": "3684a547b5488e97e3708934241d351980e425555b9d06cb0c07214165406a33",
+      "bytes": 186
+    },
+    "Assets/IntercomMVP/Documentation.meta": {
+      "sha256": "c3ebb650d5e6f2b24c73d6f46b1489590378ad4a1ea9ab4e300fa9b96d0b88dd",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Documentation/START_HERE.md": {
+      "sha256": "e137d120074c84ffe2013fb3ccdf5c3fc439a3933785ec915a5e6b65d2843db4",
+      "bytes": 2144
+    },
+    "Assets/IntercomMVP/Documentation/START_HERE.md.meta": {
+      "sha256": "0db4cf51f53fccd2ffa151709ab8f74c45a1ac0f1ae5ccbde2fa68413fda90ea",
+      "bytes": 155
+    },
+    "Assets/IntercomMVP/Editor.meta": {
+      "sha256": "bf3840860a88b470ab0458f0e5534b105053fda37d75a018d1cfb3b12e1bb743",
+      "bytes": 172
+    },
+    "Assets/IntercomMVP/Editor/Audio.meta": {
+      "sha256": "ecf47addd3cba161398e82b7061e58b061c0029bf18f65fece33c1edc495e8ed",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Audio/IntercomAudioSetup.cs": {
+      "sha256": "240dde8d59438952468de1ef9d24321ad74df25475c852d0a9b8c4c1d3f7fdb9",
+      "bytes": 3958
+    },
+    "Assets/IntercomMVP/Editor/Audio/IntercomAudioSetup.cs.meta": {
+      "sha256": "05aabc83ca4459c4e134c6b16d7c6b4cfcb32a42cd4d18f16a5ee3d57c393824",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Camera.meta": {
+      "sha256": "97a4fef73d4b6de52669e8c743c2ee4f1926f2c473975fa79a4451172f9adf51",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Camera/IntercomCameraFollowEditor.cs": {
+      "sha256": "b2eaa7fead031dd93c83f5a9d5ac37a4251125c22f15047b66f3d583807b7b5d",
+      "bytes": 13652
+    },
+    "Assets/IntercomMVP/Editor/Camera/IntercomCameraFollowEditor.cs.meta": {
+      "sha256": "aaeba2f54d1856c1578ed54210498178b9c9bb1710e0257348b559e0f33da5b8",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Camera/IntercomOcclusionSetup.cs": {
+      "sha256": "f26b058082b599d90b1641334acc9c6b900103a367a2f57a897d124d0cf2eb44",
+      "bytes": 3163
+    },
+    "Assets/IntercomMVP/Editor/Camera/IntercomOcclusionSetup.cs.meta": {
+      "sha256": "d0575936c6610fb7d44e3b2ac78f0ceba8b97cc0fc226568752bd7e2387a9ba7",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Combat.meta": {
+      "sha256": "578023f113a498d9e0688f7925ac462991bd44ed14721d94c5c01f316155ee40",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Combat/IntercomCombatSetup.cs": {
+      "sha256": "7776f88b2dac04bf879c4c453ac934f3dab49db486ed44d9ee6a6ea514439a54",
+      "bytes": 4827
+    },
+    "Assets/IntercomMVP/Editor/Combat/IntercomCombatSetup.cs.meta": {
+      "sha256": "56b5cb7936e0c86d1ade703e41723d144badf8c981111be44c46c6a9711d9efc",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Combat/IntercomMuzzleSetup.cs": {
+      "sha256": "3f0dd056b0c07bbb6e1bdd4461ea77bb58769e5837c23ee2a67d99aea0ee2c37",
+      "bytes": 11770
+    },
+    "Assets/IntercomMVP/Editor/Combat/IntercomMuzzleSetup.cs.meta": {
+      "sha256": "00e67d0924787c07783a401367b323fe149a348b2bfc80e69cd6fa26f5b2678f",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Combat/IntercomWeaponDefinitionEditor.cs": {
+      "sha256": "a75ba857be715dd3be85d27b47402807242ab4ad85589b290888ac2352ef3234",
+      "bytes": 3187
+    },
+    "Assets/IntercomMVP/Editor/Combat/IntercomWeaponDefinitionEditor.cs.meta": {
+      "sha256": "2e338224b5df49cabffb2cf35abd3a9150e245b7bbe89b10b767fe96f600c22b",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Diagnostics.meta": {
+      "sha256": "85cc6a674bcb57c3087c6bf7f8e1deb22ed5ab8eba6ae06db58a7e5b1012988d",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Diagnostics/IntercomPerformanceTools.cs": {
+      "sha256": "7ce2d11bc195c6ad17cdc684e6bb38b3dcaccccb362004ccdf12cae81694bfe3",
+      "bytes": 1639
+    },
+    "Assets/IntercomMVP/Editor/Diagnostics/IntercomPerformanceTools.cs.meta": {
+      "sha256": "8a202c24b1bcaf6cef2cfc29231e56d7fb4cf3b2ab195c9432a8744e1d500cd4",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Editor/Enemies.meta": {
+      "sha256": "4bd189715d44562fdfa3972438598ffde6e465cdc29a8d0f082e594f94b83112",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": {
+      "sha256": "dc1c8fdd31f9ffbbf9924f0286a7989b0a1f6cbcfe0e38ddcd0e31c09f5b3d84",
+      "bytes": 7974
+    },
+    "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs.meta": {
+      "sha256": "b8bbc9298883f94b0a6c19c4be8e4ce48e670a1af679ee37cf773082b154bade",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Platform.meta": {
+      "sha256": "b70ac83efa584b93bda3ef8156310435d22c0c081e384f7950e3c43bc7ad5656",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Platform/IntercomMobileSetup.cs": {
+      "sha256": "4507135d840144c21d021fb8744a386d32802b386102c30fb705fc5905ed0aaf",
+      "bytes": 11109
+    },
+    "Assets/IntercomMVP/Editor/Platform/IntercomMobileSetup.cs.meta": {
+      "sha256": "a945a8457ab2ce6e6cba5532846aa9080189e485849d12462c0af35dbd3418a3",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Player.meta": {
+      "sha256": "7724c90119000007f0ed3bf87b1046006abcaea111d6fcd7a0d380e0f502c50e",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomCharacterAnimationSetup.cs": {
+      "sha256": "811271ead2918f2293b13f42f2d221cd4825b34bf9df9efc9f942db857cffa7c",
+      "bytes": 2600
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomCharacterAnimationSetup.cs.meta": {
+      "sha256": "67118505d5e83ac936e046b8ef55493789f9f1bb3216cc06ba18192570ac3485",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomGroundFeedbackSetup.cs": {
+      "sha256": "32722c7350a6fdaaded7579d83e57afb431d65d76ba908797e72628a93af002f",
+      "bytes": 2947
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomGroundFeedbackSetup.cs.meta": {
+      "sha256": "588924d7f5638abc584179ed4b2d40220e8e5c6751ec2034fbf7d7e63db19950",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomMovementSetup.cs": {
+      "sha256": "cb5777a000a6bd29f5f9bbe55aa03bff7bab5840e7020b51ab3ac05556feb705",
+      "bytes": 41602
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomMovementSetup.cs.meta": {
+      "sha256": "c7d5dbb9be444e8e391b24df5ea75665ad568d112a92750223ad6c4e77e27f91",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomPlayerHurtSetup.cs": {
+      "sha256": "43bc3a7b7a0239a670d76d1b55f0ef108f03c35be24cde079cc633e748c1981d",
+      "bytes": 1547
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomPlayerHurtSetup.cs.meta": {
+      "sha256": "460cd1697917123c5065423598dbc813ce83ef7e3e8097e4b67d00116410effd",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomRobotAssets.cs": {
+      "sha256": "629449c17da54e8b51a25447388da16435f96bd7e8e509d9e2718e4648dd3b37",
+      "bytes": 14136
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomRobotAssets.cs.meta": {
+      "sha256": "ba84fb6edaffd8514282337f24e7e638fcda2fb365a133fad96696198eee313b",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomSoleProfileBuilder.cs": {
+      "sha256": "94436586fd26d29624d6a54d3aeea5a3cc77274bc6cb4448d4d91f2e53dce6d4",
+      "bytes": 19489
+    },
+    "Assets/IntercomMVP/Editor/Player/IntercomSoleProfileBuilder.cs.meta": {
+      "sha256": "8b927aa667b27847959387b8f93c30a9b0bdedebebdf14b88e8459e5384cead2",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Project.meta": {
+      "sha256": "a9c8f313a8d838da6995fbc574f575554ae586e75fba59605ac4e0b8866baa09",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs": {
+      "sha256": "e2e92fa390d2cc366aec0fc465143e6db80d8b105b5f73dca9617e27fd2c0bac",
+      "bytes": 5317
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomAssetCatalog.cs.meta": {
+      "sha256": "20bf6365467e003a83fc1165a9dbc719def82078154fbe762cf9e39a98124fa3",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomMvpSceneBuilder.cs": {
+      "sha256": "340dc4869428ff626986ba5d7596fc77c995752677ad423d07092b93c0e46e77",
+      "bytes": 14736
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomMvpSceneBuilder.cs.meta": {
+      "sha256": "ab26b3f0da3db927f3eca364c2f54c752732fe282f6285fa2ebcf242d4391891",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomMvpSetupWindow.cs": {
+      "sha256": "e3c01fd284fcdcbedd854e843a8d394b05f3c2405d1cebad1f1cdad55bccfdfb",
+      "bytes": 4256
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomMvpSetupWindow.cs.meta": {
+      "sha256": "1720afd8bad0f934b50189dcf965eb7b0966d9bea2ff54a7b9d5203706d57491",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs": {
+      "sha256": "9620dd8eec06166cb989da256779d7a009c5f2f50d76de855770d45915d2c5ca",
+      "bytes": 6124
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs.meta": {
+      "sha256": "955c7e637570721b6c67d4369e2979d5dbdda887f34ba86016274d0a127a2a3e",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectPaths.cs": {
+      "sha256": "b74f71398eb451dd7befe7e43f96462733929486256b44c06227882b4d754ebc",
+      "bytes": 3964
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectPaths.cs.meta": {
+      "sha256": "54a205b5253d580af4831f32f46936c68e18630020081878bd9035e00731f549",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs": {
+      "sha256": "edbafabba6aa0f2930461876aefd1262592525d614415ef826b0e6de0870013f",
+      "bytes": 5631
+    },
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectStartup.cs.meta": {
+      "sha256": "a84d6d9075ffc8a18c91c1ca21dcf9aac9523905b1dce8022cfd3fd19462a5c8",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Project/ProjectAssetsV13.json": {
+      "sha256": "ff8b8f933986e5926c5f15ea1bf77b05f205dca3a1949bd9f072c63b7cd3dcb4",
+      "bytes": 63499
+    },
+    "Assets/IntercomMVP/Editor/Project/ProjectAssetsV13.json.meta": {
+      "sha256": "2572eb8a04459f9c9e2d421b62933ebe8140def60077a0b8e44641b8abde8598",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Rendering.meta": {
+      "sha256": "0e4ce4e681299c0a8fb6eaded0941b018a670b68136607b1b558bf25eb9a449c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/Rendering/IntercomDaylightSetup.cs": {
+      "sha256": "ef1dc7fb12672ef2735ee3c0f9c490ea32216ee522802628eba72047cb4a203a",
+      "bytes": 7275
+    },
+    "Assets/IntercomMVP/Editor/Rendering/IntercomDaylightSetup.cs.meta": {
+      "sha256": "f40f6304429299691296262404ea7a57b536c42e69b6f230bddf82c09531f966",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/Rendering/IntercomRenderPipelineSetup.cs": {
+      "sha256": "c09c3cbd8dfddf23c2e36a5d83c8d9df6d8ff4401a63a22bb8478b8b11edb17d",
+      "bytes": 3809
+    },
+    "Assets/IntercomMVP/Editor/Rendering/IntercomRenderPipelineSetup.cs.meta": {
+      "sha256": "7709b78fdaa0dab413c2055f47b6dbae3f2cf82283ee02c2292030537d59c091",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Editor/World.meta": {
+      "sha256": "515209b00f221a3e5c3c9f969f20d9724b14759bab0c087e2b62c00f56438ec2",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Editor/World/IntercomDistrictSetup.cs": {
+      "sha256": "d17dc48e71c32678c43e3e941174a2212a69cf1c826f69c7fdb793bb4e3fc92c",
+      "bytes": 19638
+    },
+    "Assets/IntercomMVP/Editor/World/IntercomDistrictSetup.cs.meta": {
+      "sha256": "6148d3fe7ecebb7d389e6c855f8b2239c2dd799ef2c33bcc60b7bc1eddaad561",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Editor/World/IntercomReactivePropSetup.cs": {
+      "sha256": "b976424617f330bfd2def14c0cc81f34cb16e724d8cdeec927cef93861601af9",
+      "bytes": 2459
+    },
+    "Assets/IntercomMVP/Editor/World/IntercomReactivePropSetup.cs.meta": {
+      "sha256": "2119a06c9bc47be16f6e3f24ea062570edd9b39002bbdd630e857f6a6ec71055",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime.meta": {
+      "sha256": "388419750a18fe13f53b0c40a1bfcaa4f1b942317ef9ff16f42049d9b6fc8732",
+      "bytes": 172
+    },
+    "Assets/IntercomMVP/Runtime/Combat.meta": {
+      "sha256": "5c3f685aec7151565627c371ef92934418c32f5a91d96554a8321f27f8a1211d",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Effects.meta": {
+      "sha256": "5fede8b6a5eb5660c3d04fc394b5cbbe0e24aa3e3ff551d33f7860c68331d81c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs": {
+      "sha256": "a5a0f0c03a1b7384d26004694f54b5345e1e6ca7e50654bcbed45dc36ee8e131",
+      "bytes": 17734
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs.meta": {
+      "sha256": "64acd9e3dcd91d61aa7284c838fa07aa187b943d43faefc7e4d8b24837a196b8",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles.meta": {
+      "sha256": "f33f4d7fae372ceac4ddea4a53efa207f76841ed08009d7bf619f6ab3368399c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileDirection.cs": {
+      "sha256": "9e5322630b7aea8bd53f0fae1095d2f678267c2c7ab132d134efa21e1b84a15f",
+      "bytes": 1254
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileDirection.cs.meta": {
+      "sha256": "12758fc016598d6d5a4b3bd9b3879c7aadff868bcb752ff55d7295162adc74dd",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs": {
+      "sha256": "9d506c3a3234287fabd0d47be58b7d346c19d34e87408a8f010bfcb010c0d1f5",
+      "bytes": 945
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileHitChoice.cs.meta": {
+      "sha256": "96c29effff8aeaa469e4ddda0bb617386400668283861301c9bac41413b8788e",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs": {
+      "sha256": "9bbc603d8a5e63381b6007fbd6ec9323474c93648db2b7e420f448f43b4fc26a",
+      "bytes": 2092
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileImpact.cs.meta": {
+      "sha256": "73c0578c67de02fa87e5ef139680b0395f6995a18ed7870165ad4b63b1e0381b",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomSimpleShooter.cs": {
+      "sha256": "2ac48d70534925d9ddfa18d7bbdbc9971d6e7a74f94205baa057fe9b55998d93",
+      "bytes": 22383
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomSimpleShooter.cs.meta": {
+      "sha256": "db67ed46818aad9c1d2b148f92c54e7d3f1d469b761868dc898559d8ba95994e",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerGeometry.cs": {
+      "sha256": "69a00cf8b0c7ae89725850f6206b0b595c9e08bf54fa8b711545680dcd273733",
+      "bytes": 2345
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerGeometry.cs.meta": {
+      "sha256": "2fa6122cb23a492c138dc89f2178dbd69fa3509a6ed245a225e88b6f1524c0ed",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs": {
+      "sha256": "507fbe871f5656a46f6e50b33abd3919ec7c353f00f2671cc6cf6beecb86971c",
+      "bytes": 862
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomTracerStyle.cs.meta": {
+      "sha256": "1cf9b50b7fbd1d47ff01d43b5691b985bdaf9d1a857caef8743a1b91374db924",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons.meta": {
+      "sha256": "b146edfb65640fe3f17aa036241027aa14f89ab53888d461b2ce5eeaa3464c1a",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs": {
+      "sha256": "55b6047513048dcf52c7ec2f8bb70107ddc172b960dc0302a4609b6ccfb62808",
+      "bytes": 2149
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomMagazineState.cs.meta": {
+      "sha256": "f2c57a21875d9375e3c305b38af546354a0c9cda4e2e2bb5d2da5c3ec829a83e",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs": {
+      "sha256": "0206c2a11f3d018d02ced5f7d77b45eb6fed2d3b0e6a56ac42b29fb5e91ee1a7",
+      "bytes": 895
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs.meta": {
+      "sha256": "af5bf3a869665b83939b3d69ce4904ad5dd6fe38c1b048bc91a2c38cc38328e2",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs": {
+      "sha256": "6a8d9062aa380c601ea83ea6e9e0a6b14a1fb16698b772fc0795479d1b368707",
+      "bytes": 2309
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponBalance.cs.meta": {
+      "sha256": "e88947a7d0cd7116adc2c632438ffc235f8b38a51ab9289cdbab0c49c763db43",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs": {
+      "sha256": "16a3248644da389314a9b43610c1c2fe30a50067041141e840a6ebb3c4af91c6",
+      "bytes": 4331
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs.meta": {
+      "sha256": "ae5b30345137e4b344de2c15d668c803e1879f4ebcd8a6944d33b1a71a7bdf56",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs": {
+      "sha256": "7aa8be1034a65389022053fc64ab32ff64830a10de483cf4f9fa32566ff1239b",
+      "bytes": 4045
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs.meta": {
+      "sha256": "f074da2b8f182d8d40c8aff0a857b556879c7422ab0a711ad1590c79955d3b99",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPose.cs": {
+      "sha256": "64d2f233a8709755a046bf0df8d418cc4a272219ca8334fa20ef4e549368becb",
+      "bytes": 14386
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPose.cs.meta": {
+      "sha256": "9d2b0dbf2081b040b0fe7e26f5ba0bf098a11f607de91eaf640cfe40e7610a3d",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs": {
+      "sha256": "4cc45e9f0996a341874cdf78f9ec5ebea57dc95ca01c59415a940827ee6c93be",
+      "bytes": 5825
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseClock.cs.meta": {
+      "sha256": "41847b5e6fec5f174156fb64a7aa186a1acf6e1a43b9acac848321e36a19f9f6",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseProfile.cs": {
+      "sha256": "305b9e9d4ce94731fff443c6291579e1603f211d1059dae0a775c9a58f9ae473",
+      "bytes": 928
+    },
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponPoseProfile.cs.meta": {
+      "sha256": "52e21d306f14bea59d3a36c848f67f6e76fa0743ea3f3afe5ae9dd07f8c024aa",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Diagnostics.meta": {
+      "sha256": "9c70d0006969c717946fa3b44e17f89c80f1ae2c6606063a0ed6532526a6e505",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Diagnostics/IntercomFrameCapture.cs": {
+      "sha256": "1faa94da5f69328625e55309ff207beccafe99edd68d7db438635a5958eaf09d",
+      "bytes": 1521
+    },
+    "Assets/IntercomMVP/Runtime/Diagnostics/IntercomFrameCapture.cs.meta": {
+      "sha256": "c358530a82e3c2c77d7ab7b6b16cacec68a62030c35e545793f06933e1a387be",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Diagnostics/IntercomPerformanceCapture.cs": {
+      "sha256": "ced811c69f8263b15fbb4305a18dba6c9910164b8816c87412abd10bf609c59e",
+      "bytes": 5583
+    },
+    "Assets/IntercomMVP/Runtime/Diagnostics/IntercomPerformanceCapture.cs.meta": {
+      "sha256": "19f2c45a98b961babbf0bc9071fd7707c0ad920f8948faa2cea2bea2a86c4320",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Enemies.meta": {
+      "sha256": "5a451ed3777b97a8730079c657a3d8c1f63d0cd8823d97702975722a33ab13ad",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors.meta": {
+      "sha256": "e2f1b2a7ab30541311c2530c26cc01efebf043de596fdec43f4065b05c495b95",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcArena.cs": {
+      "sha256": "251dc484d7d69c258e5246b7c33af3da0c33c552abf9ccd85ad6ccfeb74b9608",
+      "bytes": 2874
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcArena.cs.meta": {
+      "sha256": "fd84bc3e30f61f8671836291536ca152ab0fea19733c6d6496df9152fde27b3f",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": {
+      "sha256": "673ba68a9d639b5a6d20e9728b5f97c8de23b9eaf22d3210a0d4432465390548",
+      "bytes": 6165
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs.meta": {
+      "sha256": "7ce385668b032bc7427a7d0b5e89bd04613dda9c7c3730b4e56fb2ac76bba420",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": {
+      "sha256": "c4efd981cb123cbeebfd8ffef5dd1ff33f300fc36ba09085145c42d8215b5e97",
+      "bytes": 32669
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs.meta": {
+      "sha256": "9c88f465232e16fd1cf23533cb5bb5a06aa0259cb6072fd6b671a8a4c6df7645",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": {
+      "sha256": "9691a62e693d20c0f9f18d8ef0637c0a3caf25e14fa7865b7f57c271f5a8cc2f",
+      "bytes": 2236
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs.meta": {
+      "sha256": "2fa7d23ec5ec5204ceb96e244f729134e6caef7fa55c5c8711b39c944f07c931",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": {
+      "sha256": "9a1534ca1bbd98a440c031648201d8848fd8bf429c8f25dea9ce8a9e22c269af",
+      "bytes": 7968
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs.meta": {
+      "sha256": "c797b2bcd57e6208a3ebb86dda428cf31d0b9c6b61b54064101758906198479b",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation.meta": {
+      "sha256": "5715506800901cc4b4c2cf21159274a6698333cd4f352a47ad5c05fc598383fb",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs": {
+      "sha256": "500c658e2b043203c6cc72fea6b73f86a52a42bd18e51c272c133106ea518ebd",
+      "bytes": 12328
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs.meta": {
+      "sha256": "1fbeee52ffb753c9487f539ab1ff350f6d15a11e0279d7d601145ca7e5ebc5bc",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNpcNavigation.cs": {
+      "sha256": "2cfc8606441e8935667511e2c26f59bad92aa347bf17a26cc58afd3e33244995",
+      "bytes": 7328
+    },
+    "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNpcNavigation.cs.meta": {
+      "sha256": "c948b86aab5fc8751b04848bbb7fc0ef888d4e937fc2d4b1af3e53e46842f641",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Missions.meta": {
+      "sha256": "990591b1db53a9dd13aa8f1d015c33a033cb3f046f8e565bb541e73e05711f9c",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs": {
+      "sha256": "018ebfe63f5b2dd4371f9716dc6d345d1bbe708cfdaaf5c588d0280755e32ffc",
+      "bytes": 1039
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs.meta": {
+      "sha256": "2b910fd3145d54d7a8c614114ec9297860eb3fe4719bc633f891415dc8f9fa5e",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": {
+      "sha256": "818d748ece35daa38c8be9a31fd9ec371de7ffd83a5c2d4c8a2379ab9a3a4283",
+      "bytes": 30019
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs.meta": {
+      "sha256": "ff836dfdced4e8d2a1a04ca1fc02fb3b00ade76256a9dd577d2b9660a3254ebb",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs": {
+      "sha256": "838891c2b1ffefe254fb4655a531e22a320e465c634128019779270bfca4475f",
+      "bytes": 3109
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs.meta": {
+      "sha256": "32592d5b7aa381db3fe300685c4a026e91f754e32480c8f6ed75284ed648383a",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs": {
+      "sha256": "b9c7d31a6316d708c15acc53346ebddcd68689872c187f858500e1cac7478467",
+      "bytes": 11679
+    },
+    "Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs.meta": {
+      "sha256": "77640e26c7a85d6019e791561c279edfce936024e05cefcb52f6154064e444c6",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Platform.meta": {
+      "sha256": "c3fec232a12d25f7f1d552412031e661271ce04ea91721ee83eb4c8fbbda9dd9",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Platform/IntercomMobileRuntimeSettings.cs": {
+      "sha256": "5a933eb229cc89515640903caf8d1f636ba0252c8df0690741bbf1860d55b459",
+      "bytes": 1024
+    },
+    "Assets/IntercomMVP/Runtime/Platform/IntercomMobileRuntimeSettings.cs.meta": {
+      "sha256": "12c46771bdd40395f6d135ac9fb039e14c1e3d8fec90ca9d2823e373fde0f23d",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Player.meta": {
+      "sha256": "c2598228d91a6f5896c596a13572293fb64a8efc45f4ec9ad488ba52d83d3ef9",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation.meta": {
+      "sha256": "8856c87b007dbd504344d8727b1fdc664030d47b1adf027b9d8ba7b7dcca6352",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimation.cs": {
+      "sha256": "a7a99d091e4981b30d10775d00d64c01501d118cbd1dd25ba6c0fcf4e8455281",
+      "bytes": 18599
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimation.cs.meta": {
+      "sha256": "420bce4db85e1ddeb583a564b3f637da2266649e7ea70c5a30714e00acc277ff",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimationMath.cs": {
+      "sha256": "23abdda6ab600d79a6ccb0eeba4a88289016f65f8d0e45f98cebfdc54fb65f63",
+      "bytes": 3423
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimationMath.cs.meta": {
+      "sha256": "b29d1bee2adf39b3f3f99d23887134738aa839b5ec294c79f483f797062182ca",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs": {
+      "sha256": "cea0c6fdec37828d9f2413ff7420bead1e4b393a128f5e50235ccf65875e68f7",
+      "bytes": 43841
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs.meta": {
+      "sha256": "2b50a6e76cbb331851b7ce926fb3e95c9d9607458abeb279ee2d02ca4b378bda",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs": {
+      "sha256": "5eb64dc82f89490175262e5d5751520a222702cc920ac2d3386bbc8d0d57c9c7",
+      "bytes": 23746
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs.meta": {
+      "sha256": "e29164dffcd11f4f5f47b196ce073a4b839a0029ae056173acbd5dfedd965af6",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs": {
+      "sha256": "5dc1994102f97adc8d2712a207c6f9ed4a837e7da4f681882344ea58b9ad709c",
+      "bytes": 829
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs.meta": {
+      "sha256": "6cb8c3fb9b2930bd9c95808600fde1689054a4ddc943363356558b703b4fc1ce",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs": {
+      "sha256": "9892802350e35211b03d27b59b744306853c5e2f180f4efb1d0ab03e737d205d",
+      "bytes": 5256
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs.meta": {
+      "sha256": "b05f14a286e5168b74efc532f18273a3479b8ce3ee32bacc86df1fc1c528c1e0",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs": {
+      "sha256": "b585bf8300219e584bb66040e4a192681f026e99ac24d80f57d9af32717488f2",
+      "bytes": 17171
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs.meta": {
+      "sha256": "3dc76d7638f51974d371cdd209272cda4229a8876b6ca220467ba75b008d74fd",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs": {
+      "sha256": "9fef48a02620abaf21c4d688f8ef34ae008e2876a06c65f59c5958ad9548c1a2",
+      "bytes": 5279
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs.meta": {
+      "sha256": "21de2c0c16c21a3a530f682d44d69c4211047513a61b8142c9dd0926db2da079",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs": {
+      "sha256": "80202091f8d914ed9e3908f2b431dac79f6dd9064d8582147b216f34492a1988",
+      "bytes": 7512
+    },
+    "Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs.meta": {
+      "sha256": "fc51b815b02cb7ce77b048f9574533f97dc9eb2cb436a1f59b3a3f36758bbf85",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Feedback.meta": {
+      "sha256": "07ec31ca4074c02bb624d9bfcffc26b5a13b6e7399d4cbf9f025ceda4fa9c2df",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Player/Feedback/IntercomHurtResponse.cs": {
+      "sha256": "ffda783716df22ba930df89f4a17608f46e3f833fa7d2a701e588b2625a0da5d",
+      "bytes": 2770
+    },
+    "Assets/IntercomMVP/Runtime/Player/Feedback/IntercomHurtResponse.cs.meta": {
+      "sha256": "a69c07230d1f5b445bd0b8de750bd44e438c42e398cce9c68a3cd4d2a59f1966",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Player/Feedback/IntercomPlayerHurtFeedback.cs": {
+      "sha256": "e410a17a9da47d5d6c14ce500199b8de980fbcfb94e68d42d1f01423be8c25dd",
+      "bytes": 6825
+    },
+    "Assets/IntercomMVP/Runtime/Player/Feedback/IntercomPlayerHurtFeedback.cs.meta": {
+      "sha256": "82688794352d57b75a2b83d33c93d94eb0db96407ae729ca1e370ad3f6422f0a",
+      "bytes": 240
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input.meta": {
+      "sha256": "0a31871f19c2ab71dc61f72b57f83b5908292effd71e7565bce83b17478209ca",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs": {
+      "sha256": "65a0d639d6cd04e5b6e661e70a480c8b6ce7e4b67c6bd91d73a1e0cb7f924706",
+      "bytes": 835
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomInputCancellation.cs.meta": {
+      "sha256": "d5d2287b3bea47df7823cef79afc558d6b1385c3156fea465bc70aa7cd147dc3",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs": {
+      "sha256": "27da1bf9664bff987131349cd4d9e5736bb22d90e4c6f251366d6d5c6616c729",
+      "bytes": 21924
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs.meta": {
+      "sha256": "65afb64dac1b2291acf33f59a420248571bea3cf4ec96c189adb69f28f40546f",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs": {
+      "sha256": "fd6d41acedda555f63568a13959251ce978b053854ac29d7a78cda8ef05852fb",
+      "bytes": 5888
+    },
+    "Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs.meta": {
+      "sha256": "2682d9bf4f32865252decb140e9da0193a82e7dd084175bce562dbead847e881",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Player/Life.meta": {
+      "sha256": "a5e6c51e8f723e136a56c995c97411de0ede281de43f3fa42b55648528c7410f",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Player/Life/IntercomPlayerVitality.cs": {
+      "sha256": "f1c62b033e21d7f3ea5530e5f0b5ef5c034f0d7fdc9d8351fdd729423ce96c9e",
+      "bytes": 7284
+    },
+    "Assets/IntercomMVP/Runtime/Player/Life/IntercomPlayerVitality.cs.meta": {
+      "sha256": "efe934df3dbbd2064dcad1bdf3f175353f7132d16e79ed4d15cc41b68733cdbb",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement.meta": {
+      "sha256": "89a7909c6dc443f4c48355c28c8acdd43d5e497914c4c74929cfff80b647fa52",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs": {
+      "sha256": "b89d83d9105dda444bd8267d5104c27dc58cf90a0b82abb07f8569eb6692e327",
+      "bytes": 2797
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs.meta": {
+      "sha256": "62ad0a2d61dd219380355430009809ee5e474c49fec246cc558d5c1fe8fb3170",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs": {
+      "sha256": "0c0e14b3f283cc7f0173d9c5d1691cd26ddf405c1944c0f3d432a27b650405ab",
+      "bytes": 2223
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs.meta": {
+      "sha256": "5def8af7bc5ce83ee2bfbadc788c2ef5ddf2cbb1f453a3264cc2a216240b7f24",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs": {
+      "sha256": "60a8c4ee7aeadf7e8b242a5621fb1049bf0e4d8c31a4e1ac07f323328d9550e7",
+      "bytes": 17423
+    },
+    "Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs.meta": {
+      "sha256": "282209f7e568c72bb38b2525cde2b4477b1756411dd453a521dc82d31d5e9501",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Presentation.meta": {
+      "sha256": "c353ed81cc381eaf3b57c93c5f11b7e62c5a7b8256ec9bd1c037f8fe63e7d185",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio.meta": {
+      "sha256": "f14eddc8efcc12702a90820355a89c407538c2b226caa07cb0b168b416d5847d",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioProfile.cs": {
+      "sha256": "46f6a8f244a86d94de323c036c7fa78b5b408a7c92876294ae747a3b44261995",
+      "bytes": 3339
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomAudioProfile.cs.meta": {
+      "sha256": "61f64d0f79f09cdd3741ddb6ef863e5e488cdc3d4083cc0e66673992f45d32bd",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs": {
+      "sha256": "fab92de314985a8127e0e45aded95787c0d8dab54e5594dbbea3f38136b84324",
+      "bytes": 1379
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomFootstepClock.cs.meta": {
+      "sha256": "f5d22a3fcbd40caf9cf68cdc9eff64cebea81bddcaaaf94e5e2aa18a295f38eb",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs": {
+      "sha256": "f0c3e35a6157182a496a3ad5a00b11c793324453b97315dd61dbbfdd01e76626",
+      "bytes": 2997
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomImpactAudio.cs.meta": {
+      "sha256": "4e630ed34c6166b56265b1d6b28c19bdd92cce0fdec96f4f5aefedbb74d29c11",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomPlayerAudio.cs": {
+      "sha256": "97fc9aa11c1c76c68f7b3602734a0f51842e06233be9c2d2cf9bd587dfafd5a5",
+      "bytes": 22725
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomPlayerAudio.cs.meta": {
+      "sha256": "b8c77c0e89e617b44f306d9ae8b60c61f20eb3fa0b6f0a130fbbc136d5785f54",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Camera.meta": {
+      "sha256": "969ac378ba5f248633b4f13b11a8cb8d76de4e4df1a93edb68ac69c47c7f7290",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Camera/IntercomCameraFollow.cs": {
+      "sha256": "a3acaf9b513d2506c5b557720bdac9629d1b61be6cc56af70f3a25a4f2eaf9d0",
+      "bytes": 15835
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Camera/IntercomCameraFollow.cs.meta": {
+      "sha256": "775261732e3e773b705be8c139d7b1fc68b7842e90ba807f329c788b980f7522",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Camera/IntercomCameraTracking.cs": {
+      "sha256": "fb79c8b9103882dc158fe43a5dcad7ea8313c6ab3af8c5c4d5db5254a8a1849b",
+      "bytes": 13699
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Camera/IntercomCameraTracking.cs.meta": {
+      "sha256": "403acc852851ededf12dcc5da06699f16be1d56a88a641b212a20ef499ce8ba2",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion.meta": {
+      "sha256": "1206e39af8c746dbe916326167a99b5b6880124e73feeb197811737b71f7b8e3",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomCameraOcclusion.cs": {
+      "sha256": "803c9362a1ac607e6a070829979524af829d42f393e578102888ddb59fdf28a2",
+      "bytes": 17525
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomCameraOcclusion.cs.meta": {
+      "sha256": "6eed532de8569c3cda708df320767cc217e95c5793106f344e7bc839670abe71",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOccluder.cs": {
+      "sha256": "22e5a77cc8c24536b5cfc2aaebc784c38f87a8e5b1cda9925b43e5d582060f3d",
+      "bytes": 1339
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOccluder.cs.meta": {
+      "sha256": "05b5acde9ace3016f72f2cd93ae6b77a518530d22c56bf79453c5b6c91977ef6",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionFade.cs": {
+      "sha256": "288bd4246aad37da179862e89eaa21fd9fb234e988ce216d4664289388fff79b",
+      "bytes": 9121
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionFade.cs.meta": {
+      "sha256": "ff689ecb217bf21c6901d76f4f807f56cfb2ac1a9cf84706e04e0e11e153fb9b",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs": {
+      "sha256": "17319dd44cc80f802e59082e4e3ad02ead9044bc15ea8cfcce0911d0cc74e058",
+      "bytes": 7009
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionGeometry.cs.meta": {
+      "sha256": "a96451e1afcd3da61fafd9b5d75cfd94c6e4f90880712961c69e74de80f21ab8",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs": {
+      "sha256": "ced5687e1340732b0e319a3500e0114b2fa61caf646cc61201db00ea4c1390a7",
+      "bytes": 4096
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionMath.cs.meta": {
+      "sha256": "c6ec84dcefca5699d1328a357bd87a73b882a60a59aa545d11705673bf7d1a11",
+      "bytes": 59
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs": {
+      "sha256": "89030b140b289b54e18e5f1751f3bc6da7bd433add28e3f778427ce0ccd77f6f",
+      "bytes": 1389
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/Occlusion/IntercomOcclusionState.cs.meta": {
+      "sha256": "644f15e5db225bf813b291eab4aace5ab2fcfa42a9c1a459893926a583a2066d",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/UI.meta": {
+      "sha256": "458214d44f7b70195274fa940be85c28051ed88cea1e0f5d62a8345980292004",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs": {
+      "sha256": "c3bd8ce5425b48048f25aefc96ebe18026d83cf849954eab50fcdbed54faa12f",
+      "bytes": 6590
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs.meta": {
+      "sha256": "b174dc4942a852fc55cafb3cb39429a7d6c2c003ded2dd8324f43b64f300627a",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs": {
+      "sha256": "a1db61c35f97d48fce4e613bf8e3716448edbe067f7b455cb01058055660af76",
+      "bytes": 20022
+    },
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs.meta": {
+      "sha256": "1b35c41c7580a0c89aed9065d7cc256a8dc9a6d6fba53dcf2df2f4f6dd56be15",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Shared.meta": {
+      "sha256": "11aad5ff09e23799b047f3abd5abb6ce8decf6e71447472677db4670c7c09e30",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage.meta": {
+      "sha256": "24494b9e3da3ce400a958e0323aeb31c32753d31f61a6d2313b2663975d678df",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs": {
+      "sha256": "757af175fe12f7d89207fb303a3a055e939785fd89164fe61e207df4f4ab9cd1",
+      "bytes": 626
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IIntercomDamageable.cs.meta": {
+      "sha256": "c8ac3ab9841b817a12c913f47ce8aca2b5364cf8e1bfbdd09655ab3b122e1687",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealth.cs": {
+      "sha256": "e89ab75b92e15877fd345d3b24e0dc67e780242b993393deea6565fdcc084ee0",
+      "bytes": 2858
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealth.cs.meta": {
+      "sha256": "6c9e47b378a3ce7925d97e109819b3bf3f677dbbe609ed920d0c75cca2e27269",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs": {
+      "sha256": "0633578ff2c0e0a18cc339c2c789b1126f3400793d0d578583a0ab0d967b9dea",
+      "bytes": 968
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomHealthState.cs.meta": {
+      "sha256": "5d1e71c4915c319a48ffaaaba985eb76f9c48879e60e12757bd8c172c7a62576",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs": {
+      "sha256": "f9f226d07c050a6de2058f3948e28f0ced00de9004071e3e1e60ba8cbb6bd01e",
+      "bytes": 190
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Damage/IntercomTeam.cs.meta": {
+      "sha256": "a67fdb7ff3faea95f0e1684ee1a20332545cbb43ab5b98260846a0238a7e2a06",
+      "bytes": 243
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Surfaces.meta": {
+      "sha256": "f9e1ba97f134d46d8463d043f696ac85b67da1568bbd0e183f87820a4d6bcd99",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs": {
+      "sha256": "afd583f97fdaadac5a363e5d5355fb56a58b20e3ba2125ec097e0473107a3e57",
+      "bytes": 1409
+    },
+    "Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs.meta": {
+      "sha256": "a253342e8b4e1a041ae03d4f971fc67990298224312fa99139203bb8c2eeea76",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/World.meta": {
+      "sha256": "ed00e2898191d6d37190e74159a170cacc16158b23767dd6caa62fde77962cb9",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/World/Authoring.meta": {
+      "sha256": "bb6c6ac56a25d91fa69b1e6aac02d84ecc22ad1517cc80dabbf02ad8f39f3daf",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/World/Authoring/IntercomDistrictMarker.cs": {
+      "sha256": "1cfe9857f24435b0a8b819983fd3bbacce8e4ed08419da18d060072c4bc73580",
+      "bytes": 395
+    },
+    "Assets/IntercomMVP/Runtime/World/Authoring/IntercomDistrictMarker.cs.meta": {
+      "sha256": "af6d3f831ba16235fb55cce7dfb24e50732dda91b350e1706c19f91b6c9683f4",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/World/Authoring/IntercomWorldAnchor.cs": {
+      "sha256": "09e5dbc2243b20bb8179a050f43a76c7744abd5cd213eb2ad05100890ac5cc6f",
+      "bytes": 1026
+    },
+    "Assets/IntercomMVP/Runtime/World/Authoring/IntercomWorldAnchor.cs.meta": {
+      "sha256": "f24f5e0d06cda0164fd74d0c9d6c3deb831b21461322130417084f808d8de9e1",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/World/Props.meta": {
+      "sha256": "78e2bc999dddf0b4d01bab850512362786e0d98c509e6a983e34e8cd092d2bc1",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs": {
+      "sha256": "b98301c186c3cc8cd368840da31dd2339f51ff8aa8ecbd9683b3c7bda375a73d",
+      "bytes": 2603
+    },
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropState.cs.meta": {
+      "sha256": "384eba43d4aa035b313bd08fb665e62b5f24248831339ca410db9d235050e1f8",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs": {
+      "sha256": "2f9fec9c85b3135da912ac9c2dd9a32d8d129873fde14fb9215d368194e23373",
+      "bytes": 10660
+    },
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs.meta": {
+      "sha256": "e5e7e8bf5eb5b4ab5f876af39ed16e4530b6f6abbfc4eef666a32dd1618a8517",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomTargetDummy.cs": {
+      "sha256": "5b19eb59d3420a8a42ae9d63a4842737b9d0e14d1073049b9e4dd6899a3ab6fa",
+      "bytes": 5855
+    },
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomTargetDummy.cs.meta": {
+      "sha256": "cce837c64d9f9f811b79799d093dd080848cb26a4d000034d25b15defbcf7944",
+      "bytes": 60
+    },
+    "Assets/IntercomMVP/Scenes.meta": {
+      "sha256": "51b8423d6a6832409ba94e191475f56ec67e973f95c50e408eb8b4c34147fcce",
+      "bytes": 172
+    },
+    "Assets/IntercomMVP/Scenes/TutorialYard.meta": {
+      "sha256": "0f3df638376550693e083042be00259cf0e64a67b20300b87500e3858daede96",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": {
+      "sha256": "db72066d0cdb788d0e632df6a285de1e0ade47dd7b322cd1a5cd63dc6ba179a2",
+      "bytes": 626816
+    },
+    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity.meta": {
+      "sha256": "c20e8a920d7db69f58300269f57a8a7bf40c28509b65837cee5b9edd56533cb3",
+      "bytes": 155
+    },
+    "Assets/IntercomMVP/Settings.meta": {
+      "sha256": "9c33b224bb9f3834ff4b65d331601aa1fa369120e4919708bc1f65dd6810cb7b",
+      "bytes": 172
+    },
+    "Assets/IntercomMVP/Settings/Rendering.meta": {
+      "sha256": "6727b3b6d6894a6957e6539d21ee347ad9a67517c0e282d64ef87bdc977f66ce",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting.meta": {
+      "sha256": "69541d714462e79874b21c5605a2770c50d57637fe0c32d1f8bf6c7f296c97f0",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight.asset": {
+      "sha256": "0d7ab5e5f13281eeb8cdcfa36fafe4df16079e63d5bf502c88bae1f7a7bc1e3f",
+      "bytes": 1785
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight.asset.meta": {
+      "sha256": "37cc7a29419cb3c2c21fcd121bf6806703b17c03749cb251c8b514e94068716c",
+      "bytes": 186
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylightReflection.hdr": {
+      "sha256": "008539eedf62aeb0d49218e82b00ff30b6b13cb80c96359a3a79f324dda0fdb8",
+      "bytes": 524337
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylightReflection.hdr.meta": {
+      "sha256": "b8dc382a6dae10b62945c2d101e1a4cfbc5e2f372ecfb6fd8a754e4f7ea34dfb",
+      "bytes": 2283
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight_README.md": {
+      "sha256": "bccd03a094394cc1c074b1be96b2becbe295b3dc95e49a6b044dfb4b2f51428b",
+      "bytes": 1246
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight_README.md.meta": {
+      "sha256": "c4a34250415b54356ce173d7248d4aa4c168132bfd97f16f82c09f4d541f47b2",
+      "bytes": 158
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Materials.meta": {
+      "sha256": "85dd216bb52a126a464d3ff022a09b4748640b15838e04c86f5c30357e5f02d7",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Materials/MVP_OcclusionFade.mat": {
+      "sha256": "60dc7ef927bba4c248a8734de359336ce5b1fada40d681b6e01ec920418760bc",
+      "bytes": 3884
+    },
+    "Assets/IntercomMVP/Settings/Rendering/Materials/MVP_OcclusionFade.mat.meta": {
+      "sha256": "1d0c72c23f3c93d0948263434f77c012f0f5ba5339a244c49040301c08befddf",
+      "bytes": 185
+    },
+    "Assets/IntercomMVP/Settings/Rendering/URP.meta": {
+      "sha256": "7f93aed47ce7ffef887d1583facca837f8076e62e3dae4163a04b88f041d9d01",
+      "bytes": 169
+    },
+    "Assets/IntercomMVP/Settings/Rendering/URP/IntercomPipeline.asset": {
+      "sha256": "ccbe4eac6291fd3a074477fa8c16789656bbbb991b1fc41a2a9c155b09d5118b",
+      "bytes": 4700
+    },
+    "Assets/IntercomMVP/Settings/Rendering/URP/IntercomPipeline.asset.meta": {
+      "sha256": "55139c385021bcac87c08cff6760f3f6ca95f7fa1562c00e4a5b0d656b713575",
+      "bytes": 189
+    },
+    "Assets/IntercomMVP/Settings/Rendering/URP/IntercomRenderer.asset": {
+      "sha256": "02d14f6e7815c2b22e16aad43b66dfe38f3b4c0d21a22c5119e9e85bef158dff",
+      "bytes": 2707
+    },
+    "Assets/IntercomMVP/Settings/Rendering/URP/IntercomRenderer.asset.meta": {
+      "sha256": "328451fef95794c5539ebb74dd5e78cdad33148f104a23590cb25815419c2dde",
+      "bytes": 189
+    },
+    "Assets/UniversalRenderPipelineGlobalSettings.asset": {
+      "sha256": "49fe3439fb000438073ffc65606382ae7091e78ed72394fe2e343749258510c6",
+      "bytes": 25441
+    },
+    "Assets/UniversalRenderPipelineGlobalSettings.asset.meta": {
+      "sha256": "24873b15a9953a413a45c419480e9d66e24932d49c80220fb392ef626725b8ad",
+      "bytes": 189
+    },
+    "BlenderTools/Export_To_Unity.py": {
+      "sha256": "e93237a3d6c418ccc4c97b389530611ebd9eb5201a79faafa4a18d426e741fab",
+      "bytes": 5821
+    },
+    "BlenderTools/PreviewRun.py": {
+      "sha256": "d246324e75ac298eef135f7b993fe6e60131b6da45081779a9c218c8be3f584d",
+      "bytes": 2354
+    },
+    "BlenderTools/ValidateRun.py": {
+      "sha256": "dcd3d9460ec9b58362b4f22b3903249b44f4d11511c1c91994f9dc7f4ce18438",
+      "bytes": 4949
+    },
+    "BlenderTools/ValidateWaist.py": {
+      "sha256": "2d4683998fcb827a42dcae5152f5c3a3e6d912189c6d982fb2e995a2a5aa1e41",
+      "bytes": 2278
+    },
+    "Docs/Architecture.md": {
+      "sha256": "d18628b0784b9eb499064a766bd8d90bab5a728d08d91c0d6f4b296fc221f899",
+      "bytes": 15013
+    },
+    "Docs/ArtDirection.md": {
+      "sha256": "262d0427c7d2cd65ecd8dfa20061b1668154ce62d56c25eb2865988743ae7f75",
+      "bytes": 4386
+    },
+    "Docs/DeveloperGuide.md": {
+      "sha256": "53e3d19ad7e8b7c331db67f08982a0f5a23ae0599d786a166c1aab1e505a8d7b",
+      "bytes": 14049
+    },
+    "Docs/ProjectNavigator.md": {
+      "sha256": "7abe34f8434dadbc288294ec4dfb2a2b301645fe1b0a67142dbcd26e57e8af99",
+      "bytes": 2085
+    },
+    "Docs/Robot_Run_Poses.jpg": {
+      "sha256": "2a4963016863bd66278de06250be3d4e5d72f3396b0b7d78309f93fa6029113c",
+      "bytes": 246605
+    },
+    "MOBILE_TESTING.md": {
+      "sha256": "e5e94b6301d7ae3456999c6a712ed3febf36bea60aec47b4bdde4e84b7980a75",
+      "bytes": 4721
+    },
+    "Packages/manifest.json": {
+      "sha256": "d31cb896735fb2e3097b078192d76215f3518ff112e5faf6b7ce6d81520ade75",
+      "bytes": 1624
+    },
+    "Packages/packages-lock.json": {
+      "sha256": "847afeb85015229fb1f5ac1412de5e92fb3bcd821f4963d40ffa5ebfebde4f38",
+      "bytes": 10621
+    },
+    "ProjectSettings/AudioManager.asset": {
+      "sha256": "9543c41dbfc7d3951217c4dd9481ed026eb8e529b85ecf4463969a0fea747729",
+      "bytes": 523
+    },
+    "ProjectSettings/ClusterInputManager.asset": {
+      "sha256": "40e65dd214bf254955d2c8829ca8ce2130fd3510485560ce012e9a1ddd93e623",
+      "bytes": 114
+    },
+    "ProjectSettings/DynamicsManager.asset": {
+      "sha256": "d102dd312ef330f5e5ca255c070fb34f68f59ec633d1e9fd67e2f2f6f88f66c8",
+      "bytes": 1574
+    },
+    "ProjectSettings/EditorBuildSettings.asset": {
+      "sha256": "34673d28f5927f0193748ae787a7a571f6faf7f5145fa17422482202e34a7d95",
+      "bytes": 312
+    },
+    "ProjectSettings/EditorSettings.asset": {
+      "sha256": "4a87c54b3541c7bd242aad68c3fc28661083db1117ec56149694ee592156415e",
+      "bytes": 1603
+    },
+    "ProjectSettings/GraphicsSettings.asset": {
+      "sha256": "3983ca89cf905abd87a500fa6487d1979a3acbbd2145c25081756b3d6db09b88",
+      "bytes": 2615
+    },
+    "ProjectSettings/InputManager.asset": {
+      "sha256": "60c83ae48e29a782141f99032eb38e803d18475124ff5224fbd1fd81b233f051",
+      "bytes": 9754
+    },
+    "ProjectSettings/IntercomMobileDefaults.json": {
+      "sha256": "46f467ae83df00d8cd9ce2ce58338092601686e1c19542cf071f96873615bd86",
+      "bytes": 64
+    },
+    "ProjectSettings/IntercomMvpProject.json": {
+      "sha256": "0b66652065e4ae0b5651e37766bb7b3b3af3e959cf77d4e47fa10368b9fcb707",
+      "bytes": 328
+    },
+    "ProjectSettings/MemorySettings.asset": {
+      "sha256": "2c9e2339b4fa50f4782840d37dde021508d411b99278614cba335d206edb1738",
+      "bytes": 1226
+    },
+    "ProjectSettings/MultiplayerManager.asset": {
+      "sha256": "ce4075d7a7dd8ac7ffe55de2427692c63f90dae398208bd80cec0f27cbe09f4b",
+      "bytes": 232
+    },
+    "ProjectSettings/NavMeshAreas.asset": {
+      "sha256": "7ebbf8f53b8033104e1878b95ca07a28d0954092d81c220f14196a42f651e658",
+      "bytes": 1361
+    },
+    "ProjectSettings/PackageManagerSettings.asset": {
+      "sha256": "d78da3fe440cc9931542f86ccfc74f14496540519b8a80b217404cf83b0980a5",
+      "bytes": 1132
+    },
+    "ProjectSettings/Physics2DSettings.asset": {
+      "sha256": "1cfc0c8fbceec604fd7cd2a06c04ff05dddee6335b75c92b0f5715ad80ba9490",
+      "bytes": 1862
+    },
+    "ProjectSettings/PresetManager.asset": {
+      "sha256": "29c125923fe6e29f90190d4fce1c82d660e7051546e2c9d02908d18c9cf2436c",
+      "bytes": 146
+    },
+    "ProjectSettings/ProjectSettings.asset": {
+      "sha256": "6757c7ff50ba0ba05e927cc962b192de5e391a1eeb966d9318cea299327a9749",
+      "bytes": 24167
+    },
+    "ProjectSettings/ProjectVersion.txt": {
+      "sha256": "1ba9ef2a17d110f732474ce61ba26e26395986dfcd828200cb53f29cab2c944c",
+      "bytes": 85
+    },
+    "ProjectSettings/QualitySettings.asset": {
+      "sha256": "cfc6d49d82d990fa459fdb578cf2c85c1ffe05110417dace9b299a29377bb2e9",
+      "bytes": 9858
+    },
+    "ProjectSettings/SceneTemplateSettings.json": {
+      "sha256": "bb9098b3bfcde78d93e264b96f7b77b5430e64e8c57a7aad7f5a5d9c3945e16a",
+      "bytes": 3535
+    },
+    "ProjectSettings/ShaderGraphSettings.asset": {
+      "sha256": "6fead5a816c4eed70f224d5472340ecf1ea0b4de4f87d5926bb17fa10ffb3dc9",
+      "bytes": 633
+    },
+    "ProjectSettings/TagManager.asset": {
+      "sha256": "da4b5eefc927f8b91bcf9e56a186d2b852f49d9cbe91d466638d26c79d6a83ce",
+      "bytes": 411
+    },
+    "ProjectSettings/TimeManager.asset": {
+      "sha256": "3396f52fdc16d445024e01d7a2d99db6f0a37569d1d73c0302e9ffb857d90287",
+      "bytes": 305
+    },
+    "ProjectSettings/URPProjectSettings.asset": {
+      "sha256": "68d75e5e1502dd7a4c18b7306430916b5ee8dadfdb0fbb588893fe38eaa2c056",
+      "bytes": 557
+    },
+    "ProjectSettings/UnityConnectSettings.asset": {
+      "sha256": "11251dae0356b6f43dd2c67bb511f6b7ecda4e5de425186bba3297e6f3dc1c6f",
+      "bytes": 1063
+    },
+    "ProjectSettings/VFXManager.asset": {
+      "sha256": "2973a6af930e142f62cde00076beda8a3cc3a66d9bfcde7a58ba7d4be2251c26",
+      "bytes": 525
+    },
+    "ProjectSettings/VersionControlSettings.asset": {
+      "sha256": "e199cdfa6a8f2bf33cfd47e549198f13e3eb2a5099e908fdb4e0f14d939ccc6b",
+      "bytes": 172
+    },
+    "README.md": {
+      "sha256": "f323482075ab1099ec800594f0012c93acdd4425cb27f3f1efa10510d45d75d5",
+      "bytes": 3612
+    },
+    "START_HERE.md": {
+      "sha256": "5c854d02a0f2a0d9c80d7dcd7ce448d90dfe3ede688cf2e775f023902baf61e1",
+      "bytes": 4355
+    },
+    "Source/Audio/1911_near_1.flac": {
+      "sha256": "01b810fc34cf98131faf3af133a6d02263f6e06ad2c4fed2e9b73cf6f11a7cb8",
+      "bytes": 66200
+    },
+    "Source/Audio/1911_near_2.flac": {
+      "sha256": "77c65a2934b07623773a43233a1434462a2cabcce6fbad753b17584ad3d3e18d",
+      "bytes": 65489
+    },
+    "Source/Audio/CC0-1.0.txt": {
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "bytes": 7048
+    },
+    "Source/Audio/Fantozzi-SandL1.flac": {
+      "sha256": "93a2630579a82507e3c6ceab9b012f71a50cf8922f4beadb14057dcc0636b099",
+      "bytes": 40317
+    },
+    "Source/Audio/Fantozzi-SandL2.flac": {
+      "sha256": "9bb57478cc96e1410cae27d926aa8d77d5f2d368d9776822f63cf0b37c6d2faf",
+      "bytes": 30870
+    },
+    "Source/Audio/Fantozzi-SandL3.flac": {
+      "sha256": "042820e65cc947d8bb8adf18524ffff7cdf5fc310f9412cbf8bdf7a139984c21",
+      "bytes": 29250
+    },
+    "Source/Audio/Fantozzi-SandR1.flac": {
+      "sha256": "3514d12f3369297233e915814364ed02902003d4103b010371c2ac15c2aa48fe",
+      "bytes": 36934
+    },
+    "Source/Audio/Fantozzi-SandR2.flac": {
+      "sha256": "0356f659313887f01a9f21fd5bedf57a77073d0d74d57b5621279ee453a80f3c",
+      "bytes": 30328
+    },
+    "Source/Audio/Fantozzi-SandR3.flac": {
+      "sha256": "7535306b6ff3b9e071256f12789eb53fb90769a913ff7e00b271298727e0f521",
+      "bytes": 32496
+    },
+    "Source/Audio/Fantozzi-StoneL1.flac": {
+      "sha256": "7cfa4a2f500ae2bd19a961022296611d837c34ca2e556fe68deb692388f49971",
+      "bytes": 37045
+    },
+    "Source/Audio/Fantozzi-StoneL2.flac": {
+      "sha256": "dcbd6be44af4b3206daa36c5398035ca527bb057c51ce00482b9ca6356be2468",
+      "bytes": 33441
+    },
+    "Source/Audio/Fantozzi-StoneL3.flac": {
+      "sha256": "37a25f4254cf8f2e56d271912b0569f3bb15c57bf3fde9de492466eb23853b0d",
+      "bytes": 34318
+    },
+    "Source/Audio/Fantozzi-StoneR1.flac": {
+      "sha256": "7073bddd2e3ba432e15a83844180c0ebc52835c2c6bab0fa902ee5952499c729",
+      "bytes": 36412
+    },
+    "Source/Audio/Fantozzi-StoneR2.flac": {
+      "sha256": "d66330b4a32e93b0dfdcb8c53667654de8702a0fa48b2d06c48d94dc66b3e1cc",
+      "bytes": 34323
+    },
+    "Source/Audio/Fantozzi-StoneR3.flac": {
+      "sha256": "b98f2c4b932242739ce8687206f7eb3313ce30afd4af7b7e148507c5cbd26787",
+      "bytes": 35929
+    },
+    "Source/Audio/MusicV3/README.md": {
+      "sha256": "1ca59f8d6c52c6881e24b9f6ad7df736ac1ad9c9b5f06bd895737cc3707bd707",
+      "bytes": 4745
+    },
+    "Source/Audio/MusicV3/bass_a2_1.flac": {
+      "sha256": "b668dcd741f8729e4fd1ce6d4fc06581e757f09d5d0d092069b82077e8af9872",
+      "bytes": 155646
+    },
+    "Source/Audio/MusicV3/bass_e2_1.flac": {
+      "sha256": "1fd1860014b420c89bf0cd813adde0732cc8deb31f229f3a7a7addb2f19d9c46",
+      "bytes": 153541
+    },
+    "Source/Audio/MusicV3/bass_e2_2.flac": {
+      "sha256": "92242fddfed8b8c227f60840eaf364c8e0b94440fcda36d0199becf7f7a1ae19",
+      "bytes": 153634
+    },
+    "Source/Audio/MusicV3/bass_eb3_1.flac": {
+      "sha256": "18da1be3baf0dfeabe8cef58e10081446626da51e75e0ca5ca4d546afae0823f",
+      "bytes": 153605
+    },
+    "Source/Audio/MusicV3/bigrustydrums-LICENSE.txt": {
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "bytes": 7048
+    },
+    "Source/Audio/MusicV3/emilyguitar-LICENSE.txt": {
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "bytes": 7048
+    },
+    "Source/Audio/MusicV3/growlybass-LICENSE.txt": {
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "bytes": 7048
+    },
+    "Source/Audio/MusicV3/guitar_a2_1.flac": {
+      "sha256": "961482f195fc8f03342fab28afe6e2b205b2a28a21626f33b32bdd6b26a1585e",
+      "bytes": 176415
+    },
+    "Source/Audio/MusicV3/guitar_a3_1.flac": {
+      "sha256": "6e67117dc15b5e484f7e7bf7849051095cb6b8b17570806c73b498bb103df3dd",
+      "bytes": 183038
+    },
+    "Source/Audio/MusicV3/guitar_c4_1.flac": {
+      "sha256": "15f36d90d6af8029e37cc4bbe0d9a2631c21e2f0cbef2bcabeb47e75f64df9db",
+      "bytes": 182955
+    },
+    "Source/Audio/MusicV3/guitar_e2_1.flac": {
+      "sha256": "1af5d89bed6ff252db4790e95f60db21d8e16a747c36d91da9c2292bf3a2237d",
+      "bytes": 183068
+    },
+    "Source/Audio/MusicV3/guitar_e2_2.flac": {
+      "sha256": "74a6d0abd37f80e68756b8e966d7bf05ddc06f8147b58f32d0c3bec91998cebe",
+      "bytes": 180539
+    },
+    "Source/Audio/MusicV3/guitar_eb3_1.flac": {
+      "sha256": "166de32dcd3581c4fa0f4364a89238198efb006c987383b46f69ed3b6cf39e2d",
+      "bytes": 178897
+    },
+    "Source/Audio/MusicV3/guitar_eb4_1.flac": {
+      "sha256": "935840a6c814c4fe13be564760c47a9a5c411e13826ceb68ce97ac036101b527",
+      "bytes": 185598
+    },
+    "Source/Audio/MusicV3/guitar_gb3_1.flac": {
+      "sha256": "6f7d0e7fb353b6939bda9f16c2ea50603524084a969df78e1e32cadc0729bc86",
+      "bytes": 180617
+    },
+    "Source/Audio/MusicV3/guitar_mute.flac": {
+      "sha256": "2e6431b13971f1995f232327efe014a224558d36af333015b359c0869dcfed6c",
+      "bytes": 24073
+    },
+    "Source/Audio/MusicV3/kit_crash.flac": {
+      "sha256": "86d48d51ef8ed3ce28e3659078abf9de089be8a8baa31e71b78d0498c5b95b4e",
+      "bytes": 223063
+    },
+    "Source/Audio/MusicV3/kit_hat_1.flac": {
+      "sha256": "eb6ec286d9a4cb3100cf49f3fd88555bba399f3af172f26c5e4d1c98b163ec83",
+      "bytes": 34857
+    },
+    "Source/Audio/MusicV3/kit_hat_2.flac": {
+      "sha256": "1d170062c96a7351b75d81ebd245ef8d8ab7fcb1e66bad8ffda923819ff57d05",
+      "bytes": 33572
+    },
+    "Source/Audio/MusicV3/kit_hat_open.flac": {
+      "sha256": "b527546880b28d5508875e119222c0ec4ccf7d9833cb95651da53e6ed515d0e0",
+      "bytes": 79740
+    },
+    "Source/Audio/MusicV3/kit_kick_1.flac": {
+      "sha256": "fbd200ec96604433e544460d9d10b439fbb697c9a3d387e7bb306067ea27ca6e",
+      "bytes": 46020
+    },
+    "Source/Audio/MusicV3/kit_kick_2.flac": {
+      "sha256": "9f00564f37c1b3dfda9ad65cc2613c05f2e2db16b517bf0b957fe85cb24005dc",
+      "bytes": 46020
+    },
+    "Source/Audio/MusicV3/kit_rimshot.flac": {
+      "sha256": "40775335f9d5938fd37d26c9b5a319a86fe5c3205e3e3db43062dda11cf70662",
+      "bytes": 52973
+    },
+    "Source/Audio/MusicV3/kit_snare_bottom.flac": {
+      "sha256": "26866bf8530604333d132bf26e6819041f26c039285e6f56e946799dbf097df3",
+      "bytes": 53928
+    },
+    "Source/Audio/MusicV3/kit_snare_top.flac": {
+      "sha256": "2738953e941c0aa394e4d73ed03aa46b2b44ab489330f8832378d487cf1ca9fd",
+      "bytes": 58956
+    },
+    "Source/Audio/MusicV3/kit_tom.flac": {
+      "sha256": "fb3ce5b099eeec9dbd1a76f210b5bbc094b6b047ae9f985c583f39aa97430c61",
+      "bytes": 64656
+    },
+    "Source/Audio/MusicV3/manifest.json": {
+      "sha256": "4925ac50d4362d44be5c9e15d5c2b05018373caa2b79d2b03f04be593523e784",
+      "bytes": 20914
+    },
+    "Source/Audio/PPQ_shot_1.flac": {
+      "sha256": "f4e73c3ce925742b3ffe77e0b519f69276e01a4baa6ab82bdb7e70876a4865dd",
+      "bytes": 54787
+    },
+    "Source/Audio/PPQ_shot_2.flac": {
+      "sha256": "375df91c2db7315b82144b01f16b28b7fea7b22cafaf2a313d316adcc7867a79",
+      "bytes": 54702
+    },
+    "Source/Audio/README.md": {
+      "sha256": "cb2e248fad83dc0d81d7c66aee8f13848a84a4472b0c1f5ca278f7f9e00541d5",
+      "bytes": 2639
+    },
+    "Source/Audio/manifest.json": {
+      "sha256": "34ee705d408e261c7e33bcd8d92a1b706f94e00ce65424af65ba6eb6713ddacb",
+      "bytes": 16126
+    },
+    "Source/Audio/metal.flac": {
+      "sha256": "7e957bd8783745be264456937b1e2e5fadd625e75c5b4cb850fb369258e4690d",
+      "bytes": 51079
+    },
+    "Source/Audio/wood_body.flac": {
+      "sha256": "11b11ce7221cc3a6e91abb9e089751ba2759fe9d5c944755696a1d0932c97c94",
+      "bytes": 33740
+    },
+    "Source/Audio/wood_crack.flac": {
+      "sha256": "0a001a008f52f4579fa3c095430ae69d6f4db75816767d51e0a665747ae84f0d",
+      "bytes": 34857
+    },
+    "Source/Robot/README.md": {
+      "sha256": "8e3923e32f6066ec17324fb8a46aa997689dc269ccce8eeddda82e13b0130ac5",
+      "bytes": 4440
+    },
+    "Source/Robot/intercom-armed.blend": {
+      "sha256": "0277e76cc8a16f060ed28da0b4608d6c7d4b55cc0cfdffd74fbb913c0916c511",
+      "bytes": 9058193
+    },
+    "Tools/AssetPaths.py": {
+      "sha256": "3de2aa2a95f6fe817355c5be16c390375134073f0c15d15983b68cff2d5a0d9e",
+      "bytes": 3789
+    },
+    "Tools/AuthorMissionScene.py": {
+      "sha256": "b66f3ce217c02831b70a7e9750e1c3e0e690780bee73d2f4870898a00d9cf948",
+      "bytes": 7923
+    },
+    "Tools/AuthorNpcScene.py": {
+      "sha256": "b894fc73927c6dfedcd6d4e30557bc2418135bbc312fe72eecaddd71cf523fef",
+      "bytes": 11626
+    },
+    "Tools/BuildDistrictScene.py": {
+      "sha256": "066a81545278409361755613cd1ddc9fc92bd8190edd7cafb3d2aef1f22dd275",
+      "bytes": 669
+    },
+    "Tools/BuildTutorialDistrict.py": {
+      "sha256": "d811de92af327e93af232adf6e5eff84f57ea3e6cce82c29140cc1e0cfb48b85",
+      "bytes": 47705
+    },
+    "Tools/GenerateCombatAudio.py": {
+      "sha256": "1335f9972e4e98996c21face15a1f7691d6740ebc1682e0150e5600241df9a3e",
+      "bytes": 8640
+    },
+    "Tools/GenerateImpactAudio.py": {
+      "sha256": "d93be83fc213175c1d58bcdc6d5423ad0995f5c10be5248c05bd180db75a5d11",
+      "bytes": 7190
+    },
+    "Tools/GenerateMainMusic.py": {
+      "sha256": "3c25427b71d1e3ce0c5f10ec91c5c737b36270a2e86f2446d8862b019930c3e9",
+      "bytes": 13140
+    },
+    "Tools/GeneratePlayerHurtAudio.py": {
+      "sha256": "6f299d6f0975dd079120e74ab304d54a0709952045583b9aa45a673e46452cf9",
+      "bytes": 2642
+    },
+    "Tools/GeneratePrototypeAudio.py": {
+      "sha256": "ab2bf97e56858a5a1a2e83d75ce212211d7c92885f5bb85f2bcf3c5bfbc08874",
+      "bytes": 14161
+    },
+    "Tools/GenerateWeaponAudio.py": {
+      "sha256": "e113281149b6d46ce5906a1849af1b1455fd9de2daa7aa6f96b7a0815e9a9a68",
+      "bytes": 5560
+    },
+    "Tools/RenderTutorialDistrict.py": {
+      "sha256": "c0799dd58e56ca246c0e75e0bf26d06852225d48868eaf9a11ef20270271ec67",
+      "bytes": 6406
+    },
+    "Tools/UnitySceneIds.py": {
+      "sha256": "579c45847db6c6dd22ce5b036222b2e7e3a05dc67d736d058a55d97192f32c50",
+      "bytes": 2945
+    },
+    "Validation/AnimationGroundingIntegrationTests/AnimationGroundingIntegrationTests.csproj": {
+      "sha256": "a9d9c9a4172a275c94cb72ecaa37bfb21a51fb112dbbb7f27a4ab1cf6069ee47",
+      "bytes": 2245
+    },
+    "Validation/AnimationGroundingIntegrationTests/Program.cs": {
+      "sha256": "f054134bab34cbc404da42e22b2d5deeb58cbadccf210bb2f4892964b4f7b9b6",
+      "bytes": 4615
+    },
+    "Validation/AnimationGroundingIntegrationTests/README.md": {
+      "sha256": "bd7738de797061e6f431f3e3f14b0d948dc666a01e8ec17410d674a5e17eda94",
+      "bytes": 867
+    },
+    "Validation/ArchitectureTests/README.md": {
+      "sha256": "5dd32970a6a99c04b90d25c377d5e913ae24733d1995da869f938ec2ecfb5efe",
+      "bytes": 986
+    },
+    "Validation/ArchitectureTests/test_architecture.py": {
+      "sha256": "2a7c86bea0c2cfcb7604b44225a11c34871402f43c52a4191822fc8941123067",
+      "bytes": 5878
+    },
+    "Validation/AssetCatalogTests/AssetCatalogTests.csproj": {
+      "sha256": "7016a86b8246fa61f7641db1cc378cde4151dd3a9a795b2f8cde21baaba3ca95",
+      "bytes": 494
+    },
+    "Validation/AssetCatalogTests/Program.cs": {
+      "sha256": "5b00916b15b9c1b8beb32da9b0a91d17edb8689b77ec80054fce3afee5e24d68",
+      "bytes": 11298
+    },
+    "Validation/AssetCatalogTests/README.md": {
+      "sha256": "375914d9afcb3bf9d9b311f8428c116d37a509652e28d0849b2958bb98e62505",
+      "bytes": 710
+    },
+    "Validation/AssetCatalogTests/UnityStubs.cs": {
+      "sha256": "d82da1a9a64a94e05e359020b9e83fb9fd4664255fb77bb2f1c2bbe36ab9e092",
+      "bytes": 2147
+    },
+    "Validation/AudioTimingTests/AudioTimingTests.csproj": {
+      "sha256": "164d997e5cec696ae12556cf81cb2c78908c539c3ef81599be98ec16f5dcca92",
+      "bytes": 377
+    },
+    "Validation/AudioTimingTests/Program.cs": {
+      "sha256": "65f49ca66c5025172dd62168d2d2c264d9f1ff296ff0f9ff8421c39f265fdbe9",
+      "bytes": 4200
+    },
+    "Validation/CameraTrackingTests/CameraTrackingTests.csproj": {
+      "sha256": "ba01a4ff5eab4b1a6e4e9960ff2e9765d1ef50f52e742e0e1b3dae570db3ff82",
+      "bytes": 379
+    },
+    "Validation/CameraTrackingTests/Program.cs": {
+      "sha256": "2048e9bab6734b7f572a799366da6efb50f826bfbb96425a24e1ae8893f96e20",
+      "bytes": 16665
+    },
+    "Validation/CameraTrackingTests/README.md": {
+      "sha256": "527617f28edb43a311a5ecdbfc3a4b00c52f95612afc42310f0bcd895a39c191",
+      "bytes": 1637
+    },
+    "Validation/CharacterAnimationTests/CharacterAnimationTests.csproj": {
+      "sha256": "dffd0a0cdde561accd501e67c8182ea28aabfb028205ba6993364b66d164d8df",
+      "bytes": 598
+    },
+    "Validation/CharacterAnimationTests/Program.cs": {
+      "sha256": "646ebcdb9a24558a1909b5ba04af623da23fb030e86b790688515719f8ad906f",
+      "bytes": 18652
+    },
+    "Validation/CharacterAnimationTests/README.md": {
+      "sha256": "d9b38fad01346e6ba4c05bfee8ea9c2f528723a825a6557a27a059fdfc4a6807",
+      "bytes": 740
+    },
+    "Validation/CharacterAnimationTests/UnityFakes.cs": {
+      "sha256": "285b231e6e4b11d12de4ccf0ae57f8133522448a6f7cf269b3e937a5475fb33c",
+      "bytes": 13999
+    },
+    "Validation/DeathStrikeLifecycleTests/DeathStrikeLifecycleTests.csproj": {
+      "sha256": "c46873aae80541d40eaf194f41fd001f5936c8e89fa731e4ac0086dff9176064",
+      "bytes": 1369
+    },
+    "Validation/DeathStrikeLifecycleTests/Program.cs": {
+      "sha256": "5eadb1704ef4124aebe10c21c33305fd377328fa67157418ead42eee5c5053ae",
+      "bytes": 4458
+    },
+    "Validation/DeathStrikeLifecycleTests/README.md": {
+      "sha256": "e6f0488512f87fd4422991f86b40707edd2ed480488a583eed15e82e70b50061",
+      "bytes": 735
+    },
+    "Validation/DeathStrikeLifecycleTests/UnityFakes.cs": {
+      "sha256": "d8b8ca45b202a75674ee118fc6241ab7c016a9e64b2effc2d34b7eb76daf8370",
+      "bytes": 16662
+    },
+    "Validation/DirectionalLocomotionTests/DirectionalLocomotionTests.csproj": {
+      "sha256": "a4c5cd5def5aed39be5fc0a7631b01b94af24c142d5fa753abd0d43ad9edc193",
+      "bytes": 484
+    },
+    "Validation/DirectionalLocomotionTests/Program.cs": {
+      "sha256": "4fb3b048195f4918f5fd7a51912cdc0faeb5ca2341388ef9147f7b3944938f1d",
+      "bytes": 10556
+    },
+    "Validation/GroundContactTests/GroundContactTests.csproj": {
+      "sha256": "414172609c7574c0467704c4ffd20456e52ce3547029bb72c3f85d6a9a2b1aff",
+      "bytes": 372
+    },
+    "Validation/GroundContactTests/Program.cs": {
+      "sha256": "5cbba03ae0e20c98f6d46b927daa79407010f7aca117f73ba6c79c64de23361a",
+      "bytes": 5868
+    },
+    "Validation/GroundFeedbackLifecycleTests/GroundFeedbackLifecycleTests.csproj": {
+      "sha256": "3cabd60e43b4275c68cca62dd82a23ae18ac0e573dc0a917f38115715c5bd74b",
+      "bytes": 1361
+    },
+    "Validation/GroundFeedbackLifecycleTests/Program.cs": {
+      "sha256": "fd8a25c40f4aee6a8a2f82711954f5296c9a79ce85b67628af87cd9d1006a421",
+      "bytes": 22041
+    },
+    "Validation/GroundFeedbackLifecycleTests/README.md": {
+      "sha256": "25ee3a001bc2c36850c3f4a37dc9f75028db286ed8d947a99b6d069a33949bbe",
+      "bytes": 953
+    },
+    "Validation/GroundFeedbackLifecycleTests/UnityFakes.cs": {
+      "sha256": "36a775cf77791b360371cc8c4aeea15f16f329716b05558330151e56dbccbac1",
+      "bytes": 14335
+    },
+    "Validation/HudLayoutTests/HudLayoutTests.csproj": {
+      "sha256": "4d7ce6349311a8098a59f8fbcdeed9ea53eec7cf6b450bba9bb68f9a4668e03c",
+      "bytes": 726
+    },
+    "Validation/HudLayoutTests/Program.cs": {
+      "sha256": "d86fc987c57defb89b34dcf958d9969c26c2a029a153aca08ca7903a5528a671",
+      "bytes": 6256
+    },
+    "Validation/HudLayoutTests/README.md": {
+      "sha256": "c1314ddfd9f94eca610a3817a63812dbf967f276aa41adac9e6733da7458a129",
+      "bytes": 795
+    },
+    "Validation/InputCancellationTests/InputCancellationTests.csproj": {
+      "sha256": "7c09331ed15e4784d9f79387469e37c889ac5c854ffd91dba748d1eb600cf9f6",
+      "bytes": 692
+    },
+    "Validation/InputCancellationTests/Program.cs": {
+      "sha256": "d5e4a9d26a0b3d7047fbc1816df7213917dd9cb685699a89538a201f57f9689c",
+      "bytes": 9911
+    },
+    "Validation/InputCancellationTests/UnityFakes.cs": {
+      "sha256": "bc12d9702a40ba8522e093e1a9d2d472f70cec7fc84c6e9dc5fa229efc1ab9c4",
+      "bytes": 3328
+    },
+    "Validation/MagazineTests/MagazineTests.csproj": {
+      "sha256": "ac5a306eb167c51e222c766ada42eb5ff3362e4c29176951ae0797d259c29466",
+      "bytes": 1106
+    },
+    "Validation/MagazineTests/Program.cs": {
+      "sha256": "5ec16ac3b058b694b2baa7e10a528987487c0a08e625af2aa1dd3d5b2cf268ff",
+      "bytes": 11906
+    },
+    "Validation/MagazineTests/README.md": {
+      "sha256": "15ba41ded4cb73c3cad0de19de9f4945254bdbd58af9fa78b221eac94c963ca1",
+      "bytes": 698
+    },
+    "Validation/MagazineTests/UnityFakes.cs": {
+      "sha256": "0517464b9e759cc659e56cc59db4edd07360325348cbf5fadb781878311911ad",
+      "bytes": 2327
+    },
+    "Validation/MissionRuntimeTests/MissionRuntimeTests.csproj": {
+      "sha256": "8c3c9eedaf2cb36958766547b4fc04c9370b7716ee8b10e074bcf9818375e83d",
+      "bytes": 977
+    },
+    "Validation/MissionRuntimeTests/Program.cs": {
+      "sha256": "e9f143e713f3c77f8fd1651f29d8880e5a911307c61687ccd524e954b5d6fee9",
+      "bytes": 37045
+    },
+    "Validation/MissionRuntimeTests/README.md": {
+      "sha256": "41fcfc1f024d11c9b86eba02ff0011bd035c2906bd65a7889e07ae6694cfa42a",
+      "bytes": 1030
+    },
+    "Validation/MissionRuntimeTests/UnityFakes.cs": {
+      "sha256": "c6ac0d68a06938dd342f27a1c94803f89d61af9fb16f12cfaa81aed7ad97e9f6",
+      "bytes": 19012
+    },
+    "Validation/MissionSceneRouteTests/MissionSceneRouteTests.csproj": {
+      "sha256": "d7f853c8a38cb1818d89198728a5f15e9bdb62bfbf3762abecccb60ec43efac7",
+      "bytes": 710
+    },
+    "Validation/MissionSceneRouteTests/Program.cs": {
+      "sha256": "9ff3ab1a7b8553503c6701613c150a94976cbc04669722715890f33e5f660d2c",
+      "bytes": 6313
+    },
+    "Validation/MissionSceneRouteTests/README.md": {
+      "sha256": "7b11d2010506d26f66a7998504f11a1986c0947272cce1c1fb8e3bb3a2bc7327",
+      "bytes": 451
+    },
+    "Validation/MissionStateTests/MissionStateTests.csproj": {
+      "sha256": "4df01ad40c2cfacf15d1d8be40fa0988aacc030200ae2e5516bf399a52921966",
+      "bytes": 366
+    },
+    "Validation/MissionStateTests/Program.cs": {
+      "sha256": "43672fab2c98c3ceeb6aa3216a0b0b78de110cf9f80d8b7a76d6a793783b8d15",
+      "bytes": 11099
+    },
+    "Validation/MissionStateTests/README.md": {
+      "sha256": "2bfbca329ae8ec1ae584731d75a1ab927201a58c4c482bb758c6f5365feed9b4",
+      "bytes": 336
+    },
+    "Validation/MissionUiTests/MissionUiTests.csproj": {
+      "sha256": "7dbdd5b674712266bfa6de4d40ea83bdb0eb97a394a677e414f6c10c675ce184",
+      "bytes": 865
+    },
+    "Validation/MissionUiTests/Program.cs": {
+      "sha256": "3c588545dd8b11ad840830bf783de05da8113e4112015d6db0bcdc9910be47c7",
+      "bytes": 17337
+    },
+    "Validation/MissionUiTests/README.md": {
+      "sha256": "84c7e8409c21e3221bac88837b861c53939477d4029b7e2ea596e8bd8b846a2a",
+      "bytes": 616
+    },
+    "Validation/MobileInputTests/MobileInputTests.csproj": {
+      "sha256": "b78ebb5b55cc8f530def43fbc584b9c50085588ee0de000217da8debd2cc66ea",
+      "bytes": 372
+    },
+    "Validation/MobileInputTests/Program.cs": {
+      "sha256": "3d18b98cd5e761483f939da1daee0c677ab7f80d483018797bdea5a989b28b99",
+      "bytes": 7147
+    },
+    "Validation/NpcArenaTests/NpcArenaTests.csproj": {
+      "sha256": "41d048c0de5deb1a37c6d138106de305e4fd9be4addce40aff5ac957fd7c6520",
+      "bytes": 408
+    },
+    "Validation/NpcArenaTests/Program.cs": {
+      "sha256": "c198a49e67a6529cef8f12a2a2242c1dbb0faea3c40e68e5ce27099802f9f4d4",
+      "bytes": 4417
+    },
+    "Validation/NpcArenaTests/UnityFakes.cs": {
+      "sha256": "9f79d15fa185da812265ac587a1b0ea41f1b0bd1e73b3044bf7de7e926fbe127",
+      "bytes": 3212
+    },
+    "Validation/NpcBrainTests/NpcBrainTests.csproj": {
+      "sha256": "f997475b625cea54a7b455d4729fbbefd371c91e751826c278de2a52d878f765",
+      "bytes": 368
+    },
+    "Validation/NpcBrainTests/Program.cs": {
+      "sha256": "44a9faa1b93d84a7c01da413e64aa861bc324a4472a479e84c4f3ce68c04ce24",
+      "bytes": 12206
+    },
+    "Validation/NpcBrainTests/README.md": {
+      "sha256": "63c8913949784f9a0f7b482751107df4e55956ece1a62a61c90df6cb5177a4b0",
+      "bytes": 923
+    },
+    "Validation/NpcNavigationTests/NpcNavigationTests.csproj": {
+      "sha256": "3b67683618db8db848072bf97f19d6af4bed8655bd5d342f5e7295b0b7d562e8",
+      "bytes": 695
+    },
+    "Validation/NpcNavigationTests/Program.cs": {
+      "sha256": "7455e232083cad1a35e8fbb5e5cdf3fbb11c83ed32b448fe89523f99d6c71102",
+      "bytes": 14047
+    },
+    "Validation/NpcNavigationTests/README.md": {
+      "sha256": "91839793d0c66e6e831c2184c474ba27780695a85053fff5f35a633ec38dbbdb",
+      "bytes": 923
+    },
+    "Validation/NpcNavigationTests/UnityFakes.cs": {
+      "sha256": "bf75ef78a35d4edc38f8594edcb3336a6618a1cbb9af48d57ce8ba5be2e1b2e7",
+      "bytes": 3133
+    },
+    "Validation/NpcRuntimeTests/NpcRuntimeTests.csproj": {
+      "sha256": "fed7e1a78d434c326f94771cbf24de39dedec23be5e8bc2956cf2266dd509cef",
+      "bytes": 798
+    },
+    "Validation/NpcRuntimeTests/Program.cs": {
+      "sha256": "c005972cf42ceab958280a4a05d73c1eca70cde9eee2716c9000e7dca1a717d7",
+      "bytes": 32380
+    },
+    "Validation/NpcRuntimeTests/README.md": {
+      "sha256": "fbd255e28748c42d81691488c0b0f8aaa27351c8326d430361f8a7ae56f6057c",
+      "bytes": 1545
+    },
+    "Validation/NpcRuntimeTests/UnityFakes.cs": {
+      "sha256": "9a7760146796b1e7906c1aef4abcb3dc2c2ae4ca4b7ec8f52b5f3e395806a578",
+      "bytes": 14922
+    },
+    "Validation/OcclusionLeaseTests/OcclusionLeaseTests.csproj": {
+      "sha256": "e5d0a439d68668e256b1d4e61fca65ee314cd1582bf5634447f1c0c685171e93",
+      "bytes": 398
+    },
+    "Validation/OcclusionLeaseTests/Program.cs": {
+      "sha256": "3b62aba21dce96a498932938b2d0da6cff380003c7644c498d22281a077c3097",
+      "bytes": 10140
+    },
+    "Validation/OcclusionLeaseTests/UnityFakes.cs": {
+      "sha256": "50f2df896993a55d15f1c787464f90dcb4e763b1fc8e7ddc2cac0fad239a4619",
+      "bytes": 3114
+    },
+    "Validation/OcclusionMathTests/GeometryCases.cs": {
+      "sha256": "7d3359a8a45256c905fe0edb0f6899b76f19a432372f3c78e7d4733da044a479",
+      "bytes": 10656
+    },
+    "Validation/OcclusionMathTests/OcclusionMathTests.csproj": {
+      "sha256": "bb54fef66f1e324a5eb8f54f7c60a670fc3ad94a743241c69333f457f5f0c821",
+      "bytes": 615
+    },
+    "Validation/OcclusionMathTests/Program.cs": {
+      "sha256": "245071de6b7d55e3821376a25b15cf4637e7dd80221377224064f43be2323cde",
+      "bytes": 5418
+    },
+    "Validation/OcclusionRuntimeTests/OcclusionRuntimeTests.csproj": {
+      "sha256": "6380c0e0586e3fd6c4c572ee7954046839bed67bb679007c5150d1c8e4dba6bd",
+      "bytes": 846
+    },
+    "Validation/OcclusionRuntimeTests/Program.cs": {
+      "sha256": "39becfbf4008fdb4d6aba98f23e555f1c31dd24538217c98dbcf02f4525546f6",
+      "bytes": 8056
+    },
+    "Validation/OcclusionRuntimeTests/UnityFakes.cs": {
+      "sha256": "5ba248f2114366fe973ee7e10f3332d01a01e1c8a64027de2f7495d80df5fc6e",
+      "bytes": 10657
+    },
+    "Validation/PerformanceCaptureTests/PerformanceCaptureTests.csproj": {
+      "sha256": "fd25e963e75afd10c95db21ebfbe9e16b866c4144c1986469b251487383d2012",
+      "bytes": 539
+    },
+    "Validation/PerformanceCaptureTests/Program.cs": {
+      "sha256": "b6ce9dde040d3314176ecc56a7ab6ed68ad3ef135f736c0150e75b0349dbcd5e",
+      "bytes": 4292
+    },
+    "Validation/PerformanceCaptureTests/UnityFakes.cs": {
+      "sha256": "07ce70be323568ed62b73e42c356234fd0de1cd2cc92899a364ea31d4dba7f18",
+      "bytes": 1627
+    },
+    "Validation/PlayerAudioLifecycleTests/PlayerAudioLifecycleTests.csproj": {
+      "sha256": "56b4327d77bd6331e69b4e35fd31f61f68eb3ae6b0546a37ef78a150335b2b5f",
+      "bytes": 947
+    },
+    "Validation/PlayerAudioLifecycleTests/Program.cs": {
+      "sha256": "252ab067f28d7f2ca1673b4b3fa710d8808e32d843b0c97b1282996ad41c9f9a",
+      "bytes": 26840
+    },
+    "Validation/PlayerAudioLifecycleTests/README.md": {
+      "sha256": "5cc8fa4e55a74fd519376c54344de296adde6025221727d703eaeb5f5bfce9ce",
+      "bytes": 2093
+    },
+    "Validation/PlayerAudioLifecycleTests/UnityFakes.cs": {
+      "sha256": "172ffc7947596db9b211f3e4c156f385ad1fb37fdd1ce379ff146bb04addb301",
+      "bytes": 6890
+    },
+    "Validation/PlayerControlLifecycleTests/PlayerControlLifecycleTests.csproj": {
+      "sha256": "80e4d3e23dfee2a856a2d1d18258c77d632b71f28da6e15c1f13956eb63f95bf",
+      "bytes": 1914
+    },
+    "Validation/PlayerControlLifecycleTests/Program.cs": {
+      "sha256": "606d1a897ba764737891d3cd4b6196a65a443769f0b08f433824b8fbe21536c1",
+      "bytes": 11159
+    },
+    "Validation/PlayerControlLifecycleTests/README.md": {
+      "sha256": "50b984d5ff63a878ca02e72277bc653e8d14120d37dbd1832cb87137bcb0bf4a",
+      "bytes": 1581
+    },
+    "Validation/PlayerControlLifecycleTests/UnityFakes.cs": {
+      "sha256": "f16155ad7c82596056341d04b98e2b84dfb302698b0154ed6df6a7a64458ce55",
+      "bytes": 23805
+    },
+    "Validation/PlayerHurtFeedbackTests/PlayerHurtFeedbackTests.csproj": {
+      "sha256": "19e58ec15a22aee64d6b0e620473adee75fd4b7630642f4f95fea44dfbf8efb6",
+      "bytes": 989
+    },
+    "Validation/PlayerHurtFeedbackTests/Program.cs": {
+      "sha256": "c8cad3dffbf11c1d707f6f4266743da5e368985451ef4033907bae1f28997bed",
+      "bytes": 9324
+    },
+    "Validation/PlayerHurtFeedbackTests/README.md": {
+      "sha256": "8dc46d05c64c5bef5aced86162f34d1bab0cdf6f6207053c49b6bbc553283e3e",
+      "bytes": 1042
+    },
+    "Validation/PlayerHurtFeedbackTests/UnityFakes.cs": {
+      "sha256": "2729b0217f632536af4770bdd5f3c2a2381ff3cd578bbb5ce071bb5ae8e357c7",
+      "bytes": 6359
+    },
+    "Validation/PlayerInputRuntimeTests/PlayerInputRuntimeTests.csproj": {
+      "sha256": "c6e7a34f084c6f85776b95ad2ed2e0b259f3c6fc8bd00e2fcd5e4e4fe373ca83",
+      "bytes": 827
+    },
+    "Validation/PlayerInputRuntimeTests/Program.cs": {
+      "sha256": "97b2b899d5c7f079155c7e84a841a48a9ead2680102088c7051e73fd520c5cfb",
+      "bytes": 6299
+    },
+    "Validation/PlayerInputRuntimeTests/README.md": {
+      "sha256": "1afb4bad0cd747af4476f75c0de931c00a149d586b0eb9eb1c1ec11b0178d2bf",
+      "bytes": 556
+    },
+    "Validation/PlayerInputRuntimeTests/UnityFakes.cs": {
+      "sha256": "daf7c2ef4dd6ca4fe688160643dcda646349827230b5323f123179650bd42bcd",
+      "bytes": 9945
+    },
+    "Validation/PlayerVitalityTests/PlayerVitalityTests.csproj": {
+      "sha256": "258517cf900597a10395f84fcee47816b0a488c301aa4f2d7adab3cf6cbed3a0",
+      "bytes": 882
+    },
+    "Validation/PlayerVitalityTests/Program.cs": {
+      "sha256": "2cb286492a195f9768877ec2c7c085a19f5e8a1a93600213a6459a78fee733b9",
+      "bytes": 18077
+    },
+    "Validation/PlayerVitalityTests/README.md": {
+      "sha256": "34025b2825f2fe6b2009f64626411434b62554ec82443b15f9627e678fc24358",
+      "bytes": 2568
+    },
+    "Validation/PlayerVitalityTests/UnityFakes.cs": {
+      "sha256": "f6c88bcac579571d54c4218ffd5e6f2b3baeccc614404eef5669534b60cd0ed6",
+      "bytes": 5299
+    },
+    "Validation/PoseClockTests/PoseClockTests.csproj": {
+      "sha256": "6cd136745125d4fe0a383a1186c47b6c9e78f54782acd8a0bb35543db69af403",
+      "bytes": 375
+    },
+    "Validation/PoseClockTests/Program.cs": {
+      "sha256": "91141754cd96549e891eea244280dee67e5ffca6de771a520a60d529ed5fab2a",
+      "bytes": 7694
+    },
+    "Validation/ProjectStartupTests/Program.cs": {
+      "sha256": "494b572886b5d36a7e1589ad2d043283cb8dddd1d612be23013b0a6bb6d98a66",
+      "bytes": 7658
+    },
+    "Validation/ProjectStartupTests/ProjectStartupTests.csproj": {
+      "sha256": "672fe0f0eae7512b46c0c380f598f31f3f5fd7818497736297230d2f0e3c0a61",
+      "bytes": 409
+    },
+    "Validation/ProjectStartupTests/README.md": {
+      "sha256": "020e228a61439b1814f103e91d3c834f04a2a4b648ea8cb7cb848c223e3bca57",
+      "bytes": 421
+    },
+    "Validation/ProjectStartupTests/UnityFakes.cs": {
+      "sha256": "3e0905ff648c9dde630f58dbd42ddd366ac497a6831fe9df0541e38139f79a2e",
+      "bytes": 4494
+    },
+    "Validation/ProjectVerification.json": {
+      "sha256": "710b4a5cf2823bd78542b16f2622a2757801248be25eac7c8d83dc6ac47aa38a",
+      "bytes": 2955
+    },
+    "Validation/ProjectileCollisionTests/Program.cs": {
+      "sha256": "5ec9c0c0a3be8d93ad44291a890cc4fbb65e3e9f7ed9a5c4506442b22aa41aa3",
+      "bytes": 3224
+    },
+    "Validation/ProjectileCollisionTests/ProjectileCollisionTests.csproj": {
+      "sha256": "1952c584c58433c509f03379de4cab560a067abf4ed64494a745f9cc7ef052b4",
+      "bytes": 466
+    },
+    "Validation/ProjectileSurfaceTests/Program.cs": {
+      "sha256": "0a23693ef31a42d1ae095dc384fd244b59e18214bad4b9ada9f6c3704380a10a",
+      "bytes": 4466
+    },
+    "Validation/ProjectileSurfaceTests/ProjectileSurfaceTests.csproj": {
+      "sha256": "2c4d93fdf18c5f92fcf58ec85251478895fa4857f3fb592d87cb15184bd42067",
+      "bytes": 499
+    },
+    "Validation/ProjectileSurfaceTests/README.md": {
+      "sha256": "b13ccb81b9abbc2aaa2ad25a1a25104fe9b22329a24aed194ab5e47044ca0137",
+      "bytes": 372
+    },
+    "Validation/ProjectileSurfaceTests/UnityFakes.cs": {
+      "sha256": "a3e18340d64afe95a09de96cacabc900a790e6ea7ae9ca12058451f63cc30680",
+      "bytes": 1583
+    },
+    "Validation/README.md": {
+      "sha256": "6edaebebdc3c1b79e1df788c5a85c3c508ad183424606dc9468a2928c66413ef",
+      "bytes": 2043
+    },
+    "Validation/ReactivePropTests/Program.cs": {
+      "sha256": "3e396bdce282451dbb6a7e652daaa110a8686ca9062c8bb7fc962a7f8630c041",
+      "bytes": 17008
+    },
+    "Validation/ReactivePropTests/README.md": {
+      "sha256": "4c8d56da5496208e387319cfcc932c294f574cab668d6930a93bf023a9420dea",
+      "bytes": 1254
+    },
+    "Validation/ReactivePropTests/ReactivePropTests.csproj": {
+      "sha256": "3baf0febe8dc4c332a417f877389d69878787ea09853d3b965d299174c4fc943",
+      "bytes": 597
+    },
+    "Validation/ReactivePropTests/UnityFakes.cs": {
+      "sha256": "6ad0f52f46e37cc8e4afdcb75b8f73f9cc9523bd81251c644297a9cf342713a9",
+      "bytes": 7302
+    },
+    "Validation/Reports/Courtyard.json": {
+      "sha256": "9b6b7a1b229a8fb77207392f1df97bf5ad281c668a10f911e23dcf6337466547",
+      "bytes": 1486
+    },
+    "Validation/Reports/LogicTests.json": {
+      "sha256": "a78c308ff4396a82d360eced0f97fb5eea85546544007f4884c5ab6576f1c928",
+      "bytes": 24123
+    },
+    "Validation/Reports/MissionScene.json": {
+      "sha256": "49348600fda61c4037d1df8ff81cc584af6d4c53226ced22602425fe39a157c6",
+      "bytes": 2409
+    },
+    "Validation/Reports/NpcScene.json": {
+      "sha256": "4ed92d43d68b83345f4b43733b6b9086a384f8931998ed04c8fd09dcf6f23dc1",
+      "bytes": 1851
+    },
+    "Validation/Reports/ProjectStartup.json": {
+      "sha256": "3bf02e53c2056a7f81ce8abad6072ab763355ad1ead9542fb0600599f841eaa8",
+      "bytes": 1242
+    },
+    "Validation/Reports/SceneIntegrity.json": {
+      "sha256": "bc271ad247a1715126cca0393d8ec207e31125d0fcbacdba7974d130348ecf8b",
+      "bytes": 31508
+    },
+    "Validation/RunningContactTests/Fixture.json": {
+      "sha256": "2945d5055e1027faaa36ce20754cb2f1a3951abddfe7a21f8850f304c9954478",
+      "bytes": 2990309
+    },
+    "Validation/RunningContactTests/Program.cs": {
+      "sha256": "6f6f4c98b257bd0fb164557fe9370cd28a3ed0c525cdb6b25e4fa5e0d79e5553",
+      "bytes": 33500
+    },
+    "Validation/RunningContactTests/README.md": {
+      "sha256": "839aa92ba7c9475dca9a8512c4e2f8780a5bd09996f1b435624f830d72c7324b",
+      "bytes": 4315
+    },
+    "Validation/RunningContactTests/RunningContactTests.csproj": {
+      "sha256": "ac711c488910fd9cc488c04b8bd660084dbdfb4c47520ac37a44f7657e2f9987",
+      "bytes": 1789
+    },
+    "Validation/RunningContactTests/SoleProfile.json": {
+      "sha256": "ddb0efcbbc5a397673d144e7133f013047540f71e2b3d4415494610fb5cc77a0",
+      "bytes": 26519
+    },
+    "Validation/RunningContactTests/SoleProfile.truth.json": {
+      "sha256": "ea86f91df22862c4453411c7ebfcdcfe1ad1f223522b37dfac9507e02b619fd4",
+      "bytes": 27737
+    },
+    "Validation/RunningWaistTests/Program.cs": {
+      "sha256": "32400e68632cce30a0de0e529089c714a0d94d57a858eb464d127dd02389b849",
+      "bytes": 10135
+    },
+    "Validation/RunningWaistTests/README.md": {
+      "sha256": "472d16f833bc0aa2adc16f688eef9a5dcdd4cb65fe623448fec890190f338a50",
+      "bytes": 566
+    },
+    "Validation/RunningWaistTests/RunningWaistTests.csproj": {
+      "sha256": "335e24ef604ba8d88c509b9b3e1d3b34e3e3b7f8dc729fef1af5b6de748a0ea5",
+      "bytes": 1393
+    },
+    "Validation/ShooterIntegrationTests/Program.cs": {
+      "sha256": "0781ee916c97e93b36b87364e66fb3360efe03c3af207ef2efcdc9eb85233d63",
+      "bytes": 12513
+    },
+    "Validation/ShooterIntegrationTests/README.md": {
+      "sha256": "aaec467daeda48a655d6fb7a0ddaa042f2bf6bb92afeac79f1f85adc90ac8998",
+      "bytes": 1020
+    },
+    "Validation/ShooterIntegrationTests/ShooterIntegrationTests.csproj": {
+      "sha256": "29e2a4390ae05da7f380c67be6811947d8d4d8e258cafa7afe5d8a2f337d2bef",
+      "bytes": 1493
+    },
+    "Validation/ShooterIntegrationTests/UnityFakes.cs": {
+      "sha256": "d232bba55d65dfae8a67e7ce99623e6ed479c82e191f82f620c42947fe6f6bfd",
+      "bytes": 8101
+    },
+    "Validation/TracerGeometryTests/Program.cs": {
+      "sha256": "eca8e362bdcc87b3cc1db1334387787301ea7b10f4071ba5358afe93ae8b3d6d",
+      "bytes": 3021
+    },
+    "Validation/TracerGeometryTests/README.md": {
+      "sha256": "19ac15f0902268b41ee1da4f64628c1c842a10d9cf17995680d751c0e180605a",
+      "bytes": 411
+    },
+    "Validation/TracerGeometryTests/TracerGeometryTests.csproj": {
+      "sha256": "4b9a1742b593afbd17c8b05af94c557423802578e1601332bcdcf958d77a7a72",
+      "bytes": 496
+    },
+    "Validation/TracerGeometryTests/UnityFakes.cs": {
+      "sha256": "eb530d283e0a0067b60cdf7f02a872548a2504ad5ad34d940b225a3a74485259",
+      "bytes": 835
+    },
+    "Validation/TurnStepTests/Program.cs": {
+      "sha256": "9f82777187b49f830cf9b9ea0167c82477c503b519620c2909ea88f37001158e",
+      "bytes": 9987
+    },
+    "Validation/TurnStepTests/README.md": {
+      "sha256": "38830c5b752814163395272b0090f9c1331e1d40a41ad8de01c6c7699448d6dd",
+      "bytes": 606
+    },
+    "Validation/TurnStepTests/TurnStepTests.csproj": {
+      "sha256": "6ac72bb0419e0001192195a1555101c14078fd8bc3e66941bd7d13206fd49688",
+      "bytes": 375
+    },
+    "Validation/TurningRigTests/Program.cs": {
+      "sha256": "fd37c8ebc8d4d4a0b7d87fa947c5c53a7a9ab231c4e67425fe87ffaad4584a8e",
+      "bytes": 8834
+    },
+    "Validation/TurningRigTests/README.md": {
+      "sha256": "92e5d0eceb058fe4ec55afe80db9c6e3bfd5614c6a0e5483050a2855d8f9f16e",
+      "bytes": 1135
+    },
+    "Validation/TurningRigTests/RigGeometry.cs": {
+      "sha256": "2fc0c5a57805c796088af64c659c0fb15de101afba8344413df89ee34f803d0b",
+      "bytes": 10249
+    },
+    "Validation/TurningRigTests/TurningRigTests.csproj": {
+      "sha256": "84e82c686ee6567b5e3ba84c737e6454e99cec5d4fa8ae54d3ec3399397a7639",
+      "bytes": 1434
+    },
+    "Validation/WeaponFoundationTests/Program.cs": {
+      "sha256": "937c823b83313569d70635808a7f8299e9db4c3806e328d8c0e2dfa5cd3e01fc",
+      "bytes": 4288
+    },
+    "Validation/WeaponFoundationTests/README.md": {
+      "sha256": "612eac2032f9af034fba680d78fed202b5bc0d69131c9067c870f1532720c56c",
+      "bytes": 512
+    },
+    "Validation/WeaponFoundationTests/UnityFakes.cs": {
+      "sha256": "ec64350c1e7641db47027cc8330b440d3b55442774fa5b229531a329d5918b21",
+      "bytes": 2074
+    },
+    "Validation/WeaponFoundationTests/WeaponFoundationTests.csproj": {
+      "sha256": "316ca4af56ab71bbdf8d39e5d5685ce13eee6c96f8ed90016134738086296c36",
+      "bytes": 1026
+    },
+    "Validation/check_architecture.py": {
+      "sha256": "c6edb34749568b642f0c1f4212e2143e6b4eb015c5626919e9e1ba5d0ab8174e",
+      "bytes": 10693
+    },
+    "Validation/check_asset_paths.py": {
+      "sha256": "fe263d1902f28029d62a8a809fb455b7863ebfc2d8939f26ce07f755c3e813dd",
+      "bytes": 3958
+    },
+    "Validation/check_courtyard.py": {
+      "sha256": "02e637068352b4330dc1bf2224521633b97763ab92fafc9e2ba2c9df4822d480",
+      "bytes": 5007
+    },
+    "Validation/check_mission_scene.py": {
+      "sha256": "0aff8453e33e6291660a9b1c40acb96f953744a7f7d383370885ba76421161fe",
+      "bytes": 7807
+    },
+    "Validation/check_npc_scene.py": {
+      "sha256": "ecc11b7b2fe3c07941ef3382c87f6c02893a988533b061cef60a2258550c9483",
+      "bytes": 7520
+    },
+    "Validation/check_scene_integrity.py": {
+      "sha256": "4e9ad57706ceca0f03993d468a3f42f700de65745882f2ee977bb44fbe78c1f6",
+      "bytes": 8769
+    },
+    "Validation/run_checks.py": {
+      "sha256": "03b59e45045009525fc7b5712f62492651d05527c11433543bd5b8f1aa59caaf",
+      "bytes": 1591
+    }
+  },
+  "inventoryExcludesItself": true
+}

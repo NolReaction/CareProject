@@ -161,7 +161,8 @@ namespace IntercomMvp
     {
         internal static uint Epoch;
         internal static readonly Dictionary<UnityEngine.Renderer, float> Active = new Dictionary<UnityEngine.Renderer, float>();
-        internal static void Set(UnityEngine.Renderer r, int owner, float alpha, UnityEngine.Material template) { if (r != null) Active[r] = alpha; }
+        internal static void Set(UnityEngine.Renderer r, int owner, float alpha, UnityEngine.Material template, bool retainForCamera = false) { if (r != null) Active[r] = alpha; }
         internal static void Release(UnityEngine.Renderer r, int owner) { if (r != null) Active.Remove(r); }
+        internal static void ReleaseUnused(int owner, HashSet<UnityEngine.Renderer> keep) { }
     }
 }

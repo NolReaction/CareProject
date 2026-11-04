@@ -1,0 +1,74 @@
+{
+  "version": "CareProject V14 Full",
+  "status": "PASS",
+  "delivery": "Standalone complete Unity project; extract to a new folder and open through Unity Hub",
+  "pinnedEditor": "6000.3.26f1",
+  "pinnedURP": "17.3.0",
+  "requiresPreviousVersion": false,
+  "requiresInstaller": false,
+  "mainScene": "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity",
+  "projectInput": "Latest prepared project state. User message contained2screenshots; no current user ZIP was attached.",
+  "checks": {
+    "standaloneTestProjects": 42,
+    "passedTestProjects": 42,
+    "syntaxFiles": 96,
+    "syntaxSymbolConfigurations": 3,
+    "syntaxErrors": 0,
+    "architecture": {
+      "status": "PASS",
+      "checks": 2053,
+      "runtimeSources": 71,
+      "editorSources": 25,
+      "pureModels": 28,
+      "assetGuids": 354,
+      "failures": [],
+      "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
+    },
+    "architectureValidatorRegressions": 10,
+    "assetLookupRegressions": 15,
+    "startupPolicyAssertions": 31,
+    "catalogAssertions": 1095,
+    "staticStartupAndPackageChecks": 542,
+    "compiledSourceFilesAvailable": 135,
+    "contentFilesAvailable": 7,
+    "allTestedInputsByteIdentical": true,
+    "runtimeSourcesUnchanged": 71,
+    "sceneBytesUnchanged": true,
+    "binaryGameResourcesUnchanged": 159,
+    "robotModelAndTexturePathsExist": 51,
+    "sceneYamlFiles": 103,
+    "sceneIdRegressionCases": 14,
+    "surfaceColliderRoutes": 84,
+    "sceneRegenerationIdempotent": true,
+    "npcMissionAndCourtyardChecks": "PASS",
+    "audioAssetsReproducedFromIncludedSources": 6
+  },
+  "cleanup": [
+    "No installer, patch payload or old version prerequisites",
+    "Removed obsolete V3/V4 migration code and manifests",
+    "No .git history, Unity caches, Logs, UserSettings, .NET build outputs, Python caches or Blender backups",
+    "Removed historical previews/reports and one-off authoring repair scripts",
+    "Included current25Action/28Texture cleaned Blender source and current authoring documentation"
+  ],
+  "sourceBlend": {
+    "path": "Source/Robot/intercom-armed.blend",
+    "actions": 25,
+    "exportGameActions": 13,
+    "additionalEditingStudies": 12,
+    "packedTextures": 28,
+    "sha256": "0277e76cc8a16f060ed28da0b4608d6c7d4b55cc0cfdffd74fbb913c0916c511"
+  },
+  "limits": [
+    "Actual Unity Editor import, type compilation, Play Mode and device build were not executed in this environment.",
+    "Logic and editor startup/catalog tests use .NET8 and minimal Unity API substitutes.",
+    "First open downloads pinned Unity packages; internet and the specified Editor version are required."
+  ],
+  "reports": [
+    "Validation/Reports/LogicTests.json",
+    "Validation/Reports/ProjectStartup.json",
+    "Validation/Reports/SceneIntegrity.json",
+    "Validation/Reports/NpcScene.json",
+    "Validation/Reports/MissionScene.json",
+    "Validation/Reports/Courtyard.json"
+  ]
+}

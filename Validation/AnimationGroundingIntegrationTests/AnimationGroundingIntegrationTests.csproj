@@ -3,21 +3,21 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="../GroundFeedbackLifecycleTests/UnityFakes.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedback.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundMath.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackTurning.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackSoles.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackRunning.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomGroundFeedbackSoleProfile.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTurnStepState.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionCadence.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomLocomotionDirection.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomCharacterAnimation.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomCharacterAnimationMath.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomProjectileDirection.cs" />
-    <Content Include="../../Assets/IntercomMVP/Scenes/IntercomMVP.unity" CopyToOutputDirectory="PreserveNewest" Link="IntercomMVP.unity" />
-    <Content Include="../../Assets/IntercomMVP/Runtime/IntercomCharacterAnimation.cs.meta" CopyToOutputDirectory="PreserveNewest" Link="IntercomCharacterAnimation.cs.meta" />
-    <Content Include="../../Assets/IntercomMVP/Runtime/IntercomWeaponMagazine.cs.meta" CopyToOutputDirectory="PreserveNewest" Link="IntercomWeaponMagazine.cs.meta" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimation.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimationMath.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Projectiles/IntercomProjectileDirection.cs" />
+    <Content Include="../../Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity" CopyToOutputDirectory="PreserveNewest" Link="IntercomMVP.unity" />
+    <Content Include="../../Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimation.cs.meta" CopyToOutputDirectory="PreserveNewest" Link="IntercomCharacterAnimation.cs.meta" />
+    <Content Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs.meta" CopyToOutputDirectory="PreserveNewest" Link="IntercomWeaponMagazine.cs.meta" />
   </ItemGroup>
 </Project>

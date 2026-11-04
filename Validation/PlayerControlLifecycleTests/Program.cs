@@ -30,6 +30,7 @@ static class Program {
  static void Main(string[] args){
   if(args.Length>0){HiddenLinkScreenshot();return;}
   HiddenLinkScreenshot();
+  FreePlayLifecycle();
  foreach(bool early in new[]{false,true}){
   var h=new Hero(early);Check(!h.motor.enabled,"selection disables motor");var before=h.root.transform.position;h.Walk();Check(h.root.transform.position.z==before.z,"menu rejects physical movement");h.Step();Check(h.mission.StartMission(IntercomMissionMode.Elimination),"mission start succeeds after real motor Awake");h.Step();h.Walk();Check(h.root.transform.position.z>before.z+.1f,"keyboard input reaches real Motor after mission start");
   h.health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,null));Check(!h.motor.enabled,"real health death disables movement");Check(h.mission.Phase==IntercomMissionPhase.Defeat,"actual Director observes hero death");h.Step();Check(h.mission.RetryMission(),"retry invokes real motor reset while disabled");h.Step();before=h.root.transform.position;h.Walk();Check(h.root.transform.position.z>before.z+.1f,"retry restores real movement");
@@ -80,5 +81,23 @@ static class Program {
  mobile.mission.enabled=false;Check(mobile.motor.enabled&&mobile.input.mission==null,"disabling actual Director releases only its own lock and input link");
  Application.isMobilePlatform=false;Input.Clear();
  Console.WriteLine($"Player control lifecycle: {assertions} checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.");
+ }
+ static void FreePlayLifecycle(){
+  var h=new Hero(false);Application.isMobilePlatform=false;
+  h.mission.navigation=null;h.mission.enemyDefinition=null;h.mission.spawnPoints=null;
+  h.mission.eliminationDefinition=h.mission.rescueDefinition=null;
+  var layout=IntercomHudLayout.Calculate(Screen.safeArea.x,Screen.safeArea.y,Screen.safeArea.width,Screen.safeArea.height,70,32);
+  Input.mousePosition=new Vector2(layout.MissionThird.X+layout.MissionThird.Width*.5f,layout.MissionThird.Y+layout.MissionThird.Height*.5f);
+  Input.MouseHeld=Input.MouseDown=true;h.Step();Input.MouseDown=false;
+  Check(h.mission.Mode==IntercomMissionMode.FreePlay&&h.motor.enabled,"third card unlocks real Motor in no-AI mode");
+  Check(!h.input.FireHeld&&!h.input.FirePressed,"free menu click cannot create shot");
+  Input.Clear();h.Step();var before=h.root.transform.position;h.Walk();
+  Check(h.root.transform.position.z>before.z+.1f,"free play keyboard reaches real Motor without AI references");
+  int prepared=h.mission.PreparedEnemyCount;for(int i=0;i<120;i++)h.Step();
+  Check(h.mission.SpawnedEnemies==0&&h.mission.AliveEnemies==0&&h.mission.PreparedEnemyCount==prepared,"actual free gameplay never prepares more AI");
+  Check(h.mission.RetryMission(),"free retry succeeds with no mission profile");h.Step();before=h.root.transform.position;h.Walk();
+  Check(h.root.transform.position.z>before.z+.1f,"free retry restores actual movement");
+  h.mission.ReturnToSelection();Check(!h.motor.enabled&&h.mission.Phase==IntercomMissionPhase.Selection,"free return opens visible menu and locks real Motor");
+  Input.Clear();
  }
 }

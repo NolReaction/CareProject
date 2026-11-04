@@ -3,6 +3,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="UnityFakes.cs" />
-    <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomNpcArena.cs" />
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcArena.cs" />
   </ItemGroup>
 </Project>

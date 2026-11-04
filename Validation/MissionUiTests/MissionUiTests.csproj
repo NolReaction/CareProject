@@ -3,10 +3,10 @@
  <ItemGroup>
   <Compile Include="Program.cs"/>
   <Compile Include="../PlayerInputRuntimeTests/UnityFakes.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomPlayerInput.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomWorkshopHud.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomHudLayout.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomTwinStickState.cs"/>
-  <Compile Include="../../Assets/IntercomMVP/Runtime/IntercomReloadControl.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomTwinStickState.cs"/>
+  <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomReloadControl.cs"/>
  </ItemGroup>
 </Project>

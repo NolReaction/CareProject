@@ -28,7 +28,7 @@ python Tools/GenerateMainMusic.py
 перезаписывает `Music_IndustrialGroove.ogg` и `Docs/MusicPreview.mp3`.
 Имя игрового файла и его Unity GUID сохранены. MP3 — отдельный 45-секундный
 фрагмент с затуханием на конце; игровой OGG содержит полную циклическую музыку.
-Громкость игры задаётся `PrototypeAudio.asset`, поэтому самостоятельный MP3
+Громкость игры задаётся `Content/Shared/Audio/Settings/GameAudio.asset`, поэтому самостоятельный MP3
 звучит громче музыки в игровом миксе.
 
 ## Источники записей

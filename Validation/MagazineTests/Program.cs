@@ -13,7 +13,7 @@ static class Program
     static void Call(object target,string name,params object[] args)=>target.GetType().GetMethod(name,BindingFlags.Instance|BindingFlags.NonPublic).Invoke(target,args);
     sealed class Harness
     {
-        internal IntercomWeaponDefinition Weapon=new IntercomWeaponDefinition();
+        internal IntercomWeaponDefinition Weapon=new IntercomWeaponDefinition{barrelMode=IntercomBarrelMode.DualSimultaneous,fireInterval=.18f};
         internal IntercomPlayerInput Input=new IntercomPlayerInput();
         internal IntercomPlayerMotor Motor=new IntercomPlayerMotor();
         internal IntercomWeaponMagazine Magazine=new IntercomWeaponMagazine();
@@ -95,7 +95,7 @@ static class Program
                 Near(shots[24]-shots[23],1.15,dt+.0001,"secondreload consistent");
                 Near(shots[33]-shots[0],IntercomWeaponBalance.IdealTtkWithReload(1000,15,2,.18f,24,1.15f),dt*3+.0001,"live clockTTK includes reloads");
             }
-            var w=new IntercomWeaponDefinition();Near(w.IdealTtk,.54,1e-6,"100HP unchanged");Near(w.SustainedDps,360/(11*.18+1.15),1e-4,"sustained DPS");
+            var w=new IntercomWeaponDefinition{barrelMode=IntercomBarrelMode.DualSimultaneous,fireInterval=.18f};Near(w.IdealTtk,.54,1e-6,"legacy dual100HP unchanged");Near(w.SustainedDps,360/(11*.18+1.15),1e-4,"legacy sustained DPS");
         });
         Case("long custom reload keeps raised baseline without replaying intent",()=>{
             var h=new Harness();h.Weapon.reloadSeconds=3f;var clock=new IntercomWeaponPoseClock(.01f,.5f,.18f,2f);
@@ -103,11 +103,28 @@ static class Program
             for(int i=0;i<299;i++){h.Frame(.01f);clock.CancelFireRequests();clock.Tick(.01f,false,h.Magazine.IsReloading);Check(!clock.ShotThisTick&&clock.Posture==IntercomWeaponPosture.Combat,"longreload lowered orfired");}
             h.Frame(.01f);clock.Tick(.01f,true,h.Magazine.IsReloading);Check(clock.ShotThisTick&&h.Magazine.CanFire,"completion permitsnextshotwithout extra armraise");
         });
+        Case("V12 and prior alternating cadence preserve one-round reload-aware balance",()=>{
+            foreach(float interval in new[]{.095f,.12f})foreach(float dt in new[]{1f/30,1f/60,1f/120}){
+                var h=new Harness();h.Weapon.barrelMode=IntercomBarrelMode.SingleAlternating;h.Weapon.fireInterval=interval;
+                var clock=new IntercomWeaponPoseClock(8f/24,.5f,h.Weapon.Interval,2f);var shots=new List<double>();double time=0;float hp=1000;
+                for(int frame=0;frame<3000&&hp>0;frame++){
+                    time+=dt;h.Frame(dt);bool fire=h.Magazine.CanFire;if(!fire)clock.CancelFireRequests();clock.Tick(dt,fire,h.Magazine.IsReloading);
+                    if(clock.ShotThisTick){Check(h.Magazine.CanFire,"alternating shot gate");Check(h.Magazine.CommitVolley(1),"one alternating round committed");shots.Add(time);hp-=15;}
+                }
+                Check(shots.Count==67&&h.Started==2&&h.Completed==2,"67 rounds / two reloads for1000HP");
+                Near(shots[24]-shots[23],1.15,dt+.0001,"single-round reload starts on round24");
+                Near(shots[48]-shots[47],1.15,dt+.0001,"second single-round reload");
+                Near(shots[66]-shots[0],IntercomWeaponBalance.IdealTtkWithReload(1000,15,1,interval,24,1.15f),dt*3+.0001,"alternating live TTK agrees with calculator");
+            }
+            var one=new Harness();one.Weapon.barrelMode=IntercomBarrelMode.SingleAlternating;one.Weapon.magazineSize=1;one.Frame(.01f);
+            Check(one.Magazine.Capacity==1&&one.Magazine.CanFire,"one-round alternating weapon remains usable");
+            Check(one.Magazine.CommitVolley(1)&&one.Magazine.IsReloading&&one.Magazine.CurrentAmmo==0,"one round causes exactly one reload");
+        });
         Case("invalid time and tiny custom magazines remain safe",()=>{
             var s=new IntercomMagazineState(0);Check(s.Capacity==1,"capacity sanitized");s.TryConsume(1);s.RequestReload(float.NaN);
             foreach(float bad in new[]{0,-1,float.NaN,float.PositiveInfinity})Check(!s.Tick(bad)&&s.CurrentAmmo==0,"invalidtime cannot reload");
             Check(s.Tick(1.15f)&&s.CurrentAmmo==1,"safe fallback duration");
-            var w=new IntercomWeaponDefinition{magazineSize=1};Check(w.MagazineCapacity==2,"dualguncapacity supports one volley");
+            var w=new IntercomWeaponDefinition{magazineSize=1,barrelMode=IntercomBarrelMode.DualSimultaneous};Check(w.MagazineCapacity==2,"dualguncapacity supports one volley");
         });
         Console.WriteLine("PASS "+cases+" magazine/parallel-fire cases, "+assertions+" assertions. Production state, component, pose clock and direction; narrow Unity stand-ins, no PhysX or actual GUI execution.");
     }

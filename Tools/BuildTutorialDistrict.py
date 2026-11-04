@@ -12,13 +12,14 @@ from pathlib import Path
 import argparse, collections, hashlib, json, math, re, struct, uuid, zlib
 import numpy as np
 from UnitySceneIds import SceneIdAllocator, validate_scene_ids
+from AssetPaths import script_path
 
 ROOT = Path(__file__).resolve().parents[1]
-ART = ROOT / 'Assets/IntercomMVP/Art/PrototypeEnvironment'
-MESHES = ART / 'Modules'
-TEXTURES = ART / 'Surfaces'
-LAYOUT = ROOT / 'Assets/IntercomMVP/World/DistrictLayout.json'
-SCENE = ROOT / 'Assets/IntercomMVP/Scenes/IntercomMVP.unity'
+ART = ROOT / 'Assets/IntercomMVP/Content/Environments/TutorialYard/Materials'
+MESHES = ART.parent / 'Meshes'
+TEXTURES = ART.parent / 'Textures'
+LAYOUT = ROOT / 'Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json'
+SCENE = ROOT / 'Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity'
 SALT = 'CareProject/tutorial-courtyard/v2/'
 # Stable GUID salt is retained across art revisions.
 ART_REVISION = 'open-courtyard-v7'
@@ -228,7 +229,7 @@ def make_materials():
     for name,f in fields.items():
         path=TEXTURES/(name+'.png');png(path,np.repeat(np.clip(f,.58,.99)[...,None],3,axis=2))
         # Existing texture importer is the project's stable compatible reference.
-        t=(ROOT/'Assets/IntercomMVP/Art/Robot/Textures/tripo_part_0_base_color.jpg.meta').read_text()
+        t=(ROOT/'Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg.meta').read_text()
         t=re.sub(r'^guid: \w+',f'guid: {stable(path.relative_to(ROOT).as_posix())}',t,flags=re.M)
         t=re.sub(r'(maxTextureSize:) \d+',r'\1 512',t)
         t=re.sub(r'(textureCompression:) \d+',r'\1 1',t)
@@ -519,7 +520,7 @@ class SceneWriter:
         self.children.setdefault(parent,[]).append(tr);self.children[tr]=[];return go,tr
     def common(self,go):return f'  m_ObjectHideFlags: 0\n  m_CorrespondingSourceObject: {{fileID: 0}}\n  m_PrefabInstance: {{fileID: 0}}\n  m_PrefabAsset: {{fileID: 0}}\n  m_GameObject: {{fileID: {go}}}\n'
     def component(self,go,klass,fields):
-        cid=self.ident();self.components[go].append(cid);guid=meta(ROOT/f'Assets/IntercomMVP/Runtime/{klass}.cs')
+        cid=self.ident();self.components[go].append(cid);guid=meta(script_path(ROOT,klass))
         self.objects[cid]=f'--- !u!114 &{cid}\nMonoBehaviour:\n'+self.common(go)+f'  m_Enabled: 1\n  m_EditorHideFlags: 0\n  m_Script: {{fileID: 11500000, guid: {guid}, type: 3}}\n  m_Name: \n  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.{klass}\n'+fields
         return cid
     def collider(self,go,center=(0,0,0),size=(1,1,1)):
@@ -572,7 +573,7 @@ def write_scene(layout):
     asphalt=meta(ART/'Asphalt.mat')
     w.objects[ground_renderer]=re.sub(r'(  m_Materials:\n)(?:  - .*\n)+',r'\1  - {fileID: 2100000, guid: '+asphalt+', type: 2}\n',w.objects[ground_renderer])
     roles=['Zone','Building','Route','Cover','Prop','Boundary','PlayerSpawn','EnemySpawn','Loot','Exit','Target']
-    motor_guid=meta(ROOT/'Assets/IntercomMVP/Runtime/IntercomPlayerMotor.cs')
+    motor_guid=meta(script_path(ROOT,'IntercomPlayerMotor'))
     motor_id=next(oid for oid,c in w.objects.items() if 'guid: '+motor_guid in c)
     reactive_ids=[]
     for g in layout['groups']:
@@ -682,7 +683,7 @@ def main():
     report['meshBufferValidation']=validate_mesh_buffers(exported)
     report['instancedEnvironmentTriangles']=sum(exported[b['mesh']]['triangles'] for g in layout['groups'] for b in g['blocks'] if b.get('mesh') and b.get('visual',True))+sum(exported[t['mesh']]['triangles']+exported['TrainingStand']['triangles'] for t in layout['targets'])
     report['scope']='Generator geometry + conservative route connectivity. Unity import/performance not measured.'
-    out=ROOT/'Validation/CourtyardV7Review.json';out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
+    out=ROOT/'Validation/CourtyardReview.json';out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:v for k,v in report.items() if k!='pathClearance'},ensure_ascii=False,indent=2))
 
 if __name__=='__main__':main()

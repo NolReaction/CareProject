@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "Tools"))
 from UnitySceneIds import MAX_LOCAL_ID, SceneIdAllocator, validate_scene_ids
 
-SCENE = ROOT / "Assets/IntercomMVP/Scenes/IntercomMVP.unity"
+SCENE = ROOT / "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity"
 SURFACES = ["Asphalt", "Concrete", "Metal", "Gravel", "Wood", "Soil"]
 
 
@@ -26,7 +26,7 @@ def surface_routing(text):
     blocks = {int(fid): (int(kind), body) for kind, fid, body in re.findall(
         r"^--- !u!(\d+) &(-?\d+)(?: stripped)?\n(.*?)(?=^--- !u!|\Z)", text, re.M | re.S)}
     names, owners, components, tags = {}, {}, {}, {}
-    guid = re.search(r"^guid: (\w+)$", (ROOT / "Assets/IntercomMVP/Runtime/IntercomFootstepSurface.cs.meta").read_text(), re.M)[1]
+    guid = re.search(r"^guid: (\w+)$", (ROOT / "Assets/IntercomMVP/Runtime/Shared/Surfaces/IntercomFootstepSurface.cs.meta").read_text(), re.M)[1]
     for fid, (kind, body) in blocks.items():
         if kind == 1:
             names[fid] = re.search(r"^  m_Name: (.*)$", body, re.M)[1]
@@ -54,7 +54,7 @@ def surface_routing(text):
     for component, go in owners.items():
         assert component in components[go], f"Detached component {component} on {names[go]}"
 
-    layout = json.loads((ROOT / "Assets/IntercomMVP/World/DistrictLayout.json").read_text())
+    layout = json.loads((ROOT / "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json").read_text())
     # Different authored groups may reuse a module name (e.g. Low barrier).
     # Compare the complete counted name/material inventory instead of losing
     # duplicate instances through a dictionary overwrite.
@@ -136,7 +136,7 @@ def main():
     original_scene = generator.SCENE
     try:
         generator.build_modules()  # In-memory mesh construction; no asset export.
-        layout = json.loads((ROOT / "Assets/IntercomMVP/World/DistrictLayout.json").read_text())
+        layout = json.loads((ROOT / "Assets/IntercomMVP/Content/Environments/TutorialYard/Layout/DistrictLayout.json").read_text())
         with tempfile.TemporaryDirectory(prefix="care-scene-v9-") as directory:
             generator.SCENE = Path(directory) / "IntercomMVP.unity"
             generator.SCENE.write_text(source)
@@ -157,7 +157,7 @@ def main():
                             "localIDs": generated_ids, "surfaceCount": len(generated_contacts),
                             "environmentObjects": generated_report["environmentObjects"]},
               "scope": "Signed Int64 IDs, local reference resolution, bidirectional component ownership and authored material routing. Not Unity importer or PhysX execution."}
-    (ROOT / "Validation/SceneIntegrityV9Review.json").write_text(json.dumps(result, indent=2) + "\n")
+    (ROOT / "Validation/SceneIntegrityReview.json").write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps({key: result[key] for key in ["status", "yamlFiles", "regressionCases", "surfaceCount", "surfaceCounts"]}))
 
 

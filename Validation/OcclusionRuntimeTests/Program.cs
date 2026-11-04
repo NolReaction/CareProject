@@ -30,6 +30,21 @@ internal static class Program
         Check(!IntercomOcclusionFade.Active.ContainsKey(behind), "depth endpoint excludes renderer behind target");
         Check(shared.vertexReads == 1, "three mesh instances share one cached BVH");
         Check(Count(occlusion, "entries") == 3, "default marker creates independent renderer states");
+        for (int i = 0; i < 25; i++) { occlusion.RefreshScenery(); Tick(occlusion); }
+        Check(shared.vertexReads == 1 && occlusion.GeometryBuildCount == 1,
+            "repeated membership refresh reuses unchanged source arrays and BVH");
+        Check(occlusion.CacheRebuildCount == 26, "topology refresh still re-evaluates renderer membership");
+        occlusion.RefreshChangedGeometry(); Tick(occlusion);
+        Check(shared.vertexReads == 2 && occlusion.GeometryBuildCount == 2,
+            "explicit in-place geometry edit invalidates old BVH");
+        var excludedPool = new GameObject("Cosmetic pool").AddComponent<IntercomOccluder>();
+        excludedPool.hideWhenBlocking = false;
+        uint version = IntercomOccluder.Revision;
+        for (int i = 0; i < 100; i++) Call(excludedPool, "OnTransformChildrenChanged");
+        Check(IntercomOccluder.Revision == version, "excluded FX pool children do not trigger full scenery rebuild");
+        excludedPool.hideWhenBlocking = true; Call(excludedPool, "OnTransformChildrenChanged");
+        Check(IntercomOccluder.Revision != version, "eligible marker children retain topology invalidation");
+        Tick(occlusion, 30);
         float opacity = IntercomOcclusionFade.Active[warehouse]; Call(occlusion, "UpdateVisibility");
         Check(IntercomOcclusionFade.Active[warehouse] == opacity, "camera callback cannot advance fade twice in one frame");
 
@@ -63,6 +78,17 @@ internal static class Program
         camera.enabled = true; camera.orthographic = false; Tick(occlusion, 30);
         Check(IntercomOcclusionFade.Active.ContainsKey(warehouse), "perspective rays also cover real foreground");
         Check(!IntercomOcclusionFade.Active.ContainsKey(behind), "perspective rays remain finite");
+        var temporaryMesh = Wall();
+        var temporary = Part("New distant wall", group.transform, temporaryMesh, new Vector3(20, 0, 4));
+        occlusion.RefreshScenery(); Tick(occlusion);
+        Check(temporaryMesh.vertexReads == 1 && Count(occlusion,"geometryCache") == 2,
+            "new mesh is compiled once alongside reused geometry");
+        temporary.GetComponent<MeshFilter>().sharedMesh = shared; occlusion.RefreshScenery(); Tick(occlusion);
+        Check(Count(occlusion,"geometryCache") == 1, "unused old meshes are pruned instead of accumulating");
+        typeof(IntercomCameraOcclusion).GetMethod("SceneUnloaded", BindingFlags.Instance|BindingFlags.NonPublic)
+            .Invoke(occlusion, new object[]{new UnityEngine.SceneManagement.Scene()});
+        Check(Count(occlusion,"entries")==0 && Count(occlusion,"geometryCache")==0,
+            "scene unload clears caches immediately even before next target update");
         Call(occlusion, "OnDisable");
         Check(IntercomOcclusionFade.Active.Count == 0, "camera disable releases active fades");
         Check(Count(occlusion, "entries") == 0 && Count(occlusion, "geometryCache") == 0, "camera disable frees entries and cached geometry");

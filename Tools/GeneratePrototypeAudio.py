@@ -22,7 +22,7 @@ from scipy.signal import butter, sosfiltfilt, resample_poly
 from fractions import Fraction
 
 ROOT = Path(__file__).resolve().parents[1]
-AUDIO = ROOT / "Assets/IntercomMVP/Audio"
+AUDIO = ROOT / "Assets/IntercomMVP/Content/Shared/Audio"
 SOURCE = ROOT / "Source/Audio"
 FX_RATE = 44100
 AMBIENT_RATE = 24000
@@ -106,31 +106,34 @@ GRAVEL_STEPS = ("Fantozzi-SandL1.flac", "Fantozzi-SandR2.flac", "Fantozzi-SandL3
 
 
 def boot(index, surface="asphalt"):
-    """Recorded sole and grit with identifiable, short material responses."""
+    """V6.1: softer recorded soles, with short, still distinct material responses."""
     granular = surface in ("gravel", "soil")
     file = GRAVEL_STEPS[index % 3] if granular else BASE_STEPS[index % 4]
     ratio = (1.05, 1.00, 1.08)[index % 3] if surface == "concrete" else (.88, .91, .87, .93)[index % 4]
     x = rate_shift(onset_trim(sample(file), fraction=.018), ratio)
     length = .185 if surface == "concrete" else .245 if granular else .225
     x = fit(x, length)
-    x = band(x, 130 if surface == "concrete" else 90,
-             6800 if surface == "concrete" else 5700 if surface == "gravel" else 1900 if surface == "soil" else 3600)
+    x = band(x, 130 if surface == "concrete" else 110,
+             2600 if surface == "concrete" else 3000 if surface == "gravel"
+             else 1400 if surface == "soil" else 1500 if surface == "wood" else 2000)
     t = np.arange(len(x)) / FX_RATE
     x *= np.exp(-np.maximum(t-(.025 if surface == "concrete" else .065), 0)
                 /(.038 if surface == "concrete" else .07 if surface == "soil" else .09))
     x /= peak(x)
     if surface == "metal":
         response = fit(rate_shift(onset_trim(sample("metal.flac")), .58+.025*index), length)
-        response = band(response, 170, 5100)*np.exp(-t/.063)
+        response = band(response, 170, 3200)*np.exp(-t/.063)
         x = .67*x + .48*response/peak(response)
     elif surface == "wood":
         response = fit(rate_shift(onset_trim(sample("wood_body.flac")), .43+.025*index), length)
-        response = band(response, 130, 1900)*np.exp(-t/.044)
+        response = band(response, 130, 1600)*np.exp(-t/.044)
         x = .65*x + .48*response/peak(response)
     elif surface == "soil":
-        x = band(x, 80, 1650)
-    x = np.tanh(x/peak(x)*1.65)
-    return finish_hit(x, -10.0 if surface != "soil" else -11.0)
+        x = band(x, 110, 1400)
+    x = np.tanh(x/peak(x)*1.15)
+    # The 8 ms onset removes the heel click without inventing a late contact.
+    x = edges(x - np.mean(x), attack=.008, release=.04)
+    return x * db(-13.0 if granular else -12.0) / peak(x)
 
 
 def impact(index, surface="concrete"):
@@ -193,8 +196,25 @@ def metrics(path, data, rate):
             "bytes":path.stat().st_size, "sha256":hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
-def save(name, data, rate, ambient=False):
-    path = asset_path(ROOT, "Assets/IntercomMVP/Audio/" + name)
+def audio_path(name):
+    """Keep rebuilt banks beside their owning feature after folder migration."""
+    if name.startswith("Pistol_"):
+        folder = "Content/Weapons/Pistols/Audio"
+    elif name.startswith("BootStep_"):
+        folder = "Content/Shared/Audio/Footsteps"
+    elif name.startswith("Impact_"):
+        folder = "Content/Shared/Audio/Impacts"
+    elif name.startswith("Ambience_"):
+        folder = "Content/Environments/TutorialYard/Audio"
+    elif name.endswith(".ogg"):
+        folder = "Content/Shared/Audio/Music"
+    else:
+        folder = "Content/Shared/Audio"
+    return asset_path(ROOT, "Assets/IntercomMVP/" + folder + "/" + name)
+
+
+def save(name, data, rate, ambient=False, preserve_importer=False):
+    path = audio_path(name)
     path.parent.mkdir(parents=True, exist_ok=True)
     assert np.all(np.isfinite(data)) and peak(data) < 1
     pcm = np.rint(data * 32767).astype("<i2")
@@ -203,7 +223,9 @@ def save(name, data, rate, ambient=False):
         wav.setsampwidth(2)
         wav.setframerate(rate)
         wav.writeframes(pcm.tobytes())
-    path.with_suffix(".wav.meta").write_text(importer(path, pcm.ndim == 2, ambient))
+    meta = path.with_suffix(".wav.meta")
+    if not preserve_importer or not meta.exists():
+        meta.write_text(importer(path, pcm.ndim == 2, ambient))
     result = metrics(path, pcm.astype(np.float64) / 32768, rate)
     assert result["clippedSamples"] == 0
     if not ambient:
@@ -213,7 +235,8 @@ def save(name, data, rate, ambient=False):
 
 def save_music(data):
     from GenerateMainMusic import TITLE, BARS, BPM
-    path = AUDIO / "Music_IndustrialGroove.ogg"
+    path = audio_path("Music_IndustrialGroove.ogg")
+    path.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le", "-ar", str(FX_RATE), "-ac", "2", "-i", "pipe:0",
                     "-c:a", "libvorbis", "-q:a", "5", "-fflags", "+bitexact", "-flags:a", "+bitexact", "-map_metadata", "-1",
                     "-metadata", "title=" + TITLE, "-metadata", "artist=CareProject", "-y", str(path)],
@@ -240,8 +263,25 @@ def verify_sources():
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sfx-only", action="store_true", help="Keep the existing music render")
+    parser.add_argument("--steps-only", action="store_true", help="Rebuild only the 19 V6.1 boot clips; preserve all other audio and existing import settings")
     parser.add_argument("--impacts-only", action="store_true", help="Rebuild only the V5 material hits; preserve music, footsteps and pistols")
     args = parser.parse_args()
+    if args.steps_only and (args.impacts_only or args.sfx_only):
+        parser.error("--steps-only cannot be combined with another scope flag")
+    if args.steps_only:
+        count = verify_sources()
+        results = [save(f"BootStep_{i+1:02d}.wav", boot(i), FX_RATE, preserve_importer=True) for i in range(4)]
+        for surface in ("concrete", "metal", "gravel", "wood", "soil"):
+            results += [save(f"BootStep_{surface.title()}_{i+1:02d}.wav", boot(i, surface), FX_RATE, preserve_importer=True) for i in range(3)]
+        report = {"revision":"footsteps-v6.1", "sourceRecordings":count, "assets":results,
+                  "scope":"Footstep PCM only; no Unity import or subjective listening performed."}
+        output = ROOT / "Validation/Results/FootstepsV61Assets.json"
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(json.dumps(report, indent=2) + "\n")
+        print(json.dumps({"revision":report["revision"], "assets":len(results),
+                          "bytes":sum(x["bytes"] for x in results),
+                          "clippedSamples":sum(x["clippedSamples"] for x in results)}))
+        return
     if args.impacts_only:
         from GenerateImpactAudio import main as build_impacts
         build_impacts()
@@ -249,9 +289,9 @@ def main():
     count = verify_sources()
     AUDIO.mkdir(parents=True, exist_ok=True)
     results = [save(f"Pistol_{i+1:02d}.wav", pistol(i), FX_RATE) for i in range(3)]
-    results += [save(f"BootStep_{i+1:02d}.wav", boot(i), FX_RATE) for i in range(4)]
+    results += [save(f"BootStep_{i+1:02d}.wav", boot(i), FX_RATE, preserve_importer=True) for i in range(4)]
     for surface in ("concrete", "metal", "gravel", "wood", "soil"):
-        results += [save(f"BootStep_{surface.title()}_{i+1:02d}.wav", boot(i, surface), FX_RATE) for i in range(3)]
+        results += [save(f"BootStep_{surface.title()}_{i+1:02d}.wav", boot(i, surface), FX_RATE, preserve_importer=True) for i in range(3)]
     results += [save(f"Impact_{i+1:02d}.wav", impact(i), FX_RATE) for i in range(2)]
     for surface in ("metal", "wood", "concrete", "soil"):
         results += [save(f"Impact_{surface.title()}_{i+1:02d}.wav", impact(i, surface), FX_RATE) for i in range(3)]
