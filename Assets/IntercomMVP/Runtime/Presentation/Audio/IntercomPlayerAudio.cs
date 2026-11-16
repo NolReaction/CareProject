@@ -52,6 +52,9 @@ namespace IntercomMvp
         private float ambienceGain;
         private float musicGain;
         private float lastMaterialHit = float.NegativeInfinity;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private static readonly Unity.Profiling.ProfilerMarker HitMarker=new Unity.Profiling.ProfilerMarker("CareProject.Combat.HitAudio");
+#endif
 
         private IntercomWeaponDefinition Weapon => shooter != null ? shooter.Weapon : null;
         private float ShotVolume => Weapon != null ? Weapon.shotVolume : profile.shotsVolume;
@@ -194,7 +197,10 @@ namespace IntercomMvp
 
         private void OnProjectileHit(IntercomProjectileImpact hit)
         {
-            if (!CanPlay || impacts == null) return;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            using var marker=HitMarker.Auto();
+#endif
+            if (!CanPlay || impacts == null || (hit.RobotHit && !hit.TargetHit)) return;
             ObserveProfile();
             float now = Time.unscaledTime;
             int bankIndex = hit.RobotHit ? 6 : Mathf.Clamp((int)hit.Surface, 0, 5);

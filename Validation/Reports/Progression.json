@@ -1,0 +1,100 @@
+{
+  "version": "V20",
+  "status": "PASS",
+  "tests": [
+    {
+      "project": "MagazineTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS finite magazine, successful projectiles only\nPASS automatic reload starts exactly after last complete volley\nPASS manual partial reload and pause do not refill or advance\nPASS respawn resets ammo but ordinary motion cancellation does not\nPASS reload pointer never becomes fire or steals movement\nPASS parallel dual barrels never cross at near or far ranges\nPASS held poseclock and magazine agree with reload-aware TTK at mobile rates\nPASS long custom reload keeps raised baseline without replaying intent\nPASS V12 and prior alternating cadence preserve one-round reload-aware balance\nPASS invalid time and tiny custom magazines remain safe\nPASS 10 magazine/parallel-fire cases, 2401 assertions. Production state, component, pose clock and direction; narrow Unity stand-ins, no PhysX or actual GUI execution.\n"
+    },
+    {
+      "project": "ProgressionTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS actual terminal rewards, no free-play or unfinished credit\nPASS exactly-once journal survives component recreation and a fresh application counter\nPASS immediate retry cannot erase a terminal reward before progression's next Update\nPASS finite purchase branch, one capacity source and shared definitions unchanged\nPASS alternating banks, damaged-data recovery and bounded format\nPASS effective balance follows the equipped weapon rather than a stale menu asset\nPASS save failure cannot debit or confirm an unpersisted reward\nPASS multiple results survive a lasting save failure across retries\nPASS bounded queue reserves unseen terminal before allowing another run\nPASS missing dependencies or a capped magazine cannot take purchase money\nPASS native diagnostic session cannot alter the real wallet or preferences\nPASS magazine extension is prepared once, stays behind muzzles and has closed outward geometry\nPASS reward/capacity bounds never overflow or create negative money\nProgression: 13 cases / 492 assertions PASS. Actual progression/model/magazine sources with narrow Unity/preferences substitutes; no native Unity or device execution.\n"
+    }
+  ],
+  "contract": {
+    "componentGuid": "f62676b1b2f4562e8c079216fdbb82d4",
+    "startingWallet": 0,
+    "partsPerKill": 1,
+    "victoryParts": 20,
+    "rescuedAllyParts": 25,
+    "upgradeCosts": [
+      60,
+      130,
+      240
+    ],
+    "bonusRoundsPerRank": 6,
+    "maximumRank": 3,
+    "authoredPistolCapacities": [
+      24,
+      30,
+      36,
+      42
+    ],
+    "sharedWeaponAssetsMutated": false,
+    "purchaseOnlySelection": true,
+    "resultIdentity": "Director immutable GUID RunId, last-paid ID persisted; repeated result/current run cannot pay twice after component/app recreation. UInt run counters are not persistence identity.",
+    "rapidRetry": "Retained terminal ResultRevision/LastRunSummary can settle after HasRunSummary clears in BeginRun.",
+    "save": "Two bounded PlayerPrefs banks CP1 with generation and checksum; highest valid generation recovered; invalid bytes preserved until an explicit later transaction uses a bank.",
+    "writeFailure": "Only successful Save confirms wallet/rank; failed bank memory restored, current profile unchanged; result retries after2unscaled seconds.",
+    "nativeDiagnostics": "Fresh in-memory profile; no PlayerPrefs Set/Save/Delete during sandbox; End/Disable restores real profile and ignores diagnostic terminal.",
+    "visuals": {
+      "instances": 2,
+      "sharedOwnedMeshes": 1,
+      "trianglesPerInstance": 64,
+      "sharedExistingMaterial": "Weapon.casingMaterial",
+      "allocation": "Prepared once atStart; enable/scale changes on upgrade; no per-frame or per-shot native resource allocation."
+    },
+    "pendingRewards": {
+      "maximum": 32,
+      "capturesDuringBackoff": true,
+      "saveAttemptsPerFrameMaximum": 1,
+      "retryBackoffUnscaledSeconds": 2,
+      "selectionGuard": "CanStartAnotherRun reserves an unseen valid current terminal receipt, so31captured+1unseen blocks another run before overwrite.",
+      "storageLifetime": "Unsaved FIFO lives in memory only; real diagnostic session rejects pending rewards. Normal UI cannot start another run when full."
+    },
+    "purchaseSafety": "Requires live magazine/shooter/equipped definition, positive capacity benefit, no pending rewards, active focused Selection and affordable nonmaxed rank.",
+    "equippedWeapon": "Effective capacity/TTK/DPS prefer the magazine shooter current weapon over serialized menu fallback."
+  },
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Progression/IntercomProgression.cs",
+      "sha256": "36cbd8d92eecdbdcfd4a412c54aa564c13d80f9e7d8174668e9e3884c19cc408"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Progression/IntercomProgressionModel.cs",
+      "sha256": "d2599746e288cac19589a1dc42fcb0cd1eb00a7f6f00950956773184d5e76466"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs",
+      "sha256": "a3bc061b40f4630feda25b808d8e63d232276bba6601a12468c39643971ce4db"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs",
+      "sha256": "019c771cdfdec43b4b3f242689a9c22cd5da1055ef7c2ca7b6daf7ba01915f79"
+    },
+    {
+      "path": "Validation/ProgressionTests/Program.cs",
+      "sha256": "600eb08f131894cc6c465ccb3e8d1853d79ff5a13ad231750427585e12631954"
+    },
+    {
+      "path": "Validation/ProgressionTests/UnityFakes.cs",
+      "sha256": "81c502d98414ff4029de7de023bb3494e78e0e6948e699c5afe5864e6bed9355"
+    },
+    {
+      "path": "Docs/Progression.md",
+      "sha256": "df7da236c03f40a98a0141a729868299da6555e49c03ef33b7da6d7a0d1c76a8"
+    }
+  ],
+  "limits": [
+    "Actual Unity Editor, native PlayerPrefs backend, graphics, device storage and frame profiling not executed by these standalone tests.",
+    "Local profile is not cloud synchronization or anti-cheat; checksum detects accidental corruption.",
+    "Only the current director-owned immutable terminal summary may be settled by the runtime component.",
+    "Unconfirmed pending rewards are in memory until persistence recovers; application/OS termination before a successful save cannot be recovered from this local-only MVP queue."
+  ]
+}

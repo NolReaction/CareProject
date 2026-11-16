@@ -72,6 +72,7 @@ namespace IntercomMvp {
   public IntercomMissionMode Mode;
   public bool BlocksGameplay=>Phase!=IntercomMissionPhase.Active;
   public int Kills=12,Goal=50,AliveEnemies=6,SpawnedEnemies=18,Wave=2;
+  public bool IsWaveResting;public float WaveRestSecondsRemaining;
   public bool IsAllyRecruited;
   public IntercomHealth AllyHealth;
   public string ObjectiveText="Задание",ResultText="Двор снова работает.",HudHint="";

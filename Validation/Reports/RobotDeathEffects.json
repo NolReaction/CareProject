@@ -35,7 +35,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "V20 authored course instant-kill floor: 146.95 active seconds. No real combat, travel or native Unity simulation in this probe.\nMission/rescue runtime: 2009 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "PlayerControlLifecycleTests",
@@ -49,31 +49,38 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+      "output": "Robot death effects: 1976 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
     }
   ],
   "status": "PASS",
-  "version": "V19",
+  "version": "V20",
   "caseSummary": [
     "At most8 generic bursts×5 gears and2 actual chunk bursts×6chunks:52activepieces.",
     "Pools warm incrementally; ordinary Emit performs no Instantiate/material/mesh allocation.",
     "No runtime mesh bake, colliders or Rigidbody debris; cosmetic cached ballistics.",
     "Retry/selection/disable/focus loss clear scrap; scaled pause freezes ages/motion.",
-    "Actual chunks share imported atlas, source pivots and immutable meshes; no hero changes."
+    "Actual chunks share imported atlas, source pivots and immutable meshes; no hero changes.",
+    "V20 actual part positions and scales match .90 Runner /1 Standard /1.12 Heavy; repeated pool reuse does not compound scale."
   ],
   "broadResult": {
-    "projects": 51,
-    "passed": 51,
+    "projects": 53,
+    "passed": 53,
     "source": "LogicTests.json"
   },
   "fileSHA256": {
-    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc",
-    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de",
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "9fc36047e7ddd965e93d856f17c299bcd6a2e79d311dbea14212d85a0594229f",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "d0791141e64a80bfb38ac372adfe512ae1e9c3ba48f62dd5a4bd77a583f6a60b",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "3aa95605607d4ff48a68aaf651610c70ae5328d737434372058b493b2dd58a2f",
     "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf",
-    "Validation/RobotDeathEffectsTests/Program.cs": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781",
-    "Validation/RobotDeathEffectsTests/README.md": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b",
+    "Validation/RobotDeathEffectsTests/Program.cs": "e000f4fd135e16dac57d8f88d3d1a0c6388c6a68718435849bf181ad8bfaba7f",
+    "Validation/RobotDeathEffectsTests/README.md": "b03eba612eed96b9c7f29371ae2b96ee63d1b9540ac16e462dda4afdd2dcb61d",
     "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj": "4efe1fed998e48997aed5cc6053c43c6b7bc8ac3f1d38b45a8181514df55b116",
     "Validation/RobotDeathEffectsTests/UnityFakes.cs": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463"
-  }
+  },
+  "variantScale": "The four-argument Emit receives the actual life visual scale; original chunk sourceScale is immutable, preventing compound Heavy/Runner reuse scale.",
+  "relatedReports": [
+    "FeedbackUi.json",
+    "EnemyCrowd.json",
+    "NativeUnityAvailability.json"
+  ]
 }

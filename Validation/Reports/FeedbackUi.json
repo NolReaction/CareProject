@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "productionFrozen": true,
+  "tests": [
+    {
+      "project": "CombatEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Combat effects: 39 assertions PASS; actual pooled effects/weapon/impact route with narrow Unity stand-ins, no engine rendering or PhysX.\n"
+    },
+    {
+      "project": "FrontEndRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 112 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+    },
+    {
+      "project": "HudLayoutTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 78998 safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.\n"
+    },
+    {
+      "project": "MissionUiTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 360 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+    },
+    {
+      "project": "PlayerAudioLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PlayerAudio fake-Unity lifecycle: 816 assertions passed. Not a Unity Editor test.\n"
+    },
+    {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1976 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs",
+      "sha256": "e3c8f0b4165e51d67e977c812f8a1762780912bd713742acd193116faaa2bffc"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs",
+      "sha256": "119d97282c30db34e2b61fbfb9c3e54296a71121b110a483335e9788914091ec"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs",
+      "sha256": "5d5386c464a89260b2682176b7d4e896180e1903f8d1e838a11acacbba9bfbbc"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs",
+      "sha256": "82cffe27c333f625cb08a08c91458cccf40f4aa8348b56c645feeb25ae00dbaa"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomPlayerAudio.cs",
+      "sha256": "2f18925da51969e5156cbcc1a510709cc0aec2ddb64a9dae403113f4d8b835e0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
+      "sha256": "9fc36047e7ddd965e93d856f17c299bcd6a2e79d311dbea14212d85a0594229f"
+    }
+  ],
+  "ui": {
+    "workshop": "Optional progression reference; wallet, current/next effective capacity, price, affordable/max/pending/save-error states; purchase consumes existing shared primary bounds. Live equipped weapon owns displayed damage/rate/reload.",
+    "result": "Immutable kills/rescued/time + current-run credited reward breakdown, wallet, explicit free-play/no-reward and unsaved receipt states. Transitions capture receipts and respect bounded pending-save queue before another run.",
+    "wave": "Cached wave title with compact short form; rest countdown shares visible toast bounds and expires with the actual rest.",
+    "damage": "At most eight low-opacity safe-edge strips for accepted damage; absent while paused/dead/invalid/zero. Never fullscreen."
+  },
+  "combat": {
+    "acceptedRobot": "One .095second warm core pop plus two shared brass chips.",
+    "declinedRobot": "One .075second small glance, no core-hit voice or cooldown consumption.",
+    "existingMix": "Robot impacts remain .32 gain and65ms min cadence from shared profile, separate4voice pool; approved audio/music assets unchanged.",
+    "allocation": "Existing fixed pools and meshes/materials; Emit/impact handlers construct no native assets. Warm audio shot/hit handlers allocate0managedbytes in harness.",
+    "hitch": "Full elapsed expiry; motion integration capped .05seconds.",
+    "breakup": "Four-arg Emit accepts uniform variant scale; six actual chunks start at scaled positions and always use immutable source scale, tested alternating heavy/runner reuse."
+  },
+  "profilerMarkers": [
+    "CareProject.RobotDeath.Emit",
+    "CareProject.Combat.ImpactFx",
+    "CareProject.Combat.EffectsStep",
+    "CareProject.Combat.HitAudio"
+  ],
+  "visualReview": {
+    "status": "PASS",
+    "images": [
+      "Previews/upgrade_affordable.png",
+      "Previews/upgrade_insufficient.png",
+      "Previews/upgrade_maximum.png",
+      "Previews/result_reward.png",
+      "Previews/result_reward_compact.png",
+      "Previews/result_reward_portrait.png",
+      "HudRaster/damaged.png",
+      "HudRaster/wave_rest_compact.png"
+    ],
+    "base": "Validation/Results/V20UI",
+    "scope": "Offline raster of actual production GUI commands and authored textures with flat studio backdrop; no Unity scene rendering.",
+    "fixtureReward": "50kills+20victory=70 credited; shown wallet150 includes80 previously held."
+  },
+  "limits": [
+    "Actual native Unity rendering/Animator/PhysX/Profiler/device/audio listening were not executed by this owner.",
+    "Runtime/UI source compiled with narrow Unity/director/progression stand-ins; actual progression and mission rules have separate owner integration tests.",
+    "World impact shape/material/timing/pool changes were checked through actual production component state; no native visual capture claim."
+  ]
+}

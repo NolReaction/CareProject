@@ -4,6 +4,96 @@ namespace IntercomMvp
 {
     public enum IntercomNpcPhase { Idle, Patrol, Chase, Windup, Recovery, Return, Dead }
 
+    public enum IntercomNpcArchetype { Standard, Runner, Heavy }
+
+    /// <summary>Immutable multipliers on the designer's base profile; pooled lives never clone assets.</summary>
+    public readonly struct IntercomNpcArchetypeTuning
+    {
+        public readonly IntercomNpcArchetype Archetype;
+        public readonly float Health, Speed, Damage, Windup, Recovery, Scale;
+
+        private IntercomNpcArchetypeTuning(IntercomNpcArchetype archetype, float health, float speed,
+            float damage, float windup, float recovery, float scale)
+        {
+            Archetype=archetype; Health=health; Speed=speed; Damage=damage;
+            Windup=windup; Recovery=recovery; Scale=scale;
+        }
+
+        public static IntercomNpcArchetypeTuning For(IntercomNpcArchetype archetype)
+        {
+            switch(archetype)
+            {
+                case IntercomNpcArchetype.Runner:
+                    return new IntercomNpcArchetypeTuning(archetype,.60f,1.12f,.75f,1.10f,.90f,.90f);
+                case IntercomNpcArchetype.Heavy:
+                    return new IntercomNpcArchetypeTuning(archetype,1.80f,.72f,1.50f,1.40f,1.25f,1.12f);
+                default:
+                    return new IntercomNpcArchetypeTuning(IntercomNpcArchetype.Standard,1f,1f,1f,1f,1f,1f);
+            }
+        }
+    }
+
+    /// <summary>Allocation-free flat-plane crowd proposals. Runtime navigation still rejects blocked movement.</summary>
+    public static class IntercomNpcCrowdMath
+    {
+        public const int MaximumSlots=8;
+
+        public static int SlotForOrdinal(int ordinal)
+        {
+            int slot=ordinal%MaximumSlots;
+            return slot<0 ? slot+MaximumSlots : slot;
+        }
+
+        public static void SlotOffset(int ordinal, float radius, out float x, out float z)
+        {
+            double r=Finite(radius) ? Math.Max(0d,Math.Min(4d,radius)) : 0d;
+            double angle=SlotForOrdinal(ordinal)*Math.PI*2d/MaximumSlots;
+            x=(float)(Math.Sin(angle)*r); z=(float)(Math.Cos(angle)*r);
+        }
+
+        /// <summary>dx/dz is self minus other. Swapping actors gives the opposite force, including coincident actors.</summary>
+        public static void PairRepulsion(float dx, float dz, float spacing, int selfOrdinal, int otherOrdinal,
+            out float x, out float z)
+        {
+            x=z=0f;
+            if(!Finite(dx) || !Finite(dz) || !Finite(spacing) || spacing<=0f) return;
+            double distanceSquared=(double)dx*dx+(double)dz*dz;
+            double radius=Math.Max(.2d,Math.Min(3d,spacing));
+            if(distanceSquared>=radius*radius) return;
+            if(distanceSquared<.00000001d)
+            {
+                if(selfOrdinal==otherOrdinal) return;
+                int low=Math.Min(selfOrdinal,otherOrdinal), high=Math.Max(selfOrdinal,otherOrdinal);
+                uint seed;
+                unchecked { seed=(uint)low*73856093u^(uint)high*19349663u; }
+                double angle=(seed%65536u)*(Math.PI*2d/65536d);
+                double sign=selfOrdinal<otherOrdinal ? 1d : -1d;
+                x=(float)(Math.Sin(angle)*sign); z=(float)(Math.Cos(angle)*sign);
+                return;
+            }
+            double distance=Math.Sqrt(distanceSquared), weight=1d-distance/radius;
+            x=(float)(dx/distance*weight); z=(float)(dz/distance*weight);
+        }
+
+        /// <summary>dx/dz is other minus self. A neighbor behind or in another lane cannot brake this actor.</summary>
+        public static float ForwardSpeedScale(float dx, float dz, float headingX, float headingZ, float spacing)
+        {
+            if(!Finite(dx)||!Finite(dz)||!Finite(headingX)||!Finite(headingZ)||!Finite(spacing)||spacing<=0f) return 0f;
+            double headingSquared=(double)headingX*headingX+(double)headingZ*headingZ;
+            if(headingSquared<.000001d) return 0f;
+            double length=Math.Sqrt(headingSquared), hx=headingX/length, hz=headingZ/length;
+            double forward=dx*hx+dz*hz, lateral=Math.Abs(dx*hz-dz*hx);
+            double radius=Math.Max(.2d,Math.Min(3d,spacing));
+            if(forward<=0d || lateral>=radius || forward>=radius*1.75d) return 1f;
+            double proximity=Math.Max(0d,Math.Min(1d,(forward-radius*.60d)/(radius*1.15d)));
+            // Blend out braking near the edge of a neighboring lane.
+            double lane=Math.Max(0d,Math.Min(1d,lateral/radius));
+            return (float)(proximity+(1d-proximity)*lane*lane);
+        }
+
+        private static bool Finite(float value)=>!float.IsNaN(value)&&!float.IsInfinity(value);
+    }
+
     public readonly struct IntercomNpcRules
     {
         public readonly float Windup, Recovery, Memory, Idle;

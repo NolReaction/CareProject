@@ -28,7 +28,7 @@ namespace IntercomMvp
         private sealed class Piece
         {
             internal Transform transform;
-            internal Vector3 center, extents, restPosition, restScale, position, velocity, spin;
+            internal Vector3 center, extents, restPosition, restScale, sourceScale, position, velocity, spin;
             internal Quaternion restRotation, rotation;
             internal float age, life, floor;
             internal bool active;
@@ -65,6 +65,9 @@ namespace IntercomMvp
         private int preparedBursts, preparedChunks, nextBurst, nextChunk;
         private bool focused = true, paused;
         private uint random;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private static readonly Unity.Profiling.ProfilerMarker EmitMarker=new Unity.Profiling.ProfilerMarker("CareProject.RobotDeath.Emit");
+#endif
         public int TotalBursts { get; private set; }
         public int PreparedBursts => preparedBursts;
         public int PreparedChunkBursts => preparedChunks;
@@ -151,7 +154,7 @@ namespace IntercomMvp
                 {
                     ChunkSource s = chunkSources[i];
                     Piece p = CreatePiece("Robot part " + i, set.root.transform, s.mesh, s.material, false);
-                    p.restPosition = s.position; p.restRotation = s.rotation; p.restScale = s.scale; set.pieces[i] = p;
+                    p.restPosition = s.position; p.restRotation = s.rotation; p.restScale = p.sourceScale = s.scale; set.pieces[i] = p;
                 }
                 set.root.SetActive(false); chunks[preparedChunks++] = set;
             }
@@ -159,12 +162,19 @@ namespace IntercomMvp
 
         /// <summary>Returns false only when this optional presentation is unready or invalid. No native allocation occurs here.</summary>
         public bool Emit(Vector3 position, Quaternion rotation, uint lifeSeed)
+            => Emit(position,rotation,lifeSeed,1f);
+
+        public bool Emit(Vector3 position, Quaternion rotation, uint lifeSeed, float visualScale)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            using var marker=EmitMarker.Auto();
+#endif
             if (!isActiveAndEnabled || !focused || paused || Time.timeScale <= 0f || preparedBursts == 0
                 || !Finite(position.x) || !Finite(position.y) || !Finite(position.z)) return false;
             random = lifeSeed == 0 ? 0x5a17b9d3u : lifeSeed;
+            float bodyScale=Safe(visualScale,1f,.5f,2f);
             Burst b = bursts[nextBurst++ % preparedBursts]; ResetBurst(b);
-            b.active = true; b.age = 0f; b.center = position + Vector3.up * .64f; b.root.SetActive(true);
+            b.active = true; b.age = 0f; b.center = position + Vector3.up * (.64f*bodyScale); b.root.SetActive(true);
             for (int i = 0; i < b.gears.Length; i++)
             {
                 float angle = (i + Next() * .40f) * Mathf.PI * 2f / b.gears.Length;
@@ -183,7 +193,7 @@ namespace IntercomMvp
                     Piece p = set.pieces[i]; Vector3 radial = rotation * new Vector3(p.restPosition.x, 0f, p.restPosition.z);
                     if (radial.sqrMagnitude < .01f) radial = new Vector3(Mathf.Cos(i * 2.4f), 0f, Mathf.Sin(i * 2.4f));
                     radial.Normalize();
-                    Activate(p, position + rotation * p.restPosition, rotation * p.restRotation, p.restScale,
+                    Activate(p, position + rotation * (p.restPosition*bodyScale), rotation * p.restRotation, p.sourceScale*bodyScale,
                         radial * (.65f + Next() * .7f) + Vector3.up * (1.4f + Next() * .8f), position.y,
                         Safe(chunkLifetime, 1.3f, .7f, 1.8f));
                 }

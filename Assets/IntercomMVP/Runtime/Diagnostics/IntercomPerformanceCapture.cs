@@ -23,9 +23,17 @@ namespace IntercomMvp
         private ProfilerRecorder mainThread, gcAllocated;
         private IntercomFrameCapture.Sample previous;
         private int previousCollections;
-        private bool ready, focused = true, paused;
+        private bool ready, focused = true, paused, suppressNextStopExport;
         public const string CaptureFileName = "CareProject_Performance_Latest.csv";
         public static string CapturePath => Path.Combine(Application.persistentDataPath, CaptureFileName);
+        public int RecordedFrameCount => capture.Count;
+        public bool TryGetMostRecentSample(out IntercomFrameCapture.Sample sample)
+        {
+            if(capture.Count==0) { sample=default; return false; }
+            sample=capture.GetOldest(capture.Count-1); return true;
+        }
+        /// <summary>An opt-in native check exports separately and must not replace a user's ordinary stop capture.</summary>
+        public void SuppressNextStopExport() { suppressNextStopExport=true; }
 
         private void OnEnable()
         {
@@ -68,16 +76,22 @@ namespace IntercomMvp
         private void OnDisable()
         {
             mainThread.Dispose(); gcAllocated.Dispose(); ready = false;
-            if (saveWhenStopped && capture.Count > 0) ExportRecentFrames();
+            bool suppressed=suppressNextStopExport;suppressNextStopExport=false;
+            if (!suppressed && saveWhenStopped && capture.Count > 0) ExportRecentFrames();
         }
         [ContextMenu("Export Last Minute Of Frames")]
         public void ExportRecentFrames()
+            => ExportRecentFramesTo(CapturePath);
+
+        /// <summary>Exports a separate diagnostic run without overwriting the normal latest capture.</summary>
+        public bool ExportRecentFramesTo(string path)
         {
-            if (capture.Count == 0) return;
+            if (capture.Count == 0 || string.IsNullOrEmpty(path)) return false;
             try
             {
-                Directory.CreateDirectory(Application.persistentDataPath);
-                using (var writer = new StreamWriter(CapturePath, false, System.Text.Encoding.UTF8))
+                string directory=Path.GetDirectoryName(Path.GetFullPath(path));
+                Directory.CreateDirectory(directory);
+                using (var writer = new StreamWriter(path, false, System.Text.Encoding.UTF8))
                 {
                     writer.WriteLine("frame,wall_ms,main_thread_ns,gc_alloc_bytes,gc0_collections,alive,spawned,kills,prepared,nav_nodes,shells,effects,occlusion_rebuilds,geometry_builds");
                     for (int i = 0; i < capture.Count; i++)
@@ -93,9 +107,10 @@ namespace IntercomMvp
                         writer.Write(s.occlusionRebuilds); writer.Write(','); writer.WriteLine(s.geometryBuilds);
                     }
                 }
-                Debug.Log("CareProject: запись кадров сохранена: " + CapturePath, this);
+                Debug.Log("CareProject: запись кадров сохранена: " + path, this);
+                return true;
             }
-            catch (Exception error) { Debug.LogWarning("CareProject: не удалось сохранить кадры: " + error.Message, this); }
+            catch (Exception error) { Debug.LogWarning("CareProject: не удалось сохранить кадры: " + error.Message, this); return false; }
         }
 #endif
     }

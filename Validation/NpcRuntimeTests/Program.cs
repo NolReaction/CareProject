@@ -36,7 +36,162 @@ internal static class Program
         public Collider Obstacle()=>new GameObject("Wall or low cover").AddComponent<Collider>();
     }
     private static void Main()
-    {Factory();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    {Factory();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();ArchetypeReuse();CrowdLanes();CrowdMotion();CrowdConvergence();RecoveryHitFeedback();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+
+    private static void ArchetypeReuse()
+    {
+        var f=new Fixture(new Vector3(0,0,30),ModelPrefab());
+        f.Definition.maximumHealth=50f;f.Definition.moveSpeed=2f;f.Definition.damage=20f;
+        int objects=GameObject.Created.Count,materials=Material.Created,clones=UnityEngine.Object.InstantiateCalls;
+        var colors=new List<Color>();uint previous=f.Npc.LifeVersion;
+        foreach(var type in new[]{IntercomNpcArchetype.Standard,IntercomNpcArchetype.Runner,IntercomNpcArchetype.Heavy})
+        {
+            var tuning=IntercomNpcArchetypeTuning.For(type);
+            f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(new Vector3(1,0,1),type);f.Npc.gameObject.SetActive(true);
+            Check(f.Npc.Archetype==type&&f.Npc.LifeVersion>previous,"typed reuse starts a fresh public life version: "+type);previous=f.Npc.LifeVersion;
+            Check(Math.Abs(f.Npc.Health.Current-50*tuning.Health)<.0001f&&f.Npc.Health.Maximum==f.Npc.EffectiveMaximumHealth,"archetype health multiplies edited base without mutating it: "+type);
+            Check(Math.Abs(f.Npc.EffectiveMoveSpeed-2*tuning.Speed)<.0001f&&Math.Abs(f.Npc.EffectiveDamage-20*tuning.Damage)<.0001f,"archetype damage and speed multiply custom base: "+type);
+            Check(Math.Abs(f.Capsule.height-1.35f*tuning.Scale)<.00001f&&Math.Abs(f.Capsule.radius-.32f*tuning.Scale)<.00001f,"physical silhouette follows uniform visual size: "+type);
+            Check(Math.Abs(f.Npc.visual.localScale.x-tuning.Scale)<.00001f&&f.Npc.visual.localScale.x==f.Npc.visual.localScale.y,"mechanical rig preserves uniform scale: "+type);
+            var block=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(block);colors.Add(block.GetColor(Shader.PropertyToID("_BaseColor")));
+            Check(block.GetColor(Shader.PropertyToID("_BaseColor")).a==.6f&&block.HasColor(12345),"variant color preserves authored alpha and unrelated overrides: "+type);
+            int writes=f.Npc.bodyRenderer.PropertyWrites;f.For(.1f);
+            Check(f.Npc.bodyRenderer.PropertyWrites==writes,"unchanged variant tint remains cached: "+type);
+            f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));f.For(.25f);
+            f.Npc.bodyRenderer.GetPropertyBlock(block);Check(Math.Abs(block.GetColor(Shader.PropertyToID("_BaseColor")).r-colors[colors.Count-1].r)<.00001f,"hit flash returns to selected variant tint: "+type);
+            f.Npc.BeginEmergence(0,IntercomEnemySpawnKind.Ground);f.For(1f);
+            Check(!f.Npc.IsEmerging&&Math.Abs(f.Npc.visual.localScale.y-tuning.Scale)<.00001f,"arrival reset preserves archetype silhouette: "+type);
+        }
+        Check(colors[0].r!=colors[1].r&&colors[1].g!=colors[2].g,"three silhouettes have distinct persistent atlas tints");
+        Check(f.Definition.maximumHealth==50&&f.Definition.moveSpeed==2&&f.Definition.damage==20,"lives never mutate the shared definition");
+        Check(objects==GameObject.Created.Count&&materials==Material.Created&&clones==UnityEngine.Object.InstantiateCalls,"mixed variant reuse creates no objects, materials or prefab clones");
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero);f.Npc.gameObject.SetActive(true);
+        Check(f.Npc.Archetype==IntercomNpcArchetype.Standard&&f.Npc.Health.Current==50&&f.Npc.visual.localScale.y==1,"legacy position overload clears heavy values to standard");
+        var restored=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(restored);
+        Check(restored.GetColor(Shader.PropertyToID("_BaseColor")).r==colors[0].r,"standard life restores exact authored atlas tint");
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero,(IntercomNpcArchetype)999);f.Npc.gameObject.SetActive(true);
+        Check(f.Npc.Archetype==IntercomNpcArchetype.Standard&&f.Npc.Health.Current==50,"unknown variant safely normalizes to standard");
+        f.Definition.runnerHealthMultiplier=.8f;f.Definition.runnerSpeedMultiplier=1.4f;
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero,IntercomNpcArchetype.Runner);f.Npc.gameObject.SetActive(true);
+        Check(f.Npc.Health.Current==40&&Math.Abs(f.Npc.EffectiveMoveSpeed-2.8f)<.00001f,"authored per-variant balance overrides are applied at next life");
+        Check(IntercomNpcController.ActiveActorCount==1&&IntercomNpcController.GetActiveActor(0)==f.Npc
+            &&IntercomNpcController.GetActiveActor(-1)==null&&IntercomNpcController.GetActiveActor(99)==null,"public registry offers bounded safe read-only access for native soak");
+        f.Npc.gameObject.SetActive(false);Check(IntercomNpcController.ActiveActorCount==0,"inactive life releases active registry entry");
+    }
+
+    private static void CrowdLanes()
+    {
+        var f=new Fixture(new Vector3(0,0,8));var actors=new IntercomNpcController[8];actors[0]=f.Npc;
+        for(int i=1;i<8;i++)actors[i]=IntercomNpcController.Create(f.Definition,f.Nav,f.Player,f.Motor,Vector3.zero,i);
+        for(int i=0;i<8;i++)
+        {
+            IntercomNpcCrowdMath.SlotOffset(i,3f,out float x,out float z);
+            actors[i].gameObject.SetActive(false);actors[i].PrepareForSpawn(f.Player.transform.position+new Vector3(x,0,z),(IntercomNpcArchetype)(i%3));actors[i].gameObject.SetActive(true);
+        }
+        int objects=GameObject.Created.Count,materials=Material.Created;var slots=new HashSet<int>();var goals=new Vector3[8];
+        for(int i=0;i<8;i++)
+        {
+            goals[i]=(Vector3)Call(actors[i],"ApproachDestination",f.Player.transform.position,true,3f);
+            Check(actors[i].ApproachSlot>=0&&slots.Add(actors[i].ApproachSlot),"each live pursuer reserves a different free melee lane");
+            Check((goals[i]-f.Player.transform.position).magnitude<=1.2f,"reserved lane remains within the variant punch radius");
+        }
+        f.Player.transform.position+=new Vector3(.2f,0,.1f);
+        for(int i=0;i<8;i++)
+        {
+            int slot=actors[i].ApproachSlot;var next=(Vector3)Call(actors[i],"ApproachDestination",f.Player.transform.position,true,3f);
+            Check(actors[i].ApproachSlot==slot&&(next-goals[i]-new Vector3(.2f,0,.1f)).sqrMagnitude<.00001f,"target motion translates reserved lanes without rotating/reassigning the crowd");
+        }
+        int released=actors[3].ApproachSlot;
+        actors[3].Health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,f.Player.gameObject));
+        Check(actors[3].ApproachSlot==-1,"death releases reserved lane immediately");
+        actors[0].SetTarget(new GameObject("Another target").AddComponent<IntercomHealth>());
+        Check(actors[0].ApproachSlot==-1,"target transfer cannot retain another victim's melee lane");
+        actors[4].enabled=false;Check(actors[4].ApproachSlot==-1,"disabled AI cannot retain a crowd reservation");
+        Check(objects+1==GameObject.Created.Count&&materials==Material.Created,"lane work creates no native objects or materials");
+
+        f=new Fixture(new Vector3(0,0,3));var neighbor=IntercomNpcController.Create(f.Definition,f.Nav,f.Player,f.Motor,new Vector3(1,0,1),1);
+        f.Nav.CheckSegment=(a,b)=>!(b.z>3.8f&&Math.Abs(b.x)<.1f);
+        var goal=(Vector3)Call(f.Npc,"ApproachDestination",f.Player.transform.position,true,3f);
+        Check(f.Npc.ApproachSlot!=0&&f.Nav.SegmentClear(f.Player.transform.position,goal)&&f.Nav.SegmentClear(f.Npc.transform.position,goal),"blocked preferred slot selects an adjacent clear lane without cutting through cover");
+        int blocked=f.Npc.ApproachSlot;f.Nav.CheckSegment=(a,b)=>false;
+        goal=(Vector3)Call(f.Npc,"ApproachDestination",f.Player.transform.position,true,3f);
+        Check(f.Npc.ApproachSlot==-1&&(goal-f.Player.transform.position).sqrMagnitude==0,"fully blocked lanes release reservation and delegate ordinary pathfinding");
+    }
+
+    private static void CrowdMotion()
+    {
+        var f=new Fixture(new Vector3(0,0,8));var a=f.Npc;
+        var b=IntercomNpcController.Create(f.Definition,f.Nav,f.Player,f.Motor,Vector3.zero,1);
+        var da=(Vector3)Call(a,"SteerCrowd",Vector3.forward);var db=(Vector3)Call(b,"SteerCrowd",Vector3.forward);
+        Check((da-db).sqrMagnitude>.01f&&da.sqrMagnitude<=1.00001f&&db.sqrMagnitude<=1.00001f,"coincident actors get distinct bounded deterministic escape motion");
+        b.transform.position=new Vector3(0,0,.6f);da=(Vector3)Call(a,"SteerCrowd",Vector3.forward);
+        Check(da.z<.3f,"follower brakes before entering an occupied capsule");
+        b.enabled=false;da=(Vector3)Call(a,"SteerCrowd",Vector3.forward);
+        Check((da-Vector3.forward).sqrMagnitude<.00001f,"disabled neighbor cannot keep braking an active actor");
+        b.enabled=true;b.BeginEmergence();da=(Vector3)Call(a,"SteerCrowd",Vector3.forward);
+        Check((da-Vector3.forward).sqrMagnitude<.00001f,"underground arrivals do not block live movement");
+        b.gameObject.SetActive(false);b.PrepareForSpawn(new Vector3(0,0,.6f));b.gameObject.SetActive(true);
+        b.Health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,f.Player.gameObject));da=(Vector3)Call(a,"SteerCrowd",Vector3.forward);
+        Check((da-Vector3.forward).sqrMagnitude<.00001f,"dead neighbor releases movement lane without waiting for corpse expiry");
+        b.gameObject.SetActive(false);b.PrepareForSpawn(Vector3.zero);b.gameObject.SetActive(true);b.transform.position=new Vector3(float.NaN,0,0);
+        da=(Vector3)Call(a,"SteerCrowd",Vector3.forward);var finite=(Vector3)Call(a,"ConstrainCrowdVelocity",Vector3.forward,.1f);
+        Check((da-Vector3.forward).sqrMagnitude<.00001f&&(finite-Vector3.forward).sqrMagnitude<.00001f,"invalid external neighbor coordinates cannot poison or brake valid actors");
+    }
+
+    private static void RecoveryHitFeedback()
+    {
+        var f=new Fixture(new Vector3(0,0,1),ModelPrefab());f.Player.invulnerable=true;f.BeginWindup();f.For(.31f);
+        Check(f.Npc.Phase==IntercomNpcPhase.Recovery,"recoil fixture reached live recovery");
+        float phase=Field<IntercomNpcBrain>(f.Npc,"brain").RecoveryProgress;
+        f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
+        var animator=Field<Animator>(f.Npc,"modelAnimator");
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Hurt")&&f.Npc.Phase==IntercomNpcPhase.Recovery
+            &&Field<IntercomNpcBrain>(f.Npc,"brain").RecoveryProgress==phase,"recovery hit is visible without restarting the real melee clock");
+        f.Npc.PrepareForSpawn(Vector3.zero);f.BeginWindup();f.For(.1f);
+        f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Windup")&&f.Npc.telegraph.gameObject.activeSelf,"hit flash preserves a readable committed windup instead of hiding its attack cue");
+    }
+
+    private static void CrowdConvergence()
+    {
+        foreach(bool allHeavy in new[]{false,true})
+        {
+        var f=new Fixture(new Vector3(0,0,6));f.Player.invulnerable=true;
+        var actors=new IntercomNpcController[8];actors[0]=f.Npc;
+        for(int i=1;i<8;i++)actors[i]=IntercomNpcController.Create(f.Definition,f.Nav,f.Player,f.Motor,Vector3.zero,i);
+        var starts=new Vector3[8];var attacked=new bool[8];
+        for(int i=0;i<8;i++)
+        {
+            starts[i]=new Vector3((i%4-1.5f)*.8f,0,(i/4)*.9f);
+            actors[i].gameObject.SetActive(false);actors[i].PrepareForSpawn(starts[i],allHeavy?IntercomNpcArchetype.Heavy:(IntercomNpcArchetype)(i%3));actors[i].gameObject.SetActive(true);
+        }
+        int objects=GameObject.Created.Count,materials=Material.Created;float closest=10,minimumGap=10;
+        for(int frame=0;frame<1200;frame++)
+        {
+            Time.deltaTime=.01f;
+            for(int i=0;i<8;i++)
+            {
+                Call(actors[i],"Update");attacked[i]|=actors[i].Phase==IntercomNpcPhase.Windup;
+                Check(!float.IsNaN(actors[i].transform.position.x)&&!float.IsNaN(actors[i].transform.position.z),"mixed crowd motion stays finite");
+            }
+            if(frame>100)
+                for(int i=0;i<8;i++)for(int j=0;j<i;j++)
+                {
+                    float distance=(actors[i].transform.position-actors[j].transform.position).magnitude;
+                    closest=Math.Min(closest,distance);
+                    minimumGap=Math.Min(minimumGap,distance-actors[i].GetComponent<CharacterController>().radius-actors[j].GetComponent<CharacterController>().radius);
+                }
+        }
+        int opportunities=attacked.Count(x=>x);
+        Console.WriteLine($"{(allHeavy?"Heavy":"Mixed")} eight-actor crowd: minimum center separation={closest:F3}m, capsule gap={minimumGap:F3}m, attackers with an opportunity={opportunities}/8 over12s (kinematic stand-in, no PhysX).");
+        if(opportunities<8)for(int i=0;i<8;i++)Console.WriteLine($"crowd {i} {actors[i].Archetype} slot{actors[i].ApproachSlot} {actors[i].Phase} at({actors[i].transform.position.x:F2},{actors[i].transform.position.z:F2}), attacked={attacked[i]}");
+        Check(closest>.5f,"crowd avoids collapsing into overlapping center stacks even without PhysX collision pushes");
+        Check(minimumGap>.028f,"final swept personal-space constraint preserves a physical gap between scaled capsules");
+        Check(opportunities==8,"every reserved pursuer reaches a real attack opportunity without a permanent blocked lane");
+        for(int i=0;i<8;i++)Check((actors[i].transform.position-starts[i]).magnitude>2f,"each pooled archetype makes pursuit progress instead of a permanent braking deadlock");
+        Check(objects==GameObject.Created.Count&&materials==Material.Created,"sustained eight-actor pursuit creates no native objects or materials");
+        }
+    }
     private static GameObject ModelPrefab(bool controller=true,bool collider=false)
     {
         var prefab=new GameObject("Authored robot source");prefab.SetActive(false);
@@ -367,12 +522,15 @@ internal static class Program
     {
         var f=new Fixture(new Vector3(0,0,1));f.BeginWindup();var planted=f.Npc.transform.position;
         Check(f.Npc.telegraph.gameObject.activeSelf,"windup warning is visible");
+        Check(f.Npc.ResolvedStrikeVersion==0,"visible windup has not yet resolved a hit or miss");
         f.For(.28f);Check(f.Player.DamageCalls==0,"windup has no early contact damage");
         Check((f.Npc.transform.position-planted).sqrMagnitude<.00001f,"windup feet remain planted");
         f.For(.03f);Check(f.Player.DamageCalls==1&&f.Player.Current==88,"one real punch applies configured12damage");
+        Check(f.Npc.ResolvedStrikeVersion==1,"real strike increments the native-observable resolution counter exactly once");
         Check(f.Npc.Phase==IntercomNpcPhase.Recovery&&!f.Npc.telegraph.gameObject.activeSelf,"strike clears telegraph and enters recovery");
         Check(f.Player.LastDamage.Instigator==f.Npc.gameObject,"damage carries enemy ownership");
         f.For(.4f);Check(f.Player.DamageCalls==1,"recovery does not repeat hit while touching player");
+        Check(f.Npc.ResolvedStrikeVersion==1,"recovery cannot invent another resolved strike");
         f=new Fixture(new Vector3(0,0,1));f.BeginWindup();f.For(.2f);f.Player.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,null));
         f.For(.4f);Check(f.Player.DamageCalls==1&&(f.Npc.Phase==IntercomNpcPhase.Return||f.Npc.Phase==IntercomNpcPhase.Idle),"dead target cancels pending punch and may finish returning home");
     }
@@ -404,6 +562,7 @@ internal static class Program
         f=new Fixture(new Vector3(0,0,1));f.BeginWindup();f.For(.24f);var heading=f.Npc.transform.forward;
         f.Player.transform.position=new Vector3(1,0,0);f.For(.07f);
         Check(f.Player.DamageCalls==0,"late sidestep after commit escapes strike arc");
+        Check(f.Npc.ResolvedStrikeVersion==1,"a committed dodge resolves a real miss instead of passing because the punch never finished");
         Check((f.Npc.transform.forward-heading).sqrMagnitude<.0001f,"committed strike does not home during final punch");
         f=new Fixture(new Vector3(0,0,1));f.BeginWindup();f.Player.transform.position=new Vector3(0,0,3);f.For(.31f);
         Check(f.Player.DamageCalls==0,"tracking never extends hit distance to a fleeing target");
@@ -427,6 +586,7 @@ internal static class Program
     {
         var f=new Fixture(new Vector3(0,0,1));f.BeginWindup();f.For(.2f);f.Motor.RespawnVersion++;f.Step(.1f);
         Check(f.Npc.Phase==IntercomNpcPhase.Idle&&f.Player.DamageCalls==0&&!f.Npc.telegraph.gameObject.activeSelf,"respawn aborts pending attack before any damage");
+        Check(f.Npc.ResolvedStrikeVersion==0,"new life clears the previous life strike-resolution counter");
         f.BeginWindup();f.Npc.Health.TakeDamage(new IntercomDamage(100,Vector3.zero,Vector3.forward,f.Player.gameObject));
         Check(f.Npc.Phase==IntercomNpcPhase.Dead&&!f.Capsule.enabled,"death immediately disables movement collider");
         f.For(.6f);Check(f.Player.DamageCalls==0&&f.Npc.visual.localScale.y<.2f,"dead capsule collapses without damaging player");
@@ -528,8 +688,10 @@ internal static class Program
         other=IntercomNpcController.Create(f.Definition,f.Nav,f.Player,f.Motor,new Vector3(.2f,0,1.8f),1);
         var slot=(Vector3)Call(f.Npc,"ApproachDestination",f.Player.transform.position,true,3f);
         var second=(Vector3)Call(other,"ApproachDestination",f.Player.transform.position,true,(f.Player.transform.position-other.transform.position).magnitude);
-        Check((slot-second).sqrMagnitude>.1f,"nearby pursuers receive distinct persistent approach sides");
-        Check((slot-f.Player.transform.position).magnitude<=f.Definition.attackRange,"approach slots remain within real melee reach");
+        Check(f.Npc.ApproachSlot>=0&&other.ApproachSlot>=0&&f.Npc.ApproachSlot!=other.ApproachSlot,"nearby pursuers reserve distinct persistent attack sides even while sharing an approach arc");
+        IntercomNpcCrowdMath.SlotOffset(f.Npc.ApproachSlot,f.Definition.attackRange*.9f,out float slotX,out float slotZ);
+        Check(slotX*slotX+slotZ*slotZ<=f.Definition.attackRange*f.Definition.attackRange,"reserved final attack slot remains within real melee reach");
+        Check((slot-f.Player.transform.position).magnitude<=f.Definition.attackRange*.9f+.81f,"orbital intermediate stays near the victim without crossing its capsule");
         var stable=(Vector3)Call(f.Npc,"ApproachDestination",f.Player.transform.position,true,3f);
         Check((slot-stable).sqrMagnitude==0,"approach choice has no frame-to-frame random jitter");
         var unseen=(Vector3)Call(f.Npc,"ApproachDestination",f.Player.transform.position,false,3f);

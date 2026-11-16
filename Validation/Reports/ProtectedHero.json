@@ -1,0 +1,546 @@
+{
+  "status": "PASS",
+  "baseGitCommit": "95265e7dd626dbc4b1b5331e131a61628efd2d8a",
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Animation.meta",
+      "sha256": "476b636355925555f7b2b27bc6450d1837013b85d6e345a6009621862da27a36"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomDirectional.controller",
+      "sha256": "f2ff1e0590c2b54e22a714f2d518a265b5f66850a1e255d53d372a907e1a97ff"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomDirectional.controller.meta",
+      "sha256": "6df28a9ba6362ded74c9212b417b5b64651eda1956d668bfe79ade7856251426"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomSoleContact.asset",
+      "sha256": "21fffd25532c6d9f877b8ef0fe487afbd81de1529c8ac2c81bb76725e6778c2e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Animation/IntercomSoleContact.asset.meta",
+      "sha256": "f24020c6cbb2283c8c6d381c11369efa6d6c29673e7b99ce69c1e000edd56275"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Audio.meta",
+      "sha256": "f37ad43288a94324c969f039901ac050bbc536f8f54b1462f769264087bf2800"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_01.wav",
+      "sha256": "42a7bef83b39dad0a3d69641fe5e9adb3e0858955af5a1c953d705f16ee7fa84"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_01.wav.meta",
+      "sha256": "c32f3a4799a8e1a89821258da066d34e1c10ea1c527c6160cd91304307936459"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_02.wav",
+      "sha256": "634946a07464872929048d9eefc2f52383bc2d4361f02307401dca78ebf7485b"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Audio/ChassisHurt_02.wav.meta",
+      "sha256": "e06adaadf973ad6ee228226d7b162a3306e95cf99020f7bb3f533377a95def61"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Effects.meta",
+      "sha256": "15a7014398a57ba094718562e9e0a2c8e792180d93a3905b3a93ced8d05ce309"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Effects/Materials.meta",
+      "sha256": "5feaff3cd5fd3fec9a52db503eb4b9006b2d6e772c20913e7e6d4db685949c42"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Effects/Materials/MVP_SoftContact.mat",
+      "sha256": "3cb284334162efbf8473e91d5906b38b79e89414fadf138bd3d5ae1c70b8c091"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Effects/Materials/MVP_SoftContact.mat.meta",
+      "sha256": "d9a71edf38221f2e685df1f9479e619301712d89dacefde09d21fee262b191f0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials.meta",
+      "sha256": "75f5c88ae92d45469ddc9d5cab16de00dd5572fefde4dbffad384eb9e9764b26"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/M_Arms.mat",
+      "sha256": "0bbb7d8aa2f5d2a31102730f659a4acb027ff46951d969f0d1bb5118d3ed7262"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/M_Arms.mat.meta",
+      "sha256": "9469abcff09dbbab3e56e048a7bc27a17e4ef1fab0c1c1e6c0de8da9a19be9bd"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.001.mat",
+      "sha256": "4b70e61c104874373f65c6b9d6a84f143eb6bd7d191438dbfc51f915029a0126"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.001.mat.meta",
+      "sha256": "e37869d2599659f0d638a7da4b9049580e7be49cd9e95afd4c1bf81dd92b1cd7"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.mat",
+      "sha256": "7e4820a9d18c579a6db72b49c46e4b130633aa1789e5d5ffd6039a1dda47106b"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_0_material.mat.meta",
+      "sha256": "98d8162a476effcd03ac9e48d22a2dfb36443b27729f8bb7205002a6fdd18864"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_10_material.001.mat",
+      "sha256": "9bc33a8fefff54ba9c3683513bab17bb257fd41706ebacd8eb41a72e8156b163"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_10_material.001.mat.meta",
+      "sha256": "e52b51e9ed2984ed303f73d2434e0f13e88b40236c76ef71da467155c67e3445"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_11_material.001.mat",
+      "sha256": "ac199c610a59bce1e76e28fb44107a40fa335fe636927602a4638edbad98228f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_11_material.001.mat.meta",
+      "sha256": "77085cea6c86a716fa0a9608bea9f3c7640162e3474ffcb7d8aaefc1cadf0e49"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_12_material.001.mat",
+      "sha256": "c9169b4f983412096933ce656b502545b19b3f8335f092dd6f62657b50bf4528"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_12_material.001.mat.meta",
+      "sha256": "091a93d5c616332bbb1af21eb06f41794cdab21779b55320b7030dc9458bc8eb"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_1_material.mat",
+      "sha256": "b5aa8598d9e53adc9e9e96f3340d3b8111d8b85035052db558e6241cb5fb6ffe"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_1_material.mat.meta",
+      "sha256": "b467a9a53b74169b559bd8ad0d54a6b9bf276f57cfe8df2b005ec4d2a412f2ec"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_24_material.001.mat",
+      "sha256": "0a4c853ede2b8354f8ea67d93df11fd669f6a07e533c2f5ad05b669fc258b8eb"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_24_material.001.mat.meta",
+      "sha256": "49e2c780d559d717da28dae42f72eabd9ac542ea755a351103e995c1eef4f242"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.001.mat",
+      "sha256": "6e7cd99a61ca5db4c809d07e666082cc85518a639e5a5267d172a017758eaa4d"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.001.mat.meta",
+      "sha256": "b7324676807ffc0da56077f2247e6d6e330b255922787c4fdc01f52e8c45896e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.mat",
+      "sha256": "106e64d38a87e602c0aaf5e6ae919ebf7804bf2e432098317ffb3ba675d4cd95"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_2_material.mat.meta",
+      "sha256": "74180e2cec197c59db135b547100743cf778fbc8f87b9f0703d3b0167eab0165"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_3_material.001.mat",
+      "sha256": "baab62e90908ca05e9c4cfca4e510227cbad0a1a5f6b31a21250af181b3fe1dc"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_3_material.001.mat.meta",
+      "sha256": "9187f5cde3677f454de18bd5228ea33e2e13050063ef7810e278066eaf1b1bb2"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_4_material.mat",
+      "sha256": "006113f83f3c3ef40e93088b4e82dc31ce03045e1c5fb9c7e6519afe06a04b85"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_4_material.mat.meta",
+      "sha256": "33cf24ac14c147664b911a17771570837665d69c597f7dacf983f0a31f53528d"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_6_material.001.mat",
+      "sha256": "7d61bd5795921c58cb3d7020f529ebae8af944f2d4049d43e5d600183b9c0a12"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_6_material.001.mat.meta",
+      "sha256": "59d08ace4f314eb9c5f6ce5ea73964e23f84fee8bcfa46706ef968a985c63499"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_7_material.001.mat",
+      "sha256": "9c7fd8e382fb265a86ea9f69b50e2c920599512ed65263db35bbc60e82887619"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_7_material.001.mat.meta",
+      "sha256": "2c2ac856e5c1488971808c94dc38ccc9a4d6c2d736bcbe54fea5fb2eb477c3d2"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_8_material.001.mat",
+      "sha256": "d9a07abad2450f0aef5677a10dfdd24ad63098ffc8ce2b2941c9c697f1acd739"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_8_material.001.mat.meta",
+      "sha256": "de86fec26dc0f10e127a749c72d3ca60d4b3709471b137c7592a9d7dc8e87881"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_9_material.001.mat",
+      "sha256": "d06f094a0a57b801cd31aa08ae0df112f362376593ceeefcecc81f24b830955c"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Materials/tripo_part_9_material.001.mat.meta",
+      "sha256": "e629787fae238e3ac21f1ab12ae24063096e0e488d446217eb860e242c2bfe83"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Model.meta",
+      "sha256": "8d9c2718be9f44aebbf33d335b051b6761b2d0412475b8cb84257c4730707999"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Model/IntercomRobot.fbx",
+      "sha256": "26794097cf151f01fc6d788a3e770373945558263be1cc96a94f826d603bcfb8"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Model/IntercomRobot.fbx.meta",
+      "sha256": "5dde165e67f7512db5d9c520b857c29b6015368b20ca4c7b583e7e425d3095f4"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/RobotMaterials.json",
+      "sha256": "c93818e2f7c58c7fef0fbaf15636477b0f5bdf7f290dbcea31d42412acdf0a7c"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/RobotMaterials.json.meta",
+      "sha256": "12d7d80a9ef180cd73298ffc6c9de9561d12af20136169a5f972b1adbd5617d8"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures.meta",
+      "sha256": "6dfd030c05a68cf4b3cf4e379e7301612a591fa62b53c3f8e78e7703dda27a4c"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_BaseColor.png",
+      "sha256": "fae00f1d2fbd06ab4a62433d0baef55bd330e66004975426ff8d925b72f90e88"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_BaseColor.png.meta",
+      "sha256": "ac92ff6313ffe72980bf4df0c716ebcba5e40496425a0c2fa78509ebd7edb112"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_Normal_GL.png",
+      "sha256": "30ed2d8be69c0a38b816f7314dbe4c50b13c2c75c961ba0e49667a2c6f3cd20e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/T_M_Arms_Normal_GL.png.meta",
+      "sha256": "9467583c0e0025255e9a68a586d854ed78da44501292c512e020312e8f8ab9f0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg",
+      "sha256": "fd755a2aa635d1c4a475bc3b4b227e3c7e7a7123f6ef9527fe0572461d575462"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_0_basecolor.jpg.meta",
+      "sha256": "61b1be23cb05bf41f43632ad427b2a118cf4c77ba57ca3d25f677839e568ac1b"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg",
+      "sha256": "868b2cf39d140e339a6b282d1022f1cd4659505906d615726a1e4f4446f60bfa"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_1_basecolor.jpg.meta",
+      "sha256": "883390995f3fb1f589e62e0920425854e87df57ee842d76bdcfecf1de817c850"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg",
+      "sha256": "29921ce968ca99a7961e36fc529f7ccb74af1429730cbe22f5dbd8ed70aace9d"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_2_basecolor.jpg.meta",
+      "sha256": "89c1783831e809325362e30730f3d6dd44ff49effa4fb3ae620036648a7d2b61"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg",
+      "sha256": "853f88fc9ef6f4629bb547f98e5155ed470704f054078ec0373bc02a9f0c3c36"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/rusty_sci-fi_pistol_3d_model_tripo_part_4_basecolor.jpg.meta",
+      "sha256": "77d602a961aae527cf44f32a24b226fb8573b803edcc65e4ec53ed25f76547e8"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg",
+      "sha256": "03ed0ee4e7cf848ccefdaa247c29acceed1c37aeeb30e5f359771e3926aa0aa0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_base_color.jpg.meta",
+      "sha256": "fb6d7c8323d1878f932352daf9ced6eaef1547f21988771c1af431e7a176b406"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_normal.jpg",
+      "sha256": "020e5c1f76cfa07f7e89763ff134e2f784c3eea9d724012b8bfe995a619e414f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_0_normal.jpg.meta",
+      "sha256": "94598066f5b3005871855b21f9efde2c5bac1af64c1d8bbb7ae05167b6a7dafa"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_base_color.jpg",
+      "sha256": "6828fe769352d1b67331e696d6729c4c63720c7109f4db78a2b6dcfb26fa06f6"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_base_color.jpg.meta",
+      "sha256": "218bf317a17c8a3d602210180a9efa8552e9648c5dd1f083987f17d36ba298d9"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_normal.jpg",
+      "sha256": "717dece785173a681ff4d5e22777f1eccab70b5277cb058ad55b13d380613ccf"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_10_normal.jpg.meta",
+      "sha256": "fe1be5c1e6f9b3bb76ab5bd4f9a99637ff1cca64d93c6e6c71ec2f22e7da7554"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_base_color.jpg",
+      "sha256": "8a839294ad96ad3ff2ba221e76cc19e5427527ddfca7b9df23b14ee646d0360d"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_base_color.jpg.meta",
+      "sha256": "99ab324cca8cdb4d0623fd8b30ec164a919aabc84807d82e30d77b532e4ca9bb"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_normal.jpg",
+      "sha256": "6f3810d8c1ab30502161f4b353ddbedb7b065d5de16b0f0066a6218f2c88210e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_11_normal.jpg.meta",
+      "sha256": "e6a504ab38e4755c096193059901329db6bcda3e73da9e97ee84b974fa48c08a"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_base_color.jpg",
+      "sha256": "5577a36232cc5f5882698f3755340e9607a2e8492ac6f5016701aeaaac40225f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_base_color.jpg.meta",
+      "sha256": "c8238013b6ea4381d3ebaa394a9acb641070a36631d2d7009bba25f9c8ec1371"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_normal.jpg",
+      "sha256": "3e20b409e905493fb88dcc0fb66753bdfd2676f00f4807d6efdeddb6a87dc384"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_12_normal.jpg.meta",
+      "sha256": "39a577a1a8f869da8c3d240ac24de8b6ae901b333acacc2342685b45e95bc019"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_base_color.jpg",
+      "sha256": "3c534dbb24d0a3a0e9a588ecf37eed285457ec1f3c765ee5dca86ec9459c4983"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_base_color.jpg.meta",
+      "sha256": "eb9d573e540d93cdb91dd2c429277845fd7b936fdc6d3948e22bf6e44801851f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_normal.jpg",
+      "sha256": "661ee7f89626833c2e19c4195144f4d0afee0fc9ae62df3b0b15fbbd8e098ca2"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_24_normal.jpg.meta",
+      "sha256": "4f32454bf11d3c92077057731ee7f74c3e8f489422c51f7b83dd1d561efc3e57"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_base_color.jpg",
+      "sha256": "0070208fad32f94ceedb92fbd9a0486fb99ee3aa27437932c6615c99e6189f93"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_base_color.jpg.meta",
+      "sha256": "e27bca49b43ed01c2f5e74a211e87827149bdf18ada3743c1b0a01ab5bae82d5"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_normal.jpg",
+      "sha256": "54c86a00b01800dcdd78774d9438f5b29ff8b6d0e781202f77c387242c7d534b"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_2_normal.jpg.meta",
+      "sha256": "23f0df5e5aec0cac2256d68b814eb47ea7473e6af922d8e893f0c89a3d618031"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_base_color.jpg",
+      "sha256": "d03bb9884cc284c79e4c4e06203ef25cfa3627cb76b0ec536241abc6394b2b9a"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_base_color.jpg.meta",
+      "sha256": "e9caed23a97ce9ecf3f13d9ec96fcf1a5bc5898443c56448b20da0035d344484"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_normal.jpg",
+      "sha256": "484d588ae928920246463de655e2fd8ea268383335b5d5cd808734b456b4b53a"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_3_normal.jpg.meta",
+      "sha256": "c95e740b896c163859260b49165ac3c7610a58261ae2a3c2067e57e0bd4b9c4f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_base_color.jpg",
+      "sha256": "8bf41e83ebbc61e6eef38f928f8664ac0e4e42f1b3141016185ccec90cac6346"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_base_color.jpg.meta",
+      "sha256": "f60babdf3ab869256a3ad5bf4ee7cf86f1291087cc79e6e858d0ef99dd0ee59d"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_normal.jpg",
+      "sha256": "c76099fd08a0524c36be2a94ffdb3d897cd98b0af77308f223cf18d46e37efed"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_6_normal.jpg.meta",
+      "sha256": "5438cd65540cce103ab20562ef4360f441b3ab1e2ccd1f30fb00511f05679a9c"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_base_color.jpg",
+      "sha256": "1482a1f4c50603fbb3050795a27f76aa511c370b8c02867219b5cb220bc827c0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_base_color.jpg.meta",
+      "sha256": "c42c053d936c61da103acd862cbd082867aef9c7b2cc5528566ab7e1f02791b1"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_normal.jpg",
+      "sha256": "d4683dd1d4ca7c17d970fb92a0509a3b481145e6bc61a97494177af9c175be4e"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_7_normal.jpg.meta",
+      "sha256": "489fc3a5a7ccb55395751e5a01a436ab6e837f3bab487070df4764ef325591b6"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_base_color.jpg",
+      "sha256": "3f500a64a3adfac51ccba577039d3354bac7527a38c5a97ed71f08ed711454ab"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_base_color.jpg.meta",
+      "sha256": "a0e14363576d4c19dcde1b8b4f1c73f80f8a05bdc3df173dee85cd58d9b1cf09"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_normal.jpg",
+      "sha256": "43e235cba3b12ba4581eb436418322c55d3b917cb4b7fe446c4aa1d5912b50a8"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_8_normal.jpg.meta",
+      "sha256": "e1dc5442ee6d234ad81209c6b47c408f997c88b17aaad14fe92066ec0aeb43de"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_base_color.jpg",
+      "sha256": "0fb6d3ebf73bba4a988387c1db57888f005e0571e140f9c95680796960b78dde"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_base_color.jpg.meta",
+      "sha256": "0145fe4544124cffab2302397b47873caa02637bcb1ccf48ae9c196f03b9dec6"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_normal.jpg",
+      "sha256": "1a146f2d4e5dc3ddea4c285430effa3ebfe33a0734660be7343d963bfb5a2dd0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Content/Characters/Robot/Textures/tripo_part_9_normal.jpg.meta",
+      "sha256": "b748d72e19eb7d9b645dabaa6af48024c8f4e8e36a343b9f3177947f70e1b18f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimation.cs",
+      "sha256": "a7a99d091e4981b30d10775d00d64c01501d118cbd1dd25ba6c0fcf4e8455281"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimation.cs.meta",
+      "sha256": "420bce4db85e1ddeb583a564b3f637da2266649e7ea70c5a30714e00acc277ff"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimationMath.cs",
+      "sha256": "23abdda6ab600d79a6ccb0eeba4a88289016f65f8d0e45f98cebfdc54fb65f63"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomCharacterAnimationMath.cs.meta",
+      "sha256": "b29d1bee2adf39b3f3f99d23887134738aa839b5ec294c79f483f797062182ca"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs",
+      "sha256": "cea0c6fdec37828d9f2413ff7420bead1e4b393a128f5e50235ccf65875e68f7"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedback.cs.meta",
+      "sha256": "2b50a6e76cbb331851b7ce926fb3e95c9d9607458abeb279ee2d02ca4b378bda"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs",
+      "sha256": "5eb64dc82f89490175262e5d5751520a222702cc920ac2d3386bbc8d0d57c9c7"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackRunning.cs.meta",
+      "sha256": "e29164dffcd11f4f5f47b196ce073a4b839a0029ae056173acbd5dfedd965af6"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs",
+      "sha256": "5dc1994102f97adc8d2712a207c6f9ed4a837e7da4f681882344ea58b9ad709c"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoleProfile.cs.meta",
+      "sha256": "6cb8c3fb9b2930bd9c95808600fde1689054a4ddc943363356558b703b4fc1ce"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs",
+      "sha256": "9892802350e35211b03d27b59b744306853c5e2f180f4efb1d0ab03e737d205d"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackSoles.cs.meta",
+      "sha256": "b05f14a286e5168b74efc532f18273a3479b8ce3ee32bacc86df1fc1c528c1e0"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs",
+      "sha256": "b585bf8300219e584bb66040e4a192681f026e99ac24d80f57d9af32717488f2"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundFeedbackTurning.cs.meta",
+      "sha256": "3dc76d7638f51974d371cdd209272cda4229a8876b6ca220467ba75b008d74fd"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs",
+      "sha256": "9fef48a02620abaf21c4d688f8ef34ae008e2876a06c65f59c5958ad9548c1a2"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomGroundMath.cs.meta",
+      "sha256": "21de2c0c16c21a3a530f682d44d69c4211047513a61b8142c9dd0926db2da079"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs",
+      "sha256": "80202091f8d914ed9e3908f2b431dac79f6dd9064d8582147b216f34492a1988"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Animation/IntercomTurnStepState.cs.meta",
+      "sha256": "fc51b815b02cb7ce77b048f9574533f97dc9eb2cb436a1f59b3a3f36758bbf85"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs",
+      "sha256": "b89d83d9105dda444bd8267d5104c27dc58cf90a0b82abb07f8569eb6692e327"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs.meta",
+      "sha256": "62ad0a2d61dd219380355430009809ee5e474c49fec246cc558d5c1fe8fb3170"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs",
+      "sha256": "0c0e14b3f283cc7f0173d9c5d1691cd26ddf405c1944c0f3d432a27b650405ab"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs.meta",
+      "sha256": "5def8af7bc5ce83ee2bfbadc788c2ef5ddf2cbb1f453a3264cc2a216240b7f24"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs",
+      "sha256": "60a8c4ee7aeadf7e8b242a5621fb1049bf0e4d8c31a4e1ac07f323328d9550e7"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Player/Movement/IntercomPlayerMotor.cs.meta",
+      "sha256": "282209f7e568c72bb38b2525cde2b4477b1756411dd453a521dc82d31d5e9501"
+    },
+    {
+      "path": "Source/Robot/README.md",
+      "sha256": "8e3923e32f6066ec17324fb8a46aa997689dc269ccce8eeddda82e13b0130ac5"
+    },
+    {
+      "path": "Source/Robot/intercom-armed.blend",
+      "sha256": "0277e76cc8a16f060ed28da0b4608d6c7d4b55cc0cfdffd74fbb913c0916c511"
+    }
+  ]
+}

@@ -19,6 +19,7 @@ PURE_FILES = {
     'IntercomMissionState.cs', 'IntercomNavGrid.cs', 'IntercomNpcBrain.cs',
     'IntercomOcclusionModel.cs', 'IntercomProjectileModel.cs',
     'IntercomPropModel.cs', 'IntercomTurnStepState.cs', 'IntercomWeaponModel.cs',
+    'IntercomProgressionModel.cs',
 }
 DECLARATION = re.compile(r'\b(?:class|struct|enum|interface)\s+(I?Intercom\w+)')
 REFERENCE = re.compile(r'\bI?Intercom\w+\b')

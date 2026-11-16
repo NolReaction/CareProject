@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": 332,
+  "progressionComponent": 8800000143,
+  "missionProfiles": {
+    "Kill50": {
+      "supply": 50,
+      "spawnInterval": 2.0,
+      "waveRest": 4.5
+    },
+    "Rescue": {
+      "supply": 30,
+      "spawnInterval": 2.2,
+      "waveRest": 4.0
+    }
+  },
+  "protectedHeroFiles": 135,
+  "scope": "Serialized owner links, authored tuning and byte preservation. Not Unity import, rendering, Play Mode or Profiler."
+}

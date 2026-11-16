@@ -62,7 +62,7 @@ static class Program
         try { IntercomHudLayout.Calculate(0,0,float.NaN,720,70,32); } catch(ArgumentOutOfRangeException) { rejected=true; }
         Check(rejected,"invalid safe area must be rejected before it reaches GUI");
         // Actual renderer draw commands are exported for an offline layout preview.
-        string output=Path.Combine(ProjectRoot(),"Validation/Results/V19UI/HudPreviews");Directory.CreateDirectory(output);
+        string output=Path.Combine(ProjectRoot(),"Validation/Results/V20UI/HudPreviews");Directory.CreateDirectory(output);
         Preview(output,"landscape",1280,720,new Rect(0,0,1280,720),24,false,false);
         Preview(output,"notched",2340,1080,new Rect(94,21,2152,1038),8,true,true);
         Preview(output,"compact",640,360,new Rect(20,12,600,336),4,false,true);

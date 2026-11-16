@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "scope": "V19 typed arrivals, sampled mechanical animation, generated asset upgrade, bounded robot death pool and retained mission/NPC regressions",
+  "scope": "Current three-archetype pooled crowd/melee, rhythmic finite waves and retained ground/hatch, mission and death-pool regressions.",
   "tests": [
     {
       "project": "DeathStrikeLifecycleTests",
@@ -21,14 +21,21 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "V20 authored course instant-kill floor: 146.95 active seconds. No real combat, travel or native Unity simulation in this probe.\nMission/rescue runtime: 2009 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "MissionStateTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission state: 59212 assertions passed. Production mission accounting; no Unity runtime or rendering.\n"
     },
     {
       "project": "NpcBrainTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "NPC brain and melee geometry: 969 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+      "output": "NPC brain, archetypes, crowd and melee geometry: 1960 assertions passed. Pure production logic; no Unity physics or rendering.\n"
     },
     {
       "project": "NpcNavigationTests",
@@ -42,7 +49,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nMixed eight-actor crowd: minimum center separation=0.638m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nHeavy eight-actor crowd: minimum center separation=0.747m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nNPC runtime/factory: 19917 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "NpcNativeSetupTests",
@@ -56,14 +63,40 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+      "output": "Robot death effects: 1976 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
     }
   ],
   "runtimeTuning": {
-    "moveSpeedBefore": 3,
-    "moveSpeedNow": 2.65,
-    "lostSightMemoryBefore": 4,
-    "lostSightMemoryNow": 6
+    "baseMoveSpeed": 2.65,
+    "baseHealth": 75,
+    "baseDamage": 12,
+    "attackCommitSeconds": 0.14,
+    "profiles": {
+      "Standard": {
+        "health": 75,
+        "moveSpeed": 2.65,
+        "damage": 12,
+        "windup": 0.3,
+        "recovery": 0.48,
+        "uniformScale": 1
+      },
+      "Runner": {
+        "health": 45,
+        "moveSpeed": 2.968,
+        "damage": 9,
+        "windup": 0.33,
+        "recovery": 0.432,
+        "uniformScale": 0.9
+      },
+      "Heavy": {
+        "health": 135,
+        "moveSpeed": 1.908,
+        "damage": 18,
+        "windup": 0.42,
+        "recovery": 0.6,
+        "uniformScale": 1.12
+      }
+    }
   },
   "spawnContract": {
     "pointScriptGUID": "3742717848525a97b58bdc48cb100c43",
@@ -105,59 +138,123 @@
     "hatch lid remains open until robot clears, then closes over .30seconds",
     "generated eight-state assets upgrade to ten with real backup files; custom assets preserved",
     "sampled pose cached and published in LateUpdate after Mecanim",
-    "bounded pooled gears/coarse breakup chunks and immediate dead-renderer hiding"
+    "bounded pooled gears/coarse breakup chunks and immediate dead-renderer hiding",
+    "Standard/Runner/Heavy life reuse restores HP, damage, speed, capsule, tint, scale, lane and cadence without asset cloning",
+    "Eight mixed and eight Heavy kinematic crowd scenarios give every actor attack access while preserving spacing",
+    "Dodged committed swing does not retarget the locked heading or invent a hit",
+    "Finite quotas6/8/10/12/14 and rescue6/8/10/6, group breathers and no catch-up activation bursts",
+    "Terminal GUID summary survives immediate retry for separately persisted reward settlement"
   ],
   "playerAnimationChanges": false,
   "sceneEditedByThisOwner": false,
   "fileSHA256": {
     "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcArena.cs": "251dc484d7d69c258e5246b7c33af3da0c33c552abf9ccd85ad6ccfeb74b9608",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": "815be144cc5d18df00db83078680e9f73839e057fbc88935cdd9cdc2b55bcc6f",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f",
-    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs": "e4776b71d7e7d5c19516a4f78b5a7bc7b30e1344e55e6ee36cebd356c30cc855",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs": "d0791141e64a80bfb38ac372adfe512ae1e9c3ba48f62dd5a4bd77a583f6a60b",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs": "f15ecff2424dde024811015dcb0e2af9e3f5a4cfc511192a09ab84ee326ca9ce",
+    "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs": "0d4494bd1687e7aefce5e0cfb3aa36cbc647570baaec4bd5effb2193f0a67189",
     "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNavGrid.cs": "500c658e2b043203c6cc72fea6b73f86a52a42bd18e51c272c133106ea518ebd",
     "Assets/IntercomMVP/Runtime/Enemies/Navigation/IntercomNpcNavigation.cs": "2cfc8606441e8935667511e2c26f59bad92aa347bf17a26cc58afd3e33244995",
     "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs": "c945e7366ffc27701560552e44ceebc0a35448ed9781428009328f3edd187168",
     "Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs": "5f4a189de26c1e9753d4c8e2e62cce4ea5292bb1e1adea824162b19be8cb4f44",
-    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de",
-    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs": "5b500c72a3ce6482abdd46f2a254ddd786808ed433c7d22802f2b10d3aae8bf3",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs": "3aa95605607d4ff48a68aaf651610c70ae5328d737434372058b493b2dd58a2f",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs": "6bc0ec4ede758e22e89ac609e27c823196037988e3e0ab5b6d71a553e52a7b13",
     "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs": "d65462c673a63c49633b1c2ce734b32816ebb8dc320fe1df3c2cd8cd623fe9bf",
-    "Tools/AuthorNpcScene.py": "5960d1b7c612542741c835cb62ac28bdf706c94b262023a172d53b90f27357f7",
-    "Tools/AuthorMissionScene.py": "17d09ef54ce39d89d0563ef34181e136e1c25272cec9d397b42ca0dd8d382e40",
-    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "bc5c688c32c0227c9e036a7f3d584c0a2d9a879a715a53f996e6503d6b7730fd",
-    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "0d0e20c5769d4a7a3900c76d6746614b3ce9a0d2b545f06a50c0d704c43a8298",
-    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "b4270a5c5341eb851c5d20b04719895033c36e7a07c312eaf65944f53c8881e9",
-    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106",
+    "Tools/AuthorNpcScene.py": "c0f82b19e583ef2df1c3f226b49e96683b0100bd6ab219804f5d4e14e03478a2",
+    "Tools/AuthorMissionScene.py": "4add2af3506bc6529eb578ae5543d15976c90c38b809f9b6408ba3a9aa6fd2ca",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "588bf1d9f824804d786ea87ad6dad9ad2194e742f8da938a6586c159b63339a0",
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "07d3920f57a2cdc2375f40f82cf042027bbfe02da25abef0fa1205c0c921d205",
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "043c1028126be04343f4d53ce3a365e7969a936c2f5b2b6479d999e367a4f050",
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "9fc36047e7ddd965e93d856f17c299bcd6a2e79d311dbea14212d85a0594229f",
     "Validation/DeathStrikeLifecycleTests/DeathStrikeLifecycleTests.csproj": "13875d453e7739913b43abced469b89c0da987ffffc823a1c4faed4fd1c2a3ad",
     "Validation/DeathStrikeLifecycleTests/Program.cs": "b778061470d1799d4d1d4547f32170f910341628fffd70abea9e433bc985b8a9",
     "Validation/DeathStrikeLifecycleTests/README.md": "e6f0488512f87fd4422991f86b40707edd2ed480488a583eed15e82e70b50061",
-    "Validation/DeathStrikeLifecycleTests/UnityFakes.cs": "6397bfc8dc73d8aee34ae39f18483f7dead7cd4beea8eff84ab8acf98ead3b18",
+    "Validation/DeathStrikeLifecycleTests/UnityFakes.cs": "0bc78bbed68d5c809bcac6822d105c7fdbfa6b488d52d0d7d207e8c71154b0ea",
     "Validation/EnemySpawnPolicyTests/EnemySpawnPolicyTests.csproj": "f4e451d8d325c531b9582d740692adfe7e5d5544694f98a80ead6a0a4e7851be",
     "Validation/EnemySpawnPolicyTests/Program.cs": "af85c1c28c32b6ed2183f47b08a984c9eb95b70ccaca96d771ef4266343395c7",
     "Validation/EnemySpawnPolicyTests/README.md": "b1a88bd796c40bc15b8194868d2c8269e8805be2ad908db5fe5be9d8bfce83df",
     "Validation/MissionRuntimeTests/MissionRuntimeTests.csproj": "08a048f0078df3e1e1997b1a8cbdec06518a84a5e4faa4f71deea78d027208d2",
-    "Validation/MissionRuntimeTests/Program.cs": "c9b84d38eb65c2ebb7ebbee9250c75c898fd512e81783ab3d5685274b1067da6",
-    "Validation/MissionRuntimeTests/README.md": "3f8398679a984a076821f7ed710e26922e97ab8f02bd44853e5c4e0fa731856c",
-    "Validation/MissionRuntimeTests/UnityFakes.cs": "b746f26c992811eff6827cf2a8a0e8e1c72d58837cc3ceea050b3941f3639cc7",
+    "Validation/MissionRuntimeTests/Program.cs": "c626afcb4a40c47a920b0690c2d076f59147f6f83ae9351f69aaff592bda90e4",
+    "Validation/MissionRuntimeTests/README.md": "7f5b26bf43a2060989b62c410a410602fb138084ed16d500dda445088d3bda26",
+    "Validation/MissionRuntimeTests/UnityFakes.cs": "28e95d27a837ab67fb63b2adfd4e1f4c44734be1388c36bd58761aa69243df12",
     "Validation/NpcBrainTests/NpcBrainTests.csproj": "f997475b625cea54a7b455d4729fbbefd371c91e751826c278de2a52d878f765",
-    "Validation/NpcBrainTests/Program.cs": "6968f4d01b7e108dd17de053e4000e0e52b326b60e23bdc2e6b9471f677a27d7",
-    "Validation/NpcBrainTests/README.md": "63c8913949784f9a0f7b482751107df4e55956ece1a62a61c90df6cb5177a4b0",
+    "Validation/NpcBrainTests/Program.cs": "39b2e99b701f74d214cc28094ef98d9b6486eb0ac927a77c6967edc595255113",
+    "Validation/NpcBrainTests/README.md": "05a3b7c497fd1777a0195dc2afb5602e43275b41022af5b7e81e99b3c79da565",
     "Validation/NpcNavigationTests/NpcNavigationTests.csproj": "3b67683618db8db848072bf97f19d6af4bed8655bd5d342f5e7295b0b7d562e8",
     "Validation/NpcNavigationTests/Program.cs": "7455e232083cad1a35e8fbb5e5cdf3fbb11c83ed32b448fe89523f99d6c71102",
     "Validation/NpcNavigationTests/README.md": "91839793d0c66e6e831c2184c474ba27780695a85053fff5f35a633ec38dbbdb",
     "Validation/NpcNavigationTests/UnityFakes.cs": "bf75ef78a35d4edc38f8594edcb3336a6618a1cbb9af48d57ce8ba5be2e1b2e7",
     "Validation/NpcRuntimeTests/NpcRuntimeTests.csproj": "ce296ad3a690726f5ff6a2d047e6109313cba8cba84e14e5b5f85090f3b6c0eb",
-    "Validation/NpcRuntimeTests/Program.cs": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7",
-    "Validation/NpcRuntimeTests/README.md": "5dc55566f0fa107480149e663fce6ad32456ddfac87b72ea6decc36cdfc1b75a",
+    "Validation/NpcRuntimeTests/Program.cs": "15bc313c4ec46d81b4b5317db48b95727b452f398d247681f2f8125ec0182124",
+    "Validation/NpcRuntimeTests/README.md": "315c0c73b001432a65360a6baf66f89ef1bd54a794fd1b3e3480b1d3903406fc",
     "Validation/NpcRuntimeTests/UnityFakes.cs": "4d1db49600a37ee1e96cd33c08bb7877facb90d148c23d58dfaeb3f677f04f55",
     "Validation/NpcNativeSetupTests/NpcNativeSetupTests.csproj": "90bf8d5bd233aece1a24ef9a0249c3d6872be63aad4a8643a225d72a10ddc9db",
     "Validation/NpcNativeSetupTests/Program.cs": "5ff56a37d02cbadcd30304e338cbab31c1f880c5d7ef7106493ee60d7c463f14",
     "Validation/NpcNativeSetupTests/UnityFakes.cs": "8f413752dfc51c0f7c295a426b5d121fdce3173d69eb78bb99e6da9854cbdf56",
-    "Validation/RobotDeathEffectsTests/Program.cs": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781",
-    "Validation/RobotDeathEffectsTests/README.md": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b",
+    "Validation/RobotDeathEffectsTests/Program.cs": "e000f4fd135e16dac57d8f88d3d1a0c6388c6a68718435849bf181ad8bfaba7f",
+    "Validation/RobotDeathEffectsTests/README.md": "b03eba612eed96b9c7f29371ae2b96ee63d1b9540ac16e462dda4afdd2dcb61d",
     "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj": "4efe1fed998e48997aed5cc6053c43c6b7bc8ac3f1d38b45a8181514df55b116",
-    "Validation/RobotDeathEffectsTests/UnityFakes.cs": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463"
+    "Validation/RobotDeathEffectsTests/UnityFakes.cs": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463",
+    "Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs": "21ee20e34b92e9fd3ea97cf0ac5b7bf188d7ce2a60996939e3567d24efa50a51"
   },
-  "limits": "No native Unity Editor, camera visibility or PhysX execution; production classes tested with narrow substitutes.",
-  "version": "V19"
+  "limits": "No native Unity Editor import/type compilation, Play Mode, Animator, PhysX, Profiler capture or mobile device execution was performed here.",
+  "version": "V20",
+  "waveContract": {
+    "eliminationQuotas": [
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "rescueSupply30Quotas": [
+      6,
+      8,
+      10,
+      6
+    ],
+    "activeCapsForAuthoredSix": [
+      3,
+      4,
+      5,
+      6,
+      6
+    ],
+    "poolSlots": 8,
+    "groupSizeSetting": 3,
+    "pauseScheduling": "Valid scaled active time only; capped .1s scheduler step, at most one activation/update, no hitch catch-up. Full run clock retains valid delta.",
+    "legacyProfiles": "useRhythmicWaves defaultsfalse, preserving previous fixed quota/interval/cap and standard-only actors.",
+    "variants": "Wave1 standard only; wave2 introduces runners; wave3 introduces heavy units. Composition keyed to wave-local activation ordinal, not slot.",
+    "runIdentity": "Guid N allocated once per successful BeginRun. Immutable LastRunSummary survives selection/retry; ResultRevision advances exactly once per terminal result.",
+    "settlementObservation": "A retry clears HasRunSummary but retains latest completed snapshot/revision for pending settlement polling; progression owns persisted deduplication.",
+    "rescueEligibility": "Rescued=1 only after recruited ally and hero actually reach extraction; exhausting supply alone never wins.",
+    "nativeUnityExecuted": false,
+    "profilerMarkers": [
+      "CareProject.Mission.Spawn",
+      "CareProject.Mission.PoolWarm"
+    ],
+    "profilerScope": "Static AutoScopes enabled only in Editor or Development Build; actual captures require native Unity execution."
+  },
+  "crowdContract": {
+    "reservedSlots": 8,
+    "personalSpaceMarginMetres": 0.03,
+    "stressSeconds": 12,
+    "mixedActors": 8,
+    "mixedAttackingActors": 8,
+    "mixedMinimumCentreDistanceMetres": 0.638,
+    "heavyActors": 8,
+    "heavyAttackingActors": 8,
+    "heavyMinimumCentreDistanceMetres": 0.747,
+    "scope": "Measured kinematic stress scenarios without PhysX pushes. Authored obstacle routing is checked using deterministic segment results.",
+    "approach": "Target-specific stable lanes; a stable outer orbit for far-side positions; avoidance of neighbors with any target; two radial half-plane projection passes followed by exact final-step swept-circle clipping. Navigation rejects blocked final motion.",
+    "reuse": "Disable, death, target change, emergence and reset release the lane/orbit. Pooled visuals/materials are reused. Variant tint preserves alpha and unrelated property overrides. Uniform scale is included in the distance-based walk cadence.",
+    "profilerMarker": "CareProject.NPC.Tick (Editor/development only)"
+  },
+  "relatedReports": [
+    "EnemyCrowd.json",
+    "WaveRhythm.json",
+    "EnemyVisual.json",
+    "NativeUnityAvailability.json"
+  ],
+  "sceneAuthoring": "Root integration explicitly wires progression, enables authored rhythmic profiles and raises NPC navigation height to1.6; no map rebuild."
 }

@@ -8,13 +8,15 @@ namespace IntercomMvp
     [DefaultExecutionOrder(-180)]
     public sealed class IntercomFrontEnd : MonoBehaviour, IIntercomMenuInput
     {
-        public const string BuildVersion = "V19";
+        public const string BuildVersion = "V20";
         [Header("Current game")]
         public IntercomMissionDirector mission;
         public IntercomPlayerInput input;
         public IntercomWeaponDefinition weapon;
         public IntercomHealth playerHealth;
         public IntercomPlayerMotor playerMotor;
+        [Tooltip("Optional local rewards and magazine upgrades. The service owns saving and purchases.")]
+        public IntercomProgression progression;
         [Header("Presentation")]
         public string gameTitle = "ЗАБОТА";
         public Texture2D heroPortrait;
@@ -31,6 +33,8 @@ namespace IntercomMvp
         public bool IsVisible => isActiveAndEnabled && mission != null && mission.isActiveAndEnabled && mission.BlocksGameplay;
         public IntercomFrontEndSection Section => state.CurrentSection;
         public bool IsResult => mission != null && (mission.Phase == IntercomMissionPhase.Victory || mission.Phase == IntercomMissionPhase.Defeat);
+        public IntercomProgression Progression => progression != null && progression.isActiveAndEnabled
+            && progression.mission == mission ? progression : null;
         public event Action<IntercomFrontEndSection> SectionChanged;
 
         private readonly IntercomFrontEndState state = new IntercomFrontEndState();
@@ -98,7 +102,7 @@ namespace IntercomMvp
         public bool Navigate(IntercomFrontEndSection section)
         {
             if (!IsVisible || !IntercomFrontEndState.Valid(section)) return false;
-            if (IsResult) { mission.ReturnToSelection(); observedPhase=mission.Phase; observedPhaseReady=true; }
+            if (IsResult) { CaptureResultReward(); mission.ReturnToSelection(); observedPhase=mission.Phase; observedPhaseReady=true; }
             bool changed = state.Select(section);
             notice = "";
             ShowRoom(section);
@@ -109,7 +113,7 @@ namespace IntercomMvp
         public void Back()
         {
             if (!IsVisible) return;
-            if (IsResult) { mission.ReturnToSelection(); observedPhase=mission.Phase; observedPhaseReady=true; }
+            if (IsResult) { CaptureResultReward(); mission.ReturnToSelection(); observedPhase=mission.Phase; observedPhaseReady=true; }
             bool changed = state.Back(); notice = "";
             ShowRoom(Section);
             if (changed) SectionChanged?.Invoke(Section);
@@ -132,9 +136,12 @@ namespace IntercomMvp
                 case IntercomFrontEndAction.Primary:
                     if (IsResult)
                     {
+                        if(!CanStartRun())return true;
                         bool started = mission.RetryMission();
                         notice = started ? "" : mission.ResultText; SyncState(); return true;
                     }
+                    if (Section == IntercomFrontEndSection.Armory && Progression != null)
+                    { TryUpgradeMagazine(); return true; }
                     return Navigate(IntercomFrontEndSection.Play);
                 case IntercomFrontEndAction.Secondary:
                     if (IsResult) { Back(); return true; }
@@ -142,12 +149,39 @@ namespace IntercomMvp
                 default: return false;
             }
         }
+        public bool TryUpgradeMagazine()
+        {
+            IntercomProgression service = Progression;
+            if (!IsVisible || IsResult || Section != IntercomFrontEndSection.Armory
+                || mission.Phase != IntercomMissionPhase.Selection || Time.timeScale <= 0f || service == null) return false;
+            if (service.MagazineMaxed) { notice = "Магазины уже улучшены до предела."; return false; }
+            if (service.TryBuyMagazineUpgrade())
+            { notice = "Магазины готовы: " + service.EffectiveMagazineCapacity + " патронов. На выезд!"; return true; }
+            notice = !string.IsNullOrEmpty(service.SaveProblem) ? "Не удалось сохранить улучшение. Попробуй ещё раз."
+                : service.HasPendingRewards ? "Сначала сохраним награду выезда. Подожди пару секунд."
+                : service.Wallet < service.NextMagazineCost ? "Не хватает запчастей: " + (service.NextMagazineCost - service.Wallet) + "."
+                : "Улучшение пока недоступно.";
+            return false;
+        }
         private bool StartRun(IntercomMissionMode mode)
         {
+            if(!CanStartRun())return true;
             bool started = mission.StartMission(mode);
             notice = started ? "" : mission.ResultText;
             SyncState(); return true;
         }
+        private bool CanStartRun()
+        {
+            IntercomProgression service=Progression;
+            if(service==null)return true;
+            // Capture the terminal receipt before Retry/Start can replace the director's current run.
+            // The service owns its save backoff; this cannot force repeated disk writes.
+            service.TryCollectCompletedRun();
+            if(service.CanStartAnotherRun)return true;
+            notice="Сначала сохраним награды предыдущих выездов. Повтори попытку через пару секунд.";
+            return false;
+        }
+        private void CaptureResultReward() { if(Progression!=null)Progression.TryCollectCompletedRun(); }
         public IntercomFrontEndLayout CurrentLayout()
         {
             Rect safe = Screen.safeArea;

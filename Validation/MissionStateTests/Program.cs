@@ -9,6 +9,7 @@ internal static class Program
     private static void Main()
     {
         SelectionAndLimits(); ExactElimination(); PoolIdentity(); TerminalOutcomes(); Rescue(); FreePlay(); RandomizedAccounting();
+        WaveRhythm(); RunSummaries();
         Console.WriteLine($"Mission state: {checks} assertions passed. Production mission accounting; no Unity runtime or rendering.");
     }
     private static void FreePlay()
@@ -25,6 +26,66 @@ internal static class Program
         Check(state.Epoch!=epoch && state.Alive==0,"free retry isolates run epoch");
         state.Begin(IntercomMissionMode.Elimination,50);
         Check(state.Supply==50 && state.RecordSpawn(0,1,state.Epoch),"switching back to combat restores spawn accounting");
+    }
+
+    private static void WaveRhythm()
+    {
+        int remaining=50,total=0;int[] intended={6,8,10,12,14};
+        for(int wave=1;wave<=5;wave++)
+        {
+            int release=Math.Min(remaining,IntercomMissionWavePolicy.WaveSize(10,wave,true));
+            Check(release==intended[wave-1],"fifty-robot course escalates from a small readable introduction");
+            remaining-=release;total+=release;
+            Check(IntercomMissionWavePolicy.AliveLimit(6,wave,true)==Math.Min(6,wave+2),"active pressure grows gradually within authored cap");
+        }
+        Check(remaining==0&&total==50&&IntercomMissionWavePolicy.WaveCount(50,10,true)==5,"rhythm never invents or loses the goal supply");
+        Check(IntercomMissionWavePolicy.WaveCount(30,10,true)==4,"rescue supply keeps a bounded short final group");
+        for(int authored=-2;authored<=52;authored++)
+            for(int supply=0;supply<=500;supply+=17)
+            {
+                int waves=IntercomMissionWavePolicy.WaveCount(supply,authored,true);
+                int emitted=0;
+                for(int w=1;w<=waves;w++)emitted+=Math.Min(supply-emitted,IntercomMissionWavePolicy.WaveSize(authored,w,true));
+                Check(emitted==supply&&waves<=supply,"every custom positive supply terminates exactly, even tiny authored waves");
+            }
+        for(int w=1;w<=12;w++)
+        {
+            Check(IntercomMissionWavePolicy.WaveSize(10,w,false)==10&&IntercomMissionWavePolicy.AliveLimit(6,w,false)==6
+                &&IntercomMissionWavePolicy.PaceMultiplier(w,false)==1f,"legacy profiles keep their exact wave and pacing contracts");
+            int runners=0,heavies=0;
+            for(int ordinal=0;ordinal<40;ordinal++)
+            {
+                int type=IntercomMissionWavePolicy.ArchetypeIndex(w,ordinal,true);
+                Check(type>=0&&type<=2,"composition emits only supported archetypes");
+                if(type==1)runners++;if(type==2)heavies++;
+                Check(IntercomMissionWavePolicy.ArchetypeIndex(w,ordinal,false)==0,"legacy profiles remain standard-only");
+            }
+            Check(w==1 ? runners==0&&heavies==0 : w==2 ? runners>0&&heavies==0 : runners>0&&heavies>0,
+                "fast enemies are introduced before heavy enemies");
+            for(int cap=-2;cap<=10;cap++)Check(IntercomMissionWavePolicy.AliveLimit(cap,w,true)<=Math.Max(1,Math.Min(8,cap)),"rhythm cannot exceed designer concurrency");
+        }
+        Check(IntercomMissionWavePolicy.WaveSize(int.MaxValue,int.MinValue,true)==30,"invalid early wave cannot overflow into a finale");
+        Check(IntercomMissionWavePolicy.WaveCount(int.MaxValue,0,true)==500,"invalid custom supply and wave size stay bounded");
+        Check(IntercomMissionWavePolicy.WaveCount(-1,10,true)==0,"empty supply has no fake wave");
+    }
+
+    private static void RunSummaries()
+    {
+        var won=new IntercomMissionRunSummary("0123456789abcdef0123456789abcdef",3,2,IntercomMissionMode.Elimination,
+            IntercomMissionPhase.Victory,50,1,5,187.25f);
+        Check(won.Won&&won.Kills==50&&won.Rescued==0&&won.WaveReached==5&&won.ElapsedSeconds==187.25f,
+            "elimination result preserves exact kills, time and wave without manufacturing a rescue");
+        var rescued=new IntercomMissionRunSummary("rescue",4,3,IntercomMissionMode.Rescue,IntercomMissionPhase.Victory,12,1,3,77);
+        Check(rescued.Won&&rescued.Rescued==1&&rescued.Kills==12,"successful escort records one saved ally independently of kills");
+        var lost=new IntercomMissionRunSummary(null,5,4,IntercomMissionMode.Rescue,IntercomMissionPhase.Defeat,9,1,2,float.NaN);
+        Check(!lost.Won&&lost.Rescued==0&&lost.RunId==""&&lost.ElapsedSeconds==0,"failed escort cannot award a saved ally and invalid time is normalized");
+        var free=new IntercomMissionRunSummary("free",6,5,IntercomMissionMode.FreePlay,IntercomMissionPhase.Defeat,500,1,500,9);
+        Check(free.Kills==0&&free.Rescued==0&&free.WaveReached==0,"free play cannot fabricate combat or rescue rewards");
+        foreach(float invalid in new[]{float.PositiveInfinity,float.NegativeInfinity,-1f})
+            Check(new IntercomMissionRunSummary("x",1,1,IntercomMissionMode.Elimination,IntercomMissionPhase.Defeat,-1,0,-1,invalid).ElapsedSeconds==0,
+                "non-finite or negative result duration is safe");
+        var state=new IntercomMissionState();state.Begin(IntercomMissionMode.Rescue,1,1);state.Select();
+        Check(won.Kills==50&&won.RunRevision==3&&won.ResultRevision==2,"completed summary is immutable across accounting resets");
     }
 
     private static void SelectionAndLimits()

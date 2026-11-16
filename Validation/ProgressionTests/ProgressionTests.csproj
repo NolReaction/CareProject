@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs"/><Compile Include="UnityFakes.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Progression/IntercomProgressionModel.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Progression/IntercomProgression.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs"/>
+  </ItemGroup>
+</Project>

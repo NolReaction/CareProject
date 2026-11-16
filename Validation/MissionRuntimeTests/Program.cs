@@ -45,7 +45,152 @@ internal static class Program
         SpawnPointLifecycle(); AllyFactory(); Recruitment(); Following(); AllyLifecycle();
         MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); AuthoredArrivals(); EliminationPoolAndWaves(); DeathBurstConnection(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
         MissionSessionClock(); MissingRuntimeDependencies(); MissionCameraLifecycle();
+        RhythmicWaves(); RhythmicRescue(); AuthoredPacingProbe(); CompletedRunSnapshots();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
+    }
+    private static void RhythmicWaves()
+    {
+        var f=new MissionFixture(x=>x.Director.gameObject.AddComponent<IntercomRobotDeathEffects>());f.Advance(1);
+        f.Elimination.useRhythmicWaves=true;f.Elimination.maximumAlive=8;
+        f.Elimination.groupSize=3;f.Elimination.groupRestSeconds=.8f;f.Elimination.openingGraceSeconds=1.1f;
+        f.Elimination.waveRestSeconds=.6f;
+        int objects=GameObject.Created.Count,materials=Material.Created;
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"rhythmic course starts through the ordinary mission route");
+        Check(f.Director.WaveCount==5&&f.Director.CurrentWaveSize==6&&f.Director.CurrentWaveSpawned==0,
+            "intro quota and cached total are available before first spawn");
+        f.Advance(.8f);Check(f.Director.SpawnedEnemies==0,"rhythmic opening honors designer grace");
+        f.Advance(.4f);Check(f.Director.SpawnedEnemies==1&&f.Living[0].Archetype==IntercomNpcArchetype.Standard,"first encounter is always the standard archetype");
+        int spawned=f.Director.SpawnedEnemies;float elapsed=f.Director.ElapsedSeconds;
+        f.Step(20f);
+        Check(f.Director.SpawnedEnemies<=spawned+1&&Math.Abs(f.Director.ElapsedSeconds-elapsed-20)<.001f,
+            "a long frame never catches up missed waves/spawns while the run clock stays accurate");
+        f.Advance(1.1f);
+        Check(f.Director.AliveEnemies==3&&f.Director.IsGroupResting,"opening pressure stops at three and releases a small cohort breather");
+        float groupRemaining=f.Director.GroupRestSecondsRemaining;
+        Signal(f.Director,"OnApplicationPause",true);f.Advance(2);
+        Check(f.Director.GroupRestSecondsRemaining==groupRemaining,"application pause freezes the cohort clock");
+        Signal(f.Director,"OnApplicationPause",false);
+        bool runner=false,heavy=false,restChecked=false;int[] perWave=new int[5];
+        int observed=0;
+        // Include the introductory actors already emitted above, then watch every later single-frame activation.
+        perWave[0]=f.Director.SpawnedEnemies;observed=f.Director.SpawnedEnemies;
+        for(int tick=0;tick<10000&&f.Director.Phase==IntercomMissionPhase.Active;tick++)
+        {
+            foreach(var actor in f.Living)
+            {
+                if(actor.Archetype==IntercomNpcArchetype.Runner)runner=true;
+                if(actor.Archetype==IntercomNpcArchetype.Heavy)heavy=true;
+                Check(f.Director.Wave!=1||actor.Archetype==IntercomNpcArchetype.Standard,"introductory wave cannot leak later variants");
+                float scale=actor.VisualScale;
+                actor.Kill();
+                Check(f.Director.deathEffects.LastVisualScale==scale,"death burst receives the actual pooled life's silhouette scale");
+            }
+            f.Step();
+            int delta=f.Director.SpawnedEnemies-observed;
+            Check(delta>=0&&delta<=1,"every frame releases at most one actor, including after kills and rests");
+            if(delta>0)perWave[f.Director.Wave-1]+=delta;
+            observed=f.Director.SpawnedEnemies;
+            Check(f.Director.AliveEnemies<=IntercomMissionWavePolicy.AliveLimit(8,f.Director.Wave,true)
+                &&f.Director.SpawnedEnemies<=f.Director.WaveEnemyLimit,"rhythmic release obeys active pressure and wave supply bounds");
+            if(f.Director.IsWaveResting&&!restChecked)
+            {
+                float rest=f.Director.WaveRestSecondsRemaining;int w=f.Director.Wave;
+                Time.timeScale=0;f.Advance(2);
+                Check(f.Director.IsWaveResting&&f.Director.WaveRestSecondsRemaining==rest&&f.Director.Wave==w,
+                    "between-wave rest remains inside the same run when paused");
+                Time.timeScale=1;restChecked=true;
+            }
+        }
+        Check(f.Director.Phase==IntercomMissionPhase.Victory&&f.Director.Kills==50&&runner&&heavy&&restChecked,
+            "complete rhythmic course reaches fifty kills with introduced runners/heavies and readable rests");
+        Check(perWave.SequenceEqual(new[]{6,8,10,12,14}),"actual Director activations preserve all five authored escalating quotas");
+        Check(f.Director.PreparedEnemyCount==8&&GameObject.Created.Count==objects&&Material.Created==materials,
+            "all mixed-variant lives and rests reuse the same warmed actors without new objects/materials");
+        Check(f.Director.RetryMission(),"rhythmic retry accepts the same pool");f.Advance(1.2f);
+        Check(f.Director.SpawnedEnemies==1&&f.Living[0].Archetype==IntercomNpcArchetype.Standard
+            &&f.Director.CurrentWaveSpawned==1&&f.Director.CurrentWaveSize==6,
+            "retry resets cohort composition and wave-local accounting instead of inheriting a finale variant");
+    }
+
+    private static void CompletedRunSnapshots()
+    {
+        var f=new MissionFixture();f.Elimination.killTarget=1;
+        Check(!f.Director.HasRunSummary&&f.Director.ResultRevision==0&&f.Director.CurrentRunId=="","selection has no fabricated result or run identity");
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"summary fixture starts normally");
+        string id=f.Director.CurrentRunId;uint run=f.Director.RunRevision;
+        Check(id.Length==32&&!f.Director.HasRunSummary,"one successful start creates a stable unique run ID");
+        Check(!f.Director.StartMission((IntercomMissionMode)77)&&f.Director.CurrentRunId==id,"rejected starts do not manufacture a result identity");
+        f.Advance(1);f.Living[0].Kill();
+        var won=f.Director.LastRunSummary;
+        Check(f.Director.HasRunSummary&&won.Won&&won.RunId==id&&won.RunRevision==run
+            &&won.ResultRevision==1&&f.Director.ResultRevision==1&&won.Kills==1&&won.Rescued==0,
+            "victory records exactly one immutable result with real counts and identity");
+        Check(won.ElapsedSeconds==f.Director.ElapsedSeconds,"completed result keeps exact active play duration");
+        Send(f.Director,"Finish");f.Advance(5);
+        Check(f.Director.ResultRevision==1&&f.Director.LastRunSummary.RunId==id,"repeated finish/result frames cannot create another settlement");
+        f.Director.ReturnToSelection();
+        Check(f.Director.HasRunSummary&&f.Director.LastRunSummary.RunId==id&&f.Director.ResultRevision==1
+            &&f.Director.ElapsedSeconds==0,"menu navigation preserves completed data while clearing the live timer");
+        Check(f.Director.RetryMission()&&!f.Director.HasRunSummary&&f.Director.ResultRevision==1&&f.Director.CurrentRunId!=id,
+            "retry creates a new identity but does not replay an already completed result");
+        Check(f.Director.LastRunSummary.RunId==id&&f.Director.LastRunSummary.ResultRevision==1,
+            "immediate retry retains the pending immutable receipt for a settlement observer that has not updated yet");
+        f.Advance(.2f);f.Hero.TakeDamage(new IntercomDamage(10000,Vector3.zero,Vector3.forward,null));
+        Check(f.Director.HasRunSummary&&!f.Director.LastRunSummary.Won&&f.Director.LastRunSummary.Rescued==0
+            &&f.Director.ResultRevision==2&&won.RunId==id&&won.Kills==1,"defeat gets its own snapshot; prior value remains unchanged");
+        f.Director.ReturnToSelection();f.Director.StartMission(IntercomMissionMode.Rescue);
+        f.Hero.transform.position=new Vector3(0,0,3);f.Advance(.7f);
+        Check(f.Ally.Recruited,"result fixture actually recruits its ally before extraction");
+        f.Hero.transform.position=f.Director.extractionPoint.position;f.Ally.transform.position=f.Director.extractionPoint.position;f.Step();
+        Check(f.Director.LastRunSummary.Won&&f.Director.LastRunSummary.Mode==IntercomMissionMode.Rescue
+            &&f.Director.LastRunSummary.Rescued==1&&f.Director.ResultRevision==3,"only completed extraction records a saved robot");
+        f.Director.StartMission(IntercomMissionMode.FreePlay);uint prior=f.Director.ResultRevision;
+        f.Advance(1);f.Director.ReturnToSelection();
+        Check(!f.Director.HasRunSummary&&f.Director.ResultRevision==prior,"abandoning free play cannot settle a fake completed run");
+        f.Director.StartMission(IntercomMissionMode.FreePlay);f.Hero.TakeDamage(new IntercomDamage(10000,Vector3.zero,Vector3.forward,null));
+        Check(f.Director.HasRunSummary&&f.Director.LastRunSummary.Kills==0&&f.Director.LastRunSummary.Rescued==0
+            &&f.Director.LastRunSummary.WaveReached==0,"free-play defeat remains a zero-combat snapshot");
+        string first=f.Director.CurrentRunId;var second=new MissionFixture();second.Director.StartMission(IntercomMissionMode.FreePlay);
+        Check(second.Director.CurrentRunId!=first,"fresh Director instances do not reuse persisted result IDs");
+    }
+
+    private static void RhythmicRescue()
+    {
+        var f=new MissionFixture();f.Advance(1);
+        f.Rescue.useRhythmicWaves=true;f.Rescue.rescueEnemySupply=30;f.Rescue.waveSize=10;
+        f.Rescue.maximumAlive=5;f.Rescue.groupSize=2;f.Rescue.groupRestSeconds=.2f;f.Rescue.openingGraceSeconds=.3f;
+        Check(f.Director.StartMission(IntercomMissionMode.Rescue)&&f.Director.WaveCount==4,"rescue accepts its independent rhythmic four-wave course");
+        int[] perWave=new int[4];int observed=0;bool runner=false,heavy=false;
+        for(int tick=0;tick<3000&&f.Director.SpawnedEnemies<30;tick++)
+        {
+            foreach(var actor in f.Living)
+            {runner|=actor.Archetype==IntercomNpcArchetype.Runner;heavy|=actor.Archetype==IntercomNpcArchetype.Heavy;actor.Kill();}
+            f.Step();int delta=f.Director.SpawnedEnemies-observed;if(delta>0)perWave[f.Director.Wave-1]+=delta;observed=f.Director.SpawnedEnemies;
+        }
+        foreach(var actor in f.Living)actor.Kill();f.Advance(5);
+        Check(perWave.SequenceEqual(new[]{6,8,10,6})&&runner&&heavy,"rescue keeps its own finite thirty-enemy mixed composition");
+        Check(f.Director.SpawnedEnemies==30&&f.Director.Kills==30&&f.Director.AliveEnemies==0
+            &&f.Director.Phase==IntercomMissionPhase.Active&&!f.Director.HasRunSummary,
+            "defeating every rescue attacker cannot replace the escort objective or settle a false victory");
+        f.Hero.transform.position=f.Ally.transform.position;f.Advance(.7f);
+        f.Hero.transform.position=f.Director.extractionPoint.position;f.Ally.transform.position=f.Director.extractionPoint.position;f.Step();
+        Check(f.Director.Phase==IntercomMissionPhase.Victory&&f.Director.LastRunSummary.Rescued==1
+            &&f.Director.LastRunSummary.Kills==30,"actual escort still completes after the rhythmic supply is exhausted");
+    }
+
+    private static void AuthoredPacingProbe()
+    {
+        var f=new MissionFixture();f.Advance(1);
+        f.Elimination.useRhythmicWaves=true;f.Elimination.waveSize=10;f.Elimination.maximumAlive=6;
+        f.Elimination.spawnInterval=2f;f.Elimination.waveRestSeconds=4.5f;f.Elimination.groupSize=3;
+        f.Elimination.groupRestSeconds=2.8f;f.Elimination.openingGraceSeconds=1.3f;
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination),"shipped pacing profile starts on a warmed pool");
+        for(int tick=0;tick<6000&&f.Director.Phase==IntercomMissionPhase.Active;tick++)
+        {foreach(var actor in f.Living)actor.Kill();f.Step();}
+        Check(f.Director.Phase==IntercomMissionPhase.Victory&&f.Director.LastRunSummary.Kills==50,
+            "published pacing configuration can finish without an unreachable release or wave");
+        Check(f.Director.ElapsedSeconds>120f&&f.Director.ElapsedSeconds<220f,"instant-kill pacing floor leaves room for combat within a short complete course");
+        Console.WriteLine("V20 authored course instant-kill floor: "+f.Director.ElapsedSeconds.ToString("F2")+" active seconds. No real combat, travel or native Unity simulation in this probe.");
     }
     private static void SpawnPointLifecycle()
     {

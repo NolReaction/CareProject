@@ -24,6 +24,25 @@ namespace IntercomMvp
         public float ArrivalDuration => EmergenceDuration;
         public IntercomEnemySpawnKind EmergenceKind => emergenceKind;
         public bool IsHiddenForDeathBurst => deathBurstHidden;
+        public IntercomNpcArchetype Archetype => archetypeTuning.Archetype;
+        public float EffectiveMoveSpeed => Safe(definition != null ? definition.moveSpeed : 2.65f, 2.65f, .1f, 8f) * VariantSpeedMultiplier;
+        public float EffectiveDamage => Safe(definition != null ? definition.damage : 12f, 12f, 0f, 10000f)
+            * (Archetype==IntercomNpcArchetype.Heavy && definition!=null ? Safe(definition.heavyDamageMultiplier,1.5f,.1f,4f) : archetypeTuning.Damage);
+        public float EffectiveMaximumHealth => Safe(definition != null ? definition.maximumHealth : 75f, 75f, 1f, 100000f) * VariantHealthMultiplier;
+        public float VisualScale => archetypeTuning.Scale;
+        public float WindupSeconds => Safe(definition != null ? definition.windupSeconds : .3f, .3f, .1f, 5f) * archetypeTuning.Windup;
+        public float RecoverySeconds => Safe(definition != null ? definition.recoverySeconds : .48f, .48f, .1f, 8f) * archetypeTuning.Recovery;
+        public int ApproachSlot => approachSlot;
+        public uint LifeVersion => activityVersion;
+        public uint ResolvedStrikeVersion { get; private set; }
+        public static int ActiveActorCount => active.Count;
+        public static IntercomNpcController GetActiveActor(int index) => index >= 0 && index < active.Count ? active[index] : null;
+        private float VariantHealthMultiplier => definition==null ? archetypeTuning.Health
+            : Archetype==IntercomNpcArchetype.Runner ? Safe(definition.runnerHealthMultiplier,.6f,.1f,4f)
+            : Archetype==IntercomNpcArchetype.Heavy ? Safe(definition.heavyHealthMultiplier,1.8f,.1f,4f) : 1f;
+        private float VariantSpeedMultiplier => definition==null ? archetypeTuning.Speed
+            : Archetype==IntercomNpcArchetype.Runner ? Safe(definition.runnerSpeedMultiplier,1.12f,.1f,2f)
+            : Archetype==IntercomNpcArchetype.Heavy ? Safe(definition.heavySpeedMultiplier,.72f,.1f,2f) : 1f;
 
         private static readonly List<IntercomNpcController> active = new List<IntercomNpcController>(16);
         private readonly IntercomNpcBrain brain = new IntercomNpcBrain();
@@ -37,10 +56,12 @@ namespace IntercomMvp
         private uint observedRespawn, pathVersion;
         private uint activityVersion;
         private int waypoint, patrolLeg;
+        private int approachSlot = -1, orbitDirection;
+        private IntercomNpcArchetypeTuning archetypeTuning = IntercomNpcArchetypeTuning.For(IntercomNpcArchetype.Standard);
         private float verticalVelocity, repathRemaining, hitRemaining, strikeRemaining, deathSeconds, stuckSeconds, recoveryRemaining, investigateRemaining;
         private bool initialized, hasFocus = true, paused, suspended;
         private MaterialPropertyBlock bodyProperties;
-        private Color baseColor, presentedColor;
+        private Color baseColor, authoredColor, presentedColor;
         private bool colorApplied;
         private Renderer presentedRenderer;
         private Mesh ownedTelegraphMesh;
@@ -58,9 +79,12 @@ namespace IntercomMvp
         private uint sightRevision;
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorId = Shader.PropertyToID("_Color");
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private static readonly Unity.Profiling.ProfilerMarker TickMarker = new Unity.Profiling.ProfilerMarker("CareProject.NPC.Tick");
+#endif
 
         private float HurtDuration => modelAnimator!=null?.22f:.18f;
-        private float Range => Safe(definition.attackRange, 1.05f, .3f, 3f);
+        private float Range => Safe(definition.attackRange, 1.05f, .3f, 3f) * VisualScale;
         private float EmergenceDuration => arrivalDuration>0f ? arrivalDuration : Safe(definition.emergenceSeconds,.68f,.3f,2f);
         private static float Safe(float v, float fallback, float min, float max) => IntercomNpcDefinition.Safe(v, fallback, min, max);
         private static Vector3 Flat(Vector3 v) => new Vector3(v.x, 0f, v.z);
@@ -80,12 +104,13 @@ namespace IntercomMvp
                 Debug.LogWarning("NPC needs Definition, CharacterController and Health.", this);
                 enabled = false; return;
             }
-            health.maximumHealth = Safe(definition.maximumHealth, 75f, 1f, 100000f);
+            health.maximumHealth = EffectiveMaximumHealth;
             health.team = IntercomTeam.Enemy; health.postHitInvulnerability = 0f;
             baseColor = definition.bodyColor;
             if(modelAnimator!=null && bodyRenderer!=null) baseColor=CaptureModelTint(); // Preserve atlas paint and authored overrides.
             else if (variant % 3 == 1) baseColor = Color.Lerp(baseColor, new Color(.35f,.56f,.53f,1f), .75f);
             else if (variant % 3 == 2) baseColor = Color.Lerp(baseColor, new Color(.65f,.39f,.3f,1f), .65f);
+            authoredColor = baseColor;
             ResetToHome();
         }
 
@@ -128,14 +153,19 @@ namespace IntercomMvp
             if (!initialized) return;
             unchecked { activityVersion++; }
             CancelEmergence();
+            approachSlot = -1; orbitDirection=0;
+            ResolvedStrikeVersion=0;
             deathBurstHidden=false;
             emergenceKind=IntercomEnemySpawnKind.Perimeter;
             if(visual!=null && !visual.gameObject.activeSelf) visual.gameObject.SetActive(true);
             controller.enabled = false;
             transform.SetPositionAndRotation(home, homeRotation);
+            controller.height=1.35f*VisualScale; controller.radius=.32f*VisualScale;
+            controller.center=Vector3.up*(.675f*VisualScale);
             controller.enabled = true;
-            health.maximumHealth = Safe(definition.maximumHealth,75f,1f,100000f);
-            health.ResetHealth(); brain.Configure(definition.Rules);
+            health.maximumHealth = EffectiveMaximumHealth;
+            health.ResetHealth(); brain.Configure(new IntercomNpcRules(WindupSeconds,RecoverySeconds,definition.loseTargetSeconds,definition.idleSeconds));
+            baseColor=ArchetypeColor(authoredColor);
             velocity = Vector3.zero; verticalVelocity = -2f;
             ResetModelClock();
             repathRemaining = hitRemaining = strikeRemaining = deathSeconds = stuckSeconds = recoveryRemaining = investigateRemaining = 0f;
@@ -147,9 +177,12 @@ namespace IntercomMvp
         }
 
         /// <summary>Explicit pooled life boundary. Call while inactive, then activate; no new objects are allocated.</summary>
-        public void PrepareForSpawn(Vector3 position)
+        public void PrepareForSpawn(Vector3 position) => PrepareForSpawn(position,IntercomNpcArchetype.Standard);
+
+        public void PrepareForSpawn(Vector3 position, IntercomNpcArchetype archetype)
         {
             if(!initialized || !Finite(position.x) || !Finite(position.y) || !Finite(position.z)) return;
+            archetypeTuning=IntercomNpcArchetypeTuning.For(archetype);
             home = position;
             homeRotation = Quaternion.identity;
             // The mission pool calls this only while the application is active.
@@ -175,6 +208,7 @@ namespace IntercomMvp
             arrivalDuration=baseDuration+warning;
             arrivalWarningFraction=(baseDuration*(emergenceKind==IntercomEnemySpawnKind.Perimeter?.17f:0f)+warning)/arrivalDuration;
             emerging=true; emergenceSeconds=0f;
+            approachSlot=-1; orbitDirection=0;
             emergenceSavedInvulnerability=health.invulnerable;
             emergenceSavedController=controller.enabled;
             health.invulnerable=true; controller.enabled=false;
@@ -207,7 +241,7 @@ namespace IntercomMvp
                 if(controller!=null) controller.enabled=emergenceSavedController && health!=null && !health.IsDead;
                 if(visual!=null)
                 {
-                    visual.localPosition=Vector3.zero; visual.localRotation=Quaternion.identity; visual.localScale=Vector3.one;
+                    visual.localPosition=Vector3.zero; visual.localRotation=Quaternion.identity; visual.localScale=Vector3.one*VisualScale;
                 }
             }
             emergenceSeconds=arrivalDuration=0f; arrivalWarningFraction=.17f;
@@ -227,10 +261,10 @@ namespace IntercomMvp
                 ?Mathf.Sin(Mathf.Clamp01((afterWarning-(.48f/.83f))/(.35f/.83f))*Mathf.PI)*.075f:0f;
             if(visual!=null)
             {
-                visual.localPosition=Vector3.up*(-Safe(definition.emergenceDepth,1.48f,.5f,3f)*(1f-eased)+settle);
+                visual.localPosition=Vector3.up*(-Safe(definition.emergenceDepth,1.48f,.5f,3f)*VisualScale*(1f-eased)+settle);
                 visual.localRotation=modelAnimator!=null ? Quaternion.Euler(0f,(hatch?-12f:ground?6f:28f)*(1f-eased),0f)
                     :Quaternion.Euler(-12f*(1f-eased),28f*(1f-eased),0f);
-                visual.localScale=modelAnimator!=null?Vector3.one:new Vector3(1f+.07f*(1f-eased),.88f+.12f*eased,1f+.07f*(1f-eased));
+                visual.localScale=(modelAnimator!=null?Vector3.one:new Vector3(1f+.07f*(1f-eased),.88f+.12f*eased,1f+.07f*(1f-eased)))*VisualScale;
             }
             ApplyModelPresentation(0f);
             if(emergenceRing!=null)
@@ -253,6 +287,7 @@ namespace IntercomMvp
         {
             if(targetHealth == target) return;
             targetHealth = target;
+            approachSlot=-1; orbitDirection=0;
             sightTarget=null; sightRemaining=0f;
             brain.Interrupt();
             route.Clear(); waypoint=0; velocity=Vector3.zero;
@@ -281,6 +316,14 @@ namespace IntercomMvp
         }
 
         private void Update()
+        {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            using(TickMarker.Auto())
+#endif
+            TickActor();
+        }
+
+        private void TickActor()
         {
             if (!initialized) return;
             if(definition==null || controller==null || health==null)
@@ -347,16 +390,17 @@ namespace IntercomMvp
             if (visible) { lastSeen = sightPosition; investigateRemaining=0f; }
             else investigateRemaining=Mathf.Max(0f,investigateRemaining-dt);
             if(Flat(transform.position-lastSeen).sqrMagnitude<.25f) investigateRemaining=0f;
-            bool attackClear = visible && distance <= Range && ClearMelee(target);
+            IntercomNpcPhase before = brain.Phase;
+            Vector3 chaseDestination=before==IntercomNpcPhase.Chase ? ApproachDestination(lastSeen,visible,distance) : lastSeen;
+            bool attackClear = visible && distance <= Range && ClearMelee(target)
+                && (before!=IntercomNpcPhase.Chase || AttackLaneReady(chaseDestination));
             bool outside = Flat(transform.position-home).magnitude > Safe(definition.leashRadius,18f,1f,40f)
                 || (alive && Flat(lastSeen-home).magnitude > Safe(definition.leashRadius,18f,1f,40f));
-            IntercomNpcPhase before = brain.Phase;
             // The attacker follows the victim during preparation, then commits
             // the last brief part of the swing. The hit still requires contact.
             if(before==IntercomNpcPhase.Windup && visible && delta.sqrMagnitude>.0001f)
             {
-                float commit=Mathf.Min(Safe(definition.attackCommitSeconds,.08f,.03f,.3f),
-                    Safe(definition.windupSeconds,.3f,.1f,5f)*.65f);
+                float commit=Mathf.Min(Safe(definition.attackCommitSeconds,.14f,.03f,.3f),WindupSeconds*.65f);
                 float trackingDt=Mathf.Min(dt,Mathf.Max(0f,brain.WindupRemaining-commit));
                 if(trackingDt>0f)
                 {
@@ -380,6 +424,7 @@ namespace IntercomMvp
                 // A death/reset callback can occur while events are being handled.
                 // Re-evaluate the current life before touching the target.
                 if (ObserveRespawn()) return;
+                unchecked { ResolvedStrikeVersion++; }
                 uint strikeLife = activityVersion;
                 IntercomHealth victim = targetHealth;
                 AttemptStrike();
@@ -395,9 +440,9 @@ namespace IntercomMvp
 
             Vector3 desired = Vector3.zero;
             if (brain.Phase == IntercomNpcPhase.Chase)
-                desired = Navigate(ApproachDestination(lastSeen,visible,distance), dt) * Safe(definition.moveSpeed, 2.65f, .1f, 8f);
+                desired = Navigate(chaseDestination, dt) * EffectiveMoveSpeed;
             else if (brain.Phase == IntercomNpcPhase.Return)
-                desired = Navigate(home, dt) * Safe(definition.moveSpeed, 2.65f, .1f, 8f);
+                desired = Navigate(home, dt) * EffectiveMoveSpeed;
             else if (brain.Phase == IntercomNpcPhase.Patrol)
                 desired = Navigate(patrolGoal, dt) * Safe(definition.patrolSpeed, .9f, 0f, 4f);
             bool planted = brain.Phase == IntercomNpcPhase.Windup || brain.Phase == IntercomNpcPhase.Recovery;
@@ -405,7 +450,7 @@ namespace IntercomMvp
             {
                 recoveryRemaining=Mathf.Max(0f,recoveryRemaining-dt);
                 if(navigation!=null && navigation.SegmentClear(transform.position,transform.position+recoveryDirection*.45f))
-                    desired=recoveryDirection*Safe(definition.moveSpeed,2.65f,.1f,8f)*.65f;
+                desired=recoveryDirection*EffectiveMoveSpeed*.65f;
                 else recoveryRemaining=0f;
             }
             velocity = planted ? Vector3.zero : Vector3.MoveTowards(velocity, desired,
@@ -413,6 +458,7 @@ namespace IntercomMvp
             if (!planted && velocity.sqrMagnitude > .005f)
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(velocity,Vector3.up),
                     Safe(definition.turnSpeed,420f,1f,1200f)*dt);
+            if(!planted) velocity=ConstrainCrowdVelocity(velocity,dt);
             // Acceleration retains momentum, so validate the final motion too,
             // not merely the route direction or separation proposal.
             if(navigation!=null && velocity.sqrMagnitude>.0001f
@@ -439,7 +485,7 @@ namespace IntercomMvp
             if(navigation == null || !navigation.isActiveAndEnabled) return Vector3.zero;
             repathRemaining-=dt;
             Vector3 direct=Flat(destination-transform.position);
-            if(direct.sqrMagnitude<.018f) return Vector3.zero;
+            if(direct.sqrMagnitude<.0049f) return Vector3.zero;
             // Open ground needs no grid search, and avoids chasing stale path
             // corners while the target moves across the courtyard.
             if(navigation.SegmentClear(transform.position,destination))
@@ -470,44 +516,163 @@ namespace IntercomMvp
         private Vector3 SteerCrowd(Vector3 direction)
         {
             Vector3 separation=Vector3.zero;
-            for(int i=0;i<active.Count;i++)
+            float forwardScale=1f;
+            int neighbors=0;
+            for(int i=0;i<active.Count && neighbors<IntercomNpcCrowdMath.MaximumSlots;i++)
             {
                 IntercomNpcController other=active[i];
-                if(other==null || other==this || other.health==null || other.health.IsDead || other.emerging) continue;
+                if(!SolidNeighbor(other)) continue;
                 Vector3 offset=Flat(transform.position-other.transform.position);
-                float squared=offset.sqrMagnitude;
-                if(squared>.0001f && squared<1f) separation += offset.normalized*(1f-Mathf.Sqrt(squared));
-                else if(squared<=.0001f)
+                if(!Finite(offset.x) || !Finite(offset.z) || offset.sqrMagnitude>4f) continue;
+                neighbors++;
+                float spacing=(controller!=null?controller.radius:.32f)+(other.controller!=null?other.controller.radius:.32f)+.06f;
+                IntercomNpcCrowdMath.PairRepulsion(offset.x,offset.z,spacing,variant,other.variant,out float sx,out float sz);
+                separation+=new Vector3(sx,0f,sz);
+                forwardScale=Mathf.Min(forwardScale,IntercomNpcCrowdMath.ForwardSpeedScale(-offset.x,-offset.z,direction.x,direction.z,spacing));
+            }
+            // Braking removes only the pursuit component. Separation remains
+            // active, so a blocked pair can separate instead of both freezing.
+            Vector3 steered=Vector3.ClampMagnitude(direction*forwardScale+separation*Safe(definition.separationStrength,.9f,.1f,2f),1f);
+            // Local crowd avoidance may not cut across an inflated grid corner.
+            if(navigation!=null && !navigation.SegmentClear(transform.position,transform.position+steered*.3f))
+                return direction*forwardScale;
+            return steered;
+        }
+
+        private bool CrowdNeighbor(IntercomNpcController other)
+            => SolidNeighbor(other) && other.targetHealth==targetHealth;
+
+        private bool SolidNeighbor(IntercomNpcController other)
+            => other!=null && other!=this && other.isActiveAndEnabled && other.initialized && other.health!=null
+                && !other.health.IsDead && !other.emerging && other.controller!=null && other.controller.enabled;
+
+        private Vector3 ConstrainCrowdVelocity(Vector3 proposed,float dt)
+        {
+            if(dt<=0f)return Vector3.zero;
+            // Project the final accelerated velocity, not just desired steering.
+            // Each neighbor supplies a conservative outward half-plane. This
+            // prevents one frame of retained momentum from entering its body.
+            for(int pass=0;pass<2;pass++)
+            {
+                int neighbors=0;
+                for(int i=0;i<active.Count && neighbors<IntercomNpcCrowdMath.MaximumSlots;i++)
                 {
-                    // Exactly overlapping actors must not share a zero escape
-                    // vector. Stable identity breaks the symmetry without noise.
-                    float angle=variant*2.399963f;
-                    separation+=new Vector3(Mathf.Sin(angle),0f,Mathf.Cos(angle));
+                    var other=active[i];if(!SolidNeighbor(other))continue;
+                    Vector3 offset=Flat(transform.position-other.transform.position);
+                    float squared=offset.sqrMagnitude;if(!Finite(squared) || squared>9f)continue;
+                    neighbors++;
+                    float distance=Mathf.Sqrt(squared);
+                    Vector3 radial;
+                    if(distance>.0001f)radial=offset/distance;
+                    else
+                    {
+                        IntercomNpcCrowdMath.PairRepulsion(0f,0f,1f,variant,other.variant,out float x,out float z);
+                        radial=new Vector3(x,0f,z);
+                    }
+                    float space=(controller!=null?controller.radius:.32f)+other.controller.radius+.03f;
+                    float minimum=Mathf.Min(EffectiveMoveSpeed*.6f,(space-distance)/dt);
+                    float current=proposed.x*radial.x+proposed.z*radial.z;
+                    if(current<minimum)proposed+=radial*(minimum-current);
                 }
             }
-            Vector3 steered=Vector3.ClampMagnitude(direction+separation*Safe(definition.separationStrength,.9f,.1f,2f),1f);
-            // Local crowd avoidance may not cut across an inflated grid corner.
-            if(!navigation.SegmentClear(transform.position,transform.position+steered*.3f)) return direction;
-            return steered;
+            proposed=Vector3.ClampMagnitude(proposed,EffectiveMoveSpeed);
+            // Later half-plane projections and speed clamping can invalidate
+            // an earlier neighbor. Sweep the final step against initially
+            // separated circles, taking the first collision fraction.
+            double mx=proposed.x*dt,mz=proposed.z*dt,a=mx*mx+mz*mz;
+            if(a<.0000000001d)return proposed;
+            double fraction=1d;int checkedNeighbors=0;
+            for(int i=0;i<active.Count && checkedNeighbors<IntercomNpcCrowdMath.MaximumSlots;i++)
+            {
+                var other=active[i];if(!SolidNeighbor(other))continue;
+                Vector3 offset=Flat(transform.position-other.transform.position);
+                if(!Finite(offset.x) || !Finite(offset.z) || offset.sqrMagnitude>9f)continue;
+                checkedNeighbors++;
+                double radius=(controller!=null?controller.radius:.32f)+other.controller.radius+.03f;
+                double c=(double)offset.x*offset.x+(double)offset.z*offset.z-radius*radius;
+                double b=2d*(offset.x*mx+offset.z*mz);
+                if(c<0d || b>=0d)continue;
+                double discriminant=b*b-4d*a*c;
+                if(discriminant<0d)continue;
+                double hit=(-b-System.Math.Sqrt(discriminant))/(2d*a);
+                if(hit>=0d && hit<=1d)fraction=System.Math.Min(fraction,System.Math.Max(0d,hit-.0001d));
+            }
+            return proposed*(float)fraction;
+        }
+
+        private bool AttackLaneReady(Vector3 destination)
+        {
+            // A crowded pursuer reaches its own lane before planting a swing.
+            // Contact against the victim never allows it to lock a stack of
+            // overlapping allies in recovery poses.
+            if(approachSlot>=0 && Flat(destination-transform.position).sqrMagnitude>.01f) return false;
+            for(int i=0;i<active.Count;i++)
+            {
+                var other=active[i]; if(!CrowdNeighbor(other))continue;
+                float space=((controller!=null?controller.radius:.32f)+(other.controller!=null?other.controller.radius:.32f))*.92f;
+                if(Flat(other.transform.position-transform.position).sqrMagnitude<space*space) return false;
+            }
+            return true;
         }
 
         private Vector3 ApproachDestination(Vector3 destination,bool visible,float distance)
         {
-            if(!visible || distance>3.5f || distance<=Range || navigation==null) return destination;
+            if(!visible || distance>4.5f || navigation==null) { approachSlot=-1; orbitDirection=0; return destination; }
             bool crowded=false;
             for(int i=0;i<active.Count;i++)
             {
                 var other=active[i];
-                if(other!=null && other!=this && other.health!=null && !other.health.IsDead && !other.emerging && other.targetHealth==targetHealth
-                    && Flat(other.transform.position-destination).sqrMagnitude<9f)
+                if(CrowdNeighbor(other) && Flat(other.transform.position-destination).sqrMagnitude<25f)
                 { crowded=true; break; }
             }
-            if(!crowded) return destination;
-            // Persistent ordinal gives each pursuer a different side. Only use
-            // a slot on the same clear piece of floor, never behind a wall.
-            float angle=variant*2.399963f;
-            Vector3 slot=destination+new Vector3(Mathf.Sin(angle),0f,Mathf.Cos(angle))*Mathf.Max(.55f,Range*.8f);
-            return navigation.SegmentClear(destination,slot) && navigation.SegmentClear(transform.position,slot) ? slot : destination;
+            if(!crowded) { approachSlot=-1; orbitDirection=0; return destination; }
+            if(approachSlot>=0 && SlotUsable(approachSlot,destination,out Vector3 retained)) return OrbitDestination(destination,retained);
+            approachSlot=-1; orbitDirection=0;
+            int preferred=IntercomNpcCrowdMath.SlotForOrdinal(variant);
+            // Keep a claimed slot while the victim moves. If cover closes that
+            // lane, search adjacent free slots; never reserve through a wall.
+            for(int n=0;n<IntercomNpcCrowdMath.MaximumSlots;n++)
+            {
+                int offset=n==0?0:(n+1)/2*(n%2==1?1:-1);
+                int candidate=IntercomNpcCrowdMath.SlotForOrdinal(preferred+offset);
+                if(!SlotUsable(candidate,destination,out Vector3 slot)) continue;
+                approachSlot=candidate;orbitDirection=0;return OrbitDestination(destination,slot);
+            }
+            return destination;
+        }
+
+        private Vector3 OrbitDestination(Vector3 target,Vector3 slot)
+        {
+            Vector3 from=Flat(transform.position-target),to=Flat(slot-target);
+            float length=from.magnitude;
+            if(length<.001f)return slot;
+            double a=System.Math.Atan2(from.x,from.z),b=System.Math.Atan2(to.x,to.z),delta=b-a;
+            while(delta>System.Math.PI)delta-=System.Math.PI*2d;
+            while(delta<-System.Math.PI)delta+=System.Math.PI*2d;
+            if(System.Math.Abs(delta)<System.Math.PI*.10d)return slot;
+            if(orbitDirection==0)orbitDirection=System.Math.Abs(delta)>System.Math.PI-.05d ? (variant%2==0?1:-1) : (delta<0d?-1:1);
+            // Far-side reservations orbit the victim instead of driving a
+            // straight line through the player's capsule. The waypoint stays
+            // outside attack reach until the reserved lane becomes accessible.
+            double remaining=orbitDirection>0 ? (delta<0d?delta+System.Math.PI*2d:delta) : (delta>0d?System.Math.PI*2d-delta:-delta);
+            double turn=System.Math.Min(remaining,System.Math.PI*.25d)*orbitDirection;
+            double angle=a+turn;float radius=Range*.9f+.8f;
+            Vector3 waypoint=target+new Vector3((float)System.Math.Sin(angle)*radius,0f,(float)System.Math.Cos(angle)*radius);
+            return navigation.SegmentClear(transform.position,waypoint)&&navigation.SegmentClear(target,waypoint)?waypoint:slot;
+        }
+
+        private bool SlotUsable(int slot,Vector3 target,out Vector3 destination)
+        {
+            IntercomNpcCrowdMath.SlotOffset(slot,Range*.9f,out float x,out float z);
+            destination=target+new Vector3(x,0f,z);
+            if(!navigation.SegmentClear(target,destination) || !navigation.SegmentClear(transform.position,destination)) return false;
+            for(int i=0;i<active.Count;i++)
+            {
+                var other=active[i];
+                if(CrowdNeighbor(other) && other.approachSlot==slot
+                    && Flat(other.transform.position-target).sqrMagnitude<25f) return false;
+            }
+            return true;
         }
 
         private void BeginUnstuck(Vector3 desired)
@@ -562,7 +727,7 @@ namespace IntercomMvp
             bool clear=Mathf.Abs(delta.y)<.65f && ClearMelee(targetHealth.transform.position);
             if(!IntercomNpcCombatMath.InStrike(delta.x,delta.z,lockedHeading.x,lockedHeading.z,Range,
                 Safe(definition.attackHalfAngle,40f,5f,85f),clear,TargetAlive)) return;
-            targetHealth.TakeDamage(new IntercomDamage(Safe(definition.damage,12f,0f,10000f),
+            targetHealth.TakeDamage(new IntercomDamage(EffectiveDamage,
                 targetHealth.transform.position+Vector3.up*.7f,lockedHeading,gameObject));
         }
 
@@ -581,6 +746,7 @@ namespace IntercomMvp
         private void OnDied()
         {
             CancelEmergence();
+            approachSlot=-1; orbitDirection=0;
             brain.Kill(); velocity=Vector3.zero; route.Clear();
             if(controller!=null) controller.enabled=false;
             if(telegraph!=null) telegraph.gameObject.SetActive(false);
@@ -588,6 +754,7 @@ namespace IntercomMvp
         private void Suspend()
         {
             if(!suspended) brain.Interrupt();
+            approachSlot=-1; orbitDirection=0;
             suspended=true; velocity=Vector3.zero; route.Clear(); waypoint=0; repathRemaining=recoveryRemaining=0f;
             sightRemaining=0f;
             if(telegraph!=null) telegraph.gameObject.SetActive(false);
@@ -604,19 +771,20 @@ namespace IntercomMvp
                 float windup=brain.WindupProgress;
                 float punch=strikeRemaining/.16f;
                 float hit=Mathf.Sin(Mathf.Clamp01(hitRemaining/HurtDuration)*Mathf.PI);
-                visual.localScale=new Vector3(1f+dead*.2f+hit*.06f,1f-dead*.85f-hit*.06f,1f+dead*.2f+hit*.06f);
+                visual.localScale=new Vector3(1f+dead*.2f+hit*.06f,1f-dead*.85f-hit*.06f,1f+dead*.2f+hit*.06f)*VisualScale;
                 visual.localRotation=Quaternion.Euler(-windup*13f+punch*21f,0f,dead*8f);
                 visual.localPosition=Vector3.up*(dead*.055f);
             }
             else if(visual!=null)
             {
                 // Mechanical joints stay rigid. The authored bones provide recoil and the short pop fallback.
-                visual.localScale=Vector3.one; visual.localRotation=Quaternion.identity; visual.localPosition=Vector3.zero;
+                visual.localScale=Vector3.one*VisualScale; visual.localRotation=Quaternion.identity; visual.localPosition=Vector3.zero;
             }
             ApplyModelPresentation(dt);
             if(bodyRenderer!=null)
             {
-                bool modelAtRest=modelAnimator!=null && !health.IsDead && brain.Phase!=IntercomNpcPhase.Windup && hitRemaining<=0f;
+                bool modelAtRest=modelAnimator!=null && Archetype==IntercomNpcArchetype.Standard
+                    && !health.IsDead && brain.Phase!=IntercomNpcPhase.Windup && hitRemaining<=0f;
                 if(modelAtRest) RestoreModelTint();
                 else
                 {
@@ -639,8 +807,19 @@ namespace IntercomMvp
             {
                 bool show=!health.IsDead && brain.Phase==IntercomNpcPhase.Windup && !suspended;
                 if(telegraph.gameObject.activeSelf!=show) telegraph.gameObject.SetActive(show);
-                telegraph.localScale=Vector3.one*(.4f+.6f*brain.WindupProgress);
+                telegraph.localScale=Vector3.one*((.4f+.6f*brain.WindupProgress)*VisualScale);
             }
+        }
+
+        private Color ArchetypeColor(Color authored)
+        {
+            // Multiplication preserves the shared atlas, alpha and external
+            // material-property overrides; no material instances are created.
+            if(Archetype==IntercomNpcArchetype.Runner)
+                return new Color(authored.r*.60f,authored.g*.96f,authored.b*.86f,authored.a);
+            if(Archetype==IntercomNpcArchetype.Heavy)
+                return new Color(authored.r*.98f,authored.g*.66f,authored.b*.48f,authored.a);
+            return authored;
         }
 
         private void OnGUI()
@@ -649,7 +828,7 @@ namespace IntercomMvp
             if(health.Current>=health.Maximum && (brain.Phase==IntercomNpcPhase.Idle || brain.Phase==IntercomNpcPhase.Patrol)) return;
             if(displayCamera==null || !displayCamera.isActiveAndEnabled) displayCamera=Camera.main;
             if(displayCamera==null || !displayCamera.isActiveAndEnabled) return;
-            Vector3 point=displayCamera.WorldToScreenPoint(transform.position+Vector3.up*1.55f);
+            Vector3 point=displayCamera.WorldToScreenPoint(transform.position+Vector3.up*(1.55f*VisualScale));
             if(point.z<=0f || point.x<0f || point.x>Screen.width || point.y<0f || point.y>Screen.height) return;
             float width=Mathf.Clamp(Screen.height/720f*54f,38f,88f), height=Mathf.Max(4f,width*.105f);
             Rect rect=new Rect(point.x-width*.5f,Screen.height-point.y,width,height);

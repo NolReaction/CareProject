@@ -253,6 +253,7 @@ namespace IntercomMvp {
  public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {
   public IntercomNpcDefinition definition;public int EmitCalls,ClearCalls;public bool Ready=true;
   public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){EmitCalls++;return Ready;}
+  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed,float scale)=>Emit(p,q,seed);
   public void Clear(){ClearCalls++;}
  }
 }

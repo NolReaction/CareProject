@@ -1,6 +1,6 @@
-# V19 package verification and recovery
+# V20 package verification and recovery
 
-The update is intended for V15–V18 projects; the installer verifies the base
+The update is intended for the published V19 / v0.3.0 project; the installer verifies the base
 before making changes. Edited or incomplete bases can fail preflight and require
 the full project in a fresh folder.
 
@@ -16,8 +16,8 @@ base file before changing the project. It archives replaced files and known old
 scripts under `ProjectBackups`, then installs the current sources.
 
 From PowerShell, `RepairProject.ps1 -ProjectPath 'C:\Games\CareProject' -VerifyOnly`
-checks without changing files. `-RestoreBackup '...\ProjectBackups\V19_...'`
-uses the saved receipt; both V18 and V19 receipts are accepted, and files edited
+checks without changing files. `-RestoreBackup '...\ProjectBackups\V20_...'`
+uses the saved receipt; V18, V19 and V20 receipts are accepted, and files edited
 after installation are preserved.
 Unknown edited legacy scripts are preserved and stop preflight.
 
@@ -31,7 +31,7 @@ use the CareProject repair window to check scene links and build imported robot
 presentation assets. The external installer does not delete Unity caches, edit
 Git history or compile Unity/Android builds.
 
-The update manifest schema stays at 1. V19 payloads use `version: V19` and the
-full inventory uses `CareProject V19`. Historical V18 retirement paths/hashes
+The update manifest schema stays at 1. V20 payloads use `version: V20` and the
+full inventory uses `CareProject V20`. Historical V18 retirement paths/hashes
 remain in `Tools/RetirementManifestV18.json`. The full-project wrapper prefers
-`Tools/Project/KnownScriptsV19.json`, falling back to V18 if necessary.
+`Tools/Project/KnownScriptsV20.json`, falling back to V19 and V18 if necessary.

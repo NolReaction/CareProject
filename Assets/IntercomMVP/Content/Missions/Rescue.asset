@@ -16,9 +16,9 @@ MonoBehaviour:
   displayName: Спасение
   killTarget: 50
   maximumAlive: 5
-  waveSize: 6
-  spawnInterval: 1.6
-  waveRestSeconds: 3
+  waveSize: 10
+  spawnInterval: 2.2
+  waveRestSeconds: 4
   minimumSpawnDistance: 5
   rescueEnemySupply: 30
   allyHealth: 60
@@ -30,3 +30,7 @@ MonoBehaviour:
   visibleSpawnEvery: 3
   minimumVisibleSpawnDistance: 5.5
   visibleSpawnWarningSeconds: 0.35
+  useRhythmicWaves: 1
+  groupSize: 2
+  groupRestSeconds: 2.6
+  openingGraceSeconds: 1.3

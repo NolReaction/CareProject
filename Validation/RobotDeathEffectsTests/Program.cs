@@ -114,9 +114,26 @@ static class Program
         Check(fx.PreparedBursts==1&&fx.Emit(Vector3.zero,Quaternion.identity,2),"explicit later setup prepares during Update, then reuses it");
         Check(!GameObject.Created.Any(g=>g.components.Any(c=>c is Collider)),"scrap presentation creates no colliders or physics actors");
     }
+    static void VariantScaleAndReuse()
+    {
+        var fx=Fresh(template:Template());Frames(fx,12);Vector3 origin=new Vector3(2,0,-1);var rotation=Quaternion.Euler(0,73,0);
+        foreach(float scale in new[]{1.12f,.9f,1f,1.12f,.9f,float.NaN})
+        {
+            fx.Clear();for(int i=0;i<3;i++)fx.Emit(origin,rotation,21u+(uint)i,scale);
+            float expected=float.IsNaN(scale)?1f:scale;int count=0;
+            foreach(object set in (Array)Field(fx,"chunks"))if(set!=null&&(bool)Field(set,"active"))
+            foreach(object p in (Array)Field(set,"pieces"))
+            {
+                var t=(Transform)Field(p,"transform");var source=(Vector3)Field(p,"sourceScale");var local=(Vector3)Field(p,"restPosition");
+                Check((t.localScale-source*expected).sqrMagnitude<.0000001f,"reused real chunks scale from immutable source rather than compounding prior variant");
+                Check((t.position-(origin+rotation*(local*expected))).sqrMagnitude<.0000001f,"actual part starts at the same scaled body position as its variant");count++;
+            }
+            Check(count==6,"variant burst still uses six shared actual robot chunks");
+        }
+    }
     static void Main()
     {
-        PoolsAndRecycling();PauseFocusAndInvalidInputs();DefinitionBindingAndFloor();MissingAppearance();
+        PoolsAndRecycling();PauseFocusAndInvalidInputs();DefinitionBindingAndFloor();MissingAppearance();VariantScaleAndReuse();
         Console.WriteLine("Robot death effects: "+assertions+" assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.");
     }
 }

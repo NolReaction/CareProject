@@ -12,6 +12,11 @@ namespace IntercomMvp
         [Min(1)] public int waveSize = 10;
         [Min(.1f)] public float spawnInterval = 1.2f;
         [Min(0f)] public float waveRestSeconds = 2.5f;
+        [Header("Wave rhythm (old profiles keep their original pacing)")]
+        public bool useRhythmicWaves;
+        [Range(1, 5)] public int groupSize = 3;
+        [Range(0f, 8f)] public float groupRestSeconds = 2.4f;
+        [Range(.3f, 5f)] public float openingGraceSeconds = 1.2f;
         [Min(1f)] public float minimumSpawnDistance = 5f;
         [Header("Readable ground and hatch arrivals")]
         [Range(0, 8)] public int visibleSpawnEvery = 3;

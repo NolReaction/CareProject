@@ -36,9 +36,9 @@
     "IntercomTargetDummy": 3
   },
   "localIds": {
-    "objects": 1107,
-    "localReferences": 7009,
-    "externalReferences": 998
+    "objects": 1108,
+    "localReferences": 7019,
+    "externalReferences": 1000
   },
   "scope": "Serialized current gameplay/visual setup and authored obstacle clearance. No Unity/PhysX execution."
 }

@@ -26,3 +26,18 @@ owned actors and re-enables a parked AI component. Removing an AI component
 must not leave its owned collider/root behind. The tests represent destroyed
 component null references explicitly; native Unity destruction order is not
 simulated.
+
+V20 adds opt-in rhythmic courses: five increasing elimination quotas, separate
+cohort and between-wave rests, gradually increasing active caps, and deterministic
+standard/runner/heavy introductions. Tests run all fifty pooled lives, a thirty-enemy
+rescue course, interruption/retry, long-frame scheduling and scaled death presentation.
+The desired short mission duration is not inferred from test speed: a separate instant-kill
+probe with the shipped tuning measures the minimum release schedule only (146.95
+active seconds at 20 updates/second), excluding combat, travel and native rendering.
+
+Terminal snapshots carry a per-run GUID, run/result revisions, actual kills,
+successful rescues and elapsed time. Tests cover repeated finish callbacks,
+selection, immediate retry before a reward observer updates, and distinct Director
+instances. `LastRunSummary` remains available after retry even while
+`HasRunSummary` is false for the newly active run; settlement observes its result
+revision and persistent run ID.

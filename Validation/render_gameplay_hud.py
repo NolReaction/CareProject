@@ -3,8 +3,8 @@ from pathlib import Path
 import json,base64,textwrap
 from PIL import Image,ImageDraw,ImageFont,ImageChops
 ROOT=Path(__file__).resolve().parents[1]
-INPUT=ROOT/'Validation/Results/V19UI/MissionPreviews'
-OUT=ROOT/'Validation/Results/V19UI/HudRaster';OUT.mkdir(parents=True,exist_ok=True)
+INPUT=ROOT/'Validation/Results/V20UI/MissionPreviews'
+OUT=ROOT/'Validation/Results/V20UI/HudRaster';OUT.mkdir(parents=True,exist_ok=True)
 FONT=Path('/usr/share/fonts/truetype/dejavu')
 font_cache={}
 def font(size,bold):

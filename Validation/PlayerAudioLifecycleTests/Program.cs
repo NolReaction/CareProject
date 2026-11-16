@@ -101,7 +101,7 @@ class P {
  Time.unscaledTime+=.14f;Call(audio,"LateUpdate");Check(Math.Abs(ducked.volume-audio.profile.masterVolume*shooter.Weapon.shotVolume)<1e-6,"pistol tail gain fully recovers after material focus");
  var fallbackClip=new AudioClip();audio.profile.pistolShots=new[]{fallbackClip};audio.profile.shotsVolume=.61f;audio.profile.shotPitchVariation=0f;shooter.Weapon=null;shooter.Emit();var fallbackVoice=shots.Single(v=>v.clip==fallbackClip);Check(fallbackVoice.clip==fallbackClip,"no weapon definition uses legacy profile bank");Check(Math.Abs(fallbackVoice.volume-audio.profile.masterVolume*.61f)<1e-6&&fallbackVoice.pitch==1f,"no weapon definition uses legacy gain and pitch");Call(audio,"LateUpdate");Check(Math.Abs(fallbackVoice.volume-audio.profile.masterVolume*.61f)<1e-6,"legacy gain persists after mix update");
  audio.profile.pistolShots=new AudioClip[]{null};before=Plays(shots);shooter.Emit();Check(Plays(shots)==before,"nullclip safe");audio.profile=null;Call(audio,"LateUpdate");Check(!ambient.isPlaying&&!music.isPlaying&&Playing(shots)==0,"nullprofile suspends");
- // V11: actor identity is explicit, independent from material and damage acceptance.
+ // Actor identity is explicit; the core damage report confirms accepted robot damage only.
  audio.profile=Profile();Call(audio,"LateUpdate");
  var robotRoot=new GameObject("future robot model");var robotTag=robotRoot.AddComponent<IntercomFootstepSurface>();
  robotTag.kind=IntercomSurfaceKind.Metal;robotTag.impactKind=IntercomImpactKind.Robot;robotTag.impactVolume=.85f;
@@ -111,10 +111,11 @@ class P {
  Check(Plays(impacts)==robotBefore+1&&robotVoice!=null,"explicit robot tag selects new chassis bank");
  Check(Math.Abs(robotVoice.volume-.8f*.32f*.85f)<1e-6,"robot impacts have their own quieter mix");
  float robotGain=robotVoice.volume;Call(audio,"LateUpdate");Check(Math.Abs(robotVoice.volume-robotGain)<1e-6,"robot-specific mix survives LateUpdate");
- shooter.HitSurface(robot,false);Check(Plays(impacts)==robotBefore+1,"same-frame robot hit coalesces even if damage declined");
+ shooter.HitSurface(robot,false);Check(Plays(impacts)==robotBefore+1,"declined robot damage has no false core-hit sound");
  Time.unscaledTime+=.04f;shooter.HitSurface(robot,true);Check(Plays(impacts)==robotBefore+1,"robot impacts obey independent 65ms cadence cap");
  shooter.HitSurface(metal,false);Check(Plays(impacts)==robotBefore+2,"robot hit cooldown does not suppress a world metal hit");
- Time.unscaledTime+=.03f;shooter.HitSurface(robot,false);Check(Plays(impacts)==robotBefore+3,"armour contact uses robot character without requiring accepted damage");
+ Time.unscaledTime+=.03f;shooter.HitSurface(robot,false);Check(Plays(impacts)==robotBefore+2,"declined contact remains silent even after the core cooldown");
+ shooter.HitSurface(robot,true);Check(Plays(impacts)==robotBefore+3,"declined contact did not consume a valid same-frame damage report");
  int robotObjects=GameObject.Created;int hitsBefore=Plays(impacts);
  for(int i=0;i<300;i++){Time.unscaledTime+=.12f;shooter.HitSurface(robot,true);}
  Check(Plays(impacts)==hitsBefore+300&&Playing(impacts)<=4&&GameObject.Created==robotObjects,"8.33Hz robot hit burst reuses bounded voices without GameObjects");

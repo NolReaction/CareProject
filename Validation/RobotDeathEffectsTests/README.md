@@ -10,4 +10,8 @@ Checks bounded incremental prewarming, 200 emissions without new GameObjects/mes
 
 MissionRuntimeTests separately exercises the Director death event guards: one burst per accepted life, duplicate/stale callbacks, optional-unready fallback, root ownership, retry/menu/disable cleanup and preserving the final brief burst on victory. DeathStrikeLifecycleTests retains the lethal-hit/parked-controller contract.
 
-These are managed component/engine-contract regressions. They do not validate native Unity rendering, animation import, draw calls, device performance or PhysX. Run the V19 native Unity checklist before claiming those checks passed.
+V20 checks actual breakup positions and sizes for small/normal/heavy variants.
+Alternating variants through the same pool must always scale from immutable
+authored values; a previous burst cannot compound the next variant's scale.
+
+These are managed component/engine-contract regressions. They do not validate native Unity rendering, animation import, draw calls, device performance or PhysX. Run the native Unity verification scenario before claiming those checks passed.

@@ -1525,6 +1525,21 @@
       "legacyPath": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
       "destination": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
       "guid": "3a0378430d93536fb81ffab553e430f9"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Progression/IntercomProgression.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Progression/IntercomProgression.cs",
+      "guid": "f62676b1b2f4562e8c079216fdbb82d4"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Runtime/Progression/IntercomProgressionModel.cs",
+      "destination": "Assets/IntercomMVP/Runtime/Progression/IntercomProgressionModel.cs",
+      "guid": "cc52c1a99b8755a4b242582aa807e168"
+    },
+    {
+      "legacyPath": "Assets/IntercomMVP/Editor/Diagnostics/IntercomNativeVerification.cs",
+      "destination": "Assets/IntercomMVP/Editor/Diagnostics/IntercomNativeVerification.cs",
+      "guid": "e9d9326e59be59acbddc509c0f386e14"
     }
   ]
 }

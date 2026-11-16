@@ -29,7 +29,7 @@ internal static class Program
     static bool Quiet(IntercomPlayerInput p)=>p.Move.sqrMagnitude==0&&!p.FireHeld&&!p.FirePressed&&!p.ReloadPressed&&!p.ResetPressed;
     static void Main()
     {
-        Registration();CameraLifecycle();NavigationAndModes();MultitouchAndFocus();Results();View();IllustrationBounds();Previews();
+        Registration();CameraLifecycle();NavigationAndModes();MultitouchAndFocus();Results();View();UpgradeRouting();RewardView();UpgradeAndRewardBounds();IllustrationBounds();Previews();
         Console.WriteLine($"PASS {assertions} actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.");
     }
     static void CameraLifecycle()
@@ -97,6 +97,72 @@ internal static class Program
         f.Navigate(IntercomFrontEndSection.Play);GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("50 РОБОТОВ")&&GUI.labels.Contains("СПАСЕНИЕ")&&GUI.labels.Contains("СВОБОДНЫЙ РЕЖИМ"),"all three modes visible");
         f.mission.Phase=IntercomMissionPhase.Active;Call(f,"Update");GUI.labels.Clear();Call(f.input,"OnGUI");Check(GUI.labels.Contains("00:00:00")&&!GUI.labels.Contains("ЗАБОТА"),"active HUD restored with pause action");
     }
+    static IntercomProgression Service(IntercomFrontEnd f,int wallet=0,int level=0)
+    {
+        var p=new IntercomProgression{mission=f.mission,Wallet=wallet,MagazineLevel=level,EffectiveMagazineCapacity=24+level*6,
+            NextMagazineCapacity=24+Math.Min(3,level+1)*6,NextMagazineCost=level>=3?0:level==2?240:level==1?130:60};
+        f.progression=p;return p;
+    }
+    static void UpgradeRouting()
+    {
+        var f=Fresh();var service=Service(f,59);f.Navigate(IntercomFrontEndSection.Armory);Release(f);Click(f,f.CurrentLayout().ActionPrimary);
+        Check(service.Purchases==0&&service.Wallet==59&&f.Notice=="Не хватает запчастей: 1.","insufficient parts explains exact shortfall without purchase");
+        service.Wallet=100;Release(f);Click(f,f.CurrentLayout().ActionPrimary);
+        Check(service.Purchases==1&&service.Wallet==40&&service.EffectiveMagazineCapacity==30&&f.Section==IntercomFrontEndSection.Armory,"armory primary routes one successful purchase and stays in workshop");
+        Call(f.input,"Update");Call(f,"Update");Check(service.Purchases==1&&Quiet(f.input),"held upgrade press cannot repeat or leak gameplay input");
+        Check(f.Notice.Contains("30 патронов"),"successful upgrade reports actual effective capacity");
+        GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("30")&&GUI.labels.Contains("30 → 36 ПАТРОНОВ")&&GUI.labels.Contains("ЗАПЧАСТИ  40"),"current capacity, next benefit and wallet all update on purchase");
+        service.EquippedWeapon=new IntercomWeaponDefinition{Damage=27,Interval=.21f,ReloadSeconds=2.1f};GUI.labels.Clear();Call(f,"OnGUI");
+        Check(GUI.labels.Contains("27")&&GUI.labels.Contains(2.1f.ToString("0.00"))&&!GUI.labels.Contains("15"),"live equipped weapon supplies damage/rate/reload alongside effective magazine capacity");
+        service.Wallet=500;service.SaveProblem="disk unavailable";Release(f);Click(f,f.CurrentLayout().ActionPrimary);
+        Check(service.Purchases==1&&f.Notice=="Не удалось сохранить улучшение. Попробуй ещё раз.","save failure keeps money/state and offers useful nontechnical feedback");
+        service.SaveProblem="";service.MagazineLevel=3;service.NextMagazineCost=0;Release(f);Click(f,f.CurrentLayout().ActionPrimary);
+        Check(service.Purchases==1&&f.Notice.Contains("до предела"),"maximum rank is an explicit harmless no-op");
+        f.Navigate(IntercomFrontEndSection.Home);Check(!f.TryUpgradeMagazine(),"public purchase cannot bypass selected workshop page");
+        f.Navigate(IntercomFrontEndSection.Armory);Time.timeScale=0;Check(!f.TryUpgradeMagazine(),"paused application cannot purchase");Time.timeScale=1;
+        service.mission=new IntercomMissionDirector();Check(f.Progression==null&&!f.TryUpgradeMagazine(),"progression from a different mission cannot control this menu");
+        service.mission=f.mission;service.isActiveAndEnabled=false;Check(f.Progression==null,"disabled progression is unavailable rather than stale");
+        service.isActiveAndEnabled=true;service.CanStartAnotherRun=false;f.Navigate(IntercomFrontEndSection.Play);Release(f);Click(f,f.CurrentLayout().ModeFirst);
+        Check(f.mission.Starts==0&&service.CollectionAttempts>0&&f.Notice.Contains("Сначала сохраним награды")&&Quiet(f.input),"pending receipt is captured and a full unsaved queue cannot silently lose rewards by starting another run");
+        f.mission.Phase=IntercomMissionPhase.Defeat;Call(f,"Update");Release(f);Click(f,f.CurrentLayout().ActionPrimary);Check(f.mission.Retries==0&&f.IsResult,"result retry observes the same pending-save guard");
+        service.CanStartAnotherRun=true;Release(f);Click(f,f.CurrentLayout().ActionPrimary);Check(f.mission.Retries==1,"a recovered pending-save service permits retry again");
+    }
+    static void RewardView()
+    {
+        var f=Fresh();var p=Service(f,165);f.mission.RunRevision=7;f.mission.Phase=IntercomMissionPhase.Victory;
+        f.mission.HasRunSummary=true;f.mission.LastRunSummary=new IntercomRunSummary{Kills=50,Rescued=1,ElapsedSeconds=183};
+        p.HasResultReward=true;p.ResultRunRevision=7;p.ResultReward=new IntercomRunReward{Kills=50,Rescued=1,KillParts=100,RescueParts=40,VictoryParts=25,Total=165,Eligible=true,Won=true};
+        Call(f,"Update");GUI.labels.Clear();Call(f,"OnGUI");
+        Check(GUI.labels.Contains("ОТКЛЮЧЕНО  50   ·   СПАСЕНО  1   ·   03:03"),"result uses immutable summary, including elapsed time and rescued count");
+        Check(GUI.labels.Contains("ЗАПЧАСТИ  +165")&&GUI.labels.Contains("Ударники +100  ·  Спасение +40  ·  Выезд +25")&&GUI.labels.Contains("В МАСТЕРСКОЙ  165 ЗАПЧАСТЕЙ"),"reward receipt has full reason breakdown and current balance");
+        object view=typeof(IntercomFrontEnd).GetField("view",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(f);
+        var facts=typeof(IntercomFrontEndView).GetField("resultFacts",BindingFlags.NonPublic|BindingFlags.Instance);string first=(string)facts.GetValue(view);
+        Call(f,"OnGUI");Check(ReferenceEquals(first,facts.GetValue(view)),"unchanged result receipt retains cached strings");
+        p.ResultRunRevision=6;GUI.labels.Clear();Call(f,"OnGUI");Check(!GUI.labels.Contains("ЗАПЧАСТИ  +165")&&GUI.labels.Contains("ПОДСЧЁТ ЗАПЧАСТЕЙ"),"previous run reward never appears on a new result");
+        p.SaveProblem="test unavailable";GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("НАГРАДА ЖДЁТ СОХРАНЕНИЯ")&&GUI.labels.Contains("Повторим сохранение автоматически."),"unconfirmed save never presents currency as paid");p.SaveProblem="";
+        p.HasPendingRewards=true;GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("НАГРАДА ЖДЁТ СОХРАНЕНИЯ"),"pending receipt remains explicit when an older save clears the temporary error");p.HasPendingRewards=false;
+        p.HasResultReward=false;p.ResultRunRevision=7;p.ResultReward=new IntercomRunReward{Eligible=false};f.mission.Mode=IntercomMissionMode.FreePlay;
+        GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("ТРЕНИРОВКА БЕЗ НАГРАД")&&!GUI.labels.Contains("ЗАПЧАСТИ  +0"),"free play states explicitly that it does not earn parts");
+    }
+    static void UpgradeAndRewardBounds()
+    {
+        foreach(var size in new[]{(1280,720),(640,360),(480,900)})foreach(bool result in new[]{false,true})
+        {
+            var f=Fresh();var p=Service(f,123);Screen.width=size.Item1;Screen.height=size.Item2;Screen.safeArea=new Rect(16,12,size.Item1-32,size.Item2-24);
+            if(result){f.mission.Phase=IntercomMissionPhase.Defeat;p.HasResultReward=true;p.ResultReward=new IntercomRunReward{Eligible=true,Total=24,KillParts=24};}
+            else f.Navigate(IntercomFrontEndSection.Armory);
+            GUI.Record=true;GUI.commands.Clear();Call(f,"OnGUI");GUI.Record=false;
+            var l=f.CurrentLayout();float top=Screen.height-l.Content.Y-l.Content.Height,buttons=Screen.height-l.ActionPrimary.Y-l.ActionPrimary.Height;
+            using(var document=JsonDocument.Parse(JsonSerializer.Serialize(GUI.commands)))foreach(var c in document.RootElement.EnumerateArray())
+            {
+                if(c.GetProperty("kind").GetString()!="text")continue;string label=c.GetProperty("text").GetString();
+                if(!(label.StartsWith("МАГАЗИНЫ ·")||label.Contains(" → ")||label.StartsWith("ЦЕНА  ")||label.StartsWith("ОТКЛЮЧЕНО  ")||label.StartsWith("ЗАПЧАСТИ  +")||label.StartsWith("В МАСТЕРСКОЙ  ")))continue;
+                var b=c.GetProperty("rect");float x=b[0].GetSingle(),y=b[1].GetSingle(),w=b[2].GetSingle(),h=b[3].GetSingle();
+                Check(x>=l.Content.X&&x+w<=l.Content.X+l.Content.Width+.001f&&y>=top&&y+h<=buttons+.001f,"reward/upgrade label stays in card above touch actions on "+size);
+            }
+            Release(f);Click(f,l.ActionSecondary);Check(Quiet(f.input),"new result/upgrade presentation retains pointer ownership on "+size);
+        }
+    }
     static string Root(){for(var d=new DirectoryInfo(Directory.GetCurrentDirectory());d!=null;d=d.Parent)if(Directory.Exists(Path.Combine(d.FullName,"Assets/IntercomMVP")))return d.FullName;throw new DirectoryNotFoundException();}
     static void IllustrationBounds()
     {
@@ -130,10 +196,10 @@ internal static class Program
     }
     static void Previews()
     {
-        string output=Path.Combine(Root(),"Validation/Results/V19UI/FrontEnd");Directory.CreateDirectory(output);
+        string output=Path.Combine(Root(),"Validation/Results/V20UI/FrontEnd");Directory.CreateDirectory(output);
         foreach(var section in new[]{IntercomFrontEndSection.Home,IntercomFrontEndSection.Play,IntercomFrontEndSection.Robot,IntercomFrontEndSection.Armory})
         {
-            var f=Fresh();Art(f);f.Navigate(section);
+            var f=Fresh();Art(f);Service(f);f.Navigate(section);
             Record(f,output,section.ToString().ToLowerInvariant(),1280,720,new Rect(0,0,1280,720));
         }
         var result=Fresh();result.mission.Phase=IntercomMissionPhase.Victory;result.mission.ResultText="Двор очищен. Хорошая работа!";Call(result,"Update");Record(result,output,"victory",1280,720,new Rect(0,0,1280,720));
@@ -141,6 +207,15 @@ internal static class Program
         var portrait=Fresh();Art(portrait);portrait.Navigate(IntercomFrontEndSection.Play);Record(portrait,output,"portrait",480,900,new Rect(0,20,480,860));
         portrait.Navigate(IntercomFrontEndSection.Home);Record(portrait,output,"portrait_home",480,900,new Rect(0,20,480,860));
         var compact=Fresh();Art(compact);compact.Navigate(IntercomFrontEndSection.Play);Record(compact,output,"compact_play",640,360,new Rect(18,8,604,344));
+        var upgrade=Fresh();Art(upgrade);var service=Service(upgrade,120);upgrade.Navigate(IntercomFrontEndSection.Armory);
+        Record(upgrade,output,"upgrade_affordable",1280,720,new Rect(0,0,1280,720));service.Wallet=12;
+        Record(upgrade,output,"upgrade_insufficient",640,360,new Rect(18,8,604,344));service.Wallet=140;service.MagazineLevel=3;service.EffectiveMagazineCapacity=42;service.NextMagazineCost=0;service.NextMagazineCapacity=42;
+        Record(upgrade,output,"upgrade_maximum",480,900,new Rect(16,24,448,852));
+        var reward=Fresh();Art(reward);var receipt=Service(reward,150);reward.mission.Phase=IntercomMissionPhase.Victory;reward.mission.HasRunSummary=true;reward.mission.LastRunSummary=new IntercomRunSummary{Kills=50,Rescued=0,ElapsedSeconds=183};
+        receipt.HasResultReward=true;receipt.ResultReward=new IntercomRunReward{Kills=50,KillParts=50,VictoryParts=20,Total=70,Eligible=true,Won=true};Call(reward,"Update");
+        Record(reward,output,"result_reward",1280,720,new Rect(0,0,1280,720));
+        Record(reward,output,"result_reward_compact",640,360,new Rect(20,12,600,336));
+        Record(reward,output,"result_reward_portrait",480,900,new Rect(18,22,444,856));
     }
     static void Art(IntercomFrontEnd f)
     {

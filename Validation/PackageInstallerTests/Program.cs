@@ -34,7 +34,7 @@ static class Program
         public PackageFile[] PayloadFiles() { return new[] { File(Payload, A) }; }
         public PackageFile[] Expected() { return new[] { File(Payload, A), File(Project, Stable) }; }
         public PackageResult Apply(bool verify = false, RetiredFile[] retired = null, KnownScript[] scripts = null)
-        { return PackageInstaller.Apply(Payload, Project, "V19", PayloadFiles(), Expected(), retired, scripts, verify); }
+        { return PackageInstaller.Apply(Payload, Project, "V20", PayloadFiles(), Expected(), retired, scripts, verify); }
         public void Dispose() { if (Directory.Exists(Root)) Directory.Delete(Root, true); }
     }
     static void Write(string root, string path, string value)
@@ -67,10 +67,10 @@ static class Program
     static void BadPayloadAndUnchangedBase()
     {
         using var f = new Fixture(); var payload = f.PayloadFiles(); var expected = f.Expected(); Write(f.Payload, A, "tampered"); string before = Snapshot(f.Project);
-        Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V19", payload, expected, null, null, false), "Missing/changed file");
+        Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V20", payload, expected, null, null, false), "Missing/changed file");
         Check(Snapshot(f.Project) == before && !Directory.Exists(Path.Combine(f.Project, "ProjectBackups")), "bad payload produces no project mutations");
         payload = f.PayloadFiles(); expected = f.Expected(); Write(f.Project, Stable, "edited outside payload"); before = Snapshot(f.Project);
-        Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V19", payload, expected, null, null, false), "Missing/changed file");
+        Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V20", payload, expected, null, null, false), "Missing/changed file");
         Check(Snapshot(f.Project) == before, "incomplete base preflight preserves edits"); scenarios++;
     }
     static void UnknownRetiredAndMissingOld()
@@ -116,16 +116,16 @@ static class Program
         foreach (string path in new[] { "../outside.cs", "Assets/../outside.cs", ".git/config", "Library/test", "/tmp/test", "Assets\\test.cs", "Assets/bad:stream.cs", "Assets/a./x.cs" })
         {
             var file = new PackageFile { Path = path, Sha256 = good.Sha256, Bytes = good.Bytes };
-            Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V19", new[] { file }, new[] { file }, null, null, false), path.Contains(".git") || path.StartsWith("Library") ? "outside package" : "Unsafe");
+            Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V20", new[] { file }, new[] { file }, null, null, false), path.Contains(".git") || path.StartsWith("Library") ? "outside package" : "Unsafe");
         }
         var lower = new PackageFile { Path = "Assets/intercommvp/Runtime/NewModel.cs", Sha256 = good.Sha256, Bytes = good.Bytes };
-        Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V19", new[] { good, lower }, f.Expected(), null, null, false), "duplicate package path");
+        Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V20", new[] { good, lower }, f.Expected(), null, null, false), "duplicate package path");
         Check(!File.Exists(Path.Combine(f.Project, A)) && !Directory.Exists(Path.Combine(f.Project, "ProjectBackups")), "invalid manifests never mutate destination"); scenarios++;
     }
     static void WrongRootLockedAndBlockedParent()
     {
         using var f = new Fixture(); string wrong = Path.Combine(f.Root, "not a project"); Directory.CreateDirectory(wrong);
-        Reject(() => PackageInstaller.Apply(f.Payload, wrong, "V19", f.PayloadFiles(), f.Expected(), null, null, false), "Unity root");
+        Reject(() => PackageInstaller.Apply(f.Payload, wrong, "V20", f.PayloadFiles(), f.Expected(), null, null, false), "Unity root");
         string unityLock = Path.Combine(f.Project, "Temp/UnityLockfile"); Directory.CreateDirectory(Path.GetDirectoryName(unityLock));
         using (FileStream locked = File.Open(unityLock, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
             Reject(() => f.Apply(), "Close Unity");
@@ -136,7 +136,7 @@ static class Program
     {
         using var f = new Fixture(); Write(f.Project, A, "installed"); Write(f.Project, Old, "known stale"); var retired = Retired(f);
         var expected = new[] { f.File(f.Project, A), f.File(f.Project, Stable) };
-        var result = PackageInstaller.Apply(f.Project, f.Project, "V19", expected, expected, retired, null, false);
+        var result = PackageInstaller.Apply(f.Project, f.Project, "V20", expected, expected, retired, null, false);
         Check(result.Copied == 0 && result.Removed == 1 && !File.Exists(Path.Combine(f.Project, Old)), "full-project in-place cleanup works without copying a file onto itself");
         Write(result.BackupRoot, "Files/" + Old, "corrupted backup"); string before = Snapshot(f.Project);
         Reject(() => PackageInstaller.Restore(f.Project, result.BackupRoot, result.Receipt), "Backup is missing/changed");
@@ -153,7 +153,7 @@ static class Program
     }
     static void VersionCompatibilityAndReceipts()
     {
-        foreach (string version in new[] { "V18", "V19" })
+        foreach (string version in new[] { "V18", "V19", "V20" })
         {
             using var f = new Fixture(); Write(f.Project, A, "previous source");
             var result = PackageInstaller.Apply(f.Payload, f.Project, version, f.PayloadFiles(), f.Expected(), null, null, false);
@@ -166,7 +166,7 @@ static class Program
         using (var f = new Fixture())
         {
             string before = Snapshot(f.Project);
-            Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V20", f.PayloadFiles(), f.Expected(), null, null, false), "Unsupported package version");
+            Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V21", f.PayloadFiles(), f.Expected(), null, null, false), "Unsupported package version");
             Check(before == Snapshot(f.Project) && !Directory.Exists(Path.Combine(f.Project, "ProjectBackups")), "unsupported package version fails before mutation");
         }
         Check(!PackageInstaller.SupportsVersion(null) && !PackageInstaller.SupportsVersion("V1"), "unknown restore version rejected");

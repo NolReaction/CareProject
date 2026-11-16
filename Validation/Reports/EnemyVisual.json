@@ -13,14 +13,28 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "V20 authored course instant-kill floor: 146.95 active seconds. No real combat, travel or native Unity simulation in this probe.\nMission/rescue runtime: 2009 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "NpcRuntimeTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nMixed eight-actor crowd: minimum center separation=0.638m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nHeavy eight-actor crowd: minimum center separation=0.747m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nNPC runtime/factory: 19917 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "NpcBrainTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC brain, archetypes, crowd and melee geometry: 1960 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+    },
+    {
+      "project": "NpcNavigationTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC navigation: 4557 assertions passed. Production grid/service, 1200 independent BFS comparisons, authored V7 courtyard geometry. Narrow Unity stand-ins; not Unity physics.\n"
     },
     {
       "project": "NpcNativeSetupTests",
@@ -34,25 +48,25 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+      "output": "Robot death effects: 1976 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
     }
   ],
   "files": [
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs",
-      "sha256": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e"
+      "sha256": "0d4494bd1687e7aefce5e0cfb3aa36cbc647570baaec4bd5effb2193f0a67189"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs",
-      "sha256": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc"
+      "sha256": "d0791141e64a80bfb38ac372adfe512ae1e9c3ba48f62dd5a4bd77a583f6a60b"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs",
-      "sha256": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f"
+      "sha256": "f15ecff2424dde024811015dcb0e2af9e3f5a4cfc511192a09ab84ee326ca9ce"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs",
-      "sha256": "815be144cc5d18df00db83078680e9f73839e057fbc88935cdd9cdc2b55bcc6f"
+      "sha256": "e4776b71d7e7d5c19516a4f78b5a7bc7b30e1344e55e6ee36cebd356c30cc855"
     },
     {
       "path": "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs",
@@ -60,11 +74,11 @@
     },
     {
       "path": "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset",
-      "sha256": "bc5c688c32c0227c9e036a7f3d584c0a2d9a879a715a53f996e6503d6b7730fd"
+      "sha256": "588bf1d9f824804d786ea87ad6dad9ad2194e742f8da938a6586c159b63339a0"
     },
     {
       "path": "Validation/NpcRuntimeTests/Program.cs",
-      "sha256": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7"
+      "sha256": "15bc313c4ec46d81b4b5317db48b95727b452f398d247681f2f8125ec0182124"
     },
     {
       "path": "Validation/NpcRuntimeTests/UnityFakes.cs",
@@ -72,7 +86,7 @@
     },
     {
       "path": "Validation/NpcRuntimeTests/README.md",
-      "sha256": "5dc55566f0fa107480149e663fce6ad32456ddfac87b72ea6decc36cdfc1b75a"
+      "sha256": "315c0c73b001432a65360a6baf66f89ef1bd54a794fd1b3e3480b1d3903406fc"
     },
     {
       "path": "Validation/DeathStrikeLifecycleTests/Program.cs",
@@ -80,11 +94,11 @@
     },
     {
       "path": "Validation/DeathStrikeLifecycleTests/UnityFakes.cs",
-      "sha256": "6397bfc8dc73d8aee34ae39f18483f7dead7cd4beea8eff84ab8acf98ead3b18"
+      "sha256": "0bc78bbed68d5c809bcac6822d105c7fdbfa6b488d52d0d7d207e8c71154b0ea"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
-      "sha256": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106"
+      "sha256": "9fc36047e7ddd965e93d856f17c299bcd6a2e79d311dbea14212d85a0594229f"
     },
     {
       "path": "Validation/NpcNativeSetupTests/Program.cs",
@@ -122,20 +136,57 @@
     "poseSource": "Frozen Animator speed0; normalized phase from live AI, measured travel and warning/arrival/death clocks. Bone TRS is cached and republished in LateUpdate after Mecanim; .08second Idle/Walk blend.",
     "rootMotion": false,
     "capsuleFallback": true,
-    "newMonoBehaviourScripts": 1,
     "initialEditorAssetPreparation": "Missing assets and recognized generated8/10-state assets prepared natively after import. Generated upgrade backs up controller/prefab/definition plus .meta, keeps original state objects and GUIDs. Different/custom visual graphs are preserved and warned.",
     "authoredFeedback": "Captured/restored original renderer property block, retained alpha/unrelated overrides; no capsule squash on model",
     "authoredWalkReferenceMetresPerSecond": 0.6034482758620691,
-    "newMonoBehaviourScript": "IntercomRobotDeathEffects",
     "arrivalCompatibility": "Typed Ground/Hatch selects new states if present, otherwise legacy Emerge stretched to chosen duration.",
     "sourceGeometry": "12 separately editable closed parts; face and helmet rigid Head; capped ribbed mechanical neck; one temporary joined game skin.",
     "breakupGeometry": "Six static centered-pivot chunks sharing original atlas; no runtime BakeMesh.",
-    "deathPresentation": "Immediate pooled gear burst / occasional coarse breakup; authored body hidden immediately, .18second Death remains safe fallback."
+    "deathPresentation": "Immediate bounded gear burst and occasional six-part breakup; original chunk scale is immutable across Heavy/Runner pool reuse.",
+    "newEnemyMonoBehaviourScriptsInV20": 0,
+    "deathEffectsComponent": "IntercomRobotDeathEffects",
+    "archetypes": {
+      "Standard": {
+        "health": 75,
+        "moveSpeed": 2.65,
+        "damage": 12,
+        "windup": 0.3,
+        "recovery": 0.48,
+        "uniformScale": 1
+      },
+      "Runner": {
+        "health": 45,
+        "moveSpeed": 2.968,
+        "damage": 9,
+        "windup": 0.33,
+        "recovery": 0.432,
+        "uniformScale": 0.9
+      },
+      "Heavy": {
+        "health": 135,
+        "moveSpeed": 1.908,
+        "damage": 18,
+        "windup": 0.42,
+        "recovery": 0.6,
+        "uniformScale": 1.12
+      }
+    },
+    "archetypePresentation": "Shared V19 source rig/atlas, persistent multiplicative tint and rigid uniform scale .90/1/1.12; gameplay capsule and distance-based walk cadence follow scale.",
+    "danger": "Committed last .14seconds of the authored default windup; final live target position/range/cone/occlusion are checked at the strike boundary. Accepted hits show Hurt without cancelling a committed attack.",
+    "crowd": "Eight target-specific reserved approach lanes, stable far-side orbit, all-target personal-space steering and final-step swept-circle clipping."
   },
   "limitations": [
-    "No native Unity FBX import, shader compilation, prefab serialization, Animator/Play Mode or device execution in this environment.",
-    "Production runtime and actual native asset builder compile/execute against narrow deterministic Unity/Editor substitutes; this is not native import proof.",
-    "Blender source, repair and FBX reimport reviews are separately recorded in UdarnikGeometry.json, UdarnikRig.json and UdarnikFinalExports.json; art hashes are finalized by the art owner."
+    "No native Unity Editor import/type compilation, Play Mode, Animator, PhysX, Profiler capture or mobile device execution was performed here.",
+    "Existing mechanical source geometry and Blender/FBX evidence were produced for V19 and are unchanged in V20. The V20 runtime scale/tint and skin presentation still require native viewing.",
+    "Restricted API tests execute source, not real Unity animation/collider behavior."
   ],
-  "version": "V19"
+  "version": "V20",
+  "relatedReports": [
+    "EnemyCrowd.json",
+    "WaveRhythm.json",
+    "FeedbackUi.json",
+    "UdarnikRig.json",
+    "UdarnikFinalExports.json",
+    "NativeUnityAvailability.json"
+  ]
 }

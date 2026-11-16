@@ -1,121 +1,127 @@
 {
-  "version": "CareProject V19",
-  "status": "PASS",
-  "baseGitCommit": "755f75aecfa7194f945c633f8d8556b686d023b4",
+  "version": "CareProject V20",
+  "status": "PARTIAL_NATIVE_NOT_RUN",
+  "baseGitCommit": "95265e7dd626dbc4b1b5331e131a61628efd2d8a",
+  "publishedBase": "v0.3.0 / V19",
   "editor": "6000.3.26f1",
   "urp": "17.3.0",
-  "delivery": [
-    "Clean standalone project in CareProject_V19/; open with Unity Hub",
-    "Cumulative installer intended for V15–V18; preflight verifies target before mutation",
-    "Packed editable Udarnik_Rigged_V19.blend"
-  ],
+  "bundleVersion": "0.3.1",
+  "nativeEditorExecuted": false,
+  "nativeStatus": "NOT_RUN",
   "checks": {
-    "logicProjects": 51,
-    "logicPassed": 51,
-    "syntaxFiles": 96,
+    "standaloneProjects": 53,
+    "passed": 53,
+    "syntaxSources": 99,
     "syntaxConfigurations": 3,
     "syntaxErrors": 0,
-    "architectureValidatorRegressions": 10,
-    "protectedHeroFilesByteIdentical": 32,
-    "blenderAnimationAssertions": 12034,
-    "blenderGeometryAssertions": 641,
-    "neckCoverageRays": 1890,
-    "independentExportChecks": 33,
-    "fbxRoundtripClips": 10,
-    "installerFilesystemScenarios": 11,
-    "installerAssertions": 55,
-    "surfaceColliderRoutes": 84,
-    "udarnikAssetChecks": 438,
-    "fbxPoseRoundtripAssertions": 3896,
-    "fbxPoseSamples": 110,
+    "pythonValidationJobs": 13,
     "architecture": {
       "status": "PASS",
-      "checks": 2249,
-      "runtimeSources": 70,
-      "editorSources": 26,
-      "pureModels": 21,
-      "assetGuids": 402,
+      "checks": 2295,
+      "runtimeSources": 72,
+      "editorSources": 27,
+      "pureModels": 22,
+      "assetGuids": 406,
       "failures": [],
       "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
-    }
-  },
-  "architecture": {
-    "runtimeSources": 70,
-    "editorSources": 26,
-    "newUnityComponents": 1,
-    "newComponent": "IntercomRobotDeathEffects",
-    "platformToolsSeparate": true,
-    "serializedComponentGuidsPreserved": true,
-    "retiredCanonicalFilesIncludingMetadata": 38,
-    "historicalRetirementManifestPreserved": true
-  },
-  "robot": {
-    "repair": "HeadCore and helmet follow Head; capped body/head and overlapping solid ribbed neck. Original source GLB and atlas unchanged.",
-    "editableParts": 12,
-    "bones": 14,
-    "vertices": 3751,
-    "triangles": 7454,
-    "gameSkinnedMeshes": 1,
-    "materials": 1,
-    "clips": {
-      "Idle": 1.6,
-      "Walk": 0.8,
-      "Windup": 0.3,
-      "Strike": 0.16,
-      "Recover": 0.48,
-      "Hurt": 0.22,
-      "Death": 0.18,
-      "Emerge": 0.68,
-      "EmergeGround": 0.95,
-      "EmergeHatch": 1.05
     },
-    "rootMotion": false,
-    "boneScaleAnimation": false,
-    "walkReferenceMetresPerSecond": 0.6034482758620691,
-    "maximumPlantedSoleFloorErrorMetres": 5.295311287045485e-05,
-    "maximumMeasuredSupportSlipMetresPerSecond": 0.0007686648389459982,
-    "groundArrivalSeconds": 0.95,
-    "hatchArrivalSeconds": 1.05,
-    "visibleWarningSeconds": 0.35,
-    "breakupStaticChunks": 6
+    "protectedHeroFilesByteIdentical": 135,
+    "unchangedArtEvidenceFiles": 14
   },
-  "deathEffects": {
-    "genericGearsPerBurst": 5,
-    "boundedBurstPool": 8,
-    "occasionalActualPartBursts": 2,
-    "breakupEveryAcceptedDeath": 3,
-    "maximumActivePieces": 52,
-    "genericLifetimeSeconds": 1.45,
-    "chunkLifetimeSeconds": 1.3,
-    "ownedProceduralSharedMeshes": 6,
-    "runtimeNativeAllocationOnDeath": false,
-    "physicsBodies": false,
-    "noNewAudio": true
+  "features": {
+    "enemyVariants": {
+      "Standard": {
+        "hp": 75,
+        "speed": 2.65,
+        "damage": 12,
+        "scale": 1
+      },
+      "Runner": {
+        "hp": 45,
+        "speed": 2.968,
+        "damage": 9,
+        "scale": 0.9
+      },
+      "Heavy": {
+        "hp": 135,
+        "speed": 1.908,
+        "damage": 18,
+        "scale": 1.12
+      }
+    },
+    "crowd": "Eight stable approach lanes, outer orbit and swept personal-space constraints; mixed/all-heavy autonomous scenarios, not native PhysX proof.",
+    "waves": {
+      "eliminationQuotas": [
+        6,
+        8,
+        10,
+        12,
+        14
+      ],
+      "rescueQuotas": [
+        6,
+        8,
+        10,
+        6
+      ],
+      "poolCap": 8,
+      "instantKillScheduleFloorSeconds": 146.95,
+      "nativeDurationMeasured": false
+    },
+    "rewards": {
+      "perKill": 1,
+      "victoryBonus": 20,
+      "rescuedAllyBonus": 25,
+      "incompleteAndFreePlayReward": false,
+      "pendingReceiptCap": 32,
+      "persistence": "Two bounded local preference banks, checksum/version validation, per-run GUID and deferred save retry."
+    },
+    "magazine": {
+      "capacities": [
+        24,
+        30,
+        36,
+        42
+      ],
+      "costs": [
+        60,
+        130,
+        240
+      ],
+      "sharedAssetMutation": false,
+      "visibleOwnedExtensions": 2,
+      "ownedSharedMeshTriangles": 64
+    },
+    "feedback": "Accepted robot hit has core flash/chips and robot voice; rejected contact has no false core-hit confirmation. Breakup uses archetype scale and resets on reuse."
   },
-  "recovery": {
-    "buildStamp": "V19 in menu, HUD and repair window",
-    "externalInstaller": "Hash/GUID preflight, backups, persisted restore, known duplicate source quarantine; no cache or git deletion",
-    "unityCommand": "Tools / CareProject / Проверить и восстановить проект",
-    "nativeAssetUpgrade": "Recognized generated V18 graphs migrate to 10 states with backups, state identity and controller GUID retained; custom graphs preserved",
-    "sceneRepair": "Missing-only references/components, lazy backup; optional model setup failure cannot block unrelated link repair"
+  "nativeVerification": {
+    "menu": "Tools/CareProject/Development/Verification/Run 150s Native Check",
+    "prepared": true,
+    "executed": false,
+    "report": "Application.persistentDataPath/CareProject_Native_Latest.json",
+    "scope": "Actual engine runner with isolated profile, frame/GC capture and functional scenarios. It must be executed locally in licensed Unity."
   },
-  "limits": [
-    "Unity Editor type compilation, native FBX import/Animator, shader compilation, Play Mode and mobile device testing were not run.",
-    "Blender evaluated geometry, rig/animation and FBX roundtrip checks do not replace native Unity playback. Repair resegments/caps the existing mechanical mesh; it is not a complete manual retopology.",
-    "Windows PowerShell5.1, folder picker and .NET Framework execution were not available. Installer core executed on .NET8 against real temporary directories and compiled as C#5.",
-    "Menu/HUD previews are offline rasters of actual GUI commands. Death previews use exact production geometry/transforms with approximate offline shading."
+  "delivery": [
+    "Full project opens in a fresh CareProject_V20 folder",
+    "Small update installer is based on exact published V19; close Unity and run RepairProject.cmd",
+    "Full/Update archives contain current readable docs and standalone regression sources"
   ],
   "reports": [
     "Validation/Reports/LogicTests.json",
-    "Validation/Reports/UdarnikGeometry.json",
-    "Validation/Reports/UdarnikRig.json",
-    "Validation/Reports/UdarnikFinalExports.json",
-    "Validation/Reports/UdarnikAssets.json",
-    "Validation/Reports/RobotDeathEffects.json",
-    "Validation/Reports/RobotDeathVisual.json",
-    "Validation/Reports/EnemyVisual.json",
+    "Validation/Reports/EnemyCrowd.json",
+    "Validation/Reports/WaveRhythm.json",
+    "Validation/Reports/Progression.json",
+    "Validation/Reports/FeedbackUi.json",
+    "Validation/Reports/FoundationScene.json",
     "Validation/Reports/Installer.json",
-    "Validation/Reports/UdarnikAnimation.json"
+    "Validation/Reports/NativeUnityAvailability.json"
+  ],
+  "limits": [
+    "Unity Editor import/type compilation, native Animator/PhysX, shader compilation, Profiler and mobile/device testing were not run here.",
+    "The 3–5 minute target is a design goal; 146.95 seconds is an autonomous instant-kill schedule probe, not measured human playtime.",
+    "Windows PowerShell5.1 and .NETFramework were not run. Installer core compiledC#5 and executed on .NET8 against real temporary files.",
+    "UI previews rasterize actual GUI commands with a flat backdrop; they are not Unity screenshots.",
+    "Progress is local per device; no cloud/account sync or payment integration."
   ],
   "noGitHubWrites": true
 }

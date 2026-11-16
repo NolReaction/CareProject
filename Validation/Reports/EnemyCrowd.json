@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "scope": "Production NPC/factory/brain compiled and executed on .NET8 against deterministic Unity/health/navigation substitutes. No native Unity, PhysX, Animator or Profiler execution.",
+  "tests": [
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    },
+    {
+      "project": "NpcBrainTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "NPC brain, archetypes, crowd and melee geometry: 1960 assertions passed. Pure production logic; no Unity physics or rendering.\n"
+    },
+    {
+      "project": "NpcRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nMixed eight-actor crowd: minimum center separation=0.638m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nHeavy eight-actor crowd: minimum center separation=0.747m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nNPC runtime/factory: 19917 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+    }
+  ],
+  "profiles": {
+    "Standard": {
+      "health": 75,
+      "moveSpeed": 2.65,
+      "damage": 12,
+      "windup": 0.3,
+      "recovery": 0.48,
+      "uniformScale": 1
+    },
+    "Runner": {
+      "health": 45,
+      "moveSpeed": 2.968,
+      "damage": 9,
+      "windup": 0.33,
+      "recovery": 0.432,
+      "uniformScale": 0.9
+    },
+    "Heavy": {
+      "health": 135,
+      "moveSpeed": 1.908,
+      "damage": 18,
+      "windup": 0.42,
+      "recovery": 0.6,
+      "uniformScale": 1.12
+    }
+  },
+  "customization": "Base profile values multiply five bounded Inspector fields: runnerHealthMultiplier, runnerSpeedMultiplier, heavyHealthMultiplier, heavySpeedMultiplier, heavyDamageMultiplier. Scale and timing multipliers are fixed in the pure archetype tuning.",
+  "crowd": {
+    "reservedSlots": 8,
+    "personalSpaceMarginMetres": 0.03,
+    "stressSeconds": 12,
+    "mixedActors": 8,
+    "mixedAttackingActors": 8,
+    "mixedMinimumCentreDistanceMetres": 0.638,
+    "heavyActors": 8,
+    "heavyAttackingActors": 8,
+    "heavyMinimumCentreDistanceMetres": 0.747,
+    "scope": "Measured kinematic stress scenarios without PhysX pushes. Authored obstacle routing is checked using deterministic segment results.",
+    "approach": "Target-specific stable lanes; a stable outer orbit for far-side positions; avoidance of neighbors with any target; two radial half-plane projection passes followed by exact final-step swept-circle clipping. Navigation rejects blocked final motion.",
+    "reuse": "Disable, death, target change, emergence and reset release the lane/orbit. Pooled visuals/materials are reused. Variant tint preserves alpha and unrelated property overrides. Uniform scale is included in the distance-based walk cadence.",
+    "profilerMarker": "CareProject.NPC.Tick (Editor/development only)"
+  },
+  "nativeUnityExecuted": false,
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs",
+      "sha256": "d0791141e64a80bfb38ac372adfe512ae1e9c3ba48f62dd5a4bd77a583f6a60b"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs",
+      "sha256": "0d4494bd1687e7aefce5e0cfb3aa36cbc647570baaec4bd5effb2193f0a67189"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs",
+      "sha256": "f15ecff2424dde024811015dcb0e2af9e3f5a4cfc511192a09ab84ee326ca9ce"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs",
+      "sha256": "e4776b71d7e7d5c19516a4f78b5a7bc7b30e1344e55e6ee36cebd356c30cc855"
+    },
+    {
+      "path": "Validation/NpcRuntimeTests/Program.cs",
+      "sha256": "15bc313c4ec46d81b4b5317db48b95727b452f398d247681f2f8125ec0182124"
+    },
+    {
+      "path": "Validation/NpcRuntimeTests/README.md",
+      "sha256": "315c0c73b001432a65360a6baf66f89ef1bd54a794fd1b3e3480b1d3903406fc"
+    },
+    {
+      "path": "Validation/NpcBrainTests/Program.cs",
+      "sha256": "39b2e99b701f74d214cc28094ef98d9b6486eb0ac927a77c6967edc595255113"
+    },
+    {
+      "path": "Validation/NpcBrainTests/README.md",
+      "sha256": "05a3b7c497fd1777a0195dc2afb5602e43275b41022af5b7e81e99b3c79da565"
+    }
+  ],
+  "nativeDiagnostics": "ActiveActorCount/GetActiveActor(index), LifeVersion and ResolvedStrikeVersion expose allocation-free evidence. ResolvedStrikeVersion increments exactly once at the real brain strike boundary for a hit or miss and resets per life."
+}

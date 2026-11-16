@@ -70,7 +70,7 @@
   "offlineAssetPathChecks": 15,
   "manifest": "Tools/RetirementManifestV18.json",
   "limits": "Compilation/tests use .NET8 and narrow Unity substitutes; no Unity importer or device execution.",
-  "finalUnitySources": 96,
-  "finalRuntimeSources": 70,
-  "finalEditorSources": 26
+  "finalUnitySources": 99,
+  "finalRuntimeSources": 72,
+  "finalEditorSources": 27
 }

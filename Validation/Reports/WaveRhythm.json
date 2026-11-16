@@ -1,0 +1,102 @@
+{
+  "version": "V20",
+  "status": "PASS",
+  "tests": [
+    {
+      "project": "MissionRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "V20 authored course instant-kill floor: 146.95 active seconds. No real combat, travel or native Unity simulation in this probe.\nMission/rescue runtime: 2009 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "MissionStateTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission state: 59212 assertions passed. Production mission accounting; no Unity runtime or rendering.\n"
+    },
+    {
+      "project": "PlayerControlLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 44 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+    }
+  ],
+  "contract": {
+    "eliminationQuotas": [
+      6,
+      8,
+      10,
+      12,
+      14
+    ],
+    "rescueSupply30Quotas": [
+      6,
+      8,
+      10,
+      6
+    ],
+    "activeCapsForAuthoredSix": [
+      3,
+      4,
+      5,
+      6,
+      6
+    ],
+    "poolSlots": 8,
+    "groupSizeSetting": 3,
+    "pauseScheduling": "Valid scaled active time only; capped .1s scheduler step, at most one activation/update, no hitch catch-up. Full run clock retains valid delta.",
+    "legacyProfiles": "useRhythmicWaves defaultsfalse, preserving previous fixed quota/interval/cap and standard-only actors.",
+    "variants": "Wave1 standard only; wave2 introduces runners; wave3 introduces heavy units. Composition keyed to wave-local activation ordinal, not slot.",
+    "runIdentity": "Guid N allocated once per successful BeginRun. Immutable LastRunSummary survives selection/retry; ResultRevision advances exactly once per terminal result.",
+    "settlementObservation": "A retry clears HasRunSummary but retains latest completed snapshot/revision for pending settlement polling; progression owns persisted deduplication.",
+    "rescueEligibility": "Rescued=1 only after recruited ally and hero actually reach extraction; exhausting supply alone never wins.",
+    "nativeUnityExecuted": false,
+    "profilerMarkers": [
+      "CareProject.Mission.Spawn",
+      "CareProject.Mission.PoolWarm"
+    ],
+    "profilerScope": "Static AutoScopes enabled only in Editor or Development Build; actual captures require native Unity execution."
+  },
+  "pacingProbe": {
+    "spawnInterval": 2,
+    "waveRestSeconds": 4.5,
+    "groupSize": 3,
+    "groupRestSeconds": 2.8,
+    "openingGraceSeconds": 1.3,
+    "minimumReleaseCourseSeconds": 146.95,
+    "method": "Actual production Director with narrow Unity/navigation/NPC stand-ins; instantly kills every activation at20updates/second. Excludes real combat, travel and native cost."
+  },
+  "files": [
+    {
+      "path": "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs",
+      "sha256": "3aa95605607d4ff48a68aaf651610c70ae5328d737434372058b493b2dd58a2f"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs",
+      "sha256": "6bc0ec4ede758e22e89ac609e27c823196037988e3e0ab5b6d71a553e52a7b13"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs",
+      "sha256": "21ee20e34b92e9fd3ea97cf0ac5b7bf188d7ce2a60996939e3567d24efa50a51"
+    },
+    {
+      "path": "Validation/MissionRuntimeTests/Program.cs",
+      "sha256": "c626afcb4a40c47a920b0690c2d076f59147f6f83ae9351f69aaff592bda90e4"
+    },
+    {
+      "path": "Validation/MissionRuntimeTests/UnityFakes.cs",
+      "sha256": "28e95d27a837ab67fb63b2adfd4e1f4c44734be1388c36bd58761aa69243df12"
+    },
+    {
+      "path": "Validation/MissionStateTests/Program.cs",
+      "sha256": "70d621ac21735c4344d414ede5add85b226e8be6a7f2c2f64ba16d5bdccfb94b"
+    }
+  ],
+  "limits": [
+    "Unity Editor, PhysX, real camera visibility, Animator, device performance and Profiler were not executed here.",
+    "The 146.95second minimum is a deterministic authored release floor, not a measured real-player completion time."
+  ]
+}

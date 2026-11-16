@@ -8,6 +8,10 @@ namespace IntercomMvp
     /// <summary>Ideal balance with optional magazine/reload, first shot at t=0, all projectiles hit one target.</summary>
     public static class IntercomWeaponBalance
     {
+        public static int EffectiveMagazineCapacity(int authoredCapacity, int bonus, int projectiles)
+            => Math.Max(Math.Max(1, Math.Min(999, projectiles)),
+                (int)Math.Min(999L, Math.Max(1L, authoredCapacity) + Math.Max(0L, Math.Min(975L, bonus))));
+
         public static float Positive(float value, float fallback, float minimum = 0.01f)
             => float.IsNaN(value) || float.IsInfinity(value) ? fallback : Math.Max(minimum, value);
         public static int VolleysToDefeat(float health, float damagePerProjectile, int projectilesPerVolley)

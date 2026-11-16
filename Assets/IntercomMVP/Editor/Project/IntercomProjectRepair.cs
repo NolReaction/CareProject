@@ -199,6 +199,7 @@ namespace IntercomMvp.Editor
                 Camera menuCamera = Find(scene, "Menu Room Camera").GetComponent<Camera>();
                 var input = Required<IntercomPlayerInput>(hero); var health = Required<IntercomHealth>(hero);
                 var motor = Required<IntercomPlayerMotor>(hero); var vitality = Required<IntercomPlayerVitality>(hero);
+                var magazine = Required<IntercomWeaponMagazine>(hero); var shooter = Required<IntercomSimpleShooter>(hero);
                 var mission = Required<IntercomMissionDirector>(missions);
                 if (gameCamera == null || menuCamera == null) throw new InvalidOperationException("В готовой сцене отсутствуют компоненты камер. Восстанови сцену из пакета.");
                 // Resolve all authored anchors before the first mutation.
@@ -206,6 +207,13 @@ namespace IntercomMvp.Editor
                     Find(scene,"Menu Camera Anchor - Robot").transform, Find(scene,"Menu Camera Anchor - Armory").transform };
                 // Resolve required defaults before the first mutation. Existing custom assignments win.
                 var existingFront = missions.GetComponent<IntercomFrontEnd>();
+                var existingProgression = existingFront != null ? existingFront.progression : null;
+                var localProgression = missions.GetComponent<IntercomProgression>();
+                if (existingProgression != null && existingProgression.mission != null && existingProgression.mission != mission)
+                    throw new InvalidOperationException("Сервис запчастей в меню связан с другой миссией. Проверь поле Progression: восстановление сохранило авторскую ссылку.");
+                if (existingProgression != null && localProgression != null && existingProgression != localProgression)
+                    throw new InvalidOperationException("Для этой миссии назначены два разных сервиса запчастей. Оставь одного владельца профиля перед восстановлением.");
+                if (existingProgression == null) existingProgression = localProgression;
                 var weapon = existingFront != null && existingFront.weapon != null ? existingFront.weapon : Load<IntercomWeaponDefinition>("efc4ccf9a1224f078dadf974b01d842e", "Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset");
                 var heroArt = existingFront != null && existingFront.heroPortrait != null ? existingFront.heroPortrait : Load<Texture2D>("a81669f6c57052ff8f192b3e2cd784fe",FrontendRoot+"Textures/RobotPortrait.png");
                 var weaponArt = existingFront != null && existingFront.weaponPortrait != null ? existingFront.weaponPortrait : Load<Texture2D>("db2cb70e07935f7580a0ce12cc835761",FrontendRoot+"Textures/PistolPortrait.png");
@@ -225,6 +233,13 @@ namespace IntercomMvp.Editor
                 var edit = new RepairEdit(scene, path);
                 var front = edit.Component<IntercomFrontEnd>(missions);
                 var rooms = edit.Component<IntercomFrontEndRoomCamera>(hub);
+                var progression = existingProgression != null ? existingProgression : edit.Component<IntercomProgression>(missions);
+                edit.Fill(ref progression.mission, mission, progression, "Запчасти → результат задания");
+                edit.Fill(ref progression.magazine, magazine, progression, "Прокачка → магазин героя");
+                edit.Fill(ref progression.weapon, weapon, progression, "Прокачка → пистолеты");
+                edit.Fill(ref progression.visualLeftMount, shooter.muzzleLeft, progression, "Левое крепление улучшения");
+                edit.Fill(ref progression.visualRightMount, shooter.muzzleRight, progression, "Правое крепление улучшения");
+                edit.Fill(ref front.progression, progression, front, "Мастерская → запчасти и улучшения");
                 var effects = existingFx != null ? existingFx : edit.Component<IntercomRobotDeathEffects>(missions);
                 edit.Fill(ref mission.deathEffects, effects, mission, "Задание → шестерёнки и запчасти");
                 edit.Fill(ref effects.definition, mission.enemyDefinition, effects, "Запчасти → профиль ударника");

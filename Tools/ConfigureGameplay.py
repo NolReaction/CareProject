@@ -60,13 +60,19 @@ def configure(text,meshdata):
     death_fx=scene.add_component(root,'IntercomRobotDeathEffects',death_fields)
     fill_if_empty(scene,director,'deathEffects',local(death_fx))
     health=scene.component(hero,'IntercomHealth');motor=scene.component(hero,'IntercomPlayerMotor');assert all([director,input_id,health,motor])
+    magazine=scene.component(hero,'IntercomWeaponMagazine');assert magazine
+    progression_values=[('mission',local(director)),('magazine',local(magazine)),('weapon',asset('Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset',11400000)),('visualLeftMount',local(scene.transform(scene.find_go('IntercomMuzzle_L')))),('visualRightMount',local(scene.transform(scene.find_go('IntercomMuzzle_R'))))]
+    progression=scene.add_component(root,'IntercomProgression',''.join('  '+key+': '+value+'\n' for key,value in progression_values))
+    for key,value in progression_values:fill_if_empty(scene,progression,key,value)
     fields=''.join('  '+key+': '+local(value)+'\n' for key,value in [('mission',director),('input',input_id),('playerHealth',health),('playerMotor',motor)])
     fields+='  weapon: '+asset('Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset',11400000)+'\n  gameTitle: ЗАБОТА\n'
     fields+='  heroPortrait: '+asset('Assets/IntercomMVP/Content/Frontend/Textures/RobotPortrait.png',2800000)+'\n'
     fields+='  weaponPortrait: '+asset('Assets/IntercomMVP/Content/Frontend/Textures/PistolPortrait.png',2800000)+'\n  roomCamera: {fileID: 0}\n'
     for key,name in [('homeDoodle','HomeDoodle'),('rescueDoodle','RescueDoodle')]:
         fields+='  '+key+': '+asset('Assets/IntercomMVP/Content/Frontend/Artwork/'+name+'.png',2800000)+'\n'
+    fields+='  progression: '+local(progression)+'\n'
     frontend=scene.add_component(root,'IntercomFrontEnd',fields)
+    fill_if_empty(scene,frontend,'progression',local(progression))
     for key,name in [('homeDoodle','HomeDoodle'),('rescueDoodle','RescueDoodle')]:
         fill_if_empty(scene,frontend,key,asset('Assets/IntercomMVP/Content/Frontend/Artwork/'+name+'.png',2800000))
     for key,value in [('mission',local(director)),('input',local(input_id)),('playerHealth',local(health)),('playerMotor',local(motor)),('weapon',asset('Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset',11400000)),('heroPortrait',asset('Assets/IntercomMVP/Content/Frontend/Textures/RobotPortrait.png',2800000)),('weaponPortrait',asset('Assets/IntercomMVP/Content/Frontend/Textures/PistolPortrait.png',2800000))]:fill_if_empty(scene,frontend,key,value)
@@ -94,7 +100,7 @@ def configure(text,meshdata):
             if component is None:continue
             for key,value in [('hitDuration','.26'),('hitShapeAmount',str(amount)),('hitFlashStrength',str(strength)),('hitTint','{r: .94, g: .25, b: .16, a: 1}')]:fill_if_empty(scene,component,key,value)
     output=scene.text();validate_scene_ids(output)
-    return output,{'frontend':frontend,'authoredSpawnComponents':arrivals,'points':[{'name':n,'position':p,'kind':k} for n,p,k in POINTS]}
+    return output,{'frontend':frontend,'progression':progression,'authoredSpawnComponents':arrivals,'points':[{'name':n,'position':p,'kind':k} for n,p,k in POINTS]}
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--apply-scene',action='store_true');args=parser.parse_args()

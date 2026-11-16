@@ -33,10 +33,10 @@ internal static class Program
         }
         internal void Tick(float dt=.001f){Time.deltaTime=dt;Time.frameCount++;Call(Effects,"LateUpdate");}
         internal void Shot(bool right){Shooter.Shot(right?Right:Left,right);Tick();}
-        internal void Hit(IntercomSurfaceKind kind,bool robot=false)
+        internal void Hit(IntercomSurfaceKind kind,bool robot=false,bool accepted=true)
         {
             var surface=new GameObject("surface");var collider=surface.AddComponent<Collider>();var tag=surface.AddComponent<IntercomFootstepSurface>();tag.kind=kind;tag.impactKind=robot?IntercomImpactKind.Robot:IntercomImpactKind.Surface;
-            Shooter.Hit(IntercomProjectileImpact.Resolve(collider,Vector3.zero,Vector3.up,true));Tick();
+            Shooter.Hit(IntercomProjectileImpact.Resolve(collider,Vector3.zero,Vector3.up,accepted));Tick();
         }
         internal void Clear()=>Call(Effects,"Clear");
     }
@@ -86,12 +86,26 @@ internal static class Program
         f.Clear();f.Hit(IntercomSurfaceKind.Wood);Check(Active(f.Effects,"sparks",6).Length==1&&Active(f.Effects,"sparks",3).Length==3,"wood keeps separate chips and comic pop");
         f.Clear();f.Hit(IntercomSurfaceKind.Soil);Check(Active(f.Effects,"sparks",6).Length==0&&Active(f.Effects,"sparks",5).Length==3,"soft ground uses dust rather than hard-surface star");
         f.Clear();f.Hit(IntercomSurfaceKind.Metal,true);Check(Active(f.Effects,"sparks",2).Length==0&&f.Effects.ActiveEffectCount==3,"robot hit uses compact pop and two chassis chips, not scenery metal sparks");
+        var core=Active(f.Effects,"sparks",6).Single();Check((float)Field(core,"duration")<.1f&&ReferenceEquals(((Renderer)Field(core,"renderer")).sharedMaterial,f.Effects.flashMaterial),"accepted robot hit has a short warm core flash");
+        Check(Active(f.Effects,"sparks",4).All(p=>ReferenceEquals(((Renderer)Field(p,"renderer")).sharedMaterial,f.Effects.casingMaterial)),"robot fragments share the brass material rather than stone dust");
         f.Tick(.3f);Check(f.Effects.ActiveEffectCount==0,"impact pieces expire within short feedback window");
+        f.Hit(IntercomSurfaceKind.Metal,true,false);Check(f.Effects.ActiveEffectCount==1&&Active(f.Effects,"sparks",6).Length==0,"rejected robot contact produces only one small glance without a core hit confirmation");
+        var glance=Active(f.Effects,"sparks",2).Single();Check((float)Field(glance,"duration")<.08f&&((Vector3)Field(glance,"size")).x<.07f,"blocked contact is visibly smaller and shorter than accepted damage");
+        f.Tick(.1f);Check(f.Effects.ActiveEffectCount==0,"small blocked ping expires promptly");
+        f.Shooter.Hit(IntercomProjectileImpact.Resolve(null,new Vector3(float.NaN,0,0),Vector3.zero,true));f.Tick();Check(f.Effects.ActiveEffectCount==0,"invalid hit position never poisons effect pool transforms");
         var scenery=new GameObject("repeat metal");var collider=scenery.AddComponent<Collider>();var tag=scenery.AddComponent<IntercomFootstepSurface>();tag.kind=IntercomSurfaceKind.Metal;
         var hit=IntercomProjectileImpact.Resolve(collider,Vector3.zero,Vector3.up,false);
         int objects=GameObject.Created.Count,materials=Material.Created,meshes=Mesh.Created;
         for(int i=0;i<1000;i++){f.Shooter.Hit(hit);f.Tick(.001f);}
         Check(f.Effects.ActiveEffectCount<=16&&GameObject.Created.Count==objects&&Material.Created==materials&&Mesh.Created==meshes,"sustained material impacts recycle fixed effects without objects/materials/meshes");
     }
-    private static void Main(){CasingCadence();PoolLifecycle();ComicImpacts();Console.WriteLine("Combat effects: "+checks+" assertions PASS; actual pooled effects/weapon/impact route with narrow Unity stand-ins, no engine rendering or PhysX.");}
+    private static void HitchMotion()
+    {
+        var f=new Fixture();f.Weapon.casingEveryNthShot=1;f.Shot(false);
+        var shell=Active(f.Effects,"shells").Single();var transform=(Transform)Field(shell,"visual");var start=transform.position;var velocity=(Vector3)Field(shell,"velocity");float remaining=(float)Field(shell,"remaining");
+        f.Tick(.4f);shell=Active(f.Effects,"shells").Single();var end=((Transform)Field(shell,"visual")).position;
+        Check(Near(end.x-start.x,velocity.x*.05f)&&Near(end.z-start.z,velocity.z*.05f),"long frame cannot launch shells through a long catch-up cast");
+        Check(Near((float)Field(shell,"remaining"),remaining-.4f),"shell lifetime consumes full elapsed time despite capped cosmetic motion");
+    }
+    private static void Main(){CasingCadence();PoolLifecycle();ComicImpacts();HitchMotion();Console.WriteLine("Combat effects: "+checks+" assertions PASS; actual pooled effects/weapon/impact route with narrow Unity stand-ins, no engine rendering or PhysX.");}
 }

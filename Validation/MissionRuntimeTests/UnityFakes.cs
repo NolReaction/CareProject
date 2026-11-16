@@ -237,7 +237,8 @@ namespace IntercomMvp
     {
         public static readonly List<IntercomNpcController> Created=new List<IntercomNpcController>();
         public IntercomHealth Health;public IntercomHealth targetHealth;public IntercomNpcPhase Phase;
-        public int PrepareCalls,InvestigateCalls,EmergenceCalls,HiddenBursts;public float ArrivalWarning;public float ArrivalDuration {get;private set;}=.68f;public IntercomEnemySpawnKind EmergenceKind;public Vector3 Investigation;public int ordinal;
+        public int PrepareCalls,InvestigateCalls,EmergenceCalls,HiddenBursts;public float ArrivalWarning;public float ArrivalDuration {get;private set;}=.68f;public IntercomEnemySpawnKind EmergenceKind;public Vector3 Investigation;public int ordinal;public IntercomNpcArchetype Archetype;
+        public float VisualScale=>IntercomNpcArchetypeTuning.For(Archetype).Scale;
         public static IntercomNpcController Create(IntercomNpcDefinition definition,IntercomNpcNavigation navigation,
             IntercomHealth target,IntercomPlayerMotor motor,Vector3 position,int ordinal)
         {
@@ -246,7 +247,8 @@ namespace IntercomMvp
             var npc=go.AddComponent<IntercomNpcController>();npc.Health=health;npc.targetHealth=target;npc.ordinal=ordinal;
             Created.Add(npc);return npc;
         }
-        public void PrepareForSpawn(Vector3 position){PrepareCalls++;transform.position=position;Health.ResetHealth();Phase=IntercomNpcPhase.Idle;}
+        public void PrepareForSpawn(Vector3 position){PrepareForSpawn(position,IntercomNpcArchetype.Standard);}
+        public void PrepareForSpawn(Vector3 position,IntercomNpcArchetype archetype){PrepareCalls++;Archetype=archetype;transform.position=position;Health.ResetHealth();Phase=IntercomNpcPhase.Idle;}
         public void SetTarget(IntercomHealth health){targetHealth=health;}
         public void BeginEmergence(){BeginEmergence(0f);}
         public void BeginEmergence(float warningSeconds){BeginEmergence(warningSeconds,IntercomEnemySpawnKind.Perimeter);}
@@ -275,7 +277,9 @@ namespace IntercomMvp
 namespace IntercomMvp {
  public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {
   public IntercomNpcDefinition definition;public int EmitCalls,ClearCalls;public bool Ready=true;
-  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){EmitCalls++;return Ready;}
+  public float LastVisualScale=1f;
+  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){return Emit(p,q,seed,1f);}
+  public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed,float visualScale){LastVisualScale=visualScale;EmitCalls++;return Ready;}
   public void Clear(){ClearCalls++;}
  }
 }

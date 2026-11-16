@@ -17,8 +17,8 @@ MonoBehaviour:
   killTarget: 50
   maximumAlive: 6
   waveSize: 10
-  spawnInterval: 1.2
-  waveRestSeconds: 2.5
+  spawnInterval: 2
+  waveRestSeconds: 4.5
   minimumSpawnDistance: 5
   rescueEnemySupply: 30
   allyHealth: 60
@@ -30,3 +30,7 @@ MonoBehaviour:
   visibleSpawnEvery: 3
   minimumVisibleSpawnDistance: 5.5
   visibleSpawnWarningSeconds: 0.35
+  useRhythmicWaves: 1
+  groupSize: 3
+  groupRestSeconds: 2.8
+  openingGraceSeconds: 1.3

@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "scope": "V15 cosmetic casings, comic impacts and scenery/target hit feedback",
+  "scope": "Current accepted-vs-rejected robot impact feedback/audio and scaled pooled death pieces, with retained casing/scenery reactions.",
   "casing": {
     "perHandEveryNthShot": 2,
     "scaleFactorVersusV14": 1.25,
@@ -20,7 +20,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Combat effects: 31 assertions PASS; actual pooled effects/weapon/impact route with narrow Unity stand-ins, no engine rendering or PhysX.\n"
+      "output": "Combat effects: 39 assertions PASS; actual pooled effects/weapon/impact route with narrow Unity stand-ins, no engine rendering or PhysX.\n"
     },
     {
       "project": "ReactivePropTests",
@@ -28,29 +28,85 @@
       "compileOutput": "",
       "runExit": 0,
       "output": "Reactive props: 1275 assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.\n"
+    },
+    {
+      "project": "PlayerAudioLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PlayerAudio fake-Unity lifecycle: 816 assertions passed. Not a Unity Editor test.\n"
+    },
+    {
+      "project": "RobotDeathEffectsTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Robot death effects: 1976 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
     }
   ],
   "additionalRegressionProjects": [
-    "MagazineTests PASS2401 assertions",
-    "ShooterIntegrationTests PASS3511 assertions",
-    "WeaponFoundationTests PASS43 assertions"
+    {
+      "project": "MagazineTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS finite magazine, successful projectiles only\nPASS automatic reload starts exactly after last complete volley\nPASS manual partial reload and pause do not refill or advance\nPASS respawn resets ammo but ordinary motion cancellation does not\nPASS reload pointer never becomes fire or steals movement\nPASS parallel dual barrels never cross at near or far ranges\nPASS held poseclock and magazine agree with reload-aware TTK at mobile rates\nPASS long custom reload keeps raised baseline without replaying intent\nPASS V12 and prior alternating cadence preserve one-round reload-aware balance\nPASS invalid time and tiny custom magazines remain safe\nPASS 10 magazine/parallel-fire cases, 2401 assertions. Production state, component, pose clock and direction; narrow Unity stand-ins, no PhysX or actual GUI execution.\n"
+    },
+    {
+      "project": "ShooterIntegrationTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS actual two-barrel Spawn uses one heading and consumes once before callbacks\nPASS alternating pistols lead left and commit one round before each per-hand callback\nPASS alternating selected muzzle obstruction consumes no ammo and does not skip a hand\nPASS alternating magazine reloads after exactly twenty-four real shots\nPASS production clock drives actual alternating projectiles at V12 and prior cadence\nPASS both muzzle overlaps block bullets ammo reports and recoil\nPASS body-to-muzzle obstruction blocks even a clear muzzle point\nPASS one obstructed barrel consumes only the one real projectile\nPASS empty magazine starts reload after exactly twelve actual volleys\nPASS queued attempts cannot fire beyond a one-volley magazine\nPASS pool exhaustion consumes no additional round or visual event\nPASS reload requested between queue and spawn cancels the pending attempt\nPASS focus pause and explicit cancellation drop pending shots\nPASS real swept hit routes material and uses per-projectile damage snapshot\nPASS 14 complete Shooter/Magazine integration cases, 3511 assertions. Production shot spawn, actual ammo commit, hit routing and pool lifecycle with controlled physics and pose doubles; no Unity/PhysX/rendering.\n"
+    },
+    {
+      "project": "WeaponFoundationTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Weapon foundation: 43 assertions passed; production balance/clock/health/direction with minimal Unity doubles, no engine execution.\n"
+    },
+    {
+      "project": "DeathStrikeLifecycleTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Lethal strike completed without moving the parked CharacterController.\nDeath strike lifecycle: 318 assertions passed; production Health + NPC + Director, strict inactive CharacterController stand-in. Not a native Unity crash reproduction.\n"
+    }
   ],
   "sourceSHA256": {
-    "Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs": "a612c03ec2ae99544f675f1041dac554465b1042fa069cef05b405d22225a236",
+    "Assets/IntercomMVP/Runtime/Combat/Effects/IntercomCombatEffects.cs": "82cffe27c333f625cb08a08c91458cccf40f4aa8348b56c645feeb25ae00dbaa",
     "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponDefinition.cs": "8b856c52b3cd0bfec37c95550a82d9579190ea8b0fba551412c51b3acd845401",
     "Assets/IntercomMVP/Runtime/World/Props/IntercomReactiveProp.cs": "e088b78dddab89d24514fb45a3e2137396441d358080845092c9349386a1bba0",
     "Assets/IntercomMVP/Runtime/World/Props/IntercomTargetDummy.cs": "ce0ce9a82fa30176bd3478932412737037fd1d3025c0747974574f980f45cc84",
-    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitResponse.cs": "53c8a2aea83ecc5304a92b087b82253beab3455b42d3661731328f2ad91f2e61",
+    "Assets/IntercomMVP/Runtime/World/Props/IntercomPropModel.cs": "49ac6a2278bc06c4be5fd06df2629c2e909a33eab734a40d3b212dd8fa771cc5",
     "Assets/IntercomMVP/Runtime/World/Props/IntercomPropHitTint.cs": "73bbaec0a1f740cb0f8403cdde1b98bc49ce240d16ff13a4566110704a1558d6",
     "Assets/IntercomMVP/Editor/Combat/IntercomWeaponDefinitionEditor.cs": "ac0832dc95456cf7cc84622ea0eab8222283d941088c387d0a2074dd65d586ff",
-    "Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset": "95da221e8af7bdb813273c56915867f1e411a78d05f5f6dd910e9efc33d5dfa7"
+    "Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset": "95da221e8af7bdb813273c56915867f1e411a78d05f5f6dd910e9efc33d5dfa7",
+    "Assets/IntercomMVP/Runtime/Presentation/Audio/IntercomPlayerAudio.cs": "2f18925da51969e5156cbcc1a510709cc0aec2ddb64a9dae403113f4d8b835e0",
+    "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs": "9fc36047e7ddd965e93d856f17c299bcd6a2e79d311dbea14212d85a0594229f"
   },
   "limits": [
-    "Actual Unity rendering, PhysX and subjective sound/visual review are not executed by these .NET test stand-ins."
+    "No native Unity Editor import/type compilation, Play Mode, Animator, PhysX, Profiler capture or mobile device execution was performed here.",
+    "Subjective audio quality and visibility of the new flash/materials require actual gameplay listening/viewing."
   ],
-  "newSources": [
+  "sceneFieldsRequired": [],
+  "version": "V20",
+  "robotImpact": {
+    "accepted": "Short warm core flash plus two brass chips and explicit robot-core sound bank.",
+    "declined": "Tiny visual glance; no core-damage sound or large core pop.",
+    "bounds": "Existing64-spark pool and four impact voices; no added audio/image assets or per-hit native resource construction.",
+    "longFrame": "Valid full elapsed time expires cosmetic lifetime; motion integration alone is capped at .05seconds."
+  },
+  "scaledBreakup": "Actual six chunks use immutable source scale multiplied by current actor .90/1/1.12; repeated Heavy→Runner pool reuse does not compound scale.",
+  "relatedReports": [
+    "FeedbackUi.json",
+    "EnemyCrowd.json",
+    "RobotDeathEffects.json",
+    "NativeUnityAvailability.json"
+  ],
+  "historicalV15Sources": [
     "Runtime/World/Props/IntercomPropHitResponse.cs",
     "Runtime/World/Props/IntercomPropHitTint.cs"
-  ],
-  "sceneFieldsRequired": []
+  ]
 }

@@ -2,6 +2,7 @@
   "status": "PASS",
   "idempotent": true,
   "frontend": 8800000015,
+  "progression": 8800000143,
   "authoredSpawnComponents": [
     8800000032,
     8800000049,

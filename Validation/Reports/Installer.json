@@ -7,7 +7,7 @@
     "compileExit": 0,
     "compileOutput": "",
     "runExit": 0,
-    "output": "Package installer: 11 real filesystem scenarios, 55 assertions PASS. Production C#5-compatible transaction core; PowerShell/Windows GUI and Unity were not executed.\n"
+    "output": "Package installer: 11 real filesystem scenarios, 58 assertions PASS. Production C#5-compatible transaction core; PowerShell/Windows GUI and Unity were not executed.\n"
   },
   "wrapper": {
     "utf8Bom": true,
@@ -19,7 +19,7 @@
   "files": [
     {
       "path": "RepairProject.ps1",
-      "sha256": "1469cae7c5b51dec32f494517adebca89f4f38141597820f058f8c26cf5311f4"
+      "sha256": "99a2b9fee85353f18e1c13ffa7243851c3cdfbd276af4f9c2604b26cc2db1cf2"
     },
     {
       "path": "RepairProject.cmd",
@@ -27,11 +27,11 @@
     },
     {
       "path": "Tools/Project/PackageInstaller.cs",
-      "sha256": "b5c03032a2b285ec6f0c1c8caa7571b8eb0776be1275d81d97988d1b68110459"
+      "sha256": "293504bb0b95b9392b7ef7519e5406d10db5f93d551e87af1502cd866d1c6a38"
     },
     {
       "path": "Tools/Project/README.md",
-      "sha256": "4854cb704a93dba66099bfbfe5ecfee91ab82a5f56254d79f53d132d13bac0a8"
+      "sha256": "57bbe2d5ebeeaa9747a5cf0e7d8235df207d88e2d32bc193b9a46b59fcf21d62"
     },
     {
       "path": "Validation/PackageInstallerTests/PackageInstallerTests.csproj",
@@ -39,7 +39,7 @@
     },
     {
       "path": "Validation/PackageInstallerTests/Program.cs",
-      "sha256": "e62e294e7e30cf34cc3a8d1d9d4ca151c8a6a576e068d289762b5454960960e5"
+      "sha256": "195765990de1261af28bb2d719e0e9c1f243921df8af19392e50a58a663e3bb3"
     },
     {
       "path": "Validation/PackageInstallerTests/README.md",
@@ -47,23 +47,35 @@
     }
   ],
   "limits": [
-    "C#5 syntax checked against .NET8 reference assemblies, not actual .NETFramework4.8 assembly references.",
-    "Windows PowerShell5.1/GUI, actual Windows ACLs/locking and Unity Editor were not executed."
+    "Production transaction core uses real temporary directories in the current standalone tests. Actual final-ZIP integration is a separate release check.",
+    "C#5 language compilation targets .NET8 reference assemblies, not the actual Windows .NET Framework4.8 runtime.",
+    "Windows PowerShell5.1/FolderBrowserDialog, Windows ACL/locking and Unity Editor were not executed."
   ],
-  "version": "V19",
+  "version": "V20",
   "packageContract": {
     "manifestSchema": 1,
-    "packageVersion": "V19",
-    "inventoryVersion": "CareProject V19",
+    "packageVersion": "V20",
+    "inventoryVersion": "CareProject V20",
     "restoreReceiptVersions": [
       "V18",
-      "V19"
+      "V19",
+      "V20"
     ],
-    "preferredKnownScripts": "Tools/Project/KnownScriptsV19.json"
+    "preferredKnownScripts": "Tools/Project/KnownScriptsV20.json"
   },
   "broadResult": {
-    "projects": 51,
-    "passed": 51,
+    "projects": 53,
+    "passed": 53,
     "source": "LogicTests.json"
+  },
+  "currentCSharp5Evidence": {
+    "status": "PASS",
+    "compileExit": 0,
+    "compileOutput": "",
+    "coreSha256": "293504bb0b95b9392b7ef7519e5406d10db5f93d551e87af1502cd866d1c6a38",
+    "wrapperUtf8Bom": true,
+    "cmdAscii": true,
+    "nativeWindowsExecuted": false,
+    "limit": "C#5 compilation against .NET8 references; not .NETFramework/PowerShell execution."
   }
 }

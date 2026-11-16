@@ -41,6 +41,10 @@ namespace IntercomMvp
         private IntercomSimpleShooter subscribed;
         private readonly RaycastHit[] hits = new RaycastHit[24];
         private bool focused = true, paused;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private static readonly Unity.Profiling.ProfilerMarker ImpactMarker=new Unity.Profiling.ProfilerMarker("CareProject.Combat.ImpactFx");
+        private static readonly Unity.Profiling.ProfilerMarker StepMarker=new Unity.Profiling.ProfilerMarker("CareProject.Combat.EffectsStep");
+#endif
 
         private void Awake()
         {
@@ -110,10 +114,21 @@ namespace IntercomMvp
 
         private void Impact(IntercomProjectileImpact hit)
         {
-            if (!CanEmit) return;
-            Vector3 point = hit.Point, normal = hit.Normal;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            using var marker=ImpactMarker.Auto();
+#endif
+            if (!CanEmit || !Finite(hit.Point)) return;
+            Vector3 point = hit.Point, normal = Finite(hit.Normal) && hit.Normal.sqrMagnitude > .0001f ? hit.Normal.normalized : Vector3.up;
             Quaternion facing = Quaternion.FromToRotation(Vector3.forward, normal);
             bool robot = hit.RobotHit;
+            if(robot && !hit.TargetHit)
+            {
+                // A declined contact must not look or sound like damage to the core.
+                // One small glance still shows where the projectile stopped.
+                ref Piece glance=ref sparks[nextSpark];nextSpark=(nextSpark+1)%sparks.Length;
+                Activate(ref glance,point+normal*.035f,facing,new Vector3(.065f,.085f,.035f),.075f,2,impactMaterial,sparkMesh);
+                glance.velocity=normal*.35f;return;
+            }
             bool metal = !robot && hit.Surface == IntercomSurfaceKind.Metal;
             bool wood = hit.Surface == IntercomSurfaceKind.Wood;
             bool soft = hit.Surface == IntercomSurfaceKind.Soil || hit.Surface == IntercomSurfaceKind.Gravel;
@@ -123,14 +138,14 @@ namespace IntercomMvp
             if (!soft)
             {
                 ref Piece stamp = ref sparks[nextSpark]; nextSpark = (nextSpark + 1) % sparks.Length;
-                float width = robot ? .21f : metal ? .28f : .24f;
+                float width = robot ? .25f : metal ? .28f : .24f;
                 Activate(ref stamp, point + normal * .045f, facing * Quaternion.Euler(0f, 0f, Random.Range(-18f, 18f)),
-                    new Vector3(width, width, .055f), .12f, 6, impactMaterial, sparkMesh);
+                    new Vector3(width, width, .055f), robot ? .095f : .12f, 6, robot ? flashMaterial : impactMaterial, sparkMesh);
                 stamp.velocity = Vector3.zero;
             }
             int count = robot ? 2 : metal ? 4 : 3;
             byte kind = metal ? (byte)2 : wood ? (byte)3 : soft ? (byte)5 : (byte)4;
-            Material material = metal ? impactMaterial : wood ? woodImpactMaterial : soft ? soilImpactMaterial : stoneImpactMaterial;
+            Material material = robot ? casingMaterial : metal ? impactMaterial : wood ? woodImpactMaterial : soft ? soilImpactMaterial : stoneImpactMaterial;
             if (material == null) material = impactMaterial;
             for (int i = 0; i < count; i++)
             {
@@ -151,6 +166,9 @@ namespace IntercomMvp
 
         private void LateUpdate()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            using var marker=StepMarker.Auto();
+#endif
             Subscribe();
             if (root == null || !focused || paused || Time.deltaTime <= 0f || float.IsNaN(Time.deltaTime) || float.IsInfinity(Time.deltaTime)) return;
             float dt = Time.deltaTime;
@@ -166,12 +184,13 @@ namespace IntercomMvp
             if (piece.remaining <= 0f || piece.bornFrame == Time.frameCount) return;
             piece.remaining -= dt;
             if (piece.remaining <= 0f) { piece.visual.gameObject.SetActive(false); return; }
+            float motionDt=Mathf.Min(dt,.05f);
             if (piece.kind == 0)
             {
                 if (piece.bounces < 3)
                 {
-                    piece.velocity += Vector3.down * (10f * dt);
-                    Vector3 delta = piece.velocity * dt;
+                    piece.velocity += Vector3.down * (10f * motionDt);
+                    Vector3 delta = piece.velocity * motionDt;
                     float travel = delta.magnitude;
                     if (travel > 0.00001f && CastSurface(piece.visual.position, delta / travel, travel + 0.025f, out RaycastHit hit))
                     {
@@ -182,23 +201,25 @@ namespace IntercomMvp
                         if (piece.bounces >= 3) { piece.velocity = Vector3.zero; piece.spin = Vector3.zero; }
                     }
                     else piece.visual.position += delta;
-                    piece.visual.Rotate(piece.spin * dt, Space.World);
+                    piece.visual.Rotate(piece.spin * motionDt, Space.World);
                 }
                 float fade = Mathf.Clamp01(piece.remaining / 0.35f);
                 piece.visual.localScale = piece.size * fade;
             }
             else
             {
-                if (piece.kind == 3 || piece.kind == 4) piece.velocity += Vector3.down * (4f * dt);
-                if (piece.kind == 5) piece.velocity *= Mathf.Max(0f, 1f - 3f * dt);
-                piece.visual.position += piece.velocity * dt;
-                if (piece.kind >= 3) piece.visual.Rotate(piece.spin * dt, Space.World);
+                if (piece.kind == 3 || piece.kind == 4) piece.velocity += Vector3.down * (4f * motionDt);
+                if (piece.kind == 5) piece.velocity *= Mathf.Max(0f, 1f - 3f * motionDt);
+                piece.visual.position += piece.velocity * motionDt;
+                if (piece.kind >= 3) piece.visual.Rotate(piece.spin * motionDt, Space.World);
                 float fraction = piece.remaining / piece.duration;
                 float scale = piece.kind == 6 ? fraction * (1f + Mathf.Sin((1f - fraction) * Mathf.PI) * .5f)
                     : piece.kind == 1 ? fraction : Mathf.Sqrt(fraction);
                 piece.visual.localScale = piece.size * scale;
             }
         }
+        private static bool Finite(Vector3 value)=>!float.IsNaN(value.x)&&!float.IsInfinity(value.x)
+            &&!float.IsNaN(value.y)&&!float.IsInfinity(value.y)&&!float.IsNaN(value.z)&&!float.IsInfinity(value.z);
 
         private bool CastSurface(Vector3 origin, Vector3 direction, float distance, out RaycastHit nearest)
         {

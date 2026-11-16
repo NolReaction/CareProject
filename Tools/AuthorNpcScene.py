@@ -146,7 +146,7 @@ def install(text,profile_guid):
     if not re.search(r'^  vitality: ',scene.blocks[input_id],re.M):scene.blocks[input_id]+=f'  vitality: {{fileID: {vitality}}}\n'
     elif '  vitality: {fileID: 0}' in scene.blocks[input_id]:scene.blocks[input_id]=scene.blocks[input_id].replace('  vitality: {fileID: 0}',f'  vitality: {{fileID: {vitality}}}')
     arena,arena_tr=scene.add_object('MVP_NpcSandbox')
-    nav=scene.add_component(arena,'IntercomNpcNavigation',f'  obstacleRoot: {{fileID: {scene.transform(environment)}}}\n  worldMin: {{x: -18, y: -16}}\n  worldSize: {{x: 36, y: 32}}\n  cellSize: 0.4\n  agentClearanceRadius: 0.4\n  floorHeight: 0\n  stepHeight: 0.18\n  agentHeight: 1.35\n  obstacleRefreshSeconds: 0.2\n  maximumSearchesPerFrame: 2\n  maximumGoalSnap: 1\n')
+    nav=scene.add_component(arena,'IntercomNpcNavigation',f'  obstacleRoot: {{fileID: {scene.transform(environment)}}}\n  worldMin: {{x: -18, y: -16}}\n  worldSize: {{x: 36, y: 32}}\n  cellSize: 0.4\n  agentClearanceRadius: 0.4\n  floorHeight: 0\n  stepHeight: 0.18\n  agentHeight: 1.6\n  obstacleRefreshSeconds: 0.2\n  maximumSearchesPerFrame: 2\n  maximumGoalSnap: 1\n')
     markers=[scene.add_object('NPC Spawn '+str(i+1).zfill(2),arena_tr,p)[1] for i,p in enumerate(SPAWNS)]
     fields=f'  definition: {{fileID: 11400000, guid: {profile_guid}, type: 2}}\n  navigation: {{fileID: {nav}}}\n  playerHealth: {{fileID: {health}}}\n  playerMotor: {{fileID: {motor}}}\n  spawnPoints:\n'
     fields+=''.join(f'  - {{fileID: {point}}}\n' for point in markers)+'  maximumActors: 3\n'

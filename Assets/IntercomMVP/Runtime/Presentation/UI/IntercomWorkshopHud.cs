@@ -25,6 +25,8 @@ namespace IntercomMvp
         private int lastElapsedSecond = -1;
         private string elapsedText = "00:00:00", lastHint = "";
         private float hintBegan;
+        private int waveCaptionNumber=-1, restCaptionSecond=-1;
+        private string waveCaption="УДАРНИКИ", waveCaptionCompact="ВОЛНА 1", restCaption="";
 
         public void Draw(IntercomHudLayout layout, IntercomTwinStickState sticks,
             IntercomWeaponMagazine magazine, bool showSticks, float controlsOpacity, IntercomPlayerVitality vitality = null,
@@ -35,6 +37,7 @@ namespace IntercomMvp
             EnsureResources();
             if(mission != null && mission.BlocksGameplay) { DrawMissionMenu(layout,mission); return; }
             bool dead = vitality != null && vitality.IsDead;
+            if(!dead && !gameplayPaused && vitality!=null) DrawDamageEdge(vitality.ShowHitRemaining);
             if (showSticks && !dead && !gameplayPaused)
             {
                 DrawStick(layout.LeftX, layout.LeftY, layout.Radius, sticks.Left, Petrol, false, controlsOpacity);
@@ -49,7 +52,7 @@ namespace IntercomMvp
             Rect safe = Screen.safeArea;
             float stampWidth = Mathf.Min(110f, safe.width*.25f), stampHeight = 14f;
             Text(new Rect(safe.x+(safe.width-stampWidth)*.5f, Screen.height-safe.y-18f, stampWidth, stampHeight),
-                "ЗАБОТА · V19", small, 8f, Paper, .55f);
+                "ЗАБОТА · V20", small, 8f, Paper, .55f);
             if (gameplayPaused) DrawPause(layout,confirmingExit,confirmingRestart,hasFrontEnd);
         }
 
@@ -99,9 +102,10 @@ namespace IntercomMvp
             PaintedLabel(r,Paper,.94f);
             bool rescue=mission.Mode == IntercomMissionMode.Rescue;
             string title=mission.Mode == IntercomMissionMode.FreePlay ? "СВОБОДНАЯ ТРЕНИРОВКА"
-                : rescue ? (mission.IsAllyRecruited ? "ДОВЕДИ ДО ВЫХОДА" : "НАЙДИ СОЮЗНИКА") : "УДАРНИКИ";
+                : rescue ? (mission.IsAllyRecruited ? "ДОВЕДИ ДО ВЫХОДА" : "НАЙДИ СОЮЗНИКА") : WaveCaption(mission);
             if (r.width < 180f && mission.Mode == IntercomMissionMode.FreePlay) title="ТРЕНИРОВКА";
             else if (r.width < 180f && rescue) title=mission.IsAllyRecruited ? "К ВЫХОДУ" : "СОЮЗНИК";
+            else if(r.width<180f)title=WaveCaption(mission,true);
             RobotStamp(new Rect(r.x+7f*sx,r.y+7f*sy,36f*sx,43f*sy),rescue ? Petrol : Mustard);
             Text(new Rect(r.x+48f*sx,r.y+6f*sy,r.width-60f*sx,18f*sy),title,bold,11f*s,Ink,.8f);
             string progress=MissionProgress(mission);
@@ -149,6 +153,14 @@ namespace IntercomMvp
         internal string SessionToast(IntercomMissionDirector mission)
         {
             ObserveSession(mission);
+            if(mission.Mode==IntercomMissionMode.Elimination && mission.IsWaveResting)
+            {
+                float remaining=mission.WaveRestSecondsRemaining;
+                int second=float.IsNaN(remaining)||float.IsInfinity(remaining)?0:Mathf.Max(0,Mathf.CeilToInt(remaining));
+                if(second!=restCaptionSecond)
+                {restCaptionSecond=second;restCaption="ПЕРЕДЫШКА · НОВАЯ ВОЛНА ЧЕРЕЗ "+second+" С";}
+                return restCaption;
+            }
             string hint=mission.HudHint ?? "";
             if (hint != lastHint) { lastHint=hint;hintBegan=mission.ElapsedSeconds; }
             if (hint.Length>0 && mission.ElapsedSeconds-hintBegan < 5f) return hint;
@@ -156,6 +168,32 @@ namespace IntercomMvp
             if (mission.Mode == IntercomMissionMode.FreePlay) return "ОСМОТРИ ДВОР · ДВИГАЙСЯ И СТРЕЛЯЙ";
             if (mission.Mode == IntercomMissionMode.Rescue) return "НАЙДИ СОЮЗНИКА И ДОВЕДИ ДО ВЫХОДА";
             return "ОЧИСТИ ДВОР ОТ УДАРНИКОВ";
+        }
+
+        internal string WaveCaption(IntercomMissionDirector mission,bool compact=false)
+        {
+            int wave=Mathf.Max(1,mission.Wave);
+            if(waveCaptionNumber!=wave){waveCaptionNumber=wave;waveCaptionCompact="ВОЛНА "+wave;waveCaption=waveCaptionCompact+" · УДАРНИКИ";}
+            return compact?waveCaptionCompact:waveCaption;
+        }
+
+        private static void DrawDamageEdge(float remaining)
+        {
+            // Accepted damage briefly warms only the safe-area edge. It never covers the playfield or captures input.
+            if(float.IsNaN(remaining)||float.IsInfinity(remaining)||remaining<=0f)return;
+            Rect safe=Screen.safeArea;
+            if(safe.width<=0f||safe.height<=0f)safe=new Rect(0f,0f,Screen.width,Screen.height);
+            float y=Screen.height-safe.y-safe.height;
+            float stroke=Mathf.Max(2f,Mathf.Min(14f,Mathf.Min(safe.width,safe.height)*.018f));
+            float alpha=Mathf.Clamp01(remaining/.25f)*.20f;
+            for(int i=0;i<2;i++)
+            {
+                float inset=i*stroke, thickness=stroke*(i==0?1f:.65f), opacity=alpha*(i==0?1f:.42f);
+                Fill(new Rect(safe.x+inset,y+inset,safe.width-inset*2f,thickness),Warning,opacity);
+                Fill(new Rect(safe.x+inset,y+safe.height-inset-thickness,safe.width-inset*2f,thickness),Warning,opacity);
+                Fill(new Rect(safe.x+inset,y+inset+thickness,thickness,Mathf.Max(0f,safe.height-inset*2f-thickness*2f)),Warning,opacity);
+                Fill(new Rect(safe.x+safe.width-inset-thickness,y+inset+thickness,thickness,Mathf.Max(0f,safe.height-inset*2f-thickness*2f)),Warning,opacity);
+            }
         }
 
         private void DrawPause(IntercomHudLayout layout,bool confirmingExit,bool confirmingRestart,bool hasFrontEnd)

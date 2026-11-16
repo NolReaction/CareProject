@@ -17,6 +17,11 @@ namespace IntercomMvp
         private int healthValue = -1, magazineValue = -1;
         private float speedValue = -1f, damageValue = -1f, intervalValue = -1f, reloadValue = -1f;
         private string health = "100", speed = "3,3", damage = "15", magazine = "24", interval = "0,12", reload = "1,15";
+        private int walletValue=-1, levelValue=-1, costValue=-1, nextCapacityValue=-1;
+        private string wallet="0", walletLabel="ЗАПЧАСТИ  0", upgradeRank="МАГАЗИНЫ · 0 / 3", upgradeBenefit="", upgradePrice="", upgradeButton="";
+        private bool resultReady, resultHasReward, resultEligible, resultSaveFailed;
+        private int resultKills=-1, resultRescued=-1, resultSeconds=-1, resultKillParts=-1, resultRescueParts=-1, resultVictoryParts=-1, resultTotal=-1, resultWallet=-1;
+        private string resultFacts="", resultRewardTitle="", resultBreakdown="", resultWalletLabel="";
 
         public void Draw(IntercomFrontEnd menu,IntercomFrontEndLayout layout)
         {
@@ -43,15 +48,57 @@ namespace IntercomMvp
         {
             int hp=menu.playerHealth!=null?Mathf.Max(1,Mathf.CeilToInt(menu.playerHealth.Maximum)):100;
             float sp=menu.playerMotor!=null?menu.playerMotor.moveSpeed:3.3f;
-            IntercomWeaponDefinition w=menu.weapon;
-            int cap=w!=null?w.MagazineCapacity:24;
+            IntercomProgression progression=menu.Progression;
+            IntercomWeaponDefinition w=progression!=null&&progression.EquippedWeapon!=null?progression.EquippedWeapon:menu.weapon;
+            int cap=progression!=null?progression.EffectiveMagazineCapacity:w!=null?w.MagazineCapacity:24;
             float dmg=w!=null?w.Damage:15f, rate=w!=null?w.Interval:.12f, loading=w!=null?w.ReloadSeconds:1.15f;
             if(hp!=healthValue){healthValue=hp;health=hp.ToString();}
             if(sp!=speedValue){speedValue=sp;speed=sp.ToString("0.0");}
-            if(cap!=magazineValue){magazineValue=cap;magazine=cap.ToString();}
+            bool capacityChanged=cap!=magazineValue;
+            if(capacityChanged){magazineValue=cap;magazine=cap.ToString();}
             if(dmg!=damageValue){damageValue=dmg;damage=dmg.ToString("0.#");}
             if(rate!=intervalValue){intervalValue=rate;interval=rate.ToString("0.00");}
             if(loading!=reloadValue){reloadValue=loading;reload=loading.ToString("0.00");}
+            if(progression!=null)
+            {
+                int parts=progression.Wallet, level=progression.MagazineLevel, cost=progression.NextMagazineCost, next=progression.NextMagazineCapacity;
+                if(parts!=walletValue){walletValue=parts;wallet=parts.ToString();walletLabel="ЗАПЧАСТИ  "+wallet;}
+                if(level!=levelValue || cost!=costValue || next!=nextCapacityValue || capacityChanged)
+                {
+                    levelValue=level;costValue=cost;nextCapacityValue=next;
+                    upgradeRank="МАГАЗИНЫ · "+level+" / "+IntercomProgression.MaximumMagazineLevel;
+                    upgradeBenefit=progression.MagazineMaxed?"Больше патронов между перезарядками.":cap+" → "+next+" ПАТРОНОВ";
+                    upgradePrice=progression.MagazineMaxed?"КОМПЛЕКТ УСТАНОВЛЕН":"ЦЕНА  "+cost+" ЗАПЧАСТЕЙ";
+                    upgradeButton=progression.MagazineMaxed?"МАГАЗИНЫ УЛУЧШЕНЫ":"УЛУЧШИТЬ · "+cost;
+                }
+            }
+            if(menu.IsResult) UpdateResultStats(menu,progression);
+        }
+        private void UpdateResultStats(IntercomFrontEnd menu,IntercomProgression progression)
+        {
+            var mission=menu.mission;
+            bool summary=mission.HasRunSummary;
+            int kills=summary?mission.LastRunSummary.Kills:mission.Kills;
+            int rescued=summary?mission.LastRunSummary.Rescued:mission.Mode==IntercomMissionMode.Rescue&&mission.Phase==IntercomMissionPhase.Victory?1:0;
+            float elapsed=summary?mission.LastRunSummary.ElapsedSeconds:mission.ElapsedSeconds;
+            int seconds=float.IsNaN(elapsed)||float.IsInfinity(elapsed)||elapsed<0f?0:(int)Mathf.Min(elapsed,359999f);
+            bool free=mission.Mode==IntercomMissionMode.FreePlay;
+            bool hasReward=progression!=null&&progression.HasResultReward&&progression.ResultRunRevision==mission.RunRevision;
+            IntercomRunReward reward=!free&&hasReward?progression.ResultReward:default(IntercomRunReward);
+            hasReward |= free;
+            bool saveFailed=progression!=null&&(!string.IsNullOrEmpty(progression.SaveProblem)||progression.HasPendingRewards);
+            int parts=progression!=null?progression.Wallet:0;
+            if(resultReady&&resultKills==kills&&resultRescued==rescued&&resultSeconds==seconds&&resultHasReward==hasReward
+                &&resultEligible==reward.Eligible&&resultKillParts==reward.KillParts&&resultRescueParts==reward.RescueParts
+                &&resultVictoryParts==reward.VictoryParts&&resultTotal==reward.Total&&resultWallet==parts&&resultSaveFailed==saveFailed)return;
+            resultReady=true;resultKills=kills;resultRescued=rescued;resultSeconds=seconds;resultHasReward=hasReward;
+            resultEligible=reward.Eligible;resultKillParts=reward.KillParts;resultRescueParts=reward.RescueParts;
+            resultVictoryParts=reward.VictoryParts;resultTotal=reward.Total;resultWallet=parts;resultSaveFailed=saveFailed;
+            resultFacts="ОТКЛЮЧЕНО  "+kills+"   ·   СПАСЕНО  "+rescued+"   ·   "+(seconds/60).ToString("00")+":"+(seconds%60).ToString("00");
+            resultRewardTitle=hasReward?(reward.Eligible?"ЗАПЧАСТИ  +"+reward.Total:"ТРЕНИРОВКА БЕЗ НАГРАД"):saveFailed?"НАГРАДА ЖДЁТ СОХРАНЕНИЯ":"ПОДСЧЁТ ЗАПЧАСТЕЙ";
+            resultBreakdown=hasReward&&reward.Eligible?"Ударники +"+reward.KillParts+"  ·  Спасение +"+reward.RescueParts+"  ·  Выезд +"+reward.VictoryParts
+                :hasReward?"Свободный режим — для проверки и тренировки.":saveFailed?"Повторим сохранение автоматически.":"";
+            resultWalletLabel=progression!=null?"В МАСТЕРСКОЙ  "+parts+" ЗАПЧАСТЕЙ":"";
         }
         private void Header(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
@@ -69,8 +116,8 @@ namespace IntercomMvp
             {
                 Rect note=new Rect(r.x+r.width*.65f,r.y+15f*s,r.width*.35f,52f*s);
                 DrawTexture(note,tag,Ink,.86f);
-                Text(new Rect(note.x+12f*s,note.y+5f*s,note.width-24f*s,22f*s),"СЕРВИСНЫЙ ДВОР",heading,13f*s,LightPaper);
-                Text(new Rect(note.x+12f*s,note.y+28f*s,note.width-24f*s,18f*s),"ДОМА МОЖНО ПОЧИНИТЬСЯ",small,9f*s,Paper,.8f);
+                Text(new Rect(note.x+12f*s,note.y+5f*s,note.width-24f*s,22f*s),menu.Progression!=null?walletLabel:"СЕРВИСНЫЙ ДВОР",heading,13f*s,LightPaper);
+                Text(new Rect(note.x+12f*s,note.y+28f*s,note.width-24f*s,18f*s),menu.Progression!=null?"СОБИРАЙ · УЛУЧШАЙ · ВОЗВРАЩАЙСЯ":"ДОМА МОЖНО ПОЧИНИТЬСЯ",small,9f*s,Paper,.8f);
             }
             Bolt(r.x+9f*s,r.yMax-8f*s,2f*s);
         }
@@ -121,7 +168,7 @@ namespace IntercomMvp
                 menu.Section==IntercomFrontEndSection.Armory?"ОРУЖЕЙНАЯ / 03":
                 menu.Section==IntercomFrontEndSection.Play?"ДИСПЕТЧЕРСКАЯ / 01":"КОМНАТА ОТДЫХА / 01";
             string detail=menu.Section==IntercomFrontEndSection.Robot?"Детали и улучшения появятся здесь.":
-                menu.Section==IntercomFrontEndSection.Armory?"Рабочее место для будущего арсенала.":
+                menu.Section==IntercomFrontEndSection.Armory?"Запчасти с выездов превращаются в улучшения.":
                 menu.Section==IntercomFrontEndSection.Play?"Выбери задание. Во дворе уже ждут.":"Пять минут на диване — и снова на работу.";
             Text(new Rect(label.x+14f*s,label.y+8f*s,label.width-28f*s,label.height*.34f),title,heading,Mathf.Max(7f,15f*s),LightPaper);
             Text(new Rect(label.x+14f*s,label.y+label.height*.47f,label.width-28f*s,label.height*.34f),detail,body,Mathf.Max(7f,12f*s),Paper,.85f);
@@ -166,22 +213,39 @@ namespace IntercomMvp
             float top=r.y+r.height*.23f;
             StatPair(new Rect(r.x+14f*s,top,r.width-28f*s,r.height*.14f),"УРОН",damage,"МАГАЗИН",magazine,s);
             StatPair(new Rect(r.x+14f*s,top+r.height*.155f,r.width-28f*s,r.height*.14f),"ИНТЕРВАЛ, С",interval,"ПЕРЕЗАРЯДКА, С",reload,s);
-            UpgradeRow(new Rect(r.x+14f*s,top+r.height*.33f,r.width-28f*s,r.height*.12f),"+","УЛУЧШЕНИЯ ОРУЖИЯ","Будущие уровни и новые модификации.",s);
-            UpgradeRow(new Rect(r.x+14f*s,top+r.height*.47f,r.width-28f*s,r.height*.12f),"?","НОВОЕ ОРУЖИЕ","В оружейной появятся другие типы.",s);
-            Button(l.ActionPrimary,"ВЫБРАТЬ ВЫЕЗД",Petrol,s);Button(l.ActionSecondary,"К РОБОТУ  →",Quiet,s);
+            var progression=menu.Progression;
+            if(progression!=null)
+            {
+                Rect upgrade=new Rect(r.x+14f*s,top+r.height*.33f,r.width-28f*s,r.height*.245f);
+                DrawTexture(upgrade,tag,LightPaper);
+                Text(new Rect(upgrade.x+12f*s,upgrade.y+4f*s,upgrade.width-24f*s,upgrade.height*.22f),upgradeRank,heading,Mathf.Max(7f,12f*s),Ink);
+                Text(new Rect(upgrade.x+12f*s,upgrade.y+upgrade.height*.26f,upgrade.width-24f*s,upgrade.height*.25f),upgradeBenefit,heading,Mathf.Max(8f,16f*s),Ink);
+                Text(new Rect(upgrade.x+12f*s,upgrade.y+upgrade.height*.55f,upgrade.width-24f*s,upgrade.height*.20f),upgradePrice,small,Mathf.Max(7f,11f*s),Ink,.8f);
+                Text(new Rect(upgrade.x+12f*s,upgrade.y+upgrade.height*.76f,upgrade.width-24f*s,upgrade.height*.19f),walletLabel,small,Mathf.Max(7f,10f*s),Petrol);
+                Button(l.ActionPrimary,upgradeButton,progression.CanBuyMagazine?Petrol:Quiet,s);
+            }
+            else
+            {
+                UpgradeRow(new Rect(r.x+14f*s,top+r.height*.33f,r.width-28f*s,r.height*.12f),"+","УЛУЧШЕНИЯ ОРУЖИЯ","Мастерская пока недоступна.",s);
+                Button(l.ActionPrimary,"ВЫБРАТЬ ВЫЕЗД",Petrol,s);
+            }
+            Button(l.ActionSecondary,"К РОБОТУ  →",Quiet,s);
         }
         private void Result(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
             Rect r=R(l.Content);float s=l.Scale;
             bool victory=menu.mission.Phase==IntercomMissionPhase.Victory;
             PageTitle(r,victory?"ДВОР СНОВА РАБОТАЕТ":"КОЕ-ЧТО СЛОМАЛОСЬ",victory?"ЗАДАНИЕ ВЫПОЛНЕНО":"ЭТО МОЖНО ПОЧИНИТЬ",s);
-            Text(new Rect(r.x+18f*s,r.y+r.height*.27f,r.width-36f*s,r.height*.16f),
+            Text(new Rect(r.x+18f*s,r.y+r.height*.235f,r.width-36f*s,r.height*.13f),
                 string.IsNullOrEmpty(menu.mission.ResultText)?(victory?"Хорошая работа, напарник.":"Соберём корпус и попробуем ещё раз."):menu.mission.ResultText,
-                body,Mathf.Max(9f,19f*s),Ink,.9f);
-            string result=menu.mission.Mode==IntercomMissionMode.Elimination?"ОТКЛЮЧЕНО  "+menu.mission.Kills+" / "+menu.mission.Goal:
-                menu.mission.Mode==IntercomMissionMode.Rescue?(victory?"СОЮЗНИК ДОМА":"СОЮЗНИК ЖДЁТ ПОМОЩИ"):"ТРЕНИРОВКА ЗАВЕРШЕНА";
-            Rect stamp=new Rect(r.x+18f*s,r.y+r.height*.49f,r.width-36f*s,r.height*.18f);
-            DrawTexture(stamp,tag,victory?Mustard:Rust);Text(stamp,result,centered,Mathf.Max(8f,22f*s),victory?Ink:LightPaper);
+                body,Mathf.Max(8f,15f*s),Ink,.9f);
+            Rect stamp=new Rect(r.x+18f*s,r.y+r.height*.39f,r.width-36f*s,r.height*.12f);
+            DrawTexture(stamp,tag,victory?Mustard:Rust);Text(stamp,resultFacts,centered,Mathf.Max(7f,12f*s),victory?Ink:LightPaper);
+            Rect reward=new Rect(r.x+18f*s,r.y+r.height*.54f,r.width-36f*s,r.height*.26f);
+            DrawTexture(reward,tag,LightPaper);
+            Text(new Rect(reward.x+11f*s,reward.y+reward.height*.05f,reward.width-22f*s,reward.height*.32f),resultRewardTitle,heading,Mathf.Max(8f,20f*s),Ink);
+            Text(new Rect(reward.x+11f*s,reward.y+reward.height*.39f,reward.width-22f*s,reward.height*.30f),resultBreakdown,small,Mathf.Max(7f,11f*s),Ink,.8f);
+            Text(new Rect(reward.x+11f*s,reward.y+reward.height*.73f,reward.width-22f*s,reward.height*.20f),resultWalletLabel,small,Mathf.Max(7f,10f*s),Petrol);
             Button(l.ActionPrimary,"ПОПРОБОВАТЬ ЕЩЁ",Petrol,s);Button(l.ActionSecondary,"НА ГЛАВНУЮ",Quiet,s);
         }
         private void PageTitle(Rect r,string text,string caption,float s)

@@ -14,7 +14,7 @@ namespace IntercomMvp
         [Min(.1f)] public float windupSeconds = .30f;
         [Min(.1f)] public float recoverySeconds = .48f;
         [Header("Close attack tracking")]
-        [Min(.03f)] public float attackCommitSeconds = .08f;
+        [Min(.03f)] public float attackCommitSeconds = .14f;
         [Min(1f)] public float attackTrackingTurnSpeed = 900f;
         [Header("Movement")]
         [Min(.1f)] public float moveSpeed = 2.65f;
@@ -30,6 +30,12 @@ namespace IntercomMvp
         [Min(1f)] public float leashRadius = 18f;
         [Min(0f)] public float patrolRadius = 1.5f;
         [Min(.1f)] public float idleSeconds = 1.1f;
+        [Header("Wave variants: multipliers on this base profile")]
+        [Min(.1f)] public float runnerHealthMultiplier = .60f;
+        [Min(.1f)] public float runnerSpeedMultiplier = 1.12f;
+        [Min(.1f)] public float heavyHealthMultiplier = 1.80f;
+        [Min(.1f)] public float heavySpeedMultiplier = .72f;
+        [Min(.1f)] public float heavyDamageMultiplier = 1.50f;
         [Header("Shared presentation assets")]
         [Min(.3f)] public float emergenceSeconds = .68f;
         [Min(.3f)] public float groundEmergenceSeconds = .95f;

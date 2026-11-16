@@ -27,7 +27,7 @@ static class Program
 
     static void Main()
     {
-        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();PauseLifecycle();TimerAndToast();FreePlayUi();MobileReferenceHud();DesktopInstrumentOwnership();DrawPreviews();
+        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();PauseLifecycle();TimerAndToast();WaveAndDamagePresentation();FreePlayUi();MobileReferenceHud();DesktopInstrumentOwnership();DrawPreviews();
         Console.WriteLine($"PASS {checks} mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.");
     }
     static void TimerAndToast()
@@ -46,6 +46,39 @@ static class Program
         Check(hud.TimerText(mission)=="00:00:00"&&hud.SessionToast(mission).Length>0,"new run resets timer and opening objective");
         mission.ElapsedSeconds=5;Check(hud.SessionToast(mission)=="","opening toast expires at five active seconds");
         mission.ElapsedSeconds=float.NaN;Check(hud.TimerText(mission)=="00:00:00","invalid elapsed time does not corrupt HUD");
+        hud.Dispose();
+    }
+    static void WaveAndDamagePresentation()
+    {
+        var hud=new IntercomWorkshopHud();var mission=new IntercomMissionDirector{Phase=IntercomMissionPhase.Active,Mode=IntercomMissionMode.Elimination,Wave=2,IsWaveResting=true,WaveRestSecondsRemaining=3.2f};
+        string rest=hud.SessionToast(mission),wave=hud.WaveCaption(mission);
+        Check(rest=="ПЕРЕДЫШКА · НОВАЯ ВОЛНА ЧЕРЕЗ 4 С"&&wave=="ВОЛНА 2 · УДАРНИКИ","wave rest and wave count read actual Director facts");
+        Check(hud.WaveCaption(mission,true)=="ВОЛНА 2","compact objective omits redundant class name beside its robot icon");
+        bool cached=true;long start=GC.GetAllocatedBytesForCurrentThread();for(int i=0;i<10000;i++)cached &= ReferenceEquals(rest,hud.SessionToast(mission))&&ReferenceEquals(wave,hud.WaveCaption(mission));
+        Check(cached&&GC.GetAllocatedBytesForCurrentThread()-start==0,"stable wave/rest UI allocates no strings during repaint");
+        mission.WaveRestSecondsRemaining=2.9f;Check(hud.SessionToast(mission).Contains("3 С"),"rest countdown rounds up and updates only on changed second");
+        mission.IsWaveResting=false;mission.ElapsedSeconds=10;Check(hud.SessionToast(mission)=="","rest label releases the battlefield immediately");
+        mission.Wave=3;Check(hud.WaveCaption(mission)=="ВОЛНА 3 · УДАРНИКИ","next wave updates title");
+        foreach(var safe in new[]{new Rect(0,0,1280,720),new Rect(94,21,2152,1038),new Rect(20,12,600,336)})
+        {
+            Screen.width=(int)(safe.xMax+safe.x);Screen.height=(int)(safe.yMax+safe.y);Screen.safeArea=safe;
+            var l=IntercomHudLayout.Calculate(safe.x,safe.y,safe.width,safe.height,70,32);var sticks=new IntercomTwinStickState();var vitality=new IntercomPlayerVitality{ShowHitRemaining=.25f};
+            foreach(var state in new[]{"hurt","quiet","paused","dead","invalid"})
+            {
+                vitality.ShowHitRemaining=state=="quiet"?0f:state=="invalid"?float.NaN:.25f;vitality.IsDead=state=="dead";
+                GUI.commands.Clear();GUI.Record=true;hud.Draw(l,sticks,new IntercomWeaponMagazine(),false,1,vitality,mission,false,state=="paused");GUI.Record=false;
+                int edges=0;
+                foreach(var command in GUI.commands)
+                {
+                    if((string)Property(command,"kind")!="texture"||(string)Property(command,"texture")!="white")continue;
+                    var color=(float[])Property(command,"color");if(Math.Abs(color[0]-.77f)>.0001f||Math.Abs(color[1]-.42f)>.0001f||Math.Abs(color[2]-.28f)>.0001f||color[3]>.201f)continue;
+                    edges++;var b=(float[])Property(command,"rect");float top=Screen.height-safe.y-safe.height;
+                    Check(b[0]>=safe.x&&b[1]>=top&&b[0]+b[2]<=safe.xMax+.001f&&b[1]+b[3]<=top+safe.height+.001f,"accepted damage edge remains inside actual notch-safe area");
+                    Check(Math.Min(b[2],b[3])<=14.001f,"damage feedback never becomes a fullscreen curtain");
+                }
+                Check(edges==(state=="hurt"?8:0),"damage edge is bounded and absent during "+state);
+            }
+        }
         hud.Dispose();
     }
     static void PauseLifecycle()
@@ -307,7 +340,7 @@ static class Program
     }
     static void DrawPreviews()
     {
-        string output=Path.Combine(Root(),"Validation/Results/V19UI/MissionPreviews");Directory.CreateDirectory(output);
+        string output=Path.Combine(Root(),"Validation/Results/V20UI/MissionPreviews");Directory.CreateDirectory(output);
         Preview(output,"selection",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Selection,IntercomMissionMode.Elimination);
         Preview(output,"elimination",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination);
         Preview(output,"opening",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination,elapsed:0f);
@@ -317,6 +350,8 @@ static class Program
         Preview(output,"portrait_pause",480,900,new Rect(18,22,444,856),IntercomMissionPhase.Active,IntercomMissionMode.Rescue,gameplayPaused:true);
         Preview(output,"portrait_active",480,900,new Rect(18,22,444,856),IntercomMissionPhase.Active,IntercomMissionMode.Elimination);
         Preview(output,"compact_active",640,360,new Rect(20,12,600,336),IntercomMissionPhase.Active,IntercomMissionMode.Elimination);
+        Preview(output,"wave_rest",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination,waveRest:true);
+        Preview(output,"wave_rest_compact",640,360,new Rect(20,12,600,336),IntercomMissionPhase.Active,IntercomMissionMode.Elimination,waveRest:true);
         Preview(output,"low_ammo",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination,ammo:3,health:24);
         Preview(output,"reloading",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination,ammo:0,loading:true);
         Preview(output,"damaged",1280,720,new Rect(0,0,1280,720),IntercomMissionPhase.Active,IntercomMissionMode.Elimination,health:62,hurt:true);
@@ -328,11 +363,12 @@ static class Program
         Preview(output,"compact",640,360,new Rect(20,12,600,336),IntercomMissionPhase.Selection,IntercomMissionMode.Elimination);
         Preview(output,"notched",2340,1080,new Rect(94,21,2152,1038),IntercomMissionPhase.Active,IntercomMissionMode.Rescue);
     }
-    static void Preview(string output,string name,int width,int height,Rect safe,IntercomMissionPhase phase,IntercomMissionMode mode,string hint="",bool gameplayPaused=false,bool confirmingExit=false,bool confirmingRestart=false,float elapsed=84f,int ammo=24,bool loading=false,float health=100f,bool hurt=false)
+    static void Preview(string output,string name,int width,int height,Rect safe,IntercomMissionPhase phase,IntercomMissionMode mode,string hint="",bool gameplayPaused=false,bool confirmingExit=false,bool confirmingRestart=false,float elapsed=84f,int ammo=24,bool loading=false,float health=100f,bool hurt=false,bool waveRest=false)
     {
         Screen.width=width;Screen.height=height;Screen.safeArea=safe;Application.isMobilePlatform=true;
         var l=Layout();var sticks=new IntercomTwinStickState();sticks.Configure(l.LeftX,l.LeftY,l.RightX,l.RightY,l.Radius,.12f,.2f);
         var mission=new IntercomMissionDirector{Phase=phase,Mode=mode,RunRevision=1,ElapsedSeconds=elapsed,IsAllyRecruited=true,AllyHealth=new IntercomHealth{Current=42,Maximum=60},ResultText=phase==IntercomMissionPhase.Defeat?"Союзник отключился. Попробуем ещё раз.":"50 ударников отключены. Отличная работа!"};
+        mission.IsWaveResting=waveRest;mission.WaveRestSecondsRemaining=3.4f;
         mission.HudHint=hint;if(phase==IntercomMissionPhase.Selection)mission.ResultText="";
         var vitality=new IntercomPlayerVitality{IsDead=phase==IntercomMissionPhase.Defeat};
         vitality.Health.Current=health;vitality.ShowHitRemaining=hurt ? .15f : 0f;

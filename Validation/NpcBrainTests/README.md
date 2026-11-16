@@ -10,7 +10,14 @@ long/invalid frame handling and the finite locked-heading melee cone predicate.
 
 Timing regressions configure an explicit .45/.65-second profile so they remain
 valid independently of the current gameplay defaults. The runtime tests exercise
-the current V9 profile and tracking/commit behavior.
+the live authored profile and tracking/commit behavior.
+
+V20 also checks the immutable Standard/Runner/Heavy multipliers against custom
+base values, safe fallback for unknown enum values, eight stable approach slots,
+separate capsule-sized goals, antisymmetric repulsion (including exactly
+coincident actors), and directional lane braking with invalid/extreme inputs.
+These helpers allocate no arrays and have no world or time state; navigation
+still validates each resulting runtime movement against actual obstacles.
 
 These are decision/geometry unit checks. CharacterController collision, line-of-
 sight raycasts, navigation integration, GUI and Animator require separate tests

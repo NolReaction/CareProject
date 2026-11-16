@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs",
-      "sha256": "203ad4e7a955f674d7f7964a7b11a20dc9fe7d8b11bab2402a232036f47d72de"
+      "sha256": "3aa95605607d4ff48a68aaf651610c70ae5328d737434372058b493b2dd58a2f"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Missions/IntercomRescueAlly.cs",
@@ -10,31 +10,31 @@
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs",
-      "sha256": "de097f730270b776e9eb1b0b12a18a13ba160560da97709015ca4bbe4f1b4edc"
+      "sha256": "d0791141e64a80bfb38ac372adfe512ae1e9c3ba48f62dd5a4bd77a583f6a60b"
     },
     {
       "path": "Validation/MissionRuntimeTests/Program.cs",
-      "sha256": "c9b84d38eb65c2ebb7ebbee9250c75c898fd512e81783ab3d5685274b1067da6"
+      "sha256": "c626afcb4a40c47a920b0690c2d076f59147f6f83ae9351f69aaff592bda90e4"
     },
     {
       "path": "Validation/MissionRuntimeTests/README.md",
-      "sha256": "3f8398679a984a076821f7ed710e26922e97ab8f02bd44853e5c4e0fa731856c"
+      "sha256": "7f5b26bf43a2060989b62c410a410602fb138084ed16d500dda445088d3bda26"
     },
     {
       "path": "Validation/NpcRuntimeTests/Program.cs",
-      "sha256": "a6402af5cc2cc66631d7d2d1a31f3c060c44293912ca3f9956000ee0692e75d7"
+      "sha256": "15bc313c4ec46d81b4b5317db48b95727b452f398d247681f2f8125ec0182124"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs",
-      "sha256": "4585a484865ead9290363330a5bda8bfa5f8b742c6f8a163178ec7df5a45499f"
+      "sha256": "f15ecff2424dde024811015dcb0e2af9e3f5a4cfc511192a09ab84ee326ca9ce"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs",
-      "sha256": "19225ced831e64e6061aed42e182789b4ffd4e49b8a6d3d06212f8198e67ec0e"
+      "sha256": "0d4494bd1687e7aefce5e0cfb3aa36cbc647570baaec4bd5effb2193f0a67189"
     },
     {
       "path": "Assets/IntercomMVP/Runtime/Enemies/Presentation/IntercomRobotDeathEffects.cs",
-      "sha256": "5b9c1e0bba6fd0923a5dce4d4b025f39ebd882a783a334333397c9201e7f2106"
+      "sha256": "9fc36047e7ddd965e93d856f17c299bcd6a2e79d311dbea14212d85a0594229f"
     },
     {
       "path": "Assets/IntercomMVP/Editor/Enemies/IntercomNpcSetup.cs",
@@ -54,11 +54,11 @@
     },
     {
       "path": "Validation/RobotDeathEffectsTests/Program.cs",
-      "sha256": "8649f45256195f0c78502028f6fe21b502857c67e948148cd82b97f46c559781"
+      "sha256": "e000f4fd135e16dac57d8f88d3d1a0c6388c6a68718435849bf181ad8bfaba7f"
     },
     {
       "path": "Validation/RobotDeathEffectsTests/README.md",
-      "sha256": "91a7f365fc872d94387d86ca4194f3f3003a82ce715b34ea6c883de0fc43af0b"
+      "sha256": "b03eba612eed96b9c7f29371ae2b96ee63d1b9540ac16e462dda4afdd2dcb61d"
     },
     {
       "path": "Validation/RobotDeathEffectsTests/RobotDeathEffectsTests.csproj",
@@ -67,6 +67,26 @@
     {
       "path": "Validation/RobotDeathEffectsTests/UnityFakes.cs",
       "sha256": "ee92ff2d4c1a1e1ca4efdb450ebfe4d686ddba0ca2d15b276f1e723efd381463"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Progression/IntercomProgression.cs",
+      "sha256": "36cbd8d92eecdbdcfd4a412c54aa564c13d80f9e7d8174668e9e3884c19cc408"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Progression/IntercomProgressionModel.cs",
+      "sha256": "d2599746e288cac19589a1dc42fcb0cd1eb00a7f6f00950956773184d5e76466"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs",
+      "sha256": "a3bc061b40f4630feda25b808d8e63d232276bba6601a12468c39643971ce4db"
+    },
+    {
+      "path": "Assets/IntercomMVP/Runtime/Diagnostics/IntercomPerformanceCapture.cs",
+      "sha256": "ecb9a9c261bb8c8b35ee1f8717ac152e607a972f57f12a7be2467a5223a104e2"
+    },
+    {
+      "path": "Assets/IntercomMVP/Editor/Diagnostics/IntercomNativeVerification.cs",
+      "sha256": "e1ab43ab3e6f20789df72c2db8b19160981a76e5b303a546e4f31e5bae164bd6"
     }
   ],
   "focusedResults": [
@@ -82,14 +102,21 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Mission/rescue runtime: 915 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "V20 authored course instant-kill floor: 146.95 active seconds. No real combat, travel or native Unity simulation in this probe.\nMission/rescue runtime: 2009 assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.\n"
+    },
+    {
+      "project": "MissionStateTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Mission state: 59212 assertions passed. Production mission accounting; no Unity runtime or rendering.\n"
     },
     {
       "project": "NpcRuntimeTests",
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nNPC runtime/factory: 603 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
+      "output": "Distant eye-ray sampling: 13 queries /100 updates over1 second (old controller:100). Near-melee rays remain immediate.\nMixed eight-actor crowd: minimum center separation=0.638m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nHeavy eight-actor crowd: minimum center separation=0.747m, capsule gap=0.030m, attackers with an opportunity=8/8 over12s (kinematic stand-in, no PhysX).\nNPC runtime/factory: 19917 assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.\n"
     },
     {
       "project": "NpcNativeSetupTests",
@@ -103,7 +130,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "Robot death effects: 1898 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
+      "output": "Robot death effects: 1976 assertions PASS; production pool/ballistics/lifecycle with deterministic Unity stand-ins, not Unity rendering or native execution.\n"
     },
     {
       "project": "PlayerControlLifecycleTests",
@@ -111,6 +138,34 @@
       "compileOutput": "",
       "runExit": 0,
       "output": "Missing-link fixture: visibleMenu=True, inputMove=0, motorEnabled=False, travel=0\nPlayer control lifecycle: 44 checks passed. Production Input/Motor/Vitality/Health/Director with enabled callbacks and narrow Unity/NPC/navigation stand-ins; not Unity Play Mode.\n"
+    },
+    {
+      "project": "ProgressionTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS actual terminal rewards, no free-play or unfinished credit\nPASS exactly-once journal survives component recreation and a fresh application counter\nPASS immediate retry cannot erase a terminal reward before progression's next Update\nPASS finite purchase branch, one capacity source and shared definitions unchanged\nPASS alternating banks, damaged-data recovery and bounded format\nPASS effective balance follows the equipped weapon rather than a stale menu asset\nPASS save failure cannot debit or confirm an unpersisted reward\nPASS multiple results survive a lasting save failure across retries\nPASS bounded queue reserves unseen terminal before allowing another run\nPASS missing dependencies or a capped magazine cannot take purchase money\nPASS native diagnostic session cannot alter the real wallet or preferences\nPASS magazine extension is prepared once, stays behind muzzles and has closed outward geometry\nPASS reward/capacity bounds never overflow or create negative money\nProgression: 13 cases / 492 assertions PASS. Actual progression/model/magazine sources with narrow Unity/preferences substitutes; no native Unity or device execution.\n"
+    },
+    {
+      "project": "FrontEndRuntimeTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS 112 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+    },
+    {
+      "project": "PerformanceCaptureTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "Performance capture: 29 assertions PASS; production history+development component with narrow Unity/recorder stand-ins. 10,000 recording frames allocated 0 managed bytes. No Unity profiler execution.\n"
+    },
+    {
+      "project": "NativeVerificationHarnessTests",
+      "compileExit": 0,
+      "compileOutput": "CareProject_V20/Validation/NativeVerificationHarnessTests/UnityFakes.cs(157,240): warning CS0067: The event 'IntercomSimpleShooter.DetailedProjectileHit' is never used\nCareProject_V20/Validation/NativeVerificationHarnessTests/UnityFakes.cs(89,133): warning CS0067: The event 'EditorApplication.delayCall' is never used\nCareProject_V20/Validation/NativeVerificationHarnessTests/UnityFakes.cs(157,182): warning CS0067: The event 'IntercomSimpleShooter.VolleyFired' is never used\n",
+      "runExit": 0,
+      "output": "Native verification harness: 45 source-compiled safety/lifecycle assertions PASS; precise Unity API substitutes. No native Unity Play Mode/PhysX/Animator/Profiler executed.\n"
     }
   ],
   "baselineRegressions": [
@@ -155,16 +210,32 @@
       "output": "Unhandled exception. System.NullReferenceException: Object reference not set to an instance of an object.\n   at Program.Send(Object target, String method)\n   at Program.MissionFixture.Step(Single dt, Boolean updateAlly)\n   at Program.MissingRuntimeDependencies()\n   at Program.Main()\n"
     }
   ],
-  "limits": "Compiles and executes production C# against narrow deterministic stand-ins. Does not run Unity, PhysX, visual GUI layout, actual camera rendering, or native destruction order.",
+  "limits": "No native Unity Editor import/type compilation, Play Mode, Animator, PhysX, Profiler capture or mobile device execution was performed here. Standalone lifecycle, persistence and Editor API substitutes are not native crash or performance reproduction.",
   "timerContract": "ElapsedSeconds accumulates full valid scaled Time.deltaTime only during active play; scheduling dt remains capped at .1 to avoid hitch catch-up spawning.",
   "status": "PASS",
-  "version": "V19",
+  "version": "V20",
   "broadResult": {
-    "projects": 51,
-    "passed": 51,
+    "projects": 53,
+    "passed": 53,
     "source": "LogicTests.json"
   },
-  "v19Contract": [
+  "baselineRegressionProvenance": "Historical V15 baseline fault reproductions retained from earlier releases. These baseline failures were not rerun for V20 and are not current/native failures.",
+  "v20Contract": [
+    "Immutable completed GUID/result snapshot survives rapid retry.",
+    "Bounded pending receipts preserve multiple unpaid results during transient storage failure; queue fullness guards the ordinary UI run route.",
+    "Failed PlayerPrefs persistence cannot confirm wallet/rank; diagnostic profile performs no real preference writes.",
+    "One effective magazine capacity drives ammo/reload/HUD and balance; authored shared weapon assets remain unchanged.",
+    "Pooled variant reuse releases lane, restores visual/material state and never compounds body chunk scale.",
+    "Native runner must explicitly observe strike resolution, simultaneous death batch, frame evidence and natural scrap expiry; unexecuted environment remains NOT_RUN."
+  ],
+  "relatedReports": [
+    "Progression.json",
+    "EnemyCrowd.json",
+    "WaveRhythm.json",
+    "FeedbackUi.json",
+    "NativeUnityAvailability.json"
+  ],
+  "retainedV19Contract": [
     "Death callbacks cannot move an inactive CharacterController.",
     "Arrival cancellation/retry restores controller/invulnerability and visual transforms.",
     "Dead body hides when pooled burst emits; retry/disable/focus loss clears transient scrap.",

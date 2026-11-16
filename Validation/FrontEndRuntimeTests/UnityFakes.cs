@@ -71,11 +71,12 @@ namespace IntercomMvp {
   public IntercomMissionMode Mode;
   public bool BlocksGameplay=>Phase!=IntercomMissionPhase.Active;
   public int Kills=12,Goal=50,AliveEnemies=6,SpawnedEnemies=18,Wave=2;
+  public bool IsWaveResting;public float WaveRestSecondsRemaining;
   public bool IsAllyRecruited;
   public IntercomHealth AllyHealth;
   public string ObjectiveText="Задание",ResultText="Двор снова работает.",HudHint="";
   public int Starts,Retries,Selections;
-  public uint RunRevision;public float ElapsedSeconds;
+  public uint RunRevision;public float ElapsedSeconds;public bool HasRunSummary;public IntercomRunSummary LastRunSummary;
   public bool StartMission(IntercomMissionMode mode){Starts++;RunRevision++;ElapsedSeconds=0;Mode=mode;Phase=IntercomMissionPhase.Active;return true;}
   public bool RetryMission(){Retries++;RunRevision++;ElapsedSeconds=0;Phase=IntercomMissionPhase.Active;return true;}
   public void ReturnToSelection(){Selections++;Phase=IntercomMissionPhase.Selection;}
@@ -86,4 +87,19 @@ namespace IntercomMvp {
  public class IntercomPlayerMotor{public float moveSpeed=3.3f;}
  public class IntercomWeaponDefinition{public float Damage=15,Interval=.12f,ReloadSeconds=1.15f;public int MagazineCapacity=24;}
  public class IntercomFrontEndRoomCamera{public bool IsShown;public IntercomFrontEndSection Last;public int Shows,Hides;public void Show(IntercomFrontEndSection s){IsShown=true;Last=s;Shows++;}public void Hide(){IsShown=false;Hides++;}}
+}
+
+namespace IntercomMvp {
+ public struct IntercomRunSummary {public int Kills,Rescued;public float ElapsedSeconds;}
+ public struct IntercomRunReward {public int Kills,Rescued,KillParts,RescueParts,VictoryParts,Total;public bool Won,Eligible;}
+ public class IntercomProgression {
+  public const int MaximumMagazineLevel=3;
+  public bool isActiveAndEnabled=true,HasResultReward,HasPendingRewards,BuyAllowed=true,CanStartAnotherRun=true;public IntercomMissionDirector mission;public IntercomWeaponDefinition EquippedWeapon;
+  public int Wallet,MagazineLevel,EffectiveMagazineCapacity=24,NextMagazineCost=60,NextMagazineCapacity=30,Calls,Purchases,CollectionAttempts;
+  public bool MagazineMaxed=>MagazineLevel>=MaximumMagazineLevel;
+  public bool CanBuyMagazine=>BuyAllowed&&!MagazineMaxed&&Wallet>=NextMagazineCost&&mission!=null&&mission.Phase==IntercomMissionPhase.Selection;
+  public string SaveProblem="";public IntercomRunReward ResultReward;public uint ResultRunRevision;
+  public bool TryBuyMagazineUpgrade(){Calls++;if(!CanBuyMagazine||SaveProblem.Length>0)return false;Purchases++;Wallet-=NextMagazineCost;MagazineLevel++;EffectiveMagazineCapacity=NextMagazineCapacity;NextMagazineCapacity+=6;NextMagazineCost=MagazineLevel==3?0:MagazineLevel==2?240:130;return true;}
+  public bool TryCollectCompletedRun(){CollectionAttempts++;return false;}
+ }
 }

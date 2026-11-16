@@ -176,19 +176,19 @@ namespace IntercomMvp
                 time=Mathf.Clamp01((EmergenceProgress-arrivalWarningFraction)/(1f-arrivalWarningFraction));
             }
             else if(brain.Phase==IntercomNpcPhase.Windup) { state=WindupState; time=brain.WindupProgress; }
+            else if(hitRemaining>0f) { state=HurtState; time=1f-Mathf.Clamp01(hitRemaining/HurtDuration); }
             else if(brain.Phase==IntercomNpcPhase.Recovery)
             {
-                float elapsed=brain.RecoveryProgress*Safe(definition.recoverySeconds,.48f,.1f,8f);
+                float elapsed=brain.RecoveryProgress*RecoverySeconds;
                 if(strikeRemaining>0f) { state=StrikeState; time=1f-Mathf.Clamp01(strikeRemaining/.16f); }
-                else { state=RecoverState; time=Mathf.Clamp01((elapsed-.16f)/Mathf.Max(.001f,Safe(definition.recoverySeconds,.48f,.1f,8f)-.16f)); }
+                else { state=RecoverState; time=Mathf.Clamp01((elapsed-.16f)/Mathf.Max(.001f,RecoverySeconds-.16f)); }
             }
-            else if(hitRemaining>0f) { state=HurtState; time=1f-Mathf.Clamp01(hitRemaining/HurtDuration); }
             else
             {
                 bool moving=presentedMoveSpeed>.04f && !suspended;
                 state=moving?WalkState:IdleState;
                 if(state!=sampledModelState) modelLoopSeconds=0f;
-                if(dt>0f) modelLoopSeconds+=dt*(moving?presentedMoveSpeed/Safe(definition.walkAnimationMetresPerSecond,.603f,.1f,8f):1f);
+                if(dt>0f) modelLoopSeconds+=dt*(moving?presentedMoveSpeed/(Safe(definition.walkAnimationMetresPerSecond,.603f,.1f,8f)*VisualScale):1f);
                 float duration=moving?.8f:1.6f;
                 time=(modelLoopSeconds%duration)/duration;
             }

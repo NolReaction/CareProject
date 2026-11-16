@@ -19,7 +19,10 @@ namespace IntercomMvp
         public bool IsReloading => state != null && state.IsReloading;
         public float ReloadProgress => state != null ? state.ReloadProgress : 0f;
         public int CurrentAmmo => state != null ? state.CurrentAmmo : Capacity;
-        public int Capacity => Definition != null ? Definition.MagazineCapacity : 24;
+        public int Capacity => IntercomWeaponBalance.EffectiveMagazineCapacity(
+            Definition != null ? Definition.MagazineCapacity : 24, CapacityBonus, ProjectilesPerVolley);
+        /// <summary>Runtime upgrade contribution. The shared weapon definition remains unchanged.</summary>
+        public int CapacityBonus { get; private set; }
         public bool CanFire => isActiveAndEnabled && state != null && state.CanFire(ProjectilesPerVolley);
         private IntercomWeaponDefinition Definition => shooter != null ? shooter.Weapon : null;
         private int ProjectilesPerVolley => Definition != null ? Definition.ProjectilesPerVolley : 2;
@@ -47,6 +50,14 @@ namespace IntercomMvp
         {
             state = new IntercomMagazineState(Capacity);
             loadedWeapon = Definition;
+        }
+
+        public void SetCapacityBonus(int rounds)
+        {
+            rounds = Math.Max(0, Math.Min(975, rounds));
+            if (rounds == CapacityBonus) return;
+            CapacityBonus = rounds;
+            ResetMagazine();
         }
 
         public bool RequestReload()

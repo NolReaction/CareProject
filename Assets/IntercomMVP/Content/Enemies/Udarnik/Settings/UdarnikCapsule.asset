@@ -18,16 +18,25 @@ MonoBehaviour:
   attackHalfAngle: 40
   windupSeconds: 0.3
   recoverySeconds: 0.48
+  attackCommitSeconds: 0.14
+  attackTrackingTurnSpeed: 900
   moveSpeed: 2.65
   patrolSpeed: 0.9
   acceleration: 10
   turnSpeed: 420
   repathSeconds: 0.32
+  separationStrength: 0.9
+  stuckRecoverySeconds: 0.4
   detectionRadius: 14
   loseTargetSeconds: 6
   leashRadius: 40
   patrolRadius: 1.5
   idleSeconds: 1.1
+  runnerHealthMultiplier: 0.6
+  runnerSpeedMultiplier: 1.12
+  heavyHealthMultiplier: 1.8
+  heavySpeedMultiplier: 0.72
+  heavyDamageMultiplier: 1.5
   emergenceSeconds: 0.68
   groundEmergenceSeconds: 0.95
   hatchEmergenceSeconds: 1.05
@@ -36,10 +45,6 @@ MonoBehaviour:
   detailMaterial: {fileID: 2100000, guid: 6628c933b7765ef384bdf1856109195f, type: 2}
   telegraphMaterial: {fileID: 2100000, guid: 57f2071996e057c084e1cfd4435a9ba1, type: 2}
   bodyColor: {r: 0.68, g: 0.53, b: 0.28, a: 1}
-  attackCommitSeconds: 0.08
-  attackTrackingTurnSpeed: 900
-  separationStrength: 0.9
-  stuckRecoverySeconds: 0.4
-  visualPrefab: {fileID: 0}
-  breakupPrefab: {fileID: 0}
+  visualPrefab: {fileID: 7216034530345020035, guid: 94edb6c347fd0c347873cf550808bbcd, type: 3}
+  breakupPrefab: {fileID: 3061786762072137654, guid: e0d547145d1ee2948b30ab46ab1c38bd, type: 3}
   walkAnimationMetresPerSecond: 0.603

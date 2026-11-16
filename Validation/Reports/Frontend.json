@@ -20,7 +20,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 66 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
+      "output": "PASS 112 actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.\n"
     },
     {
       "project": "HudLayoutTests",
@@ -34,7 +34,7 @@
       "compileExit": 0,
       "compileOutput": "",
       "runExit": 0,
-      "output": "PASS 287 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
+      "output": "PASS 360 mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.\n"
     },
     {
       "project": "PlayerControlLifecycleTests",
@@ -49,9 +49,16 @@
       "compileOutput": "",
       "runExit": 0,
       "output": "PASS desktop reload panel click never fires and movement continues\nPASS mobile reload and movement remain independent through drag and reused ID\nPASS R reload and Backspace respawn are separate\nPASS cancelled touch and paused frame clear button and sticks\nPASS actual HUD publishes ammo and reload status without GUI input handler\nPASS authored weapon portrait is passed through actual input HUD path\nPASS death blocks both sticks and old held input cannot retry\nPASS defeat uses Backspace and dedicated button, never reload or arbitrary click\nPASS actual HUD shows health and dead screen, hides ammunition whiledead\nPASS 9 actual PlayerInput/GUI call-path cases, 24 assertions with Legacy backend and narrow Unity fakes. No real device/UI rendering claim.\n"
+    },
+    {
+      "project": "ProgressionTests",
+      "compileExit": 0,
+      "compileOutput": "",
+      "runExit": 0,
+      "output": "PASS actual terminal rewards, no free-play or unfinished credit\nPASS exactly-once journal survives component recreation and a fresh application counter\nPASS immediate retry cannot erase a terminal reward before progression's next Update\nPASS finite purchase branch, one capacity source and shared definitions unchanged\nPASS alternating banks, damaged-data recovery and bounded format\nPASS effective balance follows the equipped weapon rather than a stale menu asset\nPASS save failure cannot debit or confirm an unpersisted reward\nPASS multiple results survive a lasting save failure across retries\nPASS bounded queue reserves unseen terminal before allowing another run\nPASS missing dependencies or a capped magazine cannot take purchase money\nPASS native diagnostic session cannot alter the real wallet or preferences\nPASS magazine extension is prepared once, stays behind muzzles and has closed outward geometry\nPASS reward/capacity bounds never overflow or create negative money\nProgression: 13 cases / 492 assertions PASS. Actual progression/model/magazine sources with narrow Unity/preferences substitutes; no native Unity or device execution.\n"
     }
   ],
-  "menu": "Full initial home, mode selection, robot workshop and armory with live current stats; locked future upgrade slots, no purchases or economy",
+  "menu": "Initial home, mode selection, robot workshop placeholder and armory. Live equipped-weapon stats, local spare-part wallet and a real finite three-rank magazine purchase branch.",
   "sceneComponentGuid": "a49b1e6dc2fb5d35b69e8843653af647",
   "serializedFields": [
     "mission",
@@ -62,35 +69,55 @@
     "gameTitle",
     "heroPortrait",
     "weaponPortrait",
-    "roomCamera"
+    "roomCamera",
+    "homeDoodle",
+    "rescueDoodle",
+    "progression"
   ],
   "rootComposition": "FrontEnd on MVP_NpcSandbox wired to authored MVP_MenuHub with 3 visual-only rooms and 4 anchors",
   "input": "Shared draw/hit rectangles. Held pause/reload/passive instrument presses remain UI-owned through drag until release; no accidental shot. V16 pause confirmation/restoration retained.",
   "viewPreviews": "Docs/Menu_Preview.jpg and Docs/HUD_Preview.jpg",
-  "previewScope": "Exact production GUI commands; menu background is an offline Blender framing render of shipped mesh geometry. Not Unity rendering/shader/Play Mode.",
+  "previewScope": "Offline rasters of actual current production GUI draw commands on a flat studio background. Not native Unity rendering, shader compilation or a 3D scene screenshot.",
   "roomCamera": "Dedicated untagged camera, layer30 MenuPreview; isolated studio shader; game camera enabled state restored on hide/disable/lost reference/rebind; pose preserved",
   "sourceSha256": {
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs": "ea5a796d9d3f39976055ba22a9f268855a2483c51bbaefad3816e20431b4e42c",
-    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs": "fcd317e2f5f8a31ba8cd157c66a1cae34d869b481caacec06e1f0f82cbcff509",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs": "e3c8f0b4165e51d67e977c812f8a1762780912bd713742acd193116faaa2bffc",
+    "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndView.cs": "119d97282c30db34e2b61fbfb9c3e54296a71121b110a483335e9788914091ec",
     "Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndRoomCamera.cs": "98d1cfce87a465f386378f7d1c82bfe485e26c05be56450feb091377703abee4",
     "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs": "9cd9adec23ebd9d502ca299890baaf161b6debce064e8f470b18591acd3227e3",
-    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs": "4e364cd22be6c55cc29b5106ef29d92c4ca649d4fd04d443ff838f951d0747ac",
+    "Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs": "5d5386c464a89260b2682176b7d4e896180e1903f8d1e838a11acacbba9bfbbc",
     "Assets/IntercomMVP/Runtime/Player/Input/IntercomPlayerInput.cs": "8e2f9ec4191754f7bbecd4979fb59a4102ee847a1092fbb1a505bf1c6820a8dd",
-    "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs": "b8777919709221fb498df6e4ab4acc9762f5eb5d4e653ef288180360c00c375d",
-    "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs": "8739b5e78c5b7d39d533614d0c909861b0a02f171545f6bbf446e26f5c460b1d"
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectRepair.cs": "886332374d07f02a4db9fc3d145134d2905ac0e06acf019927e9143d9816b55c",
+    "Assets/IntercomMVP/Editor/Project/IntercomProjectHub.cs": "8739b5e78c5b7d39d533614d0c909861b0a02f171545f6bbf446e26f5c460b1d",
+    "Assets/IntercomMVP/Runtime/Progression/IntercomProgression.cs": "36cbd8d92eecdbdcfd4a412c54aa564c13d80f9e7d8174668e9e3884c19cc408",
+    "Assets/IntercomMVP/Runtime/Progression/IntercomProgressionModel.cs": "d2599746e288cac19589a1dc42fcb0cd1eb00a7f6f00950956773184d5e76466",
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponMagazine.cs": "a3bc061b40f4630feda25b808d8e63d232276bba6601a12468c39643971ce4db",
+    "Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs": "019c771cdfdec43b4b3f242689a9c22cd5da1055ef7c2ca7b6daf7ba01915f79"
   },
   "limitations": [
-    "Unity Editor import, type/shader compilation, Play Mode and device testing were not run.",
-    "Upgrade/weapon slots remain future items; no purchases, currency, equipment switching or progression persistence.",
-    "The hub is an authored placeholder stage in the tutorial scene, not a separate scene-loading system."
+    "No native Unity Editor import/type compilation, Play Mode, Animator, PhysX, Profiler capture or mobile device execution was performed here.",
+    "Robot body/cosmetic slots and equipment switching remain future features; one local magazine upgrade branch and local rewards are implemented.",
+    "The hub is an authored placeholder stage inside the tutorial scene; no cross-scene account/profile service is implemented."
   ],
-  "hud": "Phone hierarchy: pause and red repair-heart/health top-left, objective below, timer center, equipped pistols/ammo/reload upper-right, two bottom sticks; cached hand-drawn contours",
+  "hud": "Phone hierarchy retained; cached wave number and rest captions, accepted damage edge pulse, central effective magazine capacity and unchanged dual-stick ownership.",
   "pause": "Owned Time.timeScale lease, Resume primary, Retry/Exit confirmation, input release gate, run revision/death/disable restore",
-  "version": "V19",
+  "version": "V20",
   "illustrations": [
     "HomeDoodle: resting intercom robot and mug in patched chair",
     "RescueDoodle: intercom robot hauling capsule buddy on handcart"
   ],
   "illustrationSource": "Content/Frontend/Artwork PNGs with genuine alpha, import max1024/NPOTNone, aspect-preserving GUI fit. Full prompts Source/Frontend/ArtPrompts.json.",
-  "buildStamp": "V19 read from IntercomFrontEnd.BuildVersion; visible in menu/HUD, project hub and repair window"
+  "buildStamp": "V20 read from IntercomFrontEnd.BuildVersion and visible in menu/HUD, project hub and repair window",
+  "progression": {
+    "componentGuid": "f62676b1b2f4562e8c079216fdbb82d4",
+    "result": "Immutable terminal summary with kills/rescued/time and confirmed spare-part breakdown. Failed persistence is visibly unconfirmed.",
+    "upgrades": "24/30/36/42 rounds, costs60/130/240. Purchase requires affordable focused Selection, live equipped magazine, capacity benefit and no pending rewards.",
+    "pending": "Bounded32-receipt FIFO, one persistence attempt per frame, two-second backoff, new-run guard when full.",
+    "references": "Valid authored progression service is reused by scene repair; conflicting owners are rejected before mutation."
+  },
+  "relatedReports": [
+    "Progression.json",
+    "WaveRhythm.json",
+    "FeedbackUi.json",
+    "NativeUnityAvailability.json"
+  ]
 }

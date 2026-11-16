@@ -84,6 +84,9 @@ namespace IntercomMvp
         private bool warnedMissingMuzzles;
         private bool hasFocus = true;
         private bool appPaused;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        private static readonly Unity.Profiling.ProfilerMarker StepMarker = new Unity.Profiling.ProfilerMarker("CareProject.Combat.Step");
+#endif
 
         /// <summary>Called by setup or a future equipment handler. +Z of each marker is the barrel direction.</summary>
         public void Initialize(IntercomWeaponPose pose, Transform right, Transform left, Transform owner)
@@ -171,6 +174,9 @@ namespace IntercomMvp
         private void LateUpdate()
         {
             if (!hasFocus || appPaused || pool == null || Time.deltaTime <= 0f) return;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            using var stepScope = StepMarker.Auto();
+#endif
             AdvanceProjectiles(Time.deltaTime);
             // The pose driver raises first and queues here during Update.
             // Sample the animated markers after Animator evaluation and turning.

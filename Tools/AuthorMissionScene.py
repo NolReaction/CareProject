@@ -40,8 +40,10 @@ def profile(name, mode):
     if not path.exists():
         values = dict(mode=mode, displayName='Уничтожить 50 роботов' if mode == 0 else 'Спасение',
                       killTarget=50, maximumAlive=6 if mode == 0 else 5,
-                      waveSize=10 if mode == 0 else 6, spawnInterval=1.2 if mode == 0 else 1.6,
-                      waveRestSeconds=2.5 if mode == 0 else 3, minimumSpawnDistance=5,
+                      waveSize=10, spawnInterval=2 if mode == 0 else 2.2,
+                      waveRestSeconds=4.5 if mode == 0 else 4, minimumSpawnDistance=5,
+                      useRhythmicWaves=1, groupSize=3 if mode==0 else 2,
+                      groupRestSeconds=2.8 if mode==0 else 2.6, openingGraceSeconds=1.3,
                       visibleSpawnEvery=3, minimumVisibleSpawnDistance=5.5, visibleSpawnWarningSeconds=.35,
                       rescueEnemySupply=30, allyHealth=60, allyMoveSpeed=3.4,
                       recruitDistance=1.6, recruitSeconds=.6, extractionRadius=2, allyWaitDistance=8)
@@ -68,7 +70,7 @@ def ensure_assets():
         match = re.search(r'^  ' + key + r': ([^\n]+)$', text, re.M)
         if match and float(match[1]) == old:
             text = re.sub(r'^  ' + key + r': [^\n]+$', f'  {key}: {new}', text, flags=re.M)
-    for key, value in {'attackCommitSeconds': .08, 'attackTrackingTurnSpeed': 900,
+    for key, value in {'attackCommitSeconds': .14, 'attackTrackingTurnSpeed': 900,
                        'separationStrength': .9, 'stuckRecoverySeconds': .4}.items():
         if not re.search(r'^  ' + key + r': ', text, re.M): text += f'  {key}: {value}\n'
     enemy.write_text(text)
