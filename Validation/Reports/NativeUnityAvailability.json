@@ -1,15 +1,13 @@
 {
-  "version": "V20",
+  "version": "V22",
   "status": "NOT_RUN",
   "nativeEditorExecuted": false,
   "unityEditorInstalled": false,
-  "unityLicenseAvailable": false,
-  "unityPluginAvailable": false,
-  "checked": ["Executable PATH", "/opt", "/usr/local", "/tmp", "Known Linux/macOS Unity license paths", "Unity environment variable names", "Enabled tool descriptions"],
-  "reason": "No Unity Editor executable or licensed Unity runtime was available in the preparation environment.",
+  "reason": "No Unity Editor executable was available in the preparation environment.",
   "preparedNativeRunner": "Tools/CareProject/Development/Verification/Run 150s Native Check",
-  "nativeReport": "Application.persistentDataPath/CareProject_Native_Latest.json",
-  "nativeScope": "Real Play Mode, PhysX/CharacterController, Animator, swept projectiles, pool reuse, retry, pause, elimination and rescue; genuine native ProfilerRecorder counters when supported.",
-  "standaloneCompiler": "Official Microsoft .NET SDK8.0.427, direct Roslyn4.11; not Unity type compilation.",
-  "limitations": ["No native Unity compile/import, Play Mode, Profiler capture or device run was performed here.", "The supplied native runner must be run on a machine with the project Unity version installed and a valid license."]
+  "standaloneCompiler": "Official Microsoft .NET SDK 8.0.408 and SDK Roslyn parser; standalone sources use narrow Unity test substitutes.",
+  "limitations": [
+    "No native Unity compilation/import, Play Mode, Animator, PhysX, Profiler or device build was performed here.",
+    "Run the supplied scene in Unity 6000.3.26f1 to confirm appearance, motion, balance and performance."
+  ]
 }

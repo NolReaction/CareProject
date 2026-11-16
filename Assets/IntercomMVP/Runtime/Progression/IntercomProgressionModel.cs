@@ -9,12 +9,15 @@ namespace IntercomMvp
         public readonly int Kills, Rescued, KillParts, RescueParts, VictoryParts;
         public readonly bool Won, Eligible;
         public int Total => KillParts + RescueParts + VictoryParts;
+        public int GearParts => KillParts;
         public IntercomRunReward(int kills, int rescued, bool won, bool eligible, int room)
+            : this(kills, rescued, won, eligible, room, kills) { }
+        public IntercomRunReward(int kills, int rescued, bool won, bool eligible, int room, int collectedGears)
         {
             Kills = Math.Max(0, Math.Min(10000, kills));
             Rescued = won ? Math.Max(0, Math.Min(1, rescued)) : 0; Won = won; Eligible = eligible;
             room = Math.Max(0, Math.Min(IntercomProgressionState.MaximumWallet, room));
-            KillParts = eligible ? Math.Min(Kills, room) : 0; room -= KillParts;
+            KillParts = eligible ? Math.Min(Math.Max(0, Math.Min(10000, collectedGears)), room) : 0; room -= KillParts;
             RescueParts = eligible ? Math.Min(Rescued * 25, room) : 0; room -= RescueParts;
             VictoryParts = eligible && won ? Math.Min(20, room) : 0;
         }
@@ -47,11 +50,14 @@ namespace IntercomMvp
         }
         public bool TrySettle(string runId, int kills, int rescued, bool won, bool eligible,
             out IntercomProgressionState next, out IntercomRunReward reward)
+            => TrySettle(runId, kills, rescued, won, eligible, kills, out next, out reward);
+        public bool TrySettle(string runId, int kills, int rescued, bool won, bool eligible, int collectedGears,
+            out IntercomProgressionState next, out IntercomRunReward reward)
         {
             next = this;
             bool valid = eligible && ValidRunId(runId);
             reward = new IntercomRunReward(kills, rescued, won, valid,
-                runId == LastRunId ? LastCredit : MaximumWallet - Wallet);
+                runId == LastRunId ? LastCredit : MaximumWallet - Wallet, collectedGears);
             if (!valid || runId == LastRunId || Generation == int.MaxValue) return false;
             next = new IntercomProgressionState(Generation + 1, Wallet + reward.Total, MagazineLevel,
                 Add(CompletedRuns, 1), Add(TotalKills, reward.Kills), Add(TotalRescued, reward.Rescued), runId, reward.Total);

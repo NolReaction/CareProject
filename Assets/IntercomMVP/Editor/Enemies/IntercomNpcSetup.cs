@@ -20,10 +20,12 @@ namespace IntercomMvp.Editor
         internal const string RobotBreakupPrefabPath = "Assets/IntercomMVP/Content/Enemies/Udarnik/Prefabs/UdarnikBreakup.prefab";
         internal const string RobotMaterialPath = "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikAtlas.mat";
         internal const string RobotAtlasPath = "Assets/IntercomMVP/Content/Enemies/Udarnik/Textures/UdarnikAtlas.png";
-        private const string RobotRevisionLabel = "CareProject_Udarnik_V19";
+        private const string RobotRevisionLabel = "CareProject_Udarnik_V21";
         private static readonly string[] LegacyRobotClipNames = { "Idle", "Walk", "Windup", "Strike", "Recover", "Hurt", "Death", "Emerge" };
-        private static readonly string[] RobotClipNames = LegacyRobotClipNames.Concat(new[]{"EmergeGround","EmergeHatch"}).ToArray();
-        private static string RobotPreparationSessionKey => "CareProject.UdarnikPrepared.V19."+Application.dataPath;
+        private static readonly string[] PreviousRobotClipNames = LegacyRobotClipNames.Concat(new[]{"EmergeGround","EmergeHatch"}).ToArray();
+        private static readonly string[] RobotClipNames = PreviousRobotClipNames.Concat(new[]{
+            "Run","WindupHook","StrikeHook","RecoverHook","WindupSlam","StrikeSlam","RecoverSlam","HurtHeavy"}).ToArray();
+        private static string RobotPreparationSessionKey => "CareProject.UdarnikPrepared.V21."+Application.dataPath;
         [InitializeOnLoadMethod]
         private static void QueueImportedRobotPreparation() { EditorApplication.delayCall+=PrepareImportedRobotWhenReady; }
         private static void PrepareImportedRobotWhenReady()
@@ -186,6 +188,7 @@ namespace IntercomMvp.Editor
             IntercomAssetCatalog.EnsureParentFolder(DefinitionPath);
             IntercomNpcDefinition definition = ScriptableObject.CreateInstance<IntercomNpcDefinition>();
             definition.name = "UdarnikCapsule";
+            definition.modelForwardYaw = 180f;
             definition.bodyMaterial = EnsureMaterial("UdarnikBody", new Color(.72f, .68f, .55f), false);
             definition.detailMaterial = EnsureMaterial("UdarnikDetail", new Color(.12f, .19f, .20f), false);
             definition.telegraphMaterial = EnsureMaterial("UdarnikTelegraph", new Color(.95f, .67f, .22f, .38f), true);
@@ -239,7 +242,8 @@ namespace IntercomMvp.Editor
             GameObject prefab=AssetDatabase.LoadAssetAtPath<GameObject>(RobotPrefabPath);
             bool newController=controller==null;
             bool generatedPrefab=prefab==null || IsGeneratedVisualPrefab(prefab,controller);
-            bool legacyController=!newController && IsGeneratedRobotController(controller,LegacyRobotClipNames);
+            bool legacyController=!newController && (IsGeneratedRobotController(controller,LegacyRobotClipNames)
+                || IsGeneratedRobotController(controller,PreviousRobotClipNames));
             bool currentController=!newController && IsGeneratedRobotController(controller,RobotClipNames);
             if(!replace && (!generatedPrefab || (!newController && !legacyController && !currentController)))
                 throw new InvalidOperationException("Udarnik.controller или UdarnikVisual.prefab изменён вручную. Он сохранён без изменений; назначьте собственные клипы самостоятельно или используйте отдельный prefab.");
@@ -256,7 +260,7 @@ namespace IntercomMvp.Editor
             else if(refreshController)
             {
                 // Keep the controller GUID and prefab reference. The imported model variant inherits the repaired mesh.
-                Undo.RecordObject(controller,"Upgrade generated Udarnik states to V19");
+                Undo.RecordObject(controller,"Upgrade generated Udarnik states to V21");
                 var machine=controller.layers[0].stateMachine;
                 Undo.RecordObject(machine,"Upgrade generated Udarnik state machine");
                 if(replace)
@@ -356,7 +360,7 @@ namespace IntercomMvp.Editor
         private static void BackupRobotAssets(params string[] assets)
         {
             string project=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,".."));
-            string backup=System.IO.Path.Combine(project,"ProjectBackups",DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")+"_udarnik_V19_"+Guid.NewGuid().ToString("N").Substring(0,8));
+            string backup=System.IO.Path.Combine(project,"ProjectBackups",DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")+"_udarnik_V21_"+Guid.NewGuid().ToString("N").Substring(0,8));
             System.IO.Directory.CreateDirectory(backup);
             foreach(string asset in assets.Distinct())
                 foreach(string suffix in new[]{"",".meta"})

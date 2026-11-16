@@ -1,17 +1,17 @@
 {
   "status": "PASS",
-  "checks": 332,
+  "checks": 348,
   "progressionComponent": 8800000143,
   "missionProfiles": {
     "Kill50": {
       "supply": 50,
-      "spawnInterval": 2.0,
-      "waveRest": 4.5
+      "spawnInterval": 1.0,
+      "waveRest": 0.0
     },
     "Rescue": {
-      "supply": 30,
-      "spawnInterval": 2.2,
-      "waveRest": 4.0
+      "supply": 50,
+      "spawnInterval": 1.15,
+      "waveRest": 0.0
     }
   },
   "protectedHeroFiles": 135,

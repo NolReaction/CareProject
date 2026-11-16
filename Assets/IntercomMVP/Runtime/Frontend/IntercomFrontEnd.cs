@@ -8,7 +8,7 @@ namespace IntercomMvp
     [DefaultExecutionOrder(-180)]
     public sealed class IntercomFrontEnd : MonoBehaviour, IIntercomMenuInput
     {
-        public const string BuildVersion = "V20";
+        public const string BuildVersion = "V22";
         [Header("Current game")]
         public IntercomMissionDirector mission;
         public IntercomPlayerInput input;

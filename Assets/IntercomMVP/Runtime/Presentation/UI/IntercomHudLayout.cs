@@ -15,7 +15,7 @@ namespace IntercomMvp
         public readonly float Scale, Radius, LeftX, LeftY, RightX, RightY;
         public readonly Box Reload, AreaBadge, Health, Defeat, Retry;
         public readonly Box MissionPanel, MissionFirst, MissionSecond, MissionThird, MissionObjective, Modes;
-        public readonly Box Timer, Toast, PausePanel, PauseResume, PauseRetry, PauseExit, PauseConfirm, PauseCancel;
+        public readonly Box Timer, Gears, Toast, PausePanel, PauseResume, PauseRetry, PauseExit, PauseConfirm, PauseCancel;
         public readonly bool ShowAreaBadge;
 
         private IntercomHudLayout(float scale, float radius, float left, float right, float bottom,
@@ -29,7 +29,9 @@ namespace IntercomMvp
             MissionPanel = missionPanel; MissionFirst = missionFirst; MissionSecond = missionSecond;
             MissionThird = missionThird;
             MissionObjective = missionObjective; Modes = modes;
-            Timer = timer; Toast = toast; PausePanel = pausePanel; PauseResume = pauseResume;
+            Timer = timer;
+            Gears = new Box(timer.X, timer.Y, timer.Width, timer.Height * .43f);
+            Toast = toast; PausePanel = pausePanel; PauseResume = pauseResume;
             PauseRetry = pauseRetry; PauseExit = pauseExit; PauseConfirm = pauseConfirm; PauseCancel = pauseCancel;
         }
 

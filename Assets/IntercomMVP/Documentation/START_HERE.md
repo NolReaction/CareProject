@@ -1,4 +1,4 @@
-# CareProject — навигация проекта
+# CareProject V21 — навигация проекта
 
 Полный проект открывается из Unity Hub через Add project from disk.
 Выбери папку с Assets, Packages и ProjectSettings, используй Unity 6000.3.26f1
@@ -38,3 +38,6 @@ Docs/DeveloperGuide.md, Docs/Gameplay.md и MOBILE_TESTING.md. Source/Robot/READ
 
 Карточки .asset задают числа и ссылки. Runtime выполняет поведение.
 Editor настраивает проект. Переноси ресурсы вместе с .meta.
+
+V21: 18 клипов ударника, непрерывные волны и подбираемые шестерёнки.
+Полные изменения: CHANGELOG_V21.md в корне проекта.

@@ -18,6 +18,14 @@ namespace IntercomMvp
             Maximum=float.IsNaN(maximum) || float.IsInfinity(maximum) ? 100f : Math.Max(1f,maximum);
             Current=Maximum;
         }
+        /// <summary>Returns the actual restored HP; a pickup cannot revive or overheal.</summary>
+        public float Heal(float amount)
+        {
+            if(IsDead || Current >= Maximum || amount <= 0f || float.IsNaN(amount) || float.IsInfinity(amount)) return 0f;
+            float restored = Math.Min(amount, Maximum - Current);
+            Current += restored;
+            return restored;
+        }
         public bool Apply(float damage)
         {
             if(IsDead || damage<=0f || float.IsNaN(damage) || float.IsInfinity(damage))return false;

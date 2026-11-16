@@ -80,6 +80,12 @@ namespace IntercomMvp
         private void Awake()
         {
             ResolveReferences();
+            if (mission != null)
+            {
+                if (mission.gearPickups == null) mission.gearPickups = GetComponent<IntercomGearPickups>();
+                if (mission.gearPickups == null) mission.gearPickups = gameObject.AddComponent<IntercomGearPickups>();
+                mission.gearPickups.mission = mission;
+            }
             try
             {
                 profile = IntercomProgressionState.Recover(PlayerPrefs.GetString(BankA, ""), PlayerPrefs.GetString(BankB, ""), out bool recovered);
@@ -128,7 +134,7 @@ namespace IntercomMvp
             CaptureLatestResult();
             if (pendingCount == 0 || Time.unscaledTime < nextSaveAttempt) return false;
             IntercomMissionRunSummary summary = pending[pendingHead];
-            bool fresh = Profile.TrySettle(summary.RunId, summary.Kills, summary.Rescued, summary.Won, true,
+            bool fresh = Profile.TrySettle(summary.RunId, summary.Kills, summary.Rescued, summary.Won, true, summary.CollectedGears,
                 out IntercomProgressionState next, out IntercomRunReward reward);
             if (fresh && !Commit(next)) { nextSaveAttempt = Time.unscaledTime + 2f; return false; }
             if (!fresh && Profile.LastRunId != summary.RunId)
@@ -151,7 +157,7 @@ namespace IntercomMvp
             // A recreated component sees the same run ID in the saved journal and restores its display without paying again.
             if (!eligible || Profile.LastRunId == summary.RunId)
             {
-                ShowReward(summary, new IntercomRunReward(summary.Kills, summary.Rescued, summary.Won, eligible, Profile.LastCredit));
+                ShowReward(summary, new IntercomRunReward(summary.Kills, summary.Rescued, summary.Won, eligible, Profile.LastCredit, summary.CollectedGears));
                 observedResultRevision = summary.ResultRevision; return;
             }
             if (pendingCount >= MaximumPendingRewards)

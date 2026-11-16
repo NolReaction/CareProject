@@ -15,7 +15,8 @@ static class Program
 {
  static int checks;
  static readonly string[] Legacy={"Idle","Walk","Windup","Strike","Recover","Hurt","Death","Emerge"};
- static readonly string[] Current=Legacy.Concat(new[]{"EmergeGround","EmergeHatch"}).ToArray();
+ static readonly string[] Previous=Legacy.Concat(new[]{"EmergeGround","EmergeHatch"}).ToArray();
+ static readonly string[] Current=Previous.Concat(new[]{"Run","WindupHook","StrikeHook","RecoverHook","WindupSlam","StrikeSlam","RecoverSlam","HurtHeavy"}).ToArray();
  static void Check(bool ok,string label){checks++;if(!ok)throw new Exception(label);}
  static void PreservedError(Action run,string label){try{run();throw new Exception("Expected preservation refusal: "+label);}catch(InvalidOperationException e){Check(e.Message.Contains("сохранён"),"custom authoring refusal explains preservation: "+label);}}
  sealed class Fixture:IDisposable
@@ -59,14 +60,14 @@ static class Program
  }
  static void Main()
  {
-  NativeCreation();UpgradeV18();CustomPreservation();ImportAndFailureGuards();AutoUpgrade();
+  NativeCreation();UpgradeV18();UpgradeV20();CustomPreservation();ImportAndFailureGuards();AutoUpgrade();
   Console.WriteLine($"NPC native setup: {checks} assertions passed; actual editor builder and real backup files with narrow AssetDatabase/Prefab/AnimatorController stand-ins. Not native Unity import/serialization.");
  }
  static void NativeCreation()
  {
   using var f=new Fixture(breakup:true);IntercomNpcSetup.EnsureRobotVisualAssets();
   var c=AssetDatabase.LoadAssetAtPath<AnimatorController>(IntercomNpcSetup.RobotControllerPath);var prefab=f.Definition.visualPrefab;
-  Check(c!=null&&c.layers[0].stateMachine.states.Length==10,"fresh native controller has10 known states");
+  Check(c!=null&&c.layers[0].stateMachine.states.Length==18,"fresh native controller has18 known states");
   Check(AssetDatabase.LoadAllCalls==1,"native clip discovery reads imported subassets directly");
   foreach(string n in Current)Check(c.layers[0].stateMachine.states.Single(s=>s.state.name==n).state.motion==f.Clips[n],"native motion object retained instead of guessed ID: "+n);
   Check(prefab.GetComponent<Animator>()!=null&&prefab.GetComponent<Animator>().runtimeAnimatorController==c,"Animator/controller remains on imported model root");
@@ -77,12 +78,23 @@ static class Program
   Check(chunks.GetComponentsInChildren<Animator>(true).Length==0&&chunks.GetComponentsInChildren<SkinnedMeshRenderer>(true).Length==0&&chunks.GetComponentsInChildren<Collider>(true).Length==0,"death template has static meshes and no skin/animator/collider");
   Check(chunks.GetComponentsInChildren<MeshRenderer>(true).All(r=>r.sharedMaterial==f.Atlas),"breakup shares existing atlas rather than per-piece materials");
   var first=chunks.transform.children[0];Check(Math.Abs(first.localPosition.x-.2f)<.00001f&&Math.Abs(first.localPosition.y-.3f)<.00001f&&Math.Abs(first.localPosition.z)<.00001f,"flattened chunk keeps centered source pivot translation");
-  Check(AssetDatabase.GetLabels(c).Contains("CareProject_Udarnik_V19")&&AssetDatabase.GetLabels(prefab).Contains("CareProject_Udarnik_V19"),"generated native assets record V19 revision label");
+  Check(AssetDatabase.GetLabels(c).Contains("CareProject_Udarnik_V21")&&AssetDatabase.GetLabels(prefab).Contains("CareProject_Udarnik_V21"),"generated native assets record V19 revision label");
   int backups=f.BackupFiles().Length,creates=AssetDatabase.CreateCalls,saves=PrefabUtility.SaveCounts.Values.Sum();
   IntercomNpcSetup.EnsureRobotVisualAssets();
   Check(f.Definition.visualPrefab==prefab&&f.Definition.breakupPrefab==chunks,"repeated preparation keeps assigned native object references");
   Check(AssetDatabase.CreateCalls==creates&&PrefabUtility.SaveCounts.Values.Sum()==saves&&f.BackupFiles().Length==backups,"repeat preparation creates no duplicate native assets or backups");
   Check(EditorSceneManager.OpenPreviews==EditorSceneManager.ClosedPreviews,"all authoring preview scenes close");
+ }
+ static void UpgradeV20()
+ {
+  using var f=new Fixture(legacy:true);
+  foreach(string n in new[]{"EmergeGround","EmergeHatch"})
+  {var state=f.Controller.layers[0].stateMachine.AddState(n,Vector3.zero);state.motion=f.Clips[n];}
+  var original=f.Controller;var states=original.layers[0].stateMachine.states.Select(s=>s.state).ToArray();
+  IntercomNpcSetup.EnsureRobotVisualAssets();
+  Check(ReferenceEquals(original,AssetDatabase.LoadAssetAtPath<AnimatorController>(IntercomNpcSetup.RobotControllerPath))
+      &&original.layers[0].stateMachine.states.Length==18,"known V20 graph migrates in place to expanded animation set");
+  Check(states.All(s=>original.layers[0].stateMachine.states.Any(c=>ReferenceEquals(c.state,s))),"V20 migration preserves original native state identities");
  }
  static void UpgradeV18()
  {
@@ -93,7 +105,7 @@ static class Program
   IntercomNpcSetup.EnsureRobotVisualAssets();
   Check(AssetDatabase.LoadAssetAtPath<AnimatorController>(IntercomNpcSetup.RobotControllerPath)==original,"V18 migration retains controller object/GUID identity");
   Check(f.Definition.visualPrefab==prefab&&PrefabUtility.SaveCounts[IntercomNpcSetup.RobotPrefabPath]==visualSaves,"existing imported model variant is retained and never rebuilt");
-  Check(original.layers[0].stateMachine.states.Length==10&&original.layers[0].stateMachine.defaultState.name=="Idle","recognized V18 graph upgrades to10 states and Idle default");
+  Check(original.layers[0].stateMachine.states.Length==18&&original.layers[0].stateMachine.defaultState.name=="Idle","recognized V18 graph upgrades to18 states and Idle default");
   Check(originalStates.All(s=>original.layers[0].stateMachine.states.Any(c=>ReferenceEquals(c.state,s))),"implicit upgrade retains original eight state objects and authored layout IDs");
   string[] backup=f.BackupFiles();
   foreach(string n in new[]{"Udarnik.controller","Udarnik.controller.meta","UdarnikVisual.prefab","UdarnikVisual.prefab.meta","UdarnikCapsule.asset","UdarnikCapsule.asset.meta"})Check(backup.Any(p=>Path.GetFileName(p)==n),"migration writes prechange backup including metadata: "+n);
@@ -118,7 +130,7 @@ static class Program
    var states=m.states.ToArray();int files=f.BackupFiles().Length,saveCount=PrefabUtility.SaveCounts.Values.Sum();
    PreservedError(()=>IntercomNpcSetup.EnsureRobotVisualAssets(),mutation);
    Check(m.states.SequenceEqual(states)&&f.Definition.visualPrefab==f.Prefab,"custom graph/prefab remains untouched: "+mutation);
-   Check(f.BackupFiles().Length==files&&PrefabUtility.SaveCounts.Values.Sum()==saveCount&&!AssetDatabase.GetLabels(f.Controller).Contains("CareProject_Udarnik_V19"),"refused custom migration writes no backup/revision/prefab: "+mutation);
+   Check(f.BackupFiles().Length==files&&PrefabUtility.SaveCounts.Values.Sum()==saveCount&&!AssetDatabase.GetLabels(f.Controller).Contains("CareProject_Udarnik_V21"),"refused custom migration writes no backup/revision/prefab: "+mutation);
   }
   using(var f=new Fixture())
   {
@@ -175,8 +187,8 @@ static class Program
   SessionState.SetBool("CareProject.UdarnikPrepared."+Application.dataPath,true); // V18 session attempt must not mask V19.
   var method=typeof(IntercomNpcSetup).GetMethod("PrepareImportedRobotWhenReady",BindingFlags.Static|BindingFlags.NonPublic);
   method.Invoke(null,null);
-  Check(f.Controller.layers[0].stateMachine.states.Length==10,"first V19 load upgrades existing nonnull known V18 native prefab");
-  Check(SessionState.GetBool("CareProject.UdarnikPrepared.V19."+Application.dataPath,false),"auto preparation has version-specific session guard");
+  Check(f.Controller.layers[0].stateMachine.states.Length==18,"first V19 load upgrades existing nonnull known V18 native prefab");
+  Check(SessionState.GetBool("CareProject.UdarnikPrepared.V21."+Application.dataPath,false),"auto preparation has version-specific session guard");
   int calls=AssetDatabase.LoadAllCalls;method.Invoke(null,null);Check(AssetDatabase.LoadAllCalls==calls,"repeat auto callback does not import/build a second time this session");
  }
 }

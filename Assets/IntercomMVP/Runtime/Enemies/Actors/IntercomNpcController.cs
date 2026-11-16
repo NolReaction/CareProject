@@ -83,7 +83,7 @@ namespace IntercomMvp
         private static readonly Unity.Profiling.ProfilerMarker TickMarker = new Unity.Profiling.ProfilerMarker("CareProject.NPC.Tick");
 #endif
 
-        private float HurtDuration => modelAnimator!=null?.22f:.18f;
+        private float HurtDuration => modelAnimator!=null ? (Archetype==IntercomNpcArchetype.Heavy?.32f:.22f):.18f;
         private float Range => Safe(definition.attackRange, 1.05f, .3f, 3f) * VisualScale;
         private float EmergenceDuration => arrivalDuration>0f ? arrivalDuration : Safe(definition.emergenceSeconds,.68f,.3f,2f);
         private static float Safe(float v, float fallback, float min, float max) => IntercomNpcDefinition.Safe(v, fallback, min, max);
@@ -241,7 +241,7 @@ namespace IntercomMvp
                 if(controller!=null) controller.enabled=emergenceSavedController && health!=null && !health.IsDead;
                 if(visual!=null)
                 {
-                    visual.localPosition=Vector3.zero; visual.localRotation=Quaternion.identity; visual.localScale=Vector3.one*VisualScale;
+                    visual.localPosition=Vector3.zero; visual.localRotation=ModelFacingRotation; visual.localScale=Vector3.one*VisualScale;
                 }
             }
             emergenceSeconds=arrivalDuration=0f; arrivalWarningFraction=.17f;
@@ -262,7 +262,7 @@ namespace IntercomMvp
             if(visual!=null)
             {
                 visual.localPosition=Vector3.up*(-Safe(definition.emergenceDepth,1.48f,.5f,3f)*VisualScale*(1f-eased)+settle);
-                visual.localRotation=modelAnimator!=null ? Quaternion.Euler(0f,(hatch?-12f:ground?6f:28f)*(1f-eased),0f)
+                visual.localRotation=modelAnimator!=null ? ModelFacingRotation*Quaternion.Euler(0f,(hatch?-12f:ground?6f:28f)*(1f-eased),0f)
                     :Quaternion.Euler(-12f*(1f-eased),28f*(1f-eased),0f);
                 visual.localScale=(modelAnimator!=null?Vector3.one:new Vector3(1f+.07f*(1f-eased),.88f+.12f*eased,1f+.07f*(1f-eased)))*VisualScale;
             }
@@ -414,6 +414,7 @@ namespace IntercomMvp
                 Flat(transform.position-patrolGoal).sqrMagnitude < .16f,investigateRemaining>0f));
             if (before != IntercomNpcPhase.Windup && brain.Phase == IntercomNpcPhase.Windup)
             {
+                ChooseAttackAnimation();
                 lockedHeading = delta.sqrMagnitude > .0001f ? delta.normalized : transform.forward;
                 transform.rotation = Quaternion.LookRotation(lockedHeading, Vector3.up);
                 velocity = Vector3.zero;
@@ -778,7 +779,7 @@ namespace IntercomMvp
             else if(visual!=null)
             {
                 // Mechanical joints stay rigid. The authored bones provide recoil and the short pop fallback.
-                visual.localScale=Vector3.one*VisualScale; visual.localRotation=Quaternion.identity; visual.localPosition=Vector3.zero;
+                visual.localScale=Vector3.one*VisualScale; visual.localRotation=ModelFacingRotation; visual.localPosition=Vector3.zero;
             }
             ApplyModelPresentation(dt);
             if(bodyRenderer!=null)

@@ -7,6 +7,7 @@
     <Compile Include="../../Assets/IntercomMVP/Runtime/Combat/Weapons/IntercomWeaponModel.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs"/>
+    <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHealthFeedbackState.cs"/>
     <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEndModel.cs"/>
     
     <Compile Include="../../Assets/IntercomMVP/Runtime/Frontend/IntercomFrontEnd.cs"/>

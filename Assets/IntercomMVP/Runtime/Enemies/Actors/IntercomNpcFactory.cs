@@ -45,7 +45,7 @@ namespace IntercomMvp
                 else
                 {
                     model.transform.localPosition=Vector3.zero;
-                    model.transform.localRotation=Quaternion.identity;
+                    // Keep the prefab author's yaw. Import-axis correction belongs to the visual wrapper below.
                     model.transform.localScale=Vector3.one;
                     model.SetActive(true);
                     animator.applyRootMotion=false;
@@ -110,14 +110,26 @@ namespace IntercomMvp
         private Vector3[] modelPublishedPositions, modelPublishedScales;
         private Quaternion[] modelPublishedRotations;
         private bool modelPoseReady;
-        private float modelBlendRemaining;
-        private bool modelHasGroundEmerge, modelHasHatchEmerge;
+        private float modelBlendRemaining, modelBlendDuration;
+        private bool modelHasGroundEmerge, modelHasHatchEmerge, modelHasRun, modelHasHeavyHurt;
+        private bool modelHasHook, modelHasSlam;
+        private int modelAttackStyle;
+        private Quaternion ModelFacingRotation => modelAnimator!=null && definition!=null
+            ? Quaternion.Euler(0f,Safe(definition.modelForwardYaw,0f,-180f,180f),0f) : Quaternion.identity;
         private static readonly int IdleState=Animator.StringToHash("Base Layer.Idle");
         private static readonly int WalkState=Animator.StringToHash("Base Layer.Walk");
+        private static readonly int RunState=Animator.StringToHash("Base Layer.Run");
         private static readonly int WindupState=Animator.StringToHash("Base Layer.Windup");
         private static readonly int StrikeState=Animator.StringToHash("Base Layer.Strike");
         private static readonly int RecoverState=Animator.StringToHash("Base Layer.Recover");
         private static readonly int HurtState=Animator.StringToHash("Base Layer.Hurt");
+        private static readonly int HeavyHurtState=Animator.StringToHash("Base Layer.HurtHeavy");
+        private static readonly int HookWindupState=Animator.StringToHash("Base Layer.WindupHook");
+        private static readonly int HookStrikeState=Animator.StringToHash("Base Layer.StrikeHook");
+        private static readonly int HookRecoverState=Animator.StringToHash("Base Layer.RecoverHook");
+        private static readonly int SlamWindupState=Animator.StringToHash("Base Layer.WindupSlam");
+        private static readonly int SlamStrikeState=Animator.StringToHash("Base Layer.StrikeSlam");
+        private static readonly int SlamRecoverState=Animator.StringToHash("Base Layer.RecoverSlam");
         private static readonly int DeathState=Animator.StringToHash("Base Layer.Death");
         private static readonly int EmergeState=Animator.StringToHash("Base Layer.Emerge");
         private static readonly int GroundEmergeState=Animator.StringToHash("Base Layer.EmergeGround");
@@ -127,8 +139,8 @@ namespace IntercomMvp
         {
             RestoreModelTint();
             sampledModelState=int.MinValue; sampledModelTime=-1f;
-            modelLoopSeconds=presentedMoveSpeed=modelBlendRemaining=0f;
-            modelPoseReady=false;
+            modelLoopSeconds=presentedMoveSpeed=modelBlendRemaining=modelBlendDuration=0f;
+            modelPoseReady=false; modelAttackStyle=0;
             if(modelAnimator!=null && modelPoseBones==null && bodyRenderer is SkinnedMeshRenderer skinned)
             {
                 modelPoseBones=skinned.bones ?? System.Array.Empty<Transform>();
@@ -166,6 +178,10 @@ namespace IntercomMvp
                 // An intentionally assigned older/custom visual can still use its legacy arrival state.
                 modelHasGroundEmerge=modelAnimator.HasState(0,GroundEmergeState);
                 modelHasHatchEmerge=modelAnimator.HasState(0,HatchEmergeState);
+                modelHasRun=modelAnimator.HasState(0,RunState);
+                modelHasHeavyHurt=modelAnimator.HasState(0,HeavyHurtState);
+                modelHasHook=modelAnimator.HasState(0,HookWindupState) && modelAnimator.HasState(0,HookStrikeState) && modelAnimator.HasState(0,HookRecoverState);
+                modelHasSlam=modelAnimator.HasState(0,SlamWindupState) && modelAnimator.HasState(0,SlamStrikeState) && modelAnimator.HasState(0,SlamRecoverState);
             }
             int state; float time;
             if(health.IsDead) { state=DeathState; time=Mathf.Clamp01(deathSeconds/.18f); }
@@ -175,21 +191,25 @@ namespace IntercomMvp
                     :emergenceKind==IntercomEnemySpawnKind.Ground && modelHasGroundEmerge ? GroundEmergeState:EmergeState;
                 time=Mathf.Clamp01((EmergenceProgress-arrivalWarningFraction)/(1f-arrivalWarningFraction));
             }
-            else if(brain.Phase==IntercomNpcPhase.Windup) { state=WindupState; time=brain.WindupProgress; }
-            else if(hitRemaining>0f) { state=HurtState; time=1f-Mathf.Clamp01(hitRemaining/HurtDuration); }
+            else if(brain.Phase==IntercomNpcPhase.Windup) { state=AttackModelState(WindupState,HookWindupState,SlamWindupState); time=brain.WindupProgress; }
+            else if(hitRemaining>0f) { state=Archetype==IntercomNpcArchetype.Heavy && modelHasHeavyHurt ? HeavyHurtState:HurtState; time=1f-Mathf.Clamp01(hitRemaining/HurtDuration); }
             else if(brain.Phase==IntercomNpcPhase.Recovery)
             {
                 float elapsed=brain.RecoveryProgress*RecoverySeconds;
-                if(strikeRemaining>0f) { state=StrikeState; time=1f-Mathf.Clamp01(strikeRemaining/.16f); }
-                else { state=RecoverState; time=Mathf.Clamp01((elapsed-.16f)/Mathf.Max(.001f,RecoverySeconds-.16f)); }
+                if(strikeRemaining>0f) { state=AttackModelState(StrikeState,HookStrikeState,SlamStrikeState); time=1f-Mathf.Clamp01(strikeRemaining/.16f); }
+                else { state=AttackModelState(RecoverState,HookRecoverState,SlamRecoverState); time=Mathf.Clamp01((elapsed-.16f)/Mathf.Max(.001f,RecoverySeconds-.16f)); }
             }
             else
             {
                 bool moving=presentedMoveSpeed>.04f && !suspended;
-                state=moving?WalkState:IdleState;
+                bool running=moving && modelHasRun && presentedMoveSpeed>1.25f*VisualScale
+                    && (brain.Phase==IntercomNpcPhase.Chase || brain.Phase==IntercomNpcPhase.Return);
+                state=moving ? (running?RunState:WalkState):IdleState;
                 if(state!=sampledModelState) modelLoopSeconds=0f;
-                if(dt>0f) modelLoopSeconds+=dt*(moving?presentedMoveSpeed/(Safe(definition.walkAnimationMetresPerSecond,.603f,.1f,8f)*VisualScale):1f);
-                float duration=moving?.8f:1.6f;
+                float reference=running ? Safe(definition.runAnimationMetresPerSecond,1.1160714f,.1f,8f)
+                    :Safe(definition.walkAnimationMetresPerSecond,.603f,.1f,8f);
+                if(dt>0f) modelLoopSeconds+=dt*(moving?presentedMoveSpeed/(reference*VisualScale):1f);
+                float duration=moving ? (running?.64f:.8f):1.6f;
                 time=(modelLoopSeconds%duration)/duration;
             }
             time=Mathf.Clamp01(time);
@@ -197,9 +217,13 @@ namespace IntercomMvp
             if(state!=sampledModelState)
             {
                 modelBlendRemaining=0f;
-                if(sampledModelState!=int.MinValue && (state==IdleState || state==WalkState) && modelPoseBones!=null)
+                bool locomotion=state==IdleState || state==WalkState || state==RunState;
+                bool preparation=state==WindupState || state==HookWindupState || state==SlamWindupState;
+                if(sampledModelState!=int.MinValue && (locomotion || preparation) && modelPoseBones!=null)
                 {
-                    modelBlendRemaining=.08f;
+                    // Preparation blends only its first 45ms; contact and follow-through retain the exact phase clock.
+                    modelBlendDuration=locomotion?.08f:.045f;
+                    modelBlendRemaining=modelBlendDuration;
                     for(int i=0;i<modelPoseBones.Length;i++)
                     {
                         Transform bone=modelPoseBones[i];if(bone==null)continue;
@@ -212,7 +236,7 @@ namespace IntercomMvp
             if(modelBlendRemaining>0f && modelPoseBones!=null)
             {
                 modelBlendRemaining=Mathf.Max(0f,modelBlendRemaining-Mathf.Max(0f,dt));
-                float blend=1f-modelBlendRemaining/.08f;blend=blend*blend*(3f-2f*blend);
+                float blend=1f-modelBlendRemaining/Mathf.Max(.001f,modelBlendDuration);blend=blend*blend*(3f-2f*blend);
                 for(int i=0;i<modelPoseBones.Length;i++)
                 {
                     Transform bone=modelPoseBones[i];if(bone==null)continue;
@@ -231,6 +255,15 @@ namespace IntercomMvp
                 }
                 modelPoseReady=true;
             }
+        }
+
+        private int AttackModelState(int direct,int hook,int slam)
+            => modelAttackStyle==1 && modelHasHook ? hook : modelAttackStyle==2 && modelHasSlam ? slam : direct;
+
+        private void ChooseAttackAnimation()
+        {
+            // Stable per-life/attack selection; never consumes gameplay randomness or changes hit timing.
+            modelAttackStyle=Archetype==IntercomNpcArchetype.Heavy ? 2 : (int)(((uint)variant+ResolvedStrikeVersion)%3u);
         }
 
         private void LateUpdate()

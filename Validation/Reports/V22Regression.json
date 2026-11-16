@@ -1,0 +1,302 @@
+{
+  "version": "V22",
+  "status": "PASS",
+  "standaloneProjects": 56,
+  "passed": 56,
+  "projects": [
+    {
+      "name": "AnimationGroundingIntegrationTests",
+      "status": "PASS",
+      "seconds": 4.97
+    },
+    {
+      "name": "AssetCatalogTests",
+      "status": "PASS",
+      "seconds": 4.51
+    },
+    {
+      "name": "AudioTimingTests",
+      "status": "PASS",
+      "seconds": 3.67
+    },
+    {
+      "name": "CameraTrackingTests",
+      "status": "PASS",
+      "seconds": 4.16
+    },
+    {
+      "name": "CharacterAnimationTests",
+      "status": "PASS",
+      "seconds": 4.31
+    },
+    {
+      "name": "CombatEffectsTests",
+      "status": "PASS",
+      "seconds": 4.12
+    },
+    {
+      "name": "DeathStrikeLifecycleTests",
+      "status": "PASS",
+      "seconds": 4.14
+    },
+    {
+      "name": "DirectionalLocomotionTests",
+      "status": "PASS",
+      "seconds": 3.79
+    },
+    {
+      "name": "EnemySpawnPolicyTests",
+      "status": "PASS",
+      "seconds": 3.98
+    },
+    {
+      "name": "FrontEndModelTests",
+      "status": "PASS",
+      "seconds": 3.78
+    },
+    {
+      "name": "FrontEndRoomCameraTests",
+      "status": "PASS",
+      "seconds": 3.87
+    },
+    {
+      "name": "FrontEndRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.61,
+      "initialSweepStatus": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "GearPickupTests",
+      "status": "PASS",
+      "seconds": 4.08
+    },
+    {
+      "name": "GroundContactTests",
+      "status": "PASS",
+      "seconds": 4.15
+    },
+    {
+      "name": "GroundFeedbackLifecycleTests",
+      "status": "PASS",
+      "seconds": 4.52
+    },
+    {
+      "name": "HealthFeedbackTests",
+      "status": "PASS",
+      "seconds": 1.75,
+      "initialSweepStatus": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "HudLayoutTests",
+      "status": "PASS",
+      "seconds": 2.09,
+      "initialSweepStatus": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "InputCancellationTests",
+      "status": "PASS",
+      "seconds": 3.9
+    },
+    {
+      "name": "MagazineTests",
+      "status": "PASS",
+      "seconds": 3.93
+    },
+    {
+      "name": "MedkitPickupTests",
+      "status": "PASS",
+      "seconds": 1.87
+    },
+    {
+      "name": "MissionRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.31
+    },
+    {
+      "name": "MissionSceneRouteTests",
+      "status": "PASS",
+      "seconds": 4.24
+    },
+    {
+      "name": "MissionStateTests",
+      "status": "PASS",
+      "seconds": 4.45
+    },
+    {
+      "name": "MissionUiTests",
+      "status": "PASS",
+      "seconds": 4.27,
+      "initialSweepStatus": "FAIL",
+      "targetedRerun": true
+    },
+    {
+      "name": "MobileInputTests",
+      "status": "PASS",
+      "seconds": 4.33
+    },
+    {
+      "name": "NativeVerificationHarnessTests",
+      "status": "PASS",
+      "seconds": 4.4
+    },
+    {
+      "name": "NpcArenaTests",
+      "status": "PASS",
+      "seconds": 4.39
+    },
+    {
+      "name": "NpcBrainTests",
+      "status": "PASS",
+      "seconds": 3.91
+    },
+    {
+      "name": "NpcNativeSetupTests",
+      "status": "PASS",
+      "seconds": 5.37
+    },
+    {
+      "name": "NpcNavigationTests",
+      "status": "PASS",
+      "seconds": 4.5
+    },
+    {
+      "name": "NpcRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.68
+    },
+    {
+      "name": "OcclusionLeaseTests",
+      "status": "PASS",
+      "seconds": 3.96
+    },
+    {
+      "name": "OcclusionMathTests",
+      "status": "PASS",
+      "seconds": 4.09
+    },
+    {
+      "name": "OcclusionRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.1
+    },
+    {
+      "name": "PackageInstallerTests",
+      "status": "PASS",
+      "seconds": 3.98
+    },
+    {
+      "name": "PerformanceCaptureTests",
+      "status": "PASS",
+      "seconds": 4.08
+    },
+    {
+      "name": "PlayerAudioLifecycleTests",
+      "status": "PASS",
+      "seconds": 4.47
+    },
+    {
+      "name": "PlayerControlLifecycleTests",
+      "status": "PASS",
+      "seconds": 4.99,
+      "initialSweepStatus": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "PlayerHurtFeedbackTests",
+      "status": "PASS",
+      "seconds": 4.56
+    },
+    {
+      "name": "PlayerInputRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.58,
+      "initialSweepStatus": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "PlayerVitalityTests",
+      "status": "PASS",
+      "seconds": 2.08
+    },
+    {
+      "name": "PoseClockTests",
+      "status": "PASS",
+      "seconds": 4.6
+    },
+    {
+      "name": "ProgressionTests",
+      "status": "PASS",
+      "seconds": 4.57
+    },
+    {
+      "name": "ProjectRepairTests",
+      "status": "PASS",
+      "seconds": 4.65
+    },
+    {
+      "name": "ProjectStartupTests",
+      "status": "PASS",
+      "seconds": 4.42
+    },
+    {
+      "name": "ProjectileCollisionTests",
+      "status": "PASS",
+      "seconds": 3.96
+    },
+    {
+      "name": "ProjectileSurfaceTests",
+      "status": "PASS",
+      "seconds": 4.21
+    },
+    {
+      "name": "ReactivePropTests",
+      "status": "PASS",
+      "seconds": 4.49
+    },
+    {
+      "name": "RobotDeathEffectsTests",
+      "status": "PASS",
+      "seconds": 5.52
+    },
+    {
+      "name": "RunningContactTests",
+      "status": "PASS",
+      "seconds": 11.46
+    },
+    {
+      "name": "RunningWaistTests",
+      "status": "PASS",
+      "seconds": 4.56
+    },
+    {
+      "name": "ShooterIntegrationTests",
+      "status": "PASS",
+      "seconds": 4.47
+    },
+    {
+      "name": "TracerGeometryTests",
+      "status": "PASS",
+      "seconds": 4.03
+    },
+    {
+      "name": "TurnStepTests",
+      "status": "PASS",
+      "seconds": 4.24
+    },
+    {
+      "name": "TurningRigTests",
+      "status": "PASS",
+      "seconds": 5.92
+    },
+    {
+      "name": "WeaponFoundationTests",
+      "status": "PASS",
+      "seconds": 4.32
+    }
+  ],
+  "scope": "Production logic and components with narrow Unity substitutes. Not native Unity compilation/import/Play Mode or device execution.",
+  "note": "Full sweep: 55/56; the one failure was an integration fixture for the replaced damage-edge presentation. That fixture was updated to exercise actual HP changes and the soft mask. After adding same-frame damage/healing event observation, all six affected HUD/input/model projects were rerun successfully. The remaining production features were unchanged after their passing full-sweep checks."
+}

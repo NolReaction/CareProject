@@ -81,8 +81,8 @@ def main():
         properties=next(c for c in n[2] if c[0]=='Properties70')[2]
         timing={p[1][0]:p[1][-1] for p in properties if p[0]=='P'}
         observed[name]=(timing['LocalStop']-timing.get('LocalStart',0))/46186158000
-    expected={'Idle':1.6,'Walk':.8,'Windup':.3,'Strike':.16,'Recover':.48,'Hurt':.22,'Death':.18,'Emerge':.68,'EmergeGround':.95,'EmergeHatch':1.05}
-    check(report['build']['clips']==expected,'V19 ten-clip contract')
+    expected={'Idle':1.6,'Walk':.8,'Windup':.3,'Strike':.16,'Recover':.48,'Hurt':.22,'Death':.18,'Emerge':.68,'EmergeGround':.95,'EmergeHatch':1.05,'Run':.64,'WindupHook':.30,'StrikeHook':.16,'RecoverHook':.48,'WindupSlam':.30,'StrikeSlam':.16,'RecoverSlam':.48,'HurtHeavy':.32}
+    check(report['build']['clips']==expected,'V21 eighteen-clip contract')
     check(set(observed)==set(expected),'actual FBX takes')
     for name,duration in expected.items():check(abs(observed[name]-duration)<1e-6,'FBX duration '+name)
     check(len([n for n in objects if n[0]=='Geometry' and n[1][-1]=='Mesh'])==1,'FBX mesh count')
@@ -127,7 +127,7 @@ def main():
     check(material_guid in meta and material_guid in breakup_meta,'both models remap to authored UdarnikAtlas material')
     check('  maxTextureSize: 1024' in atlas_meta and '    enableMipMap: 1' in atlas_meta,'mobile texture import')
     definition=(base/'Settings/UdarnikCapsule.asset').read_text()
-    check('  visualPrefab: {fileID: 0}' in definition and '  breakupPrefab: {fileID: 0}' in definition,'initial builder-owned prefab assignments')
+    check('  visualPrefab: {fileID: 7216034530345020035, guid: 94edb6c347fd0c347873cf550808bbcd, type: 3}' in definition and '  breakupPrefab: {fileID: 3061786762072137654, guid: e0d547145d1ee2948b30ab46ab1c38bd, type: 3}' in definition,'shipped prefab assignments preserve current repository GUIDs')
     check('  groundEmergenceSeconds: 0.95' in definition and '  hatchEmergenceSeconds: 1.05' in definition,'serialized source-specific arrival durations')
     check('  walkAnimationMetresPerSecond: 0.603' in definition,'measured rounded gait reference')
     registry=json.loads((ROOT/'Assets/IntercomMVP/Editor/Project/ProjectAssetsV13.json').read_text())
@@ -136,7 +136,7 @@ def main():
         check(any(entry['destination']==path and entry['guid']==guid for entry in registry['files']),'registered asset '+path)
     result={'status':'PASS','checks':checks,'actualFbxTakesSeconds':observed,'bones':14,'meshRenderers':1,'materials':1,'triangles':triangle_count,
         'rootMotion':False,'rootCurveMaxVariation':max_root_variation,'breakup':{'chunks':sorted(expected_chunks),'triangles':triangle_count,'animation':False,'bones':0,'materials':1},
-        'nativePrefabController':'Recognized generated V18 graph upgrades to ten native states with backups; custom assets preserved',
+        'nativePrefabController':'Recognized generated legacy graphs upgrade to eighteen native states with backups; custom assets preserved',
         'scope':'Export bytes, actual FBX stacks/root curves/bones/triangle indices, static chunks and serialized import/material/registry links. Unity importer/Animator not run.'}
     (ROOT/'Validation/Reports/UdarnikAssets.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
 if __name__=='__main__':main()

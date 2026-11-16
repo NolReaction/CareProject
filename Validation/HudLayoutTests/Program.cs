@@ -69,7 +69,36 @@ static class Program
         Preview(output,"portrait",480,900,new Rect(16,24,448,846),16,false,true);
         Preview(output,"small_window",320,180,new Rect(0,0,320,180),3,true,true);
         Preview(output,"defeat",1280,720,new Rect(0,0,1280,720),0,false,false,true);
+        HealthPreviews();
         Console.WriteLine("PASS "+assertions+" safe-area / pointer-boundary / HUD state assertions. Offline previews use actual HUD draw commands; no Unity renderer or device run.");
+    }
+    static void HealthPreviews()
+    {
+        string output=Path.Combine(ProjectRoot(),"Validation/Results/V22UI/HealthPreviews");Directory.CreateDirectory(output);
+        foreach (var screen in new[]{new[]{1280,720},new[]{640,360},new[]{480,900}})
+        {
+            Screen.width=screen[0];Screen.height=screen[1];Screen.safeArea=new Rect(16,16,screen[0]-32,screen[1]-32);
+            var l=IntercomHudLayout.Calculate(16,16,Screen.width-32,Screen.height-32,70,32);
+            var sticks=new IntercomTwinStickState();
+            var vitality=new IntercomPlayerVitality();var hud=new IntercomWorkshopHud();
+            Time.time=10f;hud.Draw(l,sticks,null,false,1f,vitality);
+            vitality.Health.Current=62f;Time.time=10.01f;hud.Draw(l,sticks,null,false,1f,vitality);
+            Time.time=10.10f;HealthFrame(output,"health_damage_"+screen[0],hud,l,sticks,vitality);
+            Time.time=11.1f;hud.Draw(l,sticks,null,false,1f,vitality);
+            vitality.Health.Current=97f;Time.time=11.11f;hud.Draw(l,sticks,null,false,1f,vitality);
+            Time.time=11.31f;HealthFrame(output,"health_healing_"+screen[0],hud,l,sticks,vitality);
+            vitality.Health.Current=22f;Time.time=12f;hud.Draw(l,sticks,null,false,1f,vitality);
+            Time.time=14.1f;HealthFrame(output,"health_critical_"+screen[0],hud,l,sticks,vitality);
+            hud.Dispose();
+        }
+    }
+    static void HealthFrame(string output,string name,IntercomWorkshopHud hud,IntercomHudLayout layout,IntercomTwinStickState sticks,IntercomPlayerVitality vitality)
+    {
+        GUI.commands.Clear();GUI.textures.Clear();GUI.labels.Clear();GUI.Record=true;
+        hud.Draw(layout,sticks,null,false,1f,vitality);GUI.Save(Path.Combine(output,name+".json"));GUI.Record=false;
+        Check(GUI.labels.Contains(vitality.Health.Current+" / 100"),"animated health must show actual HP");
+        if(name.Contains("damage"))Check(GUI.labels.Contains("-38 HP")||GUI.labels.Contains("-38"),"damage popup missing");
+        if(name.Contains("healing"))Check(GUI.labels.Contains("+35 HP")||GUI.labels.Contains("+35"),"healing popup missing");
     }
     static bool Overlap(IntercomHudLayout.Box a,IntercomHudLayout.Box b)
         => a.X < b.X+b.Width-.001f && a.X+a.Width > b.X+.001f && a.Y < b.Y+b.Height-.001f && a.Y+a.Height > b.Y+.001f;
@@ -80,7 +109,7 @@ static class Program
     }
     static void VerifyLayout(IntercomHudLayout l,float x,float y,float width,float height)
     {
-        foreach(var box in new[]{l.Reload,l.Health,l.MissionObjective,l.Timer,l.Modes,l.Toast,l.PausePanel,l.Defeat,l.MissionPanel})
+        foreach(var box in new[]{l.Reload,l.Health,l.MissionObjective,l.Timer,l.Gears,l.Modes,l.Toast,l.PausePanel,l.Defeat,l.MissionPanel})
             Check(Inside(box,x,y,width,height),"HUD instrument escaped safe area");
         foreach(var box in new[]{l.PauseResume,l.PauseRetry,l.PauseExit,l.PauseConfirm,l.PauseCancel})
         {
@@ -93,6 +122,7 @@ static class Program
             Check(!hit.PointerDown(4,box.X+box.Width+epsilon,box.Y+box.Height*.5f),"invisible action right margin captures");
         }
         Check(!Overlap(l.Health,l.Reload),"weapon overlaps hull strip");
+        Check(Inside(l.Gears,l.Timer.X,l.Timer.Y,l.Timer.Width,l.Timer.Height),"gear count must stay inside timer plaque");
         var instruments=new[]{l.Modes,l.Health,l.Timer,l.Reload,l.MissionObjective};
         for(int i=0;i<instruments.Length;i++)
             for(int j=i+1;j<instruments.Length;j++)

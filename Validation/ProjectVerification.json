@@ -1,127 +1,103 @@
 {
-  "version": "CareProject V20",
-  "status": "PARTIAL_NATIVE_NOT_RUN",
-  "baseGitCommit": "95265e7dd626dbc4b1b5331e131a61628efd2d8a",
-  "publishedBase": "v0.3.0 / V19",
+  "version": "CareProject V22",
+  "bundleVersion": "0.3.3",
+  "baseLocalCommit": "a206d1361f887765be29045feb7d653e1097119f",
+  "baseDelivery": "V21 / 0.3.2",
   "editor": "6000.3.26f1",
   "urp": "17.3.0",
-  "bundleVersion": "0.3.1",
+  "status": "PASS_OFFLINE_NATIVE_NOT_RUN",
   "nativeEditorExecuted": false,
   "nativeStatus": "NOT_RUN",
   "checks": {
-    "standaloneProjects": 53,
-    "passed": 53,
-    "syntaxSources": 99,
+    "standaloneProjects": 56,
+    "passed": 56,
+    "syntaxSources": 103,
     "syntaxConfigurations": 3,
     "syntaxErrors": 0,
-    "pythonValidationJobs": 13,
+    "sceneValidationJobs": 7,
     "architecture": {
       "status": "PASS",
-      "checks": 2295,
-      "runtimeSources": 72,
+      "checks": 2372,
+      "runtimeSources": 76,
       "editorSources": 27,
-      "pureModels": 22,
-      "assetGuids": 406,
+      "pureModels": 24,
+      "assetGuids": 415,
       "failures": [],
       "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
     },
     "protectedHeroFilesByteIdentical": 135,
-    "unchangedArtEvidenceFiles": 14
+    "healthFeedbackAssertions": 431,
+    "medkitPickupAssertions": 73,
+    "hudLayoutAssertions": 81563,
+    "missionUiAssertions": 98635,
+    "healthHudRasterPreviews": 9
   },
   "features": {
-    "enemyVariants": {
-      "Standard": {
-        "hp": 75,
-        "speed": 2.65,
-        "damage": 12,
-        "scale": 1
-      },
-      "Runner": {
-        "hp": 45,
-        "speed": 2.968,
-        "damage": 9,
-        "scale": 0.9
-      },
-      "Heavy": {
-        "hp": 135,
-        "speed": 1.908,
-        "damage": 18,
-        "scale": 1.12
-      }
-    },
-    "crowd": "Eight stable approach lanes, outer orbit and swept personal-space constraints; mixed/all-heavy autonomous scenarios, not native PhysX proof.",
-    "waves": {
-      "eliminationQuotas": [
-        6,
-        8,
-        10,
-        12,
-        14
+    "healthHud": {
+      "smoothFill": true,
+      "damageTrailHoldSeconds": 0.28,
+      "criticalHealthFraction": 0.3,
+      "softVignette": true,
+      "sameFrameDamageAndHealing": "Separate accepted event snapshots; actual healing popup preserved",
+      "screensChecked": [
+        [
+          1280,
+          720
+        ],
+        [
+          640,
+          360
+        ],
+        [
+          480,
+          900
+        ]
       ],
-      "rescueQuotas": [
-        6,
-        8,
-        10,
-        6
-      ],
-      "poolCap": 8,
-      "instantKillScheduleFloorSeconds": 146.95,
-      "nativeDurationMeasured": false
+      "snapshots": "Run HudLayoutTests, then python3 Validation/render_gameplay_hud.py --health"
     },
-    "rewards": {
-      "perKill": 1,
-      "victoryBonus": 20,
-      "rescuedAllyBonus": 25,
-      "incompleteAndFreePlayReward": false,
-      "pendingReceiptCap": 32,
-      "persistence": "Two bounded local preference banks, checksum/version validation, per-run GUID and deferred save retry."
-    },
-    "magazine": {
-      "capacities": [
-        24,
-        30,
-        36,
-        42
+    "medkits": {
+      "count": 2,
+      "healing": 35,
+      "pickupRadiusMetres": 0.85,
+      "positions": [
+        [
+          -4.5,
+          0,
+          -9.5
+        ],
+        [
+          5,
+          0,
+          3
+        ]
       ],
-      "costs": [
-        60,
-        130,
-        240
-      ],
-      "sharedAssetMutation": false,
-      "visibleOwnedExtensions": 2,
-      "ownedSharedMeshTriangles": 64
+      "fullHealth": "Preserve pickup",
+      "death": "No revive",
+      "retry": "Reset and reuse both pickups",
+      "guards": [
+        "gameplay phase",
+        "health/alive",
+        "motor and vitality lock",
+        "pause/focus",
+        "wall sight",
+        "floor distance"
+      ]
     },
-    "feedback": "Accepted robot hit has core flash/chips and robot voice; rejected contact has no false core-hit confirmation. Breakup uses archetype scale and resets on reuse."
+    "previousVersion": "V21 enemy animation/waves/gear mechanics preserved"
   },
-  "nativeVerification": {
-    "menu": "Tools/CareProject/Development/Verification/Run 150s Native Check",
-    "prepared": true,
-    "executed": false,
-    "report": "Application.persistentDataPath/CareProject_Native_Latest.json",
-    "scope": "Actual engine runner with isolated profile, frame/GC capture and functional scenarios. It must be executed locally in licensed Unity."
-  },
-  "delivery": [
-    "Full project opens in a fresh CareProject_V20 folder",
-    "Small update installer is based on exact published V19; close Unity and run RepairProject.cmd",
-    "Full/Update archives contain current readable docs and standalone regression sources"
-  ],
   "reports": [
-    "Validation/Reports/LogicTests.json",
-    "Validation/Reports/EnemyCrowd.json",
-    "Validation/Reports/WaveRhythm.json",
-    "Validation/Reports/Progression.json",
-    "Validation/Reports/FeedbackUi.json",
-    "Validation/Reports/FoundationScene.json",
-    "Validation/Reports/Installer.json",
+    "Validation/Reports/V22Regression.json",
+    "Validation/Reports/V22IntegrationReview.json",
     "Validation/Reports/NativeUnityAvailability.json"
   ],
-  "limits": [
-    "Unity Editor import/type compilation, native Animator/PhysX, shader compilation, Profiler and mobile/device testing were not run here.",
-    "The 3–5 minute target is a design goal; 146.95 seconds is an autonomous instant-kill schedule probe, not measured human playtime.",
-    "Windows PowerShell5.1 and .NETFramework were not run. Installer core compiledC#5 and executed on .NET8 against real temporary files.",
-    "UI previews rasterize actual GUI commands with a flat backdrop; they are not Unity screenshots.",
-    "Progress is local per device; no cloud/account sync or payment integration."
+  "inheritedAnimationEvidence": [
+    "Validation/Reports/V21AnimationBuild.json",
+    "Validation/Reports/V21AnimationPoseQA.json",
+    "Validation/Reports/V21FbxRoundtrip.json"
   ],
-  "noGitHubWrites": true
+  "limitations": [
+    "Unity Editor/import/compiler, native shaders, Animator, PhysX, Profiler and device builds were not executed.",
+    "HUD previews rasterize actual draw commands on a neutral background; they are not screenshots of the Unity game.",
+    "Visual quality and balance must be checked in the shipped Unity scene."
+  ]
 }

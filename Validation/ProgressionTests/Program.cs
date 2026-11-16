@@ -216,6 +216,18 @@ internal static class Program
             foreach(int authored in new[]{int.MinValue,-1,0,1,24,999,int.MaxValue})foreach(int bonus in new[]{int.MinValue,-1,0,6,975,int.MaxValue})
             {int capacity=IntercomWeaponBalance.EffectiveMagazineCapacity(authored,bonus,2);Check(capacity>=2&&capacity<=999,"capacity remains legal");}
         });
+        Case("collected gears replace automatic kill currency and survive result recreation",()=>
+        {
+            Reset();var h=new Harness();h.Mission.RunRevision=1;h.Mission.ResultRevision=1;
+            h.Mission.LastRunSummary=new IntercomMissionRunSummary(Id(4000),1,1,IntercomMissionMode.Elimination,IntercomMissionPhase.Defeat,30,0,3,120,7);
+            h.Mission.Phase=IntercomMissionPhase.Defeat;h.Mission.HasRunSummary=true;Call(h.Progression,"Update");
+            Check(h.Progression.Wallet==7&&h.Progression.ResultReward.Kills==30&&h.Progression.ResultReward.GearParts==7,"only seven collected gears credited for thirty kills");
+            int saves=PlayerPrefs.Saves;h.RecreateProgression();Call(h.Progression,"Update");
+            Check(h.Progression.Wallet==7&&PlayerPrefs.Saves==saves&&h.Progression.ResultReward.GearParts==7,"same result recovers collected breakdown without double credit");
+            h.Mission.RunRevision=2;h.Mission.ResultRevision=2;
+            h.Mission.LastRunSummary=new IntercomMissionRunSummary(Id(4001),2,2,IntercomMissionMode.Elimination,IntercomMissionPhase.Defeat,50,0,5,180,0);
+            Call(h.Progression,"Update");Check(h.Progression.Wallet==7&&h.Progression.ResultReward.Total==0,"missed gears never become automatic money");
+        });
         Console.WriteLine("Progression: "+cases+" cases / "+checks+" assertions PASS. Actual progression/model/magazine sources with narrow Unity/preferences substitutes; no native Unity or device execution.");
     }
 }

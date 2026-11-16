@@ -22,7 +22,7 @@ check(set(bpy.data.actions)=={bpy.data.actions[n] for n in anim.CLIPS},'action s
 samples=[];contact_errors=[];slips=[];previous={};root_rest=rig.data.bones['Root'].matrix_local.copy()
 for name,duration in anim.CLIPS.items():
  action=bpy.data.actions[name];rig.animation_data.action=action
- if action.slots:rig.animation_data.action_slot=action.slots[0]
+ if getattr(action,'slots',None):rig.animation_data.action_slot=action.slots[0]
  check(abs((action.frame_range[1]-action.frame_range[0])/scene.render.fps-duration)<1e-6,(name,'duration'))
  previous={}
  for i in range(101):
@@ -37,15 +37,17 @@ for name,duration in anim.CLIPS.items():
    check((shin.tail-foot.head).length<.00002,(name,t,side,'ankle detached'))
    boot=next(o for o in parts if o.name=='Boot.'+side) if any(o.name=='Boot.'+side for o in parts) else parts[0]
    evaluated=boot.evaluated_get(bpy.context.evaluated_depsgraph_get());coords=[evaluated.matrix_world@v.co for v in evaluated.data.vertices]
-   if name=='Walk':
-    phase=(t+(0 if side=='L' else .5))%1.;stance=phase/anim.WALK_DUTY
-    if phase<anim.WALK_DUTY:
-     error=abs(min(v.z for v in coords)-anim.FLOOR);contact_errors.append(error);check(error<.00015,(name,t,side,'sole floor',error))
+   if name in {'Walk','Run'}:
+    duty=anim.RUN_DUTY if name=='Run' else anim.WALK_DUTY
+    reference=anim.RUN_REFERENCE if name=='Run' else anim.WALK_REFERENCE
+    phase=(t+(0 if side=='L' else .5))%1.;stance=phase/duty
+    if phase<duty:
+     error=abs(min(v.z for v in coords)-anim.FLOOR);contact_errors.append(error);check(error<(.00045 if name=='Run' else .00015),(name,t,side,'sole floor',error))
     if .16<stance<.82:
      # Mid-support is flat. The whole rigid sole should stay in the world while the body travels.
-     center=sum(coords,Vector())/len(coords);world_y=center.y-anim.WALK_REFERENCE*t*duration
+     center=sum(coords,Vector())/len(coords);world_y=center.y-reference*t*duration
      if side in previous and abs(previous[side][0]-(t-.01))<1e-6:
-      slip=abs(world_y-previous[side][1])/(duration*.01);slips.append(slip);check(slip<.0012,(name,t,side,'planted slip',slip))
+      slip=abs(world_y-previous[side][1])/(duration*.01);slips.append(slip);check(slip<(.01 if name=='Run' else .0012),(name,t,side,'planted slip',slip))
      previous[side]=(t,world_y)
     else:previous.pop(side,None)
   if i%10==0:
@@ -53,9 +55,25 @@ for name,duration in anim.CLIPS.items():
    for obj in parts:
     eval_obj=obj.evaluated_get(bpy.context.evaluated_depsgraph_get());coords.extend(eval_obj.matrix_world@v.co for v in eval_obj.data.vertices)
    samples.append({'clip':name,'t':t,'minZ':min(v.z for v in coords),'maxZ':max(v.z for v in coords),'maxWidth':max(v.x for v in coords)-min(v.x for v in coords),'boneScaleError':scale})
+def joint_matrices(name,t):
+ action=bpy.data.actions[name];anim.bind_action(action)
+ frame=action.frame_range[0]+t*(action.frame_range[1]-action.frame_range[0]);scene.frame_set(int(frame),subframe=frame-int(frame));bpy.context.view_layer.update()
+ return {bone.name:bone.matrix.copy() for bone in rig.pose.bones}
+continuity=[]
+for suffix in ['','Hook','Slam']:
+ for first,second in [('Windup','Strike'),('Strike','Recover')]:
+  a=joint_matrices(first+suffix,1)
+  b=joint_matrices(second+suffix,0)
+  error=max(abs(a[name][i][j]-b[name][i][j]) for name in a for i in range(4) for j in range(4))
+  check(error<.00001,(first+suffix,second+suffix,'phase contact continuity',error));continuity.append({'from':first+suffix,'to':second+suffix,'matrixError':error})
+ for loop in ['Idle','Walk','Run']:
+  a=joint_matrices(loop,0);b=joint_matrices(loop,1)
+  error=max(abs(a[name][i][j]-b[name][i][j]) for name in a for i in range(4) for j in range(4))
+  check(error<.00001,(loop,'loop continuity',error))
 report={'status':'PASS','checks':checks,'editableMeshes':len(parts),'weightedVertices':vertices,'bones':len(rig.data.bones),'clips':anim.CLIPS,
- 'walkReferenceMetresPerSecond':anim.WALK_REFERENCE,'maximumPlantedSoleFloorError':max(contact_errors or [0]),'maximumMidStanceWorldSlipMetresPerSecond':max(slips or [0]),
- 'scope':'Actual Blender evaluated skin, complete weight sums, 101samples peraction, stationaryRoot, bonecontacts and planted soles; not Unity playback.', 'samples':samples}
+ 'walkReferenceMetresPerSecond':anim.WALK_REFERENCE,'runReferenceMetresPerSecond':anim.RUN_REFERENCE,'maximumPlantedSoleFloorError':max(contact_errors or [0]),'maximumMidStanceWorldSlipMetresPerSecond':max(slips or [0]),
+ 'attackContactContinuity':continuity,
+ 'scope':'Actual Blender evaluated skin, complete weight sums, 101samples peraction, stationaryRoot, bonecontacts, planted soles, loop seams and attack contact seams; not Unity playback.', 'samples':samples}
 (args.out/'AnimationPoseQA.json').write_text(json.dumps(report,indent=2)+'\n');print('ACTION_QA_PASS',checks,flush=True)
 if args.render or args.render_world:
  for obj in list(bpy.data.objects):
@@ -64,11 +82,11 @@ if args.render or args.render_world:
  for name,pos,power,size in [('ReviewKey',(-2,-3,4),450,4),('ReviewFill',(3,-1,2),180,3),('ReviewRim',(0,3,3),250,3)]:
   data=bpy.data.lights.new(name,'AREA');data.energy=power;data.size=size;obj=bpy.data.objects.new(name,data);scene.collection.objects.link(obj);obj.location=pos;obj.rotation_euler=(Vector((0,0,.65))-obj.location).to_track_quat('-Z','Y').to_euler()
  data=bpy.data.cameras.new('ReviewCamera');camera=bpy.data.objects.new('ReviewCamera',data);scene.collection.objects.link(camera);data.type='ORTHO';data.ortho_scale=1.82;scene.camera=camera;camera.location=(1.5,-3,1.9);camera.rotation_euler=(Vector((0,0,.65))-camera.location).to_track_quat('-Z','Y').to_euler()
- scene.render.engine='CYCLES';scene.cycles.samples=8;scene.cycles.use_denoising=True;scene.render.resolution_x=480;scene.render.resolution_y=480;scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG';scene.view_settings.view_transform='AgX'
- poses=[('Idle',0),('Walk',.10),('Walk',.30),('Walk',.60),('Walk',.80),('Windup',.6),('Windup',1),('Strike',.5),('Recover',.55),('Hurt',.5),('EmergeGround',.15),('EmergeGround',.55),('EmergeGround',.85),('EmergeHatch',.15),('EmergeHatch',.55),('EmergeHatch',.85),('Death',.7)]
+ scene.render.engine='CYCLES';scene.cycles.samples=24;scene.cycles.use_denoising=False;scene.render.resolution_x=480;scene.render.resolution_y=480;scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG';scene.view_settings.view_transform='AgX'
+ poses=[('Idle',0),('Walk',.10),('Walk',.30),('Walk',.60),('Walk',.80),('Run',.10),('Run',.35),('Run',.60),('Run',.85),('Windup',.6),('Windup',1),('Strike',.5),('Recover',.55),('WindupHook',.55),('StrikeHook',.5),('RecoverHook',.55),('WindupSlam',.55),('StrikeSlam',.5),('RecoverSlam',.55),('HurtHeavy',.5),('Hurt',.5),('EmergeGround',.15),('EmergeGround',.55),('EmergeGround',.85),('EmergeHatch',.15),('EmergeHatch',.55),('EmergeHatch',.85),('Death',.7)]
  for name,t in (poses if args.render else []):
   action=bpy.data.actions[name];rig.animation_data.action=action
-  if action.slots:rig.animation_data.action_slot=action.slots[0]
+  if getattr(action,'slots',None):rig.animation_data.action_slot=action.slots[0]
   frame=action.frame_range[1]*t;scene.frame_set(int(frame),subframe=frame-int(frame));scene.render.filepath=str(args.out/('Pose_'+name+'_'+str(t).replace('.','_')+'.png'));bpy.ops.render.render(write_still=True)
  print('POSE_RENDERS_DONE',len(poses) if args.render else 0,flush=True)
  if args.render_world:
@@ -84,7 +102,7 @@ if args.render or args.render_world:
    data=bpy.data.meshes.new('ReviewFloor');data.from_pydata(vertices,[],faces);floor=bpy.data.objects.new('ReviewFloor',data);scene.collection.objects.link(floor);data.materials.append(ground_material)
    for t in [.30,.55,.85]:
     action=bpy.data.actions[name];rig.animation_data.action=action
-    if action.slots:rig.animation_data.action_slot=action.slots[0]
+    if getattr(action,'slots',None):rig.animation_data.action_slot=action.slots[0]
     frame=action.frame_range[1]*t;scene.frame_set(int(frame),subframe=frame-int(frame));rig.location.z=-1.48*(1-anim.window(t,start,end));bpy.context.view_layer.update()
     scene.render.filepath=str(args.out/('World_'+name+'_'+str(t).replace('.','_')+'.png'));bpy.ops.render.render(write_still=True)
    bpy.data.objects.remove(floor,do_unlink=True);bpy.data.meshes.remove(data)

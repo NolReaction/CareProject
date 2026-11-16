@@ -11,7 +11,14 @@ namespace IntercomMvp
         private static readonly Color Mustard = new Color(.78f, .62f, .32f, 1f);
         private static readonly Color Warning = new Color(.77f, .42f, .28f, 1f);
         private static readonly Color HeartRed = new Color(.76f, .28f, .23f, 1f);
-        private Texture2D plate, label, disc, ring, heart;
+        private static readonly Color RepairGreen = new Color(.44f, .76f, .57f, 1f);
+        private Texture2D plate, label, disc, ring, heart, gear, healthVignette;
+        private readonly IntercomHealthFeedbackState healthFeedback = new IntercomHealthFeedbackState();
+        private IntercomHealth observedHealth;
+        private IntercomMissionDirector healthMission;
+        private uint healthRun;
+        private System.Action<IntercomDamage> healthDamageHandler;
+        private System.Action<float> healthHealedHandler;
         private GUIStyle small, bold, number;
         private int lastAmmo = -1, lastCapacity = -1;
         private string ammoText = "", capacityText = "";
@@ -27,6 +34,9 @@ namespace IntercomMvp
         private float hintBegan;
         private int waveCaptionNumber=-1, restCaptionSecond=-1;
         private string waveCaption="УДАРНИКИ", waveCaptionCompact="ВОЛНА 1", restCaption="";
+        private int lastGearCount = -1;
+        private string gearCountText = "0";
+        private float gearChangedAt = -10f;
 
         public void Draw(IntercomHudLayout layout, IntercomTwinStickState sticks,
             IntercomWeaponMagazine magazine, bool showSticks, float controlsOpacity, IntercomPlayerVitality vitality = null,
@@ -35,9 +45,10 @@ namespace IntercomMvp
             Texture2D weaponPortrait = null)
         {
             EnsureResources();
+            ObserveHealth(vitality, mission, gameplayPaused);
             if(mission != null && mission.BlocksGameplay) { DrawMissionMenu(layout,mission); return; }
             bool dead = vitality != null && vitality.IsDead;
-            if(!dead && !gameplayPaused && vitality!=null) DrawDamageEdge(vitality.ShowHitRemaining);
+            if(!dead && !gameplayPaused && vitality!=null) DrawHealthEdge();
             if (showSticks && !dead && !gameplayPaused)
             {
                 DrawStick(layout.LeftX, layout.LeftY, layout.Radius, sticks.Left, Petrol, false, controlsOpacity);
@@ -52,7 +63,7 @@ namespace IntercomMvp
             Rect safe = Screen.safeArea;
             float stampWidth = Mathf.Min(110f, safe.width*.25f), stampHeight = 14f;
             Text(new Rect(safe.x+(safe.width-stampWidth)*.5f, Screen.height-safe.y-18f, stampWidth, stampHeight),
-                "ЗАБОТА · V20", small, 8f, Paper, .55f);
+                "ЗАБОТА · V22", small, 8f, Paper, .55f);
             if (gameplayPaused) DrawPause(layout,confirmingExit,confirmingRestart,hasFrontEnd);
         }
 
@@ -112,7 +123,10 @@ namespace IntercomMvp
             Text(new Rect(r.x+45f*sx,r.y+24f*sy,r.width-57f*sx,28f*sy),progress,number,(rescue ? 15f : 24f)*s,Ink);
             Rect timer=GuiRect(layout.Timer);
             Texture(timer,label,Ink,.72f);
-            Text(timer,TimerText(mission),number,Mathf.Min(timer.width*.16f,timer.height*.48f),Paper);
+            bool showGears = mission.Mode != IntercomMissionMode.FreePlay;
+            Rect clock = showGears ? new Rect(timer.x,timer.y,timer.width,timer.height*.57f) : timer;
+            Text(clock,TimerText(mission),number,Mathf.Min(clock.width*.16f,clock.height*.65f),Paper);
+            if (mission.Mode != IntercomMissionMode.FreePlay) DrawGears(layout,mission);
             Rect menu=GuiRect(layout.Modes);
             PaintedLabel(menu,HeartRed,.98f);
             // Two chunky enamel bars form a readable thumb target, even on a small phone.
@@ -144,10 +158,27 @@ namespace IntercomMvp
             return elapsedText;
         }
 
+        private void DrawGears(IntercomHudLayout layout,IntercomMissionDirector mission)
+        {
+            int count = Mathf.Max(0,mission.CollectedGears);
+            if (lastGearCount != count)
+            {
+                if (lastGearCount >= 0 && count > lastGearCount) gearChangedAt = mission.ElapsedSeconds;
+                lastGearCount = count; gearCountText = count.ToString();
+            }
+            Rect r = GuiRect(layout.Gears);
+            float pulse = 1f - Mathf.Clamp01((mission.ElapsedSeconds-gearChangedAt)/.35f);
+            Color accent = Color.Lerp(Mustard,Paper,pulse*.75f);
+            float size = Mathf.Min(r.height*.8f,r.width*.24f) * (1f + pulse * pulse * .12f);
+            Texture(new Rect(r.x+r.width*.14f,r.y+(r.height-size)*.5f,size,size),gear,accent);
+            Text(new Rect(r.x+r.width*.37f,r.y,r.width*.57f,r.height),gearCountText,number,r.height*.62f * (1f + pulse * pulse * .075f),accent);
+        }
+
         private void ObserveSession(IntercomMissionDirector mission)
         {
             if (ReferenceEquals(clockMission,mission) && clockRun == mission.RunRevision) return;
             clockMission=mission;clockRun=mission.RunRevision;lastElapsedSecond=-1;lastHint="";hintBegan=0f;
+            lastGearCount=-1;gearChangedAt=-10f;
         }
 
         internal string SessionToast(IntercomMissionDirector mission)
@@ -177,23 +208,71 @@ namespace IntercomMvp
             return compact?waveCaptionCompact:waveCaption;
         }
 
-        private static void DrawDamageEdge(float remaining)
+        private void ObserveHealth(IntercomPlayerVitality vitality, IntercomMissionDirector mission, bool paused)
         {
-            // Accepted damage briefly warms only the safe-area edge. It never covers the playfield or captures input.
-            if(float.IsNaN(remaining)||float.IsInfinity(remaining)||remaining<=0f)return;
-            Rect safe=Screen.safeArea;
-            if(safe.width<=0f||safe.height<=0f)safe=new Rect(0f,0f,Screen.width,Screen.height);
-            float y=Screen.height-safe.y-safe.height;
-            float stroke=Mathf.Max(2f,Mathf.Min(14f,Mathf.Min(safe.width,safe.height)*.018f));
-            float alpha=Mathf.Clamp01(remaining/.25f)*.20f;
-            for(int i=0;i<2;i++)
+            IntercomHealth health = vitality != null ? vitality.Health : null;
+            if (health == null) { UnbindHealth(); return; }
+            uint run = mission != null ? mission.RunRevision : 0;
+            if (!ReferenceEquals(observedHealth, health))
             {
-                float inset=i*stroke, thickness=stroke*(i==0?1f:.65f), opacity=alpha*(i==0?1f:.42f);
-                Fill(new Rect(safe.x+inset,y+inset,safe.width-inset*2f,thickness),Warning,opacity);
-                Fill(new Rect(safe.x+inset,y+safe.height-inset-thickness,safe.width-inset*2f,thickness),Warning,opacity);
-                Fill(new Rect(safe.x+inset,y+inset+thickness,thickness,Mathf.Max(0f,safe.height-inset*2f-thickness*2f)),Warning,opacity);
-                Fill(new Rect(safe.x+safe.width-inset-thickness,y+inset+thickness,thickness,Mathf.Max(0f,safe.height-inset*2f-thickness*2f)),Warning,opacity);
+                UnbindHealth();
+                observedHealth = health; healthMission = mission; healthRun = run;
+                healthFeedback.Reset(health.Current, health.Maximum, health.ResetRevision, Time.time);
+                // Allocate callbacks only when the health source changes. Capture its identity so an
+                // already-dispatching old event cannot animate a newly bound actor.
+                healthDamageHandler = damage => ObserveHealthEvent(health);
+                healthHealedHandler = restored => ObserveHealthEvent(health);
+                health.Damaged += healthDamageHandler;
+                health.Healed += healthHealedHandler;
+                return;
             }
+            if (!ReferenceEquals(healthMission, mission) || healthRun != run || (mission != null && mission.BlocksGameplay))
+            {
+                healthMission = mission; healthRun = run;
+                healthFeedback.Reset(health.Current, health.Maximum, health.ResetRevision, Time.time);
+                return;
+            }
+            // Snapshot fallback also supports direct scene edits. Absolute scaled time makes
+            // Layout/Repaint/input passes idempotent and freezes on pause.
+            healthFeedback.Sample(health.Current, health.Maximum, health.ResetRevision, Time.time, !paused);
+        }
+
+        private void ObserveHealthEvent(IntercomHealth source)
+        {
+            if (!ReferenceEquals(source, observedHealth)) return;
+            if (healthMission != null && (healthMission.BlocksGameplay || healthMission.RunRevision != healthRun))
+            {
+                healthRun = healthMission.RunRevision;
+                healthFeedback.Reset(source.Current, source.Maximum, source.ResetRevision, Time.time);
+                return;
+            }
+            if (Time.timeScale <= 0f) return;
+            // Sampling accepted mutations separately preserves damage then repair within the same
+            // Unity frame. The newest popup therefore reports the real restored amount, not a net delta.
+            healthFeedback.Sample(source.Current, source.Maximum, source.ResetRevision, Time.time, true);
+        }
+
+        private void UnbindHealth()
+        {
+            if (!ReferenceEquals(observedHealth, null))
+            {
+                observedHealth.Damaged -= healthDamageHandler;
+                observedHealth.Healed -= healthHealedHandler;
+            }
+            observedHealth = null; healthMission = null;
+            healthDamageHandler = null; healthHealedHandler = null;
+        }
+
+        private void DrawHealthEdge()
+        {
+            float damage = healthFeedback.DamagePulse;
+            float repair = healthFeedback.HealingPulse;
+            float critical = healthFeedback.CriticalPulse;
+            float alpha = damage * .32f + critical * .065f + repair * .11f;
+            if (alpha < .002f) return;
+            Color accent = repair > damage ? RepairGreen : HeartRed;
+            // One bilinear alpha mask falls continuously to a clear centre, including at the corners.
+            Texture(new Rect(0f, 0f, Screen.width, Screen.height), healthVignette, accent, alpha);
         }
 
         private void DrawPause(IntercomHudLayout layout,bool confirmingExit,bool confirmingRestart,bool hasFrontEnd)
@@ -247,37 +326,80 @@ namespace IntercomMvp
 
         private void DrawHealth(IntercomHudLayout.Box box, IntercomPlayerVitality vitality)
         {
-            Rect r=GuiRect(box);
-            IntercomHealth health=vitality.Health;
-            int value=Mathf.Max(0,Mathf.CeilToInt(health.Current));
-            int maximum=Mathf.Max(1,Mathf.CeilToInt(health.Maximum));
-            if(value!=lastHealth || maximum!=lastMaximum)
-            {lastHealth=value;lastMaximum=maximum;healthText=value+" / "+maximum;}
-            float progress=Mathf.Clamp01(health.Current/Mathf.Max(1f,health.Maximum));
-            Color accent=vitality.ShowHitRemaining>0f ? Warning : HeartRed;
-            float icon=Mathf.Min(r.height,r.width*.19f), stroke=Mathf.Max(1f,r.height*.065f);
-            Rect gauge=new Rect(r.x+icon*.70f,r.y+r.height*.13f,r.width-icon*.72f,r.height*.76f);
-            Texture(gauge,label,Ink,.96f);
-            Rect inner=new Rect(gauge.x+stroke,gauge.y+stroke,gauge.width-stroke*2f,gauge.height-stroke*2f);
-            Texture(inner,label,HeartRed,.28f);
-            if(progress>0f)Texture(new Rect(inner.x,inner.y,inner.width*progress,inner.height),label,accent);
-            // Five rubbed divider marks keep the continuous health bar easy to judge at a glance.
-            for(int i=1;i<5;i++)
+            Rect r = GuiRect(box);
+            IntercomHealth health = vitality.Health;
+            int value = Mathf.Max(0, Mathf.CeilToInt(health.Current));
+            int maximum = Mathf.Max(1, Mathf.CeilToInt(health.Maximum));
+            if (value != lastHealth || maximum != lastMaximum)
+            { lastHealth = value; lastMaximum = maximum; healthText = value + " / " + maximum; }
+            float damage = healthFeedback.DamagePulse, repair = healthFeedback.HealingPulse;
+            float critical = healthFeedback.CriticalPulse;
+            float progress = vitality.IsDead ? 0f : healthFeedback.Fill;
+            Color accent = Color.Lerp(HeartRed, Warning, damage * .85f);
+            accent = Color.Lerp(accent, RepairGreen, repair);
+            float icon = Mathf.Min(r.height, r.width * .19f), stroke = Mathf.Max(1f, r.height * .065f);
+            float nudge = healthFeedback.Shake * Mathf.Min(2.2f, r.width * .009f);
+            Rect gauge = new Rect(r.x + icon * .70f + nudge, r.y + r.height * .13f,
+                r.width - icon * .72f - 3f, r.height * .76f);
+            // A restrained enamel glint and a small mechanical kick belong to the instrument itself.
+            Texture(gauge, label, Color.Lerp(Ink, repair > damage ? RepairGreen : Warning, Mathf.Max(damage, repair) * .45f));
+            Rect inner = new Rect(gauge.x + stroke, gauge.y + stroke, gauge.width - stroke * 2f, gauge.height - stroke * 2f);
+            Texture(inner, label, HeartRed, .22f + critical * .10f);
+            float trail = vitality.IsDead ? 0f : healthFeedback.Trail;
+            if (trail > progress + .001f)
+                Texture(new Rect(inner.x, inner.y, inner.width * trail, inner.height), label, Mustard, .80f);
+            if (progress > 0f)
+                Texture(new Rect(inner.x, inner.y, inner.width * progress, inner.height), label, accent);
+            if (repair > 0f && progress > 0f)
             {
-                float x=inner.x+inner.width*i/5f;
-                Fill(new Rect(x,inner.y+inner.height*.12f,stroke*.60f,inner.height*.20f),Paper,.33f);
+                float sweepX = inner.x + inner.width * progress * healthFeedback.HealingProgress;
+                float sweepWidth = Mathf.Min(inner.width * .055f, inner.x + inner.width * progress - sweepX);
+                if (sweepWidth > 0f) Fill(new Rect(sweepX, inner.y + stroke, sweepWidth,
+                    Mathf.Max(0f, inner.height - stroke * 2f)), Paper, repair * .70f);
             }
-            Text(new Rect(gauge.x+icon*.20f,gauge.y,gauge.width-icon*.20f,gauge.height),healthText,bold,
-                Mathf.Min(r.height*.40f,gauge.width*.10f),Paper);
-            Rect badge=new Rect(r.x,r.y,icon,icon);
-            Texture(badge,heart,Ink);
-            float inset=stroke*1.2f;
-            Texture(new Rect(badge.x+inset,badge.y+inset,badge.width-inset*2f,badge.height-inset*2f),heart,accent);
-            // A tiny lightning seam turns a heart into the robot's repairable power core.
-            Fill(new Rect(badge.x+icon*.45f,badge.y+icon*.25f,icon*.10f,icon*.23f),Paper,.86f);
-            Fill(new Rect(badge.x+icon*.37f,badge.y+icon*.44f,icon*.17f,icon*.08f),Paper,.86f);
-            Fill(new Rect(badge.x+icon*.40f,badge.y+icon*.49f,icon*.08f,icon*.20f),Paper,.86f);
-            if(progress<=.3f)Fill(new Rect(gauge.xMax-stroke*4f,gauge.y+stroke*2f,stroke*2f,gauge.height-stroke*4f),Paper,.9f);
+            for (int i = 1; i < 5; i++)
+            {
+                float x = inner.x + inner.width * i / 5f;
+                Fill(new Rect(x, inner.y + inner.height * .12f, stroke * .60f, inner.height * .20f), Paper, .33f);
+            }
+            bool popup = gauge.width >= 48f && healthFeedback.PopupVisible(healthFeedback.LatestPopupIndex);
+            bool caption = healthFeedback.Critical && r.width >= 150f && r.height >= 26f && !popup;
+            float numberWidth = popup ? gauge.width * .64f : gauge.width - icon * .20f;
+            Rect digits = new Rect(gauge.x + icon * .13f, gauge.y, numberWidth, caption ? gauge.height * .62f : gauge.height);
+            // Numbers report real HP immediately; the trailing paint communicates the lost amount.
+            Text(new Rect(digits.x, digits.y + 1f, digits.width, digits.height), healthText, bold,
+                Mathf.Min(r.height * .40f, gauge.width * .10f), Ink, .70f);
+            Text(digits, healthText, bold, Mathf.Min(r.height * .40f, gauge.width * .10f), Paper);
+            if (caption) Text(new Rect(gauge.x + icon * .13f, gauge.y + gauge.height * .54f,
+                gauge.width - icon * .20f, gauge.height * .42f), "НИЗКИЙ ЗАРЯД", small,
+                r.height * .23f, Paper, .70f + critical * .28f);
+            float bounce = 1f + damage * .09f + repair * .08f + critical * .055f;
+            float badgeSize = icon * .87f * bounce;
+            Rect badge = new Rect(r.x + (icon - badgeSize) * .5f,
+                r.y + (r.height - badgeSize) * .5f, badgeSize, badgeSize);
+            Texture(badge, heart, Ink);
+            float inset = stroke * 1.05f;
+            Texture(new Rect(badge.x + inset, badge.y + inset, badge.width - inset * 2f,
+                badge.height - inset * 2f), heart, Color.Lerp(accent, Paper, damage * .52f + repair * .28f));
+            Fill(new Rect(badge.x + badgeSize * .45f, badge.y + badgeSize * .25f, badgeSize * .10f, badgeSize * .23f), Paper, .86f);
+            Fill(new Rect(badge.x + badgeSize * .37f, badge.y + badgeSize * .44f, badgeSize * .17f, badgeSize * .08f), Paper, .86f);
+            Fill(new Rect(badge.x + badgeSize * .40f, badge.y + badgeSize * .49f, badgeSize * .08f, badgeSize * .20f), Paper, .86f);
+            DrawHealthPopups(gauge, r.height);
+        }
+
+        private void DrawHealthPopups(Rect gauge, float height)
+        {
+            // Reserve the right third of the existing HP plaque. Popups never cover the pause button or objective.
+            int index = healthFeedback.LatestPopupIndex;
+            if (gauge.width < 48f || !healthFeedback.PopupVisible(index)) return;
+            var popup = healthFeedback.GetPopup(index);
+            string textValue = gauge.width < 145f ? popup.ShortText : popup.Text;
+            float age = healthFeedback.PopupProgress(index), opacity = 1f - age * age;
+            float y = gauge.y + gauge.height * .18f - age * gauge.height * .14f;
+            Rect text = new Rect(gauge.x + gauge.width * .64f, y, gauge.width * .35f, gauge.height * .64f);
+            Text(new Rect(text.x, text.y + 1f, text.width, text.height), textValue, bold,
+                height * .34f, Ink, opacity * .85f);
+            Text(text, textValue, bold, height * .34f, popup.Healing ? RepairGreen : Paper, opacity);
         }
 
         private void DrawDefeat(IntercomHudLayout layout)
@@ -433,6 +555,8 @@ namespace IntercomMvp
                 disc = MakeTexture("Workshop stick disc", 128, 128, 2);
                 ring = MakeTexture("Workshop stick ring", 128, 128, 3);
                 heart = MakeTexture("Ink heart power core", 96, 96, 4);
+                gear = MakeTexture("Collectible gear", 64, 64, 5);
+                healthVignette = MakeTexture("Soft health vignette", 128, 128, 6);
             }
             if (small != null) return;
             small = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
@@ -449,7 +573,22 @@ namespace IntercomMvp
                 for (int x = 0; x < width; x++)
                 {
                     float alpha, tone = 1f;
-                    if(kind == 4)
+                    if (kind == 6)
+                    {
+                        float ex = Mathf.Min(x, width - 1 - x) / (width - 1f);
+                        float ey = Mathf.Min(y, height - 1 - y) / (height - 1f);
+                        float fade = Mathf.Clamp01(1f - Mathf.Min(ex, ey) / .19f);
+                        alpha = fade * fade * .85f;
+                    }
+                    else if(kind == 5)
+                    {
+                        float dx = (x+.5f-width*.5f)/(width*.5f), dy = (y+.5f-height*.5f)/(height*.5f);
+                        double angle = System.Math.Atan2(dy,dx);
+                        float distance = Mathf.Sqrt(dx*dx+dy*dy);
+                        float edge = System.Math.Cos(angle*10.0) > .1 ? .96f : .75f;
+                        alpha = Mathf.Clamp01((edge-distance)*width*.5f) * Mathf.Clamp01((distance-.34f)*width*.5f);
+                    }
+                    else if(kind == 4)
                     {
                         float hx=(x+.5f-width*.5f)/(width*.40f), hy=(y+.5f-height*.47f)/(height*.40f);
                         float edge=hx*hx+hy*hy-1f;
@@ -492,12 +631,15 @@ namespace IntercomMvp
 
         public void Dispose()
         {
+            UnbindHealth();
             if (plate != null) Object.Destroy(plate);
             if (label != null) Object.Destroy(label);
             if (disc != null) Object.Destroy(disc);
             if (ring != null) Object.Destroy(ring);
             if (heart != null) Object.Destroy(heart);
-            plate = label = disc = ring = heart = null;
+            if (gear != null) Object.Destroy(gear);
+            if (healthVignette != null) Object.Destroy(healthVignette);
+            plate = label = disc = ring = heart = gear = healthVignette = null;
         }
     }
 }

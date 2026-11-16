@@ -20880,6 +20880,7 @@ GameObject:
   - component: {fileID: 8800000015}
   - component: {fileID: 8800000142}
   - component: {fileID: 8800000143}
+  - component: {fileID: 8800000144}
   m_Layer: 0
   m_Name: MVP_NpcSandbox
   m_TagString: Untagged
@@ -24329,3 +24330,23 @@ MonoBehaviour:
   weapon: {fileID: 11400000, guid: efc4ccf9a1224f078dadf974b01d842e, type: 2}
   visualLeftMount: {fileID: 2032384928}
   visualRightMount: {fileID: 509721712}
+--- !u!114 &8800000144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 379d87e7c31b501c86a4b1f20b7f17e6, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomMedkitPickups
+  mission: {fileID: 8900000023}
+  bodyMaterial: {fileID: 2100000, guid: 83dc6f75d0005b7187d27665ea11fecf, type: 2}
+  accentMaterial: {fileID: 2100000, guid: 6628c933b7765ef384bdf1856109195f, type: 2}
+  glowMaterial: {fileID: 2100000, guid: 57f2071996e057c084e1cfd4435a9ba1, type: 2}
+  firstPosition: {x: -4.5, y: 0, z: -9.5}
+  secondPosition: {x: 5, y: 0, z: 3}
+  healing: 35
+  pickupRadius: 0.85

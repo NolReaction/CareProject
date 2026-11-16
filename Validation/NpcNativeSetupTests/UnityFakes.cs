@@ -144,7 +144,7 @@ namespace IntercomMvp
  using UnityEngine;
  public enum IntercomTeam{Player}
  public enum IntercomEnemySpawnKind{Ground,Hatch}
- public class IntercomNpcDefinition:ScriptableObject {public Material bodyMaterial,detailMaterial,telegraphMaterial;public GameObject visualPrefab,breakupPrefab;}
+ public class IntercomNpcDefinition:ScriptableObject {public float modelForwardYaw;public Material bodyMaterial,detailMaterial,telegraphMaterial;public GameObject visualPrefab,breakupPrefab;}
  public class IntercomEnemySpawnPoint:MonoBehaviour {public IntercomEnemySpawnKind kind;}
  public class IntercomMissionDirector:MonoBehaviour {public IntercomEnemySpawnPoint[] authoredSpawnPoints;}
  public class IntercomHealth:MonoBehaviour {public float maximumHealth,postHitInvulnerability;public IntercomTeam team;}

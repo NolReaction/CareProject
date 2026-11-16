@@ -39,13 +39,13 @@ def profile(name, mode):
     path = MISSIONS / (name + '.asset')
     if not path.exists():
         values = dict(mode=mode, displayName='Уничтожить 50 роботов' if mode == 0 else 'Спасение',
-                      killTarget=50, maximumAlive=6 if mode == 0 else 5,
-                      waveSize=10, spawnInterval=2 if mode == 0 else 2.2,
-                      waveRestSeconds=4.5 if mode == 0 else 4, minimumSpawnDistance=5,
+                      killTarget=50, maximumAlive=8 if mode == 0 else 7,
+                      waveSize=10, spawnInterval=1 if mode == 0 else 1.15,
+                      waveRestSeconds=0, minimumSpawnDistance=5, continuousWaves=1,
                       useRhythmicWaves=1, groupSize=3 if mode==0 else 2,
-                      groupRestSeconds=2.8 if mode==0 else 2.6, openingGraceSeconds=1.3,
-                      visibleSpawnEvery=3, minimumVisibleSpawnDistance=5.5, visibleSpawnWarningSeconds=.35,
-                      rescueEnemySupply=30, allyHealth=60, allyMoveSpeed=3.4,
+                      groupRestSeconds=0, openingGraceSeconds=.8,
+                      visibleSpawnEvery=2, minimumVisibleSpawnDistance=5.5, visibleSpawnWarningSeconds=.35,
+                      rescueEnemySupply=30 if mode==0 else 50, allyHealth=60, allyMoveSpeed=3.4,
                       recruitDistance=1.6, recruitSeconds=.6, extractionRadius=2, allyWaitDistance=8)
         text = npc.YAML + '--- !u!114 &11400000\nMonoBehaviour:\n' + npc.common(0)
         text += '  m_Enabled: 1\n  m_EditorHideFlags: 0\n'

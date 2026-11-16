@@ -1,37 +1,21 @@
-# V20 package verification and recovery
+# V22 full-project verification
 
-The update is intended for the published V19 / v0.3.0 project; the installer verifies the base
-before making changes. Edited or incomplete bases can fail preflight and require
-the full project in a fresh folder.
+This delivery is a complete Unity project and a self-contained Git bundle.
+Open the ZIP contents in a fresh folder or clone the bundle. No patch installer
+or older CareProject delivery is required.
 
-The update ZIP must keep these items together: `RepairProject.cmd`,
-`RepairProject.ps1`, `UpdateManifest.json`, `Tools/Project/PackageInstaller.cs`
-and the complete `Payload` folder. The inventory and retirement/known-script
-registries are inside `Payload`. Do not run the launcher from inside `Payload`.
+`RepairProject.cmd` optionally verifies a fully extracted V22 inventory while
+Unity is closed. `RepairProject.ps1 -ProjectPath 'C:\Games\CareProject' -VerifyOnly`
+performs a read-only check. Missing/changed files are reported; the command does
+not download the release or compile Unity. For actual repairs, preserve a copy
+of your own work before applying any external package.
 
-Close Unity, extract the complete update ZIP outside the working project and run
-`RepairProject.cmd`. Select the Unity root containing `Assets`, `Packages` and
-`ProjectSettings`. The tool checks every payload hash and any required unchanged
-base file before changing the project. It archives replaced files and known old
-scripts under `ProjectBackups`, then installs the current sources.
+`PROJECT_FILES.json` records the V22 content hashes. `KnownScriptsV22.json`
+retains older recognised script hashes and adds current sources. Historic
+V18/V19/V20/V21 registries are retained for existing backup receipts. The installer
+can restore receipts for V18 through V22, preserving subsequently edited files.
 
-From PowerShell, `RepairProject.ps1 -ProjectPath 'C:\Games\CareProject' -VerifyOnly`
-checks without changing files. `-RestoreBackup '...\ProjectBackups\V20_...'`
-uses the saved receipt; V18, V19 and V20 receipts are accepted, and files edited
-after installation are preserved.
-Unknown edited legacy scripts are preserved and stop preflight.
-
-The full project can simply be opened from a fresh folder. Its same repair script
-can verify that folder and quarantine recognised old copies left by a previous
-manual extraction. It cannot restore user files already overwritten manually
-before the script was run.
-
-After the external step, open that exact project in Unity, wait for import and
-use the CareProject repair window to check scene links and build imported robot
-presentation assets. The external installer does not delete Unity caches, edit
-Git history or compile Unity/Android builds.
-
-The update manifest schema stays at 1. V20 payloads use `version: V20` and the
-full inventory uses `CareProject V20`. Historical V18 retirement paths/hashes
-remain in `Tools/RetirementManifestV18.json`. The full-project wrapper prefers
-`Tools/Project/KnownScriptsV20.json`, falling back to V19 and V18 if necessary.
+After FBX import the Unity editor prepares the standard Udarnik controller
+using imported AnimationClip objects, retaining its GUID and backing up the
+old recognised graph. Use Tools → CareProject → Проверить и восстановить проект
+if import preparation was deferred. Custom user controllers are preserved.

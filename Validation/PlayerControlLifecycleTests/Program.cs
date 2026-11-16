@@ -27,9 +27,34 @@ static class Program {
   Check((h.root.transform.position-start).sqrMagnitude==0,"visible selection keeps actual Motor still");
   Application.isMobilePlatform=false;Input.Clear();
  }
+ static void HealthEventHudPlayback(){
+  Time.timeScale=1f;Time.time=50f;
+  var source=new GameObject("HUD real health source").AddComponent<IntercomHealth>();Lifecycle.Call(source,"Awake");
+  var vitality=new GameObject("HUD vitality").AddComponent<IntercomPlayerVitality>();vitality.health=source;
+  var layout=IntercomHudLayout.Calculate(0,0,1280,720,70,32);var sticks=new IntercomTwinStickState();var hud=new IntercomWorkshopHud();
+  hud.Draw(layout,sticks,null,false,1f,vitality);
+  Check(source.TakeDamage(new IntercomDamage(38,Vector3.zero,Vector3.forward,null)),"HUD test damage62 precondition");
+  Time.time=52f;hud.Draw(layout,sticks,null,false,1f,vitality);
+  Check(source.TakeDamage(new IntercomDamage(10,Vector3.zero,Vector3.forward,null))&&source.Heal(35),"same-frame damage and actual repair accepted");
+  GUI.labels.Clear();hud.Draw(layout,sticks,null,false,1f,vitality);
+  Check(source.Current==87&&GUI.labels.Contains("+35 HP")&&!GUI.labels.Contains("+25 HP"),"same-frame HUD preserves actual repair instead of net damage plus healing");
+  source.ResetHealth();Time.time=53f;hud.Draw(layout,sticks,null,false,1f,vitality);
+  source.TakeDamage(new IntercomDamage(20,Vector3.zero,Vector3.forward,null));source.Heal(20);
+  GUI.labels.Clear();hud.Draw(layout,sticks,null,false,1f,vitality);
+  Check(source.Current==100&&GUI.labels.Contains("+20 HP"),"zero-net damage and repair still animate pickup");
+  // A health reset in an earlier subscriber must not turn a previous-life callback into a repair popup.
+  hud.Dispose();source.Healed+=amount=>source.ResetHealth();
+  hud.Draw(layout,sticks,null,false,1f,vitality);source.TakeDamage(new IntercomDamage(40,Vector3.zero,Vector3.forward,null));
+  source.Heal(35);GUI.labels.Clear();hud.Draw(layout,sticks,null,false,1f,vitality);
+  Check(!GUI.labels.Contains("+35 HP")&&GUI.labels.Contains("100 / 100"),"reset during heal event clears stale-life popup");
+  hud.Dispose();
+  var eventField=typeof(IntercomHealth).GetField("Damaged",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+  Check(eventField.GetValue(source)==null,"HUD dispose unbinds damage listener");
+ }
  static void Main(string[] args){
   if(args.Length>0){HiddenLinkScreenshot();return;}
   HiddenLinkScreenshot();
+  HealthEventHudPlayback();
   FreePlayLifecycle();
  foreach(bool early in new[]{false,true}){
   var h=new Hero(early);Check(!h.motor.enabled,"selection disables motor");var before=h.root.transform.position;h.Walk();Check(h.root.transform.position.z==before.z,"menu rejects physical movement");h.Step();Check(h.mission.StartMission(IntercomMissionMode.Elimination),"mission start succeeds after real motor Awake");h.Step();h.Walk();Check(h.root.transform.position.z>before.z+.1f,"keyboard input reaches real Motor after mission start");

@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "revision": "V21",
+  "eliminationGoal": 50,
+  "eliminationQuotas": [10, 14, 18, 8],
+  "eliminationAliveCaps": [5, 6, 7, 8],
+  "eliminationSpawnIntervals": [1.0, 0.88, 0.76, 0.66],
+  "automaticWaveRestSeconds": 0,
+  "automaticGroupRestSeconds": 0,
+  "rescueSupply": 50,
+  "rescueMaximumAlive": 7,
+  "visibleSpawnEvery": 2,
+  "visibleSpawnMinimumDistance": 5.5,
+  "visibleSpawnWarningSeconds": 0.35,
+  "missionStateAssertions": 59432,
+  "missionRuntimeAssertions": 2498,
+  "instantKillPacingFloorSeconds": 42.70,
+  "checks": [
+    "Next quota opens while previous quota survivors remain alive",
+    "Continuous mode ignores old automatic wave and group rest timers",
+    "Explicit gameplay pause freezes spawning and active run clock",
+    "At most one actor is released in an Update, including long frames",
+    "All 50 elimination kills account exactly once across four larger quotas",
+    "Runner and heavy roles become more frequent in later quotas",
+    "Eight reusable actor slots bound active simulation and object allocation",
+    "Robot deaths emit one collectible drop per accounted life",
+    "Victory sweeps remaining pickups before collecting the immutable result",
+    "Collected currency is independent from kill count and persists in the result"
+  ],
+  "scope": "Production mission state and director executed with narrow Unity/navigation stand-ins, plus serialized shipped profile/scene checks. Not native Unity, PhysX, real combat difficulty or device performance."
+}

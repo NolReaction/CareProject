@@ -96,7 +96,7 @@ namespace IntercomMvp
             resultVictoryParts=reward.VictoryParts;resultTotal=reward.Total;resultWallet=parts;resultSaveFailed=saveFailed;
             resultFacts="ОТКЛЮЧЕНО  "+kills+"   ·   СПАСЕНО  "+rescued+"   ·   "+(seconds/60).ToString("00")+":"+(seconds%60).ToString("00");
             resultRewardTitle=hasReward?(reward.Eligible?"ЗАПЧАСТИ  +"+reward.Total:"ТРЕНИРОВКА БЕЗ НАГРАД"):saveFailed?"НАГРАДА ЖДЁТ СОХРАНЕНИЯ":"ПОДСЧЁТ ЗАПЧАСТЕЙ";
-            resultBreakdown=hasReward&&reward.Eligible?"Ударники +"+reward.KillParts+"  ·  Спасение +"+reward.RescueParts+"  ·  Выезд +"+reward.VictoryParts
+            resultBreakdown=hasReward&&reward.Eligible?"Подобрано +"+reward.KillParts+"  ·  Спасение +"+reward.RescueParts+"  ·  Выезд +"+reward.VictoryParts
                 :hasReward?"Свободный режим — для проверки и тренировки.":saveFailed?"Повторим сохранение автоматически.":"";
             resultWalletLabel=progression!=null?"В МАСТЕРСКОЙ  "+parts+" ЗАПЧАСТЕЙ":"";
         }

@@ -1,0 +1,55 @@
+{
+  "revision": "npc-sandbox-v8",
+  "status": "PASS",
+  "sceneSha256": "1c82799d5becf29da17ea59832280c1d4ce10b165240e7a8376a25d11f55adff",
+  "repeatInstallIdempotent": true,
+  "localIds": {
+    "objects": 1108,
+    "localReferences": 7019,
+    "externalReferences": 1000
+  },
+  "spawnMarkers": [
+    [
+      -6.0,
+      0.0,
+      -3.0
+    ],
+    [
+      3.5,
+      0.0,
+      1.0
+    ],
+    [
+      1.0,
+      0.0,
+      9.0
+    ]
+  ],
+  "spawnPointsOutsideInflatedObstacles": true,
+  "checkedObstacleCount": 74,
+  "heroHealth": 100.0,
+  "heroInvulnerability": 0.6,
+  "npcParameters": {
+    "maximumHealth": 75.0,
+    "damage": 12.0,
+    "moveSpeed": 2.65,
+    "attackRange": 1.05,
+    "attackHalfAngle": 40.0,
+    "windupSeconds": 0.3,
+    "recoverySeconds": 0.48,
+    "detectionRadius": 14.0,
+    "leashRadius": 40.0
+  },
+  "sharedMaterials": [
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikBody.mat",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikDetail.mat",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Materials/UdarnikTelegraph.mat"
+  ],
+  "contracts": {
+    "explicitNavObstacleRoot": true,
+    "explicitPlayerAndResetRefs": true,
+    "inputVitalityRef": true,
+    "boundedActors": 3
+  },
+  "scope": "Serialized component links, asset dependencies, safe spawn footprints and installer idempotence. No Unity runtime/PhysX execution."
+}

@@ -283,5 +283,16 @@ static class Program
         Check(safe.visual==null,"target rejects collider owner as visual");
         safe.ApplyHit(100,Vector3.forward);Time.deltaTime=3;Call(safe,"Update");Check(safe.Health==100&&safeSolid.enabled&&Same(safeOwner.transform.localScale,Vector3.one),"incomplete target safely resets without visual or scaling collider");
     }
-    static void Main() {PureState();Runtime();DebrisLifecycle();BollardClearance();CartoonFeedback();TargetFeedback();Console.WriteLine("Reactive props: "+assertions+" assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.");}
+    static void GearDrops()
+    {
+        foreach(var kind in new[]{IntercomPropKind.Crate,IntercomPropKind.Bollard,IntercomPropKind.Relay})
+        {
+            var h=new Fixture(kind);var input=h.Motor.gameObject.AddComponent<IntercomPlayerInput>();
+            input.mission=new GameObject().AddComponent<IntercomMissionDirector>();input.mission.gearPickups=new GameObject().AddComponent<IntercomGearPickups>();
+            Check(h.Prop.TakeDamage(Damage(1))&&input.mission.gearPickups.Drops==0,"ordinary prop hits do not drop currency");
+            Check(h.Prop.TakeDamage(Damage(10000))&&input.mission.gearPickups.Drops==1,"breaking or tripping prop reports one loot drop");
+            Check(!h.Prop.TakeDamage(Damage(10000))&&input.mission.gearPickups.Drops==1,"terminal prop hit cannot report duplicate loot");
+        }
+    }
+    static void Main() {PureState();Runtime();GearDrops();DebrisLifecycle();BollardClearance();CartoonFeedback();TargetFeedback();Console.WriteLine("Reactive props: "+assertions+" assertions passed. Production state + component lifecycle with narrow Unity stand-ins; not a Unity Editor test.");}
 }

@@ -134,7 +134,7 @@ internal static class Program
         p.HasResultReward=true;p.ResultRunRevision=7;p.ResultReward=new IntercomRunReward{Kills=50,Rescued=1,KillParts=100,RescueParts=40,VictoryParts=25,Total=165,Eligible=true,Won=true};
         Call(f,"Update");GUI.labels.Clear();Call(f,"OnGUI");
         Check(GUI.labels.Contains("ОТКЛЮЧЕНО  50   ·   СПАСЕНО  1   ·   03:03"),"result uses immutable summary, including elapsed time and rescued count");
-        Check(GUI.labels.Contains("ЗАПЧАСТИ  +165")&&GUI.labels.Contains("Ударники +100  ·  Спасение +40  ·  Выезд +25")&&GUI.labels.Contains("В МАСТЕРСКОЙ  165 ЗАПЧАСТЕЙ"),"reward receipt has full reason breakdown and current balance");
+        Check(GUI.labels.Contains("ЗАПЧАСТИ  +165")&&GUI.labels.Contains("Подобрано +100  ·  Спасение +40  ·  Выезд +25")&&GUI.labels.Contains("В МАСТЕРСКОЙ  165 ЗАПЧАСТЕЙ"),"reward receipt has collected gear breakdown and current balance");
         object view=typeof(IntercomFrontEnd).GetField("view",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(f);
         var facts=typeof(IntercomFrontEndView).GetField("resultFacts",BindingFlags.NonPublic|BindingFlags.Instance);string first=(string)facts.GetValue(view);
         Call(f,"OnGUI");Check(ReferenceEquals(first,facts.GetValue(view)),"unchanged result receipt retains cached strings");

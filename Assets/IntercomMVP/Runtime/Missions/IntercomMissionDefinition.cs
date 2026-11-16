@@ -12,6 +12,8 @@ namespace IntercomMvp
         [Min(1)] public int waveSize = 10;
         [Min(.1f)] public float spawnInterval = 1.2f;
         [Min(0f)] public float waveRestSeconds = 2.5f;
+        [Header("Continuous escalation")]
+        public bool continuousWaves;
         [Header("Wave rhythm (old profiles keep their original pacing)")]
         public bool useRhythmicWaves;
         [Range(1, 5)] public int groupSize = 3;

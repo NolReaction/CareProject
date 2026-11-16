@@ -114,7 +114,8 @@ def main():
                   localIds=validate_scene_ids(text), repeatInstallIdempotent=True, legacyInstallPreservesV9=True,
                   legacySandboxDisabled=True, missionProfiles=list(profiles), spawnMarkers=positions[:-2],
                   allySpawn=positions[-2], extraction=positions[-1], heroStart=[-7, 0, -12],
-                  maximumActiveEnemies={'Elimination': 6, 'Rescue': 5}, killGoal=50,
+                  maximumActiveEnemies={mode: int(scalar((ROOT/f'Assets/IntercomMVP/Content/Missions/{name}.asset').read_text(),'maximumAlive'))
+                                        for mode,name in [('Elimination','Kill50'),('Rescue','Rescue')]}, killGoal=50,
                   sourceSha256={str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                                 for p in [scene_path, enemy_path] + list((ROOT/'Assets/IntercomMVP/Content/Missions').glob('*.asset'))},
                   scope='Serialized links, profile limits, component ownership and repeated installation. Separate MissionSceneRouteTests execute production navigation on authored map. No Unity runtime.')

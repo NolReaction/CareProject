@@ -1,6 +1,6 @@
 """Build mechanical actions and exports while keeping editable source parts separate.
 
-Run inside Blender5.2+, or use PrepareUdarnik.py for the complete Original.glb pipeline.
+Run inside Blender 4.3+ or use PrepareUdarnik.py for the complete Original.glb pipeline.
 For a geometry review: blender -b --python BlenderTools/AnimateUdarnik.py -- --rest path.blend
 """
 import argparse,json,math
@@ -13,10 +13,15 @@ SOURCE=ROOT/'Source/Enemies/Udarnik'
 MODEL=ROOT/'Assets/IntercomMVP/Content/Enemies/Udarnik/Model'
 FPS=100
 CLIPS={'Idle':1.60,'Walk':.80,'Windup':.30,'Strike':.16,'Recover':.48,'Hurt':.22,
-       'Death':.18,'Emerge':.68,'EmergeGround':.95,'EmergeHatch':1.05}
+       'Death':.18,'Emerge':.68,'EmergeGround':.95,'EmergeHatch':1.05,
+       'Run':.64,'WindupHook':.30,'StrikeHook':.16,'RecoverHook':.48,
+       'WindupSlam':.30,'StrikeSlam':.16,'RecoverSlam':.48,'HurtHeavy':.32}
 WALK_DUTY=.58
 WALK_STANCE_TRAVEL=.28
 WALK_REFERENCE=WALK_STANCE_TRAVEL/(WALK_DUTY*CLIPS['Walk'])
+RUN_DUTY=.56
+RUN_STANCE_TRAVEL=.40
+RUN_REFERENCE=RUN_STANCE_TRAVEL/(RUN_DUTY*CLIPS['Run'])
 FLOOR=.003
 rig=None
 parts=[]
@@ -30,6 +35,17 @@ def smooth(t):
     t=max(0.,min(1.,t));return t*t*(3.-2.*t)
 def mix(a,b,t):return a+(b-a)*t
 def window(t,a,b):return smooth((t-a)/(b-a))
+
+def action_curves(action):
+    """Blender 4.3 legacy actions and 4.4+ layered actions share the same export."""
+    if hasattr(action,'layers') and action.layers:
+        return [curve for layer in action.layers for strip in layer.strips if strip.type=='KEYFRAME'
+                for bag in strip.channelbags for curve in bag.fcurves]
+    return list(action.fcurves)
+
+def bind_action(action):
+    rig.animation_data.action=action
+    if getattr(action,'slots',None):rig.animation_data.action_slot=action.slots[0]
 
 def source_parts():
     collection=bpy.data.collections.get('01 Editable Robot Parts') or bpy.data.collections.get('EditableParts')
@@ -111,21 +127,25 @@ def planted_hand(side,target,weight):
     fore.rotation_quaternion=base_fore.slerp(fore.rotation_quaternion,weight)
     upper.location=base_upper_location.lerp(upper.location,weight);fore.location=base_fore_location.lerp(fore.location,weight)
 
-def gait(phase):
+def gait(phase,running=False):
     phase=phase%1.
-    if phase<WALK_DUTY:
-        s=phase/WALK_DUTY
-        y=mix(-WALK_STANCE_TRAVEL*.5,WALK_STANCE_TRAVEL*.5,s)
-        pitch=-4*(1-smooth(s/.12))+8*smooth((s-.85)/.15)
+    duty=RUN_DUTY if running else WALK_DUTY
+    travel=RUN_STANCE_TRAVEL if running else WALK_STANCE_TRAVEL
+    duration=CLIPS['Run'] if running else CLIPS['Walk']
+    reference=RUN_REFERENCE if running else WALK_REFERENCE
+    if phase<duty:
+        s=phase/duty
+        y=mix(-travel*.5,travel*.5,s)
+        pitch=(-7 if running else -4)*(1-smooth(s/.12))+(12 if running else 8)*smooth((s-.85)/.15)
         return Vector((0,y,0)),pitch,True
-    s=(phase-WALK_DUTY)/(1-WALK_DUTY)
+    s=(phase-duty)/(1-duty)
     # Match the planted backward sole velocity at both ends. The airborne
     # foot changes direction between them rather than snapping at touchdown.
-    y0=WALK_STANCE_TRAVEL*.5;y1=-y0
-    tangent=WALK_REFERENCE*CLIPS['Walk']*(1-WALK_DUTY)
+    y0=travel*.5;y1=-y0
+    tangent=reference*duration*(1-duty)
     y=(2*s*s*s-3*s*s+1)*y0+(s*s*s-2*s*s+s)*tangent+(-2*s*s*s+3*s*s)*y1+(s*s*s-s*s)*tangent
-    lift=math.sin(math.pi*s)**2*.072
-    pitch=mix(7,-4,smooth(s))
+    lift=math.sin(math.pi*s)**2*(.115 if running else .072)
+    pitch=mix(12 if running else 7,-7 if running else -4,smooth(s))
     return Vector((0,y,lift)),pitch,False
 
 def pose(kind,t):
@@ -138,15 +158,44 @@ def pose(kind,t):
         body=(wave*1.7,other*.55,wave*1.9);head=(-wave*.8,0,-wave*1.2)
         arms['L'][0]+=wave*2.4;arms['L'][1]-=other*2
         arms['R'][0]-=wave*2.;arms['R'][1]+=other*1.8
-    elif kind=='Walk':
+    elif kind in {'Walk','Run'}:
+        running=kind=='Run'
         phase=t*math.tau
-        pelvis=Vector((math.sin(phase)*.017,0,-.055+.006*math.cos(phase*2)))
-        body=(9.+1.4*math.sin(phase*2),math.sin(phase)*1.6,math.sin(phase)*4.2)
+        pelvis=Vector((math.sin(phase)*(.023 if running else .017),0,
+                       (-.078 if running else -.055)+(.014 if running else .006)*math.cos(phase*2)))
+        body=((15. if running else 9.)+1.4*math.sin(phase*2),math.sin(phase)*1.6,
+              math.sin(phase)*(6.0 if running else 4.2))
         head=(-math.sin(phase*2)*1.3,0,-body[2]*.70)
         for side,offset,sign in [('L',0,1),('R',.5,-1)]:
-            ankles[side],pitches[side],_=gait(t+offset)
+            ankles[side],pitches[side],_=gait(t+offset,running)
             c=math.cos(phase)*sign
-            arms[side]=[-18+c*25,-34-c*9,sign*(4+c*2)]
+            arms[side]=[(-14 if running else -18)+c*(36 if running else 25),
+                        (-56 if running else -34)-c*9,sign*(4+c*2)]
+    elif kind in {'WindupHook','StrikeHook','RecoverHook','WindupSlam','StrikeSlam','RecoverSlam'}:
+        hook=kind.endswith('Hook')
+        if kind.startswith('Windup'):
+            coil=window(t,0,.60);hit=window(t,.72,1.);release=0.;pulse=0.
+        else:
+            coil=1.;hit=1.;release=smooth(t) if kind.startswith('Recover') else 0.
+            pulse=math.sin(math.pi*t) if kind.startswith('Strike') else 0.
+        if hook:
+            twist=mix(21*coil,-23,hit)*(1-release)
+            body=(mix(-5*coil,15,hit)*(1-release)+pulse*2,0,twist)
+            head=(-body[0]*.18,0,-twist*.40)
+            pelvis=Vector((.018*math.sin(math.pi*hit)*(1-release),-.025*hit*(1-release),-.032*coil*(1-hit)*(1-release)))
+            arms['R']=[mix(mix(-30,12,coil),-90,hit),mix(mix(-52,-101,coil),-27,hit),mix(-24*coil,34,hit)]
+            arms['L']=[mix(-27,-40,coil),mix(-48,-69,coil),8*coil]
+        else:
+            body=(mix(-16*coil,25,hit)*(1-release)+pulse*3,0,0)
+            head=(-body[0]*.25,0,0)
+            pelvis=Vector((0,-.037*hit*(1-release),(-.05*coil*(1-hit)-.028*hit)*(1-release)))
+            for side,sign in [('L',1),('R',-1)]:
+                arms[side]=[mix(mix(-27 if side=='L' else -30,-148,coil),-85,hit),
+                            mix(mix(-48 if side=='L' else -52,-61,coil),-8,hit),sign*mix(13*coil,5,hit)]
+        if release:
+            for side in ['L','R']:
+                rest=(-27.,-48.,0.) if side=='L' else (-30.,-52.,0.)
+                arms[side]=[mix(value,rest[i],release) for i,value in enumerate(arms[side])]
     elif kind in {'Windup','Strike','Recover'}:
         if kind=='Windup':
             coil=window(t,0,.60);punch=window(t,.74,1.)
@@ -163,8 +212,10 @@ def pose(kind,t):
             pelvis=Vector((0,mix(-.025,0,release),0))
             arms['L']=[mix(-96,-27,release)-pulse*3,mix(-3,-48,release),mix(-6,0,release)]
             arms['R']=[mix(-39,-30,release),mix(-64,-52,release),mix(-5,0,release)]
-    elif kind=='Hurt':
+    elif kind in {'Hurt','HurtHeavy'}:
         q=math.sin(math.pi*t)*(1-.35*t)
+        strength=1.4 if kind=='HurtHeavy' else 1.
+        q*=strength
         body=(-15*q,-3*q,7*q);head=(4*q,0,-7*q)
         arms={'L':[-27+19*q,-48-22*q,4*q],'R':[-30+14*q,-52-17*q,-5*q]}
         pelvis=Vector((0,.012*q,-.012*q))
@@ -217,6 +268,14 @@ def pose(kind,t):
         for side,sign in [('L',1),('R',-1)]:
             planted_hand(side,Vector((sign*.47,-.31,min(1.48,-wrapper_y+.13))),weight)
         bpy.context.view_layer.update()
+    elif kind=='EmergeHatch' and t<.88:
+        # A real braced climb: fists grip opposite sides, one releases for
+        # the leading foot, then the second hand pushes the body upright.
+        wrapper_y=-1.48*(1-window(t,.04,.90))
+        for side,sign in [('L',1),('R',-1)]:
+            release=window(t,.45 if side=='L' else .58,.73 if side=='L' else .88)
+            planted_hand(side,Vector((sign*.48,-.20,min(1.48,-wrapper_y+.11))),1-release)
+        bpy.context.view_layer.update()
 
 def build_actions():
     global ik_clamps,arm_reach_clamps
@@ -225,7 +284,7 @@ def build_actions():
     scene=bpy.context.scene;scene.render.fps=FPS;scene.render.fps_base=1.
     rig.animation_data_create()
     for name,duration in CLIPS.items():
-        action=bpy.data.actions.new(name);action.use_fake_user=True;rig.animation_data.action=action
+        action=bpy.data.actions.new(name);action.use_fake_user=True;bind_action(action)
         end=round(duration*FPS)
         frames=list(range(end+1))
         for frame in frames:
@@ -233,19 +292,16 @@ def build_actions():
             for bone in rig.pose.bones:
                 bone.keyframe_insert('location',frame=frame,group=bone.name)
                 bone.keyframe_insert('rotation_quaternion',frame=frame,group=bone.name)
-        for layer in action.layers:
-            for strip in layer.strips:
-                if strip.type=='KEYFRAME':
-                    for bag in strip.channelbags:
-                        for curve in bag.fcurves:
-                            for point in curve.keyframe_points:point.interpolation='LINEAR'
+        for curve in action_curves(action):
+            for point in curve.keyframe_points:point.interpolation='LINEAR'
         action['duration_seconds']=duration
         action['purpose']='Compatibility ground arrival' if name=='Emerge' else name
-    rig.animation_data.action=bpy.data.actions['Idle']
-    if rig.animation_data.action.slots:rig.animation_data.action_slot=rig.animation_data.action.slots[0]
+    bind_action(bpy.data.actions['Idle'])
     scene.frame_start=0;scene.frame_end=160;scene.frame_set(0)
     return {'clips':CLIPS,'fps':FPS,'walkStanceTravel':WALK_STANCE_TRAVEL,'walkStanceDuty':WALK_DUTY,
             'walkReferenceMetresPerSecond':WALK_REFERENCE,'ikClampedTargetsDuringAuthoring':ik_clamps,
+            'runStanceTravel':RUN_STANCE_TRAVEL,'runStanceDuty':RUN_DUTY,
+            'runReferenceMetresPerSecond':RUN_REFERENCE,
             'earlyEmergenceArmReachClamps':arm_reach_clamps}
 
 def frame_workspace():
@@ -329,8 +385,7 @@ def export_breakup(path,groups):
         mesh=obj.data;bpy.data.objects.remove(obj,do_unlink=True)
         if mesh.users==0:bpy.data.meshes.remove(mesh)
     bpy.data.collections.remove(collection)
-    rig.animation_data.action=action
-    if action and action.slots:rig.animation_data.action_slot=action.slots[0]
+    if action:bind_action(action)
     bpy.context.scene.frame_set(0)
     return records
 

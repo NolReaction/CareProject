@@ -1,6 +1,6 @@
-"""Rebuild the Udarnik source and derived game assets with Blender 5.2+.
+"""Rebuild the Udarnik source and derived game assets with Blender 4.3+.
 
-Original.glb -> repaired editable parts -> ten Actions -> packed .blend,
+Original.glb -> repaired editable parts -> eighteen Actions -> packed .blend,
 one game skin and six static breakup chunks. Run from any directory:
   blender -b --python-exit-code 1 --python BlenderTools/PrepareUdarnik.py
 This regenerates the source .blend; back up any manual edits first.

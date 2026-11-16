@@ -19,7 +19,7 @@ namespace IntercomMvp.Editor
         [Serializable] private sealed class SavedScenes { public SavedScene[] scenes; }
         [Serializable] private sealed class Report
         {
-            public string version="V20", status="RUNNING", startedUtc, finishedUtc, unityVersion, platform, framesCsv;
+            public string version="V22", status="RUNNING", startedUtc, finishedUtc, unityVersion, platform, framesCsv;
             public bool nativeEditorExecuted, renderingAndDevicePerformanceVerified;
             public int eliminationVictories, retries, enemyHits, projectileRobotHits, nativeVolleys, reusedLives;
             public int groundArrivals, hatchArrivals, animatedActors, maximumPool, simultaneousDeathBatches, poseChanges;

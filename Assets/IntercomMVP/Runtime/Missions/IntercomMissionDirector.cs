@@ -23,11 +23,13 @@ namespace IntercomMvp
         public IntercomMissionDefinition rescueDefinition;
         [Header("Cosmetic robot breakup (optional)")]
         public IntercomRobotDeathEffects deathEffects;
+        public IntercomGearPickups gearPickups;
 
         public IntercomMissionPhase Phase => state.Phase;
         public IntercomMissionMode Mode => state.Mode;
         public bool BlocksGameplay => Phase != IntercomMissionPhase.Active;
         public int Kills => state.Kills;
+        public int CollectedGears => gearPickups!=null ? gearPickups.CollectedGears : 0;
         public int Goal => state.Goal;
         public int KillTarget => Goal;
         public int AliveEnemies => state.Alive;
@@ -147,6 +149,7 @@ namespace IntercomMvp
         {
             for(int i=0;i<pool.Length;i++) pool[i]=new Slot();
             if(deathEffects==null) deathEffects=GetComponent<IntercomRobotDeathEffects>();
+            if(gearPickups==null) gearPickups=GetComponent<IntercomGearPickups>();
             if(deathEffects!=null && deathEffects.definition==null) deathEffects.definition=enemyDefinition;
             observedRespawn=playerMotor != null ? playerMotor.RespawnVersion : 0;
         }
@@ -245,8 +248,8 @@ namespace IntercomMvp
             ElapsedSeconds=0f;
             wave=profile!=null ? 1 : 0; waveStartSpawned=groupSpawned=0;
             bool rhythmic=profile!=null && profile.useRhythmicWaves;
-            waveLimit=profile!=null ? Mathf.Min(state.Supply,IntercomMissionWavePolicy.WaveSize(profile.waveSize,wave,rhythmic)) : 0;
-            waveCount=profile!=null ? IntercomMissionWavePolicy.WaveCount(state.Supply,profile.waveSize,rhythmic) : 0;
+            waveLimit=profile!=null ? Mathf.Min(state.Supply,IntercomMissionWavePolicy.WaveSize(profile.waveSize,wave,rhythmic,profile.continuousWaves)) : 0;
+            waveCount=profile!=null ? IntercomMissionWavePolicy.WaveCount(state.Supply,profile.waveSize,rhythmic,profile.continuousWaves) : 0;
             spawnCursor=authoredSpawnCursor=0;
             spawnTimer=rhythmic ? Safe(profile.openingGraceSeconds,1.2f,.3f,5f) : .8f;
             waveRest=-1f; groupRestRemaining=0f; targetTimer=0f; spawnBlockedTime=0f; ResultText="";
@@ -364,25 +367,31 @@ namespace IntercomMvp
             }
             targetTimer-=dt;
             if(targetTimer<=0f) { targetTimer=.65f; RefreshTargets(); }
-            if(state.Spawned>=waveLimit && state.Alive==0 && state.Spawned<state.Supply)
+            if(state.Spawned>=waveLimit && state.Spawned<state.Supply && (profile.continuousWaves || state.Alive==0))
             {
-                if(waveRest<0f) waveRest=Safe(profile.waveRestSeconds,2.5f,0f,15f);
-                waveRest-=dt;
-                if(waveRest<=0f)
+                if(!profile.continuousWaves)
+                {
+                    if(waveRest<0f) waveRest=Safe(profile.waveRestSeconds,2.5f,0f,15f);
+                    waveRest-=dt;
+                }
+                if(profile.continuousWaves || waveRest<=0f)
                 {
                     wave++; waveStartSpawned=state.Spawned;
-                    waveLimit=Mathf.Min(state.Supply,waveLimit+IntercomMissionWavePolicy.WaveSize(profile.waveSize,wave,profile.useRhythmicWaves));
-                    groupSpawned=0; groupRestRemaining=0f; waveRest=-1f; spawnTimer=.1f;
+                    waveLimit=Mathf.Min(state.Supply,waveLimit+IntercomMissionWavePolicy.WaveSize(profile.waveSize,wave,profile.useRhythmicWaves,profile.continuousWaves));
+                    groupSpawned=0; groupRestRemaining=0f; waveRest=-1f;
+                    // Survivors carry into the next quota. Preserve the ordinary spawn cadence;
+                    // clearing the yard or waiting for an extra wave/group timer is unnecessary.
+                    if(!profile.continuousWaves) spawnTimer=.1f;
                 }
             }
             groupRestRemaining=Mathf.Max(0f,groupRestRemaining-dt);
             spawnTimer-=dt;
-            if(state.Spawned<waveLimit && state.Alive<IntercomMissionWavePolicy.AliveLimit(profile.maximumAlive,wave,profile.useRhythmicWaves) && spawnTimer<=0f)
+            if(state.Spawned<waveLimit && state.Alive<IntercomMissionWavePolicy.AliveLimit(profile.maximumAlive,wave,profile.useRhythmicWaves,profile.continuousWaves) && spawnTimer<=0f)
             {
                 bool spawned=TrySpawnOne();
                 spawnTimer=spawned ? Safe(profile.spawnInterval,1.2f,.25f,5f)
-                    *IntercomMissionWavePolicy.PaceMultiplier(wave,profile.useRhythmicWaves) : .2f;
-                if(spawned && profile.useRhythmicWaves)
+                    *IntercomMissionWavePolicy.PaceMultiplier(wave,profile.useRhythmicWaves,profile.continuousWaves) : .2f;
+                if(spawned && profile.useRhythmicWaves && !profile.continuousWaves)
                 {
                     groupSpawned++;
                     if(groupSpawned>=Mathf.Clamp(profile.groupSize,1,5) && state.Spawned<waveLimit)
@@ -536,7 +545,7 @@ namespace IntercomMvp
             slot.actor.gameObject.SetActive(false);
             slot.actor.enabled=true;
             IntercomNpcArchetype archetype=(IntercomNpcArchetype)IntercomMissionWavePolicy.ArchetypeIndex(
-                wave,state.Spawned-waveStartSpawned,profile!=null && profile.useRhythmicWaves);
+                wave,state.Spawned-waveStartSpawned,profile!=null && profile.useRhythmicWaves,profile!=null && profile.continuousWaves);
             slot.actor.PrepareForSpawn(position,archetype); slot.actor.SetTarget(playerHealth);
             unchecked { slot.life++; if(slot.life==0) slot.life++; }
             slot.epoch=state.Epoch;
@@ -553,8 +562,10 @@ namespace IntercomMvp
             if(transitioning || !slot.living || slot.actor==null || slot.actor.Health==null
                 || !slot.actor.Health.IsDead || !state.RecordKill(index,slot.life,slot.epoch)) return;
             slot.living=false; slot.reuseAfter=Time.time+.85f;
+            uint dropSeed=slot.life ^ (slot.epoch*747796405u) ^ ((uint)index*2891336453u);
+            if(gearPickups!=null) gearPickups.DropRobot(slot.actor.transform.position,slot.actor.Archetype,dropSeed);
             if(deathEffects!=null && deathEffects.Emit(slot.actor.transform.position,slot.actor.transform.rotation,
-                slot.life ^ (slot.epoch*747796405u) ^ ((uint)index*2891336453u),slot.actor.VisualScale)) slot.actor.HideForDeathBurst();
+                dropSeed,slot.actor.VisualScale)) slot.actor.HideForDeathBurst();
             if(Phase==IntercomMissionPhase.Victory) { ResultText="Все "+Goal+" роботов отключены"; Finish(); }
         }
         private void RefreshTargets()
@@ -616,6 +627,7 @@ namespace IntercomMvp
         private void StopActors(bool clearEffects=true)
         {
             if(clearEffects && deathEffects!=null) deathEffects.Clear();
+            if(clearEffects && gearPickups!=null) gearPickups.ClearForTransition();
             if(authoredSpawnPoints!=null)
                 for(int i=0;i<authoredSpawnPoints.Length;i++)
                     if(authoredSpawnPoints[i]!=null) authoredSpawnPoints[i].ResetForMission();
@@ -631,9 +643,11 @@ namespace IntercomMvp
         {
             if(!HasRunSummary && (Phase==IntercomMissionPhase.Victory || Phase==IntercomMissionPhase.Defeat))
             {
+                if(Phase==IntercomMissionPhase.Victory && gearPickups!=null) gearPickups.SweepForVictory();
                 unchecked { ResultRevision++; if(ResultRevision==0) ResultRevision++; }
                 LastRunSummary=new IntercomMissionRunSummary(CurrentRunId,RunRevision,ResultRevision,Mode,Phase,
-                    Kills,Mode==IntercomMissionMode.Rescue && Phase==IntercomMissionPhase.Victory ? 1 : 0,wave,ElapsedSeconds);
+                    Kills,Mode==IntercomMissionMode.Rescue && Phase==IntercomMissionPhase.Victory ? 1 : 0,wave,ElapsedSeconds,
+                    gearPickups!=null ? gearPickups.CollectedGears : 0);
                 HasRunSummary=true;
             }
             // The last kill still gets its short cosmetic burst. Selection/retry/unload clear it explicitly.

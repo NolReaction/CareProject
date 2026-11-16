@@ -1,10 +1,13 @@
 """Raster preview of actual production menu draw commands; does not run Unity."""
 from pathlib import Path
-import json,base64,textwrap
+import argparse,json,base64,textwrap
 from PIL import Image,ImageDraw,ImageFont,ImageChops
 ROOT=Path(__file__).resolve().parents[1]
-INPUT=ROOT/'Validation/Results/V20UI/MissionPreviews'
-OUT=ROOT/'Validation/Results/V20UI/HudRaster';OUT.mkdir(parents=True,exist_ok=True)
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--health',action='store_true',help='Render the V22 damage, healing and critical-health snapshots from HudLayoutTests')
+args=parser.parse_args()
+INPUT=ROOT/('Validation/Results/V22UI/HealthPreviews' if args.health else 'Validation/Results/V20UI/MissionPreviews')
+OUT=ROOT/('Validation/Results/V22UI/HealthRaster' if args.health else 'Validation/Results/V20UI/HudRaster');OUT.mkdir(parents=True,exist_ok=True)
 FONT=Path('/usr/share/fonts/truetype/dejavu')
 font_cache={}
 def font(size,bold):

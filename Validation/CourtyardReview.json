@@ -1,0 +1,65 @@
+{
+  "revision": "open-courtyard-v7",
+  "routes": {
+    "center": true,
+    "warehouse_apron": true,
+    "workshop_apron": true,
+    "training_entry": true,
+    "rear_exit": true,
+    "west_flank": true,
+    "east_flank": true,
+    "north_flank": true,
+    "south_crossing": true
+  },
+  "allFreeCellsReachable": true,
+  "gridMeters": 0.2,
+  "playerRadiusPlusMarginMeters": 0.42,
+  "reachableFreeCells": 19890,
+  "conservativeWalkableAreaM2": 795.6,
+  "aboveGroundObstacleCount": 74,
+  "centralZone": {
+    "x": [
+      -8,
+      8
+    ],
+    "z": [
+      -9,
+      8
+    ],
+    "occludersTallerThan1_3m": []
+  },
+  "reactiveProps": [
+    {
+      "key": "interactive_crate",
+      "kind": "Crate",
+      "visibleTopMeters": 1.1550000000000002
+    },
+    {
+      "key": "interactive_bollard",
+      "kind": "Bollard",
+      "visibleTopMeters": 1.15
+    },
+    {
+      "key": "interactive_relay",
+      "kind": "Relay",
+      "visibleTopMeters": 1.12
+    }
+  ],
+  "foldedBumper": {
+    "azimuthSamples": 73,
+    "angleSamples": 79,
+    "foldLiftMeters": 0.46,
+    "minimumVertexHeightRangeMeters": [
+      0.0,
+      0.05541931686696461
+    ],
+    "floorPenetration": false
+  },
+  "sceneIdsAndReferences": {
+    "objects": 1108,
+    "localReferences": 7019,
+    "externalReferences": 1000
+  },
+  "sceneSha256": "1c82799d5becf29da17ea59832280c1d4ce10b165240e7a8376a25d11f55adff",
+  "scope": "Authored meshes, conservative 2D routes and scene references. No Unity Editor or device playtest."
+}

@@ -17,6 +17,9 @@ namespace IntercomMvp
         public bool IsDead => State.IsDead;
         public event System.Action<IntercomDamage> Damaged;
         public event System.Action Died;
+        /// <summary>Reports the actual positive amount restored; resets are a separate lifetime.</summary>
+        public event System.Action<float> Healed;
+        public uint ResetRevision => resetGeneration;
         private IntercomHealthState state;
         private float nextDamageTime = float.NegativeInfinity;
         private uint resetGeneration;
@@ -47,6 +50,15 @@ namespace IntercomMvp
                 Died?.Invoke();
                 if(resetGeneration == generation && State.IsDead) onDeath?.Invoke();
             }
+            return true;
+        }
+        /// <summary>Restores a living active actor without bypassing the maximum or reviving a dead life.</summary>
+        public bool Heal(float amount)
+        {
+            if(!isActiveAndEnabled || Time.timeScale <= 0f || float.IsNaN(Time.time) || float.IsInfinity(Time.time)) return false;
+            float restored = State.Heal(amount);
+            if(restored <= 0f) return false;
+            Healed?.Invoke(restored);
             return true;
         }
         [ContextMenu("Reset Health")]

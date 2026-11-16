@@ -27,7 +27,7 @@ static class Program
 
     static void Main()
     {
-        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();PauseLifecycle();TimerAndToast();WaveAndDamagePresentation();FreePlayUi();MobileReferenceHud();DesktopInstrumentOwnership();DrawPreviews();
+        Layouts();PointerTransitions();KeyboardAndResults();DisabledDirectorLifecycle();MovementAfterCancellation();MissionProgressCache();PauseLifecycle();TimerAndToast();WaveAndDamagePresentation();FreePlayUi();MobileReferenceHud();GearCollectionHud();DesktopInstrumentOwnership();DrawPreviews();
         Console.WriteLine($"PASS {checks} mission menu / active objective / result / safe-area / input transition assertions. Production Input and HUD with narrow Unity and director stand-ins; not Unity Play Mode.");
     }
     static void TimerAndToast()
@@ -62,23 +62,44 @@ static class Program
         foreach(var safe in new[]{new Rect(0,0,1280,720),new Rect(94,21,2152,1038),new Rect(20,12,600,336)})
         {
             Screen.width=(int)(safe.xMax+safe.x);Screen.height=(int)(safe.yMax+safe.y);Screen.safeArea=safe;
-            var l=IntercomHudLayout.Calculate(safe.x,safe.y,safe.width,safe.height,70,32);var sticks=new IntercomTwinStickState();var vitality=new IntercomPlayerVitality{ShowHitRemaining=.25f};
-            foreach(var state in new[]{"hurt","quiet","paused","dead","invalid"})
+            var l=IntercomHudLayout.Calculate(safe.x,safe.y,safe.width,safe.height,70,32);var sticks=new IntercomTwinStickState();
+            foreach(var state in new[]{"hurt","quiet","paused","dead","reset","menu"})
             {
-                vitality.ShowHitRemaining=state=="quiet"?0f:state=="invalid"?float.NaN:.25f;vitality.IsDead=state=="dead";
-                GUI.commands.Clear();GUI.Record=true;hud.Draw(l,sticks,new IntercomWeaponMagazine(),false,1,vitality,mission,false,state=="paused");GUI.Record=false;
+                mission.Phase=IntercomMissionPhase.Active;
+                var vitality=new IntercomPlayerVitality();
+                // Establish a real HP transition in this renderer. ShowHitRemaining is no longer the HUD animation source.
+                Time.time=20f;hud.Draw(l,sticks,new IntercomWeaponMagazine(),false,1,vitality,mission);
+                vitality.Health.Current=62f;Time.time=20.01f;hud.Draw(l,sticks,new IntercomWeaponMagazine(),false,1,vitality,mission);
+                Time.time=state=="quiet" ? 22f : 20.1f;
+                vitality.IsDead=state=="dead";
+                if(state=="reset"){vitality.Health.ResetRevision++;vitality.Health.Current=100f;}
+                if(state=="menu")mission.Phase=IntercomMissionPhase.Selection;
+                GUI.commands.Clear();GUI.textures.Clear();GUI.Record=true;
+                hud.Draw(l,sticks,new IntercomWeaponMagazine(),false,1,vitality,mission,false,state=="paused");GUI.Record=false;
                 int edges=0;
                 foreach(var command in GUI.commands)
                 {
-                    if((string)Property(command,"kind")!="texture"||(string)Property(command,"texture")!="white")continue;
-                    var color=(float[])Property(command,"color");if(Math.Abs(color[0]-.77f)>.0001f||Math.Abs(color[1]-.42f)>.0001f||Math.Abs(color[2]-.28f)>.0001f||color[3]>.201f)continue;
-                    edges++;var b=(float[])Property(command,"rect");float top=Screen.height-safe.y-safe.height;
-                    Check(b[0]>=safe.x&&b[1]>=top&&b[0]+b[2]<=safe.xMax+.001f&&b[1]+b[3]<=top+safe.height+.001f,"accepted damage edge remains inside actual notch-safe area");
-                    Check(Math.Min(b[2],b[3])<=14.001f,"damage feedback never becomes a fullscreen curtain");
+                    if((string)Property(command,"kind")!="texture"||(string)Property(command,"texture")!="Soft health vignette")continue;
+                    edges++;
+                    var color=(float[])Property(command,"color");
+                    Check(color[3]>0f&&color[3]<=.40f,"soft damage edge opacity remains bounded");
+                    var b=(float[])Property(command,"rect");
+                    Check(b[0]==0f&&b[1]==0f&&b[2]==Screen.width&&b[3]==Screen.height,"soft vignette follows viewport edges on every safe area");
+                    var texture=GUI.textures["Soft health vignette"];
+                    Check(texture.pixels[(texture.height/2)*texture.width+texture.width/2].a==0,"damage edge keeps centre fully transparent");
+                    Check(texture.pixels[0].a>0&&texture.pixels[texture.width-1].a>0,"damage edge reaches both corners");
+                    for(int y=0;y<texture.height;y++)for(int x=0;x<texture.width;x++)
+                    {
+                        byte alpha=texture.pixels[y*texture.width+x].a;
+                        Check(alpha==texture.pixels[y*texture.width+texture.width-1-x].a,"vignette horizontal fade is symmetric");
+                        Check(alpha==texture.pixels[(texture.height-1-y)*texture.width+x].a,"vignette vertical fade is symmetric");
+                    }
                 }
-                Check(edges==(state=="hurt"?8:0),"damage edge is bounded and absent during "+state);
+                Check(edges==(state=="hurt"?1:0),"soft damage vignette lifecycle during "+state);
             }
+            mission.Phase=IntercomMissionPhase.Active;
         }
+
         hud.Dispose();
     }
     static void PauseLifecycle()
@@ -206,6 +227,19 @@ static class Program
         Release(p);Input.touches=new[]{Touch(4,Centre(l.PauseResume),TouchPhase.Began)};Call(p,"Update");
         Check(!p.GameplayPaused&&Time.timeScale==1&&!p.FireHeld&&!p.FirePressed,"fresh resume touch leaked into shooting");
         Release(p);
+    }
+    static void GearCollectionHud()
+    {
+        var p=Fresh(true);p.mission.Phase=IntercomMissionPhase.Active;p.mission.CollectedGears=47;
+        Release(p);var l=Layout();GUI.labels.Clear();GUI.commands.Clear();GUI.Record=true;Call(p,"OnGUI");GUI.Record=false;
+        Check(LabelInside("47",l.Gears),"collected gear count is missing from timer plaque");
+        p.mission.CollectedGears=51;GUI.labels.Clear();Call(p,"OnGUI");
+        Check(GUI.labels.Contains("51")&&!GUI.labels.Contains("47"),"pickup updates count on next repaint");
+        p.mission.RunRevision++;p.mission.CollectedGears=0;GUI.labels.Clear();Call(p,"OnGUI");
+        Check(GUI.labels.Contains("0")&&!GUI.labels.Contains("51"),"new run clears displayed currency");
+        p.mission.Mode=IntercomMissionMode.FreePlay;p.mission.CollectedGears=47;GUI.labels.Clear();Call(p,"OnGUI");
+        Check(!GUI.labels.Contains("47"),"free training cannot show earnable currency");
+        Call(p,"OnDestroy");
     }
     static void DesktopInstrumentOwnership()
     {

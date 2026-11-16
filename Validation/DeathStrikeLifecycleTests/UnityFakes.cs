@@ -250,6 +250,13 @@ namespace IntercomMvp {
 }
 
 namespace IntercomMvp {
+ // This integration suite exercises real Health/NPC/Director shutdown; currency is tested in GearPickupTests.
+ public class IntercomGearPickups:UnityEngine.MonoBehaviour {
+  public int CollectedGears;
+  public void DropRobot(UnityEngine.Vector3 position,IntercomNpcArchetype archetype,uint seed){}
+  public void SweepForVictory(){}
+  public void ClearForTransition(){}
+ }
  public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {
   public IntercomNpcDefinition definition;public int EmitCalls,ClearCalls;public bool Ready=true;
   public bool Emit(UnityEngine.Vector3 p,UnityEngine.Quaternion q,uint seed){EmitCalls++;return Ready;}

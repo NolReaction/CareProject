@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the shipped V20 scene/profile links and protection inventory; no Unity execution."""
+"""Check the shipped V21 scene/profile links and protection inventory; no Unity execution."""
 from pathlib import Path
 import sys,re,json,hashlib
 ROOT=Path(__file__).resolve().parents[1]
@@ -42,14 +42,18 @@ def main():
  check(scalar(nav,'agentHeight')>=1.35*1.12,'navigation considers heavy height')
  check(scalar(nav,'agentClearanceRadius')>=.32*1.12,'navigation considers heavy radius')
  missions_data={}
- for name,total in [('Kill50',50),('Rescue',30)]:
+ for name,total in [('Kill50',50),('Rescue',50)]:
   text=(ROOT/'Assets/IntercomMVP/Content/Missions'/(name+'.asset')).read_text()
   check(scalar(text,'useRhythmicWaves')==1,name+' rhythm enabled')
   check(scalar(text,'waveSize')==10,name+' base wave quota')
-  check(scalar(text,'spawnInterval')>=2,name+' spaced arrivals')
-  check(scalar(text,'waveRestSeconds')>=4,name+' breathers')
+  check(scalar(text,'continuousWaves')==1,name+' continuous overlap enabled')
+  check(.9<=scalar(text,'spawnInterval')<=1.2,name+' bounded high pressure cadence')
+  check(scalar(text,'waveRestSeconds')==0,name+' no automatic wave pauses')
   check(1<=scalar(text,'groupSize')<=3,name+' small groups')
-  check(scalar(text,'groupRestSeconds')>=2.5,name+' intra-wave rests')
+  check(scalar(text,'groupRestSeconds')==0,name+' no automatic group pauses')
+  check(7<=scalar(text,'maximumAlive')<=8,name+' bounded larger crowd')
+  check(scalar(text,'minimumVisibleSpawnDistance')>=5.5,name+' safe visible emergence distance')
+  check(scalar(text,'visibleSpawnWarningSeconds')>=.35,name+' telegraph remains readable')
   check(scalar(text,'killTarget' if name=='Kill50' else 'rescueEnemySupply')==total,name+' finite supply')
   missions_data[name]={'supply':total,'spawnInterval':scalar(text,'spawnInterval'),'waveRest':scalar(text,'waveRestSeconds')}
  weapon=(ROOT/'Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset').read_text()

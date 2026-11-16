@@ -283,3 +283,5 @@ namespace IntercomMvp {
   public void Clear(){ClearCalls++;}
  }
 }
+
+namespace IntercomMvp { public class IntercomGearPickups:UnityEngine.MonoBehaviour {public int CollectedGears; public int Drops, Sweeps, Clears;public void DropRobot(UnityEngine.Vector3 p,IntercomNpcArchetype kind,uint seed){Drops++;}public void SweepForVictory(){Sweeps++;}public void ClearForTransition(){Clears++;}} }

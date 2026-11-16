@@ -5,7 +5,7 @@ using System.Linq;
 using N = System.Numerics;
 namespace UnityEngine
 {
-    public class Object { }
+    public class Object { public int GetInstanceID()=>GetHashCode(); }
     public class GameObject : Object
     {
         public static readonly List<GameObject> All = new List<GameObject>();
@@ -21,6 +21,7 @@ namespace UnityEngine
     {
         public GameObject gameObject;
         public Transform transform => gameObject.transform;
+        public T GetComponent<T>() where T:Component => gameObject.Components.OfType<T>().FirstOrDefault();
         public T[] GetComponents<T>() where T : Component => gameObject.Components.OfType<T>().ToArray();
         public T[] GetComponentsInChildren<T>(bool includeInactive=false) where T : Component
             => GameObject.All.Where(o=>o.transform.IsChildOf(transform)&&(includeInactive||o.activeInHierarchy)).SelectMany(o=>o.Components.OfType<T>()).ToArray();
@@ -34,6 +35,7 @@ namespace UnityEngine
         public Transform parent;
         public Vector3 localPosition, localScale = Vector3.one;
         public Quaternion localRotation = Quaternion.identity;
+        public Vector3 position=>parent==null?localPosition:parent.position+localPosition;
         public Quaternion rotation => parent == null ? localRotation : parent.rotation * localRotation;
         public Vector3 InverseTransformDirection(Vector3 direction) => Quaternion.Inverse(rotation) * direction;
         public bool IsChildOf(Transform ancestor) {for(var current=this;current!=null;current=current.parent)if(current==ancestor)return true;return false;}
@@ -127,3 +129,5 @@ namespace IntercomMvp
 {
     public class IntercomPlayerMotor : UnityEngine.MonoBehaviour {public uint RespawnVersion;}
 }
+
+namespace IntercomMvp {public class IntercomPlayerInput:UnityEngine.MonoBehaviour {public IntercomMissionDirector mission;}public class IntercomMissionDirector:UnityEngine.MonoBehaviour {public IntercomGearPickups gearPickups;}public class IntercomGearPickups:UnityEngine.MonoBehaviour {public int Drops;public void DropProp(UnityEngine.Vector3 p,int id,IntercomPropKind kind){Drops++;}}}

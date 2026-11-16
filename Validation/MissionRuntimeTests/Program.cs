@@ -45,7 +45,7 @@ internal static class Program
         SpawnPointLifecycle(); AllyFactory(); Recruitment(); Following(); AllyLifecycle();
         MissionConnection(); MissionSelection(); FreePlay(); WarmPoolBudget(); SpawnSafety(); AuthoredArrivals(); EliminationPoolAndWaves(); DeathBurstConnection(); MissionResetAndCleanup(); MissionRescue(); MissionPauseAndTargets();
         MissionSessionClock(); MissingRuntimeDependencies(); MissionCameraLifecycle();
-        RhythmicWaves(); RhythmicRescue(); AuthoredPacingProbe(); CompletedRunSnapshots();
+        RhythmicWaves(); RhythmicRescue(); ContinuousWaves(); GearPickupConnection(); AuthoredPacingProbe(); CompletedRunSnapshots();
         Console.WriteLine($"Mission/rescue runtime: {checks} assertions passed against narrow Unity/navigation stand-ins. Not Unity or PhysX execution.");
     }
     private static void RhythmicWaves()
@@ -178,19 +178,83 @@ internal static class Program
             &&f.Director.LastRunSummary.Kills==30,"actual escort still completes after the rhythmic supply is exhausted");
     }
 
+    private static void ContinuousWaves()
+    {
+        var overlap=new MissionFixture();overlap.Advance(1);
+        overlap.Elimination.continuousWaves=true;overlap.Elimination.useRhythmicWaves=true;
+        overlap.Elimination.killTarget=12;overlap.Elimination.waveSize=4;overlap.Elimination.maximumAlive=8;
+        overlap.Elimination.openingGraceSeconds=.3f;overlap.Elimination.waveRestSeconds=15;
+        overlap.Elimination.groupSize=1;overlap.Elimination.groupRestSeconds=8;
+        Check(overlap.Director.StartMission(IntercomMissionMode.Elimination),"continuous fixture starts without an alternate gameplay route");
+        overlap.Advance(2f);
+        Check(overlap.Director.Wave==2&&overlap.Director.AliveEnemies>=5&&overlap.Director.Kills==0,
+            $"next wave joins living survivors without waiting for the preceding quota to die (wave {overlap.Director.Wave}, alive {overlap.Director.AliveEnemies}, spawned {overlap.Director.SpawnedEnemies}, kills {overlap.Director.Kills})");
+        Check(!overlap.Director.IsWaveResting&&!overlap.Director.IsGroupResting,
+            "continuous mode ignores even deliberately long legacy wave and group rest values");
+        int spawned=overlap.Director.SpawnedEnemies;float elapsed=overlap.Director.ElapsedSeconds;
+        Time.timeScale=0;overlap.Advance(2);
+        Check(overlap.Director.SpawnedEnemies==spawned&&overlap.Director.ElapsedSeconds==elapsed,
+            "removing automatic wave rests preserves an explicit gameplay pause");
+        Time.timeScale=1;
+        for(int tick=0;tick<2000&&overlap.Director.Phase==IntercomMissionPhase.Active;tick++)
+        {foreach(var actor in overlap.Living)actor.Kill();overlap.Step();}
+        Check(overlap.Director.Phase==IntercomMissionPhase.Victory&&overlap.Director.Kills==12,
+            "overlapping quotas neither lose enemies nor award premature victory");
+
+        var full=new MissionFixture();full.Advance(1);
+        full.Elimination.continuousWaves=true;full.Elimination.useRhythmicWaves=true;
+        full.Elimination.maximumAlive=8;full.Elimination.openingGraceSeconds=.3f;
+        Check(full.Director.StartMission(IntercomMissionMode.Elimination)&&full.Director.WaveCount==4,
+            "published fifty-enemy objective advertises four larger continuous quotas");
+        int[] perWave=new int[4];int previous=0;bool runner=false,heavy=false;
+        for(int tick=0;tick<4000&&full.Director.Phase==IntercomMissionPhase.Active;tick++)
+        {
+            foreach(var actor in full.Living)
+            {runner|=actor.Archetype==IntercomNpcArchetype.Runner;heavy|=actor.Archetype==IntercomNpcArchetype.Heavy;actor.Kill();}
+            full.Step();int delta=full.Director.SpawnedEnemies-previous;
+            Check(delta>=0&&delta<=1,"continuous release remains bounded to one enemy per rendered update");
+            if(delta>0)perWave[full.Director.Wave-1]+=delta;previous=full.Director.SpawnedEnemies;
+            Check(!full.Director.IsWaveResting&&!full.Director.IsGroupResting&&full.Director.AliveEnemies<=8,
+                "continuous release never inserts rests or grows the pool beyond its mobile cap");
+        }
+        Check(full.Director.Phase==IntercomMissionPhase.Victory&&full.Director.Kills==50
+            &&perWave.SequenceEqual(new[]{10,14,18,8})&&runner&&heavy,
+            "actual director runs all fifty enemies in larger mixed quotas without altering the exact goal");
+    }
+
+    private static void GearPickupConnection()
+    {
+        var f=new MissionFixture(x=>x.Director.gameObject.AddComponent<IntercomGearPickups>());f.Advance(1);
+        f.Elimination.killTarget=2;
+        Check(f.Director.StartMission(IntercomMissionMode.Elimination)&&f.Director.gearPickups!=null,
+            "mission resolves the gear collector authored on its own root");
+        f.Advance(1.3f);var actors=f.Living;Check(actors.Length==2,"two collectible-bearing lives are ready");
+        var collector=f.Director.gearPickups;collector.CollectedGears=7;
+        actors[0].Kill();
+        Check(collector.Drops==1&&collector.Sweeps==0&&!f.Director.HasRunSummary,
+            "ordinary robot death emits one collectible drop without a victory sweep");
+        actors[0].Kill();Check(collector.Drops==1,"duplicate pooled death cannot duplicate currency drops");
+        actors[1].Kill();
+        Check(collector.Drops==2&&collector.Sweeps==1&&f.Director.LastRunSummary.CollectedGears==7
+            &&f.Director.LastRunSummary.Kills==2,"last enemy drops loot and victory snapshots collected currency independently from kills");
+        int clears=collector.Clears;f.Director.ReturnToSelection();
+        Check(collector.Clears==clears+1&&f.Director.LastRunSummary.CollectedGears==7,
+            "leaving results clears loose pickups without rewriting the immutable earned result");
+    }
+
     private static void AuthoredPacingProbe()
     {
         var f=new MissionFixture();f.Advance(1);
-        f.Elimination.useRhythmicWaves=true;f.Elimination.waveSize=10;f.Elimination.maximumAlive=6;
-        f.Elimination.spawnInterval=2f;f.Elimination.waveRestSeconds=4.5f;f.Elimination.groupSize=3;
-        f.Elimination.groupRestSeconds=2.8f;f.Elimination.openingGraceSeconds=1.3f;
+        f.Elimination.continuousWaves=true;f.Elimination.useRhythmicWaves=true;f.Elimination.waveSize=10;f.Elimination.maximumAlive=8;
+        f.Elimination.spawnInterval=1f;f.Elimination.waveRestSeconds=0f;f.Elimination.groupSize=3;
+        f.Elimination.groupRestSeconds=0f;f.Elimination.openingGraceSeconds=.8f;
         Check(f.Director.StartMission(IntercomMissionMode.Elimination),"shipped pacing profile starts on a warmed pool");
         for(int tick=0;tick<6000&&f.Director.Phase==IntercomMissionPhase.Active;tick++)
         {foreach(var actor in f.Living)actor.Kill();f.Step();}
         Check(f.Director.Phase==IntercomMissionPhase.Victory&&f.Director.LastRunSummary.Kills==50,
             "published pacing configuration can finish without an unreachable release or wave");
-        Check(f.Director.ElapsedSeconds>120f&&f.Director.ElapsedSeconds<220f,"instant-kill pacing floor leaves room for combat within a short complete course");
-        Console.WriteLine("V20 authored course instant-kill floor: "+f.Director.ElapsedSeconds.ToString("F2")+" active seconds. No real combat, travel or native Unity simulation in this probe.");
+        Check(f.Director.ElapsedSeconds>35f&&f.Director.ElapsedSeconds<60f,"continuous instant-kill course removes accumulated automatic rests and keeps a bounded release cadence");
+        Console.WriteLine("V21 authored course instant-kill floor: "+f.Director.ElapsedSeconds.ToString("F2")+" active seconds. No real combat, travel or native Unity simulation in this probe.");
     }
     private static void SpawnPointLifecycle()
     {

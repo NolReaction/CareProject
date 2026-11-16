@@ -138,7 +138,8 @@ namespace IntercomMvp
                 var b = new Burst();
                 b.root = Child("Mechanical burst " + preparedBursts, poolRoot.transform);
                 b.gears = new Piece[Mathf.Clamp(gearsPerBurst, 3, 6)];
-                for (int p = 0; p < b.gears.Length; p++) b.gears[p] = CreatePiece("Scrap " + p, b.root.transform, meshes[p % 3], gearMaterial, true);
+                // Nuts/bolts remain short-lived debris; the larger golden cogs belong to the pickup system.
+                for (int p = 0; p < b.gears.Length; p++) b.gears[p] = CreatePiece("Scrap " + p, b.root.transform, meshes[1 + p % 2], gearMaterial, true);
                 b.pop = RenderObject("Ink pop", b.root.transform, meshes[4], flashMaterial);
                 b.ring = RenderObject("Expanding ring", b.root.transform, meshes[3], flashMaterial);
                 b.puffs = new Transform[3];

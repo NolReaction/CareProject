@@ -1,0 +1,91 @@
+{
+  "revision": "missions-scene-v9",
+  "status": "PASS",
+  "sceneSha256": "d72f14ccb24fe7daf9b2352654d3f95d093524ea54fc80162da8e12d7ba6a692",
+  "localIds": {
+    "objects": 1109,
+    "localReferences": 7025,
+    "externalReferences": 1004
+  },
+  "repeatInstallIdempotent": true,
+  "legacyInstallPreservesV9": true,
+  "legacySandboxDisabled": true,
+  "missionProfiles": [
+    "Kill50",
+    "Rescue"
+  ],
+  "spawnMarkers": [
+    [
+      -14.5,
+      0.0,
+      1.0
+    ],
+    [
+      -11.0,
+      0.0,
+      7.0
+    ],
+    [
+      -6.0,
+      0.0,
+      8.0
+    ],
+    [
+      0.0,
+      0.0,
+      12.0
+    ],
+    [
+      7.5,
+      0.0,
+      8.0
+    ],
+    [
+      13.5,
+      0.0,
+      0.0
+    ],
+    [
+      12.0,
+      0.0,
+      -7.0
+    ],
+    [
+      2.0,
+      0.0,
+      -12.0
+    ],
+    [
+      -11.0,
+      0.0,
+      -12.0
+    ]
+  ],
+  "allySpawn": [
+    2.0,
+    0.0,
+    11.0
+  ],
+  "extraction": [
+    -7.0,
+    0.0,
+    -12.0
+  ],
+  "heroStart": [
+    -7,
+    0,
+    -12
+  ],
+  "maximumActiveEnemies": {
+    "Elimination": 8,
+    "Rescue": 7
+  },
+  "killGoal": 50,
+  "sourceSha256": {
+    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": "d72f14ccb24fe7daf9b2352654d3f95d093524ea54fc80162da8e12d7ba6a692",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "a08317818d528c7162fc4ed54b448016e7819bdc97c5728fbf19b5ea91cfa070",
+    "Assets/IntercomMVP/Content/Missions/Rescue.asset": "cc5209c9fd265a18aa745318b01d0d4dae54243f779b7429f2605e786be9be28",
+    "Assets/IntercomMVP/Content/Missions/Kill50.asset": "bbed3018ddf686032668ae54a862d0a61002f28950ec49b3bab18b92eb3bfd76"
+  },
+  "scope": "Serialized links, profile limits, component ownership and repeated installation. Separate MissionSceneRouteTests execute production navigation on authored map. No Unity runtime."
+}

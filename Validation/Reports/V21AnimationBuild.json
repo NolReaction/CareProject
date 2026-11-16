@@ -1,0 +1,174 @@
+{
+  "clips": {
+    "Idle": 1.6,
+    "Walk": 0.8,
+    "Windup": 0.3,
+    "Strike": 0.16,
+    "Recover": 0.48,
+    "Hurt": 0.22,
+    "Death": 0.18,
+    "Emerge": 0.68,
+    "EmergeGround": 0.95,
+    "EmergeHatch": 1.05,
+    "Run": 0.64,
+    "WindupHook": 0.3,
+    "StrikeHook": 0.16,
+    "RecoverHook": 0.48,
+    "WindupSlam": 0.3,
+    "StrikeSlam": 0.16,
+    "RecoverSlam": 0.48,
+    "HurtHeavy": 0.32
+  },
+  "fps": 100,
+  "walkStanceTravel": 0.28,
+  "walkStanceDuty": 0.58,
+  "walkReferenceMetresPerSecond": 0.6034482758620691,
+  "ikClampedTargetsDuringAuthoring": 0,
+  "runStanceTravel": 0.4,
+  "runStanceDuty": 0.56,
+  "runReferenceMetresPerSecond": 1.1160714285714284,
+  "earlyEmergenceArmReachClamps": 269,
+  "status": "PREPARED",
+  "editableMeshObjects": [
+    "BodyShell",
+    "UpperArm.L",
+    "UpperArm.R",
+    "Helmet",
+    "Boot.L",
+    "Boot.R",
+    "Glove.R",
+    "Glove.L",
+    "Leg.R",
+    "Leg.L",
+    "HeadCore",
+    "NeckJoint"
+  ],
+  "gameMeshObjects": 1,
+  "sourceRig": "UdarnikRig",
+  "sourcePackedImages": [
+    "UdarnikAtlas"
+  ],
+  "rootMotion": false,
+  "boneScaleCurves": false,
+  "actions": [
+    "Idle",
+    "Walk",
+    "Windup",
+    "Strike",
+    "Recover",
+    "Hurt",
+    "Death",
+    "Emerge",
+    "EmergeGround",
+    "EmergeHatch",
+    "Run",
+    "WindupHook",
+    "StrikeHook",
+    "RecoverHook",
+    "WindupSlam",
+    "StrikeSlam",
+    "RecoverSlam",
+    "HurtHeavy"
+  ],
+  "breakupChunks": [
+    {
+      "name": "Breakup_Helmet",
+      "parts": [
+        "Helmet"
+      ],
+      "pivotBlender": [
+        -0.022898897528648376,
+        -0.0526571124792099,
+        1.1210618019104004
+      ],
+      "triangles": 658
+    },
+    {
+      "name": "Breakup_Body",
+      "parts": [
+        "BodyShell",
+        "HeadCore",
+        "NeckJoint"
+      ],
+      "pivotBlender": [
+        -0.0005403012037277222,
+        0.052013084292411804,
+        0.7622043490409851
+      ],
+      "triangles": 2666
+    },
+    {
+      "name": "Breakup_GloveL",
+      "parts": [
+        "UpperArm.L",
+        "Glove.L"
+      ],
+      "pivotBlender": [
+        0.43900352716445923,
+        -0.047760412096977234,
+        0.6549069285392761
+      ],
+      "triangles": 1058
+    },
+    {
+      "name": "Breakup_GloveR",
+      "parts": [
+        "UpperArm.R",
+        "Glove.R"
+      ],
+      "pivotBlender": [
+        -0.43933069705963135,
+        -0.0487419068813324,
+        0.6552340984344482
+      ],
+      "triangles": 1060
+    },
+    {
+      "name": "Breakup_BootL",
+      "parts": [
+        "Leg.L",
+        "Boot.L"
+      ],
+      "pivotBlender": [
+        0.24403619766235352,
+        -0.008178159594535828,
+        0.2705385982990265
+      ],
+      "triangles": 1004
+    },
+    {
+      "name": "Breakup_BootR",
+      "parts": [
+        "Leg.R",
+        "Boot.R"
+      ],
+      "pivotBlender": [
+        -0.24272902309894562,
+        -0.00817824900150299,
+        0.2705334722995758
+      ],
+      "triangles": 1008
+    }
+  ],
+  "input": "Source/Enemies/Udarnik/Original.glb",
+  "triangles": 7454,
+  "vertices": 3751,
+  "materials": 1,
+  "bones": 14,
+  "oneAtlas": true,
+  "mesh": "UdarnikBody",
+  "armature": "UdarnikRig",
+  "forwardInBlender": [
+    0,
+    -1,
+    0
+  ],
+  "forwardInFbx": [
+    0,
+    0,
+    1
+  ],
+  "unityVisualYawCorrectionDegrees": 180,
+  "editableCollection": "01 Editable Robot Parts",
+  "sourceBlenderVersion": "4.3.2"
+}

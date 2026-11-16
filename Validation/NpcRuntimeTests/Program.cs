@@ -36,8 +36,54 @@ internal static class Program
         public Collider Obstacle()=>new GameObject("Wall or low cover").AddComponent<Collider>();
     }
     private static void Main()
-    {Factory();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();ArchetypeReuse();CrowdLanes();CrowdMotion();CrowdConvergence();RecoveryHitFeedback();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    {Factory();ModelFacing();AttackVariants();RunPresentation();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();ArchetypeReuse();CrowdLanes();CrowdMotion();CrowdConvergence();RecoveryHitFeedback();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
 
+    private static void ModelFacing()
+    {
+        var source=ModelPrefab();source.transform.localRotation=Quaternion.Euler(0,35f,0);
+        var f=new Fixture(new Vector3(0,0,6),source);
+        var imported=f.Npc.visual.children.Single(t=>t.gameObject.name=="Udarnik authored model");
+        Vector3 authored=source.transform.localRotation*Vector3.forward;
+        Check(((imported.localRotation*Vector3.forward)-authored).sqrMagnitude<.00001f,"factory retains authored prefab yaw instead of erasing it");
+        f.Definition.modelForwardYaw=180f;Call(f.Npc,"ApplyPresentation",0f);
+        Check((f.Npc.visual.localRotation*Vector3.forward).z<-.999f&&f.Npc.transform.forward.z>.999f,"import correction flips only visual wrapper, never collision/navigation forward");
+        f.Npc.BeginEmergence(0,IntercomEnemySpawnKind.Hatch);f.For(1.1f);
+        Check((f.Npc.visual.localRotation*Vector3.forward).z<-.999f,"hatch arrival finishes with import-axis correction intact");
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero);f.Npc.gameObject.SetActive(true);Call(f.Npc,"ApplyPresentation",0f);
+        Check((f.Npc.visual.localRotation*Vector3.forward).z<-.999f&&((imported.localRotation*Vector3.forward)-authored).sqrMagnitude<.00001f,"pooled reset preserves both import correction and prefab author's yaw");
+        f.Definition.modelForwardYaw=float.NaN;Call(f.Npc,"ApplyPresentation",0f);
+        Check((f.Npc.visual.localRotation*Vector3.forward).z>.999f,"invalid custom facing correction safely falls back to zero");
+    }
+    private static void AttackVariants()
+    {
+        var f=new Fixture(new Vector3(0,0,1),ModelPrefab());
+        var a=Field<Animator>(f.Npc,"modelAnimator");
+        string[] windups={"Windup","WindupHook","WindupSlam"};
+        string[] strikes={"Strike","StrikeHook","StrikeSlam"};
+        for(int i=0;i<3;i++)
+        {
+            for(int frame=0;frame<150&&f.Npc.Phase!=IntercomNpcPhase.Windup;frame++)f.Step();
+            Check(a.LastState==Animator.StringToHash("Base Layer."+windups[i]),"successive attacks choose coherent distinct windups: "+i);
+            int damage=f.Player.DamageCalls;
+            for(int frame=0;frame<100&&f.Npc.Phase==IntercomNpcPhase.Windup;frame++)f.Step();
+            Check(a.LastState==Animator.StringToHash("Base Layer."+strikes[i])&&f.Player.DamageCalls==damage+1,"variant has one phase-clock hit and its paired follow-through: "+i);
+        }
+        f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero,IntercomNpcArchetype.Heavy);f.Npc.gameObject.SetActive(true);f.BeginWindup();
+        Check(a.LastState==Animator.StringToHash("Base Layer.WindupSlam"),"heavy archetype uses readable two-arm slam preparation");
+        a.MissingStates.Add(Animator.StringToHash("Base Layer.StrikeSlam"));Call(f.Npc,"ResetModelClock");Call(f.Npc,"ChooseAttackAnimation");Call(f.Npc,"ApplyPresentation",0f);
+        Check(a.LastState==Animator.StringToHash("Base Layer.Windup"),"custom controller missing any variant phase falls back to complete original set");
+    }
+    private static void RunPresentation()
+    {
+        var f=new Fixture(new Vector3(0,0,8),ModelPrefab());var a=Field<Animator>(f.Npc,"modelAnimator");
+        f.For(.8f);
+        Check(a.LastState==Animator.StringToHash("Base Layer.Run"),"fast actual pursuit uses distinct run clip");
+        float clock=Field<float>(f.Npc,"modelLoopSeconds"),before=f.Npc.transform.position.z;
+        f.Step();float travelled=f.Npc.transform.position.z-before;
+        Check(Math.Abs(Field<float>(f.Npc,"modelLoopSeconds")-clock-travelled/f.Definition.runAnimationMetresPerSecond)<.0001f,"run phase follows travelled metres using run-specific stride reference");
+        a.MissingStates.Add(Animator.StringToHash("Base Layer.Run"));Call(f.Npc,"ResetModelClock");f.Step();
+        Check(a.LastState==Animator.StringToHash("Base Layer.Walk"),"legacy controller without run retains safe walk motion");
+    }
     private static void ArchetypeReuse()
     {
         var f=new Fixture(new Vector3(0,0,30),ModelPrefab());
@@ -57,7 +103,7 @@ internal static class Program
             Check(block.GetColor(Shader.PropertyToID("_BaseColor")).a==.6f&&block.HasColor(12345),"variant color preserves authored alpha and unrelated overrides: "+type);
             int writes=f.Npc.bodyRenderer.PropertyWrites;f.For(.1f);
             Check(f.Npc.bodyRenderer.PropertyWrites==writes,"unchanged variant tint remains cached: "+type);
-            f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));f.For(.25f);
+            f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));f.For(type==IntercomNpcArchetype.Heavy?.35f:.25f);
             f.Npc.bodyRenderer.GetPropertyBlock(block);Check(Math.Abs(block.GetColor(Shader.PropertyToID("_BaseColor")).r-colors[colors.Count-1].r)<.00001f,"hit flash returns to selected variant tint: "+type);
             f.Npc.BeginEmergence(0,IntercomEnemySpawnKind.Ground);f.For(1f);
             Check(!f.Npc.IsEmerging&&Math.Abs(f.Npc.visual.localScale.y-tuning.Scale)<.00001f,"arrival reset preserves archetype silhouette: "+type);
@@ -212,6 +258,7 @@ internal static class Program
         Check(!animator.applyRootMotion&&animator.speed==0f,"model root motion disabled and phase clock frozen");
         Check(animator.transform.IsChildOf(f.Npc.visual)&&f.Npc.visual.IsChildOf(f.Npc.transform),"animation is below visual wrapper and collision root");
         Check(!f.Npc.visual.children.Any(t=>t.gameObject.name=="Body"),"authored model replaces capsule geometry");
+        animator.MissingStates.Add(Animator.StringToHash("Base Layer.Run"));Call(f.Npc,"ResetModelClock");
         int objects=GameObject.Created.Count,materials=Material.Created;
         Vector3 previous=f.Npc.transform.position;float distance=0;
         for(int i=0;i<40;i++){f.Step();distance+=(f.Npc.transform.position-previous).magnitude;previous=f.Npc.transform.position;}

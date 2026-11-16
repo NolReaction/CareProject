@@ -15,10 +15,10 @@ MonoBehaviour:
   mode: 0
   displayName: Уничтожить 50 роботов
   killTarget: 50
-  maximumAlive: 6
+  maximumAlive: 8
   waveSize: 10
-  spawnInterval: 2
-  waveRestSeconds: 4.5
+  spawnInterval: 1
+  waveRestSeconds: 0
   minimumSpawnDistance: 5
   rescueEnemySupply: 30
   allyHealth: 60
@@ -27,10 +27,11 @@ MonoBehaviour:
   recruitSeconds: 0.6
   extractionRadius: 2
   allyWaitDistance: 8
-  visibleSpawnEvery: 3
+  visibleSpawnEvery: 2
   minimumVisibleSpawnDistance: 5.5
   visibleSpawnWarningSeconds: 0.35
   useRhythmicWaves: 1
   groupSize: 3
-  groupRestSeconds: 2.8
-  openingGraceSeconds: 1.3
+  groupRestSeconds: 0
+  openingGraceSeconds: 0.8
+  continuousWaves: 1

@@ -9,7 +9,7 @@ namespace UnityEngine {
  public class DefaultExecutionOrder:Attribute{public DefaultExecutionOrder(int x){}}public class DisallowMultipleComponent:Attribute{}
  public class TooltipAttribute:Attribute{public TooltipAttribute(string x){}}public class MinAttribute:Attribute{public MinAttribute(float v){}}public class HeaderAttribute:Attribute{public HeaderAttribute(string x){}}public class RangeAttribute:Attribute{public RangeAttribute(float x,float y){}}
  public static class Application{public static bool isMobilePlatform,isPlaying=true,isFocused=true;}
- public static class Time{public static float timeScale=1,unscaledDeltaTime=.016f;}
+ public static class Time{public static float time;public static float timeScale=1,unscaledDeltaTime=.016f;}
  public enum ScreenOrientation{LandscapeLeft,Portrait}
  public static class Screen{public static int width=1920,height=1080;public static Rect safeArea=new Rect(0,0,1920,1080);public static ScreenOrientation orientation;}
  public struct Vector2{
@@ -41,7 +41,7 @@ namespace UnityEngine {
   public static void Clear(){MouseHeld=MouseDown=MouseUp=false;held.Clear();down.Clear();touches=Array.Empty<Touch>();}
  }
  public class Texture{}public enum TextureFormat{RGBA32}public enum HideFlags{HideAndDontSave}public enum TextureWrapMode{Clamp}public enum FilterMode{Bilinear}
- public struct Color{public float r,g,b,a;public Color(float r,float g,float b,float a=1){this.r=r;this.g=g;this.b=b;this.a=a;}public static Color white=>new Color(1,1,1,1);}
+ public struct Color{public float r,g,b,a;public Color(float r,float g,float b,float a=1){this.r=r;this.g=g;this.b=b;this.a=a;}public static Color white=>new Color(1,1,1,1);public static Color Lerp(Color x,Color y,float t){t=Math.Max(0,Math.Min(1,t));return new Color(x.r+(y.r-x.r)*t,x.g+(y.g-x.g)*t,x.b+(y.b-x.b)*t,x.a+(y.a-x.a)*t);}}
  public struct Color32{public byte r,g,b,a;public Color32(byte r,byte g,byte b,byte a){this.r=r;this.g=g;this.b=b;this.a=a;}}
  public class Texture2D:Texture{public string name="white";public int width,height;public Color32[] pixels;public HideFlags hideFlags;public TextureWrapMode wrapMode;public FilterMode filterMode;public static Texture2D whiteTexture=new Texture2D(1,1,TextureFormat.RGBA32,false);public Texture2D(int w,int h,TextureFormat f,bool m){width=w;height=h;pixels=new Color32[w*h];if(w==1&&h==1)pixels[0]=new Color32(255,255,255,255);}public void SetPixels32(Color32[] p){pixels=p;}public void Apply(bool a,bool b){}}
  public struct Matrix4x4{public static Matrix4x4 identity=>new Matrix4x4();}public enum EventType{Repaint}public class Event{public static Event current=new Event();public EventType type=EventType.Repaint;}
@@ -60,12 +60,13 @@ namespace UnityEngine {
 }
 namespace IntercomMvp {public class IntercomWeaponMagazine{public bool isActiveAndEnabled=true,IsReloading;public int CurrentAmmo=24,Capacity=24;public float ReloadProgress;}}
 
-namespace IntercomMvp { public class IntercomHealth{public float Current=100,Maximum=100;} public class IntercomPlayerVitality{public IntercomHealth Health=new IntercomHealth();public bool IsDead;public float ShowHitRemaining;public int Retries;public bool Retry(){Retries++;IsDead=false;Health.Current=Health.Maximum;return true;}}}
+namespace IntercomMvp { public readonly struct IntercomDamage{} public class IntercomHealth{public event System.Action<IntercomDamage> Damaged;public event System.Action<float> Healed;public uint ResetRevision;public float Current=100,Maximum=100;} public class IntercomPlayerVitality{public IntercomHealth Health=new IntercomHealth();public bool IsDead;public float ShowHitRemaining;public int Retries;public bool Retry(){Retries++;IsDead=false;Health.Current=Health.Maximum;return true;}}}
 
 namespace IntercomMvp {
  public enum IntercomMissionMode { Elimination, Rescue, FreePlay }
  public enum IntercomMissionPhase { Selection, Active, Victory, Defeat }
  public class IntercomMissionDirector {
+  public int CollectedGears;
   public bool isActiveAndEnabled=true;
   public IntercomMissionPhase Phase=IntercomMissionPhase.Selection;
   public IntercomMissionMode Mode;

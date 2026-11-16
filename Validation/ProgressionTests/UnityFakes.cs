@@ -74,7 +74,9 @@ namespace IntercomMvp
     public class IntercomPlayerInput:UnityEngine.MonoBehaviour{public bool ReloadPressed;}
     public class IntercomMissionDirector:UnityEngine.MonoBehaviour
     {
-        public IntercomPlayerMotor playerMotor;public bool HasRunSummary;public IntercomMissionRunSummary LastRunSummary;
+        public IntercomGearPickups gearPickups;public IntercomPlayerMotor playerMotor;public bool HasRunSummary;public IntercomMissionRunSummary LastRunSummary;
         public uint ResultRevision,RunRevision;public IntercomMissionPhase Phase=IntercomMissionPhase.Selection;
     }
 }
+
+namespace IntercomMvp { public class IntercomGearPickups:UnityEngine.MonoBehaviour {public IntercomMissionDirector mission;} }

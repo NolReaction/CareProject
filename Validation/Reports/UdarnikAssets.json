@@ -1,17 +1,25 @@
 {
   "status": "PASS",
-  "checks": 438,
+  "checks": 738,
   "actualFbxTakesSeconds": {
     "Death": 0.18,
     "Emerge": 0.68,
     "EmergeGround": 0.95,
     "EmergeHatch": 1.05,
     "Hurt": 0.22,
+    "HurtHeavy": 0.32,
     "Idle": 1.6,
     "Recover": 0.48,
+    "RecoverHook": 0.48,
+    "RecoverSlam": 0.48,
+    "Run": 0.64,
     "Strike": 0.16,
+    "StrikeHook": 0.16,
+    "StrikeSlam": 0.16,
     "Walk": 0.8,
-    "Windup": 0.3
+    "Windup": 0.3,
+    "WindupHook": 0.3,
+    "WindupSlam": 0.3
   },
   "bones": 14,
   "meshRenderers": 1,
@@ -33,6 +41,6 @@
     "bones": 0,
     "materials": 1
   },
-  "nativePrefabController": "Recognized generated V18 graph upgrades to ten native states with backups; custom assets preserved",
+  "nativePrefabController": "Recognized generated legacy graphs upgrade to eighteen native states with backups; custom assets preserved",
   "scope": "Export bytes, actual FBX stacks/root curves/bones/triangle indices, static chunks and serialized import/material/registry links. Unity importer/Animator not run."
 }

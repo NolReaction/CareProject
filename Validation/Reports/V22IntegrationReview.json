@@ -1,0 +1,123 @@
+{
+  "version": "V22",
+  "status": "PASS_OFFLINE_NATIVE_NOT_RUN",
+  "healthFeedbackAssertions": 431,
+  "medkitRuntimeAssertions": 73,
+  "hudLayoutAssertions": 81563,
+  "missionUiAssertions": 98635,
+  "productionHealthSameFrameEventRegression": true,
+  "medkitScene": {
+    "status": "PASS",
+    "medkits": [
+      [
+        -4.5,
+        0.0,
+        -9.5
+      ],
+      [
+        5.0,
+        0.0,
+        3.0
+      ]
+    ],
+    "healing": 35,
+    "component": 8800000144,
+    "safeInflatedFootprints": true,
+    "reachableFromPlayerSpawn": true,
+    "reinstallIdempotent": true,
+    "checkedObstacles": 74,
+    "scope": "Serialized links, material references and conservative 0.25m grid connectivity; no Unity importer/PhysX."
+  },
+  "uiScene": {
+    "status": "PASS",
+    "checks": 989,
+    "rooms": 3,
+    "moduleInstances": 16,
+    "sharedMeshes": 11,
+    "sharedTriangles": 5872,
+    "illustrations": [
+      {
+        "name": "HomeDoodle",
+        "width": 1283,
+        "height": 1226
+      },
+      {
+        "name": "RescueDoodle",
+        "width": 1254,
+        "height": 1254
+      }
+    ],
+    "isolatedLayer": 30,
+    "noPhysicsOrAudio": true,
+    "localIds": {
+      "objects": 1109,
+      "localReferences": 7025,
+      "externalReferences": 1004
+    },
+    "scope": "Real serialized links/mesh buffers/isolation/transparent PNGs, no Unity rendering or Play Mode."
+  },
+  "architecture": {
+    "status": "PASS",
+    "checks": 2372,
+    "runtimeSources": 76,
+    "editorSources": 27,
+    "pureModels": 24,
+    "assetGuids": 415,
+    "failures": [],
+    "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
+  },
+  "features": {
+    "healthHud": {
+      "smoothFill": true,
+      "damageTrailHoldSeconds": 0.28,
+      "criticalHealthFraction": 0.3,
+      "softVignette": true,
+      "sameFrameDamageAndHealing": "Separate accepted event snapshots; actual healing popup preserved",
+      "screensChecked": [
+        [
+          1280,
+          720
+        ],
+        [
+          640,
+          360
+        ],
+        [
+          480,
+          900
+        ]
+      ],
+      "snapshots": "Run HudLayoutTests, then python3 Validation/render_gameplay_hud.py --health"
+    },
+    "medkits": {
+      "count": 2,
+      "healing": 35,
+      "pickupRadiusMetres": 0.85,
+      "positions": [
+        [
+          -4.5,
+          0,
+          -9.5
+        ],
+        [
+          5,
+          0,
+          3
+        ]
+      ],
+      "fullHealth": "Preserve pickup",
+      "death": "No revive",
+      "retry": "Reset and reuse both pickups",
+      "guards": [
+        "gameplay phase",
+        "health/alive",
+        "motor and vitality lock",
+        "pause/focus",
+        "wall sight",
+        "floor distance"
+      ]
+    },
+    "previousVersion": "V21 enemy animation/waves/gear mechanics preserved"
+  },
+  "scope": "Offline components, source/scene contracts and rasterized production UI draw commands. No native Unity rendering, physics or device execution."
+}

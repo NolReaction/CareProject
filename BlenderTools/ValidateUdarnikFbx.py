@@ -7,7 +7,9 @@ from mathutils import Vector
 ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser();parser.add_argument('--out',type=Path,default=ROOT/'Validation/Results/UdarnikArt')
 args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else []);args.out.mkdir(parents=True,exist_ok=True)
-CLIPS={'Idle':1.60,'Walk':.80,'Windup':.30,'Strike':.16,'Recover':.48,'Hurt':.22,'Death':.18,'Emerge':.68,'EmergeGround':.95,'EmergeHatch':1.05}
+import importlib.util
+spec=importlib.util.spec_from_file_location('anim',Path(__file__).with_name('AnimateUdarnik.py'));anim=importlib.util.module_from_spec(spec);spec.loader.exec_module(anim)
+CLIPS=anim.CLIPS
 checks=0
 
 def check(ok,detail):
@@ -17,7 +19,7 @@ def check(ok,detail):
 
 def bind(rig,action):
  rig.animation_data_create();rig.animation_data.action=action
- if action.slots:rig.animation_data.action_slot=action.slots[0]
+ if getattr(action,'slots',None):rig.animation_data.action_slot=action.slots[0]
 
 def bbox(meshes):
  deps=bpy.context.evaluated_depsgraph_get();coords=[]
@@ -29,11 +31,16 @@ def sample(rig,action,t,meshes):
  bind(rig,action);frame=action.frame_range[0]+t*(action.frame_range[1]-action.frame_range[0]);bpy.context.scene.frame_set(int(frame),subframe=frame-int(frame));bpy.context.view_layer.update();return bbox(meshes)
 
 bpy.ops.wm.open_mainfile(filepath=str(ROOT/'Source/Enemies/Udarnik/Udarnik_Rigged.blend'))
-rig=bpy.data.objects['UdarnikRig'];meshes=[o for o in bpy.data.collections['01 Editable Robot Parts'].objects if o.type=='MESH'];reference={}
+rig=bpy.data.objects['UdarnikRig'];saved_action=rig.animation_data.action.name;meshes=[o for o in bpy.data.collections['01 Editable Robot Parts'].objects if o.type=='MESH'];reference={}
 for name in CLIPS:
  reference[name]=[sample(rig,bpy.data.actions[name],i/10,meshes) for i in range(11)]
 source_triangles=sum(len(p.vertices)-2 for o in meshes for p in o.data.polygons)
 source_vertices=sum(len(o.data.vertices) for o in meshes)
+source_summary={'blenderVersion':bpy.app.version_string,'active':bpy.context.view_layer.objects.active.name,
+ 'mode':bpy.context.object.mode,'action':saved_action,'parts':[o.name for o in meshes],
+ 'bones':len(rig.data.bones),'actions':sorted(bpy.data.actions.keys()),'triangles':source_triangles,
+ 'packedImages':[{'name':im.name,'size':list(im.size)} for im in bpy.data.images if im.packed_file],
+ 'workspaces':list(bpy.data.workspaces.keys())}
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.fbx(filepath=str(ROOT/'Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx'),use_anim=True,automatic_bone_orientation=False)
 meshes=[o for o in bpy.context.scene.objects if o.type=='MESH'];rigs=[o for o in bpy.context.scene.objects if o.type=='ARMATURE']
@@ -49,7 +56,7 @@ bpy.ops.object.mode_set(mode='OBJECT')
 check(mesh.name=='UdarnikBody','stable game mesh name');check(len(rig.data.bones)==14,'14 bones')
 check(len(mesh.data.materials)==1,'one game material');check(len(mesh.data.uv_layers)==1,'one UV atlas')
 triangles=sum(len(p.vertices)-2 for p in mesh.data.polygons);check(triangles==source_triangles,('triangles',triangles,source_triangles))
-actions={a.name.rsplit('|',1)[-1]:a for a in bpy.data.actions};check(set(actions)==set(CLIPS),'ten exact actions')
+actions={a.name.rsplit('|',1)[-1]:a for a in bpy.data.actions};check(set(actions)==set(CLIPS),'all exact named actions')
 records=[];max_difference=0.
 for name,duration in CLIPS.items():
  action=actions[name];actual=(action.frame_range[1]-action.frame_range[0])/bpy.context.scene.render.fps;check(abs(actual-duration)<1e-5,(name,actual,duration))
@@ -70,5 +77,5 @@ for obj in chunks:
  center=Vector(tuple((min(v.co[i] for v in obj.data.vertices)+max(v.co[i] for v in obj.data.vertices))*.5 for i in range(3)));check(center.length<.00001,('centered pivot',obj.name,list(center)))
  chunk_records.append({'name':obj.name,'triangles':sum(len(p.vertices)-2 for p in obj.data.polygons),'pivotBlender':list(obj.matrix_world.translation),'localCenterErrorMetres':center.length})
 check(len(materials)==1,'all chunks share material');check(sum(c['triangles'] for c in chunk_records)==source_triangles,'chunks preserve total geometry')
-report={'status':'PASS','checks':checks,'game':game,'breakup':chunk_records,'scope':'Blender FBX roundtrip against evaluated source at 11 poses per action; not native Unity import/Animator.'}
+report={'status':'PASS','checks':checks,'source':source_summary,'game':game,'breakup':chunk_records,'scope':'Blender FBX roundtrip against evaluated source at 11 poses per action; not native Unity import/Animator.'}
 (args.out/'FbxRoundtrip.json').write_text(json.dumps(report,indent=2)+'\n');print('FBX_ROUNDTRIP_PASS',checks,'max_error',max_difference,flush=True)

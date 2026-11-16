@@ -153,7 +153,7 @@ static class Program
     }
     static void VersionCompatibilityAndReceipts()
     {
-        foreach (string version in new[] { "V18", "V19", "V20" })
+        foreach (string version in new[] { "V18", "V19", "V20", "V21", "V22" })
         {
             using var f = new Fixture(); Write(f.Project, A, "previous source");
             var result = PackageInstaller.Apply(f.Payload, f.Project, version, f.PayloadFiles(), f.Expected(), null, null, false);
@@ -166,7 +166,7 @@ static class Program
         using (var f = new Fixture())
         {
             string before = Snapshot(f.Project);
-            Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V21", f.PayloadFiles(), f.Expected(), null, null, false), "Unsupported package version");
+            Reject(() => PackageInstaller.Apply(f.Payload, f.Project, "V23", f.PayloadFiles(), f.Expected(), null, null, false), "Unsupported package version");
             Check(before == Snapshot(f.Project) && !Directory.Exists(Path.Combine(f.Project, "ProjectBackups")), "unsupported package version fails before mutation");
         }
         Check(!PackageInstaller.SupportsVersion(null) && !PackageInstaller.SupportsVersion("V1"), "unknown restore version rejected");

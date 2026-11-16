@@ -11,6 +11,7 @@
 <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionCadence.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Movement/IntercomLocomotionDirection.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomWorkshopHud.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHealthFeedbackState.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Presentation/UI/IntercomHudLayout.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Player/Input/IntercomInputModel.cs"/>
 

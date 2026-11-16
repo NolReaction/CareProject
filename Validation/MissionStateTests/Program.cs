@@ -9,7 +9,7 @@ internal static class Program
     private static void Main()
     {
         SelectionAndLimits(); ExactElimination(); PoolIdentity(); TerminalOutcomes(); Rescue(); FreePlay(); RandomizedAccounting();
-        WaveRhythm(); RunSummaries();
+        WaveRhythm(); ContinuousEscalation(); RunSummaries();
         Console.WriteLine($"Mission state: {checks} assertions passed. Production mission accounting; no Unity runtime or rendering.");
     }
     private static void FreePlay()
@@ -67,6 +67,32 @@ internal static class Program
         Check(IntercomMissionWavePolicy.WaveSize(int.MaxValue,int.MinValue,true)==30,"invalid early wave cannot overflow into a finale");
         Check(IntercomMissionWavePolicy.WaveCount(int.MaxValue,0,true)==500,"invalid custom supply and wave size stay bounded");
         Check(IntercomMissionWavePolicy.WaveCount(-1,10,true)==0,"empty supply has no fake wave");
+    }
+
+    private static void ContinuousEscalation()
+    {
+        int remaining=50;int[] intended={10,14,18,8};
+        for(int wave=1;wave<=4;wave++)
+        {
+            int quota=Math.Min(remaining,IntercomMissionWavePolicy.WaveSize(10,wave,true,true));
+            Check(quota==intended[wave-1],"continuous quotas put more enemies in every complete wave");
+            remaining-=quota;
+            Check(IntercomMissionWavePolicy.AliveLimit(8,wave,true,true)==wave+4,"pressure grows from five through eight active enemies");
+            Check(IntercomMissionWavePolicy.PaceMultiplier(wave,true,true)<=1,"continuous waves never slow the base spawn cadence");
+        }
+        Check(remaining==0&&IntercomMissionWavePolicy.WaveCount(50,10,true,true)==4,"larger quotas preserve the exact fifty-kill goal");
+        for(int supply=0;supply<=500;supply+=13)
+            foreach(int authored in new[]{int.MinValue,1,10,50,int.MaxValue})
+            {
+                int emitted=0,waves=IntercomMissionWavePolicy.WaveCount(supply,authored,true,true);
+                for(int wave=1;wave<=waves;wave++)emitted+=Math.Min(supply-emitted,IntercomMissionWavePolicy.WaveSize(authored,wave,true,true));
+                Check(emitted==supply&&waves<=supply,"continuous custom quotas terminate exactly within bounded supply");
+            }
+        Check(IntercomMissionWavePolicy.WaveSize(10,int.MinValue,true,true)==10
+            &&IntercomMissionWavePolicy.WaveSize(10,int.MaxValue,true,true)==26,"continuous stage clamps before arithmetic can overflow");
+        for(int ordinal=0;ordinal<10;ordinal++)Check(IntercomMissionWavePolicy.ArchetypeIndex(1,ordinal,true,true)!=2,"first continuous quota introduces runners before heavies");
+        Check(IntercomMissionWavePolicy.ArchetypeIndex(1,3,true,true)==1
+            &&IntercomMissionWavePolicy.ArchetypeIndex(2,5,true,true)==2,"new composition introduces threats in a predictable order");
     }
 
     private static void RunSummaries()

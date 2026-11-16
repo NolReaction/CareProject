@@ -12,19 +12,21 @@ namespace IntercomMvp
         public readonly uint RunRevision, ResultRevision;
         public readonly IntercomMissionMode Mode;
         public readonly IntercomMissionPhase Outcome;
-        public readonly int Kills, Rescued, WaveReached;
+        public readonly int Kills, Rescued, WaveReached, CollectedGears;
         public readonly float ElapsedSeconds;
         public bool Won => Outcome == IntercomMissionPhase.Victory;
 
         public IntercomMissionRunSummary(string runId, uint runRevision, uint resultRevision,
             IntercomMissionMode mode, IntercomMissionPhase outcome, int kills, int rescued,
-            int waveReached, float elapsedSeconds)
+            int waveReached, float elapsedSeconds, int collectedGears = -1)
         {
             RunId = runId ?? ""; RunRevision = runRevision; ResultRevision = resultRevision;
             Mode = mode == IntercomMissionMode.Rescue || mode == IntercomMissionMode.FreePlay
                 ? mode : IntercomMissionMode.Elimination;
             Outcome = outcome == IntercomMissionPhase.Victory ? outcome : IntercomMissionPhase.Defeat;
             Kills = Mode == IntercomMissionMode.FreePlay ? 0 : Math.Max(0, Math.Min(500, kills));
+            // The optional legacy argument keeps old saved/test receipts readable. Live runs always pass actual pickups.
+            CollectedGears = Mode == IntercomMissionMode.FreePlay ? 0 : Math.Max(0, Math.Min(10000, collectedGears < 0 ? Kills : collectedGears));
             Rescued = Mode == IntercomMissionMode.Rescue && Outcome == IntercomMissionPhase.Victory && rescued > 0 ? 1 : 0;
             WaveReached = Mode == IntercomMissionMode.FreePlay ? 0 : Math.Max(1, Math.Min(500, waveReached));
             ElapsedSeconds = float.IsNaN(elapsedSeconds) || float.IsInfinity(elapsedSeconds)
@@ -35,33 +37,46 @@ namespace IntercomMvp
     /// <summary>Deterministic quotas/composition. Counts are measured within each wave, never by pool slot.</summary>
     public static class IntercomMissionWavePolicy
     {
-        public static int WaveSize(int authoredSize, int wave, bool rhythmic)
+        public static int WaveSize(int authoredSize, int wave, bool rhythmic, bool continuous = false)
         {
             int size = Math.Max(1, Math.Min(50, authoredSize));
+            if (continuous)
+            {
+                int continuousStage = wave <= 1 ? 0 : wave >= 5 ? 4 : wave - 1;
+                return Math.Min(50, size + continuousStage * 4);
+            }
             if (!rhythmic) return size;
             // A ten-enemy baseline becomes 6, 8, 10, 12, 14. Custom small waves still make progress.
             int stage = wave <= 1 ? 0 : wave >= 5 ? 4 : wave - 1;
             return Math.Max(1, Math.Min(50, size * (3 + stage) / 5));
         }
-        public static int WaveCount(int supply, int authoredSize, bool rhythmic)
+        public static int WaveCount(int supply, int authoredSize, bool rhythmic, bool continuous = false)
         {
             int remaining = Math.Max(0, Math.Min(500, supply)), count = 0;
-            while (remaining > 0) { count++; remaining -= WaveSize(authoredSize, count, rhythmic); }
+            while (remaining > 0) { count++; remaining -= WaveSize(authoredSize, count, rhythmic, continuous); }
             return count;
         }
-        public static int AliveLimit(int authoredLimit, int wave, bool rhythmic)
+        public static int AliveLimit(int authoredLimit, int wave, bool rhythmic, bool continuous = false)
         {
             int limit = Math.Max(1, Math.Min(8, authoredLimit));
+            if (continuous) return Math.Min(limit, 4 + Math.Max(1, Math.Min(4, wave)));
             return rhythmic ? Math.Min(limit, 2 + Math.Max(1, Math.Min(6, wave))) : limit;
         }
-        public static float PaceMultiplier(int wave, bool rhythmic)
+        public static float PaceMultiplier(int wave, bool rhythmic, bool continuous = false)
         {
+            if (continuous) return wave <= 1 ? 1f : wave == 2 ? .88f : wave == 3 ? .76f : wave == 4 ? .66f : .6f;
             if (!rhythmic) return 1f;
             return wave <= 1 ? 1.4f : wave == 2 ? 1.15f : wave == 3 ? 1f : wave == 4 ? .9f : .8f;
         }
         /// <returns>0 standard, 1 runner, 2 heavy. The runtime enum keeps these stable serialized values.</returns>
-        public static int ArchetypeIndex(int wave, int ordinal, bool rhythmic)
+        public static int ArchetypeIndex(int wave, int ordinal, bool rhythmic, bool continuous = false)
         {
+            if (continuous)
+            {
+                ordinal = Math.Max(0, ordinal);
+                if ((wave >= 3 && ordinal % 4 == 3) || (wave == 2 && ordinal % 6 == 5)) return 2;
+                return ordinal % (wave <= 1 ? 5 : 3) == (wave <= 1 ? 3 : 1) ? 1 : 0;
+            }
             if (!rhythmic || wave <= 1) return 0;
             ordinal = Math.Max(0, ordinal);
             if (wave >= 3 && ordinal % 5 == 4) return 2;

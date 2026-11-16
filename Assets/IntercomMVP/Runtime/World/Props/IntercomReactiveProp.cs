@@ -46,6 +46,7 @@ namespace IntercomMvp
         private uint observedRespawn;
         private IntercomPlayerMotor observedMotor;
         private float hitRemaining, stateBlend;
+        private IntercomGearPickups gearPickups;
         private Vector3 foldAxis = Vector3.right;
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorId = Shader.PropertyToID("_Color");
@@ -89,6 +90,15 @@ namespace IntercomMvp
             if (!initialized || !isActiveAndEnabled || Time.timeScale <= 0f) return false;
             ObserveRespawn();
             if (!state.TakeDamage(damage.Amount)) return false;
+            if (IsSpent || IsTripped)
+            {
+                if (gearPickups == null && resetMotor != null)
+                {
+                    IntercomPlayerInput input = resetMotor.GetComponent<IntercomPlayerInput>();
+                    if (input != null && input.mission != null) gearPickups = input.mission.gearPickups;
+                }
+                if (gearPickups != null) gearPickups.DropProp(transform.position, GetInstanceID(), kind);
+            }
             hitRemaining = IntercomPropHitResponse.Duration(hitDuration);
             Vector3 direction = Vector3.ProjectOnPlane(damage.Direction, Vector3.up);
             if (direction.sqrMagnitude > .0001f && visual != null)

@@ -1,0 +1,280 @@
+{
+  "version": "V21",
+  "status": "PASS",
+  "standaloneProjects": 54,
+  "passed": 54,
+  "projects": [
+    {
+      "name": "AnimationGroundingIntegrationTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "AssetCatalogTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "AudioTimingTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "CameraTrackingTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "CharacterAnimationTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "CombatEffectsTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "DeathStrikeLifecycleTests",
+      "status": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "DirectionalLocomotionTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "EnemySpawnPolicyTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "FrontEndModelTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "FrontEndRoomCameraTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "FrontEndRuntimeTests",
+      "status": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "GearPickupTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "GroundContactTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "GroundFeedbackLifecycleTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "HudLayoutTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "InputCancellationTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "MagazineTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "MissionRuntimeTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "MissionSceneRouteTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "MissionStateTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "MissionUiTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "MobileInputTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "NativeVerificationHarnessTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "NpcArenaTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "NpcBrainTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "NpcNativeSetupTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "NpcNavigationTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "NpcRuntimeTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "OcclusionLeaseTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "OcclusionMathTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "OcclusionRuntimeTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "PackageInstallerTests",
+      "status": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "PerformanceCaptureTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "PlayerAudioLifecycleTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "PlayerControlLifecycleTests",
+      "status": "PASS",
+      "targetedRerun": true
+    },
+    {
+      "name": "PlayerHurtFeedbackTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "PlayerInputRuntimeTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "PlayerVitalityTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "PoseClockTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ProgressionTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ProjectRepairTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ProjectStartupTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ProjectileCollisionTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ProjectileSurfaceTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ReactivePropTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "RobotDeathEffectsTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "RunningContactTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "RunningWaistTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "ShooterIntegrationTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "TracerGeometryTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "TurnStepTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "TurningRigTests",
+      "status": "PASS",
+      "targetedRerun": false
+    },
+    {
+      "name": "WeaponFoundationTests",
+      "status": "PASS",
+      "targetedRerun": false
+    }
+  ],
+  "note": "The first full sweep passed 50/54. Four test fixtures needed the new collector/Color API or V21/collected label expectations; all four then passed targeted reruns. No production edits followed the full sweep.",
+  "scope": "Production C# logic/components with narrow Unity substitutes. Not native Unity compilation/import/Play Mode or device execution."
+}
