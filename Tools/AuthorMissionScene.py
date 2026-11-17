@@ -62,7 +62,7 @@ def ensure_assets():
     profiles = {name: profile(name, mode) for name, mode in [('Kill50', 0), ('Rescue', 1)]}
     enemy = ROOT / 'Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset'
     text = enemy.read_text()
-    # Only migrate known V8 defaults; authored changes survive explicit reruns.
+    # Migrate known release defaults; custom authored values survive explicit reruns.
     upgrades = {'attackRange': (1.15, 1.05), 'windupSeconds': (.45, .3),
                 'recoverySeconds': (.65, .48), 'moveSpeed': (2.25, 2.65), 'repathSeconds': (.35, .32),
                 'detectionRadius': (10, 14), 'loseTargetSeconds': (2.5, 6), 'leashRadius': (18, 40)}
@@ -73,6 +73,13 @@ def ensure_assets():
     for key, value in {'attackCommitSeconds': .14, 'attackTrackingTurnSpeed': 900,
                        'separationStrength': .9, 'stuckRecoverySeconds': .4}.items():
         if not re.search(r'^  ' + key + r': ', text, re.M): text += f'  {key}: {value}\n'
+    for key, old, new in [('windupSeconds', .38, .3), ('recoverySeconds', .58, .48),
+                          ('moveSpeed', 2.3, 2.65), ('runnerSpeedMultiplier', 1.08, 1.12),
+                          ('acceleration', 6, 10), ('attackTrackingTurnSpeed', 0, 900)]:
+        match = re.search(r'^  ' + key + r': ([^\n]+)$', text, re.M)
+        if match and float(match[1]) == old:
+            text = re.sub(r'^  ' + key + r': [^\n]+$', f'  {key}: {new}', text, flags=re.M)
+    if not re.search(r'^  acceleration: ', text, re.M): text += '  acceleration: 10\n'
     enemy.write_text(text)
     return profiles, metadata(enemy, 11400000)
 

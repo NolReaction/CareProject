@@ -20,9 +20,9 @@
   "isolatedLayer": 30,
   "noPhysicsOrAudio": true,
   "localIds": {
-    "objects": 1109,
-    "localReferences": 7025,
-    "externalReferences": 1004
+    "objects": 1110,
+    "localReferences": 7031,
+    "externalReferences": 1005
   },
   "scope": "Real serialized links/mesh buffers/isolation/transparent PNGs, no Unity rendering or Play Mode."
 }

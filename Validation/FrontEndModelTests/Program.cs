@@ -17,6 +17,7 @@ internal static class Program
     private static void Main()
     {
         Navigation();
+        Feedback();
         foreach (var screen in new[] {new Box(0,0,1280,720),new Box(98,34,2152,1012),new Box(18,14,600,330),
             new Box(0,0,320,180),new Box(0,0,480,900),new Box(0,0,900,900),new Box(10,20,3440,1440)})
             Layout(screen);
@@ -40,6 +41,38 @@ internal static class Program
             Check(state.CurrentSection==page&&state.Revision==before+1,"invalid page did not corrupt current room");
             Check(state.Back()&&state.CurrentSection==IntercomFrontEndSection.Home&&state.Revision==before+2,"Back returns home");
         }
+    }
+
+    private static void Feedback()
+    {
+        var state = new IntercomFrontEndFeedbackState();
+        state.Sample(10f,0,IntercomFrontEndAction.Play,true);
+        Check(state.ContentOpacity>=.8f&&state.ContentOpacity<=1f,"first reveal keeps content readable and clickable");
+        state.Sample(10.08f,0,IntercomFrontEndAction.Play,true);
+        float hovered=state.Hover(IntercomFrontEndAction.Play),reveal=state.Reveal;
+        Check(hovered>.5f&&hovered<1f,"pointer hover eases toward selected control");
+        for(int i=0;i<5;i++)state.Sample(10.08f,0,IntercomFrontEndAction.Play,true);
+        Check(state.Hover(IntercomFrontEndAction.Play)==hovered&&state.Reveal==reveal,"same-time repaint cannot advance menu animation");
+        state.Press(IntercomFrontEndAction.Play);
+        Check(state.PressAmount(IntercomFrontEndAction.Play)==1f&&state.PressAmount(IntercomFrontEndAction.Robot)==0f,"accepted press affects only its control");
+        state.Sample(10.12f,1,IntercomFrontEndAction.None,true);
+        Check(state.Reveal==0f&&state.Hover(IntercomFrontEndAction.Play)==0f,"new page resets reveal and prior hover");
+        Check(state.PressAmount(IntercomFrontEndAction.Play)>0f,"tab press remains visible during page change");
+        state.Sample(10.4f,1,IntercomFrontEndAction.None,true);
+        Check(state.Reveal==1f&&state.ContentOpacity==1f&&state.PressAmount(IntercomFrontEndAction.Play)==0f,"short animations settle without affecting input");
+        state.Sample(10.5f,1,IntercomFrontEndAction.Robot,true);
+        float before=state.Hover(IntercomFrontEndAction.Robot);
+        state.Sample(float.NaN,1,IntercomFrontEndAction.Play,true);
+        Check(state.Hover(IntercomFrontEndAction.Robot)==before,"invalid time cannot poison presentation");
+        state.Press((IntercomFrontEndAction)99);
+        Check(state.PressedAction==IntercomFrontEndAction.Play,"invalid enum press ignored");
+        Check(state.Hover((IntercomFrontEndAction)99)==0f&&state.PressAmount((IntercomFrontEndAction)(-1))==0f,"invalid enum feedback bounded");
+        state.Sample(10.6f,1,IntercomFrontEndAction.Robot,false);
+        Check(state.Hover(IntercomFrontEndAction.Robot)==0f&&state.PressedAction==IntercomFrontEndAction.None,"hidden menu clears hover and press");
+        state.Sample(12f,3,IntercomFrontEndAction.Armory,true);
+        Check(state.Reveal==0f,"reopened menu has fresh presentation clock");
+        state.Sample(11f,3,IntercomFrontEndAction.Armory,true);
+        Check(state.Reveal==0f,"clock rewind resets cleanly");
     }
 
     private static void Layout(Box safe)

@@ -10,7 +10,7 @@ long/invalid frame handling and the finite locked-heading melee cone predicate.
 
 Timing regressions configure an explicit .45/.65-second profile so they remain
 valid independently of the current gameplay defaults. The runtime tests exercise
-the live authored profile and tracking/commit behavior.
+the live authored profile and original early tracking/final commitment behavior.
 
 V20 also checks the immutable Standard/Runner/Heavy multipliers against custom
 base values, safe fallback for unknown enum values, eight stable approach slots,
@@ -22,3 +22,6 @@ still validates each resulting runtime movement against actual obstacles.
 These are decision/geometry unit checks. CharacterController collision, line-of-
 sight raycasts, navigation integration, GUI and Animator require separate tests
 and a Unity playtest; this test does not simulate those systems.
+
+V23 additionally checks nearest-side approach selection for every pool ordinal,
+all eight physical directions and invalid/coincident position fallbacks.

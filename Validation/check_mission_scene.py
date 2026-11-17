@@ -92,7 +92,7 @@ def main():
     enemy = enemy_path.read_text(); enemy_guid = installer.metadata(enemy_path, 11400000)
     assert f'guid: {enemy_guid},' in field(scene.blocks[director], 'enemyDefinition')
     for name, expected in [('moveSpeed', 2.65), ('windupSeconds', .3), ('recoverySeconds', .48), ('attackRange', 1.05),
-                           ('attackCommitSeconds', .14), ('attackTrackingTurnSpeed', 900), ('repathSeconds', .32),
+                           ('attackCommitSeconds', .14), ('attackTrackingTurnSpeed', 900), ('acceleration', 10), ('runnerSpeedMultiplier', 1.12), ('repathSeconds', .32),
                            ('detectionRadius', 14), ('loseTargetSeconds', 6), ('leashRadius', 40)]:
         assert scalar(enemy, name) == expected, name
     # Ownership is bidirectional: no detached components or mismatched roots.

@@ -29,7 +29,7 @@ namespace IntercomMvp
         }
         private readonly Kit[] kits = new Kit[2];
         private readonly RaycastHit[] sightHits = new RaycastHit[8];
-        private readonly MaterialPropertyBlock tint = new MaterialPropertyBlock();
+        private MaterialPropertyBlock tint;
         private GameObject pool;
         private Mesh ringMesh;
         private AudioSource sound;
@@ -53,6 +53,9 @@ namespace IntercomMvp
         private void Prepare()
         {
             if(pool != null || bodyMaterial == null || accentMaterial == null || glowMaterial == null) return;
+            // Native graphics objects must be created in the main-thread lifecycle,
+            // never in a MonoBehaviour field initializer during scene deserialization.
+            if(tint == null) tint = new MaterialPropertyBlock();
             hasRun = false;
             pool = new GameObject("Reusable medkits - two test pickups"); pool.transform.SetParent(transform, true);
             ringMesh = BuildRing();

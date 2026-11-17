@@ -140,6 +140,13 @@ namespace UnityEngine
     }
     public class MaterialPropertyBlock
     {
+        public static bool CreationAllowed=true;
+        public static int Created;
+        public MaterialPropertyBlock()
+        {
+            if(!CreationAllowed)throw new InvalidOperationException("Native MaterialPropertyBlock creation requires the main-thread lifecycle.");
+            Created++;
+        }
         public readonly Dictionary<int,Color> Colors=new Dictionary<int,Color>();public void SetColor(int id,Color color){Colors[id]=color;}
     }
     public class Renderer:Component

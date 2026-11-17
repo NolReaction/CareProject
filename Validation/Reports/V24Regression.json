@@ -1,0 +1,67 @@
+{
+  "version": "V24",
+  "status": "PASS",
+  "standaloneProjects": 58,
+  "targetedProjects": 11,
+  "targetedPassed": 11,
+  "targetedFailed": 0,
+  "projects": [
+    {
+      "name": "DeathStrikeLifecycleTests",
+      "status": "PASS",
+      "seconds": 2.74
+    },
+    {
+      "name": "EnemyAudioTests",
+      "status": "PASS",
+      "seconds": 6.22
+    },
+    {
+      "name": "FrontEndRuntimeTests",
+      "status": "PASS",
+      "seconds": 6.97
+    },
+    {
+      "name": "MissionRuntimeTests",
+      "status": "PASS",
+      "seconds": 6.39
+    },
+    {
+      "name": "NativeVerificationHarnessTests",
+      "status": "PASS",
+      "seconds": 6.66
+    },
+    {
+      "name": "NpcBrainTests",
+      "status": "PASS",
+      "seconds": 5.12
+    },
+    {
+      "name": "NpcNativeSetupTests",
+      "status": "PASS",
+      "seconds": 2.29
+    },
+    {
+      "name": "NpcNavigationTests",
+      "status": "PASS",
+      "seconds": 2.15
+    },
+    {
+      "name": "NpcRuntimeTests",
+      "status": "PASS",
+      "seconds": 2.37
+    },
+    {
+      "name": "PackageInstallerTests",
+      "status": "PASS",
+      "seconds": 4.37
+    },
+    {
+      "name": "PursuitTrailTests",
+      "status": "PASS",
+      "seconds": 2.13
+    }
+  ],
+  "scope": "Production logic and components with narrow Unity substitutes. Not native Unity compilation/import/Play Mode or device execution.",
+  "validationMode": "Focused changed-component checks; the last complete sweep is V23Regression.json"
+}

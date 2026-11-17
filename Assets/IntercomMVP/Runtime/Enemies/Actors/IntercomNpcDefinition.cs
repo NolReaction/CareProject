@@ -49,7 +49,7 @@ namespace IntercomMvp
         public GameObject visualPrefab;
         public GameObject breakupPrefab;
         [Min(.1f)] public float walkAnimationMetresPerSecond = .603f;
-        [Min(.1f)] public float runAnimationMetresPerSecond = 1.1160714f;
+        [Min(.1f)] public float runAnimationMetresPerSecond = 1.5f;
         // Import-axis correction is visual-only; gameplay always faces its own +Z.
         [Range(-180f,180f)] public float modelForwardYaw;
 

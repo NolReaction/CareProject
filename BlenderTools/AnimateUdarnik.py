@@ -19,8 +19,10 @@ CLIPS={'Idle':1.60,'Walk':.80,'Windup':.30,'Strike':.16,'Recover':.48,'Hurt':.22
 WALK_DUTY=.58
 WALK_STANCE_TRAVEL=.28
 WALK_REFERENCE=WALK_STANCE_TRAVEL/(WALK_DUTY*CLIPS['Walk'])
-RUN_DUTY=.56
-RUN_STANCE_TRAVEL=.40
+# A longer grounded stride lowers the playback cadence at the same real speed.
+# The compact legs need a little more pelvis compression, not a faster shuffle.
+RUN_DUTY=.50
+RUN_STANCE_TRAVEL=.48
 RUN_REFERENCE=RUN_STANCE_TRAVEL/(RUN_DUTY*CLIPS['Run'])
 FLOOR=.003
 rig=None
@@ -136,7 +138,7 @@ def gait(phase,running=False):
     if phase<duty:
         s=phase/duty
         y=mix(-travel*.5,travel*.5,s)
-        pitch=(-7 if running else -4)*(1-smooth(s/.12))+(12 if running else 8)*smooth((s-.85)/.15)
+        pitch=(-5 if running else -4)*(1-smooth(s/.12))+(9 if running else 8)*smooth((s-.85)/.15)
         return Vector((0,y,0)),pitch,True
     s=(phase-duty)/(1-duty)
     # Match the planted backward sole velocity at both ends. The airborne
@@ -144,8 +146,8 @@ def gait(phase,running=False):
     y0=travel*.5;y1=-y0
     tangent=reference*duration*(1-duty)
     y=(2*s*s*s-3*s*s+1)*y0+(s*s*s-2*s*s+s)*tangent+(-2*s*s*s+3*s*s)*y1+(s*s*s-s*s)*tangent
-    lift=math.sin(math.pi*s)**2*(.115 if running else .072)
-    pitch=mix(12 if running else 7,-7 if running else -4,smooth(s))
+    lift=math.sin(math.pi*s)**2*(.090 if running else .072)
+    pitch=mix(9 if running else 7,-5 if running else -4,smooth(s))
     return Vector((0,y,lift)),pitch,False
 
 def pose(kind,t):
@@ -161,16 +163,17 @@ def pose(kind,t):
     elif kind in {'Walk','Run'}:
         running=kind=='Run'
         phase=t*math.tau
-        pelvis=Vector((math.sin(phase)*(.023 if running else .017),0,
-                       (-.078 if running else -.055)+(.014 if running else .006)*math.cos(phase*2)))
-        body=((15. if running else 9.)+1.4*math.sin(phase*2),math.sin(phase)*1.6,
-              math.sin(phase)*(6.0 if running else 4.2))
-        head=(-math.sin(phase*2)*1.3,0,-body[2]*.70)
+        pelvis=Vector((math.sin(phase)*(.018 if running else .017),0,
+                       (-.126 if running else -.055)+(.009 if running else .006)*math.cos(phase*2)))
+        body=((10. if running else 9.)+(.8 if running else 1.4)*math.sin(phase*2),
+              math.sin(phase)*(1.1 if running else 1.6),math.sin(phase)*(3.2 if running else 4.2))
+        head=(-math.sin(phase*2)*(.65 if running else 1.3),0,-body[2]*.70)
         for side,offset,sign in [('L',0,1),('R',.5,-1)]:
             ankles[side],pitches[side],_=gait(t+offset,running)
             c=math.cos(phase)*sign
-            arms[side]=[(-14 if running else -18)+c*(36 if running else 25),
-                        (-56 if running else -34)-c*9,sign*(4+c*2)]
+            # The fists stay below the shoulders; wrists never whip across the face.
+            arms[side]=[(-24 if running else -18)+c*(22 if running else 25),
+                        (-58 if running else -34)-c*(6 if running else 9),sign*(4+c*(1.2 if running else 2))]
     elif kind in {'WindupHook','StrikeHook','RecoverHook','WindupSlam','StrikeSlam','RecoverSlam'}:
         hook=kind.endswith('Hook')
         if kind.startswith('Windup'):
@@ -286,7 +289,9 @@ def build_actions():
     for name,duration in CLIPS.items():
         action=bpy.data.actions.new(name);action.use_fake_user=True;bind_action(action)
         end=round(duration*FPS)
-        frames=list(range(end+1))
+        # Longer Run support arcs need half-frame bone keys so interpolation
+        # preserves the rigid sole and compact knee chain between samples.
+        frames=[i*.5 for i in range(end*2+1)] if name=='Run' else list(range(end+1))
         for frame in frames:
             pose(name,frame/end)
             for bone in rig.pose.bones:
@@ -344,7 +349,7 @@ def export_game(path):
     bpy.ops.export_scene.fbx(filepath=str(path),use_selection=True,object_types={'ARMATURE','MESH'},axis_forward='-Z',axis_up='Y',
         apply_unit_scale=True,apply_scale_options='FBX_SCALE_UNITS',add_leaf_bones=False,use_armature_deform_only=True,
         bake_anim=True,bake_anim_use_nla_strips=False,bake_anim_use_all_actions=True,bake_anim_force_startend_keying=True,
-        bake_anim_step=1,bake_anim_simplify_factor=0,path_mode='RELATIVE',embed_textures=False)
+        bake_anim_step=.5,bake_anim_simplify_factor=0,path_mode='RELATIVE',embed_textures=False)
     mesh=game.data;bpy.data.objects.remove(game,do_unlink=True)
     if mesh.users==0:bpy.data.meshes.remove(mesh)
     bpy.data.collections.remove(collection)

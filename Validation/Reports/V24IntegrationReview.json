@@ -1,0 +1,145 @@
+{
+  "version": "V24",
+  "status": "PASS_FOCUSED_NATIVE_NOT_RUN",
+  "checks": {
+    "currentRun": {
+      "availableStandaloneProjects": 58,
+      "targetedProjects": 11,
+      "targetedPassed": 11,
+      "targetedFailed": 0
+    },
+    "lastCompleteSweep": {
+      "version": "V23",
+      "projects": 57,
+      "passed": 57,
+      "report": "Validation/Reports/V23Regression.json"
+    },
+    "syntaxSources": 105,
+    "syntaxConfigurations": 3,
+    "syntaxErrors": 0,
+    "architecture": {
+      "status": "PASS",
+      "checks": 2404,
+      "runtimeSources": 78,
+      "editorSources": 27,
+      "pureModels": 25,
+      "assetGuids": 417,
+      "failures": [],
+      "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
+    },
+    "changedComponentAssertions": {
+      "PursuitTrailTests": 105,
+      "NpcRuntimeTests": 19995,
+      "DeathStrikeLifecycleTests": 318
+    },
+    "authoredDataChecks": {
+      "gameplay": 371,
+      "profileRestoredToV22": {
+        "moveSpeed": 2.65,
+        "runnerSpeedMultiplier": 1.12,
+        "acceleration": 10,
+        "windupSeconds": 0.3,
+        "recoverySeconds": 0.48,
+        "attackTrackingTurnSpeed": 900,
+        "attackCommitSeconds": 0.14
+      },
+      "protectedHeroFilesByteIdentical": 135
+    },
+    "unchangedV23Assets": [
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "Source/Enemies/Udarnik/Udarnik_Rigged.blend",
+      "Source/Audio/Previews/V23_GearPickup.wav",
+      "Source/Audio/Previews/V23_EnemySounds.wav"
+    ]
+  },
+  "features": {
+    "runAnimation": {
+      "durationSeconds": 0.64,
+      "referenceMetresPerSecond": 1.5,
+      "strideMetresPerLoop": 0.96,
+      "clips": 18,
+      "bones": 14,
+      "triangles": 7454,
+      "materials": 1,
+      "maximumPlantedSoleFloorErrorMetres": 5.6888416409492555e-05,
+      "maximumMidStanceWorldSlipMetresPerSecond": 0.001918744295826419
+    },
+    "gearPickups": {
+      "standard": {
+        "chance": 0.75,
+        "coins": 2,
+        "valuePerCoin": 2,
+        "expectedValue": 3
+      },
+      "runner": {
+        "chance": 0.75,
+        "coins": 1,
+        "valuePerCoin": 2,
+        "expectedValue": 1.5
+      },
+      "heavy": {
+        "chance": 1,
+        "coins": 2,
+        "valuePerCoin": 4
+      },
+      "audio": {
+        "voices": 1,
+        "minimumSpacingSeconds": 0.09,
+        "pitchVariants": 4,
+        "victorySettlement": "Silent"
+      }
+    },
+    "enemyAudio": {
+      "voices": 4,
+      "clips": 12,
+      "kinds": [
+        "arrival",
+        "windup",
+        "swing",
+        "death"
+      ],
+      "archetypePitch": true,
+      "limitedDistanceAndCadence": true,
+      "victory": "Only a short tail of the final death; other menus are silent"
+    },
+    "menu": {
+      "hoverAndPress": true,
+      "revealSeconds": 0.18,
+      "time": "Unscaled absolute time",
+      "hitRectangles": "Unchanged"
+    },
+    "previousFeatures": "V22 health UI, medkits and constructor fix retained; continuous waves retained",
+    "enemyCombat": {
+      "restoredFrom": "V22",
+      "speedMetresPerSecond": {
+        "standard": 2.65,
+        "runner": 2.968,
+        "heavy": 1.908
+      },
+      "acceleration": 10,
+      "baseWindupSeconds": 0.3,
+      "baseRecoverySeconds": 0.48,
+      "heading": "Original tracking during early windup; final0.14s committed",
+      "damageReaction": "Color-only flash0.16s; no Hurt/HurtHeavy runtime selection"
+    },
+    "pursuitTrail": {
+      "capacity": 512,
+      "approximateBytesPerActor": 4096,
+      "observations": "Only genuinely observed target positions",
+      "cornerOrder": "Oldest retained bend first; direct visibility and path rebuilding cannot skip bends",
+      "compaction": "Numerically straight continuation only; gradual curves retain bends",
+      "navigation": "Original local A* and obstacle checks to current trail point",
+      "projection": "Blocked raw point can complete at a reachable projection only with clear physical rays to the known raw point",
+      "saturation": "Retain every known bend; fresh visible acquisition only after physically reaching the final retained tail",
+      "resets": [
+        "target change",
+        "life reset",
+        "respawn",
+        "emergence",
+        "observed teleport"
+      ],
+      "steadyStateManagedAllocationBytes": 0
+    }
+  },
+  "scope": "Focused changed-component runtime/model tests, source parsing and serialized contracts. Unchanged V23 visual and audio artifacts verified by hash. No native Unity import, physics, audio output or device execution."
+}

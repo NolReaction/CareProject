@@ -23,8 +23,30 @@ internal static class Program
         root.SetActive(true);Tick(pickup);mission.playerMotor.transform.position=pickup.firstPosition;
         return (mission,pickup);
     }
+    private static void NativeSetupLifecycle()
+    {
+        var root=new GameObject("Loading medkit scene");root.SetActive(false);
+        root.AddComponent<IntercomMissionDirector>();
+        int nativeBlocks=MaterialPropertyBlock.Created;
+        IntercomMedkitPickups pickup;
+        // Unity constructs/deserializes MonoBehaviours before main-thread Awake.
+        // Reject the native constructor here so the original field initializer fails this regression.
+        MaterialPropertyBlock.CreationAllowed=false;
+        try { pickup=root.AddComponent<IntercomMedkitPickups>(); }
+        finally { MaterialPropertyBlock.CreationAllowed=true; }
+        Check(MaterialPropertyBlock.Created==nativeBlocks,"scene construction does not allocate native material state");
+        root.SetActive(true);
+        Check(MaterialPropertyBlock.Created==nativeBlocks,"missing materials defer native preparation");
+        pickup.bodyMaterial=new Material();pickup.accentMaterial=new Material();pickup.glowMaterial=new Material();
+        Tick(pickup);
+        Check(MaterialPropertyBlock.Created==nativeBlocks+1,"main-thread delayed preparation creates exactly one property block");
+        Tick(pickup,4);root.SetActive(false);root.SetActive(true);Tick(pickup);
+        Check(MaterialPropertyBlock.Created==nativeBlocks+1,"updates and enable cycles reuse the native property block");
+        Call(pickup,"OnDestroy");
+    }
     private static void Main()
     {
+        NativeSetupLifecycle();
         var model=new IntercomHealthState(100);model.Apply(40);Equal(model.Heal(35),35,"pure healing amount");Equal(model.Current,95,"pure healing adds HP");Equal(model.Heal(35),5,"pure healing clamps to max");
         foreach(float bad in new[]{0f,-1f,float.NaN,float.PositiveInfinity,float.NegativeInfinity}) Equal(model.Heal(bad),0,"invalid pure heal refused");
         model.Apply(100);Equal(model.Heal(100),0,"pure heal does not revive");

@@ -1,0 +1,297 @@
+{
+  "version": "V23",
+  "status": "PASS",
+  "standaloneProjects": 57,
+  "passed": 57,
+  "projects": [
+    {
+      "name": "AnimationGroundingIntegrationTests",
+      "status": "PASS",
+      "seconds": 2.42
+    },
+    {
+      "name": "AssetCatalogTests",
+      "status": "PASS",
+      "seconds": 1.79
+    },
+    {
+      "name": "AudioTimingTests",
+      "status": "PASS",
+      "seconds": 1.62
+    },
+    {
+      "name": "CameraTrackingTests",
+      "status": "PASS",
+      "seconds": 1.79
+    },
+    {
+      "name": "CharacterAnimationTests",
+      "status": "PASS",
+      "seconds": 3.32
+    },
+    {
+      "name": "CombatEffectsTests",
+      "status": "PASS",
+      "seconds": 2.09
+    },
+    {
+      "name": "DeathStrikeLifecycleTests",
+      "status": "PASS",
+      "seconds": 4.99
+    },
+    {
+      "name": "DirectionalLocomotionTests",
+      "status": "PASS",
+      "seconds": 1.78
+    },
+    {
+      "name": "EnemyAudioTests",
+      "status": "PASS",
+      "seconds": 2.05,
+      "targetedRerun": true,
+      "assertions": 65
+    },
+    {
+      "name": "EnemySpawnPolicyTests",
+      "status": "PASS",
+      "seconds": 1.69
+    },
+    {
+      "name": "FrontEndModelTests",
+      "status": "PASS",
+      "seconds": 1.69
+    },
+    {
+      "name": "FrontEndRoomCameraTests",
+      "status": "PASS",
+      "seconds": 1.7
+    },
+    {
+      "name": "FrontEndRuntimeTests",
+      "status": "PASS",
+      "seconds": 2.47
+    },
+    {
+      "name": "GearPickupTests",
+      "status": "PASS",
+      "seconds": 1.87
+    },
+    {
+      "name": "GroundContactTests",
+      "status": "PASS",
+      "seconds": 1.71
+    },
+    {
+      "name": "GroundFeedbackLifecycleTests",
+      "status": "PASS",
+      "seconds": 1.77
+    },
+    {
+      "name": "HealthFeedbackTests",
+      "status": "PASS",
+      "seconds": 1.63
+    },
+    {
+      "name": "HudLayoutTests",
+      "status": "PASS",
+      "seconds": 4.38
+    },
+    {
+      "name": "InputCancellationTests",
+      "status": "PASS",
+      "seconds": 1.67
+    },
+    {
+      "name": "MagazineTests",
+      "status": "PASS",
+      "seconds": 1.83
+    },
+    {
+      "name": "MedkitPickupTests",
+      "status": "PASS",
+      "seconds": 1.96
+    },
+    {
+      "name": "MissionRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.63
+    },
+    {
+      "name": "MissionSceneRouteTests",
+      "status": "PASS",
+      "seconds": 1.88
+    },
+    {
+      "name": "MissionStateTests",
+      "status": "PASS",
+      "seconds": 1.73
+    },
+    {
+      "name": "MissionUiTests",
+      "status": "PASS",
+      "seconds": 4.95
+    },
+    {
+      "name": "MobileInputTests",
+      "status": "PASS",
+      "seconds": 1.74
+    },
+    {
+      "name": "NativeVerificationHarnessTests",
+      "status": "PASS",
+      "seconds": 4.11
+    },
+    {
+      "name": "NpcArenaTests",
+      "status": "PASS",
+      "seconds": 1.92
+    },
+    {
+      "name": "NpcBrainTests",
+      "status": "PASS",
+      "seconds": 1.81
+    },
+    {
+      "name": "NpcNativeSetupTests",
+      "status": "PASS",
+      "seconds": 1.74
+    },
+    {
+      "name": "NpcNavigationTests",
+      "status": "PASS",
+      "seconds": 1.69
+    },
+    {
+      "name": "NpcRuntimeTests",
+      "status": "PASS",
+      "seconds": 1.99
+    },
+    {
+      "name": "OcclusionLeaseTests",
+      "status": "PASS",
+      "seconds": 1.73
+    },
+    {
+      "name": "OcclusionMathTests",
+      "status": "PASS",
+      "seconds": 1.74
+    },
+    {
+      "name": "OcclusionRuntimeTests",
+      "status": "PASS",
+      "seconds": 1.84
+    },
+    {
+      "name": "PackageInstallerTests",
+      "status": "PASS",
+      "seconds": 4.56
+    },
+    {
+      "name": "PerformanceCaptureTests",
+      "status": "PASS",
+      "seconds": 2.69
+    },
+    {
+      "name": "PlayerAudioLifecycleTests",
+      "status": "PASS",
+      "seconds": 1.74
+    },
+    {
+      "name": "PlayerControlLifecycleTests",
+      "status": "PASS",
+      "seconds": 4.75
+    },
+    {
+      "name": "PlayerHurtFeedbackTests",
+      "status": "PASS",
+      "seconds": 1.6
+    },
+    {
+      "name": "PlayerInputRuntimeTests",
+      "status": "PASS",
+      "seconds": 4.48
+    },
+    {
+      "name": "PlayerVitalityTests",
+      "status": "PASS",
+      "seconds": 1.78
+    },
+    {
+      "name": "PoseClockTests",
+      "status": "PASS",
+      "seconds": 1.68
+    },
+    {
+      "name": "ProgressionTests",
+      "status": "PASS",
+      "seconds": 1.71
+    },
+    {
+      "name": "ProjectRepairTests",
+      "status": "PASS",
+      "seconds": 1.8
+    },
+    {
+      "name": "ProjectStartupTests",
+      "status": "PASS",
+      "seconds": 1.76
+    },
+    {
+      "name": "ProjectileCollisionTests",
+      "status": "PASS",
+      "seconds": 1.73
+    },
+    {
+      "name": "ProjectileSurfaceTests",
+      "status": "PASS",
+      "seconds": 1.91
+    },
+    {
+      "name": "ReactivePropTests",
+      "status": "PASS",
+      "seconds": 1.73
+    },
+    {
+      "name": "RobotDeathEffectsTests",
+      "status": "PASS",
+      "seconds": 1.77
+    },
+    {
+      "name": "RunningContactTests",
+      "status": "PASS",
+      "seconds": 6.73
+    },
+    {
+      "name": "RunningWaistTests",
+      "status": "PASS",
+      "seconds": 1.79
+    },
+    {
+      "name": "ShooterIntegrationTests",
+      "status": "PASS",
+      "seconds": 1.84
+    },
+    {
+      "name": "TracerGeometryTests",
+      "status": "PASS",
+      "seconds": 1.72
+    },
+    {
+      "name": "TurnStepTests",
+      "status": "PASS",
+      "seconds": 1.68
+    },
+    {
+      "name": "TurningRigTests",
+      "status": "PASS",
+      "seconds": 3.11
+    },
+    {
+      "name": "WeaponFoundationTests",
+      "status": "PASS",
+      "seconds": 1.84
+    }
+  ],
+  "scope": "Production logic and components with narrow Unity substitutes. Not native Unity compilation/import/Play Mode or device execution.",
+  "note": "All 57 standalone projects passed the full sweep. EnemyAudioTests also passed a final targeted run with 65 assertions after six voice-priority and lifecycle assertions were added. No unrelated production changes followed their passing checks."
+}

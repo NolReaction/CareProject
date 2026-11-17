@@ -46,6 +46,8 @@ namespace IntercomMvp
 
         private static readonly List<IntercomNpcController> active = new List<IntercomNpcController>(16);
         private readonly IntercomNpcBrain brain = new IntercomNpcBrain();
+        private readonly IntercomPursuitTrail pursuitTrail = new IntercomPursuitTrail();
+        private IntercomHealth pursuitTarget;
         private readonly List<Vector3> route = new List<Vector3>(128);
         private readonly RaycastHit[] sightHits = new RaycastHit[24];
         private CharacterController controller;
@@ -83,7 +85,7 @@ namespace IntercomMvp
         private static readonly Unity.Profiling.ProfilerMarker TickMarker = new Unity.Profiling.ProfilerMarker("CareProject.NPC.Tick");
 #endif
 
-        private float HurtDuration => modelAnimator!=null ? (Archetype==IntercomNpcArchetype.Heavy?.32f:.22f):.18f;
+        private const float HitFlashDuration = .16f;
         private float Range => Safe(definition.attackRange, 1.05f, .3f, 3f) * VisualScale;
         private float EmergenceDuration => arrivalDuration>0f ? arrivalDuration : Safe(definition.emergenceSeconds,.68f,.3f,2f);
         private static float Safe(float v, float fallback, float min, float max) => IntercomNpcDefinition.Safe(v, fallback, min, max);
@@ -136,7 +138,7 @@ namespace IntercomMvp
             unchecked { activityVersion++; }
             // Health remains authoritative even when only AI is disabled.
             // A disabled brain killed by a projectile must still release its collider.
-            active.Remove(this); Suspend(); CancelEmergence();
+            active.Remove(this); Suspend(); CancelEmergence(); pursuitTrail.Clear();
             RestoreModelTint();
         }
         private void OnDestroy()
@@ -154,6 +156,7 @@ namespace IntercomMvp
             unchecked { activityVersion++; }
             CancelEmergence();
             approachSlot = -1; orbitDirection=0;
+            pursuitTrail.Clear(); pursuitTarget=targetHealth;
             ResolvedStrikeVersion=0;
             deathBurstHidden=false;
             emergenceKind=IntercomEnemySpawnKind.Perimeter;
@@ -208,7 +211,7 @@ namespace IntercomMvp
             arrivalDuration=baseDuration+warning;
             arrivalWarningFraction=(baseDuration*(emergenceKind==IntercomEnemySpawnKind.Perimeter?.17f:0f)+warning)/arrivalDuration;
             emerging=true; emergenceSeconds=0f;
-            approachSlot=-1; orbitDirection=0;
+            approachSlot=-1; orbitDirection=0; pursuitTrail.Clear();
             emergenceSavedInvulnerability=health.invulnerable;
             emergenceSavedController=controller.enabled;
             health.invulnerable=true; controller.enabled=false;
@@ -227,7 +230,7 @@ namespace IntercomMvp
         public void HideForDeathBurst()
         {
             if(!initialized || health==null || !health.IsDead || deathBurstHidden)return;
-            deathBurstHidden=true;RestoreModelTint();
+            deathBurstHidden=true;RestoreModelTint(); pursuitTrail.Clear();
             if(visual!=null)visual.gameObject.SetActive(false);
             if(telegraph!=null)telegraph.gameObject.SetActive(false);
         }
@@ -287,6 +290,7 @@ namespace IntercomMvp
         {
             if(targetHealth == target) return;
             targetHealth = target;
+            pursuitTrail.Clear(); pursuitTarget=target;
             approachSlot=-1; orbitDirection=0;
             sightTarget=null; sightRemaining=0f;
             brain.Interrupt();
@@ -302,7 +306,7 @@ namespace IntercomMvp
         public void Investigate(Vector3 lastKnownPosition)
         {
             if(!initialized || health.IsDead || !Finite(lastKnownPosition.x) || !Finite(lastKnownPosition.y) || !Finite(lastKnownPosition.z)) return;
-            lastSeen=lastKnownPosition;
+            lastSeen=lastKnownPosition; pursuitTrail.Clear();
             investigateRemaining=12f;
             brain.Alert();
             route.Clear(); waypoint=0; repathRemaining=0f;
@@ -391,8 +395,12 @@ namespace IntercomMvp
             else investigateRemaining=Mathf.Max(0f,investigateRemaining-dt);
             if(Flat(transform.position-lastSeen).sqrMagnitude<.25f) investigateRemaining=0f;
             IntercomNpcPhase before = brain.Phase;
-            Vector3 chaseDestination=before==IntercomNpcPhase.Chase ? ApproachDestination(lastSeen,visible,distance) : lastSeen;
-            bool attackClear = visible && distance <= Range && ClearMelee(target)
+            bool meleeClear=visible && distance<=Range && ClearMelee(target);
+            Vector3 chaseDestination=PursuitDestination(visible,meleeClear && Mathf.Abs(target.y-transform.position.y)<.65f);
+            if(before==IntercomNpcPhase.Chase && !pursuitTrail.HasBacklog)
+                chaseDestination=ApproachDestination(chaseDestination,visible,distance);
+            else if(pursuitTrail.HasBacklog) { approachSlot=-1; orbitDirection=0; }
+            bool attackClear = meleeClear && !pursuitTrail.HasBacklog
                 && (before!=IntercomNpcPhase.Chase || AttackLaneReady(chaseDestination));
             bool outside = Flat(transform.position-home).magnitude > Safe(definition.leashRadius,18f,1f,40f)
                 || (alive && Flat(lastSeen-home).magnitude > Safe(definition.leashRadius,18f,1f,40f));
@@ -420,6 +428,7 @@ namespace IntercomMvp
                 velocity = Vector3.zero;
             }
             if (before == IntercomNpcPhase.Patrol && brain.Phase == IntercomNpcPhase.Idle) PickPatrolGoal();
+            if(brain.Phase==IntercomNpcPhase.Return || brain.Phase==IntercomNpcPhase.Patrol) pursuitTrail.Clear();
             if (strike)
             {
                 // A death/reset callback can occur while events are being handled.
@@ -459,6 +468,15 @@ namespace IntercomMvp
             if (!planted && velocity.sqrMagnitude > .005f)
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(velocity,Vector3.up),
                     Safe(definition.turnSpeed,420f,1f,1200f)*dt);
+            if(!planted && brain.Phase==IntercomNpcPhase.Chase && pursuitTrail.HasPendingCorners)
+            {
+                Vector3 remaining=Flat(chaseDestination-transform.position);
+                // Stop on a committed trail corner even at low frame rates. This
+                // step never increases speed and still passes crowd/geometry checks.
+                if(remaining.sqrMagnitude>0f && remaining.sqrMagnitude<=velocity.sqrMagnitude*dt*dt
+                    && navigation!=null && navigation.SegmentClear(transform.position,chaseDestination))
+                    velocity=remaining/dt;
+            }
             if(!planted) velocity=ConstrainCrowdVelocity(velocity,dt);
             // Acceleration retains momentum, so validate the final motion too,
             // not merely the route direction or separation proposal.
@@ -479,6 +497,53 @@ namespace IntercomMvp
                 route.Clear(); waypoint=0; repathRemaining=0f; stuckSeconds=0f;
             }
             ApplyPresentation(dt);
+        }
+
+        private void ClearPursuitRoute()
+        { route.Clear(); waypoint=0; repathRemaining=0f; pathVersion=uint.MaxValue; }
+
+        private Vector3 PursuitDestination(bool visible, bool contact)
+        {
+            if(pursuitTarget!=targetHealth)
+            { pursuitTarget=targetHealth; pursuitTrail.Clear(); ClearPursuitRoute(); }
+            if(visible)
+            {
+                // sightPosition was sampled by the actual perception ray. Cached
+                // visibility must never reveal later live motion behind a wall.
+                if(pursuitTrail.Observe(lastSeen.x,lastSeen.z)) ClearPursuitRoute();
+                if(contact && pursuitTrail.HasBacklog)
+                { pursuitTrail.ResetTo(lastSeen.x,lastSeen.z); ClearPursuitRoute(); }
+            }
+            Vector3 destination=lastSeen;
+            for(int i=0;i<IntercomPursuitTrail.Capacity;i++)
+            {
+                if(!pursuitTrail.TryGetGoal(out float x,out float z)) return lastSeen;
+                Vector3 raw=new Vector3(x,lastSeen.y,z); destination=raw; bool projected=false;
+                if(navigation!=null && !navigation.SegmentClear(raw,raw) && navigation.TryProject(raw,out Vector3 accessible))
+                { destination=accessible; projected=true; }
+                bool arrived=Flat(destination-transform.position).sqrMagnitude
+                    <=IntercomPursuitTrail.ArrivalRadius*IntercomPursuitTrail.ArrivalRadius;
+                if(!pursuitTrail.HasPendingCorners)
+                {
+                    if(visible && pursuitTrail.HasGap && arrived && (!projected || ClearMelee(raw)))
+                    {
+                        // A saturated history is followed to its actual final
+                        // point before fresh visible acquisition can begin. No
+                        // retained bend is discarded and no enemy is stranded.
+                        pursuitTrail.ResetTo(lastSeen.x,lastSeen.z); ClearPursuitRoute();
+                        continue;
+                    }
+                    break;
+                }
+                if(!arrived) break;
+                // The hero can walk closer to a wall than the inflated enemy
+                // grid. Reaching its safe projection counts only while actual
+                // low/upper rays to the recorded point stay clear. A closed
+                // wall must never consume an unreachable corner through it.
+                if(projected && !ClearMelee(raw)) break;
+                pursuitTrail.ConsumeHead(); ClearPursuitRoute();
+            }
+            return destination;
         }
 
         private Vector3 Navigate(Vector3 destination, float dt)
@@ -629,9 +694,11 @@ namespace IntercomMvp
             if(!crowded) { approachSlot=-1; orbitDirection=0; return destination; }
             if(approachSlot>=0 && SlotUsable(approachSlot,destination,out Vector3 retained)) return OrbitDestination(destination,retained);
             approachSlot=-1; orbitDirection=0;
-            int preferred=IntercomNpcCrowdMath.SlotForOrdinal(variant);
-            // Keep a claimed slot while the victim moves. If cover closes that
-            // lane, search adjacent free slots; never reserve through a wall.
+            Vector3 nearSide=Flat(transform.position-destination);
+            int preferred=IntercomNpcCrowdMath.PreferredApproachSlot(nearSide.x,nearSide.z,variant);
+            // Start on the side this robot actually approaches from, rather than
+            // racing to a fixed far-side reservation ahead of the player.
+            // Claimed lanes stay stable; blocked lanes search adjacent clear sides.
             for(int n=0;n<IntercomNpcCrowdMath.MaximumSlots;n++)
             {
                 int offset=n==0?0:(n+1)/2*(n%2==1?1:-1);
@@ -734,7 +801,7 @@ namespace IntercomMvp
 
         private void OnDamaged(IntercomDamage hit)
         {
-            hitRemaining=HurtDuration;
+            hitRemaining=HitFlashDuration;
             // Damage triggers an alert using remembered information. It does
             // not reveal an unseen victim's current coordinates.
             // Health has already applied the damage before this callback. A
@@ -746,7 +813,7 @@ namespace IntercomMvp
         }
         private void OnDied()
         {
-            CancelEmergence();
+            CancelEmergence(); pursuitTrail.Clear();
             approachSlot=-1; orbitDirection=0;
             brain.Kill(); velocity=Vector3.zero; route.Clear();
             if(controller!=null) controller.enabled=false;
@@ -771,14 +838,13 @@ namespace IntercomMvp
                 float dead=health.IsDead ? Mathf.Clamp01(deathSeconds/.45f) : 0f;
                 float windup=brain.WindupProgress;
                 float punch=strikeRemaining/.16f;
-                float hit=Mathf.Sin(Mathf.Clamp01(hitRemaining/HurtDuration)*Mathf.PI);
-                visual.localScale=new Vector3(1f+dead*.2f+hit*.06f,1f-dead*.85f-hit*.06f,1f+dead*.2f+hit*.06f)*VisualScale;
+                visual.localScale=new Vector3(1f+dead*.2f,1f-dead*.85f,1f+dead*.2f)*VisualScale;
                 visual.localRotation=Quaternion.Euler(-windup*13f+punch*21f,0f,dead*8f);
                 visual.localPosition=Vector3.up*(dead*.055f);
             }
             else if(visual!=null)
             {
-                // Mechanical joints stay rigid. The authored bones provide recoil and the short pop fallback.
+                // Mechanical joints stay rigid. Hits only tint the atlas; death retains the short pop fallback.
                 visual.localScale=Vector3.one*VisualScale; visual.localRotation=ModelFacingRotation; visual.localPosition=Vector3.zero;
             }
             ApplyModelPresentation(dt);
@@ -791,7 +857,7 @@ namespace IntercomMvp
                 {
                 Color tint=health.IsDead ? Color.Lerp(baseColor,new Color(.24f,.27f,.26f,1f),.75f) : baseColor;
                 if(brain.Phase==IntercomNpcPhase.Windup) tint=Color.Lerp(tint,new Color(.95f,.75f,.32f,1f),.5f+.3f*brain.WindupProgress);
-                if(hitRemaining>0f) tint=Color.Lerp(tint,new Color(1f,.92f,.7f,1f),hitRemaining/HurtDuration);
+                if(hitRemaining>0f) tint=Color.Lerp(tint,new Color(1f,.92f,.7f,1f),hitRemaining/HitFlashDuration);
                 if(modelAnimator!=null)tint.a=baseColor.a;
                 if(!colorApplied || presentedRenderer!=bodyRenderer || tint.r!=presentedColor.r || tint.g!=presentedColor.g
                     || tint.b!=presentedColor.b || tint.a!=presentedColor.a)

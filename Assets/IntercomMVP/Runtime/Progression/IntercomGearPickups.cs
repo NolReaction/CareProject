@@ -13,6 +13,7 @@ namespace IntercomMvp
         public Material gearMaterial;
         [Range(.5f, 4f)] public float magnetRadius = 2.2f;
         [Range(.2f, 1f)] public float pickupRadius = .55f;
+        [Range(0f, 1f)] public float pickupVolume = .42f;
         public int CollectedGears => ledger.CollectedGears;
         public int ActiveCoins => ledger.ActiveCount;
         public int UncollectedGears => ledger.ActiveValue;
@@ -33,11 +34,15 @@ namespace IntercomMvp
         private GameObject poolRoot;
         private Mesh mesh;
         private Material fallbackMaterial;
+        private AudioSource pickupAudio;
+        private AudioClip pickupClip;
+        private float pickupSoundCooldown;
+        private int pendingPickupValue, pickupNote;
         private int prepared;
         private uint observedRun, random;
         private bool focused = true, applicationPaused;
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor"), ColorId = Shader.PropertyToID("_Color"), EmissionId = Shader.PropertyToID("_EmissionColor");
-        private bool ActiveRun => mission != null && mission.Phase == IntercomMissionPhase.Active && mission.Mode != IntercomMissionMode.FreePlay;
+        private bool ActiveRun => mission != null && mission.isActiveAndEnabled && mission.Phase == IntercomMissionPhase.Active && mission.Mode != IntercomMissionMode.FreePlay;
 
         private void Awake() { focused = Application.isFocused; if (mission == null) mission = GetComponent<IntercomMissionDirector>(); Prepare(); }
         private void OnEnable() { focused = Application.isFocused; applicationPaused = false; }
@@ -57,6 +62,9 @@ namespace IntercomMvp
             mesh = BuildGearMesh();
             poolRoot = new GameObject("Collectible gear pool - 96 reusable coins");
             poolRoot.transform.SetParent(transform, true);
+            pickupAudio = poolRoot.AddComponent<AudioSource>();
+            pickupAudio.playOnAwake = false; pickupAudio.loop = false; pickupAudio.spatialBlend = 0f;
+            pickupClip = BuildPickupSound();
             var tint = new MaterialPropertyBlock();
             tint.SetColor(BaseColorId, new Color(1f, .67f, .12f, 1f));
             tint.SetColor(ColorId, new Color(1f, .67f, .12f, 1f));
@@ -81,14 +89,16 @@ namespace IntercomMvp
         private void Update()
         {
             ObserveRun();
-            if (!focused || applicationPaused || Time.timeScale <= 0f) return;
+            if (!focused || applicationPaused || !Application.isFocused || Time.timeScale <= 0f) { StopPickupSound(); return; }
             if (poolRoot == null) Prepare();
             float dt = Time.deltaTime;
             if (!Finite(dt) || dt <= 0f) return;
             PickupPulse = Mathf.Max(0f, PickupPulse - dt * 3.4f);
-            if (mission == null || mission.playerMotor == null) return;
+            pickupSoundCooldown = Mathf.Max(0f, pickupSoundCooldown - dt);
+            if (mission == null || mission.playerMotor == null) { StopPickupSound(); return; }
             bool sweep = mission.Phase == IntercomMissionPhase.Victory;
-            if (!ActiveRun && !sweep) return;
+            if (!ActiveRun && !sweep) { StopPickupSound(); return; }
+            if (!ActiveRun) StopPickupSound();
             Vector3 target = mission.playerMotor.transform.position + Vector3.up * .62f;
             for (int i = 0; i < prepared; i++)
             {
@@ -109,7 +119,7 @@ namespace IntercomMvp
                 {
                     Fly(c, target, dt);
                     if ((c.position - target).sqrMagnitude <= Safe(pickupRadius, .55f, .2f, 1f) * Safe(pickupRadius, .55f, .2f, 1f))
-                    { Collect(i); c.transform.gameObject.SetActive(false); continue; }
+                    { Collect(i, ActiveRun); c.transform.gameObject.SetActive(false); continue; }
                 }
                 else if (c.age < 1.25f)
                 {
@@ -124,6 +134,7 @@ namespace IntercomMvp
                 else c.position.y = c.floor + .085f + Mathf.Sin(c.age * 3.7f + i) * .045f;
                 Present(c, c.attracted);
             }
+            PlayPendingSound();
         }
         private static void Fly(Coin c, Vector3 target, float dt)
         {
@@ -136,10 +147,11 @@ namespace IntercomMvp
             float pop = Mathf.Clamp01(c.age / .12f);
             c.transform.localScale = Vector3.one * (.18f * pop * (attracting ? .92f : 1f));
         }
-        private void Collect(int slot)
+        private void Collect(int slot, bool audible)
         {
             if (!ledger.TryCollect(slot, out int value)) return;
             LastPickupValue = value; PickupPulse = 1f; TotalPickups++;
+            if (audible) pendingPickupValue = Mathf.Min(IntercomGearCollectionState.MaximumRunGears, pendingPickupValue + value);
         }
         public void DropRobot(Vector3 position, IntercomNpcArchetype archetype, uint lifeSeed)
         {
@@ -147,15 +159,18 @@ namespace IntercomMvp
             // RecordKill has already switched the final enemy into Victory; its coins still belong to this run.
             if (mission == null || mission.Mode == IntercomMissionMode.FreePlay
                 || (mission.Phase != IntercomMissionPhase.Active && mission.Phase != IntercomMissionPhase.Victory)) return;
-            int count = archetype == IntercomNpcArchetype.Heavy ? 4 : archetype == IntercomNpcArchetype.Runner ? 2 : 3;
-            Drop(position, count, archetype == IntercomNpcArchetype.Heavy ? 2 : 1, lifeSeed);
+            // Three quarters of ordinary/runner lives release loot. Two richer tokens
+            // replace a shower of single-value tokens; standard expected income stays at three.
+            if (archetype != IntercomNpcArchetype.Heavy && (LootHash(lifeSeed) & 3u) == 0u) return;
+            int count = archetype == IntercomNpcArchetype.Runner ? 1 : 2;
+            Drop(position, count, archetype == IntercomNpcArchetype.Heavy ? 4 : 2, lifeSeed);
         }
         public void DropProp(Vector3 position, int sourceId, IntercomPropKind kind)
         {
             ObserveRun();
             if (!ActiveRun || !rewardedProps.Add(sourceId)) return;
-            int count = kind == IntercomPropKind.Crate ? 4 : kind == IntercomPropKind.Relay ? 2 : 1;
-            Drop(position, count, 1, unchecked((uint)sourceId * 747796405u));
+            int count = kind == IntercomPropKind.Crate ? 2 : 1;
+            Drop(position, count, (kind == IntercomPropKind.Crate || kind == IntercomPropKind.Relay) ? 2 : 1, unchecked((uint)sourceId * 747796405u));
         }
         private void Drop(Vector3 position, int count, int value, uint seed)
         {
@@ -178,21 +193,67 @@ namespace IntercomMvp
             ObserveRun();
             if (mission == null || mission.Phase != IntercomMissionPhase.Victory || mission.Mode == IntercomMissionMode.FreePlay) return;
             for (int i = 0; i < prepared; i++)
-                if (ledger.ValueAt(i) > 0) { coins[i].attracted = coins[i].sweeping = true; Collect(i); }
+                if (ledger.ValueAt(i) > 0) { coins[i].attracted = coins[i].sweeping = true; Collect(i, false); }
         }
         public void ClearForTransition()
         {
-            ledger.ClearUncollected();
+            ledger.ClearUncollected(); StopPickupSound(); pickupNote = 0;
             for (int i = 0; i < prepared; i++) if (coins[i] != null) coins[i].transform.gameObject.SetActive(false);
         }
-        private void OnApplicationFocus(bool value) { focused = value; }
-        private void OnApplicationPause(bool value) { applicationPaused = value; }
+        private void OnApplicationFocus(bool value) { focused = value; if (!value) StopPickupSound(); }
+        private void OnApplicationPause(bool value) { applicationPaused = value; if (value) StopPickupSound(); }
         private void OnDisable() { ClearForTransition(); }
         private void OnDestroy()
         {
             if (poolRoot != null) Destroy(poolRoot);
             if (mesh != null) Destroy(mesh);
+            if (pickupClip != null) Destroy(pickupClip);
             if (fallbackMaterial != null) Destroy(fallbackMaterial);
+        }
+        private void PlayPendingSound()
+        {
+            if (pendingPickupValue <= 0 || pickupSoundCooldown > 0f || pickupAudio == null || pickupClip == null) return;
+            if (!ActiveRun || !mission.isActiveAndEnabled || !isActiveAndEnabled || !focused || applicationPaused
+                || !Application.isFocused || Time.timeScale <= 0f) { StopPickupSound(); return; }
+            // One voice groups a whole magnet batch. A small ascending four-note cadence
+            // is a reward accent rather than a separate noisy hit for every coin.
+            float pitch = pickupNote == 0 ? 1f : pickupNote == 1 ? 1.059463f : pickupNote == 2 ? 1.189207f : 1.259921f;
+            pickupAudio.Stop(); pickupAudio.pitch = pitch;
+            pickupAudio.volume = Safe(pickupVolume, .42f, 0f, 1f);
+            pickupAudio.PlayOneShot(pickupClip);
+            pickupNote = (pickupNote + 1) % 4;
+            pendingPickupValue = 0; pickupSoundCooldown = .09f;
+        }
+        private void StopPickupSound()
+        {
+            pendingPickupValue = 0; pickupSoundCooldown = 0f;
+            if (pickupAudio != null && pickupAudio.isPlaying) pickupAudio.Stop();
+        }
+        private static uint LootHash(uint seed)
+        {
+            unchecked
+            {
+                seed ^= 0x9e3779b9u; seed ^= seed >> 16; seed *= 0x7feb352du;
+                seed ^= seed >> 15; seed *= 0x846ca68bu; return seed ^ (seed >> 16);
+            }
+        }
+        private static AudioClip BuildPickupSound()
+        {
+            const int rate = 22050, length = 2867;
+            var samples = new float[length]; uint noise = 0x62a9f24du;
+            for (int i = 0; i < samples.Length; i++)
+            {
+                float t = i / (float)rate, attack = Mathf.Min(1f, t / .003f);
+                float fade = Mathf.Min(1f, (length - 1 - i) / (rate * .018f));
+                noise ^= noise << 13; noise ^= noise >> 17; noise ^= noise << 5;
+                float tick = ((noise & 65535u) / 32767.5f - 1f) * (float)System.Math.Exp(-170f * t) * .022f;
+                float body = Mathf.Sin(2f * Mathf.PI * 1200f * t) * (float)System.Math.Exp(-36f * t) * .21f;
+                float overtone = Mathf.Sin(2f * Mathf.PI * 1920f * t) * (float)System.Math.Exp(-50f * t) * .10f
+                    + Mathf.Sin(2f * Mathf.PI * 3120f * t) * (float)System.Math.Exp(-70f * t) * .035f;
+                samples[i] = (body + overtone + tick) * attack * fade;
+            }
+            AudioClip clip = AudioClip.Create("Gear pickup - soft mechanical chime", length, 1, rate, false);
+            clip.SetData(samples, 0); return clip;
         }
         private float Next() { random ^= random << 13; random ^= random >> 17; random ^= random << 5; return (random & 0xffffffu) / 16777216f; }
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);

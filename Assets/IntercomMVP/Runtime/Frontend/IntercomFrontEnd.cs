@@ -1,5 +1,8 @@
 using System;
 using UnityEngine;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 namespace IntercomMvp
 {
@@ -8,7 +11,7 @@ namespace IntercomMvp
     [DefaultExecutionOrder(-180)]
     public sealed class IntercomFrontEnd : MonoBehaviour, IIntercomMenuInput
     {
-        public const string BuildVersion = "V22";
+        public const string BuildVersion = "V24";
         [Header("Current game")]
         public IntercomMissionDirector mission;
         public IntercomPlayerInput input;
@@ -39,6 +42,8 @@ namespace IntercomMvp
 
         private readonly IntercomFrontEndState state = new IntercomFrontEndState();
         private readonly IntercomFrontEndView view = new IntercomFrontEndView();
+        private readonly IntercomFrontEndFeedbackState feedback = new IntercomFrontEndFeedbackState();
+        internal IntercomFrontEndFeedbackState Feedback => feedback;
         private IntercomPlayerInput registeredInput;
         private IntercomFrontEndRoomCamera registeredRoomCamera;
         private IntercomMissionPhase observedPhase;
@@ -46,14 +51,15 @@ namespace IntercomMvp
         private string notice = "";
         public string Notice => notice;
 
-        private void OnEnable() { BindInput(); SyncState(); }
-        private void Update() { BindInput(); SyncState(); }
+        private void OnEnable() { BindInput(); SyncState(); RefreshPresentation(); }
+        private void Update() { BindInput(); SyncState(); RefreshPresentation(); }
         private void OnDisable()
         {
             if (registeredInput != null) registeredInput.UnregisterFrontEnd(this);
             registeredInput = null;
             ReleaseRoomCamera();
             observedVisible = false;
+            feedback.Reset();
         }
         private void OnDestroy() { view.Dispose(); }
 
@@ -124,6 +130,8 @@ namespace IntercomMvp
             if (!IsVisible) return false;
             IntercomFrontEndLayout layout = CurrentLayout();
             IntercomFrontEndAction action = layout.Hit(IsResult ? IntercomFrontEndSection.Home : Section,x,y);
+            RefreshPresentation();
+            feedback.Press(action);
             switch (action)
             {
                 case IntercomFrontEndAction.Home: return Navigate(IntercomFrontEndSection.Home);
@@ -188,12 +196,31 @@ namespace IntercomMvp
             if (safe.width <= 0f || safe.height <= 0f) safe = new Rect(0f,0f,Mathf.Max(1,Screen.width),Mathf.Max(1,Screen.height));
             return IntercomFrontEndLayout.Calculate(safe.x,safe.y,safe.width,safe.height);
         }
+        private void RefreshPresentation()
+        {
+            IntercomFrontEndAction pointed = IntercomFrontEndAction.None;
+            if (IsVisible && !Application.isMobilePlatform && Application.isFocused)
+            {
+#if ENABLE_INPUT_SYSTEM
+                Mouse mouse = Mouse.current;
+                if (mouse != null)
+                {
+                    Vector2 position = mouse.position.ReadValue();
+                    pointed = CurrentLayout().Hit(IsResult ? IntercomFrontEndSection.Home : Section, position.x, position.y);
+                }
+#elif ENABLE_LEGACY_INPUT_MANAGER
+                Vector2 position = Input.mousePosition;
+                pointed = CurrentLayout().Hit(IsResult ? IntercomFrontEndSection.Home : Section, position.x, position.y);
+#endif
+            }
+            feedback.Sample(Time.unscaledTime, (int)Section + (IsResult ? 4 : 0), pointed, IsVisible);
+        }
         private void OnGUI()
         {
             if (!IsVisible || Event.current == null || Event.current.type != EventType.Repaint) return;
             Color previousColor = GUI.color; Matrix4x4 previousMatrix = GUI.matrix; int previousDepth = GUI.depth;
             GUI.matrix = Matrix4x4.identity; GUI.depth = -80;
-            try { view.Draw(this,CurrentLayout()); }
+            try { RefreshPresentation(); view.Draw(this,CurrentLayout()); }
             finally { GUI.color = previousColor; GUI.matrix = previousMatrix; GUI.depth = previousDepth; }
         }
     }

@@ -49,4 +49,4 @@ MonoBehaviour:
   heavySpeedMultiplier: 0.72
   heavyDamageMultiplier: 1.5
   modelForwardYaw: 180
-  runAnimationMetresPerSecond: 1.1160714
+  runAnimationMetresPerSecond: 1.5

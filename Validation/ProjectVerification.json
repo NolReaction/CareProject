@@ -1,103 +1,166 @@
 {
-  "version": "CareProject V22",
-  "bundleVersion": "0.3.3",
+  "version": "CareProject V24",
+  "bundleVersion": "0.3.5",
   "baseLocalCommit": "a206d1361f887765be29045feb7d653e1097119f",
-  "baseDelivery": "V21 / 0.3.2",
+  "baseDelivery": "V23 / 0.3.4",
   "editor": "6000.3.26f1",
   "urp": "17.3.0",
-  "status": "PASS_OFFLINE_NATIVE_NOT_RUN",
+  "status": "PASS_FOCUSED_NATIVE_NOT_RUN",
   "nativeEditorExecuted": false,
   "nativeStatus": "NOT_RUN",
   "checks": {
-    "standaloneProjects": 56,
-    "passed": 56,
-    "syntaxSources": 103,
+    "currentRun": {
+      "availableStandaloneProjects": 58,
+      "targetedProjects": 11,
+      "targetedPassed": 11,
+      "targetedFailed": 0
+    },
+    "lastCompleteSweep": {
+      "version": "V23",
+      "projects": 57,
+      "passed": 57,
+      "report": "Validation/Reports/V23Regression.json"
+    },
+    "syntaxSources": 105,
     "syntaxConfigurations": 3,
     "syntaxErrors": 0,
-    "sceneValidationJobs": 7,
     "architecture": {
       "status": "PASS",
-      "checks": 2372,
-      "runtimeSources": 76,
+      "checks": 2404,
+      "runtimeSources": 78,
       "editorSources": 27,
-      "pureModels": 24,
-      "assetGuids": 415,
+      "pureModels": 25,
+      "assetGuids": 417,
       "failures": [],
       "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
     },
-    "protectedHeroFilesByteIdentical": 135,
-    "healthFeedbackAssertions": 431,
-    "medkitPickupAssertions": 73,
-    "hudLayoutAssertions": 81563,
-    "missionUiAssertions": 98635,
-    "healthHudRasterPreviews": 9
+    "changedComponentAssertions": {
+      "PursuitTrailTests": 105,
+      "NpcRuntimeTests": 19995,
+      "DeathStrikeLifecycleTests": 318
+    },
+    "authoredDataChecks": {
+      "gameplay": 371,
+      "profileRestoredToV22": {
+        "moveSpeed": 2.65,
+        "runnerSpeedMultiplier": 1.12,
+        "acceleration": 10,
+        "windupSeconds": 0.3,
+        "recoverySeconds": 0.48,
+        "attackTrackingTurnSpeed": 900,
+        "attackCommitSeconds": 0.14
+      },
+      "protectedHeroFilesByteIdentical": 135
+    },
+    "unchangedV23Assets": [
+      "Assets/IntercomMVP/Content/Enemies/Udarnik/Model/Udarnik.fbx",
+      "Source/Enemies/Udarnik/Udarnik_Rigged.blend",
+      "Source/Audio/Previews/V23_GearPickup.wav",
+      "Source/Audio/Previews/V23_EnemySounds.wav"
+    ]
   },
   "features": {
-    "healthHud": {
-      "smoothFill": true,
-      "damageTrailHoldSeconds": 0.28,
-      "criticalHealthFraction": 0.3,
-      "softVignette": true,
-      "sameFrameDamageAndHealing": "Separate accepted event snapshots; actual healing popup preserved",
-      "screensChecked": [
-        [
-          1280,
-          720
-        ],
-        [
-          640,
-          360
-        ],
-        [
-          480,
-          900
-        ]
-      ],
-      "snapshots": "Run HudLayoutTests, then python3 Validation/render_gameplay_hud.py --health"
+    "runAnimation": {
+      "durationSeconds": 0.64,
+      "referenceMetresPerSecond": 1.5,
+      "strideMetresPerLoop": 0.96,
+      "clips": 18,
+      "bones": 14,
+      "triangles": 7454,
+      "materials": 1,
+      "maximumPlantedSoleFloorErrorMetres": 5.6888416409492555e-05,
+      "maximumMidStanceWorldSlipMetresPerSecond": 0.001918744295826419
     },
-    "medkits": {
-      "count": 2,
-      "healing": 35,
-      "pickupRadiusMetres": 0.85,
-      "positions": [
-        [
-          -4.5,
-          0,
-          -9.5
-        ],
-        [
-          5,
-          0,
-          3
-        ]
-      ],
-      "fullHealth": "Preserve pickup",
-      "death": "No revive",
-      "retry": "Reset and reuse both pickups",
-      "guards": [
-        "gameplay phase",
-        "health/alive",
-        "motor and vitality lock",
-        "pause/focus",
-        "wall sight",
-        "floor distance"
-      ]
+    "gearPickups": {
+      "standard": {
+        "chance": 0.75,
+        "coins": 2,
+        "valuePerCoin": 2,
+        "expectedValue": 3
+      },
+      "runner": {
+        "chance": 0.75,
+        "coins": 1,
+        "valuePerCoin": 2,
+        "expectedValue": 1.5
+      },
+      "heavy": {
+        "chance": 1,
+        "coins": 2,
+        "valuePerCoin": 4
+      },
+      "audio": {
+        "voices": 1,
+        "minimumSpacingSeconds": 0.09,
+        "pitchVariants": 4,
+        "victorySettlement": "Silent"
+      }
     },
-    "previousVersion": "V21 enemy animation/waves/gear mechanics preserved"
+    "enemyAudio": {
+      "voices": 4,
+      "clips": 12,
+      "kinds": [
+        "arrival",
+        "windup",
+        "swing",
+        "death"
+      ],
+      "archetypePitch": true,
+      "limitedDistanceAndCadence": true,
+      "victory": "Only a short tail of the final death; other menus are silent"
+    },
+    "menu": {
+      "hoverAndPress": true,
+      "revealSeconds": 0.18,
+      "time": "Unscaled absolute time",
+      "hitRectangles": "Unchanged"
+    },
+    "previousFeatures": "V22 health UI, medkits and constructor fix retained; continuous waves retained",
+    "enemyCombat": {
+      "restoredFrom": "V22",
+      "speedMetresPerSecond": {
+        "standard": 2.65,
+        "runner": 2.968,
+        "heavy": 1.908
+      },
+      "acceleration": 10,
+      "baseWindupSeconds": 0.3,
+      "baseRecoverySeconds": 0.48,
+      "heading": "Original tracking during early windup; final0.14s committed",
+      "damageReaction": "Color-only flash0.16s; no Hurt/HurtHeavy runtime selection"
+    },
+    "pursuitTrail": {
+      "capacity": 512,
+      "approximateBytesPerActor": 4096,
+      "observations": "Only genuinely observed target positions",
+      "cornerOrder": "Oldest retained bend first; direct visibility and path rebuilding cannot skip bends",
+      "compaction": "Numerically straight continuation only; gradual curves retain bends",
+      "navigation": "Original local A* and obstacle checks to current trail point",
+      "projection": "Blocked raw point can complete at a reachable projection only with clear physical rays to the known raw point",
+      "saturation": "Retain every known bend; fresh visible acquisition only after physically reaching the final retained tail",
+      "resets": [
+        "target change",
+        "life reset",
+        "respawn",
+        "emergence",
+        "observed teleport"
+      ],
+      "steadyStateManagedAllocationBytes": 0
+    }
   },
   "reports": [
-    "Validation/Reports/V22Regression.json",
-    "Validation/Reports/V22IntegrationReview.json",
+    "Validation/Reports/V24Regression.json",
+    "Validation/Reports/V24IntegrationReview.json",
     "Validation/Reports/NativeUnityAvailability.json"
   ],
-  "inheritedAnimationEvidence": [
-    "Validation/Reports/V21AnimationBuild.json",
-    "Validation/Reports/V21AnimationPoseQA.json",
-    "Validation/Reports/V21FbxRoundtrip.json"
+  "unchangedVisualEvidence": [
+    "Validation/Reports/V23AnimationBuild.json",
+    "Validation/Reports/V23AnimationPoseQA.json",
+    "Validation/Reports/V23FbxRoundtrip.json"
   ],
   "limitations": [
-    "Unity Editor/import/compiler, native shaders, Animator, PhysX, Profiler and device builds were not executed.",
-    "HUD previews rasterize actual draw commands on a neutral background; they are not screenshots of the Unity game.",
-    "Visual quality and balance must be checked in the shipped Unity scene."
+    "No native Unity Editor, importer, compiler, Animator, PhysX, Profiler, shader compilation or device build was executed.",
+    "Raster previews use actual UI draw commands and a neutral background with portraits; they are not Unity screenshots.",
+    "Sound previews contain actual generated PCM before game gain and spatial attenuation. The real mix and feel require Play Mode."
   ]
 }

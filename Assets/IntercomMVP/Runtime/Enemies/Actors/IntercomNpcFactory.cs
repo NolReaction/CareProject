@@ -111,7 +111,7 @@ namespace IntercomMvp
         private Quaternion[] modelPublishedRotations;
         private bool modelPoseReady;
         private float modelBlendRemaining, modelBlendDuration;
-        private bool modelHasGroundEmerge, modelHasHatchEmerge, modelHasRun, modelHasHeavyHurt;
+        private bool modelHasGroundEmerge, modelHasHatchEmerge, modelHasRun;
         private bool modelHasHook, modelHasSlam;
         private int modelAttackStyle;
         private Quaternion ModelFacingRotation => modelAnimator!=null && definition!=null
@@ -122,8 +122,6 @@ namespace IntercomMvp
         private static readonly int WindupState=Animator.StringToHash("Base Layer.Windup");
         private static readonly int StrikeState=Animator.StringToHash("Base Layer.Strike");
         private static readonly int RecoverState=Animator.StringToHash("Base Layer.Recover");
-        private static readonly int HurtState=Animator.StringToHash("Base Layer.Hurt");
-        private static readonly int HeavyHurtState=Animator.StringToHash("Base Layer.HurtHeavy");
         private static readonly int HookWindupState=Animator.StringToHash("Base Layer.WindupHook");
         private static readonly int HookStrikeState=Animator.StringToHash("Base Layer.StrikeHook");
         private static readonly int HookRecoverState=Animator.StringToHash("Base Layer.RecoverHook");
@@ -179,7 +177,6 @@ namespace IntercomMvp
                 modelHasGroundEmerge=modelAnimator.HasState(0,GroundEmergeState);
                 modelHasHatchEmerge=modelAnimator.HasState(0,HatchEmergeState);
                 modelHasRun=modelAnimator.HasState(0,RunState);
-                modelHasHeavyHurt=modelAnimator.HasState(0,HeavyHurtState);
                 modelHasHook=modelAnimator.HasState(0,HookWindupState) && modelAnimator.HasState(0,HookStrikeState) && modelAnimator.HasState(0,HookRecoverState);
                 modelHasSlam=modelAnimator.HasState(0,SlamWindupState) && modelAnimator.HasState(0,SlamStrikeState) && modelAnimator.HasState(0,SlamRecoverState);
             }
@@ -192,7 +189,6 @@ namespace IntercomMvp
                 time=Mathf.Clamp01((EmergenceProgress-arrivalWarningFraction)/(1f-arrivalWarningFraction));
             }
             else if(brain.Phase==IntercomNpcPhase.Windup) { state=AttackModelState(WindupState,HookWindupState,SlamWindupState); time=brain.WindupProgress; }
-            else if(hitRemaining>0f) { state=Archetype==IntercomNpcArchetype.Heavy && modelHasHeavyHurt ? HeavyHurtState:HurtState; time=1f-Mathf.Clamp01(hitRemaining/HurtDuration); }
             else if(brain.Phase==IntercomNpcPhase.Recovery)
             {
                 float elapsed=brain.RecoveryProgress*RecoverySeconds;
@@ -206,7 +202,7 @@ namespace IntercomMvp
                     && (brain.Phase==IntercomNpcPhase.Chase || brain.Phase==IntercomNpcPhase.Return);
                 state=moving ? (running?RunState:WalkState):IdleState;
                 if(state!=sampledModelState) modelLoopSeconds=0f;
-                float reference=running ? Safe(definition.runAnimationMetresPerSecond,1.1160714f,.1f,8f)
+                float reference=running ? Safe(definition.runAnimationMetresPerSecond,1.5f,.1f,8f)
                     :Safe(definition.walkAnimationMetresPerSecond,.603f,.1f,8f);
                 if(dt>0f) modelLoopSeconds+=dt*(moving?presentedMoveSpeed/(reference*VisualScale):1f);
                 float duration=moving ? (running?.64f:.8f):1.6f;

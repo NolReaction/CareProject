@@ -29,7 +29,7 @@ namespace CareProject.Packages
         private sealed class Operation { public string Relative, Source, Target, Before, After; public bool Remove; }
 
         public static bool SupportsVersion(string version)
-        { return version == "V18" || version == "V19" || version == "V20" || version == "V21" || version == "V22"; }
+        { return version == "V18" || version == "V19" || version == "V20" || version == "V21" || version == "V22" || version == "V23" || version == "V24"; }
 
         public static string HashFile(string path)
         {

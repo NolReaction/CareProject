@@ -24,7 +24,9 @@ internal static class Program
             UnityEngine.Object.Destroyed.Clear();UnityEngine.Object.DestroyedColliderWasEnabled.Clear();
             var player=new GameObject("Player");Player=player.AddComponent<IntercomHealth>();Player.team=IntercomTeam.Player;Motor=player.AddComponent<IntercomPlayerMotor>();player.transform.position=target;
             Nav=new GameObject("Navigation").AddComponent<IntercomNpcNavigation>();
-            Definition=new IntercomNpcDefinition{bodyMaterial=new Material(),detailMaterial=new Material(),telegraphMaterial=new Material(),visualPrefab=visualPrefab};
+            // Pin the original clock in broad lifecycle fixtures; FairPursuit tests the current shipping profile separately.
+            Definition=new IntercomNpcDefinition{bodyMaterial=new Material(),detailMaterial=new Material(),telegraphMaterial=new Material(),visualPrefab=visualPrefab,
+                windupSeconds=.30f,recoverySeconds=.48f,moveSpeed=2.65f,acceleration=10f};
             bool properAwake=false;
             GameObject.BeforeAwake=component=>{if(component is IntercomNpcController n){properAwake=n.definition==Definition&&n.navigation==Nav&&n.targetHealth==Player&&n.resetMotor==Motor&&n.visual!=null&&n.telegraph!=null;}};
             Npc=IntercomNpcController.Create(Definition,Nav,Player,Motor,Vector3.zero,0);Capsule=Npc.GetComponent<CharacterController>();
@@ -36,7 +38,7 @@ internal static class Program
         public Collider Obstacle()=>new GameObject("Wall or low cover").AddComponent<Collider>();
     }
     private static void Main()
-    {Factory();ModelFacing();AttackVariants();RunPresentation();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();ArchetypeReuse();CrowdLanes();CrowdMotion();CrowdConvergence();RecoveryHitFeedback();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
+    {Factory();ModelFacing();AttackVariants();RunPresentation();AuthoredRobotVisual();SourceKindEmergence();BurstVisualLifecycle();BonePoseBlend();AttackLifecycle();Obstructions();DodgeAndPause();DeathAndReset();PoolAndTarget();Investigation();Navigation();Presentation();PresentationWorkBudget();PoolAllocationBudget();Emergence();SightWorkBudget();MissingReferencesAndCamera();ArchetypeReuse();CrowdLanes();CrowdMotion();CrowdConvergence();RecoveryHitFeedback();PursuitBreadcrumbs();ColorOnlyHitFeedback();Console.WriteLine($"NPC runtime/factory: {checks} assertions passed with narrow Unity/health/navigation stand-ins. Not Unity or PhysX execution.");}
 
     private static void ModelFacing()
     {
@@ -189,10 +191,12 @@ internal static class Program
         var f=new Fixture(new Vector3(0,0,1),ModelPrefab());f.Player.invulnerable=true;f.BeginWindup();f.For(.31f);
         Check(f.Npc.Phase==IntercomNpcPhase.Recovery,"recoil fixture reached live recovery");
         float phase=Field<IntercomNpcBrain>(f.Npc,"brain").RecoveryProgress;
+        var recoveryAnimator=Field<Animator>(f.Npc,"modelAnimator");
+        int pose=recoveryAnimator.LastState;float poseTime=recoveryAnimator.LastTime;
         f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
         var animator=Field<Animator>(f.Npc,"modelAnimator");
-        Check(animator.LastState==Animator.StringToHash("Base Layer.Hurt")&&f.Npc.Phase==IntercomNpcPhase.Recovery
-            &&Field<IntercomNpcBrain>(f.Npc,"brain").RecoveryProgress==phase,"recovery hit is visible without restarting the real melee clock");
+        Check(animator.LastState==pose&&animator.LastTime==poseTime&&f.Npc.Phase==IntercomNpcPhase.Recovery
+            &&Field<IntercomNpcBrain>(f.Npc,"brain").RecoveryProgress==phase,"recovery hit only changes color without replacing the exact follow-through pose or melee clock");
         f.Npc.PrepareForSpawn(Vector3.zero);f.BeginWindup();f.For(.1f);
         f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
         Check(animator.LastState==Animator.StringToHash("Base Layer.Windup")&&f.Npc.telegraph.gameObject.activeSelf,"hit flash preserves a readable committed windup instead of hiding its attack cue");
@@ -288,7 +292,7 @@ internal static class Program
         f=new Fixture(new Vector3(0,0,10),ModelPrefab());animator=Field<Animator>(f.Npc,"modelAnimator");
         var initial=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(initial);
         f.Npc.Health.TakeDamage(new IntercomDamage(3,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
-        Check(animator.LastState==Animator.StringToHash("Base Layer.Hurt")&&animator.LastTime==0,"accepted damage begins authored hurt pose");
+        Check(animator.LastState==Animator.StringToHash("Base Layer.Idle")&&animator.LastTime==0,"accepted damage leaves the current authored pose untouched");
         var flashed=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(flashed);
         Check(flashed.GetColor(Shader.PropertyToID("_BaseColor")).a==.6f&&flashed.HasColor(12345),"damage feedback retains alpha and unrelated authored renderer overrides");
         f.For(.25f);var restored=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(restored);
@@ -384,8 +388,9 @@ internal static class Program
         Call(f.Npc,"ApplyPresentation",.01f);
         Check(bone.localPosition.x>.9f&&bone.localPosition.x<1f,"stop eases cached rigid bone back into idle");
         Check(ReferenceEquals(cached,Field<Vector3[]>(f.Npc,"modelBlendPositions"))&&objects==GameObject.Created.Count,"transition reuses pose arrays and does not create transforms or materials");
+        float beforeHitPose=bone.localPosition.x;int beforeHitState=animator.LastState;
         f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
-        Check(animator.LastState==Animator.StringToHash("Base Layer.Hurt")&&bone.localPosition.x==0,"hurt pose samples immediately, outside locomotion blend");
+        Check(animator.LastState==beforeHitState&&bone.localPosition.x==beforeHitPose,"incoming hit preserves the currently blended bones without a flinch pose");
         f.Npc.Health.TakeDamage(new IntercomDamage(1000,Vector3.zero,Vector3.forward,f.Player.gameObject));f.Npc.HideForDeathBurst();
         bone.localPosition=new Vector3(42,0,0);Call(f.Npc,"LateUpdate");
         Check(bone.localPosition.x==42,"late publisher performs no bone writes for hidden burst victims");
@@ -550,6 +555,122 @@ internal static class Program
             "100 pooled deaths create no materials or deferred destruction requests");
         foreach(var actor in actors)UnityEngine.Object.Destroy(actor.gameObject);
     }
+    private static void PursuitBreadcrumbs()
+    {
+        var shipping=new IntercomNpcDefinition();
+        Check(shipping.moveSpeed==2.65f&&shipping.acceleration==10f&&shipping.runnerSpeedMultiplier==1.12f,
+            "disabling interception preserves the original V22 movement balance");
+        Check(shipping.windupSeconds==.30f&&shipping.recoverySeconds==.48f&&shipping.attackTrackingTurnSpeed==900f,
+            "disabling interception preserves original melee timing and tracking");
+        var f=new Fixture(new Vector3(0,0,3));f.Capsule.BlockHorizontal=true;f.Player.invulnerable=true;f.Step(.1f);
+        f.Player.transform.position=new Vector3(0,0,5);f.Step(.1f);
+        f.Player.transform.position=new Vector3(3,0,5);f.Step(.1f);
+        var trail=Field<IntercomPursuitTrail>(f.Npc,"pursuitTrail");
+        Check(trail.Count==3&&trail.TryGetGoal(out float x,out float z)&&x==0&&z==3,
+            "an open-ground elbow records the target's actual route and keeps its oldest point");
+        f.Capsule.BlockHorizontal=false;f.Step(.1f);
+        Vector3 velocity=Field<Vector3>(f.Npc,"velocity");
+        Check(Math.Abs(velocity.x)<.00001f&&velocity.z>0,"visible final target cannot pull pursuit diagonally across the earlier elbow");
+        f.Npc.transform.position=new Vector3(0,0,3);
+        typeof(IntercomNpcController).GetField("velocity",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,Vector3.zero);
+        f.Nav.CheckSegment=(a,b)=>false;f.Nav.NextResult=IntercomNavResult.Deferred;f.Nav.Version++;
+        f.Step(.1f);
+        Check(f.Nav.LastRequestedGoal.x==0&&f.Nav.LastRequestedGoal.z==5&&trail.Count==2,
+            "a navigation replan still aims at the committed bend instead of the visible final target");
+        f.Nav.CheckSegment=null;f.Nav.NextResult=IntercomNavResult.Success;f.Step(.1f);
+        velocity=Field<Vector3>(f.Npc,"velocity");
+        Check(Math.Abs(velocity.x)<.00001f&&velocity.z>0&&trail.Count==2,"reopened line of sight does not skip the retained corner");
+        f.For(8f);
+        Check(trail.Count==1&&(f.Npc.transform.position-f.Player.transform.position).magnitude<=f.Definition.attackRange+.1f,
+            "a stopped target is caught by consuming the entire observed route without deadlock");
+
+        f=new Fixture(new Vector3(0,0,12));f.Capsule.BlockHorizontal=true;f.Step();
+        trail=Field<IntercomPursuitTrail>(f.Npc,"pursuitTrail");
+        f.Player.transform.position=new Vector3(3,0,12);f.Step();
+        Check(trail.Count==1&&trail.TryGetGoal(out x,out z)&&x==0&&z==12,
+            "cached visibility cannot append the live target's unsampled newer position");
+        var wall=f.Obstacle();Physics.Hits=(a,b,c)=>new[]{wall};f.Nav.Version++;f.Step();
+        Check(trail.Count==1&&trail.TryGetGoal(out x,out z)&&x==0&&z==12,"hidden target travel never becomes invented breadcrumb information");
+        var replacement=new GameObject("New victim").AddComponent<IntercomHealth>();replacement.transform.position=new Vector3(2,0,3);
+        f.Npc.SetTarget(replacement);Check(trail.Count==0,"target handoff discards another victim's trail");
+        Physics.Hits=null;f.Step();Check(trail.Count==1,"new victim begins with a fresh observed point");
+        f.Motor.RespawnVersion++;f.Step();Check(trail.Count==0,"respawn discards stale pursuit even before new observations");
+        f.Step();f.Npc.BeginEmergence();Check(trail.Count==0,"hidden emergence cannot retain an old pursuit trail");
+
+        f=new Fixture(new Vector3(0,0,3));f.Capsule.BlockHorizontal=true;f.Step(.1f);
+        f.Player.transform.position=new Vector3(3,0,3);f.Step(.1f);
+        trail=Field<IntercomPursuitTrail>(f.Npc,"pursuitTrail");
+        f.Nav.CheckSegment=(a,b)=>!(a.x==0&&a.z==3&&b.x==0&&b.z==3);
+        f.Nav.Project=p=>p.x==0&&p.z==3?new Vector3(0,0,2.6f):p;
+        f.Npc.transform.position=new Vector3(0,0,2.6f);
+        wall=f.Obstacle();Physics.Hits=(a,b,c)=>new[]{wall};f.Nav.Version++;f.Step(.1f);
+        Check(trail.Count==2,"a closed low/upper corridor cannot consume a projected raw corner through its wall");
+        Physics.Hits=null;f.Nav.Version++;f.Step(.1f);
+        Check(trail.Count==1&&trail.TryGetGoal(out x,out z)&&x==3&&z==3,
+            "reopening a near-wall recorded point lets arrival at its safe projection advance the trail");
+
+        f=new Fixture(new Vector3(0,0,2));f.Capsule.BlockHorizontal=true;f.Step(.1f);
+        f.Player.transform.position=new Vector3(0,0,4);f.Step(.1f);
+        f.Player.transform.position=new Vector3(3,0,4);f.Step(.1f);
+        f.Npc.transform.position=new Vector3(0,0,1.9f);f.Capsule.BlockHorizontal=false;
+        typeof(IntercomNpcController).GetField("velocity",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,new Vector3(0,0,2.65f));
+        f.Step(.1f);
+        Check(f.Npc.transform.position.z<=2.00001f&&f.Npc.transform.position.z>=1.9f,
+            "a low-FPS step stops on its committed corner instead of overshooting then reversing");
+
+        f=new Fixture(new Vector3(0,0,2));f.Capsule.BlockHorizontal=true;f.Step(.1f);
+        f.Player.transform.position=new Vector3(0,0,4);f.Step(.1f);
+        f.Player.transform.position=new Vector3(3,0,4);f.Step(.1f);
+        f.Npc.transform.position=new Vector3(0,0,1.8f);f.Capsule.BlockHorizontal=false;
+        f.Nav.CheckSegment=(a,b)=>!(Math.Abs(b.x)<.05f&&Math.Abs(b.z-2f)<.001f&&(b-a).sqrMagnitude>.0001f);
+        f.Nav.Path=(a,b)=>new[]{new Vector3(a.x+.3f,0,a.z),b};
+        typeof(IntercomNpcController).GetField("velocity",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,new Vector3(2.65f,0,0));
+        f.Step(.1f);
+        Check(f.Npc.transform.position.x>.01f&&f.Npc.transform.position.z<2f,
+            "endpoint limiting does not redirect a clear detour sideways into a blocked nearby goal");
+
+        f=new Fixture(new Vector3(0,0,3));f.Capsule.BlockHorizontal=true;f.Step(.1f);
+        for(int i=1;i<=IntercomPursuitTrail.Capacity;i++)
+        {f.Player.transform.position=new Vector3(i%2*.2f,0,3+i*.01f);f.Step(.1f);}
+        trail=Field<IntercomPursuitTrail>(f.Npc,"pursuitTrail");
+        Check(trail.Count==IntercomPursuitTrail.Capacity&&trail.HasGap,"blocked actor retains a full bounded history without dropping its oldest bend");
+        f.Player.transform.position=new Vector3(5,0,12);f.Step(.1f);
+        Check(trail.HasGap&&trail.TryGetGoal(out x,out z)&&x==0&&z==3,
+            "visible target cannot replace saturated but unconsumed known corners");
+        while(trail.ConsumeHead()){}
+        trail.TryGetGoal(out float tailX,out float tailZ);f.Step(.1f);
+        Check(trail.HasGap&&trail.TryGetGoal(out x,out z)&&x==tailX&&z==tailZ,
+            "consuming history metadata alone does not reacquire before physical tail arrival");
+        f.Npc.transform.position=new Vector3(tailX,0,tailZ);
+        typeof(IntercomNpcController).GetField("velocity",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(f.Npc,Vector3.zero);
+        f.Step(.1f);
+        Check(!trail.HasGap&&trail.Count==1&&trail.TryGetGoal(out x,out z)&&x==5&&z==12,
+            "actual arrival at the final retained point allows fresh visible acquisition after overflow");
+        Check(f.Npc.transform.position.x==tailX&&f.Npc.transform.position.z==tailZ,
+            "overflow recovery changes the new pursuit goal without teleporting the actor");
+    }
+
+    private static void ColorOnlyHitFeedback()
+    {
+        foreach(bool model in new[]{false,true})
+        foreach(var type in new[]{IntercomNpcArchetype.Standard,IntercomNpcArchetype.Runner,IntercomNpcArchetype.Heavy})
+        {
+            var f=new Fixture(new Vector3(0,0,8),model?ModelPrefab():null);
+            f.Npc.gameObject.SetActive(false);f.Npc.PrepareForSpawn(Vector3.zero,type);f.Npc.gameObject.SetActive(true);f.For(.25f);
+            var animator=Field<Animator>(f.Npc,"modelAnimator");int pose=animator!=null?animator.LastState:0;
+            Vector3 scale=f.Npc.visual.localScale,position=f.Npc.visual.localPosition,forward=f.Npc.visual.localRotation*Vector3.forward;
+            float phase=Field<float>(f.Npc,"modelLoopSeconds");
+            f.Npc.Health.TakeDamage(new IntercomDamage(1,Vector3.zero,Vector3.forward,f.Player.gameObject));Call(f.Npc,"ApplyPresentation",0f);
+            Check((f.Npc.visual.localScale-scale).sqrMagnitude==0&&(f.Npc.visual.localPosition-position).sqrMagnitude==0
+                &&((f.Npc.visual.localRotation*Vector3.forward)-forward).sqrMagnitude<.00001f,
+                "hit cannot squash or shift the capsule or authored model: "+model+" "+type);
+            Check(animator==null||animator.LastState==pose,"every archetype keeps locomotion instead of Hurt/HurtHeavy");
+            Check(Field<float>(f.Npc,"modelLoopSeconds")==phase,"hit never restarts locomotion phase");
+            var flash=new MaterialPropertyBlock();f.Npc.bodyRenderer.GetPropertyBlock(flash);
+            Check(flash.GetColor(Shader.PropertyToID("_BaseColor")).r>.85f,"accepted hit still gives a readable warm color flash");
+        }
+    }
+
     private static void Factory()
     {
         var f=new Fixture(new Vector3(0,0,6));
@@ -604,8 +725,8 @@ internal static class Program
     {
         var f=new Fixture(new Vector3(0,0,1));f.BeginWindup();
         f.Player.transform.position=new Vector3(1,0,0);f.For(.31f);
-        Check(f.Player.DamageCalls==1,"early sidestep is tracked during readable windup instead of a guaranteed miss");
-        Check(f.Npc.transform.forward.x>.8f,"body and telegraph follow tracked early attack heading");
+        Check(f.Player.DamageCalls==1,"early sidestep retains V22 tracking during readable windup");
+        Check(f.Npc.transform.forward.x>.8f,"body and telegraph retain V22 early attack tracking");
         f=new Fixture(new Vector3(0,0,1));f.BeginWindup();f.For(.24f);var heading=f.Npc.transform.forward;
         f.Player.transform.position=new Vector3(1,0,0);f.For(.07f);
         Check(f.Player.DamageCalls==0,"late sidestep after commit escapes strike arc");

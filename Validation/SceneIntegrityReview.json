@@ -635,9 +635,9 @@
     },
     {
       "path": "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity",
-      "objects": 1109,
-      "localReferences": 7025,
-      "externalReferences": 1004
+      "objects": 1110,
+      "localReferences": 7031,
+      "externalReferences": 1005
     },
     {
       "path": "Assets/IntercomMVP/Settings/Rendering/Lighting/TutorialDaylight.asset",
@@ -803,7 +803,7 @@
     }
   ],
   "regressionCases": 14,
-  "sceneSHA256": "d72f14ccb24fe7daf9b2352654d3f95d093524ea54fc80162da8e12d7ba6a692",
+  "sceneSHA256": "4a3bc32e37d9ce178fc20c30a169ab1355f98a342dad2553b8449deca0ce3627",
   "surfaceCount": 84,
   "surfaceCounts": {
     "Asphalt": 1,
@@ -1322,9 +1322,9 @@
     "checkedInTemporaryFile": true,
     "regenerationIdempotent": true,
     "localIDs": {
-      "objects": 1109,
-      "localReferences": 7025,
-      "externalReferences": 1004
+      "objects": 1110,
+      "localReferences": 7031,
+      "externalReferences": 1005
     },
     "surfaceCount": 84,
     "environmentObjects": 226

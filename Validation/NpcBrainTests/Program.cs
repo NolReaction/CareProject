@@ -210,6 +210,15 @@ internal static class Program
     private static void CrowdSlots()
     {
         Check(IntercomNpcCrowdMath.MaximumSlots==8,"slot budget matches eight pooled attackers");
+        for(int slot=0;slot<8;slot++)
+        {
+            IntercomNpcCrowdMath.SlotOffset(slot,3f,out float x,out float z);
+            for(int ordinal=0;ordinal<8;ordinal++)
+                Check(IntercomNpcCrowdMath.PreferredApproachSlot(x,z,ordinal)==slot,
+                    "approach reservation begins on actual physical side, independent of spawn order");
+        }
+        Check(IntercomNpcCrowdMath.PreferredApproachSlot(float.NaN,1,11)==3
+            &&IntercomNpcCrowdMath.PreferredApproachSlot(0,0,-1)==7,"invalid/coincident approach uses bounded ordinal fallback");
         var points=new List<(float x,float z)>();
         for(int ordinal=0;ordinal<8;ordinal++)
         {

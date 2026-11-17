@@ -44,6 +44,15 @@ namespace IntercomMvp
             return slot<0 ? slot+MaximumSlots : slot;
         }
 
+        /// <summary>Use the nearest physical side instead of assigning an intercepting far-side lane by spawn ordinal.</summary>
+        public static int PreferredApproachSlot(float dx, float dz, int fallbackOrdinal)
+        {
+            if(!Finite(dx) || !Finite(dz) || (double)dx*dx+(double)dz*dz<.000001d)
+                return SlotForOrdinal(fallbackOrdinal);
+            double angle=Math.Atan2(dx,dz)*MaximumSlots/(Math.PI*2d);
+            return SlotForOrdinal((int)Math.Round(angle,MidpointRounding.AwayFromZero));
+        }
+
         public static void SlotOffset(int ordinal, float radius, out float x, out float z)
         {
             double r=Finite(radius) ? Math.Max(0d,Math.Min(4d,radius)) : 0d;

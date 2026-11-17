@@ -55,7 +55,7 @@ def main():
     for name in ['Kill50','Rescue']:
         data=(ROOT/'Assets/IntercomMVP/Content/Missions'/(name+'.asset')).read_text()
         check(field(data,'visibleSpawnEvery')=='2','visible cadence');check(float(field(data,'minimumVisibleSpawnDistance'))==5.5,'mission spawn distance');check(float(field(data,'visibleSpawnWarningSeconds'))==.35,'warning duration')
-    enemy=(ROOT/'Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset').read_text();check(float(field(enemy,'moveSpeed'))==2.65,'enemy speed');check(float(field(enemy,'loseTargetSeconds'))==6,'zombie memory')
+    enemy=(ROOT/'Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset').read_text();check(float(field(enemy,'moveSpeed'))==2.65,'V24 original enemy speed preserved');check(float(field(enemy,'acceleration'))==10,'V24 original acceleration preserved');check(float(field(enemy,'windupSeconds'))==.3,'V24 original windup preserved');check(float(field(enemy,'attackTrackingTurnSpeed'))==900,'V24 original windup tracking preserved');check(float(field(enemy,'loseTargetSeconds'))==6,'zombie memory')
     weapon=(ROOT/'Assets/IntercomMVP/Content/Weapons/Pistols/Settings/DualPistols.asset').read_text();check(field(weapon,'casingEveryNthShot')=='2','casing cadence');check(float(field(weapon,'fireInterval'))==.12,'shot rate changed');check(float(field(weapon,'damagePerProjectile'))==15,'damage changed')
     counts={}
     for class_name in ['IntercomReactiveProp','IntercomTargetDummy']:

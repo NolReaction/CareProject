@@ -5,4 +5,5 @@
 <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcController.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcFactory.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcDefinition.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomNpcBrain.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDirector.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionDefinition.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Missions/IntercomMissionState.cs"/>
 <Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPoint.cs"/><Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Spawning/IntercomEnemySpawnPolicy.cs"/>
+<Compile Include="../../Assets/IntercomMVP/Runtime/Enemies/Actors/IntercomPursuitTrail.cs"/>
 </ItemGroup></Project>

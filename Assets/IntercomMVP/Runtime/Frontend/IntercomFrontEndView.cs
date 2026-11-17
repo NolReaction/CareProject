@@ -22,13 +22,17 @@ namespace IntercomMvp
         private bool resultReady, resultHasReward, resultEligible, resultSaveFailed;
         private int resultKills=-1, resultRescued=-1, resultSeconds=-1, resultKillParts=-1, resultRescueParts=-1, resultVictoryParts=-1, resultTotal=-1, resultWallet=-1;
         private string resultFacts="", resultRewardTitle="", resultBreakdown="", resultWalletLabel="";
+        private IntercomFrontEndFeedbackState feedback;
+        private float drawOpacity = 1f;
 
         public void Draw(IntercomFrontEnd menu,IntercomFrontEndLayout layout)
         {
             EnsureResources(); UpdateStats(menu);
+            feedback = menu.Feedback; drawOpacity = 1f;
             // Keep the actual room visible. The paper belongs to the controls, not to a full-screen curtain.
             Rect panel=R(layout.Content);Card(panel,Paper);
             Header(menu,layout);Tabs(menu,layout);
+            drawOpacity = feedback.ContentOpacity;
             // Portrait windows use the already packed model portrait instead of cropping the wide room camera.
             if(menu.HasRoomScene && !layout.IsPortrait) RoomCaption(menu,layout); else Preview(menu,layout);
             if(menu.IsResult) Result(menu,layout);
@@ -36,6 +40,7 @@ namespace IntercomMvp
             else if(menu.Section==IntercomFrontEndSection.Robot) Robot(layout);
             else if(menu.Section==IntercomFrontEndSection.Armory) Armory(menu,layout);
             else Home(menu,layout);
+            drawOpacity = 1f;
             Rect footer=R(layout.Footer);
             Fill(footer,Ink,.78f);
             Text(new Rect(footer.x+14f*layout.Scale,footer.y,footer.width*.74f,footer.height),
@@ -123,16 +128,22 @@ namespace IntercomMvp
         }
         private void Tabs(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
-            Tab(l.TabHome,"ГЛАВНАЯ",menu.Section==IntercomFrontEndSection.Home,l.Scale);
-            Tab(l.TabPlay,"ИГРАТЬ",menu.Section==IntercomFrontEndSection.Play,l.Scale);
-            Tab(l.TabRobot,"РОБОТ",menu.Section==IntercomFrontEndSection.Robot,l.Scale);
-            Tab(l.TabArmory,"ОРУЖЕЙНАЯ",menu.Section==IntercomFrontEndSection.Armory,l.Scale);
+            Tab(l.TabHome,"ГЛАВНАЯ",menu.Section==IntercomFrontEndSection.Home,l.Scale,IntercomFrontEndAction.Home);
+            Tab(l.TabPlay,"ИГРАТЬ",menu.Section==IntercomFrontEndSection.Play,l.Scale,IntercomFrontEndAction.Play);
+            Tab(l.TabRobot,"РОБОТ",menu.Section==IntercomFrontEndSection.Robot,l.Scale,IntercomFrontEndAction.Robot);
+            Tab(l.TabArmory,"ОРУЖЕЙНАЯ",menu.Section==IntercomFrontEndSection.Armory,l.Scale,IntercomFrontEndAction.Armory);
         }
-        private void Tab(IntercomHudLayout.Box box,string label,bool selected,float scale)
+        private void Tab(IntercomHudLayout.Box box,string label,bool selected,float scale,IntercomFrontEndAction action)
         {
-            Rect r=R(box);DrawTexture(r,tag,selected?Petrol:Quiet);
-            if(selected)Fill(new Rect(r.x+r.width*.12f,r.yMax-6f*scale,r.width*.76f,3f*scale),Mustard);
-            Text(new Rect(r.x+5f*scale,r.y+2f*scale,r.width-10f*scale,r.height-6f*scale),label,centered,
+            Rect r=R(box);float press=feedback.PressAmount(action),hover=feedback.Hover(action);
+            DrawTexture(r,tag,ControlColor(selected?Petrol:Quiet,action));
+            if(selected)
+            {
+                float width=r.width*(.30f+.46f*feedback.Reveal);
+                Fill(new Rect(r.x+(r.width-width)*.5f,r.yMax-6f*scale,width,3f*scale),Mustard);
+            }
+            else if(hover>.01f)Fill(new Rect(r.x+r.width*.12f,r.yMax-6f*scale,r.width*.76f,2f*scale),Paper,hover*.65f);
+            Text(new Rect(r.x+5f*scale,r.y+(2f+press*1.5f)*scale,r.width-10f*scale,r.height-6f*scale),label,centered,
                 Mathf.Max(7f,16f*scale),selected?LightPaper:Ink);
         }
         private void Preview(IntercomFrontEnd menu,IntercomFrontEndLayout l)
@@ -186,13 +197,13 @@ namespace IntercomMvp
             Tape(new Rect(note.x+note.width*.07f,note.y-4f*s,note.width*.18f,9f*s));
             Text(new Rect(note.x+12f*s,note.y+3f*s,note.width-24f*s,note.height-6f*s),
                 "ПЕРЕРЫВ ЗАКОНЧИЛСЯ.\nУдарники опять отвинтили тишину.",body,Mathf.Max(8f,14f*s),Ink,.86f);
-            Button(l.ActionPrimary,"НА ВЫЕЗД  →",Petrol,s);Button(l.ActionSecondary,"МОЙ РОБОТ",Quiet,s);
+            Button(l.ActionPrimary,"НА ВЫЕЗД  →",Petrol,s,IntercomFrontEndAction.Primary);Button(l.ActionSecondary,"МОЙ РОБОТ",Quiet,s,IntercomFrontEndAction.Secondary);
         }
         private void Modes(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
-            Mode(l.ModeFirst,"01","50 РОБОТОВ","НАРЯД / 01","Отключи ударников. Верни двору тишину.",Petrol,l.Scale,null);
-            Mode(l.ModeSecond,"02","СПАСЕНИЕ","СВОИХ НЕ ОСТАВЛЯЕМ","Найди союзника и доведи его до выхода.",Mustard,l.Scale,menu.rescueDoodle);
-            Mode(l.ModeThird,"∞","СВОБОДНЫЙ РЕЖИМ","БЕЗ ВРАГОВ","Осмотр двора. Можно пошуметь.",Quiet,l.Scale,null);
+            Mode(l.ModeFirst,"01","50 РОБОТОВ","НАРЯД / 01","Отключи ударников. Верни двору тишину.",Petrol,l.Scale,null,IntercomFrontEndAction.SelectElimination);
+            Mode(l.ModeSecond,"02","СПАСЕНИЕ","СВОИХ НЕ ОСТАВЛЯЕМ","Найди союзника и доведи его до выхода.",Mustard,l.Scale,menu.rescueDoodle,IntercomFrontEndAction.SelectRescue);
+            Mode(l.ModeThird,"∞","СВОБОДНЫЙ РЕЖИМ","БЕЗ ВРАГОВ","Осмотр двора. Можно пошуметь.",Quiet,l.Scale,null,IntercomFrontEndAction.SelectFreePlay);
         }
         private void Robot(IntercomFrontEndLayout l)
         {
@@ -204,7 +215,7 @@ namespace IntercomMvp
             UpgradeRow(new Rect(r.x+14f*s,top+r.height*.20f,r.width-28f*s,row),"01","КОРПУС","Бронепластины и прочные детали.",s);
             UpgradeRow(new Rect(r.x+14f*s,top+r.height*.20f+row*1.12f,r.width-28f*s,row),"02","ШАССИ","Ходовая часть и новые ботинки.",s);
             UpgradeRow(new Rect(r.x+14f*s,top+r.height*.20f+row*2.24f,r.width-28f*s,row),"03","ВНЕШНИЙ ВИД","Необычные детали и собственный характер.",s);
-            Button(l.ActionPrimary,"ВЫБРАТЬ ВЫЕЗД",Petrol,s);Button(l.ActionSecondary,"ОРУЖЕЙНАЯ  →",Quiet,s);
+            Button(l.ActionPrimary,"ВЫБРАТЬ ВЫЕЗД",Petrol,s,IntercomFrontEndAction.Primary);Button(l.ActionSecondary,"ОРУЖЕЙНАЯ  →",Quiet,s,IntercomFrontEndAction.Secondary);
         }
         private void Armory(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
@@ -222,14 +233,14 @@ namespace IntercomMvp
                 Text(new Rect(upgrade.x+12f*s,upgrade.y+upgrade.height*.26f,upgrade.width-24f*s,upgrade.height*.25f),upgradeBenefit,heading,Mathf.Max(8f,16f*s),Ink);
                 Text(new Rect(upgrade.x+12f*s,upgrade.y+upgrade.height*.55f,upgrade.width-24f*s,upgrade.height*.20f),upgradePrice,small,Mathf.Max(7f,11f*s),Ink,.8f);
                 Text(new Rect(upgrade.x+12f*s,upgrade.y+upgrade.height*.76f,upgrade.width-24f*s,upgrade.height*.19f),walletLabel,small,Mathf.Max(7f,10f*s),Petrol);
-                Button(l.ActionPrimary,upgradeButton,progression.CanBuyMagazine?Petrol:Quiet,s);
+                Button(l.ActionPrimary,upgradeButton,progression.CanBuyMagazine?Petrol:Quiet,s,IntercomFrontEndAction.Primary);
             }
             else
             {
                 UpgradeRow(new Rect(r.x+14f*s,top+r.height*.33f,r.width-28f*s,r.height*.12f),"+","УЛУЧШЕНИЯ ОРУЖИЯ","Мастерская пока недоступна.",s);
-                Button(l.ActionPrimary,"ВЫБРАТЬ ВЫЕЗД",Petrol,s);
+                Button(l.ActionPrimary,"ВЫБРАТЬ ВЫЕЗД",Petrol,s,IntercomFrontEndAction.Primary);
             }
-            Button(l.ActionSecondary,"К РОБОТУ  →",Quiet,s);
+            Button(l.ActionSecondary,"К РОБОТУ  →",Quiet,s,IntercomFrontEndAction.Secondary);
         }
         private void Result(IntercomFrontEnd menu,IntercomFrontEndLayout l)
         {
@@ -246,16 +257,20 @@ namespace IntercomMvp
             Text(new Rect(reward.x+11f*s,reward.y+reward.height*.05f,reward.width-22f*s,reward.height*.32f),resultRewardTitle,heading,Mathf.Max(8f,20f*s),Ink);
             Text(new Rect(reward.x+11f*s,reward.y+reward.height*.39f,reward.width-22f*s,reward.height*.30f),resultBreakdown,small,Mathf.Max(7f,11f*s),Ink,.8f);
             Text(new Rect(reward.x+11f*s,reward.y+reward.height*.73f,reward.width-22f*s,reward.height*.20f),resultWalletLabel,small,Mathf.Max(7f,10f*s),Petrol);
-            Button(l.ActionPrimary,"ПОПРОБОВАТЬ ЕЩЁ",Petrol,s);Button(l.ActionSecondary,"НА ГЛАВНУЮ",Quiet,s);
+            Button(l.ActionPrimary,"ПОПРОБОВАТЬ ЕЩЁ",Petrol,s,IntercomFrontEndAction.Primary);Button(l.ActionSecondary,"НА ГЛАВНУЮ",Quiet,s,IntercomFrontEndAction.Secondary);
         }
         private void PageTitle(Rect r,string text,string caption,float s)
         {
             Text(new Rect(r.x+26f*s,r.y+12f*s,r.width-52f*s,r.height*.12f),text,title,Mathf.Max(10f,26f*s),Ink);
             Text(new Rect(r.x+26f*s,r.y+r.height*.13f,r.width-52f*s,r.height*.07f),caption,small,Mathf.Max(7f,12f*s),Ink,.7f);
         }
-        private void Mode(IntercomHudLayout.Box box,string badge,string name,string category,string detail,Color accent,float s,Texture2D doodle)
+        private void Mode(IntercomHudLayout.Box box,string badge,string name,string category,string detail,Color accent,float s,Texture2D doodle,IntercomFrontEndAction action)
         {
-            Rect r=R(box);DrawTexture(r,tag,accent);
+            Rect r=R(box);float hover=feedback.Hover(action),press=feedback.PressAmount(action);
+            DrawTexture(r,tag,ControlColor(accent,action));
+            Fill(new Rect(r.x+4f*s,r.y+8f*s,3f*s,r.height-16f*s),Ink,.12f+hover*.20f);
+            if(hover>.01f || press>.01f)
+                Fill(new Rect(r.x+9f*s,r.yMax-5f*s,r.width-18f*s,2f*s),LightPaper,hover*.45f+press*.30f);
             float stamp=doodle!=null?r.width*.30f:Mathf.Min(r.height*.66f,r.width*.12f);
             float artHeight=doodle!=null?r.height*.84f:stamp,left=r.x+stamp+27f*s;
             Rect mark=new Rect(r.x+13f*s,r.y+(r.height-artHeight)*.5f,stamp,artHeight);
@@ -287,11 +302,16 @@ namespace IntercomMvp
             Text(new Rect(left,r.y+r.height*.48f,r.width-(left-r.x)-12f*s,r.height*.4f),detail,small,Mathf.Max(7f,10f*s),Ink,.6f);
             Text(new Rect(r.xMax-75f*s,r.y+5f*s,64f*s,r.height*.33f),"СКОРО",centered,Mathf.Max(7f,8f*s),Ink,.5f);
         }
-        private void Button(IntercomHudLayout.Box box,string label,Color color,float s)
+        private void Button(IntercomHudLayout.Box box,string label,Color color,float s,IntercomFrontEndAction action)
         {
-            Rect r=R(box);DrawTexture(new Rect(r.x,r.y+3f*s,r.width,r.height),tag,Ink,.18f);DrawTexture(r,tag,color);
-            Text(new Rect(r.x+4f*s,r.y,r.width-8f*s,r.height),label,centered,Mathf.Max(7f,15f*s),color.r<.5f?LightPaper:Ink);
+            Rect r=R(box);float press=feedback.PressAmount(action),hover=feedback.Hover(action);
+            DrawTexture(new Rect(r.x,r.y+3f*s,r.width,r.height),tag,Ink,.18f*(1f-press*.65f));
+            DrawTexture(r,tag,ControlColor(color,action));
+            Fill(new Rect(r.x+7f*s,r.y+4f*s,r.width-14f*s,1f*s),LightPaper,.15f+hover*.35f);
+            Text(new Rect(r.x+4f*s,r.y+press*1.8f*s,r.width-8f*s,r.height-press*1.8f*s),label,centered,Mathf.Max(7f,15f*s),color.r<.5f?LightPaper:Ink);
         }
+        private Color ControlColor(Color color,IntercomFrontEndAction action)
+            => Color.Lerp(Color.Lerp(color,LightPaper,feedback.Hover(action)*.13f),Ink,feedback.PressAmount(action)*.14f);
         private void RobotSketch(Rect r)
         {
             float k=Mathf.Min(r.width/240f,r.height/300f),x=r.x+r.width*.5f,y=r.y+r.height*.43f;
@@ -306,14 +326,14 @@ namespace IntercomMvp
             }
         }
         private static Rect R(IntercomHudLayout.Box b)=>new Rect(b.X,Screen.height-b.Y-b.Height,b.Width,b.Height);
-        private static void FitArt(Rect r,Texture2D artwork)
+        private void FitArt(Rect r,Texture2D artwork)
         {
             if(artwork==null || artwork.width<=0 || artwork.height<=0)return;
             float scale=Mathf.Min(r.width/artwork.width,r.height/artwork.height);
             float width=artwork.width*scale,height=artwork.height*scale;
             DrawTexture(new Rect(r.x+(r.width-width)*.5f,r.y+(r.height-height)*.5f,width,height),artwork,Color.white);
         }
-        private static void Tape(Rect r)
+        private void Tape(Rect r)
         {
             Fill(r,Paper,.58f);
             Fill(new Rect(r.x+2f,r.y+1f,r.width-4f,1f),LightPaper,.35f);
@@ -323,13 +343,13 @@ namespace IntercomMvp
             DrawTexture(new Rect(r.x+2f,r.y+4f,r.width,r.height),paperCard,Ink,.3f);
             DrawTexture(r,paperCard,color);
         }
-        private static void Fill(Rect r,Color c,float alpha=1f)=>DrawTexture(r,Texture2D.whiteTexture,c,alpha);
-        private static void DrawTexture(Rect r,Texture texture,Color c,float alpha=1f)
-        {if(r.width<=0f||r.height<=0f)return;GUI.color=new Color(c.r,c.g,c.b,c.a*alpha);GUI.DrawTexture(r,texture);}
-        private static void Text(Rect r,string text,GUIStyle style,float size,Color color,float alpha=1f)
+        private void Fill(Rect r,Color c,float alpha=1f)=>DrawTexture(r,Texture2D.whiteTexture,c,alpha);
+        private void DrawTexture(Rect r,Texture texture,Color c,float alpha=1f)
+        {if(r.width<=0f||r.height<=0f)return;GUI.color=new Color(c.r,c.g,c.b,c.a*alpha*drawOpacity);GUI.DrawTexture(r,texture);}
+        private void Text(Rect r,string text,GUIStyle style,float size,Color color,float alpha=1f)
         {
             if(r.width<=0f||r.height<=0f)return;
-            style.fontSize=Mathf.Max(6,Mathf.RoundToInt(size));style.normal.textColor=new Color(color.r,color.g,color.b,color.a*alpha);
+            style.fontSize=Mathf.Max(6,Mathf.RoundToInt(size));style.normal.textColor=new Color(color.r,color.g,color.b,color.a*alpha*drawOpacity);
             GUI.color=Color.white;GUI.Label(r,text,style);
         }
         private void Bolt(float x,float y,float size)

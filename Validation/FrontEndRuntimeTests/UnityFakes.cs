@@ -9,7 +9,7 @@ namespace UnityEngine {
  public class DefaultExecutionOrder:Attribute{public DefaultExecutionOrder(int x){}}public class DisallowMultipleComponent:Attribute{}
  public class TooltipAttribute:Attribute{public TooltipAttribute(string x){}}public class MinAttribute:Attribute{public MinAttribute(float v){}}public class HeaderAttribute:Attribute{public HeaderAttribute(string x){}}public class RangeAttribute:Attribute{public RangeAttribute(float x,float y){}}
  public static class Application{public static bool isMobilePlatform,isPlaying=true,isFocused=true;}
- public static class Time{public static float time;public static float timeScale=1,unscaledDeltaTime=.016f;}
+ public static class Time{public static float time,unscaledTime;public static float timeScale=1,unscaledDeltaTime=.016f;}
  public enum ScreenOrientation{LandscapeLeft,Portrait}
  public static class Screen{public static int width=1920,height=1080;public static Rect safeArea=new Rect(0,0,1920,1080);public static ScreenOrientation orientation;}
  public struct Vector2{

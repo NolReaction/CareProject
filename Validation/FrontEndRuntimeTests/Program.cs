@@ -12,7 +12,7 @@ internal static class Program
     static void Call(object target,string method){try{target.GetType().GetMethod(method,BindingFlags.NonPublic|BindingFlags.Instance).Invoke(target,null);}catch(TargetInvocationException e){throw e.InnerException;}}
     static IntercomFrontEnd Fresh(bool mobile=false)
     {
-        Input.Clear();Application.isMobilePlatform=mobile;Time.timeScale=1;
+        Input.Clear();Application.isMobilePlatform=mobile;Time.timeScale=1;Time.unscaledTime=0;
         Screen.width=1280;Screen.height=720;Screen.safeArea=new Rect(0,0,1280,720);
         var mission=new IntercomMissionDirector{ResultText=""};
         var input=new IntercomPlayerInput{mission=mission,attached=new IntercomWeaponMagazine()};
@@ -29,7 +29,7 @@ internal static class Program
     static bool Quiet(IntercomPlayerInput p)=>p.Move.sqrMagnitude==0&&!p.FireHeld&&!p.FirePressed&&!p.ReloadPressed&&!p.ResetPressed;
     static void Main()
     {
-        Registration();CameraLifecycle();NavigationAndModes();MultitouchAndFocus();Results();View();UpgradeRouting();RewardView();UpgradeAndRewardBounds();IllustrationBounds();Previews();
+        Registration();CameraLifecycle();NavigationAndModes();MultitouchAndFocus();Results();View();UpgradeRouting();RewardView();UpgradeAndRewardBounds();IllustrationBounds();PresentationFeedback();Previews();
         Console.WriteLine($"PASS {assertions} actual front-end registration, navigation, rendering and input-cancellation assertions. Minimal Unity/director substitutes; no Unity Play Mode.");
     }
     static void CameraLifecycle()
@@ -96,6 +96,29 @@ internal static class Program
         f.Navigate(IntercomFrontEndSection.Armory);GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("15")&&GUI.labels.Contains("24")&&GUI.labels.Contains("ОРУЖЕЙНАЯ"),"armory current card values");
         f.Navigate(IntercomFrontEndSection.Play);GUI.labels.Clear();Call(f,"OnGUI");Check(GUI.labels.Contains("50 РОБОТОВ")&&GUI.labels.Contains("СПАСЕНИЕ")&&GUI.labels.Contains("СВОБОДНЫЙ РЕЖИМ"),"all three modes visible");
         f.mission.Phase=IntercomMissionPhase.Active;Call(f,"Update");GUI.labels.Clear();Call(f.input,"OnGUI");Check(GUI.labels.Contains("00:00:00")&&!GUI.labels.Contains("ЗАБОТА"),"active HUD restored with pause action");
+    }
+    static void PresentationFeedback()
+    {
+        var f=Fresh();var layout=f.CurrentLayout();
+        Input.mousePosition=Centre(layout.TabPlay);Time.unscaledTime=.08f;Call(f,"Update");
+        Check(f.Feedback.Hover(IntercomFrontEndAction.Play)>.5f,"desktop hover follows exact shared tab hitbox");
+        float hover=f.Feedback.Hover(IntercomFrontEndAction.Play),reveal=f.Feedback.Reveal;
+        Call(f,"OnGUI");Call(f,"OnGUI");
+        Check(f.Feedback.Hover(IntercomFrontEndAction.Play)==hover&&f.Feedback.Reveal==reveal,"multiple draw passes at same time keep presentation idempotent");
+        Click(f,layout.TabPlay);
+        Check(f.Section==IntercomFrontEndSection.Play&&f.Feedback.PressAmount(IntercomFrontEndAction.Play)==1f,"real pointer click starts visual press and navigation together");
+        Check(f.Feedback.Reveal==0f,"new page starts a short readable reveal");
+        var after=f.CurrentLayout();
+        Check(after.ModeFirst.X==layout.ModeFirst.X&&after.ModeFirst.Y==layout.ModeFirst.Y&&after.ModeFirst.Width==layout.ModeFirst.Width,"animated page preserves all actual hit rectangles");
+        Release(f);Click(f,after.ModeFirst);
+        Check(f.mission.Starts==1&&!f.IsVisible&&Quiet(f.input),"mode accepts immediate click during reveal without leaking gameplay press");
+        Check(f.Feedback.PressedAction==IntercomFrontEndAction.None,"hidden game menu clears visual press state");
+        var mobile=Fresh(true);Input.mousePosition=Centre(mobile.CurrentLayout().TabRobot);Time.unscaledTime=.3f;Call(mobile,"Update");
+        Check(mobile.Feedback.Hover(IntercomFrontEndAction.Robot)==0f,"mobile menu does not retain an emulated mouse hover");
+        Input.touches=new[]{new Touch{fingerId=7,phase=TouchPhase.Began,position=Centre(mobile.CurrentLayout().TabRobot)}};
+        Call(mobile.input,"Update");Call(mobile,"Update");
+        Check(mobile.Section==IntercomFrontEndSection.Robot&&mobile.Feedback.PressAmount(IntercomFrontEndAction.Robot)==1f,"touch navigation gets the same press feedback");
+        Call(mobile,"OnDisable");Check(mobile.Feedback.PressedAction==IntercomFrontEndAction.None,"disable clears interaction accents");
     }
     static IntercomProgression Service(IntercomFrontEnd f,int wallet=0,int level=0)
     {
@@ -216,6 +239,18 @@ internal static class Program
         Record(reward,output,"result_reward",1280,720,new Rect(0,0,1280,720));
         Record(reward,output,"result_reward_compact",640,360,new Rect(20,12,600,336));
         Record(reward,output,"result_reward_portrait",480,900,new Rect(18,22,444,856));
+        string polished=Path.Combine(Root(),"Validation/Results/V23UI/FrontEnd");Directory.CreateDirectory(polished);
+        foreach(var size in new[]{(1280,720),(640,360),(480,900)})
+        {
+            var menu=Fresh();Art(menu);Service(menu,120);
+            Screen.width=size.Item1;Screen.height=size.Item2;Screen.safeArea=new Rect(12,12,size.Item1-24,size.Item2-24);
+            menu.Navigate(IntercomFrontEndSection.Play);Call(menu,"Update");
+            Time.unscaledTime=.3f;Input.mousePosition=Centre(menu.CurrentLayout().ModeSecond);Call(menu,"Update");
+            Time.unscaledTime=.4f;Call(menu,"Update");
+            Record(menu,polished,"modes_hover_"+size.Item1,size.Item1,size.Item2,Screen.safeArea);
+            menu.PointerDown(Centre(menu.CurrentLayout().TabArmory).x,Centre(menu.CurrentLayout().TabArmory).y);Call(menu,"Update");
+            Record(menu,polished,"armory_press_"+size.Item1,size.Item1,size.Item2,Screen.safeArea);
+        }
     }
     static void Art(IntercomFrontEnd f)
     {

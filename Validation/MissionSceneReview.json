@@ -1,11 +1,11 @@
 {
   "revision": "missions-scene-v9",
   "status": "PASS",
-  "sceneSha256": "d72f14ccb24fe7daf9b2352654d3f95d093524ea54fc80162da8e12d7ba6a692",
+  "sceneSha256": "4a3bc32e37d9ce178fc20c30a169ab1355f98a342dad2553b8449deca0ce3627",
   "localIds": {
-    "objects": 1109,
-    "localReferences": 7025,
-    "externalReferences": 1004
+    "objects": 1110,
+    "localReferences": 7031,
+    "externalReferences": 1005
   },
   "repeatInstallIdempotent": true,
   "legacyInstallPreservesV9": true,
@@ -82,8 +82,8 @@
   },
   "killGoal": 50,
   "sourceSha256": {
-    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": "d72f14ccb24fe7daf9b2352654d3f95d093524ea54fc80162da8e12d7ba6a692",
-    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "a08317818d528c7162fc4ed54b448016e7819bdc97c5728fbf19b5ea91cfa070",
+    "Assets/IntercomMVP/Scenes/TutorialYard/IntercomMVP.unity": "4a3bc32e37d9ce178fc20c30a169ab1355f98a342dad2553b8449deca0ce3627",
+    "Assets/IntercomMVP/Content/Enemies/Udarnik/Settings/UdarnikCapsule.asset": "1347cbf911f13b47ae5d72905b31de59132403cf09cf2c72cb22ecc6bac02b15",
     "Assets/IntercomMVP/Content/Missions/Rescue.asset": "cc5209c9fd265a18aa745318b01d0d4dae54243f779b7429f2605e786be9be28",
     "Assets/IntercomMVP/Content/Missions/Kill50.asset": "bbed3018ddf686032668ae54a862d0a61002f28950ec49b3bab18b92eb3bfd76"
   },

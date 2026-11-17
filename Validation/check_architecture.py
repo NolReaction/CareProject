@@ -17,7 +17,7 @@ PURE_FILES = {
     'IntercomHurtResponse.cs', 'IntercomHealthFeedbackState.cs', 'IntercomInputModel.cs',
     'IntercomLocomotionCadence.cs', 'IntercomLocomotionDirection.cs',
     'IntercomMissionState.cs', 'IntercomNavGrid.cs', 'IntercomNpcBrain.cs',
-    'IntercomOcclusionModel.cs', 'IntercomProjectileModel.cs',
+    'IntercomOcclusionModel.cs', 'IntercomProjectileModel.cs', 'IntercomPursuitTrail.cs',
     'IntercomPropModel.cs', 'IntercomTurnStepState.cs', 'IntercomWeaponModel.cs',
     'IntercomProgressionModel.cs',
 }

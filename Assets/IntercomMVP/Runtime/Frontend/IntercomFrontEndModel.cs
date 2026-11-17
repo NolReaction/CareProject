@@ -25,6 +25,61 @@ namespace IntercomMvp
     }
     #endregion
 
+    #region IntercomFrontEndFeedbackState
+    /// <summary>Bounded presentation only: accepted presses, pointer hover and a short page reveal never change hit geometry.</summary>
+    internal sealed class IntercomFrontEndFeedbackState
+    {
+        private readonly float[] hover = new float[10];
+        private bool ready;
+        private float sampledAt, clock, pageAt, pressedAt = -100f;
+        private int page;
+        public IntercomFrontEndAction PressedAction { get; private set; }
+        public float Reveal => Smooth(Clamp((clock - pageAt) / .18f));
+        public float ContentOpacity => .82f + .18f * Reveal;
+
+        public void Sample(float now, int pageKey, IntercomFrontEndAction pointed, bool visible)
+        {
+            if (!Finite(now)) return;
+            if (!visible) { Reset(); return; }
+            if (!ready || now < sampledAt)
+            { ready = true; sampledAt = now; clock = pageAt = 0f; page = pageKey; }
+            float elapsed = Math.Max(0f, now - sampledAt);
+            sampledAt = now; clock += elapsed;
+            if (page != pageKey)
+            {
+                page = pageKey; pageAt = clock;
+                Array.Clear(hover, 0, hover.Length);
+            }
+            float blend = 1f - (float)Math.Exp(-elapsed * 18f);
+            for (int i = 1; i < hover.Length; i++)
+                hover[i] += ((i == (int)pointed ? 1f : 0f) - hover[i]) * blend;
+        }
+
+        public void Press(IntercomFrontEndAction action)
+        {
+            if (!Valid(action)) return;
+            PressedAction = action; pressedAt = clock;
+        }
+        public float Hover(IntercomFrontEndAction action) => Valid(action) ? hover[(int)action] : 0f;
+        public float PressAmount(IntercomFrontEndAction action)
+        {
+            if (!Valid(action) || action != PressedAction) return 0f;
+            float remaining = 1f - Clamp((clock - pressedAt) / .19f);
+            return remaining * remaining;
+        }
+        public void Reset()
+        {
+            ready = false; sampledAt = clock = pageAt = 0f; pressedAt = -100f;
+            PressedAction = IntercomFrontEndAction.None;
+            Array.Clear(hover, 0, hover.Length);
+        }
+        private static bool Valid(IntercomFrontEndAction action) => (uint)action > 0u && (uint)action < 10u;
+        private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+        private static float Clamp(float value) => Math.Max(0f, Math.Min(1f, value));
+        private static float Smooth(float value) => value * value * (3f - 2f * value);
+    }
+    #endregion
+
     #region IntercomFrontEndLayout
     public enum IntercomFrontEndAction
     {

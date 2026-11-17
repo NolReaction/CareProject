@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "checks": 738,
+  "checks": 740,
   "actualFbxTakesSeconds": {
     "Death": 0.18,
     "Emerge": 0.68,

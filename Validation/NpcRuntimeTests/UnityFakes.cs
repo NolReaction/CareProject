@@ -245,10 +245,10 @@ namespace IntercomMvp
     public class IntercomNpcNavigation:MonoBehaviour
     {
         public uint Version;public IntercomNavResult NextResult=IntercomNavResult.Success;
-        public Func<Vector3,Vector3,bool> CheckSegment;public Func<Vector3,Vector3,Vector3[]> Path;public int PathRequests,SegmentRequests;
+        public Func<Vector3,Vector3,bool> CheckSegment;public Func<Vector3,Vector3,Vector3[]> Path;public Func<Vector3,Vector3> Project;public Vector3 LastRequestedGoal;public int PathRequests,SegmentRequests;
         public IntercomNavResult TryFindPath(Vector3 start,Vector3 goal,List<Vector3> output)
-        {PathRequests++;if(NextResult==IntercomNavResult.Success){output.Clear();output.AddRange(Path?.Invoke(start,goal)??new[]{goal});}else if(NextResult==IntercomNavResult.Unreachable)output.Clear();return NextResult;}
+        {PathRequests++;LastRequestedGoal=goal;if(NextResult==IntercomNavResult.Success){output.Clear();output.AddRange(Path?.Invoke(start,goal)??new[]{goal});}else if(NextResult==IntercomNavResult.Unreachable)output.Clear();return NextResult;}
         public bool SegmentClear(Vector3 start,Vector3 end){SegmentRequests++;return CheckSegment?.Invoke(start,end)??true;}
-        public bool TryProject(Vector3 point,out Vector3 projected){projected=point;return true;}
+        public bool TryProject(Vector3 point,out Vector3 projected){projected=Project?.Invoke(point)??point;return true;}
     }
 }

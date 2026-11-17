@@ -1,11 +1,11 @@
-# NPC runtime/factory integration checks (V20)
+# NPC runtime/factory integration checks (V24)
 
 `dotnet run --project Validation/NpcRuntimeTests` compiles the production capsule
 controller, factory, definition and brain against narrow stand-ins. The real
 health arithmetic and shared navigation are checked by their own test projects.
 
 Coverage includes initialization before activation, disabled visual colliders,
-shared materials, early attack tracking with a final fixed commitment window,
+shared materials, early tracking followed by the original fixed commitment window,
 actual reach limits, low and upper obstruction rays, death/pause/respawn
 cancellation, target handoffs without stale strikes, pool reuse and new home
 positions, bounded investigation of a recorded location without hidden target
@@ -24,7 +24,7 @@ The stand-ins provide deterministic callbacks and ray results. This validates
 the controller's use of those results, not actual Unity lifecycle ordering,
 Physics raycasting, CharacterController contact resolution or rendered output.
 
-V18 также исполняет реальный адаптер импортированной модели: один prefab на слот пула, точные часы замаха/удара, шаг от фактически пройденного пути, неподвижный collider root, безопасный неактивный reset, hurt/death/emerge и восстановление исходного MaterialPropertyBlock. Animator API заменён счётчиком выборки поз: воспроизведение FBX и skinning проверяются отдельно в Blender и Unity.
+V18 также исполняет реальный адаптер импортированной модели: один prefab на слот пула, точные часы замаха/удара, шаг от фактически пройденного пути, неподвижный collider root, безопасный неактивный reset, death/emerge и восстановление исходного MaterialPropertyBlock. Animator API заменён счётчиком выборки поз: воспроизведение FBX и skinning проверяются отдельно в Blender и Unity.
 
 
 V20 проверяет три архетипа на одном пуле без копирования Definition: здоровье,
@@ -42,3 +42,28 @@ V20 проверяет три архетипа на одном пуле без �
 коллайдерами остаётся зазор 0,03 м, и каждый получает возможность замаха.
 Это кинематические заменители API, а не результат настоящего Unity/Profiler.
 Нативный сценарий редактора и замеры отдельно описаны в документации проекта.
+
+V24 checks a bounded trail of genuinely observed target travel. On an open-ground
+elbow, newly opened visibility and navigation replans retain the oldest recorded
+turn as their goal. Cached sight does not reveal newer live positions. A stopped
+target is caught up, and target changes, respawn and hidden emergence discard
+old history.
+
+Arrival at a target point inside the inflated navigation boundary uses a safe
+projected endpoint, with low/upper rays preventing consumption across a closed
+wall. Reopening the corridor resumes pursuit. Low-FPS endpoint steps cannot
+overshoot a committed corner or redirect a legal detour into blocked geometry.
+The 512-point overflow case keeps every retained corner, reaches its actual
+last point, then allows fresh visible acquisition without teleporting the actor.
+
+The V22 movement/combat profile is preserved: 2.65m/s base speed, runner1.12,
+10m/s² acceleration, .30s windup, .48s recovery and original early attack
+tracking. Nearest-side final melee reservations remain, but only after the
+recorded route has been caught up. Local wall-safe A* remains available to
+reach each recorded point; the grid is not converted to a stair-step path.
+
+Color-only hit feedback is exercised for all three archetypes with both the
+capsule fallback and imported Animator: exact visual TRS, locomotion phase and
+follow-through state survive an accepted hit. The renderer still receives a
+short .16s warm tint. Hurt/HurtHeavy clips remain compatible assets but are
+never selected by live damage presentation.

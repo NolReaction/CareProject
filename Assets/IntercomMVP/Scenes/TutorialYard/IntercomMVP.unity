@@ -20881,6 +20881,7 @@ GameObject:
   - component: {fileID: 8800000142}
   - component: {fileID: 8800000143}
   - component: {fileID: 8800000144}
+  - component: {fileID: 8800000145}
   m_Layer: 0
   m_Name: MVP_NpcSandbox
   m_TagString: Untagged
@@ -24350,3 +24351,18 @@ MonoBehaviour:
   secondPosition: {x: 5, y: 0, z: 3}
   healing: 35
   pickupRadius: 0.85
+--- !u!114 &8800000145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800000003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1554d1802455443282f077f687a42b33, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::IntercomMvp.IntercomEnemyAudio
+  mission: {fileID: 8900000023}
+  volume: 0.24
+  audibleRange: 22

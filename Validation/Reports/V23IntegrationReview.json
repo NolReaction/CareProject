@@ -1,0 +1,124 @@
+{
+  "version": "V23",
+  "status": "PASS_OFFLINE_NATIVE_NOT_RUN",
+  "checks": {
+    "standaloneProjects": 57,
+    "passed": 57,
+    "syntaxSources": 104,
+    "syntaxConfigurations": 3,
+    "syntaxErrors": 0,
+    "sceneValidationJobs": 9,
+    "architecture": {
+      "status": "PASS",
+      "checks": 2389,
+      "runtimeSources": 77,
+      "editorSources": 27,
+      "pureModels": 24,
+      "assetGuids": 416,
+      "failures": [],
+      "scope": "Repository layout, source contracts, metadata and path integrity; not Unity compilation/import"
+    },
+    "protectedHeroFilesByteIdentical": 135,
+    "blenderPoseChecks": 18685,
+    "fbxRoundtripChecks": 3992,
+    "udarnikAssetChecks": 740,
+    "npcRuntimeAssertions": 20091,
+    "npcBrainAssertions": 2025,
+    "gearPickupAssertions": 13665,
+    "enemyAudioAssertions": 65,
+    "medkitPickupAssertions": 77,
+    "frontEndModelAssertions": 8397,
+    "frontEndRuntimeAssertions": 122,
+    "frontEndRoomCameraAssertions": 20
+  },
+  "features": {
+    "enemyFairness": {
+      "speedMetresPerSecond": {
+        "standard": 2.3,
+        "runner": 2.484,
+        "heavy": 1.656
+      },
+      "acceleration": 6,
+      "baseWindupSeconds": 0.38,
+      "baseRecoverySeconds": 0.58,
+      "heading": "Committed at windup start; no tracking or movement during windup or recovery",
+      "approach": "Nearest free physical side first; gradual facing before attack",
+      "damageReaction": "Color-only flash .16s; no Hurt/HurtHeavy runtime selection or hit squash"
+    },
+    "runAnimation": {
+      "durationSeconds": 0.64,
+      "referenceMetresPerSecond": 1.5,
+      "strideMetresPerLoop": 0.96,
+      "clips": 18,
+      "bones": 14,
+      "triangles": 7454,
+      "materials": 1,
+      "maximumPlantedSoleFloorErrorMetres": 5.6888416409492555e-05,
+      "maximumMidStanceWorldSlipMetresPerSecond": 0.001918744295826419
+    },
+    "gearPickups": {
+      "standard": {
+        "chance": 0.75,
+        "coins": 2,
+        "valuePerCoin": 2,
+        "expectedValue": 3
+      },
+      "runner": {
+        "chance": 0.75,
+        "coins": 1,
+        "valuePerCoin": 2,
+        "expectedValue": 1.5
+      },
+      "heavy": {
+        "chance": 1,
+        "coins": 2,
+        "valuePerCoin": 4
+      },
+      "audio": {
+        "voices": 1,
+        "minimumSpacingSeconds": 0.09,
+        "pitchVariants": 4,
+        "victorySettlement": "Silent"
+      }
+    },
+    "enemyAudio": {
+      "voices": 4,
+      "clips": 12,
+      "kinds": [
+        "arrival",
+        "windup",
+        "swing",
+        "death"
+      ],
+      "archetypePitch": true,
+      "limitedDistanceAndCadence": true,
+      "victory": "Only a short tail of the final death; other menus are silent"
+    },
+    "menu": {
+      "hoverAndPress": true,
+      "revealSeconds": 0.18,
+      "time": "Unscaled absolute time",
+      "hitRectangles": "Unchanged"
+    },
+    "previousFeatures": "V22 health UI, medkits and constructor fix retained; continuous waves retained"
+  },
+  "reviewFindingsResolved": [
+    "A stationary near-side crowd slot turns gradually before an attack rather than deadlocking",
+    "Shipping acceleration of 6 matches runtime tuning",
+    "No native audio or property block allocations in MonoBehaviour field initializers",
+    "Virtual victory currency sweep is silent",
+    "Menu decorative feedback preserves pointer geometry"
+  ],
+  "enemyAudioScene": {
+    "status": "PASS",
+    "component": 8800000145,
+    "owner": "MVP_NpcSandbox",
+    "voices": 4,
+    "clips": 12,
+    "volume": 0.24,
+    "audibleRange": 22,
+    "reinstallIdempotent": true,
+    "scope": "Serialized owner and script links; no Unity audio output."
+  },
+  "scope": "Production standalone components, data contracts, real Blender poses and FBX export, raster draw commands and exact generated PCM checks. No Unity import, Play Mode, PhysX or audio device execution."
+}

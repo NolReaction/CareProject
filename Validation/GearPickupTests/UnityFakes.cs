@@ -198,3 +198,26 @@ public class IntercomRobotDeathEffects:UnityEngine.MonoBehaviour {public UnityEn
 public class IntercomPlayerMotor:UnityEngine.MonoBehaviour {}
 public class IntercomMissionDirector:UnityEngine.MonoBehaviour {public uint RunRevision=1;public IntercomMissionPhase Phase=IntercomMissionPhase.Active;public IntercomMissionMode Mode=IntercomMissionMode.Elimination;public IntercomRobotDeathEffects deathEffects;public IntercomNpcDefinition enemyDefinition;public IntercomPlayerMotor playerMotor;}
 }
+
+namespace UnityEngine
+{
+    public class AudioClip : Object
+    {
+        public static int Created;
+        public int samples, channels, frequency;
+        public float[] Data;
+        public static AudioClip Create(string name, int length, int channels, int frequency, bool stream)
+        { Created++; return new AudioClip { name=name, samples=length, channels=channels, frequency=frequency }; }
+        public bool SetData(float[] values,int offset) { Data=(float[])values.Clone(); return true; }
+    }
+    public class AudioSource : Behaviour
+    {
+        public bool playOnAwake, loop, isPlaying;
+        public float spatialBlend, volume, pitch=1f;
+        public int PlayCalls, StopCalls;
+        public readonly List<float> PlayedPitches = new List<float>();
+        public readonly List<float> PlayedTimes = new List<float>();
+        public void PlayOneShot(AudioClip clip) { PlayCalls++; PlayedPitches.Add(pitch); PlayedTimes.Add(Time.time); isPlaying=true; }
+        public void Stop() { StopCalls++; isPlaying=false; }
+    }
+}

@@ -63,7 +63,7 @@ namespace IntercomMvp
             Rect safe = Screen.safeArea;
             float stampWidth = Mathf.Min(110f, safe.width*.25f), stampHeight = 14f;
             Text(new Rect(safe.x+(safe.width-stampWidth)*.5f, Screen.height-safe.y-18f, stampWidth, stampHeight),
-                "ЗАБОТА · V22", small, 8f, Paper, .55f);
+                "ЗАБОТА · V24", small, 8f, Paper, .55f);
             if (gameplayPaused) DrawPause(layout,confirmingExit,confirmingRestart,hasFrontEnd);
         }
 
